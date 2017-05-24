@@ -15,7 +15,7 @@
 		39D40C131ED5B43700157C04 /* DTXSample+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C0B1ED5B43700157C04 /* DTXSample+Additions.m */; };
 		39D40C141ED5B43700157C04 /* NSManagedObject+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C0C1ED5B43700157C04 /* NSManagedObject+Additions.h */; };
 		39D40C151ED5B43700157C04 /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */; };
-		39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C161ED5B43F00157C04 /* DTXProfiler.h */; };
+		39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C161ED5B43F00157C04 /* DTXProfiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C171ED5B43F00157C04 /* DTXProfiler.m */; };
 		39D40C201ED5B52100157C04 /* DBFPSCalculator.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C1C1ED5B52100157C04 /* DBFPSCalculator.h */; };
 		39D40C211ED5B52100157C04 /* DBFPSCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C1D1ED5B52100157C04 /* DBFPSCalculator.m */; };
@@ -184,9 +184,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
 				39D40C141ED5B43700157C04 /* NSManagedObject+Additions.h in Headers */,
 				39D40C351ED5B60100157C04 /* NSObject+DBDebugToolkit.h in Headers */,
-				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
 				39D40C0F1ED5B43700157C04 /* DTXInstrumentsModel.h in Headers */,
 				39D40C2E1ED5B5C900157C04 /* DBURLProtocol.h in Headers */,
 				39D40C2C1ED5B5C900157C04 /* DBAuthenticationChallengeSender.h in Headers */,
@@ -391,6 +391,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -409,6 +410,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
