@@ -1,0 +1,3 @@
+[submodule "DBDebugToolkit"]
+	path = Profiler/DBDebugToolkit
+	url = https://github.com/wix/DBDebugToolkit.git
