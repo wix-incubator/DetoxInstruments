@@ -67,6 +67,11 @@ static NSDateFormatter* __iso8601DateFormatter;
 		{
 			id obj = [[self valueForKey:key] valueForKey:@"dictionaryRepresentation"];
 			
+			if(obj == nil)
+			{
+				return;
+			}
+			
 			NSParameterAssert([obj isKindOfClass:[NSDictionary class]]);
 			
 			[rv addEntriesFromDictionary:obj];

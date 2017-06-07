@@ -8,7 +8,7 @@
         </relationship>
     </entity>
     <entity name="NetworkData" representedClassName="DTXNetworkData" syncable="YES" codeGenerationType="class">
-        <attribute name="data" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
         <relationship name="networkSampleRequest" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetworkSample" inverseName="requestData" inverseEntity="NetworkSample" syncable="YES"/>
         <relationship name="networkSampleResponse" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetworkSample" inverseName="responseData" inverseEntity="NetworkSample" syncable="YES"/>
     </entity>
@@ -37,6 +37,10 @@
     </entity>
     <entity name="PerformanceSample" representedClassName="DTXPerformanceSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="cpuUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="diskReads" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="diskReadsDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="diskWrites" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="diskWritesDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="fps" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="memoryUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
@@ -74,7 +78,7 @@
         </relationship>
     </entity>
     <entity name="Tag" representedClassName="DTXTag" parentEntity="Sample" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="ThreadPerformanceSample" representedClassName="DTXThreadPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <attribute name="threadName" optional="YES" attributeType="String" syncable="YES"/>
@@ -82,13 +86,13 @@
     </entity>
     <elements>
         <element name="AdvancedPerformanceSample" positionX="-9" positionY="126" width="128" height="60"/>
-        <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
         <element name="NetworkData" positionX="-18" positionY="126" width="128" height="90"/>
         <element name="NetworkSample" positionX="9" positionY="153" width="128" height="240"/>
-        <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="90"/>
+        <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="150"/>
         <element name="Recording" positionX="-27" positionY="45" width="128" height="240"/>
         <element name="Sample" positionX="-63" positionY="-18" width="128" height="90"/>
         <element name="SampleGroup" positionX="-45" positionY="0" width="128" height="90"/>
+        <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
         <element name="ThreadPerformanceSample" positionX="-27" positionY="108" width="128" height="75"/>
     </elements>
 </model>

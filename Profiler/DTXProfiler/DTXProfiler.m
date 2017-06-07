@@ -12,6 +12,7 @@
 #import "DBPerformanceToolkit.h"
 #import "DBBuildInfoProvider.h"
 #import "DBURLProtocol.h"
+#import "DTXZipper.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
@@ -56,6 +57,12 @@
 	return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@"_"];
 }
 
++ (NSURL*)_documentsDirectory
+{
+	return [NSURL fileURLWithPath:@"/Users/lnatan/Desktop/"];
+//	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
 + (NSURL*)_urlForNewRecording
 {
 	__block NSDateFormatter* dateFileFormatter;
@@ -66,7 +73,7 @@
 	});
 	
 	NSString* dateString = [dateFileFormatter stringFromDate:[NSDate date]];
-	return [[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:[NSString stringWithFormat:@"DetoxInstrumentsRecording_%@.sqlite", [self _sanitizeFileNameString:dateString]]];
+	return [[self _documentsDirectory] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.dtxprof", [self _sanitizeFileNameString:dateString]]];
 }
 
 - (void)startProfilingWithOptions:(DTXProfilingOptions *)options
@@ -79,7 +86,7 @@
 	
 	_pendingSamples = [NSMutableArray new];
 	
-	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[DTXProfiler _urlForNewRecording]];
+	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[[DTXProfiler _documentsDirectory] URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];
 	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXProfiler class]]]];
 	
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
@@ -105,6 +112,7 @@
 			_currentRecording.processIdentifier = processInfo.processIdentifier;
 			
 			_rootSampleGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
+			_rootSampleGroup.name = @"DTXRoot";
 			_rootSampleGroup.recording = _currentRecording;
 			_currentSampleGroup = _rootSampleGroup;
 			
@@ -116,7 +124,25 @@
 		}];
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			[self stopProfiling];
+			[self pushSampleGroupWithName:@"group 1"];
+			
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[self pushSampleGroupWithName:@"group 1.1"];
+				
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+					[self popSampleGroup];
+					[self popSampleGroup];
+					
+					dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+						[self pushSampleGroupWithName:@"group 2"];
+						
+						dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+							[self popSampleGroup];
+							[self stopProfiling];
+						});
+					});
+				});
+			});
 		});
 
 	}];
@@ -128,6 +154,8 @@
 	
 	[self _flushPendingSamplesWithInternalCompletionHandler:^{
 		_currentRecording.endTimestamp = [NSDate date];
+		
+		[_backgroundContext save:NULL];
 		
 		[self _closeContainerInternal];
 		
@@ -146,8 +174,9 @@
 	[_backgroundContext performBlock:^{
 		DTX_ASSERT_RECORDING;
 		
-		NSLog(@"Pushing group");
+		NSLog(@"Pushing group named %@ to parent %@", name, _currentSampleGroup.name);
 		DTXSampleGroup* newGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
+		newGroup.name = name;
 		newGroup.parentGroup = _currentSampleGroup;
 		_currentSampleGroup = newGroup;
 	}];
@@ -160,7 +189,7 @@
 	[_backgroundContext performBlock:^{
 		DTX_ASSERT_RECORDING
 		
-		NSLog(@"Popping group");
+		NSLog(@"Popping group named %@ from parent %@", _currentSampleGroup.name, _currentSampleGroup.parentGroup.name);
 		_currentSampleGroup.closeTimestamp = [NSDate date];
 		_currentSampleGroup = _currentSampleGroup.parentGroup;
 	}];
@@ -210,13 +239,44 @@
 	NSLog(@"Closing");
 	
 	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[_currentRecording dictionaryRepresentation] options:NSJSONWritingPrettyPrinted error:NULL];
-	NSURL* url = [[[DTXProfiler _urlForNewRecording] URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"output.json"];
-	NSLog(@"%@", url);
-	[jsonData writeToURL:url atomically:YES];
+	NSURL* jsonURL = [[DTXProfiler _documentsDirectory] URLByAppendingPathComponent:@"_dtx_recording.json"];
+	[jsonData writeToURL:jsonURL atomically:YES];
 	
 	[_container.persistentStoreCoordinator.persistentStores.copy enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[_container.persistentStoreCoordinator removePersistentStore:obj error:NULL];
 	}];
+	
+	NSURL* recordingDirectory = [DTXProfiler _urlForNewRecording];
+	[[NSFileManager defaultManager] createDirectoryAtURL:recordingDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+	
+	NSURL* recordingURL = [(id)_container.persistentStoreDescriptions.firstObject URL];
+	NSArray<NSURL*>* files = [[[NSFileManager defaultManager] enumeratorAtURL:recordingURL.URLByDeletingLastPathComponent includingPropertiesForKeys:nil options:0 errorHandler:NULL].allObjects filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"path contains[cd] %@", recordingURL.lastPathComponent]];
+	
+	[files enumerateObjectsUsingBlock:^(NSURL* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSError* err;
+		
+		NSURL* targetURL = [recordingDirectory URLByAppendingPathComponent:obj.lastPathComponent];
+		[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
+		if([[NSFileManager defaultManager] moveItemAtURL:obj toURL:targetURL error:&err] == NO)
+		{
+			NSLog(@"Error moving file %@ error: %@", obj.lastPathComponent, err);
+		}
+	}];
+	
+	NSError* err;
+	
+	NSURL* targetURL = [recordingDirectory URLByAppendingPathComponent:jsonURL.lastPathComponent];
+	[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
+	if([[NSFileManager defaultManager] moveItemAtURL:jsonURL toURL:targetURL error:&err] == NO)
+	{
+		NSLog(@"Error moving file %@ error: %@", jsonURL.lastPathComponent, err);
+	}
+	
+	err = nil;
+	
+//	DTXWriteZipFileWithDirectoryContents([recordingDirectory URLByAppendingPathExtension:@"zip"], recordingDirectory);
+	
+	NSLog(@"%@", [recordingDirectory URLByAppendingPathExtension:@"zip"].path);
 	
 	_container = nil;
 }
@@ -233,6 +293,10 @@
 	CGFloat cpu = performanceToolkit.currentCPU;
 	CGFloat memory = performanceToolkit.currentMemory;
 	CGFloat fps = performanceToolkit.currentFPS;
+	uint64_t diskReads = performanceToolkit.currentDiskReads;
+	uint64_t diskWrites = performanceToolkit.currentDiskWrites;
+	uint64_t diskReadsDelta = performanceToolkit.currentDiskReadsDelta;
+	uint64_t diskWritesDelta = performanceToolkit.currentDiskWritesDelta;
 	
 	[_backgroundContext performBlock:^{
 		if(self.recording == NO)
@@ -240,12 +304,15 @@
 			return;
 		}
 		
-		//		NSLog(@"Adding demo performance sample");
 //		DTXAdvancedPerformanceSample* perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:_backgroundContext];
 		DTXPerformanceSample* perfSample = [[DTXPerformanceSample alloc] initWithContext:_backgroundContext];
 		perfSample.cpuUsage = cpu;
 		perfSample.memoryUsage = memory;
 		perfSample.fps = fps;
+		perfSample.diskReads = diskReads;
+		perfSample.diskReadsDelta = diskReadsDelta;
+		perfSample.diskWrites = diskWrites;
+		perfSample.diskWritesDelta = diskWritesDelta;
 		
 //		for(uint8_t i = 0; i < 15; i++)
 //		{
@@ -277,7 +344,17 @@
 
 - (void)urlProtocol:(DBURLProtocol*)protocol didStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier
 {
+	if(self.recording == NO)
+	{
+		return;
+	}
+	
 	[_backgroundContext performBlock:^{
+		if(self.recording == NO)
+		{
+			return;
+		}
+		
 		DTXNetworkSample* networkSample = [[DTXNetworkSample alloc] initWithContext:_backgroundContext];
 		networkSample.uniqueIdentifier = uniqueIdentifier;
 		networkSample.url = request.URL.absoluteString;
