@@ -1,0 +1,49 @@
+//
+//  DTXDiskReadWritesPlotController.m
+//  DetoxInstruments
+//
+//  Created by Leo Natan (Wix) on 04/06/2017.
+//  Copyright © 2017 Wix. All rights reserved.
+//
+
+#import "DTXDiskReadWritesPlotController.h"
+#import "NSFormatter+PlotFormatters.h"
+
+@implementation DTXDiskReadWritesPlotController
+
+- (NSString *)displayName
+{
+	return NSLocalizedString(@"Disk Read/Writes", @"");
+}
+
+- (NSImage*)displayIcon
+{
+	return [NSImage imageNamed:@"fileActivity"];
+}
+
+- (NSArray<NSString*>*)sampleKeys
+{
+	return @[@"diskReadsDelta", @"diskWritesDelta"];
+}
+
+- (NSArray<NSColor*>*)plotColors
+{
+	return @[[[NSColor greenColor] colorWithAlphaComponent:0.5], [[NSColor redColor] colorWithAlphaComponent:0.5]];
+}
+
+- (NSArray<NSString *> *)plotTitles
+{
+	return @[NSLocalizedString(@"Reads", @""), NSLocalizedString(@"Writes", @"")];
+}
+
+- (BOOL)isStepped
+{
+	return YES;
+}
+
+- (NSFormatter*)formatterForDataPresentation
+{
+	return [NSFormatter dtx_memoryFormatter];
+}
+
+@end
