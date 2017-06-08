@@ -14,6 +14,11 @@
 
 - (nullable NSString *)stringForObjectValue:(nullable id)obj
 {
+	if([obj isKindOfClass:[NSString class]])
+	{
+		return obj;
+	}
+	
 	if([obj respondsToSelector:@selector(stringValue)])
 	{
 		return [obj stringValue];

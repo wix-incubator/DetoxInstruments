@@ -35,4 +35,15 @@
 	return @[[NSColor colorWithRed:198.0/255.0 green:109.0/255.0 blue:218.0/255.0 alpha:1.0]];
 }
 
+- (id)transformedValueForFormatter:(id)value
+{
+	double fps = [value doubleValue];
+	if(fps >= 56)
+	{
+		return @(60);
+	}
+	
+	return @(fps);
+}
+
 @end

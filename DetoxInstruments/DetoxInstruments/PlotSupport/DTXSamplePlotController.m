@@ -227,7 +227,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	}
 	else
 	{
-		return _samples[((NSNumber*)plot.identifier).unsignedIntegerValue][index][self.sampleKeys[((NSNumber*)plot.identifier).unsignedIntegerValue]];
+		return [self transformedValueForFormatter:_samples[((NSNumber*)plot.identifier).unsignedIntegerValue][index][self.sampleKeys[((NSNumber*)plot.identifier).unsignedIntegerValue]]];
 	}
 }
 

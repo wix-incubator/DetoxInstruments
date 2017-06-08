@@ -12,7 +12,7 @@
 				<string>dtxprof</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>dtxdoc</string>
+			<string>dtxicon</string>
 			<key>CFBundleTypeName</key>
 			<string>DocumentType</string>
 			<key>CFBundleTypeOSTypes</key>

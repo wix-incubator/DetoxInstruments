@@ -26,11 +26,13 @@
 		398D6EA51EE0596500AA9C11 /* DTXPlotHostingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA41EE0596500AA9C11 /* DTXPlotHostingTableCellView.m */; };
 		398D6EA91EE061FE00AA9C11 /* DTXMainContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA81EE061FE00AA9C11 /* DTXMainContentController.m */; };
 		398D6EAC1EE0626400AA9C11 /* DTXSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */; };
+		3997A8A71EE94BD00057418B /* dtxicon.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 3997A8A61EE9422D0057418B /* dtxicon.iconset */; };
 		399B4DC81ED574410098D2AC /* DTXInstrumentsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DC71ED574410098D2AC /* DTXInstrumentsWindowController.m */; };
 		399B4DCB1ED574AE0098D2AC /* DTXBaseSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DCA1ED574AE0098D2AC /* DTXBaseSplitViewController.m */; };
 		399B4DCD1ED574E70098D2AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 399B4DCC1ED574E70098D2AC /* Main.storyboard */; };
-		399B4DD41ED575780098D2AC /* DTXVerticalSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DD21ED575780098D2AC /* DTXVerticalSplitViewController.m */; };
-		399B4DD81ED575BD0098D2AC /* DTXHorizontalSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DD71ED575BD0098D2AC /* DTXHorizontalSplitViewController.m */; };
+		399B4DD41ED575780098D2AC /* DTXMainBottomPaneSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DD21ED575780098D2AC /* DTXMainBottomPaneSplitViewController.m */; };
+		399B4DD81ED575BD0098D2AC /* DTXBottomInspectorSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DD71ED575BD0098D2AC /* DTXBottomInspectorSplitViewController.m */; };
+		39ADA7811EE8BACD002CAE5E /* DTXNetworkRequestsPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39ADA7801EE8BACD002CAE5E /* DTXNetworkRequestsPlotController.m */; };
 		39C6A8E51EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A8E41EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m */; };
 		39C6A8F51EE1E757000E2EE1 /* DTXPlotTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A8F41EE1E757000E2EE1 /* DTXPlotTableView.m */; };
 		39C6A9051EE37E57000E2EE1 /* DTXAxisHeaderPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A9041EE37E57000E2EE1 /* DTXAxisHeaderPlotController.m */; };
@@ -159,15 +161,18 @@
 		398D6EA81EE061FE00AA9C11 /* DTXMainContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXMainContentController.m; sourceTree = "<group>"; };
 		398D6EAA1EE0626400AA9C11 /* DTXSamplePlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSamplePlotController.h; sourceTree = "<group>"; };
 		398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSamplePlotController.m; sourceTree = "<group>"; };
+		3997A8A61EE9422D0057418B /* dtxicon.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = dtxicon.iconset; sourceTree = "<group>"; };
 		399B4DC61ED574410098D2AC /* DTXInstrumentsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXInstrumentsWindowController.h; sourceTree = "<group>"; };
 		399B4DC71ED574410098D2AC /* DTXInstrumentsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXInstrumentsWindowController.m; sourceTree = "<group>"; };
 		399B4DC91ED574AE0098D2AC /* DTXBaseSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXBaseSplitViewController.h; sourceTree = "<group>"; };
 		399B4DCA1ED574AE0098D2AC /* DTXBaseSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXBaseSplitViewController.m; sourceTree = "<group>"; };
 		399B4DCC1ED574E70098D2AC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		399B4DD11ED575780098D2AC /* DTXVerticalSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXVerticalSplitViewController.h; sourceTree = "<group>"; };
-		399B4DD21ED575780098D2AC /* DTXVerticalSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXVerticalSplitViewController.m; sourceTree = "<group>"; };
-		399B4DD61ED575BD0098D2AC /* DTXHorizontalSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXHorizontalSplitViewController.h; sourceTree = "<group>"; };
-		399B4DD71ED575BD0098D2AC /* DTXHorizontalSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXHorizontalSplitViewController.m; sourceTree = "<group>"; };
+		399B4DD11ED575780098D2AC /* DTXMainBottomPaneSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXMainBottomPaneSplitViewController.h; sourceTree = "<group>"; };
+		399B4DD21ED575780098D2AC /* DTXMainBottomPaneSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXMainBottomPaneSplitViewController.m; sourceTree = "<group>"; };
+		399B4DD61ED575BD0098D2AC /* DTXBottomInspectorSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXBottomInspectorSplitViewController.h; sourceTree = "<group>"; };
+		399B4DD71ED575BD0098D2AC /* DTXBottomInspectorSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXBottomInspectorSplitViewController.m; sourceTree = "<group>"; };
+		39ADA77F1EE8BACD002CAE5E /* DTXNetworkRequestsPlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkRequestsPlotController.h; sourceTree = "<group>"; };
+		39ADA7801EE8BACD002CAE5E /* DTXNetworkRequestsPlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkRequestsPlotController.m; sourceTree = "<group>"; };
 		39C6A8E31EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXManagedPlotControllerGroup.h; sourceTree = "<group>"; };
 		39C6A8E41EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXManagedPlotControllerGroup.m; sourceTree = "<group>"; };
 		39C6A8F31EE1E757000E2EE1 /* DTXPlotTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXPlotTableView.h; sourceTree = "<group>"; };
@@ -308,6 +313,8 @@
 				39C6A9171EE3ADDC000E2EE1 /* DTXFPSPlotController.m */,
 				39C6A91E1EE3B8EB000E2EE1 /* DTXDiskReadWritesPlotController.h */,
 				39C6A91F1EE3B8EB000E2EE1 /* DTXDiskReadWritesPlotController.m */,
+				39ADA77F1EE8BACD002CAE5E /* DTXNetworkRequestsPlotController.h */,
+				39ADA7801EE8BACD002CAE5E /* DTXNetworkRequestsPlotController.m */,
 				39C6A8E31EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.h */,
 				39C6A8E41EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m */,
 			);
@@ -345,17 +352,18 @@
 				399B4DC71ED574410098D2AC /* DTXInstrumentsWindowController.m */,
 				399B4DC91ED574AE0098D2AC /* DTXBaseSplitViewController.h */,
 				399B4DCA1ED574AE0098D2AC /* DTXBaseSplitViewController.m */,
-				399B4DD61ED575BD0098D2AC /* DTXHorizontalSplitViewController.h */,
-				399B4DD71ED575BD0098D2AC /* DTXHorizontalSplitViewController.m */,
-				399B4DD11ED575780098D2AC /* DTXVerticalSplitViewController.h */,
-				399B4DD21ED575780098D2AC /* DTXVerticalSplitViewController.m */,
+				399B4DD11ED575780098D2AC /* DTXMainBottomPaneSplitViewController.h */,
+				399B4DD21ED575780098D2AC /* DTXMainBottomPaneSplitViewController.m */,
+				398D6EA71EE061FE00AA9C11 /* DTXMainContentController.h */,
+				398D6EA81EE061FE00AA9C11 /* DTXMainContentController.m */,
+				399B4DD61ED575BD0098D2AC /* DTXBottomInspectorSplitViewController.h */,
+				399B4DD71ED575BD0098D2AC /* DTXBottomInspectorSplitViewController.m */,
 				39281E841ED7175C002CE905 /* DTXBottomContentController.h */,
 				39281E851ED7175C002CE905 /* DTXBottomContentController.m */,
 				393973BE1EDB02DF0064D4C8 /* DTXRightInspectorController.h */,
 				393973BF1EDB02DF0064D4C8 /* DTXRightInspectorController.m */,
-				398D6EA71EE061FE00AA9C11 /* DTXMainContentController.h */,
-				398D6EA81EE061FE00AA9C11 /* DTXMainContentController.m */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
+				3997A8A61EE9422D0057418B /* dtxicon.iconset */,
 				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
 				39EBDFBE1ED36D45005D8AB1 /* Supporting Files */,
 			);
@@ -397,7 +405,7 @@
 		39EBDFB01ED36D45005D8AB1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
 					39EBDFB71ED36D45005D8AB1 = {
@@ -497,6 +505,7 @@
 			files = (
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
 				399B4DCD1ED574E70098D2AC /* Main.storyboard in Resources */,
+				3997A8A71EE94BD00057418B /* dtxicon.iconset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +525,7 @@
 				398D6EA51EE0596500AA9C11 /* DTXPlotHostingTableCellView.m in Sources */,
 				399B4DC81ED574410098D2AC /* DTXInstrumentsWindowController.m in Sources */,
 				393973D61EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.m in Sources */,
+				39ADA7811EE8BACD002CAE5E /* DTXNetworkRequestsPlotController.m in Sources */,
 				39EBDFC01ED36D45005D8AB1 /* main.m in Sources */,
 				39281E551ED6D16B002CE905 /* DTXSample+Additions.m in Sources */,
 				39C6A9121EE3A2BC000E2EE1 /* DTXPerformanceSamplePlotController.m in Sources */,
@@ -524,13 +534,13 @@
 				393973F31EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m in Sources */,
 				39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */,
 				39C6A90F1EE3A155000E2EE1 /* DTXCPUUsagePlotController.m in Sources */,
-				399B4DD81ED575BD0098D2AC /* DTXHorizontalSplitViewController.m in Sources */,
+				399B4DD81ED575BD0098D2AC /* DTXBottomInspectorSplitViewController.m in Sources */,
 				398D6EAC1EE0626400AA9C11 /* DTXSamplePlotController.m in Sources */,
 				39C6A9181EE3ADDC000E2EE1 /* DTXFPSPlotController.m in Sources */,
 				39C6A8F51EE1E757000E2EE1 /* DTXPlotTableView.m in Sources */,
 				398D6EA91EE061FE00AA9C11 /* DTXMainContentController.m in Sources */,
 				393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */,
-				399B4DD41ED575780098D2AC /* DTXVerticalSplitViewController.m in Sources */,
+				399B4DD41ED575780098D2AC /* DTXMainBottomPaneSplitViewController.m in Sources */,
 				39C6A9341EE3BCCD000E2EE1 /* DTXHighlightingCellView.m in Sources */,
 				39C6A90C1EE38BD6000E2EE1 /* DTXSecondsFormatter.m in Sources */,
 				393973C01EDB02DF0064D4C8 /* DTXRightInspectorController.m in Sources */,
@@ -557,7 +567,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -565,7 +577,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -605,7 +621,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -613,7 +631,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

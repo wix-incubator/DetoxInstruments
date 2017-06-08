@@ -15,6 +15,7 @@
 #import "DTXMemoryUsagePlotController.h"
 #import "DTXFPSPlotController.h"
 #import "DTXDiskReadWritesPlotController.h"
+#import "DTXNetworkRequestsPlotController.h"
 
 @interface DTXMainContentController () <NSTableViewDelegate, NSTableViewDataSource>
 {
@@ -37,6 +38,11 @@
 	[self.view addSubview:_headerView positioned:NSWindowAbove relativeTo:_tableView];
 }
 
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+}
+
 - (void)viewWillAppear
 {
 	[super viewWillAppear];
@@ -46,9 +52,11 @@
 		return;
 	}
 	
+	self.view.canDrawConcurrently = YES;
+	
 	_tableView.intercellSpacing = NSMakeSize(0, 1);
 	
-	_plotGroup = [[DTXManagedPlotControllerGroup alloc] initWithHostingView:_tableView];
+	_plotGroup = [[DTXManagedPlotControllerGroup alloc] initWithHostingView:self.view];
 	
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.view.window.windowController.document];
 	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 179, 0, 0)];
@@ -58,6 +66,7 @@
 	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.view.window.windowController.document]];
+	[_plotGroup addPlotController:[[DTXNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	
 	[_tableView reloadData];
 }

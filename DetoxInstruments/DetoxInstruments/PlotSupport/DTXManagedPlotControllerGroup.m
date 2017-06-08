@@ -42,12 +42,12 @@
 		NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:_timelineView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
 		[_timelineView addTrackingArea:tracker];
 		
-//		[view.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:view];
-//		
-//		[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
-//												  [view.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
-//												  [view.trailingAnchor constraintEqualToAnchor:_timelineView.trailingAnchor],
-//												  [view.bottomAnchor constraintEqualToAnchor:_timelineView.bottomAnchor]]];
+		[view.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:view];
+		
+		[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
+												  [view.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
+												  [view.trailingAnchor constraintEqualToAnchor:_timelineView.trailingAnchor],
+												  [view.bottomAnchor constraintEqualToAnchor:_timelineView.bottomAnchor]]];
 	}
 	
 	return self;
@@ -109,6 +109,8 @@
 - (void)mouseMoved:(NSEvent *)event
 {
 	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
+	
+	_timelineView.displaysIndicator = pointInView.x > 179;
 	_timelineView.indicatorOffset = pointInView.x;
 }
 

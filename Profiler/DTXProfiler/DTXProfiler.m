@@ -365,6 +365,7 @@
 		DTXNetworkData* requestData = [[DTXNetworkData alloc] initWithContext:_backgroundContext];
 		requestData.data = request.HTTPBody;
 		networkSample.requestData = requestData;
+		networkSample.requestDataLength = request.HTTPBody.length + request.allHTTPHeaderFields.description.length;
 		
 		networkSample.parentGroup = _currentSampleGroup;
 	}];
@@ -397,6 +398,9 @@
 		DTXNetworkData* responseData = [[DTXNetworkData alloc] initWithContext:_backgroundContext];
 		responseData.data = data;
 		networkSample.responseData = responseData;
+		networkSample.responseDataLength = data.length + networkSample.responseHeaders.description.length;
+		
+		networkSample.totalDataLength = networkSample.requestDataLength + networkSample.responseDataLength;
 		
 		[self _addPendingSampleInternal:networkSample];
 	}];

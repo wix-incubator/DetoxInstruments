@@ -19,6 +19,7 @@
 		self.wantsLayer = YES;
 		self.layer.rasterizationScale = 2.0;
 		self.acceptsTouchEvents = NO;
+		self.canDrawConcurrently = YES;
 	}
 	
 	return self;
@@ -75,6 +76,11 @@
 //		}
 //		[NSBezierPath strokeLineFromPoint:NSMakePoint(i * 10 - 0.5, 0) toPoint:NSMakePoint(i * 10 - 0.5, [self bounds].size.height)];
 //	}
+}
+
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+	return nil;
 }
 
 - (void)setIndicatorOffset:(CGFloat)indicatorOffset

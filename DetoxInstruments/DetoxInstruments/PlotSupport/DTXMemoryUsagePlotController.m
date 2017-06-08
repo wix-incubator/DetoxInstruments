@@ -41,9 +41,4 @@
 	return [NSFormatter dtx_memoryFormatter];
 }
 
-- (id)transformedValueForFormatter:(id)value
-{
-	return @([value doubleValue] * 1024.0 * 1024.0);
-}
-
 @end

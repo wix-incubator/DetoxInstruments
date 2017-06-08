@@ -43,7 +43,7 @@
 
 - (id)transformedValueForFormatter:(id)value
 {
-	return @(MAX([value doubleValue] / 100.0, 0.0));
+	return @(MAX([value doubleValue], 0));
 }
 
 @end
