@@ -8,6 +8,39 @@
 
 #import "NSFormatter+PlotFormatters.h"
 
+@interface DTXDurationFormatter : NSDateComponentsFormatter @end
+@implementation DTXDurationFormatter
+{
+	NSNumberFormatter* _numberFormatter;
+}
+
+- (instancetype)init
+{
+	self = [super init];
+	if(self)
+	{
+		_numberFormatter = [NSNumberFormatter new];
+		_numberFormatter.minimumIntegerDigits = 0;
+		_numberFormatter.maximumIntegerDigits = 0;
+		_numberFormatter.maximumFractionDigits = 3;
+		_numberFormatter.decimalSeparator = @"";
+	}
+	
+	return self;
+}
+
+- (NSString *)stringFromDate:(NSDate *)startDate toDate:(NSDate *)endDate
+{
+	if(endDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate < 1.0)
+	{
+		return [NSString stringWithFormat:@"%@ms", [_numberFormatter stringFromNumber:@(endDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate)]];
+	}
+	
+	return [super stringFromDate:startDate toDate:endDate];
+}
+
+@end
+
 @implementation DTXSecondsFormatter
 {
 	NSDateComponentsFormatter* _secondsFormatter;
@@ -97,19 +130,20 @@
 	return passthroughFormatter;
 }
 
-+ (NSFormatter*)dtx_memoryFormatter
++ (NSByteCountFormatter*)dtx_memoryFormatter
 {
 	static NSByteCountFormatter* byteCountFormatter;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		byteCountFormatter = [NSByteCountFormatter new];
 		byteCountFormatter.countStyle = NSByteCountFormatterCountStyleMemory;
+		byteCountFormatter.allowsNonnumericFormatting = NO;
 	});
 	
 	return byteCountFormatter;
 }
 
-+ (NSFormatter*)dtx_percentFormatter
++ (NSNumberFormatter*)dtx_percentFormatter
 {
 	static NSNumberFormatter* numberFormatter;
 	static dispatch_once_t onceToken;
@@ -130,6 +164,19 @@
 	});
 	
 	return secondsFormatter;
+}
+
++ (NSDateComponentsFormatter *)dtx_durationFormatter
+{
+	static NSDateComponentsFormatter* durationFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		durationFormatter = [DTXDurationFormatter new];
+		durationFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
+		durationFormatter.allowedUnits = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+	});
+	
+	return durationFormatter;
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "DTXNetworkSample+CoreDataClass.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXGraphHostingView.h"
+#import "DTXNetworkDataProvider.h"
 
 //extern NSColor* __DTXDarkerColorFromColor(NSColor* color);
 //extern NSColor* __DTXLighterColorFromColor(NSColor* color);
@@ -26,6 +27,11 @@
 + (Class)graphHostingViewClass
 {
 	return [DTXInvertedGraphHostingView class];
+}
+
++ (Class)UIDataProviderClass
+{
+	return [DTXNetworkDataProvider class];
 }
 
 - (NSArray<NSArray<NSDictionary<NSString*, id>*>*>*)samplesForPlots

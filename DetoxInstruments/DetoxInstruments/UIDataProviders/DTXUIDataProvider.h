@@ -11,11 +11,17 @@
 
 #import "DTXDocument.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "NSColor+UIAdditions.h"
 #import "DTXInstrumentsModel.h"
 #import "DTXDocument.h"
 #import "DTXUISampleTypes.h"
 
-@class DTXUIDataProvider;
+@interface DTXColumnInformation : NSObject
+
+@property (nonatomic, copy) NSString* title;
+@property (nonatomic) CGFloat minWidth;
+
+@end
 
 @interface DTXUIDataProvider : NSObject
 
@@ -29,8 +35,9 @@
 
 - (DTXSampleType)sampleType;
 
-- (NSArray<NSString*>*)columnTitles;
+- (NSArray<DTXColumnInformation*>*)columns;
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
-
+- (NSColor*)textColorForItem:(id)item;
+- (NSColor*)backgroundRowColorForItem:(id)item;
 
 @end

@@ -10,4 +10,6 @@
 
 @interface DTXTableRowView : NSTableRowView
 
+@property (nonatomic, strong) id item;
+
 @end

@@ -10,9 +10,13 @@
 
 @implementation DTXMemoryDataProvider
 
-- (NSArray<NSString *> *)columnTitles
+- (NSArray<DTXColumnInformation *> *)columns
 {
-	return @[NSLocalizedString(@"Memory Usage", @"")];
+	DTXColumnInformation* info = [DTXColumnInformation new];
+	info.title = NSLocalizedString(@"Memory Usage", @"");
+	info.minWidth = 75;
+	
+	return @[info];
 }
 
 - (DTXSampleType)sampleType

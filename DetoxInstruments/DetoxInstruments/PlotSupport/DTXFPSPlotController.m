@@ -7,8 +7,14 @@
 //
 
 #import "DTXFPSPlotController.h"
+#import "DTXFPSDataProvider.h"
 
 @implementation DTXFPSPlotController
+
++ (Class)UIDataProviderClass
+{
+	return [DTXFPSDataProvider class];
+}
 
 - (NSString *)displayName
 {

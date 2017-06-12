@@ -10,6 +10,18 @@
 
 @implementation DTXTableRowView
 
+- (instancetype)init
+{
+	self = [super init];
+	
+	if(self)
+	{
+		self.wantsLayer = YES;
+	}
+	
+	return self;
+}
+
 - (void)setSelected:(BOOL)selected
 {
 	[super setSelected:selected];
@@ -26,5 +38,25 @@
 //		[selectionPath stroke];
 //	}
 }
+
+- (void)layout
+{
+	[super layout];
+	
+	if(self.isGroupRowStyle)
+	{
+		[self.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			if([obj isKindOfClass:[NSButton class]])
+			{
+				obj.frame = (CGRect){6, obj.frame.origin.y, obj.frame.size};
+			}
+			else
+			{
+				obj.frame = (CGRect){24, obj.frame.origin.y, obj.frame.size};
+			}
+		}];
+	}
+}
+
 
 @end

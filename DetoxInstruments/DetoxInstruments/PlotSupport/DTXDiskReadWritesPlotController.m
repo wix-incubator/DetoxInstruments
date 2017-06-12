@@ -8,8 +8,14 @@
 
 #import "DTXDiskReadWritesPlotController.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "DTXDiskDataProvider.h"
 
 @implementation DTXDiskReadWritesPlotController
+
++ (Class)UIDataProviderClass
+{
+	return [DTXDiskDataProvider class];
+}
 
 - (NSString *)displayName
 {

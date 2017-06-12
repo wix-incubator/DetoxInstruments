@@ -20,17 +20,3 @@
 }
 
 @end
-
-@implementation DTXClipView
-
-- (void)awakeFromNib
-{
-	[super awakeFromNib];
-	
-	//	self.layer = [CAScrollLayer layer];
-	//	self.wantsLayer = YES;
-	//	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawBeforeViewResize;
-	//	self.layer.contentsScale = 0.25;
-}
-
-@end

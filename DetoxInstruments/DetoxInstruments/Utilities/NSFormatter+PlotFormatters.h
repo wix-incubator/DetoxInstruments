@@ -18,8 +18,9 @@
 @interface NSFormatter (PlotFormatters)
 
 + (NSFormatter*)dtx_stringFormatter;
-+ (NSFormatter*)dtx_memoryFormatter;
-+ (NSFormatter*)dtx_percentFormatter;
++ (NSByteCountFormatter*)dtx_memoryFormatter;
++ (NSNumberFormatter*)dtx_percentFormatter;
 + (DTXSecondsFormatter*)dtx_secondsFormatter;
++ (NSDateComponentsFormatter*)dtx_durationFormatter;
 
 @end
