@@ -8,8 +8,9 @@
 
 #import "DTXAxisHeaderPlotController.h"
 #import <CorePlot/CorePlot.h>
+#import "DTXGraphHostingView.h"
 #import "DTXInstrumentsModel.h"
-#import "DTXSecondsFormatter.h"
+#import "NSFormatter+PlotFormatters.h"
 
 @interface DTXAxisHeaderPlotController ()
 
@@ -18,12 +19,13 @@
 @implementation DTXAxisHeaderPlotController
 {
 	CPTGraphHostingView* _hostingView;
-	DTXDocument* _document;
 	CPTGraph* _graph;
 	CPTMutablePlotRange* _globalYRange;
 }
 
 @synthesize delegate = _delegate;
+@synthesize document = _document;
+@synthesize dataProvider = _dataProvider;
 
 -(CGFloat)titleSize
 {
@@ -52,20 +54,13 @@
 	if(_hostingView)
 	{
 		[_hostingView removeFromSuperview];
-		_hostingView = nil;
+		_hostingView.frame = view.bounds;
 	}
-	
-	_hostingView = [[CPTGraphHostingView alloc] initWithFrame:view.bounds];
-	_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
-	[view addSubview:_hostingView];
-	
-	[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_hostingView.topAnchor constant:-insets.top],
-											  [view.leadingAnchor constraintEqualToAnchor:_hostingView.leadingAnchor constant:-insets.left],
-											  [view.trailingAnchor constraintEqualToAnchor:_hostingView.trailingAnchor constant:-insets.right],
-											  [view.bottomAnchor constraintEqualToAnchor:_hostingView.bottomAnchor constant:-insets.bottom]]];
-	
-	if(_graph == nil)
+	else
 	{
+		_hostingView = [[DTXGraphHostingView alloc] initWithFrame:view.bounds];
+		_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
+		
 		CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:_hostingView.bounds];
 		
 		graph.paddingLeft = 0;
@@ -107,7 +102,7 @@
 		axisAutomatic.majorTickLineStyle = axisLineStyle;
 		axisAutomatic.minorTickLength = minorTickLength;
 		axisAutomatic.minorTickLineStyle = axisLineStyle;
-		axisAutomatic.labelFormatter = [DTXSecondsFormatter new];
+		axisAutomatic.labelFormatter = [NSFormatter dtx_secondsFormatter];
 		axisAutomatic.labelAlignment = CPTAlignmentLeft;
 		axisAutomatic.tickLabelDirection = CPTSignPositive;
 		axisAutomatic.labelOffset = -(majorTickLength * 6 / 8);
@@ -117,9 +112,16 @@
 		graph.axisSet.axes = @[axisAutomatic];
 		
 		_graph = graph;
+	
+		_hostingView.hostedGraph = _graph;
 	}
 	
-	_hostingView.hostedGraph = _graph;
+	[view addSubview:_hostingView];
+	
+	[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_hostingView.topAnchor constant:-insets.top],
+											  [view.leadingAnchor constraintEqualToAnchor:_hostingView.leadingAnchor constant:-insets.left],
+											  [view.trailingAnchor constraintEqualToAnchor:_hostingView.trailingAnchor constant:-insets.right],
+											  [view.bottomAnchor constraintEqualToAnchor:_hostingView.bottomAnchor constant:-insets.bottom]]];
 }
 
 -(nullable CPTPlotRange *)plotSpace:(nonnull CPTPlotSpace *)space willChangePlotRangeTo:(nonnull CPTPlotRange *)newRange forCoordinate:(CPTCoordinate)coordinate

@@ -8,6 +8,7 @@
 
 @import Cocoa;
 #import <CorePlot/CorePlot.h>
+#import "DTXUIDataProvider.h"
 
 @protocol DTXPlotController;
 
@@ -19,12 +20,19 @@
 
 @protocol DTXPlotController <NSObject>
 
+@property (nonatomic, strong, readonly) DTXDocument* document;
 @property (nonatomic, weak) id<DTXPlotControllerDelegate> delegate;
 
 @property (nonatomic, strong, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
 
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;
+
+@property (nonatomic, strong, readonly) DTXUIDataProvider* dataProvider;
+
+- (instancetype)initWithDocument:(DTXDocument*)document;
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
 - (void)setUpWithView:(NSView*)view;
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;

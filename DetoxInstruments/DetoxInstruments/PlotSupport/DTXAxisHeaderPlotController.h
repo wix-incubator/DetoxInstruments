@@ -12,8 +12,4 @@
 
 @interface DTXAxisHeaderPlotController : NSObject <DTXPlotController>
 
-- (instancetype)initWithDocument:(DTXDocument*)document;
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)new NS_UNAVAILABLE;
-
 @end

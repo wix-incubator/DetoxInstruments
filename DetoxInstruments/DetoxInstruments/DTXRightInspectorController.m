@@ -19,9 +19,9 @@
 
 @implementation DTXRightInspectorController
 
-- (void)viewDidAppear
+- (void)viewWillAppear
 {
-	[super viewDidAppear];
+	[super viewWillAppear];
 	
 	[_textView setTextContainerInset:NSMakeSize(0, 6)];
 	

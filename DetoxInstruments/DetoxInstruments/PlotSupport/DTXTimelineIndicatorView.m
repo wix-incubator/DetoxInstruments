@@ -17,9 +17,7 @@
 	if(self)
 	{
 		self.wantsLayer = YES;
-		self.layer.rasterizationScale = 2.0;
 		self.acceptsTouchEvents = NO;
-		self.canDrawConcurrently = YES;
 	}
 	
 	return self;

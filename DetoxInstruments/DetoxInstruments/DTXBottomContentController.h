@@ -7,7 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXInstrumentsModel.h"
+#import "DTXUIDataProvider.h"
 
 @interface DTXBottomContentController : NSViewController
+
+@property (nonatomic, strong) DTXUIDataProvider* managingDataProvider;
 
 @end

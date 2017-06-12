@@ -9,6 +9,7 @@
 #import "DTXMainContentController.h"
 #import "DTXAxisHeaderPlotController.h"
 #import "DTXPlotHostingTableCellView.h"
+#import "DTXTableRowView.h"
 #import "DTXManagedPlotControllerGroup.h"
 
 #import "DTXCPUUsagePlotController.h"
@@ -16,6 +17,7 @@
 #import "DTXFPSPlotController.h"
 #import "DTXDiskReadWritesPlotController.h"
 #import "DTXNetworkRequestsPlotController.h"
+#import "DTXCompactNetworkRequestsPlotController.h"
 
 @interface DTXMainContentController () <NSTableViewDelegate, NSTableViewDataSource>
 {
@@ -36,6 +38,7 @@
 	[super viewDidLayout];
 	
 	[self.view addSubview:_headerView positioned:NSWindowAbove relativeTo:_tableView];
+	[_plotGroup hostingViewDidLayout];
 }
 
 - (void)viewDidLoad
@@ -52,8 +55,6 @@
 		return;
 	}
 	
-	self.view.canDrawConcurrently = YES;
-	
 	_tableView.intercellSpacing = NSMakeSize(0, 1);
 	
 	_plotGroup = [[DTXManagedPlotControllerGroup alloc] initWithHostingView:self.view];
@@ -66,7 +67,8 @@
 	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.view.window.windowController.document]];
-	[_plotGroup addPlotController:[[DTXNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
+//	[_plotGroup addPlotController:[[DTXNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
+	[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	
 	[_tableView reloadData];
 }
@@ -85,6 +87,11 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return _plotGroup.plotControllers.count;
+}
+
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+	return [DTXTableRowView new];
 }
 
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row
@@ -116,6 +123,13 @@
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
 	return YES;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+	id<DTXPlotController> plotController = _plotGroup.plotControllers[_tableView.selectedRowIndexes.firstIndex];
+	
+	[self.delegate contentController:self updateUIWithUIProvider:plotController.dataProvider];
 }
 
 @end

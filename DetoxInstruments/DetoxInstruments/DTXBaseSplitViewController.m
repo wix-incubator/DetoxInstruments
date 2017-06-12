@@ -19,7 +19,6 @@ IB_DESIGNABLE
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
-	self.wantsLayer = YES;
 	
 	const CGFloat grey = 179.0 / 255.0;
 	_seperatorColor = [NSColor colorWithSRGBRed:grey green:grey blue:grey alpha:grey];
@@ -39,6 +38,15 @@ IB_DESIGNABLE
 @interface _DTXSplitView : NSSplitView @end
 
 @implementation _DTXSplitView
+
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+//	self.wantsLayer = YES;
+//	self.canDrawSubviewsIntoLayer = YES;
+	self.layer.backgroundColor = NSColor.whiteColor.CGColor;
+}
 
 - (NSColor *)dividerColor
 {

@@ -20,4 +20,9 @@
 	return [NSImage imageNamed:@"networkActivity_tb"];
 }
 
+- (BOOL)isKind
+{
+	return YES;
+}
+
 @end

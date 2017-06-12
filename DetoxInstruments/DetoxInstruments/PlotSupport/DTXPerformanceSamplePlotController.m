@@ -15,13 +15,27 @@
 {
 	NSMutableArray* rv = [NSMutableArray new];
 	
+	if(DTXPerformanceSample.entity == nil)
+	{
+		return @[];
+	}
+	
 	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		fr.resultType = NSDictionaryResultType;
-		fr.propertiesToFetch = @[@"timestamp", sampleKey];
+		 
+		fr.propertiesToGroupBy = @[DTXPerformanceSample.entity.attributesByName[@"timestamp"]];
 		
-		NSArray* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
+		NSExpressionDescription* sum = [NSExpressionDescription new];
+		sum.name = [NSString stringWithFormat:@"%@", sampleKey];
+		sum.expression = [NSExpression expressionForKeyPath:[NSString stringWithFormat:@"@sum.%@", sampleKey]];
+		sum.expressionResultType = NSDecimalAttributeType;
+		
+		fr.propertiesToFetch = @[@"timestamp", sum];
+		
+		NSError* error = nil;
+		NSArray* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:&error];
 		
 		if(results == nil)
 		{

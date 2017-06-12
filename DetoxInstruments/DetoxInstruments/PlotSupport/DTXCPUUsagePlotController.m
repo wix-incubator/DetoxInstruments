@@ -8,8 +8,14 @@
 
 #import "DTXCPUUsagePlotController.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "DTXCPUDataProvider.h"
 
 @implementation DTXCPUUsagePlotController
+
++ (Class)UIDataProviderClass
+{
+	return [DTXCPUDataProvider class];
+}
 
 - (NSString *)displayName
 {

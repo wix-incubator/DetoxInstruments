@@ -9,6 +9,7 @@
 #import "NSManagedObject+Additions.h"
 #import "DTXSample+Additions.h"
 #import "DTXRecording+Additions.h"
+#import "DTXPerformanceSample+CoreDataClass.h"
 
 typedef NS_ENUM(NSUInteger, DTXSampleType) {
 	DTXSampleTypeUnknown				= 0,
@@ -22,4 +23,6 @@ typedef NS_ENUM(NSUInteger, DTXSampleType) {
 	DTXSampleTypeTag					= 200,
 	
 	DTXSampleTypeGroup					= 1000,
+	
+	DTXSampleTypeUser					= 20000,
 };

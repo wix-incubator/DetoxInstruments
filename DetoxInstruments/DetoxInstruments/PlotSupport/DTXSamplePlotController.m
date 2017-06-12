@@ -8,6 +8,7 @@
 
 #import "DTXSamplePlotController.h"
 #import <CorePlot/CorePlot.h>
+#import "DTXGraphHostingView.h"
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
 
@@ -21,15 +22,14 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	return [color blendedColorWithFraction:0.15 ofColor:NSColor.whiteColor];
 }
 
-@interface DTXSamplePlotController () <CPTScatterPlotDataSource, CPTPlotSpaceDelegate>
+@interface DTXSamplePlotController ()
 
 @end
 
 @implementation DTXSamplePlotController
 {
-	NSArray<NSArray<NSDictionary<NSString*, id>*>*>* _samples;
 	CPTGraph* _graph;
-	CPTGraphHostingView* _hostingView;
+	__kindof CPTGraphHostingView* _hostingView;
 	CPTMutablePlotRange* _globalYRange;
 	
 	NSStoryboard* _scene;
@@ -38,6 +38,18 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 }
 
 @synthesize delegate = _delegate;
+@synthesize document = _document;
+@synthesize dataProvider = _dataProvider;
+
++ (Class)graphHostingViewClass
+{
+	return [DTXGraphHostingView class];
+}
+
++ (Class)UIDataProviderClass
+{
+	return nil;
+}
 
 - (instancetype)initWithDocument:(DTXDocument*)document
 {
@@ -48,6 +60,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		_document = document;
 		_samples = [self samplesForPlots];
 		_scene = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+		_dataProvider = [[[self.class UIDataProviderClass] alloc] initWithDocument:_document];
 	}
 	
 	return self;
@@ -137,23 +150,16 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	if(_hostingView)
 	{
 		[_hostingView removeFromSuperview];
-		_hostingView = nil;
+		_hostingView.frame = view.bounds;
 	}
-	
-	_hostingView = [[CPTGraphHostingView alloc] initWithFrame:view.bounds];
-	_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
-	[view addSubview:_hostingView];
-	
-	[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_hostingView.topAnchor constant:insets.top],
-											  [view.leadingAnchor constraintEqualToAnchor:_hostingView.leadingAnchor constant:insets.left],
-											  [view.trailingAnchor constraintEqualToAnchor:_hostingView.trailingAnchor constant:insets.right],
-											  [view.bottomAnchor constraintEqualToAnchor:_hostingView.bottomAnchor constant:insets.bottom]]];
-	
-	NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:_hostingView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
-	[_hostingView addTrackingArea:tracker];
-	
-	if(_graph == nil)
+	else
 	{
+		_hostingView = [[[self.class graphHostingViewClass] alloc] initWithFrame:view.bounds];
+		_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
+		
+		NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:_hostingView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
+		[_hostingView addTrackingArea:tracker];
+		
 		CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:_hostingView.bounds];
 		graph.axisSet = nil;
 		graph.backgroundColor = [NSColor whiteColor].CGColor;
@@ -169,37 +175,25 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		plotSpace.allowsUserInteraction = YES;
 		plotSpace.delegate = self;
 		
-		NSArray<NSColor*>* plotColors = self.plotColors;
-		
-		[_samples enumerateObjectsUsingBlock:^(NSArray<NSDictionary<NSString *,id> *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			// Create the plot
-			CPTScatterPlot *plot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
-			plot.identifier = @(idx);
-			
-			// set interpolation types
-			plot.interpolation = self.isStepped ? CPTScatterPlotInterpolationStepped : CPTScatterPlotInterpolationLinear;
-			
-			plot.curvedInterpolationOption = CPTScatterPlotCurvedInterpolationCatmullRomCentripetal;
-			
-			// style plots
-			CPTMutableLineStyle *lineStyle = [plot.dataLineStyle mutableCopy];
-			lineStyle.lineWidth = 1.0;
-			lineStyle.lineColor = [CPTColor colorWithCGColor:__DTXDarkerColorFromColor(plotColors[idx]).CGColor];
-			plot.dataLineStyle = lineStyle;
-			plot.areaFill = [CPTFill fillWithColor:[CPTColor colorWithCGColor:__DTXLighterColorFromColor(plotColors[idx]).CGColor]];
-			plot.areaBaseValue = @0.0;
-			
-			// set data source and add plots
-			plot.dataSource = self;
-			
+		[self.plots enumerateObjectsUsingBlock:^(CPTPlot * _Nonnull plot, NSUInteger idx, BOOL * _Nonnull stop) {
 			[graph addPlot:plot];
+		}];
+		
+		[[self graphAnnotationsForGraph:graph] enumerateObjectsUsingBlock:^(CPTPlotSpaceAnnotation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			[graph addAnnotation:obj];
 		}];
 		
 		// Auto scale the plot space to fit the plot data
 		[plotSpace scaleToFitPlots:[graph allPlots]];
+		
 		CPTMutablePlotRange *xRange = [CPTMutablePlotRange plotRangeWithLocation:@0 length:@([_document.recording.endTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
 		CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
-		yRange.length = @(yRange.length.doubleValue * 1.15);
+		
+		NSEdgeInsets insets = self.rangeInsets;
+		
+		CGFloat initial = yRange.location.doubleValue;
+		yRange.location = @(-insets.bottom);
+		yRange.length = @((initial + yRange.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier);
 		
 		plotSpace.globalXRange = xRange;
 		plotSpace.globalYRange = yRange;
@@ -207,11 +201,55 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		
 		plotSpace.xRange = xRange;
 		plotSpace.yRange = yRange;
-	
+		
 		_graph = graph;
+		
+		_hostingView.hostedGraph = _graph;
 	}
 	
-	_hostingView.hostedGraph = _graph;
+	[view addSubview:_hostingView];
+	
+	[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_hostingView.topAnchor constant:insets.top],
+											  [view.leadingAnchor constraintEqualToAnchor:_hostingView.leadingAnchor constant:insets.left],
+											  [view.trailingAnchor constraintEqualToAnchor:_hostingView.trailingAnchor constant:insets.right],
+											  [view.bottomAnchor constraintEqualToAnchor:_hostingView.bottomAnchor constant:insets.bottom]]];
+}
+
+- (NSArray<CPTPlot *> *)plots
+{
+	NSArray<NSColor*>* plotColors = self.plotColors;
+	
+	NSMutableArray* rv = [NSMutableArray new];
+	[_samples enumerateObjectsUsingBlock:^(NSArray<NSDictionary<NSString *,id> *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		// Create the plot
+		CPTScatterPlot* scatterPlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
+		scatterPlot.identifier = @(idx);
+		
+		// set interpolation types
+		scatterPlot.interpolation = self.isStepped ? CPTScatterPlotInterpolationStepped : CPTScatterPlotInterpolationLinear;
+		
+		scatterPlot.curvedInterpolationOption = CPTScatterPlotCurvedInterpolationCatmullRomCentripetal;
+		
+		// style plots
+		CPTMutableLineStyle *lineStyle = [scatterPlot.dataLineStyle mutableCopy];
+		lineStyle.lineWidth = 1.0;
+		lineStyle.lineColor = [CPTColor colorWithCGColor:__DTXDarkerColorFromColor(plotColors[idx]).CGColor];
+		scatterPlot.dataLineStyle = lineStyle;
+		
+		CPTGradient* gradient = [CPTGradient gradientWithBeginningColor:[CPTColor colorWithCGColor:__DTXLighterColorFromColor(plotColors[idx]).CGColor] endingColor:[CPTColor colorWithCGColor:__DTXLighterColorFromColor(__DTXLighterColorFromColor(plotColors[idx])).CGColor]];
+		gradient.gradientType = CPTGradientTypeAxial;
+		gradient.angle = -90;
+		
+		scatterPlot.areaFill = [CPTFill fillWithGradient:gradient];
+		scatterPlot.areaBaseValue = @0.0;
+		
+		// set data source and add plots
+		scatterPlot.dataSource = self;
+		
+		[rv addObject:scatterPlot];
+	}];
+	
+	return rv;
 }
 
 -(NSUInteger)numberOfRecordsForPlot:(nonnull CPTPlot *)plot
@@ -292,9 +330,24 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	return nil;
 }
 
+- (CGFloat)yRangeMultiplier;
+{
+	return 1.15;
+}
+
+- (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph
+{
+	return @[];
+}
+
 - (NSFormatter*)formatterForDataPresentation
 {
 	return [NSFormatter dtx_stringFormatter];
+}
+
+- (NSEdgeInsets)rangeInsets
+{
+	return NSEdgeInsetsZero;
 }
 
 - (id)transformedValueForFormatter:(id)value

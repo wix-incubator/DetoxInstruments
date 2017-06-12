@@ -15,8 +15,7 @@
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
-	self.layer.contentsScale = 2;
-	self.layer.backgroundColor = NSColor.whiteColor.CGColor;
+	self.layer.backgroundColor = NSColor.whiteColor .CGColor;
 	self.layer.masksToBounds = NO;
 }
 

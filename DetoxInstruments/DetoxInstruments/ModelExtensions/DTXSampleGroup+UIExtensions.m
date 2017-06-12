@@ -16,4 +16,14 @@
 	return self.name ?: [NSDateFormatter localizedStringFromDate:self.timestamp dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle];
 }
 
+- (NSArray<DTXSample *>*)samplesWithTypes:(NSArray<NSNumber*>*)sampleTypes includingGroups:(BOOL)includeGroups
+{
+	NSFetchRequest* fr = [DTXSample fetchRequest];
+	fr.includesSubentities = YES;
+	fr.predicate = [NSPredicate predicateWithFormat:@"sampleType in %@ && parentGroup == %@", [sampleTypes arrayByAddingObjectsFromArray:@[@(DTXSampleTypeGroup), @(DTXSampleTypeTag)]], self];
+	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+	
+	return [self.managedObjectContext executeFetchRequest:fr error:NULL];
+}
+
 @end

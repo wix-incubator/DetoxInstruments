@@ -8,8 +8,14 @@
 
 #import "DTXMemoryUsagePlotController.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "DTXMemoryDataProvider.h"
 
 @implementation DTXMemoryUsagePlotController
+
++ (Class)UIDataProviderClass
+{
+	return [DTXMemoryDataProvider class];
+}
 
 - (NSString *)displayName
 {

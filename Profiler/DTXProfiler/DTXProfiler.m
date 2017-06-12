@@ -123,28 +123,17 @@
 			[NSURLProtocol registerClass:[DBURLProtocol class]];
 		}];
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			[self pushSampleGroupWithName:@"group 1"];
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self pushSampleGroupWithName:@"group"];
 			
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				[self pushSampleGroupWithName:@"group 1.1"];
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[self popSampleGroup];
 				
-				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					[self popSampleGroup];
-					[self popSampleGroup];
-					
-					dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-						[self pushSampleGroupWithName:@"group 2"];
-						
-						dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-							[self popSampleGroup];
-							[self stopProfiling];
-						});
-					});
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+					[self stopProfiling];
 				});
 			});
 		});
-
 	}];
 }
 

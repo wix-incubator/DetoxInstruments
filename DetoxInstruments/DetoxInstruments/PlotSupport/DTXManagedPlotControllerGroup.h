@@ -19,5 +19,6 @@
 
 - (void)addHeaderPlotController:(id<DTXPlotController>)headerPlotController;
 - (void)addPlotController:(id<DTXPlotController>)plotController;
+- (void)hostingViewDidLayout;
 
 @end

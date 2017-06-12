@@ -42,7 +42,8 @@
 		NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:_timelineView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
 		[_timelineView addTrackingArea:tracker];
 		
-		[view.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:view];
+//		[self hostingViewDidLayout];
+		[_hostingView.superview.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingView.superview];
 		
 		[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
 												  [view.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
@@ -112,6 +113,11 @@
 	
 	_timelineView.displaysIndicator = pointInView.x > 179;
 	_timelineView.indicatorOffset = pointInView.x;
+}
+
+- (void)hostingViewDidLayout
+{
+//	[_hostingView.superview.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingView.superview];
 }
 
 

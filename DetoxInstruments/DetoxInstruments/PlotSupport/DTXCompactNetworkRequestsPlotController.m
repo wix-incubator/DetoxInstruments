@@ -1,12 +1,12 @@
 //
-//  DTXNetworkRequestsPlotController.m
+//  DTXCompactNetworkRequestsPlotController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 08/06/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXNetworkRequestsPlotController.h"
+#import "DTXCompactNetworkRequestsPlotController.h"
 #import <CorePlot/CorePlot.h>
 #import "DTXNetworkSample+CoreDataClass.h"
 #import "NSFormatter+PlotFormatters.h"
@@ -15,10 +15,13 @@
 //extern NSColor* __DTXDarkerColorFromColor(NSColor* color);
 //extern NSColor* __DTXLighterColorFromColor(NSColor* color);
 
-@interface DTXNetworkRequestsPlotController ()
+@interface DTXCompactNetworkRequestsPlotController ()
+{
+	NSMutableArray<NSMutableArray<NSDictionary<NSString*, id>*>*>* _mergedSamples;
+}
 @end
 
-@implementation DTXNetworkRequestsPlotController
+@implementation DTXCompactNetworkRequestsPlotController
 
 + (Class)graphHostingViewClass
 {
@@ -28,6 +31,12 @@
 - (NSArray<NSArray<NSDictionary<NSString*, id>*>*>*)samplesForPlots
 {
 	NSMutableArray* rv = [NSMutableArray new];
+	NSMutableArray* resultIndexPaths = [NSMutableArray new];
+	
+	if(_mergedSamples == nil)
+	{
+		_mergedSamples = [NSMutableArray new];
+	}
 	
 	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
@@ -36,7 +45,7 @@
 		
 		fr.propertiesToFetch = @[@"timestamp", @"responseTimestamp"];
 		
-		NSArray* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
+		NSArray<NSDictionary<NSString*, id>*>* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
 		
 		if(results == nil)
 		{
@@ -44,13 +53,40 @@
 			return;
 		}
 		
-		[rv addObject:results];
+		[results enumerateObjectsUsingBlock:^(NSDictionary<NSString *,id> * _Nonnull currentSample, NSUInteger idx, BOOL * _Nonnull stop) {
+			
+			NSDate* timestamp = currentSample[@"timestamp"];
+			
+			__block NSMutableArray* _insertionGroup = nil;
+			
+			[_mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<NSDictionary<NSString *,id> *> * _Nonnull possibleSampleGroup, NSUInteger idx, BOOL * _Nonnull stop) {
+				NSDate* lastResponseTimestamp = possibleSampleGroup.lastObject[@"responseTimestamp"];
+				if(lastResponseTimestamp == nil)
+				{
+					lastResponseTimestamp = [NSDate distantFuture];
+				}
+				
+				if([timestamp compare:lastResponseTimestamp] == NSOrderedDescending)
+				{
+					_insertionGroup = possibleSampleGroup;
+					*stop = YES;
+				}
+			}];
+			
+			if(_insertionGroup == nil)
+			{
+				_insertionGroup = [NSMutableArray new];
+				[_mergedSamples addObject:_insertionGroup];
+			}
+			
+			[_insertionGroup addObject:currentSample];
+			
+			NSIndexPath* indexPath = [NSIndexPath indexPathForItem:[_insertionGroup indexOfObject:currentSample] inSection:[_mergedSamples indexOfObject:_insertionGroup]];
+			[resultIndexPaths addObject:@{@"ip": indexPath}];
+		}];
 	}];
 	
-	if(rv.count != self.sampleKeys.count)
-	{
-		return nil;
-	}
+	[rv addObject:resultIndexPaths];
 	
 	return rv;
 }
@@ -93,7 +129,7 @@
 
 - (CGFloat)requiredHeight
 {
-	return MAX(self.samples.firstObject.count * 2 * 3 + 6, super.requiredHeight);
+	return MAX(_mergedSamples.count * 2 * 3 + 6, super.requiredHeight);
 }
 
 - (NSArray<NSString*>*)sampleKeys
@@ -123,7 +159,7 @@
 
 - (CGFloat)yRangeMultiplier;
 {
-	return 1.0;
+	return 1;
 }
 
 - (NSEdgeInsets)rangeInsets
@@ -138,8 +174,12 @@
 
 -(id)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
 {
-	NSTimeInterval timestampt = [self.samples.firstObject[index][@"timestamp"] timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
-	NSTimeInterval responseTimestampt = [self.samples.firstObject[index][@"responseTimestamp"] ?: [NSDate distantFuture] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSIndexPath* indexPath = self.samples.firstObject[index][@"ip"];
+	
+	NSDictionary<NSString*, id>* sample = _mergedSamples[indexPath.section][indexPath.item];
+	
+	NSTimeInterval timestampt = [sample[@"timestamp"] timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval responseTimestampt = [sample[@"responseTimestamp"] ?: [NSDate distantFuture] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
 	NSTimeInterval range = responseTimestampt - timestampt;
 	NSTimeInterval avg = (timestampt + responseTimestampt) / 2;
 	
@@ -147,7 +187,7 @@
 		case CPTRangePlotFieldX:
 			return @(avg);
 		case CPTRangePlotFieldY:
-			return @(index * 3);
+			return @(indexPath.section * 3);
 		case CPTRangePlotFieldLeft:
 		case CPTRangePlotFieldRight:
 			return @(range / 2.0);
@@ -157,3 +197,4 @@
 }
 
 @end
+

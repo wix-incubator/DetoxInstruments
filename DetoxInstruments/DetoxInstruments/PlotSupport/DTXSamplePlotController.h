@@ -7,22 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CorePlot/CorePlot.h>
 #import "DTXDocument.h"
 #import "DTXPlotController.h"
 
-@interface DTXSamplePlotController : NSObject <DTXPlotController>
+@interface DTXSamplePlotController : NSObject <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
 
-- (instancetype)initWithDocument:(DTXDocument*)document;
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)new NS_UNAVAILABLE;
+@property (nonatomic, strong, readonly) NSArray<NSArray<NSDictionary<NSString*, id>*>*>* samples;
 
-@property (nonatomic, strong, readonly) DTXDocument* document;
++ (Class)graphHostingViewClass;
++ (Class)UIDataProviderClass;
 
 - (NSArray<NSArray<NSDictionary<NSString*, id>*>*>*)samplesForPlots;
+- (NSArray<CPTPlot*>*)plots;
+- (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph;
 - (NSArray<NSString*>*)sampleKeys;
 - (NSArray<NSColor*>*)plotColors;
 - (NSArray<NSString*>*)plotTitles;
 - (BOOL)isStepped;
+- (NSEdgeInsets)rangeInsets;
+- (CGFloat)yRangeMultiplier;
 
 - (NSFormatter*)formatterForDataPresentation;
 - (id)transformedValueForFormatter:(id)value;

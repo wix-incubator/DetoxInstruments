@@ -7,7 +7,18 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXUIDataProvider.h"
+
+@class DTXMainContentController;
+
+@protocol DTXMainContentControllerDelegate
+
+- (void)contentController:(DTXMainContentController*)cc updateUIWithUIProvider:(DTXUIDataProvider*)dataProvider;
+
+@end
 
 @interface DTXMainContentController : NSViewController
+
+@property (nonatomic, weak) id<DTXMainContentControllerDelegate> delegate;
 
 @end

@@ -9,15 +9,22 @@
 #import "DTXInstrumentsWindowController.h"
 #import "DTXMainBottomPaneSplitViewController.h"
 #import "DTXBottomInspectorSplitViewController.h"
+#import "DTXMainContentController.h"
+#import "DTXBottomContentController.h"
+#import "DTXRightInspectorController.h"
 
 static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
 static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollapsed";
 
-@interface DTXInstrumentsWindowController ()
+@interface DTXInstrumentsWindowController () <DTXMainContentControllerDelegate>
 {
 	__weak IBOutlet NSSegmentedControl *_layoutSegmentControl;
 	DTXMainBottomPaneSplitViewController* _bottomSplitViewController;
 	DTXBottomInspectorSplitViewController* _rightSplitViewController;
+	
+	DTXMainContentController* _mainContentController;
+	DTXBottomContentController* _bottomContentController;
+	DTXRightInspectorController* _inspectorContentController;
 	
 	BOOL _bottomCollapsed;
 	BOOL _rightCollapsed;
@@ -31,7 +38,6 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
     [super windowDidLoad];
 	
 	[self.window center];
-	[self.window orderFrontRegardless];
     
 	self.window.titleVisibility = NSWindowTitleHidden;
 	
@@ -40,6 +46,12 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	_bottomCollapsed = [[NSUserDefaults standardUserDefaults] boolForKey:__DTXBottomPaneCollapsed];
 	_rightCollapsed = [[NSUserDefaults standardUserDefaults] boolForKey:__DTXRightInspectorCollapsed];
+	
+	_mainContentController = (id)_bottomSplitViewController.splitViewItems.firstObject.viewController;
+	_bottomContentController = (id)_rightSplitViewController.splitViewItems.firstObject.viewController;
+	_inspectorContentController = (id)_rightSplitViewController.splitViewItems.lastObject.viewController;
+	
+	_mainContentController.delegate = self;
 	
 	[self _fixUpSegments];
 	[self _fixUpSplitViewsAnimated:NO];
@@ -93,6 +105,11 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	[[NSUserDefaults standardUserDefaults] setBool:_bottomCollapsed forKey:__DTXBottomPaneCollapsed];
 	[[NSUserDefaults standardUserDefaults] setBool:_rightCollapsed forKey:__DTXRightInspectorCollapsed];
+}
+
+- (void)contentController:(DTXMainContentController*)cc updateUIWithUIProvider:(DTXUIDataProvider*)dataProvider;
+{
+	_bottomContentController.managingDataProvider = dataProvider;
 }
 
 @end

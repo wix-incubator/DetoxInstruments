@@ -8,4 +8,6 @@
 
 #import "DTXInstrumentsModel.h"
 #import "DTXSample+UIExtensions.h"
-
+#import "DTXSampleGroup+UIExtensions.h"
+#import "DTXPerformanceSample+UIExtensions.h"
+#import "DTXNetworkSample+UIExtensions.h"
