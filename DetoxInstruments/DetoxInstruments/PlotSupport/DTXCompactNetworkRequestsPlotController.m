@@ -133,7 +133,7 @@
 
 - (CGFloat)requiredHeight
 {
-	return MAX(_mergedSamples.count * 2 * 3 + 6, super.requiredHeight);
+	return MAX(_mergedSamples.count * 2 * 4 + 6, super.requiredHeight);
 }
 
 - (NSArray<NSString*>*)sampleKeys

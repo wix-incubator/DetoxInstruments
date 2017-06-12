@@ -95,7 +95,7 @@
 		}
 		else
 		{
-			_targetAggregate.lineWidth += 0.3;
+			_targetAggregate.lineWidth += 0.15;
 			
 			_maxWidth = MAX(_maxWidth, _targetAggregate.lineWidth);
 			
@@ -105,7 +105,7 @@
 			}
 		}
 		
-		_requiredHeight += 1;
+		_requiredHeight += 0.5;
 	}];
 	
 	return @[];
@@ -124,7 +124,7 @@
 	dataSourceLinePlot.barLineStyle = lineStyle;
 	
 	// Bar properties
-	dataSourceLinePlot.barWidth   = 8.0;
+	dataSourceLinePlot.barWidth   = 6.0;
 	dataSourceLinePlot.gapWidth   = 0.0;
 	dataSourceLinePlot.gapHeight  = 0.0;
 	dataSourceLinePlot.dataSource = self;
@@ -204,7 +204,7 @@
 	_DTXNetworkSampleAggregate* aggregate = _aggregates[idx];
 	
 	CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
-	lineStyle.lineWidth = MIN(aggregate.lineWidth, 5.0);
+	lineStyle.lineWidth = MIN(aggregate.lineWidth, 3.0);
 	lineStyle.lineColor = [CPTColor colorWithCGColor:self.plotColors.firstObject.CGColor];
 	lineStyle.lineCap = kCGLineCapButt;
 	lineStyle.lineColor = [CPTColor colorWithCGColor:[_startColor interpolateToValue:_endColor progress:aggregate.lineWidth / _maxWidth].CGColor];
