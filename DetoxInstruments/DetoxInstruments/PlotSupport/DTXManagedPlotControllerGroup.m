@@ -99,7 +99,7 @@
 
 - (void)mouseEntered:(NSEvent *)event
 {
-	_timelineView.displaysIndicator = YES;
+	[self mouseMoved:event];
 }
 
 - (void)mouseExited:(NSEvent *)event

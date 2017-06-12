@@ -4,3 +4,6 @@
 [submodule "DetoxInstruments/core-plot"]
 	path = DetoxInstruments/core-plot
 	url = https://github.com/core-plot/core-plot.git
+[submodule "DetoxInstruments/LNInterpolation"]
+	path = DetoxInstruments/LNInterpolation
+	url = https://github.com/LeoNatan/LNInterpolation.git

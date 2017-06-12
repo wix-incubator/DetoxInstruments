@@ -11,7 +11,3 @@
 @interface DTXScrollView : NSScrollView
 
 @end
-
-@interface DTXClipView : NSClipView
-
-@end

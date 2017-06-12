@@ -18,6 +18,7 @@
 #import "DTXDiskReadWritesPlotController.h"
 #import "DTXNetworkRequestsPlotController.h"
 #import "DTXCompactNetworkRequestsPlotController.h"
+#import "DTXAggregatingNetworkRequestsPlotController.h"
 
 @interface DTXMainContentController () <NSTableViewDelegate, NSTableViewDataSource>
 {
@@ -67,8 +68,9 @@
 	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.view.window.windowController.document]];
-//	[_plotGroup addPlotController:[[DTXNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
+	[_plotGroup addPlotController:[[DTXNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
+	[_plotGroup addPlotController:[[DTXAggregatingNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	
 	[_tableView reloadData];
 }

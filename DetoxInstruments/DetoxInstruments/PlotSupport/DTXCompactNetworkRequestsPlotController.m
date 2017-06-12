@@ -12,9 +12,7 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXGraphHostingView.h"
 #import "DTXNetworkDataProvider.h"
-
-//extern NSColor* __DTXDarkerColorFromColor(NSColor* color);
-//extern NSColor* __DTXLighterColorFromColor(NSColor* color);
+#import "DTXCPTRangePlot.h"
 
 @interface DTXCompactNetworkRequestsPlotController ()
 {
@@ -100,7 +98,7 @@
 - (NSArray<CPTPlot *> *)plots
 {
 	// Create a plot that uses the data source method
-	CPTRangePlot *dataSourceLinePlot = [[CPTRangePlot alloc] init];
+	CPTRangePlot *dataSourceLinePlot = [[DTXCPTRangePlot alloc] init];
 	dataSourceLinePlot.identifier = @"Date Plot";
 	
 	// Add line style

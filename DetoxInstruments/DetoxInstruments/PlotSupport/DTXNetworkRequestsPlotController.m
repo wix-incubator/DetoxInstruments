@@ -12,6 +12,7 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXGraphHostingView.h"
 #import "DTXNetworkDataProvider.h"
+#import "DTXCPTRangePlot.h"
 
 //extern NSColor* __DTXDarkerColorFromColor(NSColor* color);
 //extern NSColor* __DTXLighterColorFromColor(NSColor* color);
@@ -64,7 +65,7 @@
 - (NSArray<CPTPlot *> *)plots
 {
 	// Create a plot that uses the data source method
-	CPTRangePlot *dataSourceLinePlot = [[CPTRangePlot alloc] init];
+	CPTRangePlot *dataSourceLinePlot = [[DTXCPTRangePlot alloc] init];
 	dataSourceLinePlot.identifier = @"Date Plot";
 	
 	// Add line style
@@ -153,7 +154,7 @@
 		case CPTRangePlotFieldX:
 			return @(avg);
 		case CPTRangePlotFieldY:
-			return @(index * 3);
+			return @(index);
 		case CPTRangePlotFieldLeft:
 		case CPTRangePlotFieldRight:
 			return @(range / 2.0);
