@@ -16,7 +16,7 @@
 	
 	self.wantsLayer = YES;
 	self.layer.backgroundColor = NSColor.whiteColor .CGColor;
-	self.layer.masksToBounds = NO;
+//	self.layer.masksToBounds = NO;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {

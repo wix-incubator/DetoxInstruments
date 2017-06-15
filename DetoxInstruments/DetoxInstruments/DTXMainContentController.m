@@ -38,7 +38,7 @@
 {
 	[super viewDidLayout];
 	
-	[self.view addSubview:_headerView positioned:NSWindowAbove relativeTo:_tableView];
+	//[self.view addSubview:_headerView positioned:NSWindowAbove relativeTo:_tableView];
 	[_plotGroup hostingViewDidLayout];
 }
 
@@ -68,7 +68,7 @@
 	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.view.window.windowController.document]];
-	[_plotGroup addPlotController:[[DTXNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
+//	[_plotGroup addPlotController:[[DTXNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	[_plotGroup addPlotController:[[DTXAggregatingNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
 	

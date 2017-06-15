@@ -14,6 +14,8 @@
 #import "DTXSampleGroupProxy.h"
 #import "NSFormatter+PlotFormatters.h"
 
+const CGFloat DTXAutomaticColumnWidth = -1.0;
+
 @implementation DTXColumnInformation
 
 - (instancetype)init
@@ -36,6 +38,7 @@
 {
 	DTXDocument* _document;
 	DTXSampleGroupProxy* _rootGroupProxy;
+	NSArray<DTXColumnInformation*>* _columns;
 }
 
 - (instancetype)initWithDocument:(DTXDocument*)document
@@ -45,7 +48,6 @@
 	if(self)
 	{
 		_document = document;
-//		_currentlyDisplayedSamples = [_currentDocument.recording.rootSampleGroup samplesWithTypes:@[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)] includingGroups:YES];
 	}
 	
 	return self;
@@ -102,12 +104,28 @@
 	_managedOutlineView.delegate = self;
 	_managedOutlineView.dataSource = self;
 	
-	[self.columns enumerateObjectsUsingBlock:^(DTXColumnInformation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	_columns = self.columns;
+	
+	[_columns enumerateObjectsUsingBlock:^(DTXColumnInformation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSTableColumn* column = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
 		column.title = obj.title;
-		column.resizingMask = NSTableColumnUserResizingMask;
-		column.minWidth = obj.minWidth;
-		column.width = obj.minWidth;
+		
+		if(idx == _columns.count - 1 && obj.automaticallyGrowsWithTable)
+		{
+			column.resizingMask = NSTableColumnAutoresizingMask;
+			__block CGFloat bestWidth = _managedOutlineView.bounds.size.width;
+			[_managedOutlineView.tableColumns enumerateObjectsUsingBlock:^(NSTableColumn * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				bestWidth -= (obj.width + _managedOutlineView.intercellSpacing.width);
+			}];
+			column.width = bestWidth - _managedOutlineView.intercellSpacing.width;
+		}
+		else
+		{
+			column.resizingMask = NSTableColumnUserResizingMask;
+			column.minWidth = obj.minWidth;
+			column.width = obj.minWidth;
+		}
+		
 		[_managedOutlineView addTableColumn:column];
 		
 		if(idx == 0)
@@ -125,7 +143,18 @@
 	[_managedOutlineView expandItem:nil expandChildren:YES];
 	
 	[_managedOutlineView scrollRowToVisible:0];
+	
+	
+	CGRect frame = _managedOutlineView.window.frame;
+	frame.size.width += 1;
+	frame.size.width -= 1;
+	[_managedOutlineView.window setFrame:frame display:NO];
 }
+
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+//{
+//	
+//}
 
 - (DTXSampleType)sampleType
 {

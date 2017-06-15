@@ -19,7 +19,7 @@
 
 - (NSString *)displayName
 {
-	return NSLocalizedString(@"Disk Read/Writes", @"");
+	return NSLocalizedString(@"Disk Usage", @"");
 }
 
 - (NSImage*)displayIcon

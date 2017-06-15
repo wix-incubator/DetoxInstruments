@@ -21,6 +21,9 @@
 @property (nonatomic, copy) NSString* title;
 @property (nonatomic) CGFloat minWidth;
 
+//Will only be considered for the last column.
+@property (nonatomic) BOOL automaticallyGrowsWithTable;
+
 @end
 
 @interface DTXUIDataProvider : NSObject

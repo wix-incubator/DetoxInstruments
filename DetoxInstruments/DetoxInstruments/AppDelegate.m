@@ -22,6 +22,11 @@
 	// Insert code here to tear down your application
 }
 
+- (IBAction)openGitHubPage:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments"]];
+}
+
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender;
 {
 	return NO;

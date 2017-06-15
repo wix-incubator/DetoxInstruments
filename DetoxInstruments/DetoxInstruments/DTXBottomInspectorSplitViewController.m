@@ -21,4 +21,10 @@
 	self.splitViewItems.lastObject.holdingPriority = NSLayoutPriorityDefaultLow;
 }
 
+- (CGFloat)lastSplitItemMaxThickness
+{
+	return 320;
+}
+
 @end
+

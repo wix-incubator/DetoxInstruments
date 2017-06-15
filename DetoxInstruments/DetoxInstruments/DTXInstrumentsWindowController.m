@@ -51,7 +51,22 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	_bottomContentController = (id)_rightSplitViewController.splitViewItems.firstObject.viewController;
 	_inspectorContentController = (id)_rightSplitViewController.splitViewItems.lastObject.viewController;
 	
+	[_bottomSplitViewController.splitViewItems.lastObject addObserver:self forKeyPath:@"collapsed" options:NSKeyValueObservingOptionNew context:NULL];
+	[_rightSplitViewController.splitViewItems.lastObject addObserver:self forKeyPath:@"collapsed" options:NSKeyValueObservingOptionNew context:NULL];
+	
 	_mainContentController.delegate = self;
+	
+	[self _fixUpSegments];
+	[self _fixUpSplitViewsAnimated:NO];
+	
+	self.window.contentView.wantsLayer = YES;
+	self.window.contentView.canDrawSubviewsIntoLayer = YES;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+	_bottomCollapsed = _bottomSplitViewController.splitViewItems.lastObject.isCollapsed;
+	_rightCollapsed = _rightSplitViewController.splitViewItems.lastObject.isCollapsed;
 	
 	[self _fixUpSegments];
 	[self _fixUpSplitViewsAnimated:NO];
@@ -63,7 +78,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	[_layoutSegmentControl setSelected:_bottomCollapsed ? NO : !_rightCollapsed forSegment:1];
 }
 
-- (void)_fixUpSplitViewsAnimated:(BOOL)animated;
+- (void)_fixUpSplitViewsAnimated:(BOOL)animated
 {
 	NSSplitViewItem* bottomSplitViewItem = _bottomSplitViewController.splitViewItems.lastObject;
 	NSSplitViewItem* rightSplitViewItem = _rightSplitViewController.splitViewItems.lastObject;

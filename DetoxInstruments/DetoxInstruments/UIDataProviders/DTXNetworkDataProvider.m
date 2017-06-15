@@ -26,7 +26,8 @@
 	
 	DTXColumnInformation* url = [DTXColumnInformation new];
 	url.title = NSLocalizedString(@"URL", @"");
-	url.minWidth = 355;
+//	url.minWidth = 355;
+	url.automaticallyGrowsWithTable = YES;
 	
 	return @[duration, size, responseCode, url];
 }
