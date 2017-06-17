@@ -12,6 +12,8 @@
 #import "DTXInspectorContentTableDataSource.h"
 #import "DTXSegmentedView.h"
 
+static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
+
 @interface DTXRightInspectorController () <DTXSegmentedViewDelegate>
 {
 	IBOutlet NSTableView* _recordingInfoTableView;
@@ -31,6 +33,12 @@
 	
 	self.view.wantsLayer = YES;
 	
+	[_tabSwitcher setSelected:[[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey] == 0 forSegment:0];
+	[_tabSwitcher setSelected:[[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey] == 1 forSegment:1];
+	[_tabSwitcher fixIcons];
+	
+	[self segmentedView:_tabSwitcher didSelectSegmentAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey]];
+	
 	_tabSwitcher.delegate = self;
 }
 
@@ -39,6 +47,18 @@
 	[super viewWillAppear];
 	
 	[self _prepareRecordingDescriptionIfNeeded];
+}
+
+- (void)setMoreInfoDataProvider:(DTXInspectorDataProvider *)moreInfoDataProvider
+{
+	_moreInfoDataProvider = moreInfoDataProvider;
+	
+	_sampleDescriptionDataSource = _moreInfoDataProvider.inspectorTableDataSource;
+	if([_tabSwitcher isSelectedForSegment:0])
+	{
+		_sampleDescriptionDataSource.managedTableView = _recordingInfoTableView;
+		_nothingLabel.hidden = _sampleDescriptionDataSource != nil;
+	}
 }
 
 - (void)_prepareRecordingDescriptionIfNeeded
@@ -59,23 +79,30 @@
 	DTXInspectorContent* recordingInfo = [DTXInspectorContent new];
 	recordingInfo.title = NSLocalizedString(@"Recording Info", @"");
 	
-	NSMutableString* recordingInfoText = [NSMutableString new];
-	[recordingInfoText appendString:[NSString stringWithFormat:@"%@: %@\n", NSLocalizedString(@"Target Name", @""), recording.deviceName]];
-	[recordingInfoText appendString:[NSString stringWithFormat:@"%@: %@\n", NSLocalizedString(@"Target Model", @""), recording.deviceType]];
-	[recordingInfoText appendString:[NSString stringWithFormat:@"%@: %@\n", NSLocalizedString(@"Target OS", @""), recording.deviceOS]];
-	[recordingInfoText appendString:@"\n"];
-	[recordingInfoText appendString:[NSString stringWithFormat:@"%@: %@\n", NSLocalizedString(@"Start Time", @""), [NSDateFormatter localizedStringFromDate:recording.startTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]]];
-	[recordingInfoText appendString:[NSString stringWithFormat:@"%@: %@\n", NSLocalizedString(@"End Time", @""), [NSDateFormatter localizedStringFromDate:recording.endTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]]];
+	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Target Name", @"") description:recording.deviceName]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Target Model", @"") description:recording.deviceType]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Target OS", @"") description:recording.deviceOS]];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start Time", @"") description:[NSDateFormatter localizedStringFromDate:recording.startTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End Time", @"") description:[NSDateFormatter localizedStringFromDate:recording.endTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]]];
 	
 	NSDateComponentsFormatter* ivFormatter = [NSDateComponentsFormatter new];
 	ivFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
 	
-	[recordingInfoText appendString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Duration", @""), [ivFormatter stringFromDate:recording.startTimestamp toDate:recording.endTimestamp]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Duration", @"") description:[ivFormatter stringFromDate:recording.startTimestamp toDate:recording.endTimestamp]]];
 	
-	recordingInfo.content = recordingInfoText;
+	recordingInfo.content = content;
 	
-	_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;
 	_recordingDescriptionDataSource.contentArray = @[recordingInfo];
+	
+	if([_tabSwitcher isSelectedForSegment:1])
+	{
+		_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;
+	}
 }
 
 - (void)segmentedView:(DTXSegmentedView *)segmentedView didSelectSegmentAtIndex:(NSInteger)index
@@ -92,6 +119,8 @@
 		_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;
 		_nothingLabel.hidden = YES;
 	}
+	
+	[[NSUserDefaults standardUserDefaults] setInteger:index forKey:__DTXInspectorTabKey];
 }
 
 @end

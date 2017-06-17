@@ -7,7 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXInspectorDataProvider.h"
 
 @interface DTXRightInspectorController : NSViewController
+
+@property (nonatomic, strong) DTXInspectorDataProvider* moreInfoDataProvider;
 
 @end

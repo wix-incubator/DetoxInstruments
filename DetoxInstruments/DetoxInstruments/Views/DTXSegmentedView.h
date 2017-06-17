@@ -21,4 +21,6 @@
 
 @property (nonatomic, weak) id<DTXSegmentedViewDelegate> delegate;
 
+- (void)fixIcons;
+
 @end

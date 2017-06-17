@@ -29,14 +29,19 @@
 	self.action = @selector(_segmentCellAction:);
 }
 
+- (void)fixIcons
+{
+	[self.cell setImage:[NSImage imageNamed:[self.cell isSelectedForSegment:0] ? @"extendedInfo_highlighted": @"extendedInfo"] forSegment:0];
+	[self.cell setImage:[NSImage imageNamed:[self.cell isSelectedForSegment:1] ? @"fileInfo_highlighted" : @"fileInfo"] forSegment:1];
+}
+
 - (IBAction)_segmentCellAction:(NSSegmentedCell*)sender
 {
 	NSInteger selectedSegment = [sender selectedSegment];
 	[sender setSelected:YES forSegment:selectedSegment];
 	[sender setSelected:NO forSegment:1 - selectedSegment];
 	
-	[sender setImage:[NSImage imageNamed:[sender isSelectedForSegment:0] ? @"extendedInfo_highlighted": @"extendedInfo"] forSegment:0];
-	[sender setImage:[NSImage imageNamed:[sender isSelectedForSegment:1] ? @"fileInfo_highlighted" : @"fileInfo"] forSegment:1];
+	[self fixIcons];
 	
 	[self.delegate segmentedView:self didSelectSegmentAtIndex:selectedSegment];
 }

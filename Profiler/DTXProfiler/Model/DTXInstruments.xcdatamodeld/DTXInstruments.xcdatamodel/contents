@@ -7,6 +7,9 @@
             </userInfo>
         </relationship>
     </entity>
+    <entity name="LogSample" representedClassName="DTXLogSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="line" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="NetworkData" representedClassName="DTXNetworkData" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
         <relationship name="networkSampleRequest" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetworkSample" inverseName="requestData" inverseEntity="NetworkSample" syncable="YES"/>
@@ -97,5 +100,6 @@
         <element name="SampleGroup" positionX="-45" positionY="0" width="128" height="90"/>
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
         <element name="ThreadPerformanceSample" positionX="-27" positionY="108" width="128" height="75"/>
+        <element name="LogSample" positionX="-27" positionY="135" width="128" height="60"/>
     </elements>
 </model>

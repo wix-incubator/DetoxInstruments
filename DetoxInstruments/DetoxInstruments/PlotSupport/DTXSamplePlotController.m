@@ -60,7 +60,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		_document = document;
 		_samples = [self samplesForPlots];
 		_scene = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
-		_dataProvider = [[[self.class UIDataProviderClass] alloc] initWithDocument:_document];
+		_dataProvider = [[[self.class UIDataProviderClass] alloc] initWithDocument:_document plotController:self];
 	}
 	
 	return self;

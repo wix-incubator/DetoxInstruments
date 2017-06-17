@@ -23,6 +23,7 @@ static NSDictionary<NSString*, NSNumber*>* __classTypeMapping;
 							   NSStringFromClass([DTXSampleGroup class]): @(DTXSampleTypeGroup),
 							   NSStringFromClass([DTXNetworkSample class]): @(DTXSampleTypeNetwork),
 							   NSStringFromClass([DTXTag class]): @(DTXSampleTypeTag),
+							   NSStringFromClass([DTXLogSample class]): @(DTXSampleTypeLog),
 							   };
 	});
 }

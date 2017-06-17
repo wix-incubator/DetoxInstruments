@@ -16,4 +16,19 @@
 
 @implementation DTXTextViewCellView
 
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+	return self.textView.selectable ? [super hitTest:aPoint] : nil;
+}
+
+- (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
+{
+	[super setBackgroundStyle:backgroundStyle];
+	
+	if(self.textView.selectable == NO)
+	{
+		self.textView.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor whiteColor] : [NSColor blackColor];
+	}
+}
+
 @end

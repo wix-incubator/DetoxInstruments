@@ -17,6 +17,12 @@
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
 
+static dispatch_queue_t __log_queue;
+static dispatch_io_t __log_io;
+static int __stderr;
+static int __pipe[2];
+static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
+
 @implementation DTXProfilingOptions
 
 + (instancetype)defaultProfilingOptions
@@ -52,6 +58,53 @@
 	NSMutableArray<DTXSample*>* _pendingSamples;
 }
 
++ (void)load
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		__runningProfilers = [NSMutableArray new];
+		[self redirectLogOutput];
+	});
+}
+
++ (void)redirectLogOutput
+{
+	__stderr = dup(STDERR_FILENO);
+	
+	if (pipe(__pipe) != 0)
+	{
+		return;
+	}
+	
+	dup2(__pipe[1], STDERR_FILENO);
+	close(__pipe[1]);
+	
+	__log_queue = dispatch_queue_create("DTXProfilerLogIOQueue", DISPATCH_QUEUE_SERIAL);
+	__log_io = dispatch_io_create(DISPATCH_IO_STREAM, __pipe[0], __log_queue, ^(__unused int error) {});
+	
+	dispatch_io_set_low_water(__log_io, 20);
+	
+	dispatch_io_read(__log_io, 0, SIZE_MAX, __log_queue, ^(__unused bool done, dispatch_data_t data, __unused int error) {
+		if (!data)
+		{
+			return;
+		}
+		
+		dispatch_data_apply(data, ^bool(__unused dispatch_data_t region, __unused size_t offset, const void *buffer, size_t size) {
+			write(__stderr, buffer, size);
+			
+			NSString *log = [[NSString alloc] initWithBytes:buffer length:size encoding:NSUTF8StringEncoding];
+			
+			[__runningProfilers enumerateObjectsUsingBlock:^(__kindof DTXProfiler * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				[obj addLogLine:log];
+			}];
+			
+			return true;
+		});
+	});
+}
+
+
 + (NSString *)_sanitizeFileNameString:(NSString *)fileName {
 	NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
 	return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@"_"];
@@ -60,7 +113,7 @@
 + (NSURL*)_documentsDirectory
 {
 	return [NSURL fileURLWithPath:@"/Users/lnatan/Desktop/"];
-//	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+	//	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 + (NSURL*)_urlForNewRecording
@@ -121,19 +174,11 @@
 			
 			DBURLProtocol.delegate = self;
 			[NSURLProtocol registerClass:[DBURLProtocol class]];
-		}];
-		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			[self pushSampleGroupWithName:@"group"];
 			
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				[self popSampleGroup];
-				
-				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					[self stopProfiling];
-				});
+			dispatch_sync(__log_queue, ^{
+				[__runningProfilers addObject:self];
 			});
-		});
+		}];
 	}];
 }
 
@@ -152,6 +197,10 @@
 		
 		_currentProfilingOptions = nil;
 		
+		dispatch_sync(__log_queue, ^{
+			[__runningProfilers removeObject:self];
+		});
+		
 		self.recording = NO;
 	}];
 }
@@ -163,7 +212,7 @@
 	[_backgroundContext performBlock:^{
 		DTX_ASSERT_RECORDING;
 		
-		NSLog(@"Pushing group named %@ to parent %@", name, _currentSampleGroup.name);
+		dprintf(__stderr, "Pushing group named %s to parent %s\n", name.UTF8String, _currentSampleGroup.name.UTF8String);
 		DTXSampleGroup* newGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
 		newGroup.name = name;
 		newGroup.parentGroup = _currentSampleGroup;
@@ -178,13 +227,13 @@
 	[_backgroundContext performBlock:^{
 		DTX_ASSERT_RECORDING
 		
-		NSLog(@"Popping group named %@ from parent %@", _currentSampleGroup.name, _currentSampleGroup.parentGroup.name);
+		dprintf(__stderr, "Popping group named %s from parent %s\n", _currentSampleGroup.name.UTF8String, _currentSampleGroup.parentGroup.name.UTF8String);
 		_currentSampleGroup.closeTimestamp = [NSDate date];
 		_currentSampleGroup = _currentSampleGroup.parentGroup;
 	}];
 }
 
-- (void)addTag:(NSString*)tag
+- (void)addTag:(NSString*)_tag
 {
 	DTX_ASSERT_RECORDING
 	
@@ -193,13 +242,28 @@
 		
 		DTXTag* tag = [[DTXTag alloc] initWithContext:_backgroundContext];
 		tag.parentGroup = _currentSampleGroup;
+		tag.name = _tag;
 		[self _addPendingSampleInternal:tag];
+	}];
+}
+
+- (void)addLogLine:(NSString *)line
+{
+	DTX_ASSERT_RECORDING
+	
+	[_backgroundContext performBlock:^{
+		DTX_ASSERT_RECORDING
+		
+		DTXLogSample* log = [[DTXLogSample alloc] initWithContext:_backgroundContext];
+		log.parentGroup = _currentSampleGroup;
+		log.line = line;
+		[self _addPendingSampleInternal:log];
 	}];
 }
 
 - (void)_flushPendingSamplesInternal
 {
-	NSLog(@"Flushing");
+	dprintf(__stderr, "Flushing\n");
 	
 	[_backgroundContext save:NULL];
 	[_pendingSamples enumerateObjectsUsingBlock:^(DTXSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -211,7 +275,7 @@
 	[_pendingSamples removeAllObjects];
 }
 
-- (void)_flushPendingSamplesWithInternalCompletionHandler:(void(^)())completionHandler
+- (void)_flushPendingSamplesWithInternalCompletionHandler:(void(^)(void))completionHandler
 {
 	[_backgroundContext performBlock:^{
 		[self _flushPendingSamplesInternal];
@@ -225,7 +289,7 @@
 
 - (void)_closeContainerInternal
 {
-	NSLog(@"Closing");
+	dprintf(__stderr, "Closing\n");
 	
 	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[_currentRecording dictionaryRepresentation] options:NSJSONWritingPrettyPrinted error:NULL];
 	NSURL* jsonURL = [[DTXProfiler _documentsDirectory] URLByAppendingPathComponent:@"_dtx_recording.json"];
@@ -239,7 +303,7 @@
 	[[NSFileManager defaultManager] createDirectoryAtURL:recordingDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
 	
 	NSURL* recordingURL = [(id)_container.persistentStoreDescriptions.firstObject URL];
-	NSArray<NSURL*>* files = [[[NSFileManager defaultManager] enumeratorAtURL:recordingURL.URLByDeletingLastPathComponent includingPropertiesForKeys:nil options:0 errorHandler:NULL].allObjects filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"path contains[cd] %@", recordingURL.lastPathComponent]];
+	NSArray<NSURL*>* files = [[[NSFileManager defaultManager] enumeratorAtURL:recordingURL.URLByDeletingLastPathComponent includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:NULL].allObjects filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"path contains[cd] %@", recordingURL.lastPathComponent]];
 	
 	[files enumerateObjectsUsingBlock:^(NSURL* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSError* err;
@@ -248,7 +312,7 @@
 		[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
 		if([[NSFileManager defaultManager] moveItemAtURL:obj toURL:targetURL error:&err] == NO)
 		{
-			NSLog(@"Error moving file %@ error: %@", obj.lastPathComponent, err);
+			dprintf(__stderr, "Error moving file %s error: %s\n", obj.lastPathComponent.UTF8String, err.description.UTF8String);
 		}
 	}];
 	
@@ -258,14 +322,14 @@
 	[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
 	if([[NSFileManager defaultManager] moveItemAtURL:jsonURL toURL:targetURL error:&err] == NO)
 	{
-		NSLog(@"Error moving file %@ error: %@", jsonURL.lastPathComponent, err);
+		dprintf(__stderr, "Error moving file %s error: %s\n", jsonURL.lastPathComponent.UTF8String, err.description.UTF8String);
 	}
 	
 	err = nil;
 	
-//	DTXWriteZipFileWithDirectoryContents([recordingDirectory URLByAppendingPathExtension:@"zip"], recordingDirectory);
+	//	DTXWriteZipFileWithDirectoryContents([recordingDirectory URLByAppendingPathExtension:@"zip"], recordingDirectory);
 	
-	NSLog(@"%@", [recordingDirectory URLByAppendingPathExtension:@"zip"].path);
+	dprintf(__stderr, "%s\n", [recordingDirectory URLByAppendingPathExtension:@"zip"].path.UTF8String);
 	
 	_container = nil;
 }
@@ -293,7 +357,7 @@
 			return;
 		}
 		
-//		DTXAdvancedPerformanceSample* perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:_backgroundContext];
+		//		DTXAdvancedPerformanceSample* perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:_backgroundContext];
 		DTXPerformanceSample* perfSample = [[DTXPerformanceSample alloc] initWithContext:_backgroundContext];
 		perfSample.cpuUsage = cpu;
 		perfSample.memoryUsage = memory;
@@ -303,15 +367,15 @@
 		perfSample.diskWrites = diskWrites;
 		perfSample.diskWritesDelta = diskWritesDelta;
 		
-//		for(uint8_t i = 0; i < 15; i++)
-//		{
-//			DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:_backgroundContext];
-//			threadSample.threadName = [NSString stringWithFormat:@"Thread %u", i];
-//			threadSample.cpuUsage = 1.0 / 12;
-//			threadSample.memoryUsage = 220 / 12;
-//			
-//			threadSample.advancedPerformanceSample = perfSample;
-//		}
+		//		for(uint8_t i = 0; i < 15; i++)
+		//		{
+		//			DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:_backgroundContext];
+		//			threadSample.threadName = [NSString stringWithFormat:@"Thread %u", i];
+		//			threadSample.cpuUsage = 1.0 / 12;
+		//			threadSample.memoryUsage = 220 / 12;
+		//
+		//			threadSample.advancedPerformanceSample = perfSample;
+		//		}
 		
 		perfSample.parentGroup = _currentSampleGroup;
 		

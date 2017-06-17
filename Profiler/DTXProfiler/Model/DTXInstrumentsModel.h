@@ -11,6 +11,8 @@
 #import "DTXRecording+Additions.h"
 #import "DTXPerformanceSample+CoreDataClass.h"
 #import "DTXNetworkSample+CoreDataClass.h"
+#import "DTXNetworkData+CoreDataClass.h"
+#import "DTXLogSample+CoreDataClass.h"
 
 typedef NS_ENUM(NSUInteger, DTXSampleType) {
 	DTXSampleTypeUnknown				= 0,
@@ -20,6 +22,8 @@ typedef NS_ENUM(NSUInteger, DTXSampleType) {
 	DTXSampleTypeThreadPerformance		= 12,
 	
 	DTXSampleTypeNetwork				= 50,
+	
+	DTXSampleTypeLog					= 100,
 	
 	DTXSampleTypeTag					= 200,
 	

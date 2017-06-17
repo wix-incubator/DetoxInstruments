@@ -13,6 +13,7 @@
 #import "DTXSampleGroup+UIExtensions.h"
 #import "DTXSampleGroupProxy.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "DTXPlotController.h"
 
 const CGFloat DTXAutomaticColumnWidth = -1.0;
 
@@ -41,16 +42,32 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	NSArray<DTXColumnInformation*>* _columns;
 }
 
-- (instancetype)initWithDocument:(DTXDocument*)document
++ (Class)inspectorDataProviderClass
+{
+	return nil;
+}
+
+- (instancetype)initWithDocument:(DTXDocument*)document plotController:(id<DTXPlotController>)plotController
 {
 	self = [super init];
 	
 	if(self)
 	{
 		_document = document;
+		_plotController = plotController;
 	}
 	
 	return self;
+}
+
+- (NSString *)displayName
+{
+	return self.plotController.displayName;
+}
+
+- (NSImage *)displayIcon
+{
+	return self.plotController.displayIcon;
 }
 
 - (NSArray*)_prepareSamplesForGroup:(DTXSampleGroup*)group
@@ -101,9 +118,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	_managedOutlineView = outlineView;
 	
-	_managedOutlineView.delegate = self;
-	_managedOutlineView.dataSource = self;
-	
 	_columns = self.columns;
 	
 	[_columns enumerateObjectsUsingBlock:^(DTXColumnInformation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -139,11 +153,14 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	_managedOutlineView.intercellSpacing = NSMakeSize(15, 1);
 	
+	_managedOutlineView.headerView = self.showsHeaderView ? [NSTableHeaderView new] : nil;
+	
+	_managedOutlineView.delegate = self;
+	_managedOutlineView.dataSource = self;
 	[_managedOutlineView reloadData];
 	[_managedOutlineView expandItem:nil expandChildren:YES];
 	
 	[_managedOutlineView scrollRowToVisible:0];
-	
 	
 	CGRect frame = _managedOutlineView.window.frame;
 	frame.size.width += 1;
@@ -155,6 +172,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 //{
 //	
 //}
+
+- (BOOL)showsHeaderView
+{
+	return YES;
+}
 
 - (DTXSampleType)sampleType
 {
@@ -174,11 +196,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item
 {
 	DTXSampleGroupProxy* currentGroup = _rootGroupProxy;
-	if([item isKindOfClass:[DTXSampleGroup class]])
+	if([item isKindOfClass:[DTXSampleGroupProxy class]])
 	{
 		currentGroup = item;
 	}
-	
+
 	return currentGroup.samples.count;
 }
 
@@ -260,6 +282,16 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	return row;
 }
 
+NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
+{
+	if(sample.parentGroup == nil || sample.parentGroup == rootSampleGroup)
+	{
+		return 0;
+	}
+	
+	return MIN(1 + DTXDepthOfSample(sample.parentGroup, rootSampleGroup), 20);
+}
+
 - (void)outlineView:(NSOutlineView *)outlineView didAddRowView:(DTXTableRowView *)rowView forRow:(NSInteger)row
 {
 	if([rowView.item isKindOfClass:[DTXSampleGroupProxy class]])
@@ -269,11 +301,36 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	}
 	
 	rowView.backgroundColor = [self backgroundRowColorForItem:rowView.item];
+	
+	BOOL hasParentGroup = [rowView.item respondsToSelector:@selector(parentGroup)];
+	if([rowView.backgroundColor isEqualTo:NSColor.whiteColor] && hasParentGroup && [rowView.item parentGroup] != _document.recording.rootSampleGroup)
+	{
+		CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(rowView.item, _document.recording.rootSampleGroup) / 30.0), 0.5);
+		
+		rowView.backgroundColor = [NSColor.whiteColor blendedColorWithFraction:fraction ofColor:NSColor.blackColor];
+	}
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
 {
 	return [item isKindOfClass:[DTXSampleGroupProxy class]];
+}
+
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
+	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
+	
+	DTXInspectorDataProvider* idp = nil;
+	if([item isKindOfClass:[DTXSampleGroupProxy class]])
+	{
+		idp = [[DTXGroupInspectorDataProvider alloc] initWithSample:item document:_document];
+	}
+	else
+	{
+		idp = [[[self.class inspectorDataProviderClass] alloc] initWithSample:item document:_document];
+	}
+	
+	[self.delegate dataProvider:self didSelectInspectorItem:idp];
 }
 
 @end

@@ -16,7 +16,7 @@
 static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
 static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollapsed";
 
-@interface DTXInstrumentsWindowController () <DTXMainContentControllerDelegate>
+@interface DTXInstrumentsWindowController () <DTXMainContentControllerDelegate, DTXBottomContentControllerDelegate>
 {
 	__weak IBOutlet NSSegmentedControl *_layoutSegmentControl;
 	DTXMainBottomPaneSplitViewController* _bottomSplitViewController;
@@ -55,6 +55,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	[_rightSplitViewController.splitViewItems.lastObject addObserver:self forKeyPath:@"collapsed" options:NSKeyValueObservingOptionNew context:NULL];
 	
 	_mainContentController.delegate = self;
+	_bottomContentController.delegate = self;
 	
 	[self _fixUpSegments];
 	[self _fixUpSplitViewsAnimated:NO];
@@ -125,6 +126,11 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 - (void)contentController:(DTXMainContentController*)cc updateUIWithUIProvider:(DTXUIDataProvider*)dataProvider;
 {
 	_bottomContentController.managingDataProvider = dataProvider;
+}
+
+- (void)bottomController:(DTXBottomContentController*)bc updateWithInspectorProvider:(DTXInspectorDataProvider*)inspectorProvider
+{
+	_inspectorContentController.moreInfoDataProvider = inspectorProvider;
 }
 
 @end

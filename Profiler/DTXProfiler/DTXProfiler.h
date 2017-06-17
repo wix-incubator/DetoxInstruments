@@ -28,5 +28,6 @@
 - (void)popSampleGroup;
 
 - (void)addTag:(NSString*)tag;
+- (void)addLogLine:(NSString*)line;
 
 @end

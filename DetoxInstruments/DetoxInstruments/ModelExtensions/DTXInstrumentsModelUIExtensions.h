@@ -11,3 +11,4 @@
 #import "DTXSampleGroup+UIExtensions.h"
 #import "DTXPerformanceSample+UIExtensions.h"
 #import "DTXNetworkSample+UIExtensions.h"
+#import "DTXNetworkData+CoreDataProperties.h"

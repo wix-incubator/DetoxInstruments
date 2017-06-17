@@ -82,7 +82,7 @@
 	NSTimeInterval ti = [obj doubleValue];
 	
 	NSString* minutes = [_minuteFormatter stringFromTimeInterval:ti];
-	NSUInteger actualPaddingNeeded = self.maxMinutesZeroPadding - minutes.length;
+	NSInteger actualPaddingNeeded = self.maxMinutesZeroPadding - (NSInteger)minutes.length;
 	
 	NSString* formattedString = [NSString stringWithFormat:@"%@%@", [_secondsFormatter stringFromTimeInterval:ti], [_numberFormatter stringFromNumber:@(ti - (long)ti)]];
 	

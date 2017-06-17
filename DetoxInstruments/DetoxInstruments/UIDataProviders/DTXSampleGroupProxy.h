@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DTXInstrumentsModel.h"
+#import "DTXInspectorDataProvider.h"
 
 @interface DTXSampleGroupProxy : NSObject
 
@@ -17,3 +18,5 @@
 @property (nonatomic, strong) NSString* name;
 
 @end
+
+@interface DTXGroupInspectorDataProvider : DTXInspectorDataProvider @end

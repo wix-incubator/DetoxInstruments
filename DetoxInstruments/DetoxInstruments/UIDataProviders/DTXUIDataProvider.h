@@ -15,6 +15,9 @@
 #import "DTXInstrumentsModel.h"
 #import "DTXDocument.h"
 #import "DTXUISampleTypes.h"
+#import "DTXInspectorDataProvider.h"
+
+@protocol DTXPlotController;
 
 @interface DTXColumnInformation : NSObject
 
@@ -26,18 +29,34 @@
 
 @end
 
+@class DTXUIDataProvider;
+
+@protocol DTXUIDataProviderDelegate
+
+- (void)dataProvider:(DTXUIDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item;
+
+@end
+
 @interface DTXUIDataProvider : NSObject
 
-@property (nonatomic, strong, readonly) DTXDocument* document;
++ (Class)inspectorDataProviderClass;
 
-@property (nonatomic, weak) NSOutlineView* managedOutlineView;
-
-- (instancetype)initWithDocument:(DTXDocument*)document;
+- (instancetype)initWithDocument:(DTXDocument*)document plotController:(id<DTXPlotController>)plotController;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
+@property (nonatomic, weak) id<DTXUIDataProviderDelegate> delegate;
+
+@property (nonatomic, strong, readonly) DTXDocument* document;
+@property (nonatomic, weak, readonly) id<DTXPlotController> plotController;
+@property (nonatomic, weak) NSOutlineView* managedOutlineView;
+
+@property (nonatomic, strong, readonly) NSString* displayName;
+@property (nonatomic, strong, readonly) NSImage* displayIcon;
+
 - (DTXSampleType)sampleType;
 
+- (BOOL)showsHeaderView;
 - (NSArray<DTXColumnInformation*>*)columns;
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 - (NSColor*)textColorForItem:(id)item;
