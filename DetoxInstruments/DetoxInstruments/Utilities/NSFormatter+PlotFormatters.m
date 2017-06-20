@@ -150,6 +150,7 @@
 	dispatch_once(&onceToken, ^{
 		numberFormatter = [NSNumberFormatter new];
 		numberFormatter.numberStyle = NSNumberFormatterPercentStyle;
+		numberFormatter.maximumFractionDigits = 3;
 	});
 	
 	return numberFormatter;

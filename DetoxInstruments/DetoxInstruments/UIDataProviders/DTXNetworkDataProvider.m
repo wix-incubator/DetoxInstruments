@@ -38,9 +38,9 @@
 	return @[duration, size, responseCode, url];
 }
 
-- (DTXSampleType)sampleType
+- (NSArray<NSNumber *> *)sampleTypes
 {
-	return DTXSampleTypeNetwork;
+	return @[@(DTXSampleTypeNetwork)];
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;

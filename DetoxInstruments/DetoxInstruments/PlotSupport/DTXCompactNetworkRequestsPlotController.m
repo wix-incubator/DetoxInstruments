@@ -16,7 +16,7 @@
 
 @interface DTXCompactNetworkRequestsPlotController ()
 {
-	NSMutableArray<NSMutableArray<NSDictionary<NSString*, id>*>*>* _mergedSamples;
+	NSMutableArray<NSMutableArray<DTXNetworkSample*>*>* _mergedSamples;
 }
 @end
 
@@ -32,7 +32,7 @@
 	return [DTXNetworkDataProvider class];
 }
 
-- (NSArray<NSArray<NSDictionary<NSString*, id>*>*>*)samplesForPlots
+- (NSArray<NSArray*>*)samplesForPlots
 {
 	NSMutableArray* rv = [NSMutableArray new];
 	NSMutableArray* resultIndexPaths = [NSMutableArray new];
@@ -45,11 +45,8 @@
 	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-		fr.resultType = NSDictionaryResultType;
 		
-		fr.propertiesToFetch = @[@"timestamp", @"responseTimestamp"];
-		
-		NSArray<NSDictionary<NSString*, id>*>* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
+		NSArray<DTXNetworkSample*>* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
 		
 		if(results == nil)
 		{
@@ -57,14 +54,13 @@
 			return;
 		}
 		
-		[results enumerateObjectsUsingBlock:^(NSDictionary<NSString *,id> * _Nonnull currentSample, NSUInteger idx, BOOL * _Nonnull stop) {
-			
-			NSDate* timestamp = currentSample[@"timestamp"];
+		[results enumerateObjectsUsingBlock:^(DTXNetworkSample * _Nonnull currentSample, NSUInteger idx, BOOL * _Nonnull stop) {
+			NSDate* timestamp = currentSample.timestamp;
 			
 			__block NSMutableArray* _insertionGroup = nil;
 			
-			[_mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<NSDictionary<NSString *,id> *> * _Nonnull possibleSampleGroup, NSUInteger idx, BOOL * _Nonnull stop) {
-				NSDate* lastResponseTimestamp = possibleSampleGroup.lastObject[@"responseTimestamp"];
+			[_mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<DTXNetworkSample *> * _Nonnull possibleSampleGroup, NSUInteger idx, BOOL * _Nonnull stop) {
+				NSDate* lastResponseTimestamp = possibleSampleGroup.lastObject.responseTimestamp;
 				if(lastResponseTimestamp == nil)
 				{
 					lastResponseTimestamp = [NSDate distantFuture];
@@ -180,10 +176,10 @@
 {
 	NSIndexPath* indexPath = self.samples.firstObject[index][@"ip"];
 	
-	NSDictionary<NSString*, id>* sample = _mergedSamples[indexPath.section][indexPath.item];
+	DTXNetworkSample* sample = _mergedSamples[indexPath.section][indexPath.item];
 	
-	NSTimeInterval timestampt = [sample[@"timestamp"] timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
-	NSTimeInterval responseTimestampt = [sample[@"responseTimestamp"] ?: [NSDate distantFuture] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval timestampt = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval responseTimestampt = [sample.responseTimestamp ?: [NSDate distantFuture] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
 	NSTimeInterval range = responseTimestampt - timestampt;
 	NSTimeInterval avg = (timestampt + responseTimestampt) / 2;
 	

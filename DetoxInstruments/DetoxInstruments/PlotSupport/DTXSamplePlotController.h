@@ -13,12 +13,12 @@
 
 @interface DTXSamplePlotController : NSObject <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
 
-@property (nonatomic, strong, readonly) NSArray<NSArray<NSDictionary<NSString*, id>*>*>* samples;
+@property (nonatomic, strong, readonly) NSArray<NSArray*>* samples;
 
 + (Class)graphHostingViewClass;
 + (Class)UIDataProviderClass;
 
-- (NSArray<NSArray<NSDictionary<NSString*, id>*>*>*)samplesForPlots;
+- (NSArray<NSArray*>*)samplesForPlots;
 - (NSArray<CPTPlot*>*)plots;
 - (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph;
 - (NSArray<NSString*>*)sampleKeys;

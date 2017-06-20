@@ -86,12 +86,18 @@
     <entity name="Tag" representedClassName="DTXTag" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="name" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="ThreadInfo" representedClassName="DTXThreadInfo" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="number" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="threadPerformanceSamples" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ThreadPerformanceSample" inverseName="threadInfo" inverseEntity="ThreadPerformanceSample" syncable="YES"/>
+    </entity>
     <entity name="ThreadPerformanceSample" representedClassName="DTXThreadPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
-        <attribute name="threadName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="advancedPerformanceSample" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AdvancedPerformanceSample" inverseName="threadSamples" inverseEntity="AdvancedPerformanceSample" syncable="YES"/>
+        <relationship name="threadInfo" maxCount="1" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="threadPerformanceSamples" inverseEntity="ThreadInfo" syncable="YES"/>
     </entity>
     <elements>
         <element name="AdvancedPerformanceSample" positionX="-9" positionY="126" width="128" height="60"/>
+        <element name="LogSample" positionX="-27" positionY="135" width="128" height="60"/>
         <element name="NetworkData" positionX="-18" positionY="126" width="128" height="90"/>
         <element name="NetworkSample" positionX="9" positionY="153" width="128" height="285"/>
         <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="150"/>
@@ -100,6 +106,6 @@
         <element name="SampleGroup" positionX="-45" positionY="0" width="128" height="90"/>
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
         <element name="ThreadPerformanceSample" positionX="-27" positionY="108" width="128" height="75"/>
-        <element name="LogSample" positionX="-27" positionY="135" width="128" height="60"/>
+        <element name="ThreadInfo" positionX="-27" positionY="135" width="128" height="90"/>
     </elements>
 </model>

@@ -13,6 +13,7 @@
 {
 	BOOL _ignoringPlotRangeNotifications;
 	DTXTimelineIndicatorView* _timelineView;
+	CPTPlotRange* _savedPlotRange;
 }
 
 @end
@@ -69,6 +70,33 @@
 {
 	[_managedPlotControllers addObject:plotController];
 	plotController.delegate = self;
+	if(_savedPlotRange)
+	{
+		[plotController setPlotRange:_savedPlotRange];
+	}
+}
+
+- (void)removePlotController:(id<DTXPlotController>)plotController
+{
+	plotController.delegate = nil;
+	[_managedPlotControllers removeObject:plotController];
+}
+
+- (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController
+{
+	NSUInteger idx = [_managedPlotControllers indexOfObject:afterPlotController];
+	
+	if(idx == NSNotFound)
+	{
+		return;
+	}
+	
+	[_managedPlotControllers insertObject:plotController atIndex:idx + 1];
+	plotController.delegate = self;
+	if(_savedPlotRange)
+	{
+		[plotController setPlotRange:_savedPlotRange];
+	}
 }
 
 - (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange
@@ -79,6 +107,7 @@
 	}
 	
 	_ignoringPlotRangeNotifications = YES;
+	_savedPlotRange = plotRange;
 	
 	if(pc != _headerPlotController)
 	{
@@ -97,6 +126,11 @@
 	_ignoringPlotRangeNotifications = NO;
 }
 
+- (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc
+{
+	[self.delegate managedPlotControllerGroup:self requestPlotControllerSelection:pc];
+}
+
 - (void)mouseEntered:(NSEvent *)event
 {
 	[self mouseMoved:event];
@@ -111,14 +145,8 @@
 {
 	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
 	
-	_timelineView.displaysIndicator = pointInView.x > 179;
+	_timelineView.displaysIndicator = pointInView.x >= 210;
 	_timelineView.indicatorOffset = pointInView.x;
 }
-
-- (void)hostingViewDidLayout
-{
-//	[_hostingView.superview.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingView.superview];
-}
-
 
 @end

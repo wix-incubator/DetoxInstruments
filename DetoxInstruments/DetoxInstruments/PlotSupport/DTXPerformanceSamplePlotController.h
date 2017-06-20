@@ -10,4 +10,7 @@
 
 @interface DTXPerformanceSamplePlotController : DTXSamplePlotController
 
+- (Class)classForPerformanceSamples;
+- (NSPredicate*)predicateForPerformanceSamples;
+
 @end

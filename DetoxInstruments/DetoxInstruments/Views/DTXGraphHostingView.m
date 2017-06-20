@@ -17,9 +17,24 @@
 	{
 		self.wantsLayer = YES;
 		self.openHandCursor = [NSCursor arrowCursor];
-//		self.closedHandCursor = [NSCursor arrowCursor];
+		self.closedHandCursor = [NSCursor arrowCursor];
 	}
 	return self;
+}
+
+-(void)viewDidChangeBackingProperties
+{
+	CGFloat scale = self.window ? self.window.backingScaleFactor : 1.0;
+	
+	self.layer.contentsScale = scale;
+}
+
+- (void)viewWillStartLiveResize
+{
+}
+
+- (void)viewDidEndLiveResize
+{
 }
 
 -(void)scrollWheel:(nonnull NSEvent *)theEvent

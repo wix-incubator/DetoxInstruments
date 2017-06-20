@@ -57,15 +57,12 @@
 	
 	NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-	fr.resultType = NSDictionaryResultType;
 	
-	fr.propertiesToFetch = @[@"timestamp", @"responseTimestamp"];
+	NSArray<DTXNetworkSample*>* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
 	
-	NSArray<NSDictionary<NSString*, id>*>* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
-	
-	[results enumerateObjectsUsingBlock:^(NSDictionary<NSString *,id> * _Nonnull currentSample, NSUInteger idx, BOOL * _Nonnull stop) {
+	[results enumerateObjectsUsingBlock:^(DTXNetworkSample * _Nonnull currentSample, NSUInteger idx, BOOL * _Nonnull stop) {
 		
-		NSDate* timestamp = currentSample[@"timestamp"];
+		NSDate* timestamp = currentSample.timestamp;
 		
 		__block _DTXNetworkSampleAggregate* _targetAggregate = nil;
 		
@@ -86,8 +83,8 @@
 		if(_targetAggregate == nil)
 		{
 			_targetAggregate = [_DTXNetworkSampleAggregate new];
-			_targetAggregate.timestamp = currentSample[@"timestamp"];
-			_targetAggregate.responseTimestamp = currentSample[@"responseTimestamp"];
+			_targetAggregate.timestamp = currentSample.timestamp;
+			_targetAggregate.responseTimestamp = currentSample.responseTimestamp;
 			_targetAggregate.lineWidth = 1;
 			_targetAggregate.plotHeight = _aggregates.count == 0 ? 0.0 : _aggregates.lastObject.plotHeight + 1;
 			
@@ -99,9 +96,9 @@
 			
 			_maxWidth = MAX(_maxWidth, _targetAggregate.lineWidth);
 			
-			if([_targetAggregate.responseTimestamp compare:currentSample[@"responseTimestamp"]] == NSOrderedAscending)
+			if([_targetAggregate.responseTimestamp compare:currentSample.responseTimestamp] == NSOrderedAscending)
 			{
-				_targetAggregate.responseTimestamp = currentSample[@"responseTimestamp"];
+				_targetAggregate.responseTimestamp = currentSample.responseTimestamp;
 			}
 		}
 		

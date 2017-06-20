@@ -31,9 +31,9 @@
 	return @[reads, writes, readsDelta, writesDelta];
 }
 
-- (DTXSampleType)sampleType
+- (NSArray<NSNumber *> *)sampleTypes
 {
-	return DTXSampleTypePerformance;
+	return @[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)];
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;

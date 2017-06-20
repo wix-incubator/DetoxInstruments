@@ -58,7 +58,7 @@
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	DTXTextViewCellView* cell = [tableView makeViewWithIdentifier:@"DTXLogEntryCell" owner:nil];
-	cell.textView.string = [_logEntries[row][@"line"] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+	cell.contentTextField.stringValue = [_logEntries[row][@"line"] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	
 	return cell;
 }

@@ -11,7 +11,7 @@
 
 @implementation DTXPerformanceSamplePlotController
 
-- (NSArray<NSArray<NSDictionary<NSString*, id>*>*>*)samplesForPlots
+- (NSArray<NSArray *> *)samplesForPlots
 {
 	NSMutableArray* rv = [NSMutableArray new];
 	
@@ -21,18 +21,9 @@
 	}
 	
 	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
+		NSFetchRequest* fr = [self.classForPerformanceSamples fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-		fr.resultType = NSDictionaryResultType;
-		 
-		fr.propertiesToGroupBy = @[DTXPerformanceSample.entity.attributesByName[@"timestamp"]];
-		
-		NSExpressionDescription* sum = [NSExpressionDescription new];
-		sum.name = [NSString stringWithFormat:@"%@", sampleKey];
-		sum.expression = [NSExpression expressionForKeyPath:[NSString stringWithFormat:@"@sum.%@", sampleKey]];
-		sum.expressionResultType = NSDecimalAttributeType;
-		
-		fr.propertiesToFetch = @[@"timestamp", sum];
+		fr.predicate = self.predicateForPerformanceSamples;
 		
 		NSError* error = nil;
 		NSArray* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:&error];
@@ -52,6 +43,16 @@
 	}
 	
 	return rv;
+}
+
+- (NSPredicate*)predicateForPerformanceSamples
+{
+	return [NSPredicate predicateWithFormat:@"NOT(sampleType IN %@)", @[@(DTXSampleTypeThreadPerformance)]];
+}
+
+- (Class)classForPerformanceSamples
+{
+	return [DTXPerformanceSample class];
 }
 
 @end

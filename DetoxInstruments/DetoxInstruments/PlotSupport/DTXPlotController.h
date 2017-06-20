@@ -15,6 +15,7 @@
 @protocol DTXPlotControllerDelegate <NSObject>
 
 - (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange;
+- (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc;
 
 @end
 
@@ -25,6 +26,7 @@
 
 @property (nonatomic, strong, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
+@property (nonatomic, strong, readonly) NSFont* titleFont;
 
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;
 
@@ -36,6 +38,14 @@
 
 - (void)setUpWithView:(NSView*)view;
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
+
 - (void)setPlotRange:(CPTPlotRange *)plotRange;
+
+@optional
+
+- (void)highlightSample:(id)sample;
+- (void)removeHighlight;
+
+@property (nonatomic, assign, readonly) BOOL canReceiveFocus;
 
 @end

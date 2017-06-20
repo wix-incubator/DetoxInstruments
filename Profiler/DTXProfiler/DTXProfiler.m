@@ -13,9 +13,11 @@
 #import "DBBuildInfoProvider.h"
 #import "DBURLProtocol.h"
 #import "DTXZipper.h"
+#import "NSManagedObjectContext+PerformQOSBlock.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
+#define DTX_IGNORE_NOT_RECORDING if(self.recording == NO) { return; }
 
 static dispatch_queue_t __log_queue;
 static dispatch_io_t __log_io;
@@ -56,6 +58,9 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	DTXSampleGroup* _currentSampleGroup;
 	
 	NSMutableArray<DTXSample*>* _pendingSamples;
+	
+	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
+	NSUInteger _threadCount;
 }
 
 + (void)load
@@ -79,10 +84,10 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	dup2(__pipe[1], STDERR_FILENO);
 	close(__pipe[1]);
 	
-	__log_queue = dispatch_queue_create("DTXProfilerLogIOQueue", DISPATCH_QUEUE_SERIAL);
+	__log_queue = dispatch_queue_create("DTXProfilerLogIOQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0));
 	__log_io = dispatch_io_create(DISPATCH_IO_STREAM, __pipe[0], __log_queue, ^(__unused int error) {});
 	
-	dispatch_io_set_low_water(__log_io, 20);
+	dispatch_io_set_low_water(__log_io, 1);
 	
 	dispatch_io_read(__log_io, 0, SIZE_MAX, __log_queue, ^(__unused bool done, dispatch_data_t data, __unused int error) {
 		if (!data)
@@ -145,6 +150,9 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
 	_container.persistentStoreDescriptions = @[description];
 	
+	_threads = [NSMutableDictionary new];
+	_threadCount = 0;
+	
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
 		_backgroundContext = _container.newBackgroundContext;
 		
@@ -160,7 +168,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 			_currentRecording.deviceOS = processInfo.operatingSystemVersionString;
 			_currentRecording.deviceOSType = 0; //iOS
 			_currentRecording.devicePhysicalMemory = processInfo.physicalMemory;
-			_currentRecording.deviceProcessorCount = processInfo.processorCount;
+			_currentRecording.deviceProcessorCount = processInfo.activeProcessorCount;
 			_currentRecording.deviceType = currentDevice.model;
 			_currentRecording.processIdentifier = processInfo.processIdentifier;
 			
@@ -178,7 +186,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 			dispatch_sync(__log_queue, ^{
 				[__runningProfilers addObject:self];
 			});
-		}];
+		} qos:QOS_CLASS_USER_INTERACTIVE];
 	}];
 }
 
@@ -202,6 +210,8 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 		});
 		
 		self.recording = NO;
+		
+		NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	}];
 }
 
@@ -210,14 +220,14 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	DTX_ASSERT_RECORDING
 	
 	[_backgroundContext performBlock:^{
-		DTX_ASSERT_RECORDING;
+		DTX_IGNORE_NOT_RECORDING
 		
 		dprintf(__stderr, "Pushing group named %s to parent %s\n", name.UTF8String, _currentSampleGroup.name.UTF8String);
 		DTXSampleGroup* newGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
 		newGroup.name = name;
 		newGroup.parentGroup = _currentSampleGroup;
 		_currentSampleGroup = newGroup;
-	}];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 - (void)popSampleGroup
@@ -225,12 +235,12 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	DTX_ASSERT_RECORDING
 	
 	[_backgroundContext performBlock:^{
-		DTX_ASSERT_RECORDING
+		DTX_IGNORE_NOT_RECORDING
 		
 		dprintf(__stderr, "Popping group named %s from parent %s\n", _currentSampleGroup.name.UTF8String, _currentSampleGroup.parentGroup.name.UTF8String);
 		_currentSampleGroup.closeTimestamp = [NSDate date];
 		_currentSampleGroup = _currentSampleGroup.parentGroup;
-	}];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 - (void)addTag:(NSString*)_tag
@@ -238,13 +248,13 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	DTX_ASSERT_RECORDING
 	
 	[_backgroundContext performBlock:^{
-		DTX_ASSERT_RECORDING
+		DTX_IGNORE_NOT_RECORDING
 		
 		DTXTag* tag = [[DTXTag alloc] initWithContext:_backgroundContext];
 		tag.parentGroup = _currentSampleGroup;
 		tag.name = _tag;
 		[self _addPendingSampleInternal:tag];
-	}];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 - (void)addLogLine:(NSString *)line
@@ -252,13 +262,13 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	DTX_ASSERT_RECORDING
 	
 	[_backgroundContext performBlock:^{
-		DTX_ASSERT_RECORDING
+		DTX_IGNORE_NOT_RECORDING
 		
 		DTXLogSample* log = [[DTXLogSample alloc] initWithContext:_backgroundContext];
 		log.parentGroup = _currentSampleGroup;
 		log.line = line;
 		[self _addPendingSampleInternal:log];
-	}];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 - (void)_flushPendingSamplesInternal
@@ -284,7 +294,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 		{
 			completionHandler();
 		}
-	}];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 - (void)_closeContainerInternal
@@ -338,12 +348,9 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 
 - (void)performanceToolkitDidUpdateStats:(DBPerformanceToolkit *)performanceToolkit
 {
-	if(self.recording == NO)
-	{
-		return;
-	}
+	DTX_IGNORE_NOT_RECORDING
 	
-	CGFloat cpu = performanceToolkit.currentCPU;
+	DTXCPUMeasurement* cpu = performanceToolkit.currentCPU;
 	CGFloat memory = performanceToolkit.currentMemory;
 	CGFloat fps = performanceToolkit.currentFPS;
 	uint64_t diskReads = performanceToolkit.currentDiskReads;
@@ -352,14 +359,11 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	uint64_t diskWritesDelta = performanceToolkit.currentDiskWritesDelta;
 	
 	[_backgroundContext performBlock:^{
-		if(self.recording == NO)
-		{
-			return;
-		}
+		DTX_IGNORE_NOT_RECORDING
 		
-		//		DTXAdvancedPerformanceSample* perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:_backgroundContext];
-		DTXPerformanceSample* perfSample = [[DTXPerformanceSample alloc] initWithContext:_backgroundContext];
-		perfSample.cpuUsage = cpu;
+		DTXAdvancedPerformanceSample* perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:_backgroundContext];
+//		DTXPerformanceSample* perfSample = [[DTXPerformanceSample alloc] initWithContext:_backgroundContext];
+		perfSample.cpuUsage = cpu.totalCPU;
 		perfSample.memoryUsage = memory;
 		perfSample.fps = fps;
 		perfSample.diskReads = diskReads;
@@ -367,20 +371,28 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 		perfSample.diskWrites = diskWrites;
 		perfSample.diskWritesDelta = diskWritesDelta;
 		
-		//		for(uint8_t i = 0; i < 15; i++)
-		//		{
-		//			DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:_backgroundContext];
-		//			threadSample.threadName = [NSString stringWithFormat:@"Thread %u", i];
-		//			threadSample.cpuUsage = 1.0 / 12;
-		//			threadSample.memoryUsage = 220 / 12;
-		//
-		//			threadSample.advancedPerformanceSample = perfSample;
-		//		}
+		[cpu.threads enumerateObjectsUsingBlock:^(DTXThreadMeasurement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			DTXThreadInfo* threadInfo = _threads[@(obj.identifier)];
+			if(threadInfo == nil)
+			{
+				NSLog(@"Thread cache-miss");
+				threadInfo = [[DTXThreadInfo alloc] initWithContext:_backgroundContext];
+				threadInfo.number = _threadCount;
+				_threadCount++;
+				_threads[@(obj.identifier)] = threadInfo;
+			}
+			threadInfo.name = obj.name;
+			
+			DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:_backgroundContext];
+			threadSample.cpuUsage = obj.cpu;
+			threadSample.threadInfo = threadInfo;
+			threadSample.advancedPerformanceSample = perfSample;
+		}];
 		
 		perfSample.parentGroup = _currentSampleGroup;
 		
 		[self _addPendingSampleInternal:perfSample];
-	}];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 - (void)_addPendingSampleInternal:(DTXSample*)pendingSample
@@ -397,16 +409,10 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 
 - (void)urlProtocol:(DBURLProtocol*)protocol didStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier
 {
-	if(self.recording == NO)
-	{
-		return;
-	}
+	DTX_IGNORE_NOT_RECORDING
 	
 	[_backgroundContext performBlock:^{
-		if(self.recording == NO)
-		{
-			return;
-		}
+		DTX_IGNORE_NOT_RECORDING
 		
 		DTXNetworkSample* networkSample = [[DTXNetworkSample alloc] initWithContext:_backgroundContext];
 		networkSample.uniqueIdentifier = uniqueIdentifier;
@@ -421,7 +427,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 		networkSample.requestDataLength = request.HTTPBody.length + request.allHTTPHeaderFields.description.length;
 		
 		networkSample.parentGroup = _currentSampleGroup;
-	}];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 - (void)urlProtocol:(DBURLProtocol*)protocol didFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier
@@ -456,7 +462,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 		networkSample.totalDataLength = networkSample.requestDataLength + networkSample.responseDataLength;
 		
 		[self _addPendingSampleInternal:networkSample];
-	}];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 @end

@@ -72,7 +72,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSArray*)_prepareSamplesForGroup:(DTXSampleGroup*)group
 {
-	NSArray<DTXSample*>* samples = [group samplesWithTypes:@[@(self.sampleType)] includingGroups:YES];
+	NSArray<DTXSample*>* samples = [group samplesWithTypes:self.sampleTypes includingGroups:YES];
 	
 	NSMutableArray* rv = [NSMutableArray new];
 	
@@ -168,19 +168,14 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	[_managedOutlineView.window setFrame:frame display:NO];
 }
 
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
-//{
-//	
-//}
-
 - (BOOL)showsHeaderView
 {
 	return YES;
 }
 
-- (DTXSampleType)sampleType
+- (NSArray<NSNumber* /*DTXSampleType*/>* )sampleTypes
 {
-	return DTXSampleTypeUnknown;
+	return @[@(DTXSampleTypeUnknown)];
 }
 
 - (NSUInteger)outlineColumnIndex;
@@ -240,7 +235,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 {
 	return [item isKindOfClass:[DTXSampleGroupProxy class]];
 }
-
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
@@ -316,6 +310,14 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	return [item isKindOfClass:[DTXSampleGroupProxy class]];
 }
 
+- (void)selectSample:(DTXSample*)sample
+{
+	NSInteger idx = [_managedOutlineView rowForItem:sample];
+	[_managedOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
+	[_managedOutlineView scrollRowToVisible:idx];
+	[_managedOutlineView.window makeFirstResponder:_managedOutlineView];
+}
+
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
 	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
@@ -331,6 +333,7 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	}
 	
 	[self.delegate dataProvider:self didSelectInspectorItem:idp];
+	[_plotController highlightSample:item];
 }
 
 @end

@@ -9,9 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "DTXPlotController.h"
 
+@class DTXManagedPlotControllerGroup;
+
+@protocol DTXManagedPlotControllerGroupDelegate <NSObject>
+
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group requestPlotControllerSelection:(id<DTXPlotController>)plotController;
+
+@end
+
 @interface DTXManagedPlotControllerGroup : NSObject
 
 - (instancetype)initWithHostingView:(NSView*)view NS_DESIGNATED_INITIALIZER;
+
+@property (nonatomic, weak) id<DTXManagedPlotControllerGroupDelegate> delegate;
 
 @property (nonatomic, strong) NSView* hostingView;
 @property (nonatomic, copy, readonly) NSArray<id<DTXPlotController>>* plotControllers;
@@ -19,6 +29,7 @@
 
 - (void)addHeaderPlotController:(id<DTXPlotController>)headerPlotController;
 - (void)addPlotController:(id<DTXPlotController>)plotController;
-- (void)hostingViewDidLayout;
+- (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController;
+- (void)removePlotController:(id<DTXPlotController>)plotController;
 
 @end

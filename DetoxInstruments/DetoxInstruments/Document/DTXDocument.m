@@ -88,7 +88,21 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
 		_recording = [_container.viewContext executeFetchRequest:[DTXRecording fetchRequest] error:NULL].firstObject;
 		[[NSNotificationCenter defaultCenter] postNotificationName:DTXDocumentDidLoadNotification object:self.windowControllers.firstObject];
+		
+		//The recording might not have been properly closed by the profiler for several reasons. If no close date, use the last sample as the close date.
+		if(_recording.endTimestamp == nil)
+		{
+			NSFetchRequest<DTXSample*>* fr = [DTXSample fetchRequest];
+			fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
+			fr.fetchLimit = 1;
+			
+			[_container.viewContext performBlockAndWait:^{
+				_recording.endTimestamp = [fr execute:NULL].firstObject.timestamp;
+			}];
+		}
 	}];
+	
+	
 	
 	return YES;
 }

@@ -160,6 +160,11 @@
 	return nil;
 }
 
+- (NSFont *)titleFont
+{
+	return nil;
+}
+
 - (CGFloat)requiredHeight
 {
 	return 18;

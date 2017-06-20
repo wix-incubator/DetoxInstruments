@@ -67,6 +67,10 @@
 	_managedTableView.wantsLayer = YES;
 	_managedTableView.layer = [_managedTableView makeBackingLayer];
 	
+	if (@available(macOS 10.13, *)) {
+		_managedTableView.usesAutomaticRowHeights = YES;
+	}
+	
 	_managedTableView.dataSource = self;
 	_managedTableView.delegate = self;
 	[_managedTableView reloadData];
@@ -132,7 +136,7 @@
 	
 	if(content.image == nil)
 	{
-		[[cell textView].textStorage setAttributedString:_attributedStrings[row]];
+		[cell contentTextField].attributedStringValue = _attributedStrings[row];
 	}
 	
 	cell.textField.stringValue = content.title ?: @"Title";
@@ -150,8 +154,8 @@
 {
 	DTXInspectorContent* content = _contentArray[row];
 	
-	CGFloat top = 3 + 14 + 5;
-	CGFloat bottom = 3;
+	CGFloat top = 3 + 14 + 10;
+	CGFloat bottom = 3 + 10;
 	CGFloat leading = 15;
 	CGFloat trailing = 3;
 	
@@ -168,7 +172,7 @@
 	}
 	else
 	{
-		return top + [self _displayHeightForString:_attributedStrings[row] width:tableView.bounds.size.width - leading - trailing] + bottom + 5;
+		return top + [self _displayHeightForString:_attributedStrings[row] width:tableView.bounds.size.width - leading - trailing] + bottom;
 	}
 }
 

@@ -10,7 +10,7 @@
 
 @interface DTXTextViewCellView ()
 
-@property (nonatomic, strong, readwrite) IBOutlet NSTextView* textView;
+@property (nonatomic, strong, readwrite) IBOutlet NSTextField* contentTextField;
 
 @end
 
@@ -18,16 +18,16 @@
 
 - (NSView *)hitTest:(NSPoint)aPoint
 {
-	return self.textView.selectable ? [super hitTest:aPoint] : nil;
+	return self.contentTextField.selectable ? [super hitTest:aPoint] : nil;
 }
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
 {
 	[super setBackgroundStyle:backgroundStyle];
 	
-	if(self.textView.selectable == NO)
+	if(self.contentTextField.selectable == NO)
 	{
-		self.textView.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor whiteColor] : [NSColor blackColor];
+		self.contentTextField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor whiteColor] : [NSColor blackColor];
 	}
 }
 

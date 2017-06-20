@@ -54,12 +54,14 @@
 @property (nonatomic, strong, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
 
-- (DTXSampleType)sampleType;
+@property (nonatomic, strong, readonly) NSArray<NSNumber* /*DTXSampleType*/>* sampleTypes;
+@property (nonatomic, readonly) BOOL showsHeaderView;
+@property (nonatomic, strong, readonly) NSArray<DTXColumnInformation*>* columns;
 
-- (BOOL)showsHeaderView;
-- (NSArray<DTXColumnInformation*>*)columns;
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 - (NSColor*)textColorForItem:(id)item;
 - (NSColor*)backgroundRowColorForItem:(id)item;
+
+- (void)selectSample:(DTXSample*)sample;
 
 @end

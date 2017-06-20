@@ -7,6 +7,7 @@
 //
 
 #import "DTXPlotTableView.h"
+#import "DTXGraphHostingView.h"
 
 @interface _DTXEventWrapper : NSObject @end
 @implementation _DTXEventWrapper
@@ -61,6 +62,16 @@ IB_DESIGNABLE
 	NSRect myClipRect = NSMakeRect(0, 0, lastRowRect.size.width, NSMaxY(lastRowRect));
 	NSRect finalClipRect = NSIntersectionRect(clipRect, myClipRect);
 	[super drawGridInClipRect:finalClipRect];
+}
+
+-(void)mouseDown:(nonnull NSEvent *)event
+{
+	if([[self hitTest:[self convertPoint:[event locationInWindow] fromView:nil]] isKindOfClass:[DTXGraphHostingView class]])
+	{
+		return;
+	}
+	
+	[super mouseDown:event];
 }
 
 -(void)magnifyWithEvent:(nonnull NSEvent *)event

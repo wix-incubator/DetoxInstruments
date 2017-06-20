@@ -7,26 +7,69 @@
 //
 
 #import "DTXCPUDataProvider.h"
+#import "DTXCPUInspectorDataProvider.h"
 
 @implementation DTXCPUDataProvider
 
++ (Class)inspectorDataProviderClass
+{
+	return [DTXCPUInspectorDataProvider class];
+}
+
 - (NSArray<DTXColumnInformation *> *)columns
 {
+	NSMutableArray<DTXColumnInformation*>* rv = [NSMutableArray new];
+	
 	DTXColumnInformation* info = [DTXColumnInformation new];
 	info.title = NSLocalizedString(@"CPU Usage", @"");
 	info.minWidth = 55;
 	
-	return @[info];
+	[rv addObject:info];
+	
+	if([self.document.recording.managedObjectContext countForFetchRequest:[DTXAdvancedPerformanceSample fetchRequest] error:NULL])
+   {
+	   DTXColumnInformation* heaviestThread = [DTXColumnInformation new];
+	   heaviestThread.title = NSLocalizedString(@"Heaviest Thread", @"");
+	   heaviestThread.minWidth = 55;
+	   heaviestThread.automaticallyGrowsWithTable = YES;
+	   
+	   [rv addObject:heaviestThread];
+   }
+	
+	return rv;
 }
 
-- (DTXSampleType)sampleType
+- (NSArray<NSNumber *> *)sampleTypes
 {
-	return DTXSampleTypePerformance;
+	return @[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)];
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 {
-	return [[NSFormatter dtx_percentFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item cpuUsage])];
+	if(column == 0)
+	{
+		return [[NSFormatter dtx_percentFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item cpuUsage])];
+	}
+	
+	DTXAdvancedPerformanceSample* advPerf = item;
+	
+	__block DTXThreadInfo* heaviestThread = nil;
+	__block double heaviestCPU = -1;
+	
+	[advPerf.threadSamples enumerateObjectsUsingBlock:^(DTXThreadPerformanceSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if(obj.cpuUsage > heaviestCPU)
+		{
+			heaviestThread = obj.threadInfo;
+			heaviestCPU = obj.cpuUsage;
+		}
+	}];
+	
+	if(heaviestThread == nil)
+	{
+		return @"<?>";
+	}
+	
+	return [NSString stringWithFormat:@"%@%@", @(heaviestThread.number), heaviestThread.name.length > 0 ? [NSString stringWithFormat:@" (%@)", heaviestThread.name] : @""];
 }
 
 - (NSColor*)textColorForItem:(id)item
@@ -39,9 +82,31 @@
 	double cpu = [(DTXPerformanceSample*)item cpuUsage];
 	double fps = [(DTXPerformanceSample*)item fps];
 	
-	if(fps <= 30 && cpu >= 0.95)
+	if([item isKindOfClass:[DTXAdvancedPerformanceSample class]] && [item threadSamples].count > 0)
 	{
-		return NSColor.warning3Color;
+		DTXAdvancedPerformanceSample* advanced = item;
+		
+		if(advanced.threadSamples.firstObject.cpuUsage > 0.9)
+		{
+			return NSColor.warning3Color;
+		}
+		else if(advanced.threadSamples.firstObject.cpuUsage > 0.8)
+		{
+			return NSColor.warning2Color;
+		}
+		else if(advanced.threadSamples.firstObject.cpuUsage > 0.7)
+		{
+			return NSColor.warningColor;
+		}
+		
+		cpu = cpu - advanced.threadSamples.firstObject.cpuUsage;
+	}
+	else
+	{
+		if(fps <= 30 && cpu >= 0.95)
+		{
+			return NSColor.warning3Color;
+		}
 	}
 	
 	return cpu >= 2.0 ? NSColor.warning3Color : cpu > 1.5 ? NSColor.warning2Color : cpu > 1.0 ? NSColor.warningColor : NSColor.whiteColor;

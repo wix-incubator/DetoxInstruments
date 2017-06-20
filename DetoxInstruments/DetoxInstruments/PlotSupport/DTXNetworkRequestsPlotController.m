@@ -32,16 +32,13 @@
 	return [DTXNetworkDataProvider class];
 }
 
-- (NSArray<NSArray<NSDictionary<NSString*, id>*>*>*)samplesForPlots
+- (NSArray<NSArray *> *)samplesForPlots
 {
 	NSMutableArray* rv = [NSMutableArray new];
 	
 	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-		fr.resultType = NSDictionaryResultType;
-		
-		fr.propertiesToFetch = @[@"timestamp", @"responseTimestamp"];
 		
 		NSArray* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
 		
@@ -145,8 +142,8 @@
 
 -(id)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
 {
-	NSTimeInterval timestampt = [self.samples.firstObject[index][@"timestamp"] timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
-	NSTimeInterval responseTimestampt = [self.samples.firstObject[index][@"responseTimestamp"] ?: [NSDate distantFuture] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval timestampt = [[(DTXNetworkSample*)self.samples.firstObject[index] timestamp] timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval responseTimestampt = [[(DTXNetworkSample*)self.samples.firstObject[index] responseTimestamp] ?: [NSDate distantFuture] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
 	NSTimeInterval range = responseTimestampt - timestampt;
 	NSTimeInterval avg = (timestampt + responseTimestampt) / 2;
 	

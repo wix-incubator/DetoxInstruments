@@ -82,12 +82,13 @@ IB_DESIGNABLE
 	self.splitViewItems.lastObject.collapseBehavior = NSSplitViewItemCollapseBehaviorUseConstraints;
 }
 
-- (void)viewWillLayout
+- (void)viewWillAppear
 {
-	[super viewWillLayout];
+	[super viewWillAppear];
 	
 	self.splitViewItems.lastObject.minimumThickness = [self lastSplitItemMinThickness];
 	self.splitViewItems.lastObject.maximumThickness = [self lastSplitItemMaxThickness];
+
 }
 
 

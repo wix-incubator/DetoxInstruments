@@ -83,12 +83,13 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Target Name", @"") description:recording.deviceName]];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Target Model", @"") description:recording.deviceType]];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Target OS", @"") description:recording.deviceOS]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Processor Count", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(recording.deviceProcessorCount)]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Physical Memory", @"") description:[NSFormatter.dtx_memoryFormatter stringForObjectValue:@(recording.devicePhysicalMemory)]]];
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
 	
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start Time", @"") description:[NSDateFormatter localizedStringFromDate:recording.startTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]]];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End Time", @"") description:[NSDateFormatter localizedStringFromDate:recording.endTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start Time", @"") description:[NSDateFormatter localizedStringFromDate:recording.startTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End Time", @"") description:[NSDateFormatter localizedStringFromDate:recording.endTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]]];
 	
 	NSDateComponentsFormatter* ivFormatter = [NSDateComponentsFormatter new];
 	ivFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;

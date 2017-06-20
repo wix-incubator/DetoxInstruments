@@ -34,7 +34,7 @@
 
 - (NSArray<NSColor*>*)plotColors
 {
-	return @[[[NSColor greenColor] colorWithAlphaComponent:0.5], [[NSColor redColor] colorWithAlphaComponent:0.5]];
+	return @[[NSColor.systemGreenColor colorWithAlphaComponent:1.0], [NSColor.systemRedColor colorWithAlphaComponent:1.0]];
 }
 
 - (NSArray<NSString *> *)plotTitles

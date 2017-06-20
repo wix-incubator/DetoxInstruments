@@ -29,6 +29,10 @@
 {
 	[super viewDidLoad];
 	
+	if (@available(macOS 10.13, *)) {
+		_logTableView.usesAutomaticRowHeights = YES;
+	}
+	
 	_pathControl.pathItems = @[];
 	_pathControl.pathStyle = NSPathStyleStandard;
 	_pathControl.delegate = self;

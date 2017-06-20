@@ -43,6 +43,8 @@
 		39D40C361ED5B60100157C04 /* NSObject+DBDebugToolkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C341ED5B60100157C04 /* NSObject+DBDebugToolkit.m */; };
 		39D40C3A1ED5BAB800157C04 /* DBBuildInfoProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C381ED5BAB800157C04 /* DBBuildInfoProvider.h */; };
 		39D40C3B1ED5BAB800157C04 /* DBBuildInfoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C391ED5BAB800157C04 /* DBBuildInfoProvider.m */; };
+		39D94EF01EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */; };
+		39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +86,8 @@
 		39D40C341ED5B60100157C04 /* NSObject+DBDebugToolkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DBDebugToolkit.m"; path = "DBDebugToolkit/DBDebugToolkit/Classes/Categories/NSObject+DBDebugToolkit.m"; sourceTree = SOURCE_ROOT; };
 		39D40C381ED5BAB800157C04 /* DBBuildInfoProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBBuildInfoProvider.h; path = DBDebugToolkit/DBDebugToolkit/Classes/BuildInfo/DBBuildInfoProvider.h; sourceTree = SOURCE_ROOT; };
 		39D40C391ED5BAB800157C04 /* DBBuildInfoProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBBuildInfoProvider.m; path = DBDebugToolkit/DBDebugToolkit/Classes/BuildInfo/DBBuildInfoProvider.m; sourceTree = SOURCE_ROOT; };
+		39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
+		39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,8 @@
 				39281E601ED7042D002CE905 /* minizip */,
 				39281E801ED70A77002CE905 /* DTXZipper.h */,
 				39281E811ED70A77002CE905 /* DTXZipper.m */,
+				39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */,
+				39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -262,6 +268,7 @@
 				39D40C201ED5B52100157C04 /* DBFPSCalculator.h in Headers */,
 				39D40C221ED5B52100157C04 /* DBPerformanceToolkit.h in Headers */,
 				39D40C101ED5B43700157C04 /* DTXRecording+Additions.h in Headers */,
+				39D94EF01EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h in Headers */,
 				39281E6E1ED70458002CE905 /* mztools.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +346,7 @@
 				39D40C361ED5B60100157C04 /* NSObject+DBDebugToolkit.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
 				39281E831ED70A77002CE905 /* DTXZipper.m in Sources */,
+				39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
 				39281E6D1ED70458002CE905 /* mztools.c in Sources */,
 				39D40C211ED5B52100157C04 /* DBFPSCalculator.m in Sources */,
 				39281E6F1ED70458002CE905 /* unzip.c in Sources */,
@@ -477,6 +485,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -498,6 +507,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

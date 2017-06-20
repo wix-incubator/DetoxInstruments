@@ -10,6 +10,6 @@
 
 @interface DTXTextViewCellView : NSTableCellView
 
-@property (nonatomic, strong, readonly) NSTextView* textView;
+@property (nonatomic, strong, readonly) NSTextField* contentTextField;
 
 @end

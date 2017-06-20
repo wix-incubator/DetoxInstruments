@@ -16,7 +16,6 @@
 	
 	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawBeforeViewResize;
-//	self.layer.contentsScale = 0.25;
 }
 
 @end

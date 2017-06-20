@@ -16,23 +16,46 @@
 	
 	self.wantsLayer = YES;
 	self.layer.backgroundColor = NSColor.whiteColor .CGColor;
-//	self.layer.masksToBounds = NO;
+}
+
+- (void)viewDidMoveToWindow
+{
+	[self viewDidChangeBackingProperties];
+}
+
+-(void)viewDidChangeBackingProperties
+{
+//	if (self.window)
+//	{
+//		self.layer.contentsScale = self.window.backingScaleFactor;
+//	}
+//	else
+//	{
+//		self.layer.contentsScale = 1.0;
+//	}
+	
+	[self setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
-    
+	
+	BOOL ov = [NSGraphicsContext currentContext].shouldAntialias;
+	[NSGraphicsContext currentContext].shouldAntialias = NO;
+	
 	NSBezierPath* line = [NSBezierPath bezierPath];
+	line.lineWidth = 1 / self.window.backingScaleFactor;
 	
 	[line moveToPoint:NSMakePoint(0, 0)];
 	[line lineToPoint:NSMakePoint(self.bounds.size.width, 0)];
 	
-	[line moveToPoint:NSMakePoint(179.5, 0)];
-	[line lineToPoint:NSMakePoint(179.5, self.bounds.size.height)];
+	[line moveToPoint:NSMakePoint(209.5, 0)];
+	[line lineToPoint:NSMakePoint(209.5, self.bounds.size.height)];
 	
-	line.lineWidth = 1;
 	[NSColor.gridColor set];
 	[line stroke];
+	
+	[NSGraphicsContext currentContext].shouldAntialias = ov;
 }
 
 @end
