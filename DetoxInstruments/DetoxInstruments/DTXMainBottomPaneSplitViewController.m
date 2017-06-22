@@ -29,7 +29,7 @@
 
 - (CGFloat)lastSplitItemMinThickness
 {
-	return 88;
+	return self.view.window == nil ? 320 : 88;
 }
 
 @end

@@ -6,13 +6,13 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "DTXApplicationDelegate.h"
 
-@interface AppDelegate ()
+@interface DTXApplicationDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation DTXApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application

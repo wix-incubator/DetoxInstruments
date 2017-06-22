@@ -14,9 +14,10 @@
 #import "DTXNetworkDataProvider.h"
 #import "DTXCPTRangePlot.h"
 
-@interface DTXCompactNetworkRequestsPlotController ()
+@interface DTXCompactNetworkRequestsPlotController () <CPTRangePlotDataSource>
 {
 	NSMutableArray<NSMutableArray<DTXNetworkSample*>*>* _mergedSamples;
+	NSUInteger _selectedIndex;
 }
 @end
 
@@ -32,8 +33,20 @@
 	return [DTXNetworkDataProvider class];
 }
 
+- (NSMutableArray<NSMutableArray<DTXNetworkSample*>*>*)_mergedSamples
+{
+	if(_mergedSamples == nil)
+	{
+		[self samples];
+	}
+	
+	return _mergedSamples;
+}
+
 - (NSArray<NSArray*>*)samplesForPlots
 {
+	_selectedIndex = NSNotFound;
+	
 	NSMutableArray* rv = [NSMutableArray new];
 	NSMutableArray* resultIndexPaths = [NSMutableArray new];
 	
@@ -82,7 +95,7 @@
 			[_insertionGroup addObject:currentSample];
 			
 			NSIndexPath* indexPath = [NSIndexPath indexPathForItem:[_insertionGroup indexOfObject:currentSample] inSection:[_mergedSamples indexOfObject:_insertionGroup]];
-			[resultIndexPaths addObject:@{@"ip": indexPath}];
+			[resultIndexPaths addObject:indexPath];
 		}];
 	}];
 	
@@ -99,14 +112,15 @@
 	
 	// Add line style
 	CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
-	lineStyle.lineWidth             = 1.25;
-	lineStyle.lineColor             = [CPTColor colorWithCGColor:self.plotColors.firstObject.CGColor];
+	lineStyle.lineWidth = 1.25;
+	lineStyle.lineColor = [CPTColor colorWithCGColor:self.plotColors.firstObject.CGColor];
 	dataSourceLinePlot.barLineStyle = lineStyle;
 	
 	// Bar properties
-	dataSourceLinePlot.barWidth   = 6.0;
-	dataSourceLinePlot.gapWidth   = 0.0;
-	dataSourceLinePlot.gapHeight  = 0.0;
+	dataSourceLinePlot.barWidth = 6.0;
+	dataSourceLinePlot.gapWidth = 0.0;
+	dataSourceLinePlot.gapHeight = 0.0;
+	
 	dataSourceLinePlot.dataSource = self;
 	
 	return @[dataSourceLinePlot];
@@ -115,6 +129,65 @@
 - (void)mouseMoved:(NSEvent *)event
 {
 	
+}
+
+- (void)highlightSample:(id)sample
+{
+	[self removeHighlight];
+	
+	__block NSUInteger section = NSNotFound;
+	__block NSUInteger item = NSNotFound;
+	
+	[self._mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<DTXNetworkSample *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj enumerateObjectsUsingBlock:^(DTXNetworkSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			if(obj != sample)
+			{
+				return;
+			}
+			
+			item = idx;
+			*stop = YES;
+		}];
+		
+		if(item == NSNotFound)
+		{
+			return;
+		}
+		
+		section = idx;
+		*stop = YES;
+	}];
+	
+	NSIndexPath* ip = [NSIndexPath indexPathForItem:item inSection:section];
+	NSUInteger indexOfIndexPath = [self.samples.firstObject indexOfObject:ip];
+	
+	NSUInteger prevSelectedIndex = _selectedIndex;
+	_selectedIndex = indexOfIndexPath;
+	
+	if(indexOfIndexPath != NSNotFound)
+	{
+		[self.graph.allPlots.firstObject reloadDataInIndexRange:NSMakeRange(indexOfIndexPath, 1)];
+		if(prevSelectedIndex != NSNotFound)
+		{
+			[self.graph.allPlots.firstObject reloadDataInIndexRange:NSMakeRange(prevSelectedIndex, 1)];
+		}
+	}
+	else
+	{
+		[self.graph.allPlots.firstObject reloadData];
+	}
+}
+
+- (void)highlightRange:(CPTPlotRange *)range
+{
+	[self removeHighlight];
+}
+
+- (void)removeHighlight
+{
+	_selectedIndex = NSNotFound;
+	
+	[self.graph.allPlots.firstObject reloadData];
 }
 
 - (NSString *)displayName
@@ -129,7 +202,9 @@
 
 - (CGFloat)requiredHeight
 {
-	return MAX(_mergedSamples.count * 2 * 4 + 6, super.requiredHeight);
+	CGFloat f = self._mergedSamples.count * 2 * 4 + 6;
+	
+	return MAX(f, super.requiredHeight);
 }
 
 - (NSArray<NSString*>*)sampleKeys
@@ -174,16 +249,17 @@
 
 -(id)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
 {
-	NSIndexPath* indexPath = self.samples.firstObject[index][@"ip"];
+	NSIndexPath* indexPath = self.samples.firstObject[index];
 	
-	DTXNetworkSample* sample = _mergedSamples[indexPath.section][indexPath.item];
+	DTXNetworkSample* sample = self._mergedSamples[indexPath.section][indexPath.item];
 	
 	NSTimeInterval timestampt = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
 	NSTimeInterval responseTimestampt = [sample.responseTimestamp ?: [NSDate distantFuture] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
 	NSTimeInterval range = responseTimestampt - timestampt;
 	NSTimeInterval avg = (timestampt + responseTimestampt) / 2;
 	
-	switch (fieldEnum) {
+	switch (fieldEnum)
+	{
 		case CPTRangePlotFieldX:
 			return @(avg);
 		case CPTRangePlotFieldY:
@@ -194,6 +270,36 @@
 		default:
 			return @0;
 	}
+}
+
+-(nullable CPTLineStyle *)barLineStyleForRangePlot:(nonnull CPTRangePlot *)plot recordIndex:(NSUInteger)idx
+{
+	CPTMutableLineStyle* lineStyle = [plot.barLineStyle mutableCopy];
+	
+	NSIndexPath* indexPath = self.samples.firstObject[idx];
+	DTXNetworkSample* sample = _mergedSamples[indexPath.section][indexPath.item];
+	   
+	if(_selectedIndex == idx)
+	{
+		lineStyle.lineWidth = 3;
+		lineStyle.lineColor = [CPTColor colorWithCGColor:[self.plotColors.firstObject blendedColorWithFraction:0.09 ofColor:NSColor.blackColor].CGColor];
+	}
+	
+	if(sample.responseStatusCode == 0)
+	{
+		lineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.warningColor.CGColor];
+	}
+	else if(sample.responseStatusCode < 200 || sample.responseStatusCode >= 400)
+	{
+		lineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.warning2Color.CGColor];
+	}
+	
+	if(sample.responseError)
+	{
+		lineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.warning3Color.CGColor];
+	}
+	
+	return lineStyle;
 }
 
 @end

@@ -15,7 +15,7 @@
 {
 	NSMutableArray* rv = [NSMutableArray new];
 	
-	if(DTXPerformanceSample.entity == nil)
+	if(self.document == nil)
 	{
 		return @[];
 	}

@@ -102,8 +102,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		}
 	}];
 	
-	
-	
 	return YES;
 }
 

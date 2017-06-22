@@ -95,6 +95,8 @@
 	[self.view.window setFrame:rect display:NO];
 	rect.size.width -= 1;
 	[self.view.window setFrame:rect display:NO];
+	
+	[_tableView.window makeFirstResponder:_tableView];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -190,6 +192,7 @@
 {
 	NSUInteger idx = [group.plotControllers indexOfObject:plotController];
 	[_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
+	[_tableView.window makeFirstResponder:_tableView];
 }
 
 @end

@@ -58,6 +58,7 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	{
 		_sampleDescriptionDataSource.managedTableView = _recordingInfoTableView;
 		_nothingLabel.hidden = _sampleDescriptionDataSource != nil;
+		_recordingInfoTableView.hidden = _sampleDescriptionDataSource == nil;
 	}
 }
 
@@ -113,12 +114,14 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 		_recordingDescriptionDataSource.managedTableView = nil;
 		_sampleDescriptionDataSource.managedTableView = _recordingInfoTableView;
 		_nothingLabel.hidden = _sampleDescriptionDataSource != nil;
+		_recordingInfoTableView.hidden = _sampleDescriptionDataSource == nil;
 	}
 	else
 	{
 		_sampleDescriptionDataSource.managedTableView = nil;
 		_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;
 		_nothingLabel.hidden = YES;
+		_recordingInfoTableView.hidden = NO;
 	}
 	
 	[[NSUserDefaults standardUserDefaults] setInteger:index forKey:__DTXInspectorTabKey];

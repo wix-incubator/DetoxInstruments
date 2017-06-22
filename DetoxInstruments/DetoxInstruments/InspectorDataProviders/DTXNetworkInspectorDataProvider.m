@@ -9,6 +9,7 @@
 #import "DTXNetworkInspectorDataProvider.h"
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "NSColor+UIAdditions.h"
 #import <CoreServices/CoreServices.h>
 
 @implementation DTXNetworkInspectorDataProvider
@@ -54,7 +55,7 @@
 	if(networkSample.responseTimestamp == nil || networkSample.responseStatusCode == 0)
 	{
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:@"--"]];
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description:NSLocalizedString(@"Pending", @"") color:NSColor.redColor]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description:NSLocalizedString(@"Pending", @"") color:NSColor.warning3Color]];
 		response.content = content;
 		
 		[contentArray addObject:response];
@@ -67,7 +68,7 @@
 		
 		NSString* status = [NSString stringWithFormat:@"%@%@", @(networkSample.responseStatusCode), networkSample.responseStatusCodeString ? [NSString stringWithFormat:@" (%@)", networkSample.responseStatusCodeString] : @""];
 		
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description:status]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description:status color:networkSample.responseStatusCode < 200 || networkSample.responseStatusCode >= 400 ? NSColor.warning3Color : NSColor.textColor]];
 		if(networkSample.responseError != nil)
 		{
 			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Error", @"") description:networkSample.responseError]];

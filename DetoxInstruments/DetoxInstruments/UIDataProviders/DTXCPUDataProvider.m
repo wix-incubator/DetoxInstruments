@@ -69,7 +69,12 @@
 		return @"<?>";
 	}
 	
-	return [NSString stringWithFormat:@"%@%@", @(heaviestThread.number), heaviestThread.name.length > 0 ? [NSString stringWithFormat:@" (%@)", heaviestThread.name] : @""];
+	if(heaviestThread.number == 0)
+	{
+		return NSLocalizedString(@"Main Thread", @"");
+	}
+	
+	return [NSString stringWithFormat:@"%@%@%@", heaviestThread.name.length == 0 ? NSLocalizedString(@"Thread ", @"") : @"", @(heaviestThread.number), heaviestThread.name.length > 0 ? [NSString stringWithFormat:@" (%@)", heaviestThread.name] : @""];
 }
 
 - (NSColor*)textColorForItem:(id)item

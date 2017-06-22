@@ -12,5 +12,6 @@
 
 @property (nonatomic) CGFloat dataPoint;
 @property (nonatomic) CGColorRef lineColor;
+@property (nonatomic) CGColorRef pointColor;
 
 @end

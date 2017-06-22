@@ -39,11 +39,12 @@
 - (void)setUpWithView:(NSView*)view;
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
 
-- (void)setPlotRange:(CPTPlotRange *)plotRange;
+- (void)setPlotRange:(CPTPlotRange*)plotRange;
 
 @optional
 
 - (void)highlightSample:(id)sample;
+- (void)highlightRange:(CPTPlotRange*)range;
 - (void)removeHighlight;
 
 @property (nonatomic, assign, readonly) BOOL canReceiveFocus;

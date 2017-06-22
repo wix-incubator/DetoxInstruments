@@ -28,7 +28,7 @@
 		return;
 	}
 	
-	CGContextSetLineWidth(context, 2.0);
+	CGContextSetLineWidth(context, 1.0);
 	
 	CGContextSetStrokeColorWithColor(context, _lineColor);
 	CGContextSetFillColorWithColor(context, _lineColor);
@@ -36,12 +36,25 @@
 	CGContextAddLineToPoint(context, self.bounds.size.width / 2.0, self.bounds.size.height);
 	CGContextStrokePath(context);
 	
-	CGContextFillEllipseInRect(context, CGRectMake(-3.5 + self.bounds.size.width / 2.0, -3.5 + _dataPoint, 7, 7));
+	CGContextSetStrokeColorWithColor(context, _pointColor);
+	
+	CGContextFillEllipseInRect(context, CGRectMake(-3 + self.bounds.size.width / 2.0, -3 + _dataPoint, 6, 6));
 }
 
 - (void)setDataPoint:(CGFloat)dataPoint
 {
 	_dataPoint = dataPoint;
+	
+	[self setNeedsDisplay];
+}
+
+- (void)setPointColor:(CGColorRef)pointColor
+{
+	if(_pointColor != nil)
+	{
+		CGColorRelease(_pointColor);
+	}
+	_pointColor = CGColorRetain(pointColor);
 	
 	[self setNeedsDisplay];
 }

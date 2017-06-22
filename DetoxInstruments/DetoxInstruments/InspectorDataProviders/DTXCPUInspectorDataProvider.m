@@ -7,6 +7,7 @@
 //
 
 #import "DTXCPUInspectorDataProvider.h"
+#import "DTXPieChartView.h"
 
 @implementation DTXCPUInspectorDataProvider
 
@@ -29,7 +30,18 @@
 	
 	request.content = content;
 	
-	rv.contentArray = @[request];
+	DTXPieChartView* pieChartView = [[DTXPieChartView alloc] initWithFrame:NSMakeRect(0, 0, 300, 300)];
+	
+	pieChartView.entries = @[[DTXPieChartEntry entryWithValue:@10 title:nil color:NSColor.redColor], [DTXPieChartEntry entryWithValue:@20 title:nil color:NSColor.greenColor], [DTXPieChartEntry entryWithValue:@30 title:nil color:NSColor.blueColor]];
+	
+	pieChartView.translatesAutoresizingMaskIntoConstraints = NO;
+	[NSLayoutConstraint activateConstraints:@[[pieChartView.widthAnchor constraintEqualToConstant:300], [pieChartView.heightAnchor constraintEqualToConstant:300]]];
+	
+	DTXInspectorContent* pieChartContent = [DTXInspectorContent new];
+	pieChartContent.title = @"Pie Chart";
+	pieChartContent.customView = pieChartView;
+	
+	rv.contentArray = @[request, pieChartContent];
 	
 	return rv;
 }

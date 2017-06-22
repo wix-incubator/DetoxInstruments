@@ -17,7 +17,7 @@
 	{
 		self.wantsLayer = YES;
 		self.openHandCursor = [NSCursor arrowCursor];
-		self.closedHandCursor = [NSCursor arrowCursor];
+//		self.closedHandCursor = [NSCursor arrowCursor];
 	}
 	return self;
 }

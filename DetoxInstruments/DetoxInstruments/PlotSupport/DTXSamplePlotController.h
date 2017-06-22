@@ -14,6 +14,7 @@
 @interface DTXSamplePlotController : NSObject <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
 
 @property (nonatomic, strong, readonly) NSArray<NSArray*>* samples;
+@property (nonatomic, strong, readonly) CPTGraph* graph;
 
 + (Class)graphHostingViewClass;
 + (Class)UIDataProviderClass;

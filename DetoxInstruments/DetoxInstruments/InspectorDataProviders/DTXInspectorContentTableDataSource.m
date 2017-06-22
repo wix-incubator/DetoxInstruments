@@ -8,6 +8,7 @@
 
 #import "DTXInspectorContentTableDataSource.h"
 #import "DTXTextViewCellView.h"
+#import "DTXViewCellView.h"
 @import QuartzCore;
 
 @implementation DTXInspectorContentRow
@@ -132,15 +133,26 @@
 {
 	DTXInspectorContent* content = _contentArray[row];
 	
-	__kindof NSTableCellView* cell = [tableView makeViewWithIdentifier:content.image ? @"DTXImageViewCellView" : @"DTXTextViewCellView" owner:nil];
+	__kindof NSTableCellView* cell = [tableView makeViewWithIdentifier:content.customView ? @"DTXViewCellView" : content.image ? @"DTXImageViewCellView" : @"DTXTextViewCellView" owner:nil];
 	
-	if(content.image == nil)
+	if(content.customView == nil && content.image == nil)
 	{
 		[cell contentTextField].attributedStringValue = _attributedStrings[row];
 	}
 	
 	cell.textField.stringValue = content.title ?: @"Title";
 	cell.imageView.image = content.image;
+	if([cell isKindOfClass:[DTXViewCellView class]])
+	{
+		[content.customView removeFromSuperview];
+		
+		DTXViewCellView* viewCell = (id)cell;
+		[viewCell.contentView addSubview:content.customView];
+		[NSLayoutConstraint activateConstraints:@[[viewCell.contentView.topAnchor constraintEqualToAnchor:content.customView.topAnchor],
+												  [viewCell.contentView.bottomAnchor constraintEqualToAnchor:content.customView.bottomAnchor],
+												  [viewCell.contentView.centerXAnchor constraintEqualToAnchor:content.customView.centerXAnchor],
+												  [viewCell.contentView.centerYAnchor constraintEqualToAnchor:content.customView.centerYAnchor]]];
+	}
 	
 	return cell;
 }
@@ -159,7 +171,13 @@
 	CGFloat leading = 15;
 	CGFloat trailing = 3;
 	
-	if(content.image)
+	if(content.customView)
+	{
+		CGFloat h = top + content.customView.fittingSize.height + bottom;
+		
+		return h;
+	}
+	else if(content.image)
 	{
 		CGFloat availableWidth = tableView.bounds.size.width - leading - trailing;
 		CGFloat scale = 1.0;

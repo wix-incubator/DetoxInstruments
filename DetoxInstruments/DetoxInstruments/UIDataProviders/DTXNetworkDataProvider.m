@@ -45,7 +45,7 @@
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 {
-	DTXNetworkSample* networkSample = (id)item;
+	DTXNetworkSample* networkSample = item;
 	
 	switch(column)
 	{
@@ -72,6 +72,27 @@
 		default:
 			return @"";
 	}
+}
+
+- (NSColor *)backgroundRowColorForItem:(id)item
+{
+	DTXNetworkSample* sample = item;
+	
+	if(sample.responseStatusCode == 0)
+	{
+		return NSColor.warningColor;
+	}
+	else if(sample.responseStatusCode < 200 || sample.responseStatusCode >= 400)
+	{
+		return NSColor.warning2Color;
+	}
+	
+	if(sample.responseError)
+	{
+		return NSColor.warning3Color;
+	}
+	
+	return NSColor.whiteColor;
 }
 
 @end

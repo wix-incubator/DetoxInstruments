@@ -85,6 +85,21 @@
 	
 }
 
+- (void)highlightSample:(id)sample
+{
+	
+}
+
+- (void)highlightRange:(CPTPlotRange *)range
+{
+	
+}
+
+- (void)removeHighlight
+{
+	
+}
+
 - (NSString *)displayName
 {
 	return NSLocalizedString(@"Network Requests", @"");

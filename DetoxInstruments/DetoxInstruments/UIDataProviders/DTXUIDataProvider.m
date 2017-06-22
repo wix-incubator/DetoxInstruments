@@ -6,6 +6,7 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
+#import <LNInterpolation/LNInterpolation.h>
 #import "DTXUIDataProvider.h"
 #import "DTXTableRowView.h"
 #import "DTXInstrumentsModel.h"
@@ -40,6 +41,8 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	DTXDocument* _document;
 	DTXSampleGroupProxy* _rootGroupProxy;
 	NSArray<DTXColumnInformation*>* _columns;
+	
+	BOOL _ignoresSelections;
 }
 
 + (Class)inspectorDataProviderClass
@@ -299,9 +302,9 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	BOOL hasParentGroup = [rowView.item respondsToSelector:@selector(parentGroup)];
 	if([rowView.backgroundColor isEqualTo:NSColor.whiteColor] && hasParentGroup && [rowView.item parentGroup] != _document.recording.rootSampleGroup)
 	{
-		CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(rowView.item, _document.recording.rootSampleGroup) / 30.0), 0.5);
+		CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(rowView.item, _document.recording.rootSampleGroup) / 30.0), 0.3);
 		
-		rowView.backgroundColor = [NSColor.whiteColor blendedColorWithFraction:fraction ofColor:NSColor.blackColor];
+		rowView.backgroundColor = [NSColor.whiteColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
 	}
 }
 
@@ -313,13 +316,19 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 - (void)selectSample:(DTXSample*)sample
 {
 	NSInteger idx = [_managedOutlineView rowForItem:sample];
+	_ignoresSelections = YES;
 	[_managedOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
 	[_managedOutlineView scrollRowToVisible:idx];
-	[_managedOutlineView.window makeFirstResponder:_managedOutlineView];
+	_ignoresSelections = NO;
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
+	if(_ignoresSelections == YES)
+	{
+		return;
+	}
+	
 	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
 	
 	DTXInspectorDataProvider* idp = nil;
@@ -333,7 +342,20 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	}
 	
 	[self.delegate dataProvider:self didSelectInspectorItem:idp];
-	[_plotController highlightSample:item];
+	
+	if([item isKindOfClass:[DTXSampleGroupProxy class]] == NO)
+	{
+		[_plotController highlightSample:item];
+	}
+	else
+	{
+		DTXSampleGroupProxy* groupProxy = item;
+		
+		NSDate* groupCloseTimestamp = groupProxy.closeTimestamp ?: _document.recording.endTimestamp;
+		
+		CPTPlotRange* groupRange = [CPTPlotRange plotRangeWithLocation:@(groupProxy.timestamp.timeIntervalSinceReferenceDate - _document.recording.startTimestamp.timeIntervalSinceReferenceDate) length:@(groupCloseTimestamp.timeIntervalSinceReferenceDate - groupProxy.timestamp.timeIntervalSinceReferenceDate)];
+		[_plotController highlightRange:groupRange];
+	}
 }
 
 @end

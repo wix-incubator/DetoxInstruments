@@ -12,6 +12,7 @@
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXLineLayer.h"
+#import <LNInterpolation/LNInterpolation.h>
 
 static NSColor* __DTXDarkerColorFromColor(NSColor* color)
 {
@@ -29,7 +30,6 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 
 @implementation DTXSamplePlotController
 {
-	CPTGraph* _graph;
 	__kindof CPTGraphHostingView* _hostingView;
 	CPTMutablePlotRange* _globalYRange;
 	CPTPlotRange* _pendingXPlotRange;
@@ -39,6 +39,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 //	CPTPlotSpaceAnnotation* _cursorAnnotation;
 	NSMutableDictionary<id, CPTPlotSpaceAnnotation*>* _highlightAnnotations;
 	NSMutableDictionary<id, DTXLineLayer*>* _lineLayers;
+	CPTLimitBand* _rangeHighlightBand;
 }
 
 @synthesize delegate = _delegate;
@@ -82,43 +83,33 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 
 - (void)mouseEntered:(NSEvent *)event
 {
-//	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
-//	CPTNumberArray* plotPoint = [_graph.defaultPlotSpace plotPointForPlotAreaViewPoint:pointInView];
 	
-//	if(_cursorAnnotation == nil)
-//	{
-//		CPTTextLayer *textLayer = [[CPTTextLayer alloc] initWithText:@"aa" style:[CPTTextStyle textStyle]];
-//		
-//		_cursorAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:_graph.defaultPlotSpace anchorPlotPoint:pt];
-//		_cursorAnnotation.contentLayer = textLayer;
-//		[_graph addAnnotation:_cursorAnnotation];
-//	}
-
 }
 
 - (void)mouseExited:(NSEvent *)event
 {
-//	[_graph removeAnnotation:_cursorAnnotation];
-//	_cursorAnnotation = nil;
 	[_hostingView removeAllToolTips];
 }
 
 - (void)mouseMoved:(NSEvent *)event
 {
 	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
-//	CPTNumberArray* plotPoint = [_graph.defaultPlotSpace plotPointForPlotAreaViewPoint:pointInView];
 	
 	NSMutableArray<NSDictionary<NSString*, NSString*>*>* dataPoints = [NSMutableArray new];
 	
 	[_graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSUInteger numberOfRecords = [self numberOfRecordsForPlot:obj];
 		NSUInteger foundPointIndex = 0;
+		CGFloat foundPointDelta = 0;
+		CGFloat foundPointX = 0;
 		for(NSUInteger idx = 0; idx < numberOfRecords; idx++)
 		{
 			CGPoint pointOfPoint = [obj plotAreaPointOfVisiblePointAtIndex:idx];
-			if(pointOfPoint.x < pointInView.x)
+			if(pointOfPoint.x <= pointInView.x)
 			{
 				foundPointIndex = idx;
+				foundPointDelta = pointInView.x - pointOfPoint.x;
+				foundPointX = pointOfPoint.x;
 			}
 			else
 			{
@@ -127,6 +118,13 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		}
 		
 		id y = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex];
+		if(self.isStepped == NO && foundPointIndex < numberOfRecords - 1)
+		{
+			CGPoint pointOfNextPoint = [obj plotAreaPointOfVisiblePointAtIndex:foundPointIndex + 1];
+			id nextY = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex + 1];
+			
+			y = [y interpolateToValue:nextY progress:foundPointDelta / (pointOfNextPoint.x - foundPointX)];
+		}
 		
 		[dataPoints addObject:@{@"title":self.plotTitles[idx], @"data": [[self formatterForDataPresentation] stringForObjectValue:[self transformedValueForFormatter:y]]}];
 	}];
@@ -168,26 +166,35 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	
 	[self.delegate plotControllerUserDidClickInPlotBounds:self];
 	
-	NSPoint pointInView = [cgr locationInView:_hostingView];
-	
-	NSUInteger numberOfRecords = [self numberOfRecordsForPlot:self.plots.firstObject];
-	NSUInteger foundPointIndex = 0;
-	for(NSUInteger idx = 0; idx < numberOfRecords; idx++)
+	if([_graph.allPlots.firstObject isKindOfClass:[CPTScatterPlot class]])
 	{
-		CGPoint pointOfPoint = [(CPTScatterPlot*)_graph.allPlots.firstObject plotAreaPointOfVisiblePointAtIndex:idx];
-		if(pointOfPoint.x < pointInView.x)
+		NSPoint pointInView = [cgr locationInView:_hostingView];
+		
+		CPTNumberArray* pointInPlot = [_graph.defaultPlotSpace plotPointForPlotAreaViewPoint:pointInView];
+		
+		NSUInteger numberOfRecords = [self numberOfRecordsForPlot:self.plots.firstObject];
+		NSUInteger foundPointIndex = 0;
+		CGFloat foundPointDelta = 0;
+		for(NSUInteger idx = 0; idx < numberOfRecords; idx++)
 		{
-			foundPointIndex = idx;
+			NSNumber* xOfPointInPlot = [self numberForPlot:_graph.allPlots.firstObject field:CPTScatterPlotFieldX recordIndex:idx];
+			if(xOfPointInPlot.doubleValue <= pointInPlot.firstObject.doubleValue)
+			{
+				foundPointIndex = idx;
+				foundPointDelta = pointInPlot.firstObject.doubleValue - xOfPointInPlot.doubleValue;
+			}
+			else
+			{
+				break;
+			}
 		}
-		else
-		{
-			break;
-		}
+		
+		id sample = self.samples[((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex];
+		id nextSample = foundPointIndex == numberOfRecords - 1 ? nil : self.samples[((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex + 1];
+		
+		[self _highlightSample:sample nextSample:nextSample plotSpaceOffset:foundPointDelta];
+		[_dataProvider selectSample:sample];
 	}
-	
-	id sample = self.samples[((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex];
-	
-	[_dataProvider selectSample:sample];
 }
 
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets
@@ -216,7 +223,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		graph.paddingTop = 0;
 		graph.paddingRight = 0;
 		graph.paddingBottom = 0;
-		graph.masksToBorder  = YES;
+		graph.masksToBorder  = NO;
 		
 		// Setup scatter plot space
 		CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
@@ -356,19 +363,34 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	}
 }
 
-- (void)highlightSample:(DTXSample*)sample
+- (void)highlightSample:(id)sample
 {
+	[self _highlightSample:sample nextSample:nil plotSpaceOffset:0];
+}
+
+- (void)_highlightSample:(DTXSample*)sample nextSample:(DTXSample*)nextSample plotSpaceOffset:(CGFloat)offset
+{
+	[self removeHighlight];
+	
 	if(_highlightAnnotations == nil)
 	{
 		_highlightAnnotations = [NSMutableDictionary new];
 		_lineLayers = [NSMutableDictionary new];
 	}
 	
-	NSTimeInterval sampleTime = [sample.timestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.recording.startTimestamp.timeIntervalSinceReferenceDate + offset;
 	NSUInteger sampleIdx = [_samples.firstObject indexOfObject:sample];
+	NSUInteger nextSampleIdx = nextSample ? [_samples.firstObject indexOfObject:nextSample] : NSNotFound;
 	
 	[_graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTScatterPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		CGFloat value = [obj plotAreaPointOfVisiblePointAtIndex:sampleIdx].y;
+		if(self.isStepped == NO && nextSample)
+		{
+			CGFloat nextValue = [obj plotAreaPointOfVisiblePointAtIndex:nextSampleIdx].y;
+			CGFloat percent = offset / (nextSample.timestamp.timeIntervalSinceReferenceDate - sample.timestamp.timeIntervalSinceReferenceDate);
+			
+			value = [@(value) interpolateToValue:@(nextValue) progress:percent].doubleValue;
+		}
 		
 		CPTPlotSpaceAnnotation* highlightAnnotation = _highlightAnnotations[obj.identifier];
 		DTXLineLayer* lineLayer = _lineLayers[obj.identifier];
@@ -376,9 +398,10 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		{
 			highlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:_graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 			lineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight)];
-			lineLayer.lineColor = __DTXDarkerColorFromColor(__DTXDarkerColorFromColor(self.plotColors[idx])).CGColor;
+			lineLayer.pointColor = __DTXDarkerColorFromColor(__DTXDarkerColorFromColor(self.plotColors[idx])).CGColor;
+			lineLayer.lineColor =  self.isStepped && idx > 0 ? NSColor.clearColor.CGColor : lineLayer.pointColor;
 			highlightAnnotation.contentLayer = lineLayer;
-			highlightAnnotation.contentAnchorPoint = CGPointMake(0.5 * ((idx + 1) / (CGFloat)_graph.allPlots.count), 0.0);
+			highlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 			[_graph addAnnotation:highlightAnnotation];
 			
 			_highlightAnnotations[obj.identifier] = highlightAnnotation;
@@ -398,8 +421,28 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	}
 }
 
+- (void)highlightRange:(CPTPlotRange*)range
+{
+	CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
+	
+	[self removeHighlight];
+	
+	_rangeHighlightBand = [CPTLimitBand limitBandWithRange:range fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:__DTXDarkerColorFromColor(self.plotColors.firstObject).CGColor]]];
+	
+	[plot addAreaFillBand:_rangeHighlightBand];
+}
+
 - (void)removeHighlight
 {
+	CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
+	
+	if(_rangeHighlightBand)
+	{
+		[plot removeAreaFillBand:_rangeHighlightBand];
+	}
+	
+	_rangeHighlightBand = nil;
+	
 	[_highlightAnnotations enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, CPTPlotSpaceAnnotation * _Nonnull obj, BOOL * _Nonnull stop) {
 		[_graph removeAnnotation:obj];
 	}];
