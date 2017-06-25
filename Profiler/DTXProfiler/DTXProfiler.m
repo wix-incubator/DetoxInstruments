@@ -11,9 +11,9 @@
 #import "NSManagedObject+Additions.h"
 #import "DBPerformanceToolkit.h"
 #import "DBBuildInfoProvider.h"
-#import "DBURLProtocol.h"
 #import "DTXZipper.h"
 #import "NSManagedObjectContext+PerformQOSBlock.h"
+#import "DTXNetworkRecorder.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
@@ -27,6 +27,8 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 
 @implementation DTXProfilingOptions
 
+@synthesize recordingFileURL = _recordingFileURL;
+
 + (instancetype)defaultProfilingOptions
 {
 	DTXProfilingOptions* rv = [DTXProfilingOptions new];;
@@ -36,9 +38,72 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	return rv;
 }
 
++ (NSString *)_sanitizeFileNameString:(NSString *)fileName {
+	NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
+	return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@"_"];
+}
+
++ (NSURL*)_documentsDirectory
+{
+	return [NSURL fileURLWithPath:@"/Users/lnatan/Desktop/"];
+	//	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
++ (NSString*)_fileNameForNewRecording
+{
+	static NSDateFormatter* dateFileFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		dateFileFormatter = [NSDateFormatter new];
+		dateFileFormatter.dateFormat = @"yyyy-MM-dd-HH-mm-ss";
+	});
+	
+	NSString* dateString = [dateFileFormatter stringFromDate:[NSDate date]];
+	return [NSString stringWithFormat:@"%@.dtxprof", [self _sanitizeFileNameString:dateString]];
+}
+
++ (NSURL*)_urlForNewRecording
+{
+	return [[self _documentsDirectory] URLByAppendingPathComponent:[self _fileNameForNewRecording] isDirectory:YES];
+}
+
+- (void)setRecordingFileURL:(NSURL *)recordingFileURL
+{
+	if(recordingFileURL.isFileURL == NO)
+	{
+		[NSException raise:NSInvalidArgumentException format:@"URL %@ is not a file URL", recordingFileURL];
+		return;
+	}
+	
+	NSNumber* isDirectory;
+	[recordingFileURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
+	
+	if(isDirectory)
+	{
+		recordingFileURL = [recordingFileURL URLByAppendingPathComponent:[DTXProfilingOptions _fileNameForNewRecording] isDirectory:YES];
+	}
+	else
+	{
+		//Recordings are always directories. If the user provided a file URL, use the file name provided to contruct a directory.
+		recordingFileURL = [recordingFileURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.dtxprof", recordingFileURL.lastPathComponent] isDirectory:YES];
+	}
+	
+	recordingFileURL = recordingFileURL;
+}
+
+- (NSURL *)recordingFileURL
+{
+	if(_recordingFileURL == nil)
+	{
+		_recordingFileURL = [DTXProfilingOptions _urlForNewRecording];
+	}
+	
+	return _recordingFileURL;
+}
+
 @end
 
-@interface DTXProfiler () <DBPerformanceToolkitDelegate, DBURLProtocolDelegate>
+@interface DTXProfiler () <DBPerformanceToolkitDelegate, DTXNetworkListener>
 
 @property (assign, readwrite, getter=isRecording) BOOL recording;
 
@@ -109,31 +174,6 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	});
 }
 
-
-+ (NSString *)_sanitizeFileNameString:(NSString *)fileName {
-	NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
-	return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@"_"];
-}
-
-+ (NSURL*)_documentsDirectory
-{
-	return [NSURL fileURLWithPath:@"/Users/lnatan/Desktop/"];
-	//	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
-+ (NSURL*)_urlForNewRecording
-{
-	__block NSDateFormatter* dateFileFormatter;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		dateFileFormatter = [NSDateFormatter new];
-		dateFileFormatter.dateFormat = @"yyyy-MM-dd-HH-mm-ss";
-	});
-	
-	NSString* dateString = [dateFileFormatter stringFromDate:[NSDate date]];
-	return [[self _documentsDirectory] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.dtxprof", [self _sanitizeFileNameString:dateString]]];
-}
-
 - (void)startProfilingWithOptions:(DTXProfilingOptions *)options
 {
 	DTX_ASSERT_NOT_RECORDING
@@ -144,7 +184,9 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	
 	_pendingSamples = [NSMutableArray new];
 	
-	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[[DTXProfiler _documentsDirectory] URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];
+	[[NSFileManager defaultManager] createDirectoryAtURL:options.recordingFileURL withIntermediateDirectories:YES attributes:nil error:NULL];
+	
+	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[options.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];
 	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXProfiler class]]]];
 	
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
@@ -177,11 +219,13 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 			_rootSampleGroup.recording = _currentRecording;
 			_currentSampleGroup = _rootSampleGroup;
 			
-			_performanceToolkit = [DBPerformanceToolkit new];
+			_performanceToolkit = [[DBPerformanceToolkit alloc] initWithInterval:options.samplingInterval];
 			_performanceToolkit.delegate = self;
 			
-			DBURLProtocol.delegate = self;
-			[NSURLProtocol registerClass:[DBURLProtocol class]];
+			if(options.recordNetwork)
+			{
+				[DTXNetworkRecorder addNetworkListener:self];
+			}
 			
 			dispatch_sync(__log_queue, ^{
 				[__runningProfilers addObject:self];
@@ -201,7 +245,10 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 		
 		[self _closeContainerInternal];
 		
-		[NSURLProtocol unregisterClass:[DBURLProtocol class]];
+		if(_currentProfilingOptions.recordNetwork)
+		{
+			[DTXNetworkRecorder removeNetworkListener:self];
+		}
 		
 		_currentProfilingOptions = nil;
 		
@@ -302,44 +349,41 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	dprintf(__stderr, "Closing\n");
 	
 	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[_currentRecording dictionaryRepresentation] options:NSJSONWritingPrettyPrinted error:NULL];
-	NSURL* jsonURL = [[DTXProfiler _documentsDirectory] URLByAppendingPathComponent:@"_dtx_recording.json"];
+	NSURL* jsonURL = [_currentProfilingOptions.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.json"];
 	[jsonData writeToURL:jsonURL atomically:YES];
 	
 	[_container.persistentStoreCoordinator.persistentStores.copy enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[_container.persistentStoreCoordinator removePersistentStore:obj error:NULL];
 	}];
 	
-	NSURL* recordingDirectory = [DTXProfiler _urlForNewRecording];
-	[[NSFileManager defaultManager] createDirectoryAtURL:recordingDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+//	NSURL* recordingURL = [(id)_container.persistentStoreDescriptions.firstObject URL];
+//	NSArray<NSURL*>* files = [[[NSFileManager defaultManager] enumeratorAtURL:recordingURL.URLByDeletingLastPathComponent includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:NULL].allObjects filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"path contains[cd] %@", recordingURL.lastPathComponent]];
+//
+//	[files enumerateObjectsUsingBlock:^(NSURL* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//		NSError* err;
+//
+//		NSURL* targetURL = [recordingDirectory URLByAppendingPathComponent:obj.lastPathComponent];
+//		[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
+//		if([[NSFileManager defaultManager] moveItemAtURL:obj toURL:targetURL error:&err] == NO)
+//		{
+//			dprintf(__stderr, "Error moving file %s error: %s\n", obj.lastPathComponent.UTF8String, err.description.UTF8String);
+//		}
+//	}];
+//
+//	NSError* err;
+//
+//	NSURL* targetURL = [recordingDirectory URLByAppendingPathComponent:jsonURL.lastPathComponent];
+//	[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
+//	if([[NSFileManager defaultManager] moveItemAtURL:jsonURL toURL:targetURL error:&err] == NO)
+//	{
+//		dprintf(__stderr, "Error moving file %s error: %s\n", jsonURL.lastPathComponent.UTF8String, err.description.UTF8String);
+//	}
+//
+//	err = nil;
 	
-	NSURL* recordingURL = [(id)_container.persistentStoreDescriptions.firstObject URL];
-	NSArray<NSURL*>* files = [[[NSFileManager defaultManager] enumeratorAtURL:recordingURL.URLByDeletingLastPathComponent includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:NULL].allObjects filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"path contains[cd] %@", recordingURL.lastPathComponent]];
+//	DTXWriteZipFileWithDirectoryContents([recordingDirectory URLByAppendingPathExtension:@"zip"], recordingDirectory);
 	
-	[files enumerateObjectsUsingBlock:^(NSURL* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSError* err;
-		
-		NSURL* targetURL = [recordingDirectory URLByAppendingPathComponent:obj.lastPathComponent];
-		[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
-		if([[NSFileManager defaultManager] moveItemAtURL:obj toURL:targetURL error:&err] == NO)
-		{
-			dprintf(__stderr, "Error moving file %s error: %s\n", obj.lastPathComponent.UTF8String, err.description.UTF8String);
-		}
-	}];
-	
-	NSError* err;
-	
-	NSURL* targetURL = [recordingDirectory URLByAppendingPathComponent:jsonURL.lastPathComponent];
-	[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
-	if([[NSFileManager defaultManager] moveItemAtURL:jsonURL toURL:targetURL error:&err] == NO)
-	{
-		dprintf(__stderr, "Error moving file %s error: %s\n", jsonURL.lastPathComponent.UTF8String, err.description.UTF8String);
-	}
-	
-	err = nil;
-	
-	//	DTXWriteZipFileWithDirectoryContents([recordingDirectory URLByAppendingPathExtension:@"zip"], recordingDirectory);
-	
-	dprintf(__stderr, "%s\n", [recordingDirectory URLByAppendingPathExtension:@"zip"].path.UTF8String);
+//	dprintf(__stderr, "%s\n", [recordingDirectory URLByAppendingPathExtension:@"zip"].path.UTF8String);
 	
 	_container = nil;
 }
@@ -405,9 +449,9 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	}
 }
 
-#pragma mark DBURLProtocolDelegate
+#pragma mark DTXNetworkListener
 
-- (void)urlProtocol:(DBURLProtocol*)protocol didStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier
+- (void)networkRecorderDidStartRequest:(NSURLRequest *)request uniqueIdentifier:(NSString *)uniqueIdentifier
 {
 	DTX_IGNORE_NOT_RECORDING
 	
@@ -430,7 +474,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)urlProtocol:(DBURLProtocol*)protocol didFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier
+- (void)netwrokRecorderDidFinishWithResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *)error forRequestWithUniqueIdentifier:(NSString *)uniqueIdentifier
 {
 	[_backgroundContext performBlock:^{
 		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];

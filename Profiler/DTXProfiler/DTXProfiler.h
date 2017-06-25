@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface DTXProfilingOptions : NSObject
 
 @property (nonatomic) BOOL recordNetwork;
 @property (nonatomic) NSTimeInterval samplingInterval;
+@property (nonatomic, copy, null_resettable) NSURL* recordingFileURL;
 
 + (instancetype)defaultProfilingOptions;
 
@@ -31,3 +34,5 @@
 - (void)addLogLine:(NSString*)line;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -45,6 +45,8 @@
 		39D40C3B1ED5BAB800157C04 /* DBBuildInfoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C391ED5BAB800157C04 /* DBBuildInfoProvider.m */; };
 		39D94EF01EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */; };
 		39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */; };
+		39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */; };
+		39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,8 @@
 		39D40C391ED5BAB800157C04 /* DBBuildInfoProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBBuildInfoProvider.m; path = DBDebugToolkit/DBDebugToolkit/Classes/BuildInfo/DBBuildInfoProvider.m; sourceTree = SOURCE_ROOT; };
 		39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
 		39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
+		39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkRecorder.h; sourceTree = "<group>"; };
+		39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkRecorder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +165,8 @@
 				39281E5E1ED70414002CE905 /* Utils */,
 				39D40C1A1ED5B4DB00157C04 /* DBDebugToolkit */,
 				39D40C041ED5AC0000157C04 /* Model */,
+				39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */,
+				39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */,
 				39D40C161ED5B43F00157C04 /* DTXProfiler.h */,
 				39D40C171ED5B43F00157C04 /* DTXProfiler.m */,
 				39D40BFD1ED5ABD200157C04 /* Info.plist */,
@@ -265,6 +271,7 @@
 				39D40C301ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.h in Headers */,
 				39D40C121ED5B43700157C04 /* DTXSample+Additions.h in Headers */,
 				39D40C3A1ED5BAB800157C04 /* DBBuildInfoProvider.h in Headers */,
+				39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */,
 				39D40C201ED5B52100157C04 /* DBFPSCalculator.h in Headers */,
 				39D40C221ED5B52100157C04 /* DBPerformanceToolkit.h in Headers */,
 				39D40C101ED5B43700157C04 /* DTXRecording+Additions.h in Headers */,
@@ -351,6 +358,7 @@
 				39D40C211ED5B52100157C04 /* DBFPSCalculator.m in Sources */,
 				39281E6F1ED70458002CE905 /* unzip.c in Sources */,
 				39D40C2D1ED5B5C900157C04 /* DBAuthenticationChallengeSender.m in Sources */,
+				39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */,
 				39D40C3B1ED5BAB800157C04 /* DBBuildInfoProvider.m in Sources */,
 				39281E711ED70458002CE905 /* zip.c in Sources */,
 				39D40C2F1ED5B5C900157C04 /* DBURLProtocol.m in Sources */,
