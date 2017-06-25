@@ -7,3 +7,6 @@
 [submodule "DetoxInstruments/LNInterpolation"]
 	path = DetoxInstruments/LNInterpolation
 	url = https://github.com/LeoNatan/LNInterpolation.git
+[submodule "Shared/AutoCoding"]
+	path = Shared/AutoCoding
+	url = https://github.com/nicklockwood/AutoCoding.git

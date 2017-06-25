@@ -19,6 +19,10 @@
 		39281E721ED70458002CE905 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 39281E691ED70458002CE905 /* zip.h */; };
 		39281E821ED70A77002CE905 /* DTXZipper.h in Headers */ = {isa = PBXBuildFile; fileRef = 39281E801ED70A77002CE905 /* DTXZipper.h */; };
 		39281E831ED70A77002CE905 /* DTXZipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39281E811ED70A77002CE905 /* DTXZipper.m */; };
+		39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713381EFFCB4000C827EB /* AutoCoding.m */; };
+		39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713391EFFCB4000C827EB /* AutoCoding.h */; };
+		39C713451EFFDB2500C827EB /* DTXPollingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713431EFFDB2500C827EB /* DTXPollingManager.h */; };
+		39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713441EFFDB2500C827EB /* DTXPollingManager.m */; };
 		39D40C0E1ED5B43700157C04 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C051ED5B43700157C04 /* DTXInstruments.xcdatamodeld */; };
 		39D40C0F1ED5B43700157C04 /* DTXInstrumentsModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C071ED5B43700157C04 /* DTXInstrumentsModel.h */; };
 		39D40C101ED5B43700157C04 /* DTXRecording+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C081ED5B43700157C04 /* DTXRecording+Additions.h */; };
@@ -62,6 +66,11 @@
 		39281E691ED70458002CE905 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		39281E801ED70A77002CE905 /* DTXZipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXZipper.h; sourceTree = "<group>"; };
 		39281E811ED70A77002CE905 /* DTXZipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXZipper.m; sourceTree = "<group>"; };
+		39C713381EFFCB4000C827EB /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoCoding.m; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.m; sourceTree = "<group>"; };
+		39C713391EFFCB4000C827EB /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoCoding.h; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.h; sourceTree = "<group>"; };
+		39C713431EFFDB2500C827EB /* DTXPollingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPollingManager.h; sourceTree = "<group>"; };
+		39C713441EFFDB2500C827EB /* DTXPollingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPollingManager.m; sourceTree = "<group>"; };
+		39C713471EFFDBC000C827EB /* DTXPollable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPollable.h; sourceTree = "<group>"; };
 		39D40BF91ED5ABD200157C04 /* DTXProfiler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DTXProfiler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39D40BFD1ED5ABD200157C04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39D40C061ED5B43700157C04 /* DTXInstruments.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DTXInstruments.xcdatamodel; sourceTree = "<group>"; };
@@ -142,6 +151,34 @@
 			path = minizip;
 			sourceTree = "<group>";
 		};
+		39C713371EFFCB1E00C827EB /* AutoCoding */ = {
+			isa = PBXGroup;
+			children = (
+				39C713391EFFCB4000C827EB /* AutoCoding.h */,
+				39C713381EFFCB4000C827EB /* AutoCoding.m */,
+			);
+			name = AutoCoding;
+			sourceTree = "<group>";
+		};
+		39C7133C1EFFD6AD00C827EB /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */,
+				39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		39C713421EFFDAE000C827EB /* Polling */ = {
+			isa = PBXGroup;
+			children = (
+				39C713471EFFDBC000C827EB /* DTXPollable.h */,
+				39C713431EFFDB2500C827EB /* DTXPollingManager.h */,
+				39C713441EFFDB2500C827EB /* DTXPollingManager.m */,
+			);
+			path = Polling;
+			sourceTree = "<group>";
+		};
 		39D40BEF1ED5ABD200157C04 = {
 			isa = PBXGroup;
 			children = (
@@ -162,11 +199,12 @@
 		39D40BFB1ED5ABD200157C04 /* DTXProfiler */ = {
 			isa = PBXGroup;
 			children = (
+				39C713371EFFCB1E00C827EB /* AutoCoding */,
 				39281E5E1ED70414002CE905 /* Utils */,
 				39D40C1A1ED5B4DB00157C04 /* DBDebugToolkit */,
 				39D40C041ED5AC0000157C04 /* Model */,
-				39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */,
-				39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */,
+				39C7133C1EFFD6AD00C827EB /* Network */,
+				39C713421EFFDAE000C827EB /* Polling */,
 				39D40C161ED5B43F00157C04 /* DTXProfiler.h */,
 				39D40C171ED5B43F00157C04 /* DTXProfiler.m */,
 				39D40BFD1ED5ABD200157C04 /* Info.plist */,
@@ -270,8 +308,10 @@
 				39281E6C1ED70458002CE905 /* ioapi.h in Headers */,
 				39D40C301ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.h in Headers */,
 				39D40C121ED5B43700157C04 /* DTXSample+Additions.h in Headers */,
+				39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */,
 				39D40C3A1ED5BAB800157C04 /* DBBuildInfoProvider.h in Headers */,
 				39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */,
+				39C713451EFFDB2500C827EB /* DTXPollingManager.h in Headers */,
 				39D40C201ED5B52100157C04 /* DBFPSCalculator.h in Headers */,
 				39D40C221ED5B52100157C04 /* DBPerformanceToolkit.h in Headers */,
 				39D40C101ED5B43700157C04 /* DTXRecording+Additions.h in Headers */,
@@ -348,7 +388,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */,
 				39D40C311ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.m in Sources */,
+				39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */,
 				39281E6B1ED70458002CE905 /* ioapi.c in Sources */,
 				39D40C361ED5B60100157C04 /* NSObject+DBDebugToolkit.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,

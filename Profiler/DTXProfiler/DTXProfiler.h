@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DTXProfilingOptions : NSObject
+@interface DTXProfilingOptions : NSObject <NSSecureCoding>
 
 @property (nonatomic) BOOL recordNetwork;
 @property (nonatomic) NSTimeInterval samplingInterval;

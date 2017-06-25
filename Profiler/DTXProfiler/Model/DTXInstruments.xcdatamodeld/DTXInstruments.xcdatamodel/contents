@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.26" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.30" systemVersion="17A291j" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdvancedPerformanceSample" representedClassName="DTXAdvancedPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <relationship name="threadSamples" optional="YES" toMany="YES" minCount="1" deletionRule="Cascade" ordered="YES" destinationEntity="ThreadPerformanceSample" inverseName="advancedPerformanceSample" inverseEntity="ThreadPerformanceSample" syncable="YES">
             <userInfo>
@@ -60,7 +60,9 @@
         <attribute name="deviceProcessorCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="deviceType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="endTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="hasReactNative" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="processIdentifier" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="profilingOptions" optional="YES" attributeType="Transformable" customClassName="NSDictionary" syncable="YES"/>
         <attribute name="recordingOptions" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="startTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="rootSampleGroup" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SampleGroup" inverseName="recording" inverseEntity="SampleGroup" syncable="YES">
@@ -101,11 +103,11 @@
         <element name="NetworkData" positionX="-18" positionY="126" width="128" height="90"/>
         <element name="NetworkSample" positionX="9" positionY="153" width="128" height="285"/>
         <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="150"/>
-        <element name="Recording" positionX="-27" positionY="45" width="128" height="240"/>
+        <element name="Recording" positionX="-27" positionY="45" width="128" height="270"/>
         <element name="Sample" positionX="-63" positionY="-18" width="128" height="90"/>
         <element name="SampleGroup" positionX="-45" positionY="0" width="128" height="90"/>
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
-        <element name="ThreadPerformanceSample" positionX="-27" positionY="108" width="128" height="75"/>
         <element name="ThreadInfo" positionX="-27" positionY="135" width="128" height="90"/>
+        <element name="ThreadPerformanceSample" positionX="-27" positionY="108" width="128" height="75"/>
     </elements>
 </model>

@@ -10,6 +10,6 @@
 
 @interface NSManagedObject (Additions)
 
-- (NSDictionary*)dictionaryRepresentation;
+@property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentation;
 
 @end

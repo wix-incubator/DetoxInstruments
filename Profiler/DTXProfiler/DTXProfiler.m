@@ -7,6 +7,7 @@
 //
 
 #import "DTXProfiler.h"
+#import "AutoCoding.h"
 #import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
 #import "DBPerformanceToolkit.h"
@@ -14,6 +15,7 @@
 #import "DTXZipper.h"
 #import "NSManagedObjectContext+PerformQOSBlock.h"
 #import "DTXNetworkRecorder.h"
+#import "DTXPollingManager.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
@@ -27,7 +29,13 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 
 @implementation DTXProfilingOptions
 
-@synthesize recordingFileURL = _recordingFileURL;
++ (BOOL)supportsSecureCoding
+{
+	return YES;
+}
+
+//Bust be non-kvc compliant so that this property does not end in AutoCoding's dictionaryRepresentation.
+@synthesize recordingFileURL = _nonkvc_recordingFileURL;
 
 + (instancetype)defaultProfilingOptions
 {
@@ -93,17 +101,17 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 
 - (NSURL *)recordingFileURL
 {
-	if(_recordingFileURL == nil)
+	if(_nonkvc_recordingFileURL == nil)
 	{
-		_recordingFileURL = [DTXProfilingOptions _urlForNewRecording];
+		_nonkvc_recordingFileURL = [DTXProfilingOptions _urlForNewRecording];
 	}
 	
-	return _recordingFileURL;
+	return _nonkvc_recordingFileURL;
 }
 
 @end
 
-@interface DTXProfiler () <DBPerformanceToolkitDelegate, DTXNetworkListener>
+@interface DTXProfiler () <DTXNetworkListener>
 
 @property (assign, readwrite, getter=isRecording) BOOL recording;
 
@@ -113,7 +121,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 {
 	DTXProfilingOptions* _currentProfilingOptions;
 	
-	DBPerformanceToolkit* _performanceToolkit;
+	DTXPollingManager* _pollingManager;
 	
 	NSPersistentContainer* _container;
 	NSManagedObjectContext* _backgroundContext;
@@ -204,6 +212,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 			UIDevice* currentDevice = [UIDevice currentDevice];
 			
 			_currentRecording = [[DTXRecording alloc] initWithContext:_backgroundContext];
+			_currentRecording.profilingOptions = options.dictionaryRepresentation;
 			_currentRecording.appName = buildProvider.applicationName;
 			_currentRecording.binaryName = processInfo.processName;
 			_currentRecording.deviceName = currentDevice.name;
@@ -219,8 +228,13 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 			_rootSampleGroup.recording = _currentRecording;
 			_currentSampleGroup = _rootSampleGroup;
 			
-			_performanceToolkit = [[DBPerformanceToolkit alloc] initWithInterval:options.samplingInterval];
-			_performanceToolkit.delegate = self;
+			__weak __typeof(self) weakSelf = self;
+			
+			_pollingManager = [[DTXPollingManager alloc] initWithInterval:options.samplingInterval];
+			[_pollingManager addPollable:[DBPerformanceToolkit new] handler:^(DBPerformanceToolkit* pollable) {
+				[weakSelf performanceToolkitDidPoll:pollable];
+			}];
+			[_pollingManager resume];
 			
 			if(options.recordNetwork)
 			{
@@ -388,9 +402,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	_container = nil;
 }
 
-#pragma mark DBPerformanceToolkitDelegate
-
-- (void)performanceToolkitDidUpdateStats:(DBPerformanceToolkit *)performanceToolkit
+- (void)performanceToolkitDidPoll:(DBPerformanceToolkit*)performanceToolkit
 {
 	DTX_IGNORE_NOT_RECORDING
 	
