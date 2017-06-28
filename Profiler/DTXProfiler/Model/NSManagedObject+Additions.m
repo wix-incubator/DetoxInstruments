@@ -50,6 +50,14 @@ static NSDateFormatter* __iso8601DateFormatter;
 	
 	NSDictionary<NSString *, NSRelationshipDescription *>* relationships = [[self entity] relationshipsByName];
 	[relationships enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSRelationshipDescription * _Nonnull obj, BOOL * _Nonnull stop) {
+		
+		NSString* outputKey = key;
+		
+		if(obj.userInfo[@"transformedDictionaryOutputKey"] != nil)
+		{
+			outputKey = obj.userInfo[@"transformedDictionaryOutputKey"];
+		}
+		
 		if([obj.userInfo[@"includeInDictionaryRepresentation"] boolValue])
 		{
 			id obj = [[self valueForKey:key] valueForKey:@"dictionaryRepresentation"];
@@ -61,7 +69,7 @@ static NSDateFormatter* __iso8601DateFormatter;
 			{
 				obj = [obj allObjects];
 			}
-			rv[key] = obj;
+			rv[outputKey] = obj;
 		}
 		else if([obj.userInfo[@"flattenInDictionaryRepresentation"] boolValue])
 		{
@@ -75,6 +83,11 @@ static NSDateFormatter* __iso8601DateFormatter;
 			NSParameterAssert([obj isKindOfClass:[NSDictionary class]]);
 			
 			[rv addEntriesFromDictionary:obj];
+		}
+		else if(obj.userInfo[@"includeKeyPathInDictionaryRepresentation"] != nil)
+		{
+			id keyPathVal = [[self valueForKey:key] valueForKeyPath:obj.userInfo[@"includeKeyPathInDictionaryRepresentation"]];
+			rv[outputKey] = keyPathVal;
 		}
 	}];
 	

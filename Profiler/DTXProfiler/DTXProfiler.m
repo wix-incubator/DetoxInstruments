@@ -15,19 +15,14 @@
 #import "DTXZipper.h"
 #import "NSManagedObjectContext+PerformQOSBlock.h"
 #import "DTXNetworkRecorder.h"
+#import "DTXLoggingRecorder.h"
 #import "DTXPollingManager.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
 #define DTX_IGNORE_NOT_RECORDING if(self.recording == NO) { return; }
 
-static dispatch_queue_t __log_queue;
-static dispatch_io_t __log_io;
-static int __stderr;
-static int __pipe[2];
-static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
-
-@implementation DTXProfilingOptions
+@implementation DTXProfilingConfiguration
 
 + (BOOL)supportsSecureCoding
 {
@@ -37,11 +32,14 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 //Bust be non-kvc compliant so that this property does not end in AutoCoding's dictionaryRepresentation.
 @synthesize recordingFileURL = _nonkvc_recordingFileURL;
 
-+ (instancetype)defaultProfilingOptions
++ (instancetype)defaultProfilingConfiguration
 {
-	DTXProfilingOptions* rv = [DTXProfilingOptions new];;
+	DTXProfilingConfiguration* rv = [DTXProfilingConfiguration new];;
 	rv.recordNetwork = YES;
+	rv.recordThreadInformation = YES;
+	rv.recordLogOutput = YES;
 	rv.samplingInterval = 0.5;
+	rv.numberOfSamplesBeforeFlushToDisk = 200;
 	
 	return rv;
 }
@@ -88,7 +86,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	
 	if(isDirectory)
 	{
-		recordingFileURL = [recordingFileURL URLByAppendingPathComponent:[DTXProfilingOptions _fileNameForNewRecording] isDirectory:YES];
+		recordingFileURL = [recordingFileURL URLByAppendingPathComponent:[DTXProfilingConfiguration _fileNameForNewRecording] isDirectory:YES];
 	}
 	else
 	{
@@ -103,7 +101,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 {
 	if(_nonkvc_recordingFileURL == nil)
 	{
-		_nonkvc_recordingFileURL = [DTXProfilingOptions _urlForNewRecording];
+		_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
 	}
 	
 	return _nonkvc_recordingFileURL;
@@ -111,15 +109,15 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 
 @end
 
-@interface DTXProfiler () <DTXNetworkListener>
+@interface DTXProfiler () <DTXNetworkListener, DTXLoggingListener>
 
-@property (assign, readwrite, getter=isRecording) BOOL recording;
+@property (atomic, assign, readwrite, getter=isRecording) BOOL recording;
 
 @end
 
 @implementation DTXProfiler
 {
-	DTXProfilingOptions* _currentProfilingOptions;
+	DTXProfilingConfiguration* _currentProfilingConfiguration;
 	
 	DTXPollingManager* _pollingManager;
 	
@@ -136,65 +134,19 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	NSUInteger _threadCount;
 }
 
-+ (void)load
-{
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		__runningProfilers = [NSMutableArray new];
-		[self redirectLogOutput];
-	});
-}
-
-+ (void)redirectLogOutput
-{
-	__stderr = dup(STDERR_FILENO);
-	
-	if (pipe(__pipe) != 0)
-	{
-		return;
-	}
-	
-	dup2(__pipe[1], STDERR_FILENO);
-	close(__pipe[1]);
-	
-	__log_queue = dispatch_queue_create("DTXProfilerLogIOQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0));
-	__log_io = dispatch_io_create(DISPATCH_IO_STREAM, __pipe[0], __log_queue, ^(__unused int error) {});
-	
-	dispatch_io_set_low_water(__log_io, 1);
-	
-	dispatch_io_read(__log_io, 0, SIZE_MAX, __log_queue, ^(__unused bool done, dispatch_data_t data, __unused int error) {
-		if (!data)
-		{
-			return;
-		}
-		
-		dispatch_data_apply(data, ^bool(__unused dispatch_data_t region, __unused size_t offset, const void *buffer, size_t size) {
-			write(__stderr, buffer, size);
-			
-			NSString *log = [[NSString alloc] initWithBytes:buffer length:size encoding:NSUTF8StringEncoding];
-			
-			[__runningProfilers enumerateObjectsUsingBlock:^(__kindof DTXProfiler * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				[obj addLogLine:log];
-			}];
-			
-			return true;
-		});
-	});
-}
-
-- (void)startProfilingWithOptions:(DTXProfilingOptions *)options
+- (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
 	DTX_ASSERT_NOT_RECORDING
 	
 	self.recording = YES;
 	
-	_currentProfilingOptions = options;
+	_currentProfilingConfiguration = configuration;
 	
 	_pendingSamples = [NSMutableArray new];
 	
-	[[NSFileManager defaultManager] createDirectoryAtURL:options.recordingFileURL withIntermediateDirectories:YES attributes:nil error:NULL];
+	[[NSFileManager defaultManager] createDirectoryAtURL:configuration.recordingFileURL withIntermediateDirectories:YES attributes:nil error:NULL];
 	
-	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[options.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];
+	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[configuration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];
 	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXProfiler class]]]];
 	
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
@@ -212,7 +164,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 			UIDevice* currentDevice = [UIDevice currentDevice];
 			
 			_currentRecording = [[DTXRecording alloc] initWithContext:_backgroundContext];
-			_currentRecording.profilingOptions = options.dictionaryRepresentation;
+			_currentRecording.profilingConfiguration = configuration.dictionaryRepresentation;
 			_currentRecording.appName = buildProvider.applicationName;
 			_currentRecording.binaryName = processInfo.processName;
 			_currentRecording.deviceName = currentDevice.name;
@@ -230,25 +182,26 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 			
 			__weak __typeof(self) weakSelf = self;
 			
-			_pollingManager = [[DTXPollingManager alloc] initWithInterval:options.samplingInterval];
-			[_pollingManager addPollable:[DBPerformanceToolkit new] handler:^(DBPerformanceToolkit* pollable) {
+			_pollingManager = [[DTXPollingManager alloc] initWithInterval:configuration.samplingInterval];
+			[_pollingManager addPollable:[[DBPerformanceToolkit alloc] initWithCollectThreadInfo:configuration.recordThreadInformation] handler:^(DBPerformanceToolkit* pollable) {
 				[weakSelf performanceToolkitDidPoll:pollable];
 			}];
 			[_pollingManager resume];
 			
-			if(options.recordNetwork)
+			if(configuration.recordNetwork)
 			{
 				[DTXNetworkRecorder addNetworkListener:self];
 			}
 			
-			dispatch_sync(__log_queue, ^{
-				[__runningProfilers addObject:self];
-			});
+			if(configuration.recordLogOutput)
+			{
+				[DTXLoggingRecorder addLoggingListener:self];
+			}
 		} qos:QOS_CLASS_USER_INTERACTIVE];
 	}];
 }
 
-- (void)stopProfiling
+- (void)stopProfilingWithCompletionHandler:(void(^ __nullable)(NSError* __nullable error))handler
 {
 	DTX_ASSERT_RECORDING
 	
@@ -259,20 +212,24 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 		
 		[self _closeContainerInternal];
 		
-		if(_currentProfilingOptions.recordNetwork)
+		if(_currentProfilingConfiguration.recordNetwork)
 		{
 			[DTXNetworkRecorder removeNetworkListener:self];
 		}
 		
-		_currentProfilingOptions = nil;
+		if(_currentProfilingConfiguration.recordLogOutput)
+		{
+			[DTXLoggingRecorder removeLoggingListener:self];
+		}
 		
-		dispatch_sync(__log_queue, ^{
-			[__runningProfilers removeObject:self];
-		});
+		_currentProfilingConfiguration = nil;
 		
 		self.recording = NO;
 		
-		NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		if(handler != nil)
+		{
+			handler(nil);
+		}
 	}];
 }
 
@@ -282,8 +239,6 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
-		
-		dprintf(__stderr, "Pushing group named %s to parent %s\n", name.UTF8String, _currentSampleGroup.name.UTF8String);
 		DTXSampleGroup* newGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
 		newGroup.name = name;
 		newGroup.parentGroup = _currentSampleGroup;
@@ -298,7 +253,6 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		dprintf(__stderr, "Popping group named %s from parent %s\n", _currentSampleGroup.name.UTF8String, _currentSampleGroup.parentGroup.name.UTF8String);
 		_currentSampleGroup.closeTimestamp = [NSDate date];
 		_currentSampleGroup = _currentSampleGroup.parentGroup;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -334,8 +288,6 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 
 - (void)_flushPendingSamplesInternal
 {
-	dprintf(__stderr, "Flushing\n");
-	
 	[_backgroundContext save:NULL];
 	[_pendingSamples enumerateObjectsUsingBlock:^(DTXSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[_backgroundContext refreshObject:obj mergeChanges:YES];
@@ -360,42 +312,21 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 
 - (void)_closeContainerInternal
 {
-	dprintf(__stderr, "Closing\n");
+	NSJSONWritingOptions jsonOptions = 0;
+	if(_currentProfilingConfiguration.prettyPrintJSONOutput == YES)
+	{
+		jsonOptions |= NSJSONWritingPrettyPrinted;
+	}
 	
-	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[_currentRecording dictionaryRepresentation] options:NSJSONWritingPrettyPrinted error:NULL];
-	NSURL* jsonURL = [_currentProfilingOptions.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.json"];
+	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[_currentRecording dictionaryRepresentation] options:jsonOptions error:NULL];
+	NSURL* jsonURL = [_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.json"];
 	[jsonData writeToURL:jsonURL atomically:YES];
 	
 	[_container.persistentStoreCoordinator.persistentStores.copy enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[_container.persistentStoreCoordinator removePersistentStore:obj error:NULL];
 	}];
 	
-//	NSURL* recordingURL = [(id)_container.persistentStoreDescriptions.firstObject URL];
-//	NSArray<NSURL*>* files = [[[NSFileManager defaultManager] enumeratorAtURL:recordingURL.URLByDeletingLastPathComponent includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:NULL].allObjects filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"path contains[cd] %@", recordingURL.lastPathComponent]];
-//
-//	[files enumerateObjectsUsingBlock:^(NSURL* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//		NSError* err;
-//
-//		NSURL* targetURL = [recordingDirectory URLByAppendingPathComponent:obj.lastPathComponent];
-//		[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
-//		if([[NSFileManager defaultManager] moveItemAtURL:obj toURL:targetURL error:&err] == NO)
-//		{
-//			dprintf(__stderr, "Error moving file %s error: %s\n", obj.lastPathComponent.UTF8String, err.description.UTF8String);
-//		}
-//	}];
-//
-//	NSError* err;
-//
-//	NSURL* targetURL = [recordingDirectory URLByAppendingPathComponent:jsonURL.lastPathComponent];
-//	[[NSFileManager defaultManager] removeItemAtURL:targetURL error:NULL];
-//	if([[NSFileManager defaultManager] moveItemAtURL:jsonURL toURL:targetURL error:&err] == NO)
-//	{
-//		dprintf(__stderr, "Error moving file %s error: %s\n", jsonURL.lastPathComponent.UTF8String, err.description.UTF8String);
-//	}
-//
-//	err = nil;
-	
-//	DTXWriteZipFileWithDirectoryContents([recordingDirectory URLByAppendingPathExtension:@"zip"], recordingDirectory);
+	DTXWriteZipFileWithDirectoryContents([_currentProfilingConfiguration.recordingFileURL URLByAppendingPathExtension:@"zip"], _currentProfilingConfiguration.recordingFileURL);
 	
 //	dprintf(__stderr, "%s\n", [recordingDirectory URLByAppendingPathExtension:@"zip"].path.UTF8String);
 	
@@ -417,8 +348,17 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		DTXAdvancedPerformanceSample* perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:_backgroundContext];
-//		DTXPerformanceSample* perfSample = [[DTXPerformanceSample alloc] initWithContext:_backgroundContext];
+		DTXPerformanceSample* perfSample;
+		
+		if(_currentProfilingConfiguration.recordThreadInformation)
+		{
+			perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:_backgroundContext];
+		}
+		else
+		{
+			perfSample = [[DTXPerformanceSample alloc] initWithContext:_backgroundContext];
+		}
+		
 		perfSample.cpuUsage = cpu.totalCPU;
 		perfSample.memoryUsage = memory;
 		perfSample.fps = fps;
@@ -427,23 +367,26 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 		perfSample.diskWrites = diskWrites;
 		perfSample.diskWritesDelta = diskWritesDelta;
 		
-		[cpu.threads enumerateObjectsUsingBlock:^(DTXThreadMeasurement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			DTXThreadInfo* threadInfo = _threads[@(obj.identifier)];
-			if(threadInfo == nil)
-			{
-				NSLog(@"Thread cache-miss");
-				threadInfo = [[DTXThreadInfo alloc] initWithContext:_backgroundContext];
-				threadInfo.number = _threadCount;
-				_threadCount++;
-				_threads[@(obj.identifier)] = threadInfo;
-			}
-			threadInfo.name = obj.name;
-			
-			DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:_backgroundContext];
-			threadSample.cpuUsage = obj.cpu;
-			threadSample.threadInfo = threadInfo;
-			threadSample.advancedPerformanceSample = perfSample;
-		}];
+		if(_currentProfilingConfiguration.recordThreadInformation)
+		{
+			[cpu.threads enumerateObjectsUsingBlock:^(DTXThreadMeasurement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				DTXThreadInfo* threadInfo = _threads[@(obj.identifier)];
+				if(threadInfo == nil)
+				{
+					NSLog(@"Thread cache-miss");
+					threadInfo = [[DTXThreadInfo alloc] initWithContext:_backgroundContext];
+					threadInfo.number = _threadCount;
+					_threadCount++;
+					_threads[@(obj.identifier)] = threadInfo;
+				}
+				threadInfo.name = obj.name;
+				
+				DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:_backgroundContext];
+				threadSample.cpuUsage = obj.cpu;
+				threadSample.threadInfo = threadInfo;
+				threadSample.advancedPerformanceSample = (DTXAdvancedPerformanceSample*)perfSample;
+			}];
+		}
 		
 		perfSample.parentGroup = _currentSampleGroup;
 		
@@ -455,7 +398,7 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 {
 	[_pendingSamples addObject:pendingSample];
 	
-	if(_pendingSamples.count >= 120)
+	if(_pendingSamples.count >= _currentProfilingConfiguration.numberOfSamplesBeforeFlushToDisk)
 	{
 		[self _flushPendingSamplesInternal];
 	}
@@ -466,6 +409,11 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 - (void)networkRecorderDidStartRequest:(NSURLRequest *)request uniqueIdentifier:(NSString *)uniqueIdentifier
 {
 	DTX_IGNORE_NOT_RECORDING
+	
+	if(_currentProfilingConfiguration.recordLocalhostNetwork == NO && ([request.URL.host isEqualToString:@"localhost"] || [request.URL.host isEqualToString:@"127.0.0.1"]))
+	{
+		return;
+	}
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
@@ -488,6 +436,11 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 
 - (void)netwrokRecorderDidFinishWithResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *)error forRequestWithUniqueIdentifier:(NSString *)uniqueIdentifier
 {
+	if(_currentProfilingConfiguration.recordLocalhostNetwork == NO && ([response.URL.host isEqualToString:@"localhost"] || [response.URL.host isEqualToString:@"127.0.0.1"]))
+	{
+		return;
+	}
+	
 	[_backgroundContext performBlock:^{
 		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
 		fr.predicate = [NSPredicate predicateWithFormat:@"uniqueIdentifier == %@", uniqueIdentifier];
@@ -519,6 +472,13 @@ static NSMutableArray<__kindof DTXProfiler*>* __runningProfilers;
 		
 		[self _addPendingSampleInternal:networkSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+#pragma DTXLoggingListener
+
+- (void)loggingRecorderDidAddLogLine:(NSString *)logLine
+{
+	[self addLogLine:logLine];
 }
 
 @end

@@ -10,3 +10,6 @@
 [submodule "Shared/AutoCoding"]
 	path = Shared/AutoCoding
 	url = https://github.com/nicklockwood/AutoCoding.git
+[submodule "Profiler/fishhook"]
+	path = Profiler/fishhook
+	url = https://github.com/facebook/fishhook.git

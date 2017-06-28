@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class DTXNetworkRecorder;
-
 @protocol DTXNetworkListener <NSObject>
 - (void)networkRecorderDidStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier;
 - (void)netwrokRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier;

@@ -62,7 +62,7 @@
         <attribute name="endTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="hasReactNative" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="processIdentifier" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="profilingOptions" optional="YES" attributeType="Transformable" customClassName="NSDictionary" syncable="YES"/>
+        <attribute name="profilingConfiguration" optional="YES" attributeType="Transformable" customClassName="NSDictionary" syncable="YES"/>
         <attribute name="recordingOptions" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="startTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="rootSampleGroup" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SampleGroup" inverseName="recording" inverseEntity="SampleGroup" syncable="YES">
@@ -95,7 +95,12 @@
     </entity>
     <entity name="ThreadPerformanceSample" representedClassName="DTXThreadPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <relationship name="advancedPerformanceSample" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AdvancedPerformanceSample" inverseName="threadSamples" inverseEntity="AdvancedPerformanceSample" syncable="YES"/>
-        <relationship name="threadInfo" maxCount="1" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="threadPerformanceSamples" inverseEntity="ThreadInfo" syncable="YES"/>
+        <relationship name="threadInfo" maxCount="1" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="threadPerformanceSamples" inverseEntity="ThreadInfo" syncable="YES">
+            <userInfo>
+                <entry key="includeKeyPathInDictionaryRepresentation" value="number"/>
+                <entry key="transformedDictionaryOutputKey" value="threadNumber"/>
+            </userInfo>
+        </relationship>
     </entity>
     <elements>
         <element name="AdvancedPerformanceSample" positionX="-9" positionY="126" width="128" height="60"/>
