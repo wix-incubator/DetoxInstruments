@@ -21,6 +21,7 @@
 	DTXColumnInformation* info = [DTXColumnInformation new];
 	info.title = NSLocalizedString(@"Memory Usage", @"");
 	info.minWidth = 75;
+	info.automaticallyGrowsWithTable = YES;
 	
 	return @[info];
 }

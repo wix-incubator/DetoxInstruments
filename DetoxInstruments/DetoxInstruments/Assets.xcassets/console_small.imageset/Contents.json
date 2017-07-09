@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "02719_autumnbloom_2560x1600.jpg",
+      "filename" : "console_small@1x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "console_small@2x.png",
       "scale" : "2x"
     },
     {

@@ -45,6 +45,8 @@
 		395F01C61EE81DA200695236 /* DTXTimelineIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F01C51EE81DA200695236 /* DTXTimelineIndicatorView.m */; };
 		396202361EEF4A9C00D04E96 /* DTXCPTRangePlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 396202351EEF4A9C00D04E96 /* DTXCPTRangePlot.m */; };
 		396828EB1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396828EA1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m */; };
+		396829361F1265C10012CAFB /* DTXMenuPathControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 396829351F1265C10012CAFB /* DTXMenuPathControl.m */; };
+		396829461F1286690012CAFB /* NSImage+ImageResize.m in Sources */ = {isa = PBXBuildFile; fileRef = 396829451F1286690012CAFB /* NSImage+ImageResize.m */; };
 		39775F241EE826F2001F69CC /* DTXValueIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */; };
 		39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */; };
 		3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978FFE21EEAD06C002BDEFB /* DTXGraphHostingView.m */; };
@@ -256,6 +258,10 @@
 		396202351EEF4A9C00D04E96 /* DTXCPTRangePlot.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCPTRangePlot.m; sourceTree = "<group>"; };
 		396828E91F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAutomaticallyDeselectingTableView.h; sourceTree = "<group>"; };
 		396828EA1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAutomaticallyDeselectingTableView.m; sourceTree = "<group>"; };
+		396829341F1265C10012CAFB /* DTXMenuPathControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMenuPathControl.h; sourceTree = "<group>"; };
+		396829351F1265C10012CAFB /* DTXMenuPathControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXMenuPathControl.m; sourceTree = "<group>"; };
+		396829441F1286690012CAFB /* NSImage+ImageResize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImage+ImageResize.h"; sourceTree = "<group>"; };
+		396829451F1286690012CAFB /* NSImage+ImageResize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSImage+ImageResize.m"; sourceTree = "<group>"; };
 		39775F221EE826F2001F69CC /* DTXValueIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXValueIndicatorView.h; sourceTree = "<group>"; };
 		39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXValueIndicatorView.m; sourceTree = "<group>"; };
 		39775F5A1EE83729001F69CC /* NSFormatter+PlotFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFormatter+PlotFormatters.h"; sourceTree = "<group>"; };
@@ -517,6 +523,8 @@
 				392A49551EF96F72000F397F /* DTXPieChartView.m */,
 				396828E91F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.h */,
 				396828EA1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m */,
+				396829341F1265C10012CAFB /* DTXMenuPathControl.h */,
+				396829351F1265C10012CAFB /* DTXMenuPathControl.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -532,6 +540,8 @@
 				3943CA841EEEF46F0009AD88 /* NSColor+UIAdditions.m */,
 				39F6F6CC1F0E400300C7F411 /* NSDictionary+FakeDecoder.h */,
 				39F6F6CD1F0E400300C7F411 /* NSDictionary+FakeDecoder.m */,
+				396829441F1286690012CAFB /* NSImage+ImageResize.h */,
+				396829451F1286690012CAFB /* NSImage+ImageResize.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -873,12 +883,14 @@
 				393973E11EDC245C0064D4C8 /* DTXPerformanceSample+UIExtensions.m in Sources */,
 				398D6EA51EE0596500AA9C11 /* DTXPlotHostingTableCellView.m in Sources */,
 				394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */,
+				396829361F1265C10012CAFB /* DTXMenuPathControl.m in Sources */,
 				399B4DC81ED574410098D2AC /* DTXInstrumentsWindowController.m in Sources */,
 				393973D61EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.m in Sources */,
 				39ADA7811EE8BACD002CAE5E /* DTXNetworkRequestsPlotController.m in Sources */,
 				39EBDFC01ED36D45005D8AB1 /* main.m in Sources */,
 				3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */,
 				39281E551ED6D16B002CE905 /* DTXSample+Additions.m in Sources */,
+				396829461F1286690012CAFB /* NSImage+ImageResize.m in Sources */,
 				39008F2A1EF2AB740013B584 /* DTXSegmentedView.m in Sources */,
 				396828EB1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m in Sources */,
 				39F6F6C61F0E3D2400C7F411 /* DTXProfilingConfiguration.m in Sources */,

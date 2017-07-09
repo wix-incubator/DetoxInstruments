@@ -59,20 +59,14 @@
 {
 	DTXTextViewCellView* cell = [tableView makeViewWithIdentifier:@"DTXLogEntryCell" owner:nil];
 	cell.contentTextField.stringValue = [_logEntries[row][@"line"] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+	cell.contentTextField.allowsDefaultTighteningForTruncation = NO;
+	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion < 13)
+	{
+		cell.contentTextField.usesSingleLineMode = YES;
+		cell.contentTextField.lineBreakMode = NSLineBreakByTruncatingTail;
+	}
 	
 	return cell;
-}
-
-- (CGFloat)_displayHeightForString:(NSString*)string width:(CGFloat)width
-{
-	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize]}];
-	
-	return [attr boundingRectWithSize:NSMakeSize(width, 0) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading].size.height;
-}
-
-- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
-{
-	return [self _displayHeightForString:[_logEntries[row][@"line"] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]] width:CGFLOAT_MAX];
 }
 
 @end

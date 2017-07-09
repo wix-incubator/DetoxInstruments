@@ -682,7 +682,7 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="" width="648" minWidth="40" maxWidth="1000" id="rlo-56-GFp">
+                                                <tableColumn identifier="" width="648" minWidth="40" maxWidth="10000000000" id="rlo-56-GFp">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -700,7 +700,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rgG-e1-oet">
-                                                                    <rect key="frame" x="-2" y="0.0" width="652" height="17"/>
+                                                                    <rect key="frame" x="3" y="0.0" width="642" height="17"/>
                                                                     <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" id="KQc-uL-Ajo">
                                                                         <font key="font" size="11" name="SFMono-Regular"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -711,8 +711,8 @@
                                                             <constraints>
                                                                 <constraint firstItem="rgG-e1-oet" firstAttribute="top" secondItem="Deg-tm-cRn" secondAttribute="top" id="3pj-pb-G6d"/>
                                                                 <constraint firstAttribute="bottom" secondItem="rgG-e1-oet" secondAttribute="bottom" id="7El-r8-oHo"/>
-                                                                <constraint firstItem="rgG-e1-oet" firstAttribute="leading" secondItem="Deg-tm-cRn" secondAttribute="leading" id="lYP-Qe-4xD"/>
-                                                                <constraint firstAttribute="trailing" secondItem="rgG-e1-oet" secondAttribute="trailing" id="qwT-b6-y3s"/>
+                                                                <constraint firstItem="rgG-e1-oet" firstAttribute="leading" secondItem="Deg-tm-cRn" secondAttribute="leading" constant="5" id="lYP-Qe-4xD"/>
+                                                                <constraint firstAttribute="trailing" secondItem="rgG-e1-oet" secondAttribute="trailing" constant="5" id="qwT-b6-y3s"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="contentTextField" destination="rgG-e1-oet" id="Wfi-HM-R5S"/>
@@ -819,11 +819,12 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="qC8-Mm-qyE" customClass="DTXBorderedView">
                                 <rect key="frame" x="0.0" y="271" width="497" height="29"/>
                                 <subviews>
-                                    <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l8V-u3-onY">
+                                    <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l8V-u3-onY" customClass="DTXMenuPathControl">
                                         <rect key="frame" x="5" y="5" width="487" height="20"/>
                                         <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" refusesFirstResponder="YES" alignment="left" id="Rny-2o-VCR">
                                             <font key="font" metaFont="smallSystem"/>
                                             <url key="url" string="file:///Users/lnatan/Desktop/"/>
+                                            <color key="backgroundColor" red="0.89803921568627454" green="0.92549019607843142" blue="0.97254901960784312" alpha="0.0" colorSpace="deviceRGB"/>
                                         </pathCell>
                                     </pathControl>
                                 </subviews>

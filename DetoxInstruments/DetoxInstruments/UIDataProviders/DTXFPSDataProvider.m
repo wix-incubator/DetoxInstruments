@@ -21,6 +21,7 @@
 	DTXColumnInformation* info = [DTXColumnInformation new];
 	info.title = NSLocalizedString(@"FPS", @"");
 	info.minWidth = 20;
+	info.automaticallyGrowsWithTable = YES;
 	
 	return @[info];
 }
