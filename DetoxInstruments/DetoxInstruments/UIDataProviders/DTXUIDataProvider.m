@@ -324,11 +324,6 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-	if(_ignoresSelections == YES)
-	{
-		return;
-	}
-	
 	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
 	
 	DTXInspectorDataProvider* idp = nil;
@@ -343,18 +338,21 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	
 	[self.delegate dataProvider:self didSelectInspectorItem:idp];
 	
-	if([item isKindOfClass:[DTXSampleGroupProxy class]] == NO)
+	if(_ignoresSelections == NO)
 	{
-		[_plotController highlightSample:item];
-	}
-	else
-	{
-		DTXSampleGroupProxy* groupProxy = item;
-		
-		NSDate* groupCloseTimestamp = groupProxy.closeTimestamp ?: _document.recording.endTimestamp;
-		
-		CPTPlotRange* groupRange = [CPTPlotRange plotRangeWithLocation:@(groupProxy.timestamp.timeIntervalSinceReferenceDate - _document.recording.startTimestamp.timeIntervalSinceReferenceDate) length:@(groupCloseTimestamp.timeIntervalSinceReferenceDate - groupProxy.timestamp.timeIntervalSinceReferenceDate)];
-		[_plotController highlightRange:groupRange];
+		if([item isKindOfClass:[DTXSampleGroupProxy class]] == NO)
+		{
+			[_plotController highlightSample:item];
+		}
+		else
+		{
+			DTXSampleGroupProxy* groupProxy = item;
+			
+			NSDate* groupCloseTimestamp = groupProxy.closeTimestamp ?: _document.recording.endTimestamp;
+			
+			CPTPlotRange* groupRange = [CPTPlotRange plotRangeWithLocation:@(groupProxy.timestamp.timeIntervalSinceReferenceDate - _document.recording.startTimestamp.timeIntervalSinceReferenceDate) length:@(groupCloseTimestamp.timeIntervalSinceReferenceDate - groupProxy.timestamp.timeIntervalSinceReferenceDate)];
+			[_plotController highlightRange:groupRange];
+		}
 	}
 }
 

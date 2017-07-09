@@ -7,94 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DTXProfilingConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-/**
- *  Profiling configuration object for the Profiler.
- */
-@interface DTXProfilingConfiguration : NSObject <NSSecureCoding>
-
-// Sampling Configuration
-
-/**
- *  The sampling interval of the Profiler.
- *
- *  The default value is 0.5.
- */
-@property (nonatomic) NSTimeInterval samplingInterval;
-
-/**
- *  The minimum number of samples to keep in memory before flushing to disk.
- *
- *  Larger number of samples in memory will improve performance at the cost of memory use.
- *
- *  The default value is 200.
- */
-@property (nonatomic) NSUInteger numberOfSamplesBeforeFlushToDisk;
-
-//Recording Configuration
-
-/**
- *  Record network requests during profiling.
- *
- *  The default value is @c true.
- */
-@property (nonatomic) BOOL recordNetwork;
-
-/**
- *  Record localhost network requests during profiling.
- *
- *  Only relevant if @c recordNetwork is set to @c true.
- *
- *  The default value is @c false.
- */
-@property (nonatomic) BOOL recordLocalhostNetwork;
-
-/**
- *  Record thread information during profiling.
- *
- *  The default value is @c true.
- */
-@property (nonatomic) BOOL recordThreadInformation;
-
-/**
- *  Record log output during profiling.
- *
- *  The default value is @c true.
- */
-@property (nonatomic) BOOL recordLogOutput;
-
-/* Output Configuration */
-
-/**
- *  Prints the JSON portion of the output in a pretty manner.
- *
- *  The default value is @c false.
- */
-@property (nonatomic) BOOL prettyPrintJSONOutput;
-
-/**
- *  The recording file URL to save to.
- *
- *  If this URL is a directory URL, a new recording will be created in that directory with the date and time of the recording.
- *
- *  If the URL is a file URL, a new recording will be created with that name.
- *
- *  The extension of the recording package is always @c .dtxprof.
- *
- *  If set to @c nil, the value will reset to the default value.
- *
- *  The default value is a file name with the date and time of the recording, in the documents folder of the device.
- */
-@property (nonatomic, copy, null_resettable) NSURL* recordingFileURL;
-
-/**
- *  Returns a newly created default profiling configuration object.
- */
-+ (instancetype)defaultProfilingConfiguration;
-
-@end
 
 /**
  *  Profiler objects are used to record profiling sessions.
@@ -136,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name The name of the sample group to push.
  */
 - (void)pushSampleGroupWithName:(NSString*)name;
+
 /**
  *  Pop a sample group.
  *

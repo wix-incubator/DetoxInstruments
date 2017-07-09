@@ -13,6 +13,7 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXLineLayer.h"
 #import <LNInterpolation/LNInterpolation.h>
+#import "DTXRecording+UIExtensions.h"
 
 static NSColor* __DTXDarkerColorFromColor(NSColor* color)
 {
@@ -241,7 +242,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		// Auto scale the plot space to fit the plot data
 		[plotSpace scaleToFitPlots:[graph allPlots]];
 		
-		CPTMutablePlotRange *xRange = [CPTMutablePlotRange plotRangeWithLocation:@0 length:@([_document.recording.endTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
+		CPTMutablePlotRange *xRange = [CPTMutablePlotRange plotRangeWithLocation:@0 length:@([_document.recording.realEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
 		CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
 		
 		NSEdgeInsets insets = self.rangeInsets;
@@ -363,6 +364,21 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	}
 }
 
+- (void)_zoomToScale:(CGFloat)scale
+{
+	[_graph.defaultPlotSpace scaleBy:scale aboutPoint:CGPointMake(CGRectGetMidX(_hostingView.bounds), CGRectGetMidY(_hostingView.bounds))];
+}
+
+- (void)zoomIn
+{
+	[self _zoomToScale:2.0];
+}
+
+- (void)zoomOut
+{
+	[self _zoomToScale:0.5];
+}
+
 - (void)highlightSample:(id)sample
 {
 	[self _highlightSample:sample nextSample:nil plotSpaceOffset:0];
@@ -473,22 +489,22 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 
 - (NSArray<NSArray *> *)samplesForPlots
 {
-	return nil;
+	return @[];
 }
 
 - (NSArray<NSString*>*)sampleKeys
 {
-	return nil;
+	return @[];
 }
 
 - (NSArray<NSColor*>*)plotColors
 {
-	return nil;
+	return @[];
 }
 
 - (NSArray<NSString *> *)plotTitles
 {
-	return nil;
+	return @[];
 }
 
 - (CGFloat)yRangeMultiplier;

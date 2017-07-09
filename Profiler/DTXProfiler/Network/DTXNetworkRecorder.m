@@ -23,7 +23,7 @@ static dispatch_queue_t _networkListenersQueue;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		_networkListeners = [NSMutableArray new];
-		_networkListenersQueue = dispatch_queue_create("_networkListenersQueue", DISPATCH_QUEUE_SERIAL);
+		_networkListenersQueue = dispatch_queue_create("com.wix.DTXProfilerNetworkListenersQueue", DISPATCH_QUEUE_SERIAL);
 		DBURLProtocol.delegate = (id)self;
 	});
 }

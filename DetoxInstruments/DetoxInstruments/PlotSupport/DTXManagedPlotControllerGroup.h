@@ -19,6 +19,7 @@
 
 @interface DTXManagedPlotControllerGroup : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithHostingView:(NSView*)view NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, weak) id<DTXManagedPlotControllerGroupDelegate> delegate;
@@ -31,5 +32,8 @@
 - (void)addPlotController:(id<DTXPlotController>)plotController;
 - (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController;
 - (void)removePlotController:(id<DTXPlotController>)plotController;
+
+- (void)zoomIn;
+- (void)zoomOut;
 
 @end

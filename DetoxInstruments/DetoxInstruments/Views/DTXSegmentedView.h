@@ -17,6 +17,7 @@
 @end
 
 
+IBInspectable
 @interface DTXSegmentedView : NSSegmentedControl
 
 @property (nonatomic, weak) id<DTXSegmentedViewDelegate> delegate;

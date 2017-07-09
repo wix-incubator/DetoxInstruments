@@ -10,104 +10,20 @@
 #import "AutoCoding.h"
 #import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
-#import "DBPerformanceToolkit.h"
+#import "DTXPerformanceSampler.h"
 #import "DBBuildInfoProvider.h"
 #import "DTXZipper.h"
 #import "NSManagedObjectContext+PerformQOSBlock.h"
 #import "DTXNetworkRecorder.h"
 #import "DTXLoggingRecorder.h"
 #import "DTXPollingManager.h"
+#import "DTXReactNativeSampler.h"
+#import "DTXRNJSCSourceMapsSupport.h"
+#import "DTXAddressInfo.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
 #define DTX_IGNORE_NOT_RECORDING if(self.recording == NO) { return; }
-
-@implementation DTXProfilingConfiguration
-
-+ (BOOL)supportsSecureCoding
-{
-	return YES;
-}
-
-//Bust be non-kvc compliant so that this property does not end in AutoCoding's dictionaryRepresentation.
-@synthesize recordingFileURL = _nonkvc_recordingFileURL;
-
-+ (instancetype)defaultProfilingConfiguration
-{
-	DTXProfilingConfiguration* rv = [DTXProfilingConfiguration new];;
-	rv.recordNetwork = YES;
-	rv.recordThreadInformation = YES;
-	rv.recordLogOutput = YES;
-	rv.samplingInterval = 0.5;
-	rv.numberOfSamplesBeforeFlushToDisk = 200;
-	
-	return rv;
-}
-
-+ (NSString *)_sanitizeFileNameString:(NSString *)fileName {
-	NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
-	return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@"_"];
-}
-
-+ (NSURL*)_documentsDirectory
-{
-	return [NSURL fileURLWithPath:@"/Users/lnatan/Desktop/"];
-	//	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
-+ (NSString*)_fileNameForNewRecording
-{
-	static NSDateFormatter* dateFileFormatter;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		dateFileFormatter = [NSDateFormatter new];
-		dateFileFormatter.dateFormat = @"yyyy-MM-dd-HH-mm-ss";
-	});
-	
-	NSString* dateString = [dateFileFormatter stringFromDate:[NSDate date]];
-	return [NSString stringWithFormat:@"%@.dtxprof", [self _sanitizeFileNameString:dateString]];
-}
-
-+ (NSURL*)_urlForNewRecording
-{
-	return [[self _documentsDirectory] URLByAppendingPathComponent:[self _fileNameForNewRecording] isDirectory:YES];
-}
-
-- (void)setRecordingFileURL:(NSURL *)recordingFileURL
-{
-	if(recordingFileURL.isFileURL == NO)
-	{
-		[NSException raise:NSInvalidArgumentException format:@"URL %@ is not a file URL", recordingFileURL];
-		return;
-	}
-	
-	NSNumber* isDirectory;
-	[recordingFileURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
-	
-	if(isDirectory)
-	{
-		recordingFileURL = [recordingFileURL URLByAppendingPathComponent:[DTXProfilingConfiguration _fileNameForNewRecording] isDirectory:YES];
-	}
-	else
-	{
-		//Recordings are always directories. If the user provided a file URL, use the file name provided to contruct a directory.
-		recordingFileURL = [recordingFileURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.dtxprof", recordingFileURL.lastPathComponent] isDirectory:YES];
-	}
-	
-	recordingFileURL = recordingFileURL;
-}
-
-- (NSURL *)recordingFileURL
-{
-	if(_nonkvc_recordingFileURL == nil)
-	{
-		_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
-	}
-	
-	return _nonkvc_recordingFileURL;
-}
-
-@end
 
 @interface DTXProfiler () <DTXNetworkListener, DTXLoggingListener>
 
@@ -131,7 +47,6 @@
 	NSMutableArray<DTXSample*>* _pendingSamples;
 	
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
-	NSUInteger _threadCount;
 }
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
@@ -153,7 +68,6 @@
 	_container.persistentStoreDescriptions = @[description];
 	
 	_threads = [NSMutableDictionary new];
-	_threadCount = 0;
 	
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
 		_backgroundContext = _container.newBackgroundContext;
@@ -165,7 +79,7 @@
 			
 			_currentRecording = [[DTXRecording alloc] initWithContext:_backgroundContext];
 			_currentRecording.profilingConfiguration = configuration.dictionaryRepresentation;
-			_currentRecording.appName = buildProvider.applicationName;
+			_currentRecording.appName = buildProvider.applicationDisplayName;
 			_currentRecording.binaryName = processInfo.processName;
 			_currentRecording.deviceName = currentDevice.name;
 			_currentRecording.deviceOS = processInfo.operatingSystemVersionString;
@@ -174,6 +88,7 @@
 			_currentRecording.deviceProcessorCount = processInfo.activeProcessorCount;
 			_currentRecording.deviceType = currentDevice.model;
 			_currentRecording.processIdentifier = processInfo.processIdentifier;
+			_currentRecording.hasReactNative = [DTXReactNativeSampler reactNativeInstalled];
 			
 			_rootSampleGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
 			_rootSampleGroup.name = @"DTXRoot";
@@ -183,21 +98,64 @@
 			__weak __typeof(self) weakSelf = self;
 			
 			_pollingManager = [[DTXPollingManager alloc] initWithInterval:configuration.samplingInterval];
-			[_pollingManager addPollable:[[DBPerformanceToolkit alloc] initWithCollectThreadInfo:configuration.recordThreadInformation] handler:^(DBPerformanceToolkit* pollable) {
-				[weakSelf performanceToolkitDidPoll:pollable];
+			[_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:configuration] handler:^(DTXPerformanceSampler* pollable) {
+				[weakSelf performanceSamplerDidPoll:pollable];
 			}];
 			[_pollingManager resume];
 			
-			if(configuration.recordNetwork)
+			if(configuration.recordNetwork == YES)
 			{
 				[DTXNetworkRecorder addNetworkListener:self];
 			}
 			
-			if(configuration.recordLogOutput)
+			if(configuration.recordLogOutput == YES)
 			{
 				[DTXLoggingRecorder addLoggingListener:self];
 			}
+			
+			if(_currentRecording.hasReactNative == YES)
+			{
+				[_pollingManager addPollable:[[DTXReactNativeSampler alloc] initWithConfiguration:configuration] handler:^(DTXReactNativeSampler* pollable) {
+					[weakSelf reactNativeSamplerDidPoll:pollable];
+				}];
+			}
 		} qos:QOS_CLASS_USER_INTERACTIVE];
+	}];
+}
+
+- (void)_symbolicateStackTracesInternal
+{
+	NSPredicate* unsymbolicated = [NSPredicate predicateWithFormat:@"stackTraceIsSymbolicated == NO"];
+	NSFetchRequest* fr = [DTXAdvancedPerformanceSample fetchRequest];
+	fr.predicate = unsymbolicated;
+	
+	NSArray<DTXAdvancedPerformanceSample*>* unsymbolicatedSamples = [_backgroundContext executeFetchRequest:fr error:NULL];
+	[unsymbolicatedSamples enumerateObjectsUsingBlock:^(DTXAdvancedPerformanceSample * _Nonnull unsymbolicatedSample, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSMutableArray* symbolicatedStackTrace = [NSMutableArray new];
+		
+		[unsymbolicatedSample.heaviestStackTrace enumerateObjectsUsingBlock:^(NSNumber* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			DTXAddressInfo* addressInfo = [[DTXAddressInfo alloc] initWithAddress:obj.unsignedIntegerValue];
+			[symbolicatedStackTrace addObject:[addressInfo dictionaryRepresentation]];
+		}];
+		
+		unsymbolicatedSample.heaviestStackTrace = symbolicatedStackTrace;
+		unsymbolicatedSample.stackTraceIsSymbolicated = YES;
+	}];
+}
+
+
+- (void)_symbolicateJavaScriptStackTracesInternal
+{
+	NSPredicate* unsymbolicated = [NSPredicate predicateWithFormat:@"stackTraceIsSymbolicated == NO"];
+	NSFetchRequest* fr = [DTXReactNativePeroformanceSample fetchRequest];
+	fr.predicate = unsymbolicated;
+	
+	NSArray<DTXReactNativePeroformanceSample*>* unsymbolicatedSamples = [_backgroundContext executeFetchRequest:fr error:NULL];
+	[unsymbolicatedSamples enumerateObjectsUsingBlock:^(DTXReactNativePeroformanceSample * _Nonnull unsymbolicatedSample, NSUInteger idx, BOOL * _Nonnull stop) {
+		BOOL wasSymbolicated = NO;
+		
+		unsymbolicatedSample.stackTrace = DTXRNSymbolicateJSCBacktrace(unsymbolicatedSample.stackTrace, &wasSymbolicated);
+		unsymbolicatedSample.stackTraceIsSymbolicated = wasSymbolicated;
 	}];
 }
 
@@ -207,10 +165,17 @@
 	
 	[self _flushPendingSamplesWithInternalCompletionHandler:^{
 		_currentRecording.endTimestamp = [NSDate date];
+		_pollingManager = nil;
 		
-		[_backgroundContext save:NULL];
+		if(_currentProfilingConfiguration.collectStackTraces && _currentProfilingConfiguration.symbolicateStackTraces)
+		{
+			[self _symbolicateStackTracesInternal];
+		}
 		
-		[self _closeContainerInternal];
+		if(_currentRecording.hasReactNative && _currentProfilingConfiguration.collectJavaScriptStackTraces && _currentProfilingConfiguration.symbolicateJavaScriptStackTraces)
+		{
+			[self _symbolicateJavaScriptStackTracesInternal];
+		}
 		
 		if(_currentProfilingConfiguration.recordNetwork)
 		{
@@ -222,8 +187,11 @@
 			[DTXLoggingRecorder removeLoggingListener:self];
 		}
 		
-		_currentProfilingConfiguration = nil;
+		[_backgroundContext save:NULL];
 		
+		[self _closeContainerInternal];
+		
+		_currentProfilingConfiguration = nil;
 		self.recording = NO;
 		
 		if(handler != nil)
@@ -333,22 +301,24 @@
 	_container = nil;
 }
 
-- (void)performanceToolkitDidPoll:(DBPerformanceToolkit*)performanceToolkit
+- (void)performanceSamplerDidPoll:(DTXPerformanceSampler*)performanceSampler
 {
 	DTX_IGNORE_NOT_RECORDING
 	
-	DTXCPUMeasurement* cpu = performanceToolkit.currentCPU;
-	CGFloat memory = performanceToolkit.currentMemory;
-	CGFloat fps = performanceToolkit.currentFPS;
-	uint64_t diskReads = performanceToolkit.currentDiskReads;
-	uint64_t diskWrites = performanceToolkit.currentDiskWrites;
-	uint64_t diskReadsDelta = performanceToolkit.currentDiskReadsDelta;
-	uint64_t diskWritesDelta = performanceToolkit.currentDiskWritesDelta;
+	DTXCPUMeasurement* cpu = performanceSampler.performanceToolkit.currentCPU;
+	CGFloat memory = performanceSampler.performanceToolkit.currentMemory;
+	CGFloat fps = performanceSampler.performanceToolkit.currentFPS;
+	uint64_t diskReads = performanceSampler.performanceToolkit.currentDiskReads;
+	uint64_t diskWrites = performanceSampler.performanceToolkit.currentDiskWrites;
+	uint64_t diskReadsDelta = performanceSampler.performanceToolkit.currentDiskReadsDelta;
+	uint64_t diskWritesDelta = performanceSampler.performanceToolkit.currentDiskWritesDelta;
+	
+	NSArray* stackTrace = performanceSampler.callStackSymbols;
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		DTXPerformanceSample* perfSample;
+		__kindof DTXPerformanceSample* perfSample;
 		
 		if(_currentProfilingConfiguration.recordThreadInformation)
 		{
@@ -373,11 +343,10 @@
 				DTXThreadInfo* threadInfo = _threads[@(obj.identifier)];
 				if(threadInfo == nil)
 				{
-					NSLog(@"Thread cache-miss");
 					threadInfo = [[DTXThreadInfo alloc] initWithContext:_backgroundContext];
-					threadInfo.number = _threadCount;
-					_threadCount++;
+					threadInfo.number = _threads.count;
 					_threads[@(obj.identifier)] = threadInfo;
+					threadInfo.recording = _currentRecording;
 				}
 				threadInfo.name = obj.name;
 				
@@ -386,11 +355,57 @@
 				threadSample.threadInfo = threadInfo;
 				threadSample.advancedPerformanceSample = (DTXAdvancedPerformanceSample*)perfSample;
 			}];
+			
+			if(_currentProfilingConfiguration.collectStackTraces)
+			{
+				[perfSample setHeaviestStackTrace:stackTrace];
+				[perfSample setStackTraceIsSymbolicated:NO];
+			}
 		}
 		
 		perfSample.parentGroup = _currentSampleGroup;
 		
 		[self _addPendingSampleInternal:perfSample];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)reactNativeSamplerDidPoll:(DTXReactNativeSampler*) rnSampler
+{
+	DTX_IGNORE_NOT_RECORDING
+	
+	double cpu = rnSampler.cpu;
+	uint64_t bridgeNToJSCallCount = rnSampler.bridgeNToJSCallCount;
+	uint64_t bridgeNToJSCallCountDelta = rnSampler.bridgeNToJSCallCountDelta;
+	uint64_t bridgeJSToNCallCount = rnSampler.bridgeJSToNCallCount;
+	uint64_t bridgeJSToNCallCountDelta = rnSampler.bridgeJSToNCallCountDelta;
+	uint64_t bridgeNToJSDataSize = rnSampler.bridgeNToJSDataSize;
+	uint64_t bridgeNToJSDataSizeDelta = rnSampler.bridgeNToJSDataSizeDelta;
+	uint64_t bridgeJSToNDataSize = rnSampler.bridgeJSToNDataSize;
+	uint64_t bridgeJSToNDataSizeDelta = rnSampler.bridgeJSToNDataSizeDelta;
+	
+	NSArray* stackTrace = [rnSampler.currentStackTrace componentsSeparatedByString:@"\n"];
+	BOOL isSymbolicated = rnSampler.currentStackTraceSymbolicated;
+	
+	[_backgroundContext performBlock:^{
+		DTX_IGNORE_NOT_RECORDING
+		
+		DTXReactNativePeroformanceSample* rnPerfSample = [[DTXReactNativePeroformanceSample alloc] initWithContext:_backgroundContext];
+		rnPerfSample.cpuUsage = cpu;
+		rnPerfSample.bridgeNToJSCallCount = bridgeNToJSCallCount;
+		rnPerfSample.bridgeNToJSCallCountDelta = bridgeNToJSCallCountDelta;
+		rnPerfSample.bridgeJSToNCallCount = bridgeJSToNCallCount;
+		rnPerfSample.bridgeJSToNCallCountDelta = bridgeJSToNCallCountDelta;
+		rnPerfSample.bridgeNToJSDataSize = bridgeNToJSDataSize;
+		rnPerfSample.bridgeNToJSDataSizeDelta = bridgeNToJSDataSizeDelta;
+		rnPerfSample.bridgeJSToNDataSize = bridgeJSToNDataSize;
+		rnPerfSample.bridgeJSToNDataSizeDelta = bridgeJSToNDataSizeDelta;
+		
+		rnPerfSample.stackTrace = stackTrace;
+		rnPerfSample.stackTraceIsSymbolicated = isSymbolicated;
+		
+		rnPerfSample.parentGroup = _currentSampleGroup;
+		
+		[self _addPendingSampleInternal:rnPerfSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 

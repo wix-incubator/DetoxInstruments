@@ -7,8 +7,14 @@
 //
 
 #import "DTXDiskDataProvider.h"
+#import "DTXDiskInspectorDataProvider.h"
 
 @implementation DTXDiskDataProvider
+
++ (Class)inspectorDataProviderClass
+{
+	return [DTXDiskInspectorDataProvider class];
+}
 
 - (NSArray<DTXColumnInformation *> *)columns
 {

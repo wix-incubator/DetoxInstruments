@@ -34,7 +34,7 @@
 		_pollables = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 		
 		dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
-		_measurementsTimerQueue = dispatch_queue_create("_measurementsTimerQueue", qosAttribute);
+		_measurementsTimerQueue = dispatch_queue_create("com.wix.DTXProfilerMeasurementsTimerQueue", qosAttribute);
 		
 		_measurementsTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _measurementsTimerQueue);
 		uint64_t interval = timeInterval * NSEC_PER_SEC;
@@ -51,7 +51,7 @@
 
 - (void)addPollable:(id<DTXPollable>)pollable handler:(DTXPollableHandler)handler
 {
-	[_pollables setObject:handler forKey:pollable];
+	[_pollables setObject:[handler copy] forKey:pollable];
 }
 
 - (void)resume
@@ -66,7 +66,7 @@
 
 - (void)_pollPollables
 {
-	for(id<DTXPollable> pollable in _pollables.keyEnumerator)
+	for(id<DTXPollable> pollable in [[_pollables copy] keyEnumerator])
 	{
 		//Probably should actually measure time between pollings, but good enough for now.
 		[pollable pollWithTimePassed:_interval];

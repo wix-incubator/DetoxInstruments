@@ -13,3 +13,6 @@
 [submodule "Profiler/fishhook"]
 	path = Profiler/fishhook
 	url = https://github.com/facebook/fishhook.git
+[submodule "Shared/DTXSourceMaps"]
+	path = Shared/DTXSourceMaps
+	url = https://github.com/wix/DTXSourceMaps.git

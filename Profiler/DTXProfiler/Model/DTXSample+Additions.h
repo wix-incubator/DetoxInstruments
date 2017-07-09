@@ -7,8 +7,10 @@
 //
 
 #import "DTXSample+CoreDataClass.h"
-#import "DTXInstrumentsModel.h"
+#import "DTXRecording+Additions.h"
 
 @interface DTXSample (Additions)
+
+@property (nonatomic, strong, readonly) DTXRecording* recording;
 
 @end

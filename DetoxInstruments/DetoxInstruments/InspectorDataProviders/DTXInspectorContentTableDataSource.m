@@ -9,6 +9,7 @@
 #import "DTXInspectorContentTableDataSource.h"
 #import "DTXTextViewCellView.h"
 #import "DTXViewCellView.h"
+#import "DTXStackTraceCellView.h"
 @import QuartzCore;
 
 @implementation DTXInspectorContentRow
@@ -55,8 +56,8 @@
 
 - (void)setManagedTableView:(NSTableView *)managedTableView
 {
-	[CATransaction begin];
-	[CATransaction setDisableActions:YES];
+//	[CATransaction begin];
+//	[CATransaction setDisableActions:YES];
 	
 	//Cleanup
 	_managedTableView.dataSource = nil;
@@ -78,7 +79,7 @@
 	
 	[_managedTableView scrollRowToVisible:0];
 	
-	[CATransaction commit];
+//	[CATransaction commit];
 }
 
 - (void)setContentArray:(NSArray<DTXInspectorContent *> *)contentArray
@@ -96,13 +97,7 @@
 		[content.content enumerateObjectsUsingBlock:^(DTXInspectorContentRow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			if(obj.isNewLine)
 			{
-				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:11 weight:NSFontWeightRegular]}]];
-				return;
-			}
-			
-			if(obj.title == nil)
-			{
-				NSLog(@"Title cannot be nil");
+				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightRegular]}]];
 				return;
 			}
 			
@@ -112,12 +107,17 @@
 				return;
 			}
 			
-			[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.title attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:11 weight:NSFontWeightSemibold]}]];
-			[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@": " attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:11 weight:NSFontWeightSemibold]}]];
-			[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.description attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:11 weight:NSFontWeightRegular], NSForegroundColorAttributeName: obj.color}]];
+			if(obj.title)
+			{
+				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.title attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightSemibold]}]];
+				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@": " attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightSemibold]}]];
+			}
+			
+			[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.description attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightRegular], NSForegroundColorAttributeName: obj.color}]];
+			
 			if(idx < content.content.count - 1)
 			{
-				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:11 weight:NSFontWeightRegular]}]];
+				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightRegular]}]];
 			}
 		}];
 		[_attributedStrings addObject:mas];
@@ -133,16 +133,24 @@
 {
 	DTXInspectorContent* content = _contentArray[row];
 	
-	__kindof NSTableCellView* cell = [tableView makeViewWithIdentifier:content.customView ? @"DTXViewCellView" : content.image ? @"DTXImageViewCellView" : @"DTXTextViewCellView" owner:nil];
+	__kindof NSTableCellView* cell = [tableView makeViewWithIdentifier:content.stackFrames ? @"DTXStackTraceCellView" : content.customView ? @"DTXViewCellView" : content.image ? @"DTXImageViewCellView" : @"DTXTextViewCellView" owner:nil];
 	
-	if(content.customView == nil && content.image == nil)
+	if(content.stackFrames != nil)
+	{
+		[cell setStackFrames:content.stackFrames];
+	}
+	
+	if(content.customView == nil && content.image == nil && content.stackFrames == nil)
 	{
 		[cell contentTextField].attributedStringValue = _attributedStrings[row];
+		[cell contentTextField].allowsEditingTextAttributes = YES;
+		[cell contentTextField].selectable = YES;
 	}
 	
 	cell.textField.stringValue = content.title ?: @"Title";
 	cell.imageView.image = content.image;
-	if([cell isKindOfClass:[DTXViewCellView class]])
+	
+	if(content.customView)
 	{
 		[content.customView removeFromSuperview];
 		
@@ -171,13 +179,19 @@
 	CGFloat leading = 15;
 	CGFloat trailing = 3;
 	
+	if(content.stackFrames)
+	{
+		return top + DTXStackTraceCellView.heightForStackFrame * content.stackFrames.count + bottom;
+	}
+	
 	if(content.customView)
 	{
 		CGFloat h = top + content.customView.fittingSize.height + bottom;
 		
 		return h;
 	}
-	else if(content.image)
+	
+	if(content.image)
 	{
 		CGFloat availableWidth = tableView.bounds.size.width - leading - trailing;
 		CGFloat scale = 1.0;
@@ -188,10 +202,9 @@
 		
 		return top + MAX(content.image.size.height, 80) * scale + bottom;
 	}
-	else
-	{
-		return top + [self _displayHeightForString:_attributedStrings[row] width:tableView.bounds.size.width - leading - trailing] + bottom;
-	}
+	
+	return top + [self _displayHeightForString:_attributedStrings[row] width:tableView.bounds.size.width - leading - trailing] + bottom;
+	
 }
 
 @end

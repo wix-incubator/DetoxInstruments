@@ -23,7 +23,7 @@
 
 - (CGFloat)lastSplitItemMaxThickness
 {
-	return 320;
+	return CGFLOAT_MAX;
 }
 
 @end

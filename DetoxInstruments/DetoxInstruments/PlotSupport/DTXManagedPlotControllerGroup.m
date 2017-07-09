@@ -23,11 +23,6 @@
 	NSMutableArray<id<DTXPlotController>>* _managedPlotControllers;
 }
 
-- (instancetype)init
-{
-	return [self initWithHostingView:nil];
-}
-
 - (instancetype)initWithHostingView:(NSView*)view
 {
 	self = [super init];
@@ -146,6 +141,18 @@
 	
 	_timelineView.displaysIndicator = pointInView.x >= 210;
 	_timelineView.indicatorOffset = pointInView.x;
+}
+
+- (void)zoomIn
+{
+	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
+	[_managedPlotControllers.firstObject zoomIn];
+}
+
+- (void)zoomOut
+{
+	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
+	[_managedPlotControllers.firstObject zoomOut];
 }
 
 @end

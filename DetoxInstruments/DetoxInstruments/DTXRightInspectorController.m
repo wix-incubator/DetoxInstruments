@@ -11,6 +11,7 @@
 #import "DTXDocument.h"
 #import "DTXInspectorContentTableDataSource.h"
 #import "DTXSegmentedView.h"
+#import "DTXRecording+UIExtensions.h"
 
 static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 
@@ -62,6 +63,11 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	}
 }
 
+static NSString* __DTXStringFromBoolean(BOOL b)
+{
+	return b ? NSLocalizedString(@"Yes", @"") : NSLocalizedString(@"No", @"");
+}
+
 - (void)_prepareRecordingDescriptionIfNeeded
 {
 	if(_recordingDescriptionDataSource != nil)
@@ -74,6 +80,11 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	{
 		return;
 	}
+	DTXProfilingConfiguration* configuration;
+	if(recording.profilingConfiguration)
+	{
+		configuration = recording.dtx_profilingConfiguration;
+	}
 	
 	_recordingDescriptionDataSource = [DTXInspectorContentTableDataSource new];
 	
@@ -81,6 +92,15 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	recordingInfo.title = NSLocalizedString(@"Recording Info", @"");
 	
 	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"App Name", @"") description:recording.appName]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Process Identifier", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(recording.processIdentifier)]]];
+	if(recording.hasReactNative)
+	{
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"React Native", @"") description:NSLocalizedString(@"Yes", @"")]];
+	}
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Target Name", @"") description:recording.deviceName]];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Target Model", @"") description:recording.deviceType]];
@@ -99,7 +119,35 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	
 	recordingInfo.content = content;
 	
-	_recordingDescriptionDataSource.contentArray = @[recordingInfo];
+	if(configuration)
+	{
+		DTXInspectorContent* recordingConfiguration = [DTXInspectorContent new];
+		recordingConfiguration.title = NSLocalizedString(@"Recording Configuration", @"");
+		
+		content = [NSMutableArray new];
+		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Sampling Interval", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(configuration.samplingInterval)]]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Network", @"") description:__DTXStringFromBoolean(configuration.recordNetwork)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Localhost", @"") description:__DTXStringFromBoolean(configuration.recordLocalhostNetwork)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Thread Information", @"") description:__DTXStringFromBoolean(configuration.recordThreadInformation)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Stack Traces", @"") description:__DTXStringFromBoolean(configuration.collectStackTraces)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Symbolicate Stack Traces", @"") description:__DTXStringFromBoolean(configuration.symbolicateStackTraces)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Log Output", @"") description:__DTXStringFromBoolean(configuration.recordLogOutput)]];
+		
+		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
+		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Profile React Native", @"") description:__DTXStringFromBoolean(configuration.profileReactNative)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Java Script Stack Traces", @"") description:__DTXStringFromBoolean(configuration.collectJavaScriptStackTraces)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Symbolicate Java Script Stack Traces", @"") description:__DTXStringFromBoolean(configuration.symbolicateJavaScriptStackTraces)]];
+		
+		recordingConfiguration.content = content;
+		
+		_recordingDescriptionDataSource.contentArray = @[recordingInfo, recordingConfiguration];
+	}
+	else
+	{
+		_recordingDescriptionDataSource.contentArray = @[recordingInfo];
+	}
 	
 	if([_tabSwitcher isSelectedForSegment:1])
 	{

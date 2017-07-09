@@ -40,6 +40,8 @@
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
 
 - (void)setPlotRange:(CPTPlotRange*)plotRange;
+- (void)zoomIn;
+- (void)zoomOut;
 
 @optional
 

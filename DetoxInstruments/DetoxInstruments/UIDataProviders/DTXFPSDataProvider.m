@@ -7,8 +7,14 @@
 //
 
 #import "DTXFPSDataProvider.h"
+#import "DTXFPSInspectorDataProvider.h"
 
 @implementation DTXFPSDataProvider
+
++ (Class)inspectorDataProviderClass
+{
+	return [DTXFPSInspectorDataProvider class];
+}
 
 - (NSArray<DTXColumnInformation *> *)columns
 {

@@ -8,6 +8,7 @@
 
 #import "DTXSample+Additions.h"
 #import "DTXInstruments+CoreDataModel.h"
+#import "DTXInstrumentsModel.h"
 
 static NSDictionary<NSString*, NSNumber*>* __classTypeMapping;
 
@@ -24,6 +25,7 @@ static NSDictionary<NSString*, NSNumber*>* __classTypeMapping;
 							   NSStringFromClass([DTXNetworkSample class]): @(DTXSampleTypeNetwork),
 							   NSStringFromClass([DTXTag class]): @(DTXSampleTypeTag),
 							   NSStringFromClass([DTXLogSample class]): @(DTXSampleTypeLog),
+                               NSStringFromClass([DTXReactNativePeroformanceSample class]): @(DTXSampleTypeReactNativePerformanceType),
 							   };
 	});
 }
@@ -34,6 +36,27 @@ static NSDictionary<NSString*, NSNumber*>* __classTypeMapping;
 	
 	self.timestamp = [NSDate date];
 	self.sampleType = [__classTypeMapping[NSStringFromClass(self.class)] unsignedIntegerValue];
+}
+
+- (DTXRecording *)recording
+{
+	if([self isKindOfClass:[DTXSampleGroup class]])
+	{
+		[self willAccessValueForKey:@"recording"];
+		id rv = [self primitiveValueForKey:@"recording"];
+		[self didAccessValueForKey:@"recording"];
+		
+		return rv;
+	}
+	
+	DTXSampleGroup* rootGroup = self.parentGroup;
+	
+	while(rootGroup.parentGroup != nil)
+	{
+		rootGroup = rootGroup.parentGroup;
+	}
+	
+	return rootGroup.recording;
 }
 
 @end

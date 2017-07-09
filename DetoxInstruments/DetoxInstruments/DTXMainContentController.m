@@ -22,6 +22,9 @@
 #import "DTXCompactNetworkRequestsPlotController.h"
 #import "DTXAggregatingNetworkRequestsPlotController.h"
 
+#import "DTXRecording+UIExtensions.h"
+#import "DTXRNCPUUsagePlotController.h"
+
 @interface DTXMainContentController () <NSTableViewDelegate, NSTableViewDataSource, DTXManagedPlotControllerGroupDelegate>
 {
 	__weak IBOutlet NSTableView *_tableView;
@@ -53,6 +56,8 @@
 		return;
 	}
 	
+	DTXDocument* document = (id)self.view.window.windowController.document;
+	
 	_tableView.intercellSpacing = NSMakeSize(0, 1);
 	
 	_plotGroup = [[DTXManagedPlotControllerGroup alloc] initWithHostingView:self.view];
@@ -72,16 +77,23 @@
 	if(threads.count > 0)
 	{
 		[threads enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			[_threadPlotControllers addObject:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.view.window.windowController.document threadInfo:obj]];
+			[_threadPlotControllers addObject:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:document threadInfo:obj]];
 		}];
 	}
 	
-	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.view.window.windowController.document]];
-	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.view.window.windowController.document]];
-	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.view.window.windowController.document]];
-//	[_plotGroup addPlotController:[[DTXNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
-	[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
-//	[_plotGroup addPlotController:[[DTXAggregatingNetworkRequestsPlotController alloc] initWithDocument:self.view.window.windowController.document]];
+	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:document]];
+	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:document]];
+	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:document]];
+	
+	if(document.recording.dtx_profilingConfiguration == nil || document.recording.dtx_profilingConfiguration.recordNetwork == YES)
+	{
+		[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:document]];
+	}
+	
+	if(document.recording.hasReactNative && document.recording.dtx_profilingConfiguration.profileReactNative)
+	{
+		[_plotGroup addPlotController:[[DTXRNCPUUsagePlotController alloc] initWithDocument:document]];
+	}
 	
 	[_tableView reloadData];
 }
@@ -193,6 +205,16 @@
 	NSUInteger idx = [group.plotControllers indexOfObject:plotController];
 	[_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
 	[_tableView.window makeFirstResponder:_tableView];
+}
+
+- (IBAction)zoomIn:(id)sender
+{
+	[_plotGroup zoomIn];
+}
+
+- (IBAction)zoomOut:(id)sender
+{
+	[_plotGroup zoomOut];
 }
 
 @end

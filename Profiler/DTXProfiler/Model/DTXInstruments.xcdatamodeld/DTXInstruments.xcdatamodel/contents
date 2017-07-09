@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.30" systemVersion="17A291j" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdvancedPerformanceSample" representedClassName="DTXAdvancedPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
+        <attribute name="heaviestStackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
+        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="threadSamples" optional="YES" toMany="YES" minCount="1" deletionRule="Cascade" ordered="YES" destinationEntity="ThreadPerformanceSample" inverseName="advancedPerformanceSample" inverseEntity="ThreadPerformanceSample" syncable="YES">
             <userInfo>
                 <entry key="includeInDictionaryRepresentation" value="YES"/>
@@ -50,6 +52,19 @@
         <attribute name="fps" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="memoryUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
+    <entity name="ReactNativePeroformanceSample" representedClassName="DTXReactNativePeroformanceSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="bridgeJSToNCallCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bridgeJSToNCallCountDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bridgeJSToNDataSize" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bridgeJSToNDataSizeDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bridgeNToJSCallCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bridgeNToJSCallCountDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bridgeNToJSDataSize" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bridgeNToJSDataSizeDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="cpuUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="stackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
+        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="Recording" representedClassName="DTXRecording" syncable="YES" codeGenerationType="class">
         <attribute name="appName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="binaryName" optional="YES" attributeType="String" syncable="YES"/>
@@ -70,6 +85,10 @@
                 <entry key="includeInDictionaryRepresentation" value="YES"/>
             </userInfo>
         </relationship>
+        <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="recording" inverseEntity="ThreadInfo" syncable="YES"/>
+        <userInfo>
+            <entry key="includeInDictionaryRepresentation" value="YES"/>
+        </userInfo>
     </entity>
     <entity name="Sample" representedClassName="DTXSample" isAbstract="YES" syncable="YES" codeGenerationType="class">
         <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -91,6 +110,7 @@
     <entity name="ThreadInfo" representedClassName="DTXThreadInfo" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="number" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="recording" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recording" inverseName="threads" inverseEntity="Recording" syncable="YES"/>
         <relationship name="threadPerformanceSamples" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ThreadPerformanceSample" inverseName="threadInfo" inverseEntity="ThreadPerformanceSample" syncable="YES"/>
     </entity>
     <entity name="ThreadPerformanceSample" representedClassName="DTXThreadPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
@@ -103,16 +123,17 @@
         </relationship>
     </entity>
     <elements>
-        <element name="AdvancedPerformanceSample" positionX="-9" positionY="126" width="128" height="60"/>
+        <element name="AdvancedPerformanceSample" positionX="-9" positionY="126" width="128" height="90"/>
         <element name="LogSample" positionX="-27" positionY="135" width="128" height="60"/>
         <element name="NetworkData" positionX="-18" positionY="126" width="128" height="90"/>
         <element name="NetworkSample" positionX="9" positionY="153" width="128" height="285"/>
         <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="150"/>
-        <element name="Recording" positionX="-27" positionY="45" width="128" height="270"/>
+        <element name="ReactNativePeroformanceSample" positionX="-27" positionY="135" width="128" height="210"/>
+        <element name="Recording" positionX="-27" positionY="45" width="128" height="285"/>
         <element name="Sample" positionX="-63" positionY="-18" width="128" height="90"/>
         <element name="SampleGroup" positionX="-45" positionY="0" width="128" height="90"/>
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
-        <element name="ThreadInfo" positionX="-27" positionY="135" width="128" height="90"/>
+        <element name="ThreadInfo" positionX="-27" positionY="135" width="128" height="105"/>
         <element name="ThreadPerformanceSample" positionX="-27" positionY="108" width="128" height="75"/>
     </elements>
 </model>

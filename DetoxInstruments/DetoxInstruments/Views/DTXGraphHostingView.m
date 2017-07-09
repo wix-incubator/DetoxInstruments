@@ -29,14 +29,6 @@
 	self.layer.contentsScale = scale;
 }
 
-- (void)viewWillStartLiveResize
-{
-}
-
-- (void)viewDidEndLiveResize
-{
-}
-
 -(void)scrollWheel:(nonnull NSEvent *)theEvent
 {
 	if(fabs(theEvent.scrollingDeltaY) > fabs(theEvent.scrollingDeltaX))

@@ -11,6 +11,7 @@
 #import "DTXGraphHostingView.h"
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "DTXRecording+UIExtensions.h"
 
 @interface DTXAxisHeaderPlotController ()
 
@@ -71,7 +72,7 @@
 		
 		// Setup scatter plot space
 		CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
-		plotSpace.globalXRange = plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.endTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
+		plotSpace.globalXRange = plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.realEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
 		plotSpace.globalYRange = plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:@0.5 length:@5.0];
 		
 		const CGFloat majorTickLength = 20;
@@ -143,6 +144,16 @@
 	
 	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)_graph.defaultPlotSpace;
 	[_delegate plotController:self didChangeToPlotRange:plotSpace.xRange];
+}
+
+- (void)zoomIn
+{
+	
+}
+
+- (void)zoomOut
+{
+	
 }
 
 - (void)setPlotRange:(CPTPlotRange *)plotRange

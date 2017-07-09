@@ -7,8 +7,14 @@
 //
 
 #import "DTXMemoryDataProvider.h"
+#import "DTXMemoryInspectorDataProvider.h"
 
 @implementation DTXMemoryDataProvider
+
++ (Class)inspectorDataProviderClass
+{
+	return [DTXMemoryInspectorDataProvider class];
+}
 
 - (NSArray<DTXColumnInformation *> *)columns
 {

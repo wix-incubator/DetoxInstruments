@@ -21,12 +21,12 @@
 	NSMutableArray<DTXColumnInformation*>* rv = [NSMutableArray new];
 	
 	DTXColumnInformation* info = [DTXColumnInformation new];
-	info.title = NSLocalizedString(@"CPU Usage", @"");
+	info.title = self.titleOfCPUHeader;
 	info.minWidth = 55;
 	
 	[rv addObject:info];
 	
-	if([self.document.recording.managedObjectContext countForFetchRequest:[DTXAdvancedPerformanceSample fetchRequest] error:NULL])
+	if(self.showsHeaviestThreadColumn && [self.document.recording.managedObjectContext countForFetchRequest:[DTXAdvancedPerformanceSample fetchRequest] error:NULL])
    {
 	   DTXColumnInformation* heaviestThread = [DTXColumnInformation new];
 	   heaviestThread.title = NSLocalizedString(@"Heaviest Thread", @"");
@@ -35,6 +35,10 @@
 	   
 	   [rv addObject:heaviestThread];
    }
+	else
+	{
+		info.automaticallyGrowsWithTable = YES;
+	}
 	
 	return rv;
 }
@@ -71,7 +75,7 @@
 	
 	if(heaviestThread.number == 0)
 	{
-		return NSLocalizedString(@"Main Thread", @"");
+		return NSLocalizedString(@"0 (Main Thread)", @"");
 	}
 	
 	return [NSString stringWithFormat:@"%@%@%@", heaviestThread.name.length == 0 ? NSLocalizedString(@"Thread ", @"") : @"", @(heaviestThread.number), heaviestThread.name.length > 0 ? [NSString stringWithFormat:@" (%@)", heaviestThread.name] : @""];
@@ -115,6 +119,16 @@
 	}
 	
 	return cpu >= 2.0 ? NSColor.warning3Color : cpu > 1.5 ? NSColor.warning2Color : cpu > 1.0 ? NSColor.warningColor : NSColor.whiteColor;
+}
+
+- (NSString*)titleOfCPUHeader
+{
+	return NSLocalizedString(@"CPU Usage", @"");
+}
+
+- (BOOL)showsHeaviestThreadColumn
+{
+	return YES;
 }
 
 @end

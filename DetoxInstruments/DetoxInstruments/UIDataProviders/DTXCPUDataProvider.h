@@ -10,4 +10,7 @@
 
 @interface DTXCPUDataProvider : DTXUIDataProvider
 
+- (NSString*)titleOfCPUHeader;
+- (BOOL)showsHeaviestThreadColumn;
+
 @end
