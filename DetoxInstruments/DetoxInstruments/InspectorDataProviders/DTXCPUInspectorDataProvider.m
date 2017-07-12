@@ -12,6 +12,34 @@
 
 @implementation DTXCPUInspectorDataProvider
 
+- (NSArray *)arrayForStackTrace
+{
+	return [(DTXAdvancedPerformanceSample*)self.sample heaviestStackTrace];
+}
+
+- (NSString*)stackTraceFrameStringForObject:(id)obj includeFullFormat:(BOOL)fullFormat
+{
+	NSString* stackTraceFrame = nil;
+	
+	if([obj isKindOfClass:[NSString class]] == YES)
+	{
+		stackTraceFrame = obj;
+	}
+	else if([obj isKindOfClass:[NSDictionary class]] == YES)
+	{
+		if(fullFormat)
+		{
+			stackTraceFrame = [NSString stringWithFormat:@"%-35s 0x%016llx %@ + %@", [obj[@"image"] UTF8String], (uint64_t)[(obj[@"address"] ?: @0) unsignedIntegerValue], obj[@"symbol"], obj[@"offset"]];
+		}
+		else
+		{
+			stackTraceFrame = [NSString stringWithFormat:@"%@ + %@", obj[@"symbol"], obj[@"offset"]];
+		}
+	}
+	
+	return stackTraceFrame;
+}
+
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource
 {
 	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
@@ -44,37 +72,8 @@
 	
 	if(perfSample.recording.dtx_profilingConfiguration.collectStackTraces)
 	{
-		DTXInspectorContent* stackTrace = [DTXInspectorContent new];
+		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
 		stackTrace.title = NSLocalizedString(@"Heaviest Stack Trace", @"");
-		
-		NSMutableArray<NSAttributedString*>* stackFrames = [NSMutableArray new];
-		NSMutableParagraphStyle* par = NSParagraphStyle.defaultParagraphStyle.mutableCopy;
-		par.lineBreakMode = NSLineBreakByTruncatingTail;
-		par.paragraphSpacing = 5.0;
-		par.allowsDefaultTighteningForTruncation = NO;
-		
-		[[perfSample heaviestStackTrace] enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSString* stackTraceFrame = nil;
-			
-			if([obj isKindOfClass:[NSString class]] == YES)
-			{
-				stackTraceFrame = obj;
-			}
-			else if([obj isKindOfClass:[NSDictionary class]] == YES)
-			{
-				stackTraceFrame = [NSString stringWithFormat:@"%@ + %@", obj[@"symbol"], obj[@"offset"]];
-			}
-			
-			if(stackTraceFrame == nil)
-			{
-				//Ignore unknown frame format.
-				return;
-			}
-			
-			[stackFrames addObject:[[NSAttributedString alloc] initWithString:stackTraceFrame attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:10]}]];
-		}];
-		
-		stackTrace.stackFrames = stackFrames;
 		
 		rv.contentArray = @[request, stackTrace];
 	}
@@ -84,6 +83,11 @@
 	}
 	
 	return rv;
+}
+
+- (BOOL)canCopy
+{
+	return [self.sample isKindOfClass:[DTXAdvancedPerformanceSample class]];
 }
 
 @end

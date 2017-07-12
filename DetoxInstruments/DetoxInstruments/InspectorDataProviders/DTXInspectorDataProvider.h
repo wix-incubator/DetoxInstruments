@@ -11,8 +11,9 @@
 #import "DTXDocument.h"
 #import "DTXInspectorContentTableDataSource.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "DTXInstrumentsWindowController.h"
 
-@interface DTXInspectorDataProvider : NSObject
+@interface DTXInspectorDataProvider : NSObject <DTXWindowWideCopyHanler>
 
 - (instancetype)initWithSample:(__kindof DTXSample*)sample document:(DTXDocument*)document;
 - (instancetype)init NS_UNAVAILABLE;
@@ -22,5 +23,10 @@
 @property (nonatomic, strong, readonly) DTXDocument* document;
 
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource;
+
+- (BOOL)canCopy;
+- (BOOL)canSaveAs;
+
+- (void)saveAs:(id)sender inWindow:(NSWindow*)window;
 
 @end

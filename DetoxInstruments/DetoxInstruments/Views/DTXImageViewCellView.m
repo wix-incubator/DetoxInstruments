@@ -10,4 +10,9 @@
 
 @implementation DTXImageViewCellView
 
+- (NSSize)intrinsicContentSize
+{
+	return NSMakeSize(-1, 150);
+}
+
 @end

@@ -6,8 +6,8 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXInspectorDataProvider.h"
+#import "DTXStackTraceCopyDataProvider.h"
 
-@interface DTXCPUInspectorDataProvider : DTXInspectorDataProvider
+@interface DTXCPUInspectorDataProvider : DTXStackTraceCopyDataProvider
 
 @end

@@ -56,9 +56,6 @@
 
 - (void)setManagedTableView:(NSTableView *)managedTableView
 {
-//	[CATransaction begin];
-//	[CATransaction setDisableActions:YES];
-	
 	//Cleanup
 	_managedTableView.dataSource = nil;
 	_managedTableView.delegate = nil;
@@ -66,20 +63,14 @@
 	
 	_managedTableView = managedTableView;
 	
-	_managedTableView.wantsLayer = YES;
-	_managedTableView.layer = [_managedTableView makeBackingLayer];
-	
-	if (@available(macOS 10.13, *)) {
+	if (@available(macOS 10.13, *))
+	{
 		_managedTableView.usesAutomaticRowHeights = YES;
 	}
 	
 	_managedTableView.dataSource = self;
 	_managedTableView.delegate = self;
 	[_managedTableView reloadData];
-	
-	[_managedTableView scrollRowToVisible:0];
-	
-//	[CATransaction commit];
 }
 
 - (void)setContentArray:(NSArray<DTXInspectorContent *> *)contentArray
@@ -135,9 +126,12 @@
 	
 	__kindof NSTableCellView* cell = [tableView makeViewWithIdentifier:content.stackFrames ? @"DTXStackTraceCellView" : content.customView ? @"DTXViewCellView" : content.image ? @"DTXImageViewCellView" : @"DTXTextViewCellView" owner:nil];
 	
+	NSView* targetForWindowWideCopy = cell.imageView;
+	
 	if(content.stackFrames != nil)
 	{
 		[cell setStackFrames:content.stackFrames];
+		targetForWindowWideCopy = [cell stackTraceTableView];
 	}
 	
 	if(content.customView == nil && content.image == nil && content.stackFrames == nil)
@@ -145,6 +139,7 @@
 		[cell contentTextField].attributedStringValue = _attributedStrings[row];
 		[cell contentTextField].allowsEditingTextAttributes = YES;
 		[cell contentTextField].selectable = YES;
+		targetForWindowWideCopy = [cell contentTextField];
 	}
 	
 	cell.textField.stringValue = content.title ?: @"Title";
@@ -160,6 +155,13 @@
 												  [viewCell.contentView.bottomAnchor constraintEqualToAnchor:content.customView.bottomAnchor],
 												  [viewCell.contentView.centerXAnchor constraintEqualToAnchor:content.customView.centerXAnchor],
 												  [viewCell.contentView.centerYAnchor constraintEqualToAnchor:content.customView.centerYAnchor]]];
+		
+		targetForWindowWideCopy = viewCell.contentView;
+	}
+	
+	if(content.setupForWindowWideCopy)
+	{
+		[tableView.window.windowController setTargetForCopy:targetForWindowWideCopy];
 	}
 	
 	return cell;
@@ -204,7 +206,6 @@
 	}
 	
 	return top + [self _displayHeightForString:_attributedStrings[row] width:tableView.bounds.size.width - leading - trailing] + bottom;
-	
 }
 
 @end

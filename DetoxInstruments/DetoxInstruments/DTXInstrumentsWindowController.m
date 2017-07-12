@@ -178,4 +178,14 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	_inspectorContentController.moreInfoDataProvider = inspectorProvider;
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	return self.targetForCopy && self.handlerForCopy != nil && self.handlerForCopy.canCopy;
+}
+
+- (IBAction)copy:(id)sender
+{
+	[self.handlerForCopy copy:sender targetView:self.targetForCopy];
+}
+
 @end

@@ -12,7 +12,7 @@
 
 @interface DTXLogDataProvider() <NSTableViewDataSource, NSTableViewDelegate>
 {
-	NSArray<NSDictionary<NSString*, NSString*>*>* _logEntries;
+	NSArray<NSDictionary<NSString*, id>*>* _logEntries;
 }
 
 @end
@@ -67,6 +67,27 @@
 	}
 	
 	return cell;
+}
+
+- (void)scrollToTimestamp:(NSDate*)timestamp
+{
+	NSUInteger idx = [_logEntries indexOfObject:@{@"timestamp": timestamp} inSortedRange:NSMakeRange(0, _logEntries.count) options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(NSDictionary<NSString*, NSString*>* _Nonnull obj1, NSDictionary<NSString*, NSString*>*  _Nonnull obj2) {
+		return [obj1[@"timestamp"] compare:obj2[@"timestamp"]];
+	}];
+	
+	if(idx > 0)
+	{
+		idx -= 1;
+	}
+	
+	if(idx < _logEntries.count)
+	{
+		[_managedTableView scrollRowToVisible:idx];
+		
+		[_managedTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
+		//Do it a second time to "fix" potential scroll inaccuracy due to automatic cell height
+		[_managedTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
+	}
 }
 
 @end

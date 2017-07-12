@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13122.19" systemVersion="17A291j" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13156.6" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13122.19"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13156.6"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
@@ -130,31 +130,9 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zip-7d-pop"/>
-                                        <menuItem title="Cut" keyEquivalent="x" id="2fR-8z-NvW">
-                                            <connections>
-                                                <action selector="cut:" target="Ady-hI-5gd" id="atF-cQ-6xE"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Copy" keyEquivalent="c" id="Mah-6J-leh">
                                             <connections>
                                                 <action selector="copy:" target="Ady-hI-5gd" id="cAv-nI-gGU"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Paste" keyEquivalent="v" id="qH7-9d-mKe">
-                                            <connections>
-                                                <action selector="paste:" target="Ady-hI-5gd" id="5iZ-Wf-4mq"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Paste and Match Style" keyEquivalent="V" id="sQm-lb-rM2">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="pasteAsPlainText:" target="Ady-hI-5gd" id="q6O-Su-g3a"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Delete" id="ChF-Kl-hQo">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="delete:" target="Ady-hI-5gd" id="to8-ym-M1w"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Select All" keyEquivalent="a" id="YbZ-Nt-A1p">
@@ -465,6 +443,9 @@
                                 <toolbarItem reference="xCd-i5-im4"/>
                             </defaultToolbarItems>
                         </toolbar>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="nR1-Re-Lxg"/>
+                        </connections>
                     </window>
                     <connections>
                         <outlet property="_layoutSegmentControl" destination="qva-ix-9V1" id="Swq-YE-oQc"/>
@@ -487,8 +468,12 @@
                     <splitView key="splitView" dividerStyle="thin" vertical="YES" id="fOt-NU-sNG" customClass="_DTXSplitView">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <outlet property="delegate" destination="GJ1-Mo-aZo" id="92p-Mw-143"/>
+                        </connections>
                     </splitView>
                     <connections>
+                        <outlet property="splitView" destination="fOt-NU-sNG" id="o4W-0V-ugU"/>
                         <segue destination="dY0-LA-k4i" kind="relationship" relationship="splitItems" id="5AU-M1-WN6"/>
                         <segue destination="WQC-Xf-VdA" kind="relationship" relationship="splitItems" id="K5R-Qk-APd"/>
                     </connections>
@@ -508,8 +493,12 @@
                     <splitView key="splitView" dividerStyle="thin" id="twL-on-nQz" customClass="_DTXSplitView">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <outlet property="delegate" destination="f3X-2z-0cS" id="vSd-fq-BJK"/>
+                        </connections>
                     </splitView>
                     <connections>
+                        <outlet property="splitView" destination="twL-on-nQz" id="ReQ-YH-eOC"/>
                         <segue destination="8bb-Hj-q9Z" kind="relationship" relationship="splitItems" id="kJh-g5-iTg"/>
                         <segue destination="GJ1-Mo-aZo" kind="relationship" relationship="splitItems" id="ygv-nN-MSb"/>
                     </connections>
@@ -884,7 +873,7 @@
                                                     <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
-                                                        <tableColumn identifier="" width="317" minWidth="40" maxWidth="10000000000" id="hwJ-aq-vYX">
+                                                        <tableColumn identifier="" width="317" minWidth="40" maxWidth="1000000" id="hwJ-aq-vYX">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -939,9 +928,9 @@
                                                                     <rect key="frame" x="1" y="51" width="317" height="90"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h7n-nb-nX2">
+                                                                        <imageView horizontalHuggingPriority="1" verticalHuggingPriority="1" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="1" mirrorLayoutDirectionWhenInternationalizing="never" translatesAutoresizingMaskIntoConstraints="NO" id="h7n-nb-nX2">
                                                                             <rect key="frame" x="3" y="10" width="309" height="56"/>
-                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="CWy-fg-abZ"/>
+                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="CWy-fg-abZ"/>
                                                                         </imageView>
                                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fgX-rG-BjB">
                                                                             <rect key="frame" x="1" y="73" width="315" height="14"/>
@@ -1009,8 +998,8 @@
                                                                                 <rect key="frame" x="0.0" y="0.0" width="299" height="14"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
-                                                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="fet-qm-M01" customClass="DTXAutomaticallyDeselectingTableView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="299" height="14"/>
+                                                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="fet-qm-M01" customClass="DTXAutomaticallyDeselectingTableView">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="299" height="19"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -1054,8 +1043,12 @@
                                                                                                 </prototypeCellViews>
                                                                                             </tableColumn>
                                                                                         </tableColumns>
+                                                                                        <connections>
+                                                                                            <outlet property="menu" destination="eL9-So-c4L" id="EbK-k0-1KU"/>
+                                                                                        </connections>
                                                                                     </tableView>
                                                                                 </subviews>
+                                                                                <nil key="backgroundColor"/>
                                                                             </clipView>
                                                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="3W1-XZ-Ywp">
                                                                                 <rect key="frame" x="0.0" y="-2" width="299" height="16"/>
@@ -1077,7 +1070,7 @@
                                                                         <constraint firstItem="CJz-rq-Vqj" firstAttribute="top" secondItem="Xgw-EY-kS3" secondAttribute="top" constant="3" id="yUE-wb-bpS"/>
                                                                     </constraints>
                                                                     <connections>
-                                                                        <outlet property="_stackTraceTableView" destination="fet-qm-M01" id="lvb-7V-vs5"/>
+                                                                        <outlet property="stackTraceTableView" destination="fet-qm-M01" id="mlV-5G-5dc"/>
                                                                         <outlet property="textField" destination="CJz-rq-Vqj" id="bT9-FO-Zfb"/>
                                                                     </connections>
                                                                 </tableCellView>
@@ -1151,18 +1144,25 @@
                     </view>
                     <connections>
                         <outlet property="_nothingLabel" destination="9p8-VF-Hna" id="M01-Qz-Pfo"/>
+                        <outlet property="_previewMenu" destination="eL9-So-c4L" id="Zxx-jo-L8k"/>
                         <outlet property="_recordingInfoTableView" destination="KV1-rC-5BZ" id="giG-4F-izr"/>
                         <outlet property="_tabSwitcher" destination="xCX-wo-mYx" id="Juo-yD-rme"/>
                     </connections>
                 </viewController>
                 <customObject id="fpz-hV-bkX" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <menu autoenablesItems="NO" id="eL9-So-c4L">
+                <menu id="eL9-So-c4L">
                     <items>
                         <menuItem title="Copy" id="jqC-Js-SPt">
                             <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="copyFromContext:" target="WQC-Xf-VdA" id="ZCQ-Tn-pnX"/>
+                            </connections>
                         </menuItem>
                         <menuItem title="Save As..." id="6U6-aP-ing">
                             <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="saveAsFromContext:" target="WQC-Xf-VdA" id="uQQ-h7-piM"/>
+                            </connections>
                         </menuItem>
                     </items>
                 </menu>

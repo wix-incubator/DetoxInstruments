@@ -11,6 +11,7 @@
 @interface DTXStackTraceCellView : NSTableCellView
 
 @property (class, nonatomic, readonly) CGFloat heightForStackFrame;
+@property (nonatomic, weak, readonly) NSTableView* stackTraceTableView;
 
 @property (nonatomic, copy) NSArray<NSAttributedString*>* stackFrames;
 

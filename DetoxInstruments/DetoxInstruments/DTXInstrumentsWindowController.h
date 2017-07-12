@@ -8,6 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
+@protocol DTXWindowWideCopyHanler <NSObject>
+
+@required
+- (BOOL)canCopy;
+- (void)copy:(id)sender targetView:(__kindof NSView*)targetView;
+
+@end
+
 @interface DTXInstrumentsWindowController : NSWindowController
+
+@property (nonatomic, weak) __kindof NSView* targetForCopy;
+@property (nonatomic, weak) id<DTXWindowWideCopyHanler> handlerForCopy;
 
 @end

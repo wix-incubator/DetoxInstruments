@@ -31,7 +31,7 @@
 		height += [tbl.delegate tableView:tbl heightOfRow:idx] + tbl.intercellSpacing.height;
 	}
 	
-	return NSMakeSize(1, height);
+	return NSMakeSize(-1, height);
 }
 
 @end

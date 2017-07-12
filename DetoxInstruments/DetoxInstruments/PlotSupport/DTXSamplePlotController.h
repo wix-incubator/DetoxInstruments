@@ -20,6 +20,7 @@
 + (Class)UIDataProviderClass;
 
 - (NSArray<NSArray*>*)samplesForPlots;
+
 - (NSArray<CPTPlot*>*)plots;
 - (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph;
 - (NSArray<NSString*>*)sampleKeys;

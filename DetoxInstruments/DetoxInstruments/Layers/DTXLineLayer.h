@@ -10,8 +10,9 @@
 
 @interface DTXLineLayer : CPTLayer
 
-@property (nonatomic) CGFloat dataPoint;
-@property (nonatomic) CGColorRef lineColor;
-@property (nonatomic) CGColorRef pointColor;
+@property (nonatomic) NSColor* lineColor;
+
+@property (nonatomic) NSArray<NSNumber*>* dataPoints;
+@property (nonatomic) NSArray<NSColor*>* pointColors;
 
 @end

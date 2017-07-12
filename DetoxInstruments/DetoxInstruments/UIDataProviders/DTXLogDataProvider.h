@@ -17,4 +17,6 @@
 @property (nonatomic, strong, readonly) DTXDocument* document;
 @property (nonatomic, weak, readonly) NSTableView* managedTableView;
 
+- (void)scrollToTimestamp:(NSDate*)timestamp;
+
 @end

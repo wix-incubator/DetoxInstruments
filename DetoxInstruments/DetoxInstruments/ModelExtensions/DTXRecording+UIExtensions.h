@@ -13,5 +13,6 @@
 
 @property (nonatomic, copy, readonly) NSDate* realEndTimestamp;
 @property (nonatomic, strong, readonly) DTXProfilingConfiguration* dtx_profilingConfiguration;
+@property (nonatomic, readonly) BOOL hasNetworkSamples;
 
 @end

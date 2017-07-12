@@ -11,6 +11,32 @@
 
 @implementation DTXRNCPUInspectorDataProvider
 
+- (NSArray *)arrayForStackTrace
+{
+	return [(DTXReactNativePeroformanceSample*)self.sample stackTrace];
+}
+
+- (NSString*)stackTraceFrameStringForObject:(id)obj includeFullFormat:(BOOL)fullFormat
+{
+	NSString* stackTraceFrame = nil;
+	
+	if([obj isKindOfClass:[NSString class]] == YES)
+	{
+		stackTraceFrame = obj;
+	}
+	else if([obj isKindOfClass:[NSDictionary class]] == YES)
+	{
+		stackTraceFrame = [NSString stringWithFormat:@"%@() at %@%@", obj[@"symbolName"], fullFormat ? obj[@"sourceFileName"] : [obj[@"sourceFileName"] lastPathComponent], obj[@"line"] ? [NSString stringWithFormat:@":%@", obj[@"line"]] : @""];
+	}
+	
+	if(stackTraceFrame.length == 0)
+	{
+		stackTraceFrame = @"<idle>";
+	}
+	
+	return stackTraceFrame;
+}
+
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource
 {
 	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
@@ -31,37 +57,8 @@
 	
 	if(perfSample.recording.dtx_profilingConfiguration.collectJavaScriptStackTraces)
 	{
-		DTXInspectorContent* stackTrace = [DTXInspectorContent new];
+		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
 		stackTrace.title = NSLocalizedString(@"Stack Trace", @"");
-		
-		NSMutableArray<NSAttributedString*>* stackFrames = [NSMutableArray new];
-		NSMutableParagraphStyle* par = NSParagraphStyle.defaultParagraphStyle.mutableCopy;
-		par.lineBreakMode = NSLineBreakByTruncatingTail;
-		par.paragraphSpacing = 5.0;
-		par.allowsDefaultTighteningForTruncation = NO;
-		
-		[perfSample.stackTrace enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSString* stackTraceFrame = nil;
-			
-			if([obj isKindOfClass:[NSString class]] == YES)
-			{
-				stackTraceFrame = obj;
-			}
-			else if([obj isKindOfClass:[NSDictionary class]] == YES)
-			{
-				stackTraceFrame = [NSString stringWithFormat:@"%@() at %@%@", obj[@"symbolName"], [obj[@"sourceFileName"] lastPathComponent], obj[@"line"] ? [NSString stringWithFormat:@":%@", obj[@"line"]] : @""];
-			}
-			
-			if(stackTraceFrame == nil)
-			{
-				//Ignore unknown frame format.
-				return;
-			}
-			
-			[stackFrames addObject:[[NSAttributedString alloc] initWithString:stackTraceFrame attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:10]}]];
-		}];
-		 
-		stackTrace.stackFrames = stackFrames;
 		
 		rv.contentArray = @[request, stackTrace];
 	}
@@ -71,6 +68,12 @@
 	}
 	
 	return rv;
+}
+
+- (BOOL)canCopy
+{
+	DTXReactNativePeroformanceSample* perfSample = self.sample;
+	return perfSample.recording.dtx_profilingConfiguration.collectJavaScriptStackTraces;
 }
 
 @end

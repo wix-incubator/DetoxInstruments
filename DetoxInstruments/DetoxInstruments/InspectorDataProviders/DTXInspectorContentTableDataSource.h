@@ -7,6 +7,7 @@
 //
 
 @import AppKit;
+#import "DTXInstrumentsWindowController.h"
 
 @interface DTXInspectorContentRow : NSObject
 
@@ -27,6 +28,9 @@
 @property (nonatomic, copy) NSString* title;
 
 @property (nonatomic, copy) NSArray<DTXInspectorContentRow*>* content;
+
+@property (nonatomic) BOOL setupForWindowWideCopy;
+
 @property (nonatomic, strong) NSImage* image;
 @property (nonatomic, strong) NSView* customView;
 @property (nonatomic, copy) NSArray<NSAttributedString*>* stackFrames;

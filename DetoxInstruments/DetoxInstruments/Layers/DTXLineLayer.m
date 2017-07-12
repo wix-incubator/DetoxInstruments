@@ -30,42 +30,42 @@
 	
 	CGContextSetLineWidth(context, 1.0);
 	
-	CGContextSetStrokeColorWithColor(context, _lineColor);
-	CGContextSetFillColorWithColor(context, _lineColor);
+	CGContextSetStrokeColorWithColor(context, _lineColor.CGColor);
+	CGContextSetFillColorWithColor(context, _lineColor.CGColor);
 	CGContextMoveToPoint(context, self.bounds.size.width / 2.0, 0);    // This sets up the start point
 	CGContextAddLineToPoint(context, self.bounds.size.width / 2.0, self.bounds.size.height);
 	CGContextStrokePath(context);
 	
-	CGContextSetStrokeColorWithColor(context, _pointColor);
+	CGContextSetLineWidth(context, 1.2);
 	
-	CGContextFillEllipseInRect(context, CGRectMake(-3 + self.bounds.size.width / 2.0, -3 + _dataPoint, 6, 6));
+	[self.dataPoints enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		CGFloat _dataPoint = obj.doubleValue;
+		
+		CGContextSetFillColorWithColor(context, _pointColors[idx].CGColor);
+		
+		CGRect ellipseRect = CGRectMake(-3 + self.bounds.size.width / 2.0, -3 + _dataPoint, 6, 6);
+		CGContextFillEllipseInRect(context, ellipseRect);
+		CGContextStrokeEllipseInRect(context, CGRectInset(ellipseRect, -.5, -.5));
+	}];
 }
 
-- (void)setDataPoint:(CGFloat)dataPoint
+- (void)setDataPoints:(NSArray<NSNumber *> *)dataPoints
 {
-	_dataPoint = dataPoint;
-	
-	[self setNeedsDisplay];
-}
-
-- (void)setPointColor:(CGColorRef)pointColor
-{
-	if(_pointColor != nil)
-	{
-		CGColorRelease(_pointColor);
-	}
-	_pointColor = CGColorRetain(pointColor);
+	_dataPoints = dataPoints;
 	
 	[self setNeedsDisplay];
 }
 
-- (void)setLineColor:(CGColorRef)lineColor
+- (void)setPointColors:(NSArray<NSColor *> *)pointColors
 {
-	if(_lineColor != nil)
-	{
-		CGColorRelease(_lineColor);
-	}
-	_lineColor = CGColorRetain(lineColor);
+	_pointColors = pointColors;
+	
+	[self setNeedsDisplay];
+}
+
+- (void)setLineColor:(NSColor*)lineColor
+{
+	_lineColor = lineColor;
 	
 	[self setNeedsDisplay];
 }

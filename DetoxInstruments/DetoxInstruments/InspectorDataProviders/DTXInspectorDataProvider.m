@@ -28,4 +28,24 @@
 	return nil;
 }
 
+- (BOOL)canCopy
+{
+	return NO;
+}
+
+- (BOOL)canSaveAs
+{
+	return NO;
+}
+
+- (IBAction)copy:(id)sender targetView:(__kindof NSView *)targetView
+{
+	//NOOP
+}
+
+- (void)saveAs:(id)sender inWindow:(NSWindow*)window
+{
+	//NOOP
+}
+
 @end

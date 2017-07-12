@@ -22,6 +22,7 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	IBOutlet NSTextField* _nothingLabel;
 	DTXInspectorContentTableDataSource* _recordingDescriptionDataSource;
 	DTXInspectorContentTableDataSource* _sampleDescriptionDataSource;
+	IBOutlet NSMenu* _previewMenu;
 }
 
 @end
@@ -53,6 +54,9 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 - (void)setMoreInfoDataProvider:(DTXInspectorDataProvider *)moreInfoDataProvider
 {
 	_moreInfoDataProvider = moreInfoDataProvider;
+	
+	DTXInstrumentsWindowController* controller = self.view.window.windowController;
+	controller.handlerForCopy = _moreInfoDataProvider;
 	
 	_sampleDescriptionDataSource = _moreInfoDataProvider.inspectorTableDataSource;
 	if([_tabSwitcher isSelectedForSegment:0])
@@ -173,6 +177,32 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 	}
 	
 	[[NSUserDefaults standardUserDefaults] setInteger:index forKey:__DTXInspectorTabKey];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem*)menuItem
+{
+	if(menuItem.action == @selector(copyFromContext:))
+	{
+		return _moreInfoDataProvider.canCopy;
+	}
+	
+	if(menuItem.action == @selector(saveAsFromContext:))
+	{
+		return _moreInfoDataProvider.canSaveAs;
+	}
+	
+	return NO;
+}
+
+- (IBAction)copyFromContext:(id)sender
+{
+	DTXInstrumentsWindowController* controller = self.view.window.windowController;
+	[_moreInfoDataProvider copy:sender targetView:controller.targetForCopy];
+}
+
+- (IBAction)saveAsFromContext:(id)sender
+{
+	[_moreInfoDataProvider saveAs:sender inWindow:self.view.window];
 }
 
 @end

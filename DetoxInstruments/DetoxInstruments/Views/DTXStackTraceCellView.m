@@ -9,9 +9,8 @@
 #import "DTXStackTraceCellView.h"
 
 @interface DTXStackTraceCellView () <NSTableViewDataSource, NSTableViewDelegate>
-{
-	IBOutlet NSTableView* _stackTraceTableView;
-}
+
+@property (nonatomic, weak, readwrite) IBOutlet NSTableView* stackTraceTableView;
 
 @end
 
@@ -38,7 +37,7 @@
 	_stackFrames = stackFrames;
 	
 	[_stackTraceTableView reloadData];
-	[self invalidateIntrinsicContentSize];
+	[_stackTraceTableView.enclosingScrollView invalidateIntrinsicContentSize];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;

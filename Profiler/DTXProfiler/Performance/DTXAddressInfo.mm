@@ -12,20 +12,19 @@
 
 @implementation DTXAddressInfo
 {
-	void* _address;
 	Dl_info _info;
 }
 
-@synthesize image, symbol, offset;
+@synthesize image, symbol, offset, address;
 
-- (instancetype)initWithAddress:(NSUInteger)address
+- (instancetype)initWithAddress:(NSUInteger)_address
 {
 	self = [super init];
 	
 	if(self)
 	{
-		_address = (void*)address;
-		dladdr(_address, &_info);
+		address = _address;
+		dladdr((void*)address, &_info);
 	}
 	
 	return self;
@@ -78,22 +77,22 @@
 	NSString* str = nil;
 	if(_info.dli_sname != NULL && (str = [NSString stringWithUTF8String:_info.dli_sname]) != nil)
 	{
-		return (NSUInteger)_address - (NSUInteger)_info.dli_saddr;
+		return address - (NSUInteger)_info.dli_saddr;
 	}
 	else if(_info.dli_fname != NULL && (str = [NSString stringWithUTF8String:_info.dli_fname]) != nil)
 	{
-		return (NSUInteger)_address - (NSUInteger)_info.dli_fbase;
+		return address - (NSUInteger)_info.dli_fbase;
 	}
 	
-	return (NSUInteger)_address - (NSUInteger)_info.dli_saddr;
+	return address - (NSUInteger)_info.dli_saddr;
 }
 
 - (NSString*)formattedDescriptionForIndex:(NSUInteger)index;
 {
 #if __LP64__
-	return [NSString stringWithFormat:@"%-4ld%-35s 0x%016llx %@ + %ld", index, self.image.UTF8String, (uint64_t)_address, self.symbol, self.offset];
+	return [NSString stringWithFormat:@"%-4ld%-35s 0x%016llx %@ + %ld", index, self.image.UTF8String, (uint64_t)address, self.symbol, self.offset];
 #else
-	return [NSString stringWithFormat:@"%-4d%-35s 0x%08lx %@ + %d", index, self.image.UTF8String, (unsigned long)_address, self.symbol, self.offset];
+	return [NSString stringWithFormat:@"%-4d%-35s 0x%08lx %@ + %d", index, self.image.UTF8String, (unsigned long)address, self.symbol, self.offset];
 #endif
 }
 

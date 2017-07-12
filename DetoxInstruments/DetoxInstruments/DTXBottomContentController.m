@@ -132,6 +132,7 @@
 - (void)dataProvider:(DTXUIDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item
 {
 	[self.delegate bottomController:self updateWithInspectorProvider:item];
+	[_logDataProvider scrollToTimestamp:item.sample.timestamp];
 }
 
 

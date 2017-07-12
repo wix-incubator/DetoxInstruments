@@ -48,4 +48,18 @@
 	return obj;
 }
 
+- (BOOL)hasNetworkSamples
+{
+	NSNumber* obj = objc_getAssociatedObject(self, _cmd);
+	
+	if(obj == nil)
+	{
+		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
+		obj = @([self.managedObjectContext countForFetchRequest:fr error:NULL] > 0);
+		objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN);
+	}
+	
+	return [obj boolValue];
+}
+
 @end

@@ -32,15 +32,15 @@
 	return rv;
 }
 
-+ (NSString *)_sanitizeFileNameString:(NSString *)fileName {
-	NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
-	return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@"_"];
-}
-
 + (NSURL*)_documentsDirectory
 {
 	return [NSURL fileURLWithPath:@"/Users/lnatan/Desktop/"];
 	//	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
++ (NSString *)_sanitizeFileNameString:(NSString *)fileName {
+	NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
+	return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@"_"];
 }
 
 + (NSString*)_fileNameForNewRecording

@@ -85,7 +85,7 @@
 	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:document]];
 	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:document]];
 	
-	if(document.recording.dtx_profilingConfiguration == nil || document.recording.dtx_profilingConfiguration.recordNetwork == YES)
+	if((document.recording.dtx_profilingConfiguration == nil || document.recording.dtx_profilingConfiguration.recordNetwork == YES) && document.recording.hasNetworkSamples)
 	{
 		[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:document]];
 	}

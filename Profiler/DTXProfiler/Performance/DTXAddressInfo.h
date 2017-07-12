@@ -12,6 +12,7 @@
 
 - (instancetype)initWithAddress:(NSUInteger)address;
 
+@property (nonatomic, readonly) NSUInteger address;
 @property (nonatomic, copy, readonly) NSString* image;
 @property (nonatomic, copy, readonly) NSString* symbol;
 @property (nonatomic, readonly) NSUInteger offset;
