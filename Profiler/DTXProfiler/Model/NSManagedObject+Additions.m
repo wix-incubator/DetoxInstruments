@@ -34,15 +34,20 @@ static NSDateFormatter* __iso8601DateFormatter;
 		}
 		
 		return val;
-	} callingKey:NSStringFromSelector(_cmd)];
+	} callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil];
 }
 
 - (NSDictionary*)dictionaryRepresentationForPropertyList
 {
-	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd)];
+	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil];
 }
 
-- (NSDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSAttributeDescription* obj, id val))transformer callingKey:(NSString*)callingKey
+- (NSDictionary<NSString *,id> *)dictionaryRepresentationOfChangedValuesForPropertyList
+{
+	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:@"dictionaryRepresentationForPropertyList" onlyInKeys:[[self changedValuesForCurrentEvent] allKeys]];
+}
+
+- (NSDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSAttributeDescription* obj, id val))transformer callingKey:(NSString*)callingKey onlyInKeys:(NSArray<NSString*>*)filteredKeys
 {
 	if(transformer == nil)
 	{
@@ -53,6 +58,11 @@ static NSDateFormatter* __iso8601DateFormatter;
 	
 	NSDictionary<NSString *, NSAttributeDescription *>* attributes = [[self entity] attributesByName];
 	[attributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSAttributeDescription * _Nonnull obj, BOOL * _Nonnull stop) {
+		if(filteredKeys != nil && [filteredKeys containsObject:key] == NO)
+		{
+			return;
+		}
+		
 		id val = transformer(obj, [self valueForKey:key]);
 		
 		if(([val isKindOfClass:[NSDictionary class]] || [val isKindOfClass:[NSArray class]]) && [val count] == 0)
@@ -70,6 +80,10 @@ static NSDateFormatter* __iso8601DateFormatter;
 	
 	NSDictionary<NSString *, NSRelationshipDescription *>* relationships = [[self entity] relationshipsByName];
 	[relationships enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSRelationshipDescription * _Nonnull obj, BOOL * _Nonnull stop) {
+		if(filteredKeys != nil && [filteredKeys containsObject:key] == NO)
+		{
+			return;
+		}
 		
 		NSString* outputKey = key;
 		

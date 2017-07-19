@@ -12,5 +12,6 @@
 
 @property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentationForJSON;
 @property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentationForPropertyList;
+@property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentationOfChangedValuesForPropertyList;
 
 @end

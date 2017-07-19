@@ -21,8 +21,16 @@
 		39281E831ED70A77002CE905 /* DTXZipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39281E811ED70A77002CE905 /* DTXZipper.m */; };
 		39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */; };
 		39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */; };
+		39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */; };
+		39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 39498C401F1FAE650030B620 /* DTXSocketConnection.h */; };
 		394A09651F012F8D0030BDB4 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = 394A09631F012F8D0030BDB4 /* fishhook.h */; };
 		394A09661F012F8D0030BDB4 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = 394A09641F012F8D0030BDB4 /* fishhook.c */; };
+		39557CDA1F1F7E8D00FF3187 /* DTXRemoteProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39557CD81F1F7E8D00FF3187 /* DTXRemoteProfiler.h */; };
+		39557CDB1F1F7E8D00FF3187 /* DTXRemoteProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39557CD91F1F7E8D00FF3187 /* DTXRemoteProfiler.m */; };
+		396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 396677B11F1FCE18002D5E43 /* DTXRemoteProfilingManager.h */; };
+		396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 396677B21F1FCE18002D5E43 /* DTXRemoteProfilingManager.m */; };
+		396677B91F1FD95D002D5E43 /* DTXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 396677B81F1FD95D002D5E43 /* DTXLogging.m */; };
+		396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */ = {isa = PBXBuildFile; fileRef = 396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */; };
 		3966E1341F1017F900EE76A2 /* DTXAddressInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */; };
 		3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */; };
 		397C9FDA1F0B950F0020B641 /* DTXSourceMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397C9FD51F0B94F60020B641 /* DTXSourceMaps.framework */; };
@@ -107,8 +115,19 @@
 		39281E811ED70A77002CE905 /* DTXZipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXZipper.m; sourceTree = "<group>"; };
 		39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
 		39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
+		39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSocketConnection.m; sourceTree = "<group>"; };
+		39498C401F1FAE650030B620 /* DTXSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSocketConnection.h; sourceTree = "<group>"; };
 		394A09631F012F8D0030BDB4 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = SOURCE_ROOT; };
 		394A09641F012F8D0030BDB4 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fishhook.c; path = fishhook/fishhook.c; sourceTree = SOURCE_ROOT; };
+		39557CD71F1F7E5500FF3187 /* DTXProfiler-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfiler-Private.h"; sourceTree = "<group>"; };
+		39557CD81F1F7E8D00FF3187 /* DTXRemoteProfiler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfiler.h; sourceTree = "<group>"; };
+		39557CD91F1F7E8D00FF3187 /* DTXRemoteProfiler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRemoteProfiler.m; sourceTree = "<group>"; };
+		396677B11F1FCE18002D5E43 /* DTXRemoteProfilingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingManager.h; sourceTree = "<group>"; };
+		396677B21F1FCE18002D5E43 /* DTXRemoteProfilingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRemoteProfilingManager.m; sourceTree = "<group>"; };
+		396677B61F1FD2BE002D5E43 /* DTXLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLogging.h; sourceTree = "<group>"; };
+		396677B71F1FD867002D5E43 /* DTXLoggingSubsystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLoggingSubsystem.h; sourceTree = "<group>"; };
+		396677B81F1FD95D002D5E43 /* DTXLogging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLogging.m; sourceTree = "<group>"; };
+		396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.pch; sourceTree = "<group>"; };
 		3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAddressInfo.h; sourceTree = "<group>"; };
 		3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DTXAddressInfo.mm; sourceTree = "<group>"; };
 		397C9FCF1F0B94F60020B641 /* DTXSourceMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXSourceMaps.xcodeproj; path = ../../../Shared/DTXSourceMaps/DTXSourceMaps.xcodeproj; sourceTree = "<group>"; };
@@ -207,6 +226,16 @@
 			path = minizip;
 			sourceTree = "<group>";
 		};
+		39498C3E1F1FAE650030B620 /* DTXSocketConnection */ = {
+			isa = PBXGroup;
+			children = (
+				39498C401F1FAE650030B620 /* DTXSocketConnection.h */,
+				39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */,
+			);
+			name = DTXSocketConnection;
+			path = ../../../Shared/DTXSocketConnection/DTXSocketConnection;
+			sourceTree = "<group>";
+		};
 		394A09671F012F920030BDB4 /* fishhook */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +243,28 @@
 				394A09631F012F8D0030BDB4 /* fishhook.h */,
 			);
 			name = fishhook;
+			sourceTree = "<group>";
+		};
+		39557CD51F1F7E1300FF3187 /* RemoteProfiler */ = {
+			isa = PBXGroup;
+			children = (
+				39498C3E1F1FAE650030B620 /* DTXSocketConnection */,
+				39557CD81F1F7E8D00FF3187 /* DTXRemoteProfiler.h */,
+				39557CD91F1F7E8D00FF3187 /* DTXRemoteProfiler.m */,
+				396677B11F1FCE18002D5E43 /* DTXRemoteProfilingManager.h */,
+				396677B21F1FCE18002D5E43 /* DTXRemoteProfilingManager.m */,
+			);
+			path = RemoteProfiler;
+			sourceTree = "<group>";
+		};
+		396677B51F1FD2B1002D5E43 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				396677B71F1FD867002D5E43 /* DTXLoggingSubsystem.h */,
+				396677B61F1FD2BE002D5E43 /* DTXLogging.h */,
+				396677B81F1FD95D002D5E43 /* DTXLogging.m */,
+			);
+			path = Logging;
 			sourceTree = "<group>";
 		};
 		397C9FD01F0B94F60020B641 /* Products */ = {
@@ -225,7 +276,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		399E0EEB1F0ECA720047CF92 /* Performance */ = {
+		399E0EEB1F0ECA720047CF92 /* PerformanceProfiling */ = {
 			isa = PBXGroup;
 			children = (
 				39D40C1A1ED5B4DB00157C04 /* DBDebugToolkit */,
@@ -234,7 +285,7 @@
 				3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */,
 				3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */,
 			);
-			path = Performance;
+			path = PerformanceProfiling;
 			sourceTree = "<group>";
 		};
 		39C713371EFFCB1E00C827EB /* AutoCoding */ = {
@@ -246,16 +297,16 @@
 			name = AutoCoding;
 			sourceTree = "<group>";
 		};
-		39C7133C1EFFD6AD00C827EB /* Network */ = {
+		39C7133C1EFFD6AD00C827EB /* NetworkRecording */ = {
 			isa = PBXGroup;
 			children = (
 				39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */,
 				39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */,
 			);
-			path = Network;
+			path = NetworkRecording;
 			sourceTree = "<group>";
 		};
-		39C7133D1EFFD6BA00C827EB /* ReactNative */ = {
+		39C7133D1EFFD6BA00C827EB /* ReactNativeProfiling */ = {
 			isa = PBXGroup;
 			children = (
 				397C9FCF1F0B94F60020B641 /* DTXSourceMaps.xcodeproj */,
@@ -264,7 +315,7 @@
 				39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */,
 				39C7133F1EFFD6FF00C827EB /* DTXReactNativeSampler.m */,
 			);
-			path = ReactNative;
+			path = ReactNativeProfiling;
 			sourceTree = "<group>";
 		};
 		39C713421EFFDAE000C827EB /* Polling */ = {
@@ -277,13 +328,13 @@
 			path = Polling;
 			sourceTree = "<group>";
 		};
-		39D2054D1F03054000830A0D /* Logging */ = {
+		39D2054D1F03054000830A0D /* LogRecording */ = {
 			isa = PBXGroup;
 			children = (
 				39D2054E1F03057200830A0D /* DTXLoggingRecorder.h */,
 				39D2054F1F03057200830A0D /* DTXLoggingRecorder.m */,
 			);
-			path = Logging;
+			path = LogRecording;
 			sourceTree = "<group>";
 		};
 		39D40BEF1ED5ABD200157C04 = {
@@ -306,19 +357,23 @@
 		39D40BFB1ED5ABD200157C04 /* DTXProfiler */ = {
 			isa = PBXGroup;
 			children = (
+				396677B51F1FD2B1002D5E43 /* Logging */,
 				39D40C041ED5AC0000157C04 /* Model */,
 				39C713371EFFCB1E00C827EB /* AutoCoding */,
 				39281E5E1ED70414002CE905 /* Utils */,
 				39C713421EFFDAE000C827EB /* Polling */,
-				399E0EEB1F0ECA720047CF92 /* Performance */,
-				39C7133C1EFFD6AD00C827EB /* Network */,
-				39D2054D1F03054000830A0D /* Logging */,
-				39C7133D1EFFD6BA00C827EB /* ReactNative */,
+				399E0EEB1F0ECA720047CF92 /* PerformanceProfiling */,
+				39C7133D1EFFD6BA00C827EB /* ReactNativeProfiling */,
+				39C7133C1EFFD6AD00C827EB /* NetworkRecording */,
+				39D2054D1F03054000830A0D /* LogRecording */,
+				39557CD51F1F7E1300FF3187 /* RemoteProfiler */,
 				39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */,
 				39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */,
 				39D40C161ED5B43F00157C04 /* DTXProfiler.h */,
+				39557CD71F1F7E5500FF3187 /* DTXProfiler-Private.h */,
 				39D40C171ED5B43F00157C04 /* DTXProfiler.m */,
 				39D40BFD1ED5ABD200157C04 /* Info.plist */,
+				396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */,
 			);
 			path = DTXProfiler;
 			sourceTree = "<group>";
@@ -415,14 +470,18 @@
 				39D40C141ED5B43700157C04 /* NSManagedObject+Additions.h in Headers */,
 				39D205501F03057200830A0D /* DTXLoggingRecorder.h in Headers */,
 				39281E701ED70458002CE905 /* unzip.h in Headers */,
+				39557CDA1F1F7E8D00FF3187 /* DTXRemoteProfiler.h in Headers */,
 				39D40C351ED5B60100157C04 /* NSObject+DBDebugToolkit.h in Headers */,
 				39D40C0F1ED5B43700157C04 /* DTXInstrumentsModel.h in Headers */,
+				396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */,
 				39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */,
 				39D40C2E1ED5B5C900157C04 /* DBURLProtocol.h in Headers */,
 				39D40C2C1ED5B5C900157C04 /* DBAuthenticationChallengeSender.h in Headers */,
 				39281E821ED70A77002CE905 /* DTXZipper.h in Headers */,
+				39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */,
 				39281E6C1ED70458002CE905 /* ioapi.h in Headers */,
 				394A09651F012F8D0030BDB4 /* fishhook.h in Headers */,
+				396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */,
 				39D40C301ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.h in Headers */,
 				39D40C121ED5B43700157C04 /* DTXSample+Additions.h in Headers */,
 				39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */,
@@ -532,9 +591,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */,
+				39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */,
 				39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */,
 				39D40C311ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.m in Sources */,
 				39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */,
+				396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */,
 				39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */,
 				3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */,
 				39281E6B1ED70458002CE905 /* ioapi.c in Sources */,
@@ -556,8 +617,10 @@
 				39D40C151ED5B43700157C04 /* NSManagedObject+Additions.m in Sources */,
 				39D40C131ED5B43700157C04 /* DTXSample+Additions.m in Sources */,
 				394A09661F012F8D0030BDB4 /* fishhook.c in Sources */,
+				39557CDB1F1F7E8D00FF3187 /* DTXRemoteProfiler.m in Sources */,
 				39D40C0E1ED5B43700157C04 /* DTXInstruments.xcdatamodeld in Sources */,
 				399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */,
+				396677B91F1FD95D002D5E43 /* DTXLogging.m in Sources */,
 				39D40C231ED5B52100157C04 /* DBPerformanceToolkit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,6 +755,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = YES;
+				GCC_PREFIX_HEADER = DTXProfiler/DTXProfiler.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -714,6 +778,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = YES;
+				GCC_PREFIX_HEADER = DTXProfiler/DTXProfiler.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

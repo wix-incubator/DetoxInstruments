@@ -6,7 +6,7 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXProfiler.h"
+#import "DTXProfiler-Private.h"
 #import "AutoCoding.h"
 #import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
@@ -24,6 +24,8 @@
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
 #define DTX_IGNORE_NOT_RECORDING if(self.recording == NO) { return; }
+
+DTX_CREATE_LOG(Profiler);
 
 @interface DTXProfiler () <DTXNetworkListener, DTXLoggingListener>
 
@@ -49,9 +51,13 @@
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
 }
 
+@synthesize _profilerStoryListener = _profilerStoryListener;
+
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
 	DTX_ASSERT_NOT_RECORDING
+
+	dtx_log_info(@"Starting profiling");
 	
 	self.recording = YES;
 	
@@ -90,10 +96,14 @@
 			_currentRecording.processIdentifier = processInfo.processIdentifier;
 			_currentRecording.hasReactNative = [DTXReactNativeSampler reactNativeInstalled];
 			
+			[_profilerStoryListener createRecording:_currentRecording];
+			
 			_rootSampleGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
 			_rootSampleGroup.name = @"DTXRoot";
 			_rootSampleGroup.recording = _currentRecording;
 			_currentSampleGroup = _rootSampleGroup;
+			
+			[_profilerStoryListener pushSampleGroup:_rootSampleGroup isRootGroup:YES];
 			
 			__weak __typeof(self) weakSelf = self;
 			
@@ -119,6 +129,8 @@
 					[weakSelf reactNativeSamplerDidPoll:pollable];
 				}];
 			}
+			
+			dtx_log_info(@"Started profiling");
 		} qos:QOS_CLASS_USER_INTERACTIVE];
 	}];
 }
@@ -163,8 +175,13 @@
 {
 	DTX_ASSERT_RECORDING
 	
+	dtx_log_info(@"Stopping profiling");
+	
 	[self _flushPendingSamplesWithInternalCompletionHandler:^{
 		_currentRecording.endTimestamp = [NSDate date];
+		
+		[_profilerStoryListener updateRecording:_currentRecording stopRecording:YES];
+		
 		_pollingManager = nil;
 		
 		if(_currentProfilingConfiguration.collectStackTraces && _currentProfilingConfiguration.symbolicateStackTraces)
@@ -194,6 +211,8 @@
 		_currentProfilingConfiguration = nil;
 		self.recording = NO;
 		
+		dtx_log_info(@"Stopped profiling");
+		
 		if(handler != nil)
 		{
 			handler(nil);
@@ -210,6 +229,7 @@
 		DTXSampleGroup* newGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
 		newGroup.name = name;
 		newGroup.parentGroup = _currentSampleGroup;
+		[_profilerStoryListener pushSampleGroup:newGroup isRootGroup:NO];
 		_currentSampleGroup = newGroup;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
@@ -222,6 +242,7 @@
 		DTX_IGNORE_NOT_RECORDING
 		
 		_currentSampleGroup.closeTimestamp = [NSDate date];
+		[_profilerStoryListener popSampleGroup:_currentSampleGroup];
 		_currentSampleGroup = _currentSampleGroup.parentGroup;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
@@ -236,6 +257,9 @@
 		DTXTag* tag = [[DTXTag alloc] initWithContext:_backgroundContext];
 		tag.parentGroup = _currentSampleGroup;
 		tag.name = _tag;
+		
+		[_profilerStoryListener addTag:tag];
+		
 		[self _addPendingSampleInternal:tag];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
@@ -250,6 +274,7 @@
 		DTXLogSample* log = [[DTXLogSample alloc] initWithContext:_backgroundContext];
 		log.parentGroup = _currentSampleGroup;
 		log.line = line;
+		[_profilerStoryListener addLogSample:log];
 		[self _addPendingSampleInternal:log];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
@@ -299,8 +324,6 @@
 	}];
 	
 	DTXWriteZipFileWithDirectoryContents([_currentProfilingConfiguration.recordingFileURL URLByAppendingPathExtension:@"zip"], _currentProfilingConfiguration.recordingFileURL);
-	
-//	dprintf(__stderr, "%s\n", [recordingDirectory URLByAppendingPathExtension:@"zip"].path.UTF8String);
 	
 	_container = nil;
 }
@@ -354,6 +377,8 @@
 				}
 				threadInfo.name = obj.name;
 				
+				[_profilerStoryListener createdOrUpdatedThreadInfo:threadInfo];
+				
 				DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:_backgroundContext];
 				threadSample.cpuUsage = obj.cpu;
 				threadSample.threadInfo = threadInfo;
@@ -368,6 +393,8 @@
 		}
 		
 		perfSample.parentGroup = _currentSampleGroup;
+		
+		[_profilerStoryListener addPerformanceSample:perfSample];
 		
 		[self _addPendingSampleInternal:perfSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -408,6 +435,8 @@
 		rnPerfSample.stackTraceIsSymbolicated = isSymbolicated;
 		
 		rnPerfSample.parentGroup = _currentSampleGroup;
+		
+		[_profilerStoryListener addRNPerformanceSample:rnPerfSample];
 		
 		[self _addPendingSampleInternal:rnPerfSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -450,6 +479,8 @@
 		networkSample.requestDataLength = request.HTTPBody.length + request.allHTTPHeaderFields.description.length;
 		
 		networkSample.parentGroup = _currentSampleGroup;
+		
+		[_profilerStoryListener startRequestWithNetworkSample:networkSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
@@ -488,6 +519,8 @@
 		networkSample.responseDataLength = data.length + networkSample.responseHeaders.description.length;
 		
 		networkSample.totalDataLength = networkSample.requestDataLength + networkSample.responseDataLength;
+		
+		[_profilerStoryListener finishWithResponseForNetworkSample:networkSample];
 		
 		[self _addPendingSampleInternal:networkSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
