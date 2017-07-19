@@ -34,6 +34,7 @@ static NSDictionary<NSString*, NSNumber*>* __classTypeMapping;
 {
 	[super awakeFromInsert];
 	
+	self.sampleIdentifier = [NSUUID UUID].UUIDString;
 	self.timestamp = [NSDate date];
 	self.sampleType = [__classTypeMapping[NSStringFromClass(self.class)] unsignedIntegerValue];
 }

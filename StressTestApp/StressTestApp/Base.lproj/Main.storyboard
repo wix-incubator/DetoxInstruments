@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.17" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KLq-A5-AQQ">
+                                <rect key="frame" x="126" y="318" width="123" height="30"/>
+                                <state key="normal" title="Slow Main Thread"/>
+                                <connections>
+                                    <action selector="_slowMyDeviceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c99-o3-xIU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBo-BC-Srv">
+                                <rect key="frame" x="102" y="356" width="172" height="30"/>
+                                <state key="normal" title="Slow Background Thread"/>
+                                <connections>
+                                    <action selector="_slowMyBackgroundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w1q-e3-3FW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="id4-Y6-Fd9">
+                                <rect key="frame" x="158" y="280" width="58" height="30"/>
+                                <state key="normal" title="Network"/>
+                                <connections>
+                                    <segue destination="gx5-xc-mTj" kind="presentation" id="8M2-vR-cEp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GiA-rM-g8i">
+                                <rect key="frame" x="122" y="394" width="131" height="30"/>
+                                <state key="normal" title="Write 10MB to Disk"/>
+                                <connections>
+                                    <action selector="_writeToDisk:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fk7-0g-c6S"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="KLq-A5-AQQ" firstAttribute="top" secondItem="id4-Y6-Fd9" secondAttribute="bottom" constant="8" id="2lt-Dy-xA5"/>
+                            <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="KV5-Fw-Pbe"/>
+                            <constraint firstItem="MBo-BC-Srv" firstAttribute="top" secondItem="KLq-A5-AQQ" secondAttribute="bottom" constant="8" id="OsD-zj-Ihx"/>
+                            <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerX" secondItem="id4-Y6-Fd9" secondAttribute="centerX" id="T38-to-iBU"/>
+                            <constraint firstItem="MBo-BC-Srv" firstAttribute="centerX" secondItem="KLq-A5-AQQ" secondAttribute="centerX" id="ca3-Tc-Gwy"/>
+                            <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gol-FN-n7c"/>
+                            <constraint firstItem="GiA-rM-g8i" firstAttribute="top" secondItem="MBo-BC-Srv" secondAttribute="bottom" constant="8" id="lvn-nB-IYS"/>
+                            <constraint firstItem="GiA-rM-g8i" firstAttribute="centerX" secondItem="MBo-BC-Srv" secondAttribute="centerX" id="pPA-1N-ugZ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-306" y="152"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="ADd-jU-smj">
+            <objects>
+                <viewController id="hsP-bu-LJX" customClass="WebViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="R0h-es-tiv"/>
+                        <viewControllerLayoutGuide type="bottom" id="5kM-W5-v6e"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="htf-at-Nm4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tgd-ga-z2i">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="tgd-ga-z2i" firstAttribute="top" secondItem="R0h-es-tiv" secondAttribute="bottom" id="L33-qL-feS"/>
+                            <constraint firstItem="5kM-W5-v6e" firstAttribute="top" secondItem="tgd-ga-z2i" secondAttribute="bottom" id="Nqt-bN-xDy"/>
+                            <constraint firstAttribute="trailing" secondItem="tgd-ga-z2i" secondAttribute="trailing" id="e4u-Ej-rTP"/>
+                            <constraint firstItem="tgd-ga-z2i" firstAttribute="leading" secondItem="htf-at-Nm4" secondAttribute="leading" id="fR5-Ld-zur"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="P3C-VB-ewg">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="bIW-CN-Z3b">
+                            <connections>
+                                <segue destination="hcR-AM-nJu" kind="unwind" unwindAction="prepareForUnwind:" id="w0s-lZ-2lC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="_webView" destination="tgd-ga-z2i" id="AJg-hV-Itb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WkI-w3-kXg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="hcR-AM-nJu" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="903.20000000000005" y="264.91754122938534"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="DJZ-i5-Cd0">
+            <objects>
+                <navigationController id="gx5-xc-mTj" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0r6-h8-rSa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="hsP-bu-LJX" kind="relationship" relationship="rootViewController" id="GSD-3l-MYW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dxO-kY-BIY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="103" y="914"/>
+        </scene>
+    </scenes>
+</document>

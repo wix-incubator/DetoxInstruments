@@ -127,7 +127,7 @@
 {
 	_indicatorOffset = indicatorOffset;
 	//Causes bug in High Sierra
-//	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
+	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
 	{
 		_dashedLine.frame = (NSRect){floor(indicatorOffset), _dashedLine.frame.origin.y, _dashedLine.frame.size};
 	}
@@ -136,7 +136,8 @@
 - (void)setDisplaysIndicator:(BOOL)displaysIndicator
 {
 	_displaysIndicator = displaysIndicator;
-//	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
+	//Causes bug in High Sierra
+	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
 	{
 		_dashedLine.hidden = _displaysIndicator == NO;
 	}

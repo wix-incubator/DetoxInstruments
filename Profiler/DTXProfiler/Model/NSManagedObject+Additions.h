@@ -10,6 +10,7 @@
 
 @interface NSManagedObject (Additions)
 
-@property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentation;
+@property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentationForJSON;
+@property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentationForPropertyList;
 
 @end

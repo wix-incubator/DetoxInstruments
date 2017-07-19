@@ -21,31 +21,51 @@ static NSDateFormatter* __iso8601DateFormatter;
 	});
 }
 
-- (NSDictionary*)dictionaryRepresentation
+- (NSDictionary*)dictionaryRepresentationForJSON
 {
+	return [self _dictionaryRepresentationWithAttributeTransformer:^id(NSAttributeDescription* obj, id val) {
+		if(obj.attributeType == NSDateAttributeType)
+		{
+			val = [__iso8601DateFormatter stringFromDate:val];
+		}
+		else if(obj.attributeType == NSBinaryDataAttributeType)
+		{
+			val = [(NSData*)val base64EncodedStringWithOptions:0];
+		}
+		
+		return val;
+	} callingKey:NSStringFromSelector(_cmd)];
+}
+
+- (NSDictionary*)dictionaryRepresentationForPropertyList
+{
+	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd)];
+}
+
+- (NSDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSAttributeDescription* obj, id val))transformer callingKey:(NSString*)callingKey
+{
+	if(transformer == nil)
+	{
+		transformer = ^ (NSAttributeDescription* obj, id val) { return val; };
+	}
+	
 	NSMutableDictionary* rv = [NSMutableDictionary new];
 	
 	NSDictionary<NSString *, NSAttributeDescription *>* attributes = [[self entity] attributesByName];
 	[attributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSAttributeDescription * _Nonnull obj, BOOL * _Nonnull stop) {
-		if(obj.attributeType == NSDateAttributeType)
+		id val = transformer(obj, [self valueForKey:key]);
+		
+		if(([val isKindOfClass:[NSDictionary class]] || [val isKindOfClass:[NSArray class]]) && [val count] == 0)
 		{
-			rv[key] = [__iso8601DateFormatter stringFromDate:[self valueForKey:key]];
+			val = nil;
 		}
-		else if(obj.attributeType == NSBinaryDataAttributeType)
+		
+		if([obj.userInfo[@"suppressInDictionaryRepresentationIfZero"] boolValue] && [val isKindOfClass:[NSNumber class]] && [val isEqualToNumber:@0])
 		{
-			rv[key] = [(NSData*)[self valueForKey:key] base64EncodedStringWithOptions:0];
+			val = nil;
 		}
-		else
-		{
-			id val = [self valueForKey:key];
-			
-			if(([val isKindOfClass:[NSDictionary class]] || [val isKindOfClass:[NSDictionary class]]) && [val count] == 0)
-			{
-				val = nil;
-			}
-			
-			rv[key] = val;
-		}
+		
+		rv[key] = val;
 	}];
 	
 	NSDictionary<NSString *, NSRelationshipDescription *>* relationships = [[self entity] relationshipsByName];
@@ -60,29 +80,35 @@ static NSDateFormatter* __iso8601DateFormatter;
 		
 		if([obj.userInfo[@"includeInDictionaryRepresentation"] boolValue])
 		{
-			id obj = [[self valueForKey:key] valueForKey:@"dictionaryRepresentation"];
-			if([obj isKindOfClass:[NSOrderedSet class]])
+			id val = [[self valueForKey:key] valueForKey:callingKey];
+			if([val isKindOfClass:[NSOrderedSet class]])
 			{
-				obj = [obj array];
+				val = [val array];
 			}
-			else if([obj isKindOfClass:[NSSet class]])
+			else if([val isKindOfClass:[NSSet class]])
 			{
-				obj = [obj allObjects];
+				val = [val allObjects];
 			}
-			rv[outputKey] = obj;
+			
+			if(obj.userInfo[@"sortArrayByKeyPath"] && [val isKindOfClass:[NSArray class]])
+			{
+				val = [val sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:obj.userInfo[@"sortArrayByKeyPath"] ascending:YES]]];
+			}
+			
+			rv[outputKey] = val;
 		}
 		else if([obj.userInfo[@"flattenInDictionaryRepresentation"] boolValue])
 		{
-			id obj = [[self valueForKey:key] valueForKey:@"dictionaryRepresentation"];
+			id val = [[self valueForKey:key] valueForKey:callingKey];
 			
-			if(obj == nil)
+			if(val == nil)
 			{
 				return;
 			}
 			
-			NSParameterAssert([obj isKindOfClass:[NSDictionary class]]);
+			NSParameterAssert([val isKindOfClass:[NSDictionary class]]);
 			
-			[rv addEntriesFromDictionary:obj];
+			[rv addEntriesFromDictionary:val];
 		}
 		else if(obj.userInfo[@"includeKeyPathInDictionaryRepresentation"] != nil)
 		{

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.30" systemVersion="17A291j" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13196.5" systemVersion="17A306f" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdvancedPerformanceSample" representedClassName="DTXAdvancedPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <attribute name="heaviestStackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
         <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -34,23 +34,47 @@
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="requestData" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="NetworkData" inverseName="networkSampleRequest" inverseEntity="NetworkData" syncable="YES">
             <userInfo>
-                <entry key="flattenInDictionaryRepresentation" value="YES"/>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
             </userInfo>
         </relationship>
         <relationship name="responseData" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="NetworkData" inverseName="networkSampleResponse" inverseEntity="NetworkData" syncable="YES">
             <userInfo>
-                <entry key="flattenInDictionaryRepresentation" value="YES"/>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
             </userInfo>
         </relationship>
     </entity>
     <entity name="PerformanceSample" representedClassName="DTXPerformanceSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="cpuUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="diskReads" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="diskReadsDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="diskWrites" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="diskWritesDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="fps" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="memoryUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="diskReads" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="diskReadsDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="diskWrites" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="diskWritesDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="fps" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="memoryUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
     </entity>
     <entity name="ReactNativePeroformanceSample" representedClassName="DTXReactNativePeroformanceSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="bridgeJSToNCallCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -85,15 +109,22 @@
                 <entry key="includeInDictionaryRepresentation" value="YES"/>
             </userInfo>
         </relationship>
-        <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="recording" inverseEntity="ThreadInfo" syncable="YES"/>
-        <userInfo>
-            <entry key="includeInDictionaryRepresentation" value="YES"/>
-        </userInfo>
+        <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="recording" inverseEntity="ThreadInfo" syncable="YES">
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+                <entry key="sortArrayByKeyPath" value="number"/>
+            </userInfo>
+        </relationship>
     </entity>
     <entity name="Sample" representedClassName="DTXSample" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="sampleIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="parentGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SampleGroup" inverseName="samples" inverseEntity="SampleGroup" syncable="YES"/>
+        <relationship name="parentGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SampleGroup" inverseName="samples" inverseEntity="SampleGroup" syncable="YES">
+            <userInfo>
+                <entry key="includeKeyPathInDictionaryRepresentation" value="sampleIdentifier"/>
+            </userInfo>
+        </relationship>
     </entity>
     <entity name="SampleGroup" representedClassName="DTXSampleGroup" parentEntity="Tag" syncable="YES" codeGenerationType="class">
         <attribute name="closeTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -101,6 +132,7 @@
         <relationship name="samples" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sample" inverseName="parentGroup" inverseEntity="Sample" syncable="YES">
             <userInfo>
                 <entry key="includeInDictionaryRepresentation" value="YES"/>
+                <entry key="sortArrayByKeyPath" value="timestamp"/>
             </userInfo>
         </relationship>
     </entity>
@@ -130,7 +162,7 @@
         <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="150"/>
         <element name="ReactNativePeroformanceSample" positionX="-27" positionY="135" width="128" height="210"/>
         <element name="Recording" positionX="-27" positionY="45" width="128" height="285"/>
-        <element name="Sample" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="Sample" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="SampleGroup" positionX="-45" positionY="0" width="128" height="90"/>
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
         <element name="ThreadInfo" positionX="-27" positionY="135" width="128" height="105"/>
