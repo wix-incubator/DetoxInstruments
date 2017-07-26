@@ -25,14 +25,16 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	return [color blendedColorWithFraction:0.15 ofColor:NSColor.whiteColor];
 }
 
-@interface DTXSamplePlotController ()
+@interface DTXSamplePlotController () <CPTScatterPlotDelegate>
 
 @end
 
 @implementation DTXSamplePlotController
 {
 	__kindof CPTGraphHostingView* _hostingView;
-	CPTMutablePlotRange* _globalYRange;
+	CPTPlotRange* _globalYRange;
+	BOOL _resetGlobalYRange;
+	CPTPlotRange* _pendingGlobalXPlotRange;
 	CPTPlotRange* _pendingXPlotRange;
 	
 	NSStoryboard* _scene;
@@ -40,12 +42,19 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	CPTPlotSpaceAnnotation* _highlightAnnotation;
 	DTXLineLayer* _lineLayer;
 	CPTLimitBand* _rangeHighlightBand;
+	NSUInteger _highlightedSampleIndex;
+	NSUInteger _highlightedNextSampleIndex;
+	NSTimeInterval _highlightedSampleTime;
+	CGFloat _highlightedPercent;
+	CPTPlotRange* _highlightedRange;
+	
+	
+	NSArray* _plots;
 }
 
 @synthesize delegate = _delegate;
 @synthesize document = _document;
 @synthesize dataProvider = _dataProvider;
-@synthesize samples = _samples;
 
 + (Class)graphHostingViewClass
 {
@@ -66,19 +75,12 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		_document = document;
 		_scene = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
 		_dataProvider = [[[self.class UIDataProviderClass] alloc] initWithDocument:_document plotController:self];
+		
+		//To initialize the highlighed cache ivars.
+		[self removeHighlight];
 	}
 	
 	return self;
-}
-
-- (NSArray<NSArray *> *)samples
-{
-	if(_samples == nil)
-	{
-		_samples = [self samplesForPlots];
-	}
-	
-	return _samples;
 }
 
 - (void)mouseEntered:(NSEvent *)event
@@ -93,13 +95,19 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 
 - (void)mouseMoved:(NSEvent *)event
 {
+	int x = 1;
+	if(x == 1)
+	{
+		return;
+	}
+	
 	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
 	
 	NSMutableArray<NSDictionary<NSString*, NSString*>*>* dataPoints = [NSMutableArray new];
 	
 	[_graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSUInteger numberOfRecords = [self numberOfRecordsForPlot:obj];
-		NSUInteger foundPointIndex = 0;
+		NSUInteger foundPointIndex = NSNotFound;
 		CGFloat foundPointDelta = 0;
 		CGFloat foundPointX = 0;
 		for(NSUInteger idx = 0; idx < numberOfRecords; idx++)
@@ -117,16 +125,19 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 			}
 		}
 		
-		id y = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex];
-		if(self.isStepped == NO && foundPointIndex < numberOfRecords - 1)
+		if(foundPointIndex != NSNotFound)
 		{
-			CGPoint pointOfNextPoint = [obj plotAreaPointOfVisiblePointAtIndex:foundPointIndex + 1];
-			id nextY = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex + 1];
+			id y = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex];
+			if(self.isStepped == NO && foundPointIndex < numberOfRecords - 1)
+			{
+				CGPoint pointOfNextPoint = [obj plotAreaPointOfVisiblePointAtIndex:foundPointIndex + 1];
+				id nextY = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex + 1];
+				
+				y = [y interpolateToValue:nextY progress:foundPointDelta / (pointOfNextPoint.x - foundPointX)];
+			}
 			
-			y = [y interpolateToValue:nextY progress:foundPointDelta / (pointOfNextPoint.x - foundPointX)];
+			[dataPoints addObject:@{@"title":self.plotTitles[idx], @"data": [[self formatterForDataPresentation] stringForObjectValue:[self transformedValueForFormatter:y]]}];
 		}
-		
-		[dataPoints addObject:@{@"title":self.plotTitles[idx], @"data": [[self formatterForDataPresentation] stringForObjectValue:[self transformedValueForFormatter:y]]}];
 	}];
 	
 	if(dataPoints.count == 0)
@@ -182,8 +193,8 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 			}
 		}
 		
-		id sample = self.samples[((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex];
-		id nextSample = foundPointIndex == numberOfRecords - 1 ? nil : self.samples[((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex + 1];
+		id sample = [self samplesForPlotIndex:((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex];
+		id nextSample = foundPointIndex == numberOfRecords - 1 ? nil : [self samplesForPlotIndex:((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex + 1];
 		
 		[self _highlightSample:sample nextSample:nextSample plotSpaceOffset:foundPointDelta];
 		[_dataProvider selectSample:sample];
@@ -195,6 +206,19 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	[self setUpWithView:view insets:NSEdgeInsetsZero];
 }
 
+- (CPTPlotRange*)finesedPlotRangeForPlotRange:(CPTPlotRange*)_yRange;
+{
+	NSEdgeInsets insets = self.rangeInsets;
+	
+	CPTMutablePlotRange* yRange = [_yRange mutableCopy];
+	
+	CGFloat initial = yRange.location.doubleValue;
+	yRange.location = @(-insets.bottom);
+	yRange.length = @((initial + yRange.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier);
+	
+	return yRange;
+}
+
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets
 {
 	if(_hostingView)
@@ -204,6 +228,8 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	}
 	else
 	{
+		[self prepareSamples];
+		
 		_hostingView = [[[self.class graphHostingViewClass] alloc] initWithFrame:view.bounds];
 		_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
 		
@@ -239,14 +265,19 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		// Auto scale the plot space to fit the plot data
 		[plotSpace scaleToFitPlots:[graph allPlots]];
 		
-		CPTMutablePlotRange *xRange = [CPTMutablePlotRange plotRangeWithLocation:@0 length:@([_document.recording.realEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
-		CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
+		CPTPlotRange *xRange;
+		if(_pendingGlobalXPlotRange)
+		{
+			xRange = _pendingGlobalXPlotRange;
+			_pendingGlobalXPlotRange = nil;
+		}
+		else
+		{
+			xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
+		}
+		CPTPlotRange *yRange = [plotSpace.yRange mutableCopy];
 		
-		NSEdgeInsets insets = self.rangeInsets;
-		
-		CGFloat initial = yRange.location.doubleValue;
-		yRange.location = @(-insets.bottom);
-		yRange.length = @((initial + yRange.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier);
+		yRange = [self finesedPlotRangeForPlotRange:yRange];
 		
 		plotSpace.globalXRange = xRange;
 		plotSpace.globalYRange = yRange;
@@ -274,12 +305,17 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 											  [view.bottomAnchor constraintEqualToAnchor:_hostingView.bottomAnchor constant:insets.bottom]]];
 }
 
-- (NSArray<CPTPlot *> *)plots
+- (NSArray<__kindof CPTPlot *> *)plots
 {
+	if(_plots)
+	{
+		return _plots;
+	}
+	
 	NSArray<NSColor*>* plotColors = self.plotColors;
 	
 	NSMutableArray* rv = [NSMutableArray new];
-	[self.samples enumerateObjectsUsingBlock:^(NSArray<NSDictionary<NSString *,id> *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		// Create the plot
 		CPTScatterPlot* scatterPlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
 		scatterPlot.identifier = @(idx);
@@ -294,26 +330,30 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		lineStyle.lineWidth = 1.0;
 		lineStyle.lineColor = [CPTColor colorWithCGColor:__DTXDarkerColorFromColor(plotColors[idx]).CGColor];
 		scatterPlot.dataLineStyle = lineStyle;
-		
-		CPTGradient* gradient = [CPTGradient gradientWithBeginningColor:[CPTColor colorWithCGColor:__DTXLighterColorFromColor(plotColors[idx]).CGColor] endingColor:[CPTColor colorWithCGColor:__DTXLighterColorFromColor(__DTXLighterColorFromColor(plotColors[idx])).CGColor]];
+
+		NSColor* startColor = [plotColors[idx] colorWithAlphaComponent:0.55];
+		NSColor* endColor = [plotColors[idx] colorWithAlphaComponent:0.45];
+		CPTGradient* gradient = [CPTGradient gradientWithBeginningColor:[CPTColor colorWithCGColor:startColor.CGColor] endingColor:[CPTColor colorWithCGColor:endColor.CGColor]];
 		gradient.gradientType = CPTGradientTypeAxial;
 		gradient.angle = -90;
-		
+
 		scatterPlot.areaFill = [CPTFill fillWithGradient:gradient];
 		scatterPlot.areaBaseValue = @0.0;
 		
 		// set data source and add plots
 		scatterPlot.dataSource = self;
+		scatterPlot.delegate = self;
 		
 		[rv addObject:scatterPlot];
 	}];
 	
-	return rv;
+	_plots = rv;
+	return _plots;
 }
 
 -(NSUInteger)numberOfRecordsForPlot:(nonnull CPTPlot *)plot
 {
-	return self.samples[((NSNumber*)plot.identifier).unsignedIntegerValue].count;
+	return [self samplesForPlotIndex:((NSNumber*)plot.identifier).unsignedIntegerValue].count;
 }
 
 -(id)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
@@ -322,17 +362,17 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	
 	if(fieldEnum == CPTScatterPlotFieldX )
 	{
-		return @([[self.samples[plotIdx][index] valueForKey:@"timestamp"] timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate]);
+		return @([[[self samplesForPlotIndex:plotIdx][index] valueForKey:@"timestamp"] timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate]);
 	}
 	else
 	{
-		return [self transformedValueForFormatter:[self.samples[plotIdx][index] valueForKey:self.sampleKeys[plotIdx]]];
+		return [self transformedValueForFormatter:[[self samplesForPlotIndex:plotIdx][index] valueForKey:self.sampleKeys[plotIdx]]];
 	}
 }
 
 -(nullable CPTPlotRange *)plotSpace:(nonnull CPTPlotSpace *)space willChangePlotRangeTo:(nonnull CPTPlotRange *)newRange forCoordinate:(CPTCoordinate)coordinate
 {
-	if(coordinate == CPTCoordinateY && _globalYRange != nil)
+	if(coordinate == CPTCoordinateY && _globalYRange != nil && _resetGlobalYRange == NO)
 	{
 		return _globalYRange;
 	}
@@ -349,6 +389,23 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	
 	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)_graph.defaultPlotSpace;
 	[_delegate plotController:self didChangeToPlotRange:plotSpace.xRange];
+}
+
+- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange enforceOnLocalPlotRange:(BOOL)enforce
+{
+	if(_graph != nil)
+	{
+		[(CPTXYPlotSpace *)_graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
+	}
+	else
+	{
+		_pendingGlobalXPlotRange = globalPlotRange;
+	}
+	
+	if(enforce)
+	{
+		[self setPlotRange:globalPlotRange];
+	}
 }
 
 - (void)setPlotRange:(CPTPlotRange *)plotRange
@@ -385,11 +442,22 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 
 - (void)_highlightSample:(DTXSample*)sample nextSample:(DTXSample*)nextSample plotSpaceOffset:(CGFloat)offset
 {
+	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.recording.startTimestamp.timeIntervalSinceReferenceDate + offset;
+	NSUInteger sampleIdx = [[self samplesForPlotIndex:0] indexOfObject:sample];
+	NSUInteger nextSampleIdx = nextSample ? [[self samplesForPlotIndex:0] indexOfObject:nextSample] : NSNotFound;
+	CGFloat percent = offset / (nextSample.timestamp.timeIntervalSinceReferenceDate - sample.timestamp.timeIntervalSinceReferenceDate);
+	
+	[self _highlightSampleIndex:sampleIdx nextSampleIndex:nextSampleIdx sampleTime:sampleTime percect:percent makeVisible:YES];
+}
+
+- (void)_highlightSampleIndex:(NSUInteger)sampleIdx nextSampleIndex:(NSUInteger)nextSampleIdx sampleTime:(NSTimeInterval)sampleTime percect:(CGFloat)percent makeVisible:(BOOL)makeVisible
+{
 	[self removeHighlight];
 	
-	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.recording.startTimestamp.timeIntervalSinceReferenceDate + offset;
-	NSUInteger sampleIdx = [_samples.firstObject indexOfObject:sample];
-	NSUInteger nextSampleIdx = nextSample ? [_samples.firstObject indexOfObject:nextSample] : NSNotFound;
+	_highlightedSampleIndex = sampleIdx;
+	_highlightedNextSampleIndex = nextSampleIdx;
+	_highlightedSampleTime = sampleTime;
+	_highlightedPercent = percent;
 	
 	_highlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:_graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 	_lineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight)];
@@ -403,10 +471,10 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	
 	[_graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTScatterPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		CGFloat value = [obj plotAreaPointOfVisiblePointAtIndex:sampleIdx].y;
-		if(self.isStepped == NO && nextSample)
+		if(self.isStepped == NO && nextSampleIdx != NSNotFound)
 		{
 			CGFloat nextValue = [obj plotAreaPointOfVisiblePointAtIndex:nextSampleIdx].y;
-			CGFloat percent = offset / (nextSample.timestamp.timeIntervalSinceReferenceDate - sample.timestamp.timeIntervalSinceReferenceDate);
+			
 			
 			value = [@(value) interpolateToValue:@(nextValue) progress:percent].doubleValue;
 		}
@@ -421,7 +489,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	[_graph addAnnotation:_highlightAnnotation];
 	
 	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)_graph.defaultPlotSpace;
-	if(sampleTime < plotSpace.xRange.location.doubleValue || sampleTime > (plotSpace.xRange.location.doubleValue + plotSpace.xRange.length.doubleValue))
+	if(makeVisible && (sampleTime < plotSpace.xRange.location.doubleValue || sampleTime > (plotSpace.xRange.location.doubleValue + plotSpace.xRange.length.doubleValue)))
 	{
 		CPTMutablePlotRange* xRange = [plotSpace.xRange mutableCopy];
 		xRange.location = @(MIN(MAX(sampleTime - (xRange.length.doubleValue / 2.0), plotSpace.globalXRange.location.doubleValue), plotSpace.globalXRange.location.doubleValue + plotSpace.globalXRange.length.doubleValue));
@@ -435,9 +503,23 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	
 	[self removeHighlight];
 	
+	_highlightedRange = range;
+	
 	_rangeHighlightBand = [CPTLimitBand limitBandWithRange:range fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:__DTXDarkerColorFromColor(self.plotColors.firstObject).CGColor]]];
 	
 	[plot addAreaFillBand:_rangeHighlightBand];
+}
+
+- (void)didFinishDrawing:(CPTPlot *)plot
+{
+	if(_highlightedSampleIndex != NSNotFound)
+	{
+		[self _highlightSampleIndex:_highlightedSampleIndex nextSampleIndex:_highlightedNextSampleIndex sampleTime:_highlightedSampleTime percect:_highlightedPercent makeVisible:NO];
+	}
+	else if(_highlightedRange)
+	{
+		[self highlightRange:_highlightedRange];
+	}
 }
 
 - (void)removeHighlight
@@ -451,10 +533,51 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	
 	_rangeHighlightBand = nil;
 	
-	[_graph removeAnnotation:_highlightAnnotation];
+	if(_highlightAnnotation)
+	{
+		[_graph removeAnnotation:_highlightAnnotation];
+	}
 	
 	_lineLayer = nil;
 	_highlightAnnotation = nil;
+	
+	_highlightedSampleIndex = NSNotFound;
+	_highlightedNextSampleIndex = NSNotFound;
+	_highlightedSampleTime = 0.0;
+	_highlightedPercent = 0.0;
+	_highlightedRange = nil;
+}
+
+- (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates forPlotAtIndex:(NSUInteger)index
+{
+	__kindof CPTPlot* plot = self.plots[index];
+	
+	[updates enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[plot reloadDataInIndexRange:NSMakeRange(obj.unsignedIntegerValue, 1)];
+	}];
+	
+	__block double maxValue = 0;
+	
+	[[insertions sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[plot insertDataAtIndex:obj.unsignedIntegerValue numberOfRecords:1];
+		double value = [[self numberForPlot:plot field:CPTScatterPlotFieldY recordIndex:obj.unsignedIntegerValue] doubleValue];
+		if(value > maxValue)
+		{
+			maxValue = value;
+		}
+	}];
+	
+	CPTXYPlotSpace* plotSpace = (id)_graph.defaultPlotSpace;
+	CPTPlotRange* newYRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(maxValue)];
+	newYRange = [self finesedPlotRangeForPlotRange:newYRange];
+	
+	if(plotSpace.yRange.length.doubleValue < newYRange.length.doubleValue)
+	{
+		_resetGlobalYRange = YES;
+		plotSpace.globalYRange = newYRange;
+		plotSpace.yRange = newYRange;
+		_resetGlobalYRange = NO;
+	}
 }
 
 - (NSString *)displayName
@@ -477,7 +600,12 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	return 80;
 }
 
-- (NSArray<NSArray *> *)samplesForPlots
+- (void)prepareSamples
+{
+	
+}
+
+- (NSArray*)samplesForPlotIndex:(NSUInteger)index
 {
 	return @[];
 }

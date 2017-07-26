@@ -9,6 +9,9 @@
 #import "DTXTableRowView.h"
 
 @implementation DTXTableRowView
+{
+	NSView* _backgroundView;
+}
 
 - (instancetype)init
 {

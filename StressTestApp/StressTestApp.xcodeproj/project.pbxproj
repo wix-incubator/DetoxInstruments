@@ -93,6 +93,7 @@
 				39EBDF151ED2DEA2005D8AB1 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		39EBDF151ED2DEA2005D8AB1 /* Products */ = {
 			isa = PBXGroup;
@@ -139,6 +140,7 @@
 				39EBDF111ED2DEA2005D8AB1 /* Frameworks */,
 				39EBDF121ED2DEA2005D8AB1 /* Resources */,
 				39EBDF3E1ED2DEE2005D8AB1 /* Embed Frameworks */,
+				39A72C471F20EBAC00D7628B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -212,6 +214,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		39A72C471F20EBAC00D7628B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "pushd ${TARGET_BUILD_DIR}/${PRODUCT_NAME}.app/Frameworks/DTXProfiler.framework/Frameworks\nfor EACH in *.framework; do\necho \"-- signing ${EACH}\"\n/usr/bin/codesign --force --deep --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --entitlements \"${TARGET_TEMP_DIR}/${PRODUCT_NAME}.app.xcent\" --timestamp=none $EACH\ndone\npopd";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		39EBDF101ED2DEA2005D8AB1 /* Sources */ = {

@@ -14,13 +14,14 @@
 @protocol DTXManagedPlotControllerGroupDelegate <NSObject>
 
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group requestPlotControllerSelection:(id<DTXPlotController>)plotController;
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup *)group requiredHeightChangedForPlotController:(id<DTXPlotController>)plotController index:(NSUInteger)index;
 
 @end
 
 @interface DTXManagedPlotControllerGroup : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithHostingView:(NSView*)view NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithHostingView:(NSView*)view;
 
 @property (nonatomic, weak) id<DTXManagedPlotControllerGroupDelegate> delegate;
 
@@ -33,6 +34,7 @@
 - (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController;
 - (void)removePlotController:(id<DTXPlotController>)plotController;
 
+- (void)setStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
 - (void)zoomIn;
 - (void)zoomOut;
 

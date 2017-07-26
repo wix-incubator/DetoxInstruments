@@ -12,7 +12,12 @@
 
 @interface DTXSampleGroupProxy : NSObject
 
-@property (nonatomic, strong) NSArray<DTXSample*>* samples;
+- (instancetype)initWithSampleGroup:(DTXSampleGroup*)sampleGroup sampleTypes:(NSArray<NSNumber*>*)sampleTypes outlineView:(NSOutlineView*)outlineView;
+
+@property (nonatomic, readonly) NSUInteger samplesCount;
+- (id)sampleAtIndex:(NSUInteger)index;
+
+//@property (nonatomic, strong, readonly) NSArray<DTXSample*>* samples;
 @property (nonatomic, strong) NSDate* timestamp;
 @property (nonatomic, strong) NSDate* closeTimestamp;
 @property (nonatomic, strong) NSString* name;

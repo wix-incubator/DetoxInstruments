@@ -18,20 +18,20 @@
 DTXProfiler* __;
 + (void)load
 {
-	__ = [DTXProfiler new];
-	DTXProfilingConfiguration* conf = [DTXProfilingConfiguration defaultProfilingConfiguration];
-	conf.recordThreadInformation = YES;
-	conf.collectStackTraces = YES;
-	conf.symbolicateStackTraces = YES;
-	conf.collectJavaScriptStackTraces = YES;
-	conf.symbolicateJavaScriptStackTraces = YES;
-	[__ startProfilingWithConfiguration:conf];
-	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		[__ stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
-			NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		}];
-	});
+//	__ = [NSClassFromString(@"DTXRemoteProfiler") new];
+//	DTXProfilingConfiguration* conf = [DTXProfilingConfiguration defaultProfilingConfiguration];
+//	conf.recordThreadInformation = YES;
+//	conf.collectStackTraces = YES;
+//	conf.symbolicateStackTraces = YES;
+//	conf.collectJavaScriptStackTraces = YES;
+//	conf.symbolicateJavaScriptStackTraces = YES;
+//	[__ startProfilingWithConfiguration:conf];
+//	
+//	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//		[__ stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
+//			NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		}];
+//	});
 	
 //	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //		[__ pushSampleGroupWithName:@"Group 1"];

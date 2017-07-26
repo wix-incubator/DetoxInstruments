@@ -94,7 +94,6 @@
 			
 			if(obj.description == nil)
 			{
-				NSLog(@"Description nil for object with title %@", obj.title);
 				return;
 			}
 			

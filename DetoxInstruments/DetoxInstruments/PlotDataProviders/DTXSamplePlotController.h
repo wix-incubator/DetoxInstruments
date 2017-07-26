@@ -13,15 +13,16 @@
 
 @interface DTXSamplePlotController : NSObject <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
 
-@property (nonatomic, strong, readonly) NSArray<NSArray*>* samples;
 @property (nonatomic, strong, readonly) CPTGraph* graph;
 
 + (Class)graphHostingViewClass;
 + (Class)UIDataProviderClass;
 
-- (NSArray<NSArray*>*)samplesForPlots;
+- (void)prepareSamples;
+- (NSArray*)samplesForPlotIndex:(NSUInteger)index;
+- (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates forPlotAtIndex:(NSUInteger)index;
 
-- (NSArray<CPTPlot*>*)plots;
+- (NSArray<__kindof CPTPlot*>*)plots;
 - (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph;
 - (NSArray<NSString*>*)sampleKeys;
 - (NSArray<NSColor*>*)plotColors;
@@ -32,5 +33,7 @@
 
 - (NSFormatter*)formatterForDataPresentation;
 - (id)transformedValueForFormatter:(id)value;
+
+- (CPTPlotRange*)finesedPlotRangeForPlotRange:(CPTPlotRange*)yRange;
 
 @end

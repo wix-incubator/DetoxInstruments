@@ -10,6 +10,8 @@
 #import "DTXInstrumentsModel.h"
 @import ObjectiveC;
 
+NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDidInvalidateDefactoEndTimestamp";
+
 @implementation DTXRecording (UIExtensions)
 
 - (DTXProfilingConfiguration *)dtx_profilingConfiguration
@@ -30,22 +32,50 @@
 	return obj;
 }
 
-- (NSDate *)realEndTimestamp
+- (NSDate *)defactoEndTimestamp
 {
 	NSDate* obj = objc_getAssociatedObject(self, _cmd);
 	
 	if(obj == nil)
 	{
-		NSFetchRequest* fr = [DTXSample fetchRequest];
+		NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
 		fr.fetchLimit = 1;
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
+#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
+		fr.predicate = [NSPredicate predicateWithFormat:@"parentGroup.recording == %@", self];
+#endif
 		
 		obj = [[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
+		
+		NSDate* startWithMinimum = [self.startTimestamp dateByAddingTimeInterval:self.minimumDefactoTimeInterval];
+		if(obj == nil || [obj compare:startWithMinimum] == NSOrderedAscending)
+		{
+			obj = startWithMinimum;
+		}
 		
 		objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN);
 	}
 	
 	return obj;
+}
+
+- (void)invalidateDefactoEndTimestamp
+{
+	objc_setAssociatedObject(self, @selector(defactoEndTimestamp), nil, OBJC_ASSOCIATION_RETAIN);
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDidInvalidateDefactoEndTimestamp object:self];
+}
+
+- (NSTimeInterval)minimumDefactoTimeInterval
+{
+	return [objc_getAssociatedObject(self, _cmd) doubleValue];
+}
+
+- (void)setMinimumDefactoTimeInterval:(NSTimeInterval)minimumDefactoTimeInterval
+{
+	objc_setAssociatedObject(self, @selector(minimumDefactoTimeInterval), @(minimumDefactoTimeInterval), OBJC_ASSOCIATION_RETAIN);
+	
+	[self invalidateDefactoEndTimestamp];
 }
 
 - (BOOL)hasNetworkSamples

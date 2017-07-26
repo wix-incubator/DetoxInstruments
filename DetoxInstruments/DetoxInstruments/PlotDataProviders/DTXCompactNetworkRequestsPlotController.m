@@ -14,9 +14,14 @@
 #import "DTXNetworkDataProvider.h"
 #import "DTXCPTRangePlot.h"
 
-@interface DTXCompactNetworkRequestsPlotController () <CPTRangePlotDataSource>
+@interface DTXCompactNetworkRequestsPlotController () <CPTRangePlotDataSource, NSFetchedResultsControllerDelegate>
 {
+	NSFetchedResultsController<DTXNetworkSample*>* _frc;
+	
+	CPTRangePlot* _plot;
+	
 	NSMutableArray<NSMutableArray<DTXNetworkSample*>*>* _mergedSamples;
+	NSMutableArray<NSIndexPath*>* _sampleIndices;
 	NSUInteger _selectedIndex;
 }
 @end
@@ -33,97 +38,103 @@
 	return [DTXNetworkDataProvider class];
 }
 
+- (instancetype)initWithDocument:(DTXDocument *)document
+{
+	self = [super initWithDocument:document];
+	
+	if(self)
+	{
+		_selectedIndex = NSNotFound;
+	}
+	
+	return self;
+}
+
+- (void)prepareSamples
+{
+	NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
+	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
+	fr.predicate = [NSPredicate predicateWithFormat:@"parentGroup.recording == %@", self.document.recording];
+#endif
+	
+	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+	_frc.delegate = self;
+	[_frc performFetch:NULL];
+}
+
 - (NSMutableArray<NSMutableArray<DTXNetworkSample*>*>*)_mergedSamples
 {
 	if(_mergedSamples == nil)
 	{
-		[self samples];
+		[self _prepareMergedSamples];
 	}
 	
 	return _mergedSamples;
 }
 
-- (NSArray<NSArray*>*)samplesForPlots
+- (void)_prepareMergedSamples
 {
-	_selectedIndex = NSNotFound;
+	_mergedSamples = [NSMutableArray new];
+	_sampleIndices = [NSMutableArray new];
 	
-	NSMutableArray* rv = [NSMutableArray new];
-	NSMutableArray* resultIndexPaths = [NSMutableArray new];
-	
-	if(_mergedSamples == nil)
+	if(_frc.fetchedObjects.count == 0)
 	{
-		_mergedSamples = [NSMutableArray new];
+		return;
 	}
 	
-	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
-		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+	[_frc.fetchedObjects enumerateObjectsUsingBlock:^(DTXNetworkSample * _Nonnull currentSample, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSDate* timestamp = currentSample.timestamp;
 		
-		NSArray<DTXNetworkSample*>* results = [self.document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
+		__block NSMutableArray* _insertionGroup = nil;
 		
-		if(results == nil)
-		{
-			*stop = YES;
-			return;
-		}
-		
-		[results enumerateObjectsUsingBlock:^(DTXNetworkSample * _Nonnull currentSample, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSDate* timestamp = currentSample.timestamp;
-			
-			__block NSMutableArray* _insertionGroup = nil;
-			
-			[_mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<DTXNetworkSample *> * _Nonnull possibleSampleGroup, NSUInteger idx, BOOL * _Nonnull stop) {
-				NSDate* lastResponseTimestamp = possibleSampleGroup.lastObject.responseTimestamp;
-				if(lastResponseTimestamp == nil)
-				{
-					lastResponseTimestamp = [NSDate distantFuture];
-				}
-				
-				if([timestamp compare:lastResponseTimestamp] == NSOrderedDescending)
-				{
-					_insertionGroup = possibleSampleGroup;
-					*stop = YES;
-				}
-			}];
-			
-			if(_insertionGroup == nil)
+		[_mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<DTXNetworkSample *> * _Nonnull possibleSampleGroup, NSUInteger idx, BOOL * _Nonnull stop) {
+			NSDate* lastResponseTimestamp = possibleSampleGroup.lastObject.responseTimestamp;
+			if(lastResponseTimestamp == nil)
 			{
-				_insertionGroup = [NSMutableArray new];
-				[_mergedSamples addObject:_insertionGroup];
+				lastResponseTimestamp = [NSDate distantFuture];
 			}
 			
-			[_insertionGroup addObject:currentSample];
-			
-			NSIndexPath* indexPath = [NSIndexPath indexPathForItem:[_insertionGroup indexOfObject:currentSample] inSection:[_mergedSamples indexOfObject:_insertionGroup]];
-			[resultIndexPaths addObject:indexPath];
+			if([timestamp compare:lastResponseTimestamp] == NSOrderedDescending)
+			{
+				_insertionGroup = possibleSampleGroup;
+				*stop = YES;
+			}
 		}];
+		
+		if(_insertionGroup == nil)
+		{
+			_insertionGroup = [NSMutableArray new];
+			[_mergedSamples addObject:_insertionGroup];
+		}
+		
+		[_insertionGroup addObject:currentSample];
+		
+		NSIndexPath* indexPath = [NSIndexPath indexPathForItem:[_insertionGroup indexOfObject:currentSample] inSection:[_mergedSamples indexOfObject:_insertionGroup]];
+		[_sampleIndices addObject:indexPath];
 	}];
-	
-	[rv addObject:resultIndexPaths];
-	
-	return rv;
 }
 
 - (NSArray<CPTPlot *> *)plots
 {
 	// Create a plot that uses the data source method
-	CPTRangePlot *dataSourceLinePlot = [[DTXCPTRangePlot alloc] init];
-	dataSourceLinePlot.identifier = @"Date Plot";
+	_plot = [[DTXCPTRangePlot alloc] init];
+	_plot.identifier = @"Date Plot";
 	
 	// Add line style
 	CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
 	lineStyle.lineWidth = 1.25;
 	lineStyle.lineColor = [CPTColor colorWithCGColor:self.plotColors.firstObject.CGColor];
-	dataSourceLinePlot.barLineStyle = lineStyle;
+	_plot.barLineStyle = lineStyle;
 	
 	// Bar properties
-	dataSourceLinePlot.barWidth = 6.0;
-	dataSourceLinePlot.gapWidth = 0.0;
-	dataSourceLinePlot.gapHeight = 0.0;
+	_plot.barWidth = 6.0;
+	_plot.gapWidth = 0.0;
+	_plot.gapHeight = 0.0;
 	
-	dataSourceLinePlot.dataSource = self;
+	_plot.dataSource = self;
 	
-	return @[dataSourceLinePlot];
+	return @[_plot];
 }
 
 - (void)mouseMoved:(NSEvent *)event
@@ -159,22 +170,22 @@
 	}];
 	
 	NSIndexPath* ip = [NSIndexPath indexPathForItem:item inSection:section];
-	NSUInteger indexOfIndexPath = [self.samples.firstObject indexOfObject:ip];
+	NSUInteger indexOfIndexPath = [_sampleIndices indexOfObject:ip];
 	
 	NSUInteger prevSelectedIndex = _selectedIndex;
 	_selectedIndex = indexOfIndexPath;
 	
 	if(indexOfIndexPath != NSNotFound)
 	{
-		[self.graph.allPlots.firstObject reloadDataInIndexRange:NSMakeRange(indexOfIndexPath, 1)];
+		[_plot reloadDataInIndexRange:NSMakeRange(indexOfIndexPath, 1)];
 		if(prevSelectedIndex != NSNotFound)
 		{
-			[self.graph.allPlots.firstObject reloadDataInIndexRange:NSMakeRange(prevSelectedIndex, 1)];
+			[_plot reloadDataInIndexRange:NSMakeRange(prevSelectedIndex, 1)];
 		}
 	}
 	else
 	{
-		[self.graph.allPlots.firstObject reloadData];
+		[_plot reloadData];
 	}
 }
 
@@ -244,19 +255,19 @@
 
 -(NSUInteger)numberOfRecordsForPlot:(nonnull CPTPlot *)plot
 {
-	return self.samples.firstObject.count;
+	return _sampleIndices.count;
 }
 
 -(id)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
 {
-	NSIndexPath* indexPath = self.samples.firstObject[index];
+	NSIndexPath* indexPath = _sampleIndices[index];
 	
 	DTXNetworkSample* sample = self._mergedSamples[indexPath.section][indexPath.item];
 	
-	NSTimeInterval timestampt = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
-	NSTimeInterval responseTimestampt = [sample.responseTimestamp ?: [NSDate distantFuture] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
-	NSTimeInterval range = responseTimestampt - timestampt;
-	NSTimeInterval avg = (timestampt + responseTimestampt) / 2;
+	NSTimeInterval timestamp = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval responseTimestamp = [sample.responseTimestamp ?: [NSDate distantFuture] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval range = responseTimestamp - timestamp;
+	NSTimeInterval avg = (timestamp + responseTimestamp) / 2;
 	
 	switch (fieldEnum)
 	{
@@ -276,7 +287,7 @@
 {
 	CPTMutableLineStyle* lineStyle = [plot.barLineStyle mutableCopy];
 	
-	NSIndexPath* indexPath = self.samples.firstObject[idx];
+	NSIndexPath* indexPath = _sampleIndices[idx];
 	DTXNetworkSample* sample = _mergedSamples[indexPath.section][indexPath.item];
 	   
 	if(_selectedIndex == idx)
@@ -300,6 +311,30 @@
 	}
 	
 	return lineStyle;
+}
+
+#pragma mark NSFetchedResultsControllerDelegate
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+	CGFloat oldHeight = self.requiredHeight;
+	
+	[self _prepareMergedSamples];
+	[_plot reloadData];
+	CPTPlotRange* range = [_plot plotRangeForCoordinate:CPTCoordinateY];
+	range = [self finesedPlotRangeForPlotRange:range];
+	
+	CPTXYPlotSpace* plotSpace = (id)self.graph.defaultPlotSpace;
+	[self setValue:@YES forKey:@"_resetGlobalYRange"];
+	plotSpace.globalYRange = plotSpace.yRange = range;
+	[self setValue:@NO forKey:@"_resetGlobalYRange"];
+	
+	CGFloat newHeight = self.requiredHeight;
+	
+	if(newHeight != oldHeight)
+	{
+		[self.delegate requiredHeightChangedForPlotController:self];
+	}
 }
 
 @end

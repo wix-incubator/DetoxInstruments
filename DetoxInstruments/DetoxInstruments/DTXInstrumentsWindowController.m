@@ -39,12 +39,13 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 @implementation DTXInstrumentsWindowController
 
-- (void)windowDidLoad {
+- (void)windowDidLoad
+{
     [super windowDidLoad];
 	
-	[self.window center];
-    
 	self.window.titleVisibility = NSWindowTitleHidden;
+	
+	[self.window center];
 	
 	_bottomSplitViewController = (id)self.window.contentViewController;
 	_rightSplitViewController = (id)self.window.contentViewController.childViewControllers.lastObject;
@@ -102,7 +103,6 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		_titleTextField.allowsDefaultTighteningForTruncation = YES;
 		_titleTextField.lineBreakMode = NSLineBreakByTruncatingHead;
 		_titleTextField.usesSingleLineMode = YES;
-		_titleTextField.stringValue = @"0123456";
 		_titleTextField.bezeled = NO;
 		_titleTextField.backgroundColor = nil;
 	}
@@ -112,7 +112,18 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		NSDateComponentsFormatter* ivFormatter = [NSDateComponentsFormatter new];
 		ivFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
 		
-		_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, [ivFormatter stringFromDate:document.recording.startTimestamp toDate:document.recording.endTimestamp]];
+		if(document.documentType == DTXDocumentTypeOpenedFromDisk)
+		{
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, [ivFormatter stringFromDate:document.recording.startTimestamp toDate:document.recording.endTimestamp]];
+		}
+		else if(document.documentType == DTXDocumentTypeRecording)
+		{
+			_titleTextField.stringValue = NSLocalizedString(@"Recording...", @"");
+		}
+		else
+		{
+			_titleTextField.stringValue = NSLocalizedString(@"No Recording", @"");
+		}
 	}
 	else
 	{
@@ -186,6 +197,16 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 - (IBAction)copy:(id)sender
 {
 	[self.handlerForCopy copy:sender targetView:self.targetForCopy];
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+	if([self.document documentType] == DTXDocumentTypeNone)
+	{
+		return;
+	}
+	
+	[super encodeRestorableStateWithCoder:coder];
 }
 
 @end

@@ -6,7 +6,9 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
+#if __has_include("DTXProfiler.h")
 #import "DTXProfiler.h"
+#endif
 
 @class DTXRecording, DTXSampleGroup, DTXPerformanceSample, DTXAdvancedPerformanceSample;
 @class DTXThreadInfo, DTXReactNativePeroformanceSample, DTXNetworkSample, DTXLogSample, DTXTag;
@@ -27,8 +29,10 @@
 
 @end
 
+#if __has_include("DTXProfiler.h")
 @interface DTXProfiler ()
 
 @property (nonatomic, weak, getter=_profilerStoryListener, setter=_setInternalDelegate:) id<_DTXProfilerStoryListener> _profilerStoryListener;
 
 @end
+#endif

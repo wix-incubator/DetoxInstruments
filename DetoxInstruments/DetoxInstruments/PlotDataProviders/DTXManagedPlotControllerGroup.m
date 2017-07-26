@@ -11,17 +11,17 @@
 
 @interface DTXManagedPlotControllerGroup () <DTXPlotControllerDelegate>
 {
+	NSMutableArray<id<DTXPlotController>>* _managedPlotControllers;
+	
 	BOOL _ignoringPlotRangeNotifications;
 	DTXTimelineIndicatorView* _timelineView;
 	CPTPlotRange* _savedPlotRange;
+	CPTPlotRange* _savedGlobalPlotRange;
 }
 
 @end
 
 @implementation DTXManagedPlotControllerGroup
-{
-	NSMutableArray<id<DTXPlotController>>* _managedPlotControllers;
-}
 
 - (instancetype)initWithHostingView:(NSView*)view
 {
@@ -58,16 +58,20 @@
 {
 	_headerPlotController = headerPlotController;
 	_headerPlotController.delegate = self;
+	
+	if(_savedGlobalPlotRange)
+	{
+		[headerPlotController setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:YES];
+	}
+	else if(_savedPlotRange)
+	{
+		[headerPlotController setPlotRange:_savedPlotRange];
+	}
 }
 
 - (void)addPlotController:(id<DTXPlotController>)plotController
 {
-	[_managedPlotControllers addObject:plotController];
-	plotController.delegate = self;
-	if(_savedPlotRange)
-	{
-		[plotController setPlotRange:_savedPlotRange];
-	}
+	[self insertPlotController:plotController afterPlotController:_managedPlotControllers.lastObject];
 }
 
 - (void)removePlotController:(id<DTXPlotController>)plotController
@@ -78,24 +82,93 @@
 
 - (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController
 {
-	NSUInteger idx = [_managedPlotControllers indexOfObject:afterPlotController];
+	NSUInteger idx;
 	
-	if(idx == NSNotFound)
+	if(afterPlotController == nil)
 	{
-		return;
+		idx = -1;
+	}
+	else
+	{
+		idx = [_managedPlotControllers indexOfObject:afterPlotController];
+		
+		if(idx == NSNotFound)
+		{
+			return;
+		}
 	}
 	
 	[_managedPlotControllers insertObject:plotController atIndex:idx + 1];
 	plotController.delegate = self;
-	if(_savedPlotRange)
+	if(_savedGlobalPlotRange)
+	{
+		[plotController setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:YES];
+	}
+	else if(_savedPlotRange)
 	{
 		[plotController setPlotRange:_savedPlotRange];
 	}
 }
 
+- (void)mouseEntered:(NSEvent *)event
+{
+	[self mouseMoved:event];
+}
+
+- (void)mouseExited:(NSEvent *)event
+{
+	_timelineView.displaysIndicator = NO;
+}
+
+- (void)mouseMoved:(NSEvent *)event
+{
+	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
+	
+	_timelineView.displaysIndicator = pointInView.x >= 210;
+	_timelineView.indicatorOffset = pointInView.x;
+}
+
+- (void)setStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
+{
+	_savedGlobalPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)];
+	
+	BOOL shouldEnforce = _savedPlotRange == nil || fabs(_savedPlotRange.length.doubleValue - _savedGlobalPlotRange.length.doubleValue) < 1;
+	
+	_ignoringPlotRangeNotifications = YES;
+	[_headerPlotController setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:shouldEnforce];
+	[_managedPlotControllers enumerateObjectsUsingBlock:^(id<DTXPlotController>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:shouldEnforce];
+	}];
+	if(shouldEnforce)
+	{
+		_savedPlotRange = nil;
+	}
+	_ignoringPlotRangeNotifications = NO;
+}
+
+- (void)zoomIn
+{
+	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
+	[_managedPlotControllers.firstObject zoomIn];
+}
+
+- (void)zoomOut
+{
+	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
+	[_managedPlotControllers.firstObject zoomOut];
+}
+
+#pragma mark DTXPlotControllerDelegate
+
+//TODO: Fix
+static BOOL __uglyHackTODOFixThisShit()
+{
+	return [[[NSThread callStackSymbols] description] containsString:@"CPTAnimation"];
+}
+
 - (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange
 {
-	if(_ignoringPlotRangeNotifications)
+	if(_ignoringPlotRangeNotifications || __uglyHackTODOFixThisShit())
 	{
 		return;
 	}
@@ -125,34 +198,9 @@
 	[self.delegate managedPlotControllerGroup:self requestPlotControllerSelection:pc];
 }
 
-- (void)mouseEntered:(NSEvent *)event
+- (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc
 {
-	[self mouseMoved:event];
-}
-
-- (void)mouseExited:(NSEvent *)event
-{
-	_timelineView.displaysIndicator = NO;
-}
-
-- (void)mouseMoved:(NSEvent *)event
-{
-	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
-	
-	_timelineView.displaysIndicator = pointInView.x >= 210;
-	_timelineView.indicatorOffset = pointInView.x;
-}
-
-- (void)zoomIn
-{
-	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
-	[_managedPlotControllers.firstObject zoomIn];
-}
-
-- (void)zoomOut
-{
-	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
-	[_managedPlotControllers.firstObject zoomOut];
+	[self.delegate managedPlotControllerGroup:self requiredHeightChangedForPlotController:pc index:[_managedPlotControllers indexOfObject:pc]];
 }
 
 @end

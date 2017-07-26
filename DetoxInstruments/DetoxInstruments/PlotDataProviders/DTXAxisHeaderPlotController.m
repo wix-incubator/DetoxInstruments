@@ -21,6 +21,8 @@
 {
 	CPTGraphHostingView* _hostingView;
 	CPTGraph* _graph;
+	CPTPlotRange* _pendingGlobalXPlotRange;
+	CPTPlotRange* _pendingXPlotRange;
 	CPTMutablePlotRange* _globalYRange;
 }
 
@@ -72,8 +74,22 @@
 		
 		// Setup scatter plot space
 		CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
-		plotSpace.globalXRange = plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.realEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
+		if(_pendingGlobalXPlotRange)
+		{
+			plotSpace.globalXRange = _pendingGlobalXPlotRange;
+			_pendingGlobalXPlotRange = nil;
+		}
+		else
+		{
+			plotSpace.globalXRange = plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
+		}
 		plotSpace.globalYRange = plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:@0.5 length:@5.0];
+		
+		if(_pendingXPlotRange)
+		{
+			plotSpace.xRange = _pendingXPlotRange;
+			_pendingXPlotRange = nil;
+		}
 		
 		const CGFloat majorTickLength = 20;
 		const CGFloat minorTickLength = 6.0;
@@ -156,9 +172,43 @@
 	
 }
 
+- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange enforceOnLocalPlotRange:(BOOL)enforce
+{
+	if(_graph != nil)
+	{
+//		[CPTAnimation animate:_graph.defaultPlotSpace
+//					 property:@"globalXRange"
+//				fromPlotRange:[(CPTXYPlotSpace *)_graph.defaultPlotSpace globalXRange]
+//				  toPlotRange:globalPlotRange
+//					 duration:0.1];
+		[(CPTXYPlotSpace *)_graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
+	}
+	else
+	{
+		_pendingGlobalXPlotRange = globalPlotRange;
+	}
+	
+	if(enforce)
+	{
+		[self setPlotRange:globalPlotRange];
+	}
+}
+
 - (void)setPlotRange:(CPTPlotRange *)plotRange
 {
-	[(CPTXYPlotSpace *)_graph.defaultPlotSpace setXRange:plotRange];
+	if(_graph != nil)
+	{
+//		[CPTAnimation animate:_graph.defaultPlotSpace
+//					 property:@"xRange"
+//				fromPlotRange:[(CPTXYPlotSpace *)_graph.defaultPlotSpace xRange]
+//				  toPlotRange:plotRange
+//					 duration:0.1];
+		[(CPTXYPlotSpace *)_graph.defaultPlotSpace setXRange:plotRange];
+	}
+	else
+	{
+		_pendingXPlotRange = plotRange;
+	}
 }
 
 - (NSString *)displayName

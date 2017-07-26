@@ -64,7 +64,7 @@ IB_DESIGNABLE
 
 - (CGFloat)lastSplitItemMaxThickness
 {
-	return 400;
+	return NSSplitViewItemUnspecifiedDimension;
 }
 
 - (CGFloat)lastSplitItemMinThickness
@@ -75,7 +75,8 @@ IB_DESIGNABLE
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.splitViewItems.lastObject.springLoaded = YES;
+	self.view.wantsLayer = YES;
+	
 	self.splitViewItems.lastObject.minimumThickness = [self lastSplitItemMinThickness];
 	self.splitViewItems.lastObject.maximumThickness = [self lastSplitItemMaxThickness];
 	self.splitViewItems.lastObject.canCollapse = YES;
@@ -88,7 +89,6 @@ IB_DESIGNABLE
 	
 	self.splitViewItems.lastObject.minimumThickness = [self lastSplitItemMinThickness];
 	self.splitViewItems.lastObject.maximumThickness = [self lastSplitItemMaxThickness];
-
 }
 
 

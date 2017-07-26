@@ -20,7 +20,7 @@
 
 @interface DTXRemoteProfiler : DTXProfiler
 
-- (instancetype)initWithSocketConnection:(DTXSocketConnection*)connection remoteProfilerDelegate:(id<DTXRemoteProfilerDelegate>)remoteProfilerDelegate;
+- (instancetype)initWithOpenSocketConnection:(DTXSocketConnection*)connection remoteProfilerDelegate:(id<DTXRemoteProfilerDelegate>)remoteProfilerDelegate;
 
 @property (nonatomic, weak, readonly) id<DTXRemoteProfilerDelegate> remoteProfilerDelegate;
 

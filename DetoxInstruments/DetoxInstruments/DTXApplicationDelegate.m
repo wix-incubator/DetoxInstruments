@@ -31,10 +31,15 @@
 {
 	return NO;
 }
+//
+//- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender
+//{
+//	return NO;
+//}
 
-- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag
 {
-	return NO;
+	return flag;
 }
 
 @end

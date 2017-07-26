@@ -7,17 +7,18 @@
 //
 
 #import "DTXInstrumentsApplication.h"
+#import "DTXDocument.h"
 
-@interface NSView (LayerForAll) @end
-
-@implementation NSView (LayerForAll)
-
-- (BOOL)wantsLayer
-{
-	return YES;
-}
-
-@end
+//@interface NSView (LayerForAll) @end
+//
+//@implementation NSView (LayerForAll)
+//
+//- (BOOL)wantsLayer
+//{
+//	return YES;
+//}
+//
+//@end
 
 @implementation DTXInstrumentsApplication
 
@@ -29,10 +30,10 @@
 - (id)targetForAction:(SEL)action to:(id)target from:(id)sender
 {
 	//Disable new tab button
-	if(action == @selector(newWindowForTab:))
-	{
-		return nil;
-	}
+//	if(action == @selector(newWindowForTab:))
+//	{
+//		return nil;
+//	}
 	
 	if(action == @selector(duplicateDocument:))
 	{
@@ -44,12 +45,21 @@
 		return nil;
 	}
 	
-	if(action == @selector(saveDocumentAs:))
-	{
-		return nil;
-	}
+//	if(action == @selector(saveDocumentAs:))
+//	{
+//		return nil;
+//	}
 	
 	return [super targetForAction:action to:target from:sender];
+}
+
+-(IBAction)newRecording:(id)sender
+{
+	DTXDocument* document = [[NSDocumentController sharedDocumentController] openUntitledDocumentAndDisplay:NO error:nil];
+	[document makeWindowControllers];
+	document.windowControllers.firstObject.window.tabbingMode = NSWindowTabbingModeDisallowed;
+	[document.windowControllers.firstObject showWindow:self];
+	document.windowControllers.firstObject.window.tabbingMode = NSWindowTabbingModeAutomatic;
 }
 
 @end

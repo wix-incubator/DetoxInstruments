@@ -73,34 +73,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	return self.plotController.displayIcon;
 }
 
-- (NSArray*)_prepareSamplesForGroup:(DTXSampleGroup*)group
-{
-	NSArray<DTXSample*>* samples = [group samplesWithTypes:self.sampleTypes includingGroups:YES];
-	
-	NSMutableArray* rv = [NSMutableArray new];
-	
-	[samples enumerateObjectsUsingBlock:^(DTXSample * _Nonnull sample, NSUInteger idx, BOOL * _Nonnull stop) {
-		if([sample isKindOfClass:[DTXSampleGroup class]])
-		{
-			DTXSampleGroup* sampleGroup = (id)sample;
-			
-			DTXSampleGroupProxy* groupProxy = [DTXSampleGroupProxy new];
-			groupProxy.samples = [self _prepareSamplesForGroup:sampleGroup];
-			groupProxy.name = sampleGroup.name;
-			groupProxy.timestamp = sampleGroup.timestamp;
-			groupProxy.closeTimestamp = sampleGroup.closeTimestamp;
-			
-			[rv addObject:groupProxy];
-		}
-		else
-		{
-			[rv addObject:sample];
-		}
-	}];
-	
-	return rv;
-}
-
 - (void)setManagedOutlineView:(NSOutlineView *)outlineView
 {
 	_managedOutlineView.delegate = nil;
@@ -151,8 +123,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		}
 	}];
 	
-	_rootGroupProxy = [DTXSampleGroupProxy new];
-	_rootGroupProxy.samples = [self _prepareSamplesForGroup:_document.recording.rootSampleGroup];
+	_rootGroupProxy = [[DTXSampleGroupProxy alloc] initWithSampleGroup:_document.recording.rootSampleGroup sampleTypes:self.sampleTypes outlineView:_managedOutlineView];
 	
 	_managedOutlineView.intercellSpacing = NSMakeSize(15, 1);
 	
@@ -199,7 +170,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		currentGroup = item;
 	}
 
-	return currentGroup.samples.count;
+	return [currentGroup samplesCount];
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
@@ -231,7 +202,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		currentGroup = item;
 	}
 	
-	return currentGroup.samples[index];
+	return [currentGroup sampleAtIndex:index];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
@@ -250,6 +221,24 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		cellView.textField.stringValue = [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:NO];
 		cellView.textField.textColor = [item isKindOfClass:[DTXSampleGroupProxy class]] ? NSColor.blackColor : [self textColorForItem:item];
+		
+		DTXTableRowView* rowView = (id)[outlineView rowViewAtRow:[outlineView rowForItem:item] makeIfNecessary:YES]; //(id)[outlineView rowForItem:item];
+		if([rowView.item isKindOfClass:[DTXSampleGroupProxy class]])
+		{
+			rowView.backgroundColor = NSColor.whiteColor;
+		}
+		else
+		{
+			rowView.backgroundColor = [self backgroundRowColorForItem:rowView.item];
+			
+			BOOL hasParentGroup = [rowView.item respondsToSelector:@selector(parentGroup)];
+			if([rowView.backgroundColor isEqualTo:NSColor.whiteColor] && hasParentGroup && [rowView.item parentGroup] != _document.recording.rootSampleGroup)
+			{
+				CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(rowView.item, _document.recording.rootSampleGroup) / 30.0), 0.3);
+				
+				rowView.backgroundColor = [NSColor.whiteColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
+			}
+		}
 		
 		return cellView;
 	}
@@ -274,9 +263,10 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item
 {
-	DTXTableRowView* row = [DTXTableRowView new];
-	row.item = item;
-	return row;
+	DTXTableRowView* rowView = [DTXTableRowView new];
+	rowView.item = item;
+	
+	return rowView;
 }
 
 NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
@@ -291,21 +281,7 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 
 - (void)outlineView:(NSOutlineView *)outlineView didAddRowView:(DTXTableRowView *)rowView forRow:(NSInteger)row
 {
-	if([rowView.item isKindOfClass:[DTXSampleGroupProxy class]])
-	{
-		rowView.backgroundColor = NSColor.whiteColor;
-		return;
-	}
 	
-	rowView.backgroundColor = [self backgroundRowColorForItem:rowView.item];
-	
-	BOOL hasParentGroup = [rowView.item respondsToSelector:@selector(parentGroup)];
-	if([rowView.backgroundColor isEqualTo:NSColor.whiteColor] && hasParentGroup && [rowView.item parentGroup] != _document.recording.rootSampleGroup)
-	{
-		CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(rowView.item, _document.recording.rootSampleGroup) / 30.0), 0.3);
-		
-		rowView.backgroundColor = [NSColor.whiteColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
-	}
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item

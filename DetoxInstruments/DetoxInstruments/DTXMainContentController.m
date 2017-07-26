@@ -18,9 +18,7 @@
 #import "DTXMemoryUsagePlotController.h"
 #import "DTXFPSPlotController.h"
 #import "DTXDiskReadWritesPlotController.h"
-#import "DTXNetworkRequestsPlotController.h"
 #import "DTXCompactNetworkRequestsPlotController.h"
-#import "DTXAggregatingNetworkRequestsPlotController.h"
 
 #import "DTXRecording+UIExtensions.h"
 #import "DTXRNCPUUsagePlotController.h"
@@ -45,23 +43,55 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	
+	self.view.wantsLayer = YES;
 }
 
 - (void)viewWillAppear
 {
 	[super viewWillAppear];
 	
+	[self _reloadPlotsIfNeeded];
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		DTXDocument* document = (id)self.view.window.windowController.document;
+		[document readyForRecordingIfNeeded];
+	});
+	
+	//This fixes an issue where the main content table does not size correctly.
+	NSRect rect = self.view.window.frame;
+	rect.size.width += 1;
+	[self.view.window setFrame:rect display:NO];
+	rect.size.width -= 1;
+	[self.view.window setFrame:rect display:NO];
+	
+	[_tableView.window makeFirstResponder:_tableView];
+}
+
+- (void)_reloadPlotsIfNeeded
+{
 	if(_plotGroup)
 	{
 		return;
 	}
 	
+	self.view.layer.backgroundColor = NSColor.whiteColor.CGColor;
+	
 	DTXDocument* document = (id)self.view.window.windowController.document;
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentDefactoEndTimestampDidChange:) name:DTXDocumentDefactoEndTimestampDidChangeNotification object:document];
+	
+	_headerView.hidden = document.documentType == DTXDocumentTypeNone;
+	
+	if(document.documentType == DTXDocumentTypeNone)
+	{
+		return;
+	}
 	
 	_tableView.intercellSpacing = NSMakeSize(0, 1);
 	
 	_plotGroup = [[DTXManagedPlotControllerGroup alloc] initWithHostingView:self.view];
 	_plotGroup.delegate = self;
+	[_plotGroup setStartTimestamp:document.recording.startTimestamp endTimestamp:document.recording.defactoEndTimestamp];
 	
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.view.window.windowController.document];
 	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 210, 0, 0)];
@@ -85,7 +115,7 @@
 	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:document]];
 	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:document]];
 	
-	if((document.recording.dtx_profilingConfiguration == nil || document.recording.dtx_profilingConfiguration.recordNetwork == YES) && document.recording.hasNetworkSamples)
+	if((document.recording.dtx_profilingConfiguration == nil || document.recording.dtx_profilingConfiguration.recordNetwork == YES))
 	{
 		[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:document]];
 	}
@@ -96,19 +126,6 @@
 	}
 	
 	[_tableView reloadData];
-}
-
-- (void)viewDidAppear
-{
-	[super viewDidAppear];
-	
-	NSRect rect = self.view.window.frame;
-	rect.size.width += 1;
-	[self.view.window setFrame:rect display:NO];
-	rect.size.width -= 1;
-	[self.view.window setFrame:rect display:NO];
-	
-	[_tableView.window makeFirstResponder:_tableView];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -200,13 +217,6 @@
 	[self.delegate contentController:self updateUIWithUIProvider:plotController.dataProvider];
 }
 
-- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group requestPlotControllerSelection:(id<DTXPlotController>)plotController
-{
-	NSUInteger idx = [group.plotControllers indexOfObject:plotController];
-	[_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
-	[_tableView.window makeFirstResponder:_tableView];
-}
-
 - (IBAction)zoomIn:(id)sender
 {
 	[_plotGroup zoomIn];
@@ -215,6 +225,25 @@
 - (IBAction)zoomOut:(id)sender
 {
 	[_plotGroup zoomOut];
+}
+
+#pragma mark DTXManagedPlotControllerGroupDelegate
+
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group requestPlotControllerSelection:(id<DTXPlotController>)plotController
+{
+	NSUInteger idx = [group.plotControllers indexOfObject:plotController];
+	[_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
+	[_tableView.window makeFirstResponder:_tableView];
+}
+
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup *)group requiredHeightChangedForPlotController:(id<DTXPlotController>)plotController index:(NSUInteger)index
+{
+	[_tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:index]];
+}
+
+- (void)_documentDefactoEndTimestampDidChange:(NSNotification*)note
+{
+	[_plotGroup setStartTimestamp:[note.object recording].startTimestamp endTimestamp:[note.object recording].defactoEndTimestamp];
 }
 
 @end

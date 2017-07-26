@@ -9,9 +9,14 @@
 #import "DTXRecording+Additions.h"
 #import "DTXProfilingConfiguration.h"
 
+extern NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp;
+
 @interface DTXRecording (UIExtensions)
 
-@property (nonatomic, copy, readonly) NSDate* realEndTimestamp;
+@property (nonatomic) NSTimeInterval minimumDefactoTimeInterval;
+@property (nonatomic, copy, readonly) NSDate* defactoEndTimestamp;
+- (void)invalidateDefactoEndTimestamp;
+
 @property (nonatomic, strong, readonly) DTXProfilingConfiguration* dtx_profilingConfiguration;
 @property (nonatomic, readonly) BOOL hasNetworkSamples;
 

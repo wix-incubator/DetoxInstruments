@@ -18,12 +18,16 @@
     [super viewDidLoad];
 	
 	self.splitViewItems.lastObject.automaticMaximumThickness = 320;
-	self.splitViewItems.lastObject.holdingPriority = NSLayoutPriorityDefaultLow;
 }
 
 - (CGFloat)lastSplitItemMaxThickness
 {
-	return CGFLOAT_MAX;
+	return NSSplitViewItemUnspecifiedDimension;
+}
+
+- (CGFloat)lastSplitItemMinThickness
+{
+	return 320;
 }
 
 @end

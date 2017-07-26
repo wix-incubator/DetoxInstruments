@@ -37,10 +37,14 @@
 		_logTableView.usesAutomaticRowHeights = YES;
 	}
 	
+	self.view.wantsLayer = YES;
+	
 	_pathControl.pathItems = @[];
 	_pathControl.menu = nil;
 	_pathControl.pathStyle = NSPathStyleStandard;
 	_pathControl.delegate = self;
+	
+	[self _selectManagingDataProvider];
 }
 
 - (void)viewWillAppear
@@ -67,7 +71,7 @@
 {
 	NSPathControlItem* p1 = [NSPathControlItem new];
 	p1.image = [NSImage imageNamed: _logShown ? @"console_small" : [NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]];
-	p1.title = _logShown ? NSLocalizedString(@"Console", @"") : _managingDataProvider.displayName;
+	p1.title = _logShown ? NSLocalizedString(@"Console", @"") : _managingDataProvider ? _managingDataProvider.displayName : @"";
 	
 	if(_logShown == NO)
 	{
@@ -116,6 +120,7 @@
 - (void)_selectManagingDataProvider
 {
 	_outlineView.superview.superview.hidden = NO;
+	_logTableView.superview.superview.hidden = YES;
 	_logShown = NO;
 	
 	[self _updatePathControlItems];
@@ -124,6 +129,7 @@
 - (void)_selectConsole
 {
 	_outlineView.superview.superview.hidden = YES;
+	_logTableView.superview.superview.hidden = NO;
 	_logShown = YES;
 	
 	[self _updatePathControlItems];

@@ -16,6 +16,7 @@
 
 - (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange;
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc;
+- (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc;
 
 @end
 
@@ -39,6 +40,7 @@
 - (void)setUpWithView:(NSView*)view;
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
 
+- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange enforceOnLocalPlotRange:(BOOL)enforce;
 - (void)setPlotRange:(CPTPlotRange*)plotRange;
 - (void)zoomIn;
 - (void)zoomOut;

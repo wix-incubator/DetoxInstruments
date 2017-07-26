@@ -13,7 +13,7 @@
 
 DTX_CREATE_LOG(RemoteProfiler);
 
-@interface DTXRemoteProfiler () <_DTXProfilerStoryListener, DTXSocketConnectionDelegate>
+@interface DTXRemoteProfiler () <_DTXProfilerStoryListener>
 
 @end
 
@@ -34,7 +34,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	return self;
 }
 
-- (instancetype)initWithSocketConnection:(DTXSocketConnection*)connection remoteProfilerDelegate:(id<DTXRemoteProfilerDelegate>)remoteProfilerDelegate
+- (instancetype)initWithOpenSocketConnection:(DTXSocketConnection*)connection remoteProfilerDelegate:(id<DTXRemoteProfilerDelegate>)remoteProfilerDelegate
 {
 	self = [self init];
 	
@@ -43,9 +43,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 		_remoteProfilerDelegate = remoteProfilerDelegate;
 		
 		_socketConnection = connection;
-		_socketConnection.delegate = self;
-		
-		[_socketConnection open];
 	}
 	
 	return self;
@@ -66,6 +63,18 @@ DTX_CREATE_LOG(RemoteProfiler);
 		if(error)
 		{
 			dtx_log_error(@"Remote profiler hit error: %@", error);
+		}
+	}];
+}
+
+- (void)stopProfilingWithCompletionHandler:(void (^)(NSError * _Nullable))completionHandler
+{
+	[super stopProfilingWithCompletionHandler:^ (NSError* err) {
+		[self.remoteProfilerDelegate remoteProfilerDidFinish:self];
+		
+		if(completionHandler)
+		{
+			completionHandler(err);
 		}
 	}];
 }
@@ -130,24 +139,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)addTag:(DTXTag*)tag
 {
 	[self _serializeCommandWithSelector:_cmd managedObject:tag additionalParams:nil];
-}
-
-#pragma mark DTXSocketConnectionDelegate
-
-- (void)readClosedForSocketConnection:(DTXSocketConnection*)socketConnection;
-{
-	dtx_log_info(@"Socket connection closed for reading");
-	[socketConnection closeWrite];
-	
-	[self.remoteProfilerDelegate remoteProfilerDidFinish:self];
-}
-
-- (void)writeClosedForSocketConnection:(DTXSocketConnection*)socketConnection;
-{
-	[socketConnection closeRead];
-	
-	dtx_log_info(@"Socket connection closed for writing");
-	[self.remoteProfilerDelegate remoteProfilerDidFinish:self];
 }
 
 @end
