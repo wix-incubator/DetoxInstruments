@@ -8,42 +8,58 @@
 
 #import "DTXManagedPlotControllerGroup.h"
 #import "DTXTimelineIndicatorView.h"
+#import "DTXTableRowView.h"
+#import "DTXPlotTypeCellView.h"
+#import "DTXPlotHostingTableCellView.h"
 
-@interface DTXManagedPlotControllerGroup () <DTXPlotControllerDelegate>
+@interface DTXManagedPlotControllerGroup () <DTXPlotControllerDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
 	NSMutableArray<id<DTXPlotController>>* _managedPlotControllers;
+	NSMapTable<id<DTXPlotController>, NSMutableArray<id<DTXPlotController>>*>* _childrenMap;
 	
 	BOOL _ignoringPlotRangeNotifications;
 	DTXTimelineIndicatorView* _timelineView;
 	CPTPlotRange* _savedPlotRange;
 	CPTPlotRange* _savedGlobalPlotRange;
+	
+	id<DTXPlotController> _currentlySelectedPlotController;
 }
+
+@property (nonatomic, strong) NSOutlineView* hostingOutlineView;
+@property (nonatomic, copy, readonly) NSArray<id<DTXPlotController>>* plotControllers;
+@property (nonatomic, copy, readonly) id<DTXPlotController> headerPlotController;
 
 @end
 
 @implementation DTXManagedPlotControllerGroup
 
-- (instancetype)initWithHostingView:(NSView*)view
+- (instancetype)initWithHostingOutlineView:(NSOutlineView*)outlineView
 {
 	self = [super init];
 	
 	if(self)
 	{
 		_managedPlotControllers = [NSMutableArray new];
-		_hostingView = view;
+		_childrenMap = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
+		
+		_hostingOutlineView = outlineView;
+		_hostingOutlineView.indentationPerLevel = 0;
+		_hostingOutlineView.indentationMarkerFollowsCell = NO;
+		_hostingOutlineView.dataSource = self;
+		_hostingOutlineView.delegate = self;
 		
 		_timelineView = [DTXTimelineIndicatorView new];
 		_timelineView.translatesAutoresizingMaskIntoConstraints = NO;
-		
+
 		NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:_timelineView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
 		[_timelineView addTrackingArea:tracker];
-		
-		[_hostingView addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingView.superview];
-		
-		[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
-												  [view.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
-												  [view.trailingAnchor constraintEqualToAnchor:_timelineView.trailingAnchor],
-												  [view.bottomAnchor constraintEqualToAnchor:_timelineView.bottomAnchor]]];
+
+		[_hostingOutlineView.superview.superview.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingOutlineView.superview.superview];
+
+		[NSLayoutConstraint activateConstraints:@[[_hostingOutlineView.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
+												  [_hostingOutlineView.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
+												  [_hostingOutlineView.trailingAnchor constraintEqualToAnchor:_timelineView.trailingAnchor],
+												  [_hostingOutlineView.bottomAnchor constraintEqualToAnchor:_timelineView.bottomAnchor]]];
 	}
 	
 	return self;
@@ -82,23 +98,29 @@
 
 - (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController
 {
-	NSUInteger idx;
+	[self _insertPlotController:plotController afterPlotController:afterPlotController parentPlotController:nil inCollection:_managedPlotControllers];
+}
+
+- (void)_insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController parentPlotController:(id<DTXPlotController>)parentPlotController inCollection:(NSMutableArray<id<DTXPlotController>>*)collection
+{
+	NSInteger idx;
 	
 	if(afterPlotController == nil)
 	{
+		//This will make sure we insert at index 0.
 		idx = -1;
 	}
 	else
 	{
-		idx = [_managedPlotControllers indexOfObject:afterPlotController];
-		
-		if(idx == NSNotFound)
-		{
-			return;
-		}
+		idx = [collection indexOfObject:afterPlotController];
 	}
 	
-	[_managedPlotControllers insertObject:plotController atIndex:idx + 1];
+	if(idx == NSNotFound)
+	{
+		return;
+	}
+	
+	[collection insertObject:plotController atIndex:idx + 1];
 	plotController.delegate = self;
 	if(_savedGlobalPlotRange)
 	{
@@ -108,6 +130,59 @@
 	{
 		[plotController setPlotRange:_savedPlotRange];
 	}
+	
+	[self _noteOutlineViewOfInsertedAtIndex:idx + 1 forItem:parentPlotController];
+	
+	if(idx == 0 && parentPlotController == nil && _hostingOutlineView.selectedRowIndexes.count == 0)
+	{
+		[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+	}
+}
+
+- (void)_noteOutlineViewOfInsertedAtIndex:(NSUInteger)index forItem:(id<DTXPlotController>)item
+{
+	[_hostingOutlineView beginUpdates];
+	[_hostingOutlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:item withAnimation:NSTableViewAnimationEffectNone];
+	[_hostingOutlineView endUpdates];
+}
+
+- (void)_noteOutlineViewOfRemovedAtIndex:(NSUInteger)index forItem:(id<DTXPlotController>)item
+{
+	[_hostingOutlineView beginUpdates];
+	[_hostingOutlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:item withAnimation:NSTableViewAnimationEffectNone];
+	[_hostingOutlineView endUpdates];
+}
+
+- (NSMutableArray<id<DTXPlotController>>*)_childrenArrayForPlotController:(id<DTXPlotController>)plotController create:(BOOL)create
+{
+	NSMutableArray* rv = [_childrenMap objectForKey:plotController];
+	
+	if(create == YES && rv == nil)
+	{
+		rv = [NSMutableArray new];
+		[_childrenMap setObject:rv forKey:plotController];
+	}
+	
+	return rv;
+}
+
+- (void)addChildPlotController:(id<DTXPlotController>)childPlotController toPlotController:(id<DTXPlotController>)plotController
+{
+	NSMutableArray* children = [self _childrenArrayForPlotController:plotController create:YES];
+	[self _insertPlotController:childPlotController afterPlotController:children.lastObject parentPlotController:plotController inCollection:children];
+}
+
+- (void)insertChildPlotController:(id<DTXPlotController>)childPlotController afterChildPlotController:(id<DTXPlotController>)afterPlotController ofPlotController:(id<DTXPlotController>)plotController
+{
+	NSMutableArray* children = [self _childrenArrayForPlotController:plotController create:YES];
+	[self _insertPlotController:childPlotController afterPlotController:afterPlotController parentPlotController:plotController inCollection:children];
+}
+
+- (void)removeChildPlotController:(id<DTXPlotController>)childPlotController ofPlotController:(id<DTXPlotController>)plotController
+{
+	NSMutableArray* children = [self _childrenArrayForPlotController:plotController create:YES];
+	childPlotController.delegate = nil;
+	[_managedPlotControllers removeObject:childPlotController];
 }
 
 - (void)mouseEntered:(NSEvent *)event
@@ -122,7 +197,7 @@
 
 - (void)mouseMoved:(NSEvent *)event
 {
-	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
+	CGPoint pointInView = [_hostingOutlineView convertPoint:[event locationInWindow] fromView:nil];
 	
 	_timelineView.displaysIndicator = pointInView.x >= 210;
 	_timelineView.indicatorOffset = pointInView.x;
@@ -158,11 +233,22 @@
 	[_managedPlotControllers.firstObject zoomOut];
 }
 
+- (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc
+{
+	[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_hostingOutlineView childIndexForItem:pc]] byExtendingSelection:NO];
+	[_hostingOutlineView.window makeFirstResponder:_hostingOutlineView];
+}
+
+- (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc
+{
+	[_hostingOutlineView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[_hostingOutlineView childIndexForItem:pc]]];
+}
+
 #pragma mark DTXPlotControllerDelegate
 
-//TODO: Fix
 static BOOL __uglyHackTODOFixThisShit()
 {
+	//TODO: Fix
 	return [[[NSThread callStackSymbols] description] containsString:@"CPTAnimation"];
 }
 
@@ -193,14 +279,82 @@ static BOOL __uglyHackTODOFixThisShit()
 	_ignoringPlotRangeNotifications = NO;
 }
 
-- (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc
+#pragma mark NSOutlineView Data Source & Delegate
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-	[self.delegate managedPlotControllerGroup:self requestPlotControllerSelection:pc];
+	if(item == nil)
+	{
+		return _managedPlotControllers.count;
+	}
+	
+	return [[self _childrenArrayForPlotController:item create:NO] count];
 }
 
-- (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-	[self.delegate managedPlotControllerGroup:self requiredHeightChangedForPlotController:pc index:[_managedPlotControllers indexOfObject:pc]];
+	return [[self _childrenArrayForPlotController:item create:NO] count] > 0;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+{
+	if(item == nil)
+	{
+		return _managedPlotControllers[index];
+	}
+	
+	id<DTXPlotController> plotController = item;
+	return [[self _childrenArrayForPlotController:plotController create:NO] objectAtIndex:index];
+}
+
+- (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item
+{
+	return [DTXTableRowView new];
+}
+
+- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+	id<DTXPlotController> controller = item;
+	
+	if([tableColumn.identifier isEqualToString:@"DTXTitleColumnt"])
+	{
+		DTXPlotTypeCellView* cell = [outlineView makeViewWithIdentifier:@"InfoTableViewCell" owner:nil];
+		cell.textField.font = controller.titleFont;
+		cell.textField.stringValue = controller.displayName;
+		cell.textField.toolTip = controller.displayName;
+		cell.textField.allowsDefaultTighteningForTruncation = YES;
+		cell.imageView.image = controller.displayIcon;
+		
+		return cell;
+	}
+	else if([tableColumn.identifier isEqualToString:@"DTXGraphColumn"])
+	{
+		DTXPlotHostingTableCellView* cell = [outlineView makeViewWithIdentifier:@"PlotHostingTableViewCell" owner:nil];
+		cell.plotController = controller;
+		return cell;
+	}
+	
+	return nil;
+}
+
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
+{
+	return [item requiredHeight];
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
+{
+	return [item canReceiveFocus];
+}
+
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
+	[_currentlySelectedPlotController removeHighlight];
+	
+	id<DTXPlotController> plotController = [_hostingOutlineView itemAtRow:_hostingOutlineView.selectedRow];
+	_currentlySelectedPlotController = plotController;
+
+	[self.delegate managedPlotControllerGroup:self didSelectPlotController:plotController];
 }
 
 @end

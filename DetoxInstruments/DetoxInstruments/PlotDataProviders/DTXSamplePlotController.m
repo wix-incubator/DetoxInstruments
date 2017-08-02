@@ -15,12 +15,12 @@
 #import <LNInterpolation/LNInterpolation.h>
 #import "DTXRecording+UIExtensions.h"
 
-static NSColor* __DTXDarkerColorFromColor(NSColor* color)
+__unused static NSColor* __DTXDarkerColorFromColor(NSColor* color)
 {
 	return [color blendedColorWithFraction:0.3 ofColor:NSColor.blackColor];
 }
 
-static NSColor* __DTXLighterColorFromColor(NSColor* color)
+__unused static NSColor* __DTXLighterColorFromColor(NSColor* color)
 {
 	return [color blendedColorWithFraction:0.15 ofColor:NSColor.whiteColor];
 }
@@ -48,8 +48,9 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	CGFloat _highlightedPercent;
 	CPTPlotRange* _highlightedRange;
 	
-	
 	NSArray* _plots;
+	
+	double _samplingInterval;
 }
 
 @synthesize delegate = _delegate;
@@ -76,6 +77,8 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		_scene = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
 		_dataProvider = [[[self.class UIDataProviderClass] alloc] initWithDocument:_document plotController:self];
 		
+		_samplingInterval = [_document.recording.profilingConfiguration[@"samplingInterval"] doubleValue];
+		
 		//To initialize the highlighed cache ivars.
 		[self removeHighlight];
 	}
@@ -95,12 +98,6 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 
 - (void)mouseMoved:(NSEvent *)event
 {
-	int x = 1;
-	if(x == 1)
-	{
-		return;
-	}
-	
 	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
 	
 	NSMutableArray<NSDictionary<NSString*, NSString*>*>* dataPoints = [NSMutableArray new];
@@ -177,7 +174,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		CPTNumberArray* pointInPlot = [_graph.defaultPlotSpace plotPointForPlotAreaViewPoint:pointInView];
 		
 		NSUInteger numberOfRecords = [self numberOfRecordsForPlot:self.plots.firstObject];
-		NSUInteger foundPointIndex = 0;
+		NSUInteger foundPointIndex = NSNotFound;
 		CGFloat foundPointDelta = 0;
 		for(NSUInteger idx = 0; idx < numberOfRecords; idx++)
 		{
@@ -191,6 +188,11 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 			{
 				break;
 			}
+		}
+		
+		if(foundPointIndex == NSNotFound)
+		{
+			return;
 		}
 		
 		id sample = [self samplesForPlotIndex:((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex];
@@ -273,7 +275,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		}
 		else
 		{
-			xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
+			xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate])];
 		}
 		CPTPlotRange *yRange = [plotSpace.yRange mutableCopy];
 		
@@ -323,19 +325,19 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		// set interpolation types
 		scatterPlot.interpolation = self.isStepped ? CPTScatterPlotInterpolationStepped : CPTScatterPlotInterpolationLinear;
 		
-		scatterPlot.curvedInterpolationOption = CPTScatterPlotCurvedInterpolationCatmullRomCentripetal;
-		
 		// style plots
 		CPTMutableLineStyle *lineStyle = [scatterPlot.dataLineStyle mutableCopy];
 		lineStyle.lineWidth = 1.0;
 		lineStyle.lineColor = [CPTColor colorWithCGColor:__DTXDarkerColorFromColor(plotColors[idx]).CGColor];
 		scatterPlot.dataLineStyle = lineStyle;
 
-		NSColor* startColor = [plotColors[idx] colorWithAlphaComponent:0.55];
-		NSColor* endColor = [plotColors[idx] colorWithAlphaComponent:0.45];
+		NSColor* startColor = [plotColors[idx] colorWithAlphaComponent:0.5];
+		startColor = __DTXLighterColorFromColor(__DTXLighterColorFromColor(__DTXLighterColorFromColor(plotColors[idx])));
+		NSColor* endColor = [plotColors[idx] colorWithAlphaComponent:0.35];
+		endColor = [startColor colorWithAlphaComponent:0.75];
 		CPTGradient* gradient = [CPTGradient gradientWithBeginningColor:[CPTColor colorWithCGColor:startColor.CGColor] endingColor:[CPTColor colorWithCGColor:endColor.CGColor]];
 		gradient.gradientType = CPTGradientTypeAxial;
-		gradient.angle = -90;
+		gradient.angle = 90;
 
 		scatterPlot.areaFill = [CPTFill fillWithGradient:gradient];
 		scatterPlot.areaBaseValue = @0.0;
@@ -362,7 +364,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 	
 	if(fieldEnum == CPTScatterPlotFieldX )
 	{
-		return @([[[self samplesForPlotIndex:plotIdx][index] valueForKey:@"timestamp"] timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate]);
+		return @([[[self samplesForPlotIndex:plotIdx][index] valueForKey:@"timestamp"] timeIntervalSinceReferenceDate] - [_document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate]);
 	}
 	else
 	{
@@ -442,7 +444,7 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 
 - (void)_highlightSample:(DTXSample*)sample nextSample:(DTXSample*)nextSample plotSpaceOffset:(CGFloat)offset
 {
-	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.recording.startTimestamp.timeIntervalSinceReferenceDate + offset;
+	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate + offset;
 	NSUInteger sampleIdx = [[self samplesForPlotIndex:0] indexOfObject:sample];
 	NSUInteger nextSampleIdx = nextSample ? [[self samplesForPlotIndex:0] indexOfObject:nextSample] : NSNotFound;
 	CGFloat percent = offset / (nextSample.timestamp.timeIntervalSinceReferenceDate - sample.timestamp.timeIntervalSinceReferenceDate);
@@ -474,7 +476,6 @@ static NSColor* __DTXLighterColorFromColor(NSColor* color)
 		if(self.isStepped == NO && nextSampleIdx != NSNotFound)
 		{
 			CGFloat nextValue = [obj plotAreaPointOfVisiblePointAtIndex:nextSampleIdx].y;
-			
 			
 			value = [@(value) interpolateToValue:@(nextValue) progress:percent].doubleValue;
 		}

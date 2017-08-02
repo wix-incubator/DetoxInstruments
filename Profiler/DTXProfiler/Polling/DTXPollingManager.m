@@ -8,6 +8,8 @@
 
 #import "DTXPollingManager.h"
 
+DTX_CREATE_LOG(PollingManager);
+
 @implementation DTXPollingManager
 {
 	NSTimeInterval _interval;
@@ -66,6 +68,8 @@
 
 - (void)_pollPollables
 {
+//	dtx_log_debug(@"Polling");
+	
 	for(id<DTXPollable> pollable in [[_pollables copy] keyEnumerator])
 	{
 		//Probably should actually measure time between pollings, but good enough for now.

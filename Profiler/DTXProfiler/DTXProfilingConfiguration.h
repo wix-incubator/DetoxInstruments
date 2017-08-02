@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Profiling configuration object for the Profiler.
  */
-@interface DTXProfilingConfiguration : NSObject <NSSecureCoding>
+@interface DTXProfilingConfiguration : NSObject
 
 /**
  *  Returns a newly created default profiling configuration object.

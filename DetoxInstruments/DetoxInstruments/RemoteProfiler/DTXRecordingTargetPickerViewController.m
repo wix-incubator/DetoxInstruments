@@ -10,16 +10,17 @@
 #import "DTXRemoteProfilingTarget-Private.h"
 #import "DTXRemoteProfilingTargetCellView.h"
 #import "DTXRemoteProfilingBasics.h"
+#import "DTXProfilingConfiguration.h"
 
-@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXSocketConnectionDelegate>
+@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteProfilingTargetDelegate>
 {
 	IBOutlet NSOutlineView* _outlineView;
+	IBOutlet NSButton* _selectButton;
 	
 	NSNetServiceBrowser* _browser;
 	NSMutableArray<DTXRemoteProfilingTarget*>* _targets;
 	NSMapTable<NSNetService*, DTXRemoteProfilingTarget*>* _serviceToTargetMapping;
 	NSMapTable<DTXRemoteProfilingTarget*, NSNetService*>* _targetToServiceMapping;
-	NSMapTable<DTXSocketConnection*, DTXRemoteProfilingTarget*>* _connectionToTargetMapping;
 	
 	dispatch_queue_t _workQueue;
 }
@@ -27,16 +28,6 @@
 @end
 
 @implementation DTXRecordingTargetPickerViewController
-
-+ (NSData*)_dataForNetworkCommand:(NSDictionary*)cmd
-{
-	return [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
-}
-
-+ (NSDictionary*)_responseFromNetworkData:(NSData*)data
-{
-	return [NSPropertyListSerialization propertyListWithData:data options:0 format:NULL error:NULL];
-}
 
 - (void)viewDidLoad
 {
@@ -48,7 +39,6 @@
 	_targets = [NSMutableArray new];
 	_serviceToTargetMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 	_targetToServiceMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
-	_connectionToTargetMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 	
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
 	_workQueue = dispatch_queue_create("com.wix.DTXRemoteProfiler", qosAttribute);
@@ -57,6 +47,11 @@
 	_browser.delegate = self;
 	
 	[_browser searchForServicesOfType:@"_detoxprofiling._tcp" inDomain:@""];
+}
+
+- (IBAction)selectRecording:(id)sender
+{
+	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:_targets[_outlineView.selectedRow] profilingConfiguration:[DTXProfilingConfiguration defaultProfilingConfiguration]];
 }
 
 - (IBAction)cancel:(id)sender
@@ -91,10 +86,6 @@
 	[_targets removeObjectAtIndex:index];
 	[_serviceToTargetMapping removeObjectForKey:service];
 	[_targetToServiceMapping removeObjectForKey:target];
-	if(target.connection != nil)
-	{
-		[_connectionToTargetMapping removeObjectForKey:target.connection];
-	}
 	
 	[_outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:nil withAnimation:NSTableViewAnimationEffectFade];
 }
@@ -103,33 +94,6 @@
 {
 //	[_outlineView reloadData];
 	[_outlineView reloadItem:target];
-}
-
-- (void)_loadDetailsForTarget:(DTXRemoteProfilingTarget*)target
-{
-	[target.connection writeData:[DTXRecordingTargetPickerViewController _dataForNetworkCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeInfo)}] completionHandler:^(NSError * _Nullable error) {
-		[target.connection readDataWithCompletionHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
-			if(data == nil)
-			{
-				dispatch_async(dispatch_get_main_queue(), ^ {
-					[self _removeTargetForService:[_targetToServiceMapping objectForKey:target]];
-				});
-				
-				return;
-			}
-			
-			NSDictionary* dict = [DTXRecordingTargetPickerViewController _responseFromNetworkData:data];
-			
-			dispatch_async(dispatch_get_main_queue(), ^ {
-				target.deviceName = dict[@"deviceName"];
-				target.applicationName = dict[@"appName"];
-				target.operatingSystemVersion = dict[@"osVersion"];
-				target.state = 2;
-				
-				[self _updateTarget:target];
-			});
-		}];
-	}];
 }
 
 #pragma mark NSNetServiceBrowserDelegate
@@ -151,31 +115,6 @@
 	{
 		[self _removeTargetForService:service];
 	}
-}
-
-#pragma mark NSNetServiceDelegate
-
-- (void)netServiceDidResolveAddress:(NSNetService *)sender
-{
-	DTXRemoteProfilingTarget* target = [_serviceToTargetMapping objectForKey:sender];
-	target.state = 1;
-	target.hostName = sender.hostName;
-	target.port = sender.port;
-	target.connection = [[DTXSocketConnection alloc] initWithHostName:sender.hostName port:sender.port queue:_workQueue];
-	target.connection.delegate = self;
-	
-	[_connectionToTargetMapping setObject:target forKey:target.connection];
-	
-	[target.connection open];
-	
-	[self _loadDetailsForTarget:target];
-	
-	[self _updateTarget:target];
-}
-
-- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary<NSString *, NSNumber *> *)errorDict
-{
-	[self _removeTargetForService:sender];
 }
 
 #pragma mark NSOutlineViewDataSource
@@ -211,41 +150,67 @@
 	
 	switch(target.state)
 	{
-		case 0:
-		case 1:
+		case DTXRemoteProfilingTargetStateDiscovered:
+		case DTXRemoteProfilingTargetStateResolved:
 			cellView.title1Field.stringValue = @"";
-			cellView.title2Field.stringValue = target.state == 0 ? NSLocalizedString(@"Discovering...", @"") : NSLocalizedString(@"Loading...", @"");
+			cellView.title2Field.stringValue = target.state == DTXRemoteProfilingTargetStateDiscovered ? NSLocalizedString(@"Resolving...", @"") : NSLocalizedString(@"Loading...", @"");
 			cellView.title3Field.stringValue = @"";
 			cellView.deviceImageView.hidden = YES;
 			[cellView.progressIndicator startAnimation:nil];
 			cellView.progressIndicator.hidden = NO;
 			break;
-		case 2:
+		case DTXRemoteProfilingTargetStateDeviceInfoLoaded:
 			cellView.title1Field.stringValue = target.deviceName;
-			cellView.title2Field.stringValue = target.applicationName;
-			cellView.title3Field.stringValue = target.operatingSystemVersion;
+			cellView.title2Field.stringValue = target.appName;
+			cellView.title3Field.stringValue = target.deviceOS;
 			cellView.deviceImageView.hidden = NO;
 			[cellView.progressIndicator stopAnimation:nil];
 			cellView.progressIndicator.hidden = YES;
+			break;
+		default:
 			break;
 	}
 	
 	return cellView;
 }
 
-#pragma mark DTXSocketConnectionDelegate
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
+	_selectButton.enabled = _outlineView.selectedRowIndexes.count > 0;
+}
 
-- (void)readClosedForSocketConnection:(DTXSocketConnection*)socketConnection;
+#pragma mark NSNetServiceDelegate
+
+- (void)netServiceDidResolveAddress:(NSNetService *)sender
+{
+	DTXRemoteProfilingTarget* target = [_serviceToTargetMapping objectForKey:sender];
+	target.delegate = self;
+	
+	[target _connectWithHostName:sender.hostName port:sender.port workQueue:_workQueue];
+	
+	[target loadDeviceInfo];
+	
+	[self _updateTarget:target];
+}
+
+- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary<NSString *, NSNumber *> *)errorDict
+{
+	[self _removeTargetForService:sender];
+}
+
+#pragma mark DTXRemoteProfilingTargetDelegate
+
+- (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget*)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^ {
-		[self _removeTargetForService:[_targetToServiceMapping objectForKey:[_connectionToTargetMapping objectForKey:socketConnection]]];
+		[self _removeTargetForService:[_targetToServiceMapping objectForKey:target]];
 	});
 }
 
-- (void)writeClosedForSocketConnection:(DTXSocketConnection*)socketConnection
+- (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteProfilingTarget *)target
 {
-	dispatch_async(dispatch_get_main_queue(), ^ {
-		[self _removeTargetForService:[_targetToServiceMapping objectForKey:[_connectionToTargetMapping objectForKey:socketConnection]]];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self _updateTarget:target];
 	});
 }
 

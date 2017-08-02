@@ -13,27 +13,30 @@
 
 @protocol DTXManagedPlotControllerGroupDelegate <NSObject>
 
-- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group requestPlotControllerSelection:(id<DTXPlotController>)plotController;
-- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup *)group requiredHeightChangedForPlotController:(id<DTXPlotController>)plotController index:(NSUInteger)index;
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didSelectPlotController:(id<DTXPlotController>)plotController;
 
 @end
 
 @interface DTXManagedPlotControllerGroup : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithHostingView:(NSView*)view;
+- (instancetype)initWithHostingOutlineView:(NSOutlineView*)outlineView;
 
 @property (nonatomic, weak) id<DTXManagedPlotControllerGroupDelegate> delegate;
 
-@property (nonatomic, strong) NSView* hostingView;
-@property (nonatomic, copy, readonly) NSArray<id<DTXPlotController>>* plotControllers;
-@property (nonatomic, copy, readonly) id<DTXPlotController> headerPlotController;
-
 - (void)addHeaderPlotController:(id<DTXPlotController>)headerPlotController;
+
+//Main plot controllers
 - (void)addPlotController:(id<DTXPlotController>)plotController;
 - (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController;
 - (void)removePlotController:(id<DTXPlotController>)plotController;
 
+//Child plot controllers
+- (void)addChildPlotController:(id<DTXPlotController>)childPlotController toPlotController:(id<DTXPlotController>)plotController;
+- (void)insertChildPlotController:(id<DTXPlotController>)childPlotController afterChildPlotController:(id<DTXPlotController>)afterPlotController ofPlotController:(id<DTXPlotController>)plotController;
+- (void)removeChildPlotController:(id<DTXPlotController>)childPlotController ofPlotController:(id<DTXPlotController>)plotController;
+
+//Group plot range control
 - (void)setStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
 - (void)zoomIn;
 - (void)zoomOut;

@@ -7,18 +7,42 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DTXSocketConnection.h"
+@import CoreData;
+
+@class DTXRemoteProfilingTarget, DTXProfilingConfiguration;
+@protocol DTXProfilerStoryDecoder;
+
+typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
+	DTXRemoteProfilingTargetStateDiscovered,
+	DTXRemoteProfilingTargetStateResolved,
+	DTXRemoteProfilingTargetStateDeviceInfoLoaded,
+	DTXRemoteProfilingTargetStateRecording,
+	DTXRemoteProfilingTargetStateStopped,
+};
+
+@protocol DTXRemoteProfilingTargetDelegate <NSObject>
+
+- (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget*)target;
+- (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteProfilingTarget*)target;
+
+@end
 
 @interface DTXRemoteProfilingTarget : NSObject
 
-@property (nonatomic, assign, readonly) NSUInteger operatingSystemType;
-@property (nonatomic, copy, readonly) NSString* applicationName;
+@property (nonatomic, assign, readonly) NSUInteger deviceOSType;
+@property (nonatomic, copy, readonly) NSString* appName;
 @property (nonatomic, copy, readonly) NSString* deviceName;
-@property (nonatomic, copy, readonly) NSString* operatingSystemVersion;
+@property (nonatomic, copy, readonly) NSString* deviceOS;
+@property (nonatomic, copy, readonly) NSDictionary* deviceInfo;
 
-@property (nonatomic, copy, readonly) NSString* hostName;
-@property (nonatomic, assign, readonly) NSInteger port;
+@property (nonatomic, assign, readonly) DTXRemoteProfilingTargetState state;
 
-@property (nonatomic, strong, readonly) DTXSocketConnection* connection;
+@property (nonatomic, strong) NSManagedObjectContext* managedObjectContext;
+@property (nonatomic, weak) id<DTXProfilerStoryDecoder> storyDecoder;
+@property (nonatomic, weak) id<DTXRemoteProfilingTargetDelegate> delegate;
+
+- (void)loadDeviceInfo;
+- (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
+- (void)stopProfiling;
 
 @end

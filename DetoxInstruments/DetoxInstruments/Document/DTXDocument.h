@@ -8,22 +8,26 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DTXInstrumentsModel.h"
+#import "DTXRemoteProfilingTarget.h"
 
 extern NSString* const DTXDocumentDidLoadNotification;
 extern NSString* const DTXDocumentDefactoEndTimestampDidChangeNotification;
+extern NSString* const DTXDocumentStateDidChangeNotification;
 
-typedef NS_ENUM(NSUInteger, DTXDocumentType) {
-	DTXDocumentTypeNone,
-	DTXDocumentTypeRecording,
-	DTXDocumentTypeOpenedFromDisk,
+typedef NS_ENUM(NSUInteger, DTXDocumentState) {
+	DTXDocumentStateNew,
+	DTXDocumentStateLiveRecording,
+	DTXDocumentStateLiveRecordingFinished,
+	DTXDocumentStateOpenedFromDisk,
 };
 
 @interface DTXDocument : NSDocument
 
-@property (nonatomic) DTXDocumentType documentType;
+@property (nonatomic) DTXDocumentState documentState;
 @property (nonatomic, strong, readonly) DTXRecording* recording;
 
 - (void)readyForRecordingIfNeeded;
+- (void)stopLiveRecording;
 
 @end
 

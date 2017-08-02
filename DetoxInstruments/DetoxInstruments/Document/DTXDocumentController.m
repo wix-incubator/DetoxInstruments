@@ -15,4 +15,9 @@
 	return [super init];
 }
 
+- (BOOL)allowsAutomaticShareMenu
+{
+	return NO;
+}
+
 @end

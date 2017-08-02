@@ -14,6 +14,7 @@
 {
 	NSFetchedResultsController<DTXLogSample*>* _frc;
 	BOOL _updatesExperiencedErrors;
+	BOOL _hasAutomaticRowHeights;
 }
 
 @end
@@ -28,6 +29,14 @@
 	{
 		_document = document;
 		_managedTableView = tableView;
+		
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
+		if (@available(macOS 10.13, *))
+		{
+			tableView.usesAutomaticRowHeights = YES;
+			_hasAutomaticRowHeights = YES;
+		}
+#endif
 		
 		if(_document.recording != nil)
 		{
@@ -73,7 +82,7 @@
 	
 	cell.contentTextField.stringValue = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	cell.contentTextField.allowsDefaultTighteningForTruncation = NO;
-	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion < 13)
+	if(_hasAutomaticRowHeights == NO)
 	{
 		cell.contentTextField.usesSingleLineMode = YES;
 		cell.contentTextField.lineBreakMode = NSLineBreakByTruncatingTail;

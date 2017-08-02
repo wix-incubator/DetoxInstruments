@@ -7,6 +7,7 @@
 //
 
 #import "NSManagedObject+Additions.h"
+@import Darwin;
 
 static NSDateFormatter* __iso8601DateFormatter;
 
@@ -132,6 +133,65 @@ static NSDateFormatter* __iso8601DateFormatter;
 	}];
 	
 	return rv;
+}
+
+- (void)updateWithPropertyListDictionaryRepresentation:(NSDictionary *)propertyListDictionaryRepresentation
+{
+	int x;
+	x = 1;
+	[propertyListDictionaryRepresentation enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+		NSRelationshipDescription* relationship = self.entity.relationshipsByName[key];
+		if(relationship)
+		{
+			if(relationship.userInfo[@"includeKeyPathInDictionaryRepresentation"])
+			{
+				NSFetchRequest* fr = [[NSFetchRequest alloc] initWithEntityName:relationship.destinationEntity.name];
+				fr.predicate = [NSPredicate predicateWithFormat:@"%K == %@", relationship.userInfo[@"includeKeyPathInDictionaryRepresentation"], obj];
+				NSArray* potential = [self.managedObjectContext executeFetchRequest:fr error:NULL];
+				obj = potential.firstObject;
+			}
+			else if(relationship.isToMany == YES)
+			{
+				NSMutableArray* transformed = [NSMutableArray new];
+				[obj enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+					Class cls = NSClassFromString(relationship.destinationEntity.managedObjectClassName);
+					__kindof NSManagedObject* managedObject = [[cls alloc] initWithPropertyListDictionaryRepresentation:obj context:self.managedObjectContext];
+					[transformed addObject:managedObject];
+				}];
+				obj = transformed;
+				
+				if(relationship.ordered == NO)
+				{
+					obj = [NSSet setWithArray:obj];
+				}
+				
+				if(relationship.ordered == YES)
+				{
+					obj = [NSOrderedSet orderedSetWithArray:obj];
+				}
+			}
+			else
+			{
+				Class cls = NSClassFromString(relationship.destinationEntity.managedObjectClassName);
+				obj = [[cls alloc] initWithPropertyListDictionaryRepresentation:obj context:self.managedObjectContext];
+			}
+		}
+		
+		[self setValue:obj forKey:key];
+	}];
+	x = 2;
+}
+
+- (instancetype)initWithPropertyListDictionaryRepresentation:(NSDictionary *)propertyListDictionaryRepresentation context:(NSManagedObjectContext *)moc
+{
+	self = [self initWithContext:moc];
+	
+	if(self)
+	{
+		[self updateWithPropertyListDictionaryRepresentation:propertyListDictionaryRepresentation];
+	}
+	
+	return self;
 }
 
 @end

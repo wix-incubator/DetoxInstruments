@@ -52,4 +52,17 @@
 	return @(MAX([value doubleValue], 0.0));
 }
 
+- (CPTPlotRange*)finesedPlotRangeForPlotRange:(CPTPlotRange*)_yRange;
+{
+	NSEdgeInsets insets = self.rangeInsets;
+	
+	CPTMutablePlotRange* yRange = [_yRange mutableCopy];
+	
+	CGFloat initial = yRange.location.doubleValue;
+	yRange.location = @(-insets.bottom);
+	yRange.length = @((initial + MAX(yRange.length.doubleValue, 1.0) + insets.top + insets.bottom) * self.yRangeMultiplier);
+	
+	return yRange;
+}
+
 @end

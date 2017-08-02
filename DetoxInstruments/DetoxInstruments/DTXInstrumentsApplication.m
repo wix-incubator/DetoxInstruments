@@ -35,15 +35,15 @@
 //		return nil;
 //	}
 	
-	if(action == @selector(duplicateDocument:))
-	{
-		return nil;
-	}
+//    if(action == @selector(duplicateDocument:))
+//    {
+//        return nil;
+//    }
 	
-	if(action == @selector(saveDocument:))
-	{
-		return nil;
-	}
+//	if(action == @selector(saveDocument:))
+//	{
+//		return nil;
+//	}
 	
 //	if(action == @selector(saveDocumentAs:))
 //	{
@@ -51,15 +51,6 @@
 //	}
 	
 	return [super targetForAction:action to:target from:sender];
-}
-
--(IBAction)newRecording:(id)sender
-{
-	DTXDocument* document = [[NSDocumentController sharedDocumentController] openUntitledDocumentAndDisplay:NO error:nil];
-	[document makeWindowControllers];
-	document.windowControllers.firstObject.window.tabbingMode = NSWindowTabbingModeDisallowed;
-	[document.windowControllers.firstObject showWindow:self];
-	document.windowControllers.firstObject.window.tabbingMode = NSWindowTabbingModeAutomatic;
 }
 
 @end

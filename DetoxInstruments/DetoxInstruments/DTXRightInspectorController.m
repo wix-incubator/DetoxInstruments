@@ -79,7 +79,7 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 		return;
 	}
 	
-	DTXRecording* recording = [self.view.window.windowController.document recording];
+	DTXRecording* recording = [self.document recording];
 	if(recording == nil)
 	{
 		return;

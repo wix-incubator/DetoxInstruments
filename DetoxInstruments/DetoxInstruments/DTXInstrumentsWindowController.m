@@ -24,6 +24,8 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	__weak IBOutlet NSButton* _titleLabelContainer;
 	NSTextField* _titleTextField;
 	
+	__weak IBOutlet NSButton* _stopRecordingButton;
+	
 	DTXMainBottomPaneSplitViewController* _bottomSplitViewController;
 	DTXBottomInspectorSplitViewController* _rightSplitViewController;
 	
@@ -43,7 +45,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 {
     [super windowDidLoad];
 	
-	self.window.titleVisibility = NSWindowTitleHidden;
+//	self.window.titleVisibility = NSWindowTitleHidden;
 	
 	[self.window center];
 	
@@ -84,7 +86,20 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (void)setDocument:(DTXDocument*)document
 {
+	if(self.document != nil)
+	{
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:DTXDocumentStateDidChangeNotification object:self.document];
+	}
+	
 	[super setDocument:document];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:self.document];
+	
+	[self _fixUpRecordingButtons];
+	
+	_mainContentController.document = self.document;
+	_bottomContentController.document = self.document;
+	_inspectorContentController.document = self.document;
 	
 	if(_titleTextField == nil)
 	{
@@ -112,11 +127,11 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		NSDateComponentsFormatter* ivFormatter = [NSDateComponentsFormatter new];
 		ivFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
 		
-		if(document.documentType == DTXDocumentTypeOpenedFromDisk)
+		if(document.documentState == DTXDocumentStateOpenedFromDisk && document.recording != nil)
 		{
 			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, [ivFormatter stringFromDate:document.recording.startTimestamp toDate:document.recording.endTimestamp]];
 		}
-		else if(document.documentType == DTXDocumentTypeRecording)
+		else if(document.documentState == DTXDocumentStateLiveRecording)
 		{
 			_titleTextField.stringValue = NSLocalizedString(@"Recording...", @"");
 		}
@@ -129,6 +144,25 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	{
 		_titleTextField.stringValue = @"";
 	}
+	
+	self.window.restorable = [(DTXDocument*)self.document documentState] >= DTXDocumentStateLiveRecordingFinished;
+}
+
+- (void)_documentStateDidChangeNotification:(NSNotification*)note
+{
+	[self _fixUpRecordingButtons];
+	
+	self.window.restorable = [(DTXDocument*)self.document documentState] >= DTXDocumentStateLiveRecordingFinished;
+}
+
+- (void)_fixUpRecordingButtons
+{
+	_stopRecordingButton.alphaValue = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+}
+
+- (IBAction)_stopRecordingButtonPressed:(id)sender
+{
+	[(DTXDocument*)self.document stopLiveRecording];
 }
 
 - (void)_fixUpSegments
@@ -201,12 +235,17 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-	if([self.document documentType] == DTXDocumentTypeNone)
+	if([self.document documentState] == DTXDocumentStateNew)
 	{
 		return;
 	}
 	
 	[super encodeRestorableStateWithCoder:coder];
+}
+
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName
+{
+	return [super windowTitleForDocumentDisplayName:displayName];
 }
 
 @end

@@ -18,18 +18,21 @@
 
 + (CGFloat)heightForStackFrame
 {
-	return 13;
+	return 17;
 }
 
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
 	
+	_stackTraceTableView.intercellSpacing = NSZeroSize;
 	_stackTraceTableView.dataSource = self;
 	_stackTraceTableView.delegate = self;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 	if (@available(macOS 10.13, *)) {
 		_stackTraceTableView.usesAutomaticRowHeights = NO;
 	}
+#endif
 }
 
 - (void)setStackFrames:(NSArray<NSAttributedString *> *)stackFrames

@@ -8,6 +8,7 @@
 
 #import "DTXRecording+UIExtensions.h"
 #import "DTXInstrumentsModel.h"
+#import "DTXProfilingConfiguration.h"
 @import ObjectiveC;
 
 NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDidInvalidateDefactoEndTimestamp";
@@ -29,6 +30,31 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 			objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN);
 		}
 				   
+	return obj;
+}
+
+- (NSDate *)defactoStartTimestamp
+{
+	NSDate* obj = objc_getAssociatedObject(self, _cmd);
+	
+	if(obj == nil)
+	{
+		NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
+		fr.fetchLimit = 1;
+		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
+		fr.predicate = [NSPredicate predicateWithFormat:@"parentGroup.recording == %@", self];
+#endif
+		
+		obj = [[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
+		if(obj == nil)
+		{
+			obj = self.startTimestamp;
+		}
+		
+		objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN);
+	}
+	
 	return obj;
 }
 

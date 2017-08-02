@@ -20,6 +20,7 @@
 
 @interface DTXBottomContentController : NSViewController
 
+@property (nonatomic, strong) DTXDocument* document;
 @property (nonatomic, weak) id<DTXBottomContentControllerDelegate> delegate;
 @property (nonatomic, strong) DTXUIDataProvider* managingDataProvider;
 

@@ -11,6 +11,7 @@
 
 @interface DTXRightInspectorController : NSViewController
 
+@property (nonatomic, strong) DTXDocument* document;
 @property (nonatomic, strong) DTXInspectorDataProvider* moreInfoDataProvider;
 
 @end

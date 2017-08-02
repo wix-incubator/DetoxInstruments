@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		39557CD11F1F7AAD00FF3187 /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39557CD01F1F7A9900FF3187 /* DTXProfiler.framework */; };
-		39557CD21F1F7AAD00FF3187 /* DTXProfiler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 39557CD01F1F7A9900FF3187 /* DTXProfiler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3913DDA21F2EB9AC007463DA /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3913DDA11F2EB9AC007463DA /* DTXProfiler.framework */; };
+		3913DDA31F2EB9AC007463DA /* DTXProfiler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3913DDA11F2EB9AC007463DA /* DTXProfiler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3978000F1EEB00C1002BDEFB /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978000C1EEB0038002BDEFB /* WebViewController.m */; };
 		39EBDF191ED2DEA2005D8AB1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDF181ED2DEA2005D8AB1 /* main.m */; };
 		39EBDF1C1ED2DEA2005D8AB1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDF1B1ED2DEA2005D8AB1 /* AppDelegate.m */; };
@@ -18,23 +18,6 @@
 		39EBDF271ED2DEA2005D8AB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39EBDF251ED2DEA2005D8AB1 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		39557CCF1F1F7A9900FF3187 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39557CCA1F1F7A9900FF3187 /* DTXProfiler.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 39D40BF91ED5ABD200157C04;
-			remoteInfo = DTXProfiler;
-		};
-		39557CD31F1F7AAD00FF3187 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39557CCA1F1F7A9900FF3187 /* DTXProfiler.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 39D40BF81ED5ABD200157C04;
-			remoteInfo = DTXProfiler;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		39EBDF3E1ED2DEE2005D8AB1 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -42,7 +25,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				39557CD21F1F7AAD00FF3187 /* DTXProfiler.framework in Embed Frameworks */,
+				3913DDA31F2EB9AC007463DA /* DTXProfiler.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,7 +33,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		39557CCA1F1F7A9900FF3187 /* DTXProfiler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXProfiler.xcodeproj; path = ../Profiler/DTXProfiler.xcodeproj; sourceTree = "<group>"; };
+		3913DDA11F2EB9AC007463DA /* DTXProfiler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DTXProfiler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3978000B1EEB0038002BDEFB /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		3978000C1EEB0038002BDEFB /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		39EBDF141ED2DEA2005D8AB1 /* StressTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,27 +53,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39557CD11F1F7AAD00FF3187 /* DTXProfiler.framework in Frameworks */,
+				3913DDA21F2EB9AC007463DA /* DTXProfiler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		39557CCB1F1F7A9900FF3187 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				39557CD01F1F7A9900FF3187 /* DTXProfiler.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		39EBDF0B1ED2DEA2005D8AB1 = {
 			isa = PBXGroup;
 			children = (
-				39557CCA1F1F7A9900FF3187 /* DTXProfiler.xcodeproj */,
 				39EBDF161ED2DEA2005D8AB1 /* StressTestApp */,
 				39EBDF151ED2DEA2005D8AB1 /* Products */,
+				3913DDA11F2EB9AC007463DA /* DTXProfiler.framework */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -140,12 +115,10 @@
 				39EBDF111ED2DEA2005D8AB1 /* Frameworks */,
 				39EBDF121ED2DEA2005D8AB1 /* Resources */,
 				39EBDF3E1ED2DEE2005D8AB1 /* Embed Frameworks */,
-				39A72C471F20EBAC00D7628B /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				39557CD41F1F7AAD00FF3187 /* PBXTargetDependency */,
 			);
 			name = StressTestApp;
 			productName = "___";
@@ -179,28 +152,12 @@
 			mainGroup = 39EBDF0B1ED2DEA2005D8AB1;
 			productRefGroup = 39EBDF151ED2DEA2005D8AB1 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 39557CCB1F1F7A9900FF3187 /* Products */;
-					ProjectRef = 39557CCA1F1F7A9900FF3187 /* DTXProfiler.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				39EBDF131ED2DEA2005D8AB1 /* StressTestApp */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		39557CD01F1F7A9900FF3187 /* DTXProfiler.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = DTXProfiler.framework;
-			remoteRef = 39557CCF1F1F7A9900FF3187 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		39EBDF121ED2DEA2005D8AB1 /* Resources */ = {
@@ -215,22 +172,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		39A72C471F20EBAC00D7628B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "pushd ${TARGET_BUILD_DIR}/${PRODUCT_NAME}.app/Frameworks/DTXProfiler.framework/Frameworks\nfor EACH in *.framework; do\necho \"-- signing ${EACH}\"\n/usr/bin/codesign --force --deep --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --entitlements \"${TARGET_TEMP_DIR}/${PRODUCT_NAME}.app.xcent\" --timestamp=none $EACH\ndone\npopd";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		39EBDF101ED2DEA2005D8AB1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -244,14 +185,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		39557CD41F1F7AAD00FF3187 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DTXProfiler;
-			targetProxy = 39557CD31F1F7AAD00FF3187 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		39EBDF201ED2DEA2005D8AB1 /* Main.storyboard */ = {

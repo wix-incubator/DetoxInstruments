@@ -14,7 +14,7 @@
 
 @protocol DTXRemoteProfilerDelegate <NSObject>
 
-- (void)remoteProfilerDidFinish:(DTXRemoteProfiler*)remoteProfiler;
+- (void)remoteProfiler:(DTXRemoteProfiler*)remoteProfiler didFinishWithError:(NSError*)error;
 
 @end
 

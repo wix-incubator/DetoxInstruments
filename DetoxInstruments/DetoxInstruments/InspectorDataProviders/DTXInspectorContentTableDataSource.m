@@ -63,10 +63,12 @@
 	
 	_managedTableView = managedTableView;
 	
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 	if (@available(macOS 10.13, *))
 	{
 		_managedTableView.usesAutomaticRowHeights = YES;
 	}
+#endif
 	
 	_managedTableView.dataSource = self;
 	_managedTableView.delegate = self;

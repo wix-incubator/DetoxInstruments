@@ -82,7 +82,7 @@
 		recordingFileURL = [recordingFileURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.dtxprof", recordingFileURL.lastPathComponent] isDirectory:YES];
 	}
 	
-	recordingFileURL = recordingFileURL;
+	_nonkvc_recordingFileURL = recordingFileURL;
 }
 
 - (NSURL *)recordingFileURL

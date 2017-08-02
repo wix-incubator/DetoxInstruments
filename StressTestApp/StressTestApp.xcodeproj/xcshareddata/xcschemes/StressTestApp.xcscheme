@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "39D40BF81ED5ABD200157C04"
+               BuildableName = "DTXProfiler.framework"
+               BlueprintName = "DTXProfiler"
+               ReferencedContainer = "container:../Profiler/DTXProfiler.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "39EBDF131ED2DEA2005D8AB1"
                BuildableName = "StressTestApp.app"
                BlueprintName = "StressTestApp"

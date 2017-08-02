@@ -62,8 +62,6 @@
 	self = [super init];
 	if(self)
 	{
-		NSError* err;
-		
 		_groupToProxyMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 		_outlineView = outlineView;
 		_sampleTypes = sampleTypes;
@@ -120,7 +118,6 @@
 		}];
 		
 		[_updates enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			id anObject = obj[@"anObject"];
 			NSIndexPath* indexPath = obj[@"indexPath"];
 			
 			[_outlineView reloadItem:[self sampleAtIndex:indexPath.item]];
@@ -148,6 +145,11 @@
 
 - (id)sampleAtIndex:(NSUInteger)index
 {
+	if(index >= _frc.fetchedObjects.count)
+	{
+		return nil;
+	}
+	
 	id obj = [_frc objectAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
 	
 	return [self _objForObj:obj sampleTypes:_sampleTypes outlineView:_outlineView];

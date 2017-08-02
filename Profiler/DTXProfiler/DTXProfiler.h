@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (atomic, assign, readonly, getter=isRecording) BOOL recording;
 
 /**
+ * The profiling configuration provided to @c startProfilingWithConfiguration:.
+ */
+@property (atomic, strong, readonly) DTXProfilingConfiguration* profilingConfiguration;
+
+/**
  *  Starts a profiling recording with the provided configuration.
  *
  *  @param configuration The configuration to use for profiling.

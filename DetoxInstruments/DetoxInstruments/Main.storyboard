@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13168.3"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
@@ -64,7 +63,7 @@
                                     <items>
                                         <menuItem title="New Recording..." enabled="NO" keyEquivalent="n" id="Was-JA-tGl">
                                             <connections>
-                                                <action selector="newRecording:" target="Ady-hI-5gd" id="dYN-fG-Vvh"/>
+                                                <action selector="newDocument:" target="Ady-hI-5gd" id="KQl-pA-1dH"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
@@ -384,7 +383,7 @@
                 <customObject id="Lcf-oR-wGg" customClass="DTXDocumentController"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-343" y="-602"/>
+            <point key="canvasLocation" x="-562" y="-707"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -400,15 +399,15 @@
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="uO1-Q0-f8b"/>
                                 <toolbarItem implicitItemIdentifier="77BC0ABF-B188-4E73-97F6-E4C037985C0B" label="" paletteLabel="" id="xCd-i5-im4">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="0.0" height="24"/>
-                                    <size key="maxSize" width="66" height="28"/>
+                                    <size key="minSize" width="0.0" height="23"/>
+                                    <size key="maxSize" width="68" height="35"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="qva-ix-9V1">
-                                        <rect key="frame" x="0.0" y="14" width="63" height="28"/>
+                                        <rect key="frame" x="0.0" y="14" width="68" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="gsv-5V-UDg">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="Bottom" width="30" selected="YES">
+                                                <segment image="Bottom" width="32" selected="YES">
                                                     <nil key="label"/>
                                                 </segment>
                                                 <segment image="Right" width="30" selected="YES" tag="1">
@@ -435,9 +434,25 @@
                                         </buttonCell>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="CF5B0119-F83C-47B4-B113-B921AB7E0FC5" label="" paletteLabel="" image="stopRecording" id="nd4-Wg-8hp">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="38" height="27"/>
+                                    <size key="maxSize" width="38" height="28"/>
+                                    <button key="view" verticalHuggingPriority="750" id="AEf-7c-AaH">
+                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="stopRecording" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cnT-Vr-Ytg">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="_stopRecordingButtonPressed:" target="B8D-0N-5wS" id="Ewn-V3-pj0"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
-                                <toolbarItem reference="UPd-ch-BR2"/>
+                                <toolbarItem reference="nd4-Wg-8hp"/>
                                 <toolbarItem reference="UPd-ch-BR2"/>
                                 <toolbarItem reference="uO1-Q0-f8b"/>
                                 <toolbarItem reference="AIu-rn-Vht"/>
@@ -451,6 +466,7 @@
                     </window>
                     <connections>
                         <outlet property="_layoutSegmentControl" destination="qva-ix-9V1" id="Swq-YE-oQc"/>
+                        <outlet property="_stopRecordingButton" destination="AEf-7c-AaH" id="ZyQ-cR-6Ih"/>
                         <outlet property="_titleLabelContainer" destination="sWQ-Xw-c2R" id="Zgg-Dk-UAD"/>
                         <segue destination="f3X-2z-0cS" kind="relationship" relationship="window.shadowedContentViewController" id="fA0-EO-7uB"/>
                     </connections>
@@ -476,6 +492,9 @@
 DQ
 </string>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="selectRecording:" target="m6Q-hK-JTq" id="7lp-Mz-kT1"/>
+                                </connections>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="93" horizontalPageScroll="10" verticalLineScroll="93" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6hS-ak-QJC">
                                 <rect key="frame" x="20" y="58" width="428" height="332"/>
@@ -483,7 +502,7 @@ DQ
                                     <rect key="frame" x="1" y="1" width="426" height="330"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="90" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" viewBased="YES" outlineTableColumn="yZs-3u-qTY" id="UyV-i8-YJd">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="90" rowSizeStyle="automatic" viewBased="YES" outlineTableColumn="yZs-3u-qTY" id="UyV-i8-YJd">
                                             <rect key="frame" x="0.0" y="0.0" width="426" height="330"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
@@ -510,13 +529,16 @@ DQ
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XBj-9q-svP">
                                                                     <rect key="frame" x="3" y="10" width="70" height="70"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" secondItem="XBj-9q-svP" secondAttribute="height" id="PeF-jQ-ae7"/>
-                                                                        <constraint firstAttribute="height" constant="70" id="RmE-n7-8RU"/>
+                                                                        <constraint firstAttribute="width" constant="70" id="BnW-y2-D4b"/>
+                                                                        <constraint firstAttribute="height" constant="70" id="p0I-bj-kAJ"/>
                                                                     </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="device_iphone_plus_silver" id="lXe-Mc-XbJ"/>
                                                                 </imageView>
+                                                                <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" minValue="1" maxValue="100" doubleValue="2" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="YNS-DG-geb">
+                                                                    <rect key="frame" x="22" y="29" width="32" height="32"/>
+                                                                </progressIndicator>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N6b-Qy-3Hr">
-                                                                    <rect key="frame" x="79" y="61" width="338" height="17"/>
+                                                                    <rect key="frame" x="79" y="53" width="109" height="19"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="StressTestApp" usesSingleLineMode="YES" id="rlj-VE-Ze4">
                                                                         <font key="font" metaFont="system" size="16"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -524,7 +546,7 @@ DQ
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Isi-59-zfr">
-                                                                    <rect key="frame" x="79" y="36" width="338" height="17"/>
+                                                                    <rect key="frame" x="79" y="36" width="121" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Leo Natan's iPhone" usesSingleLineMode="YES" id="F5N-vZ-W4z">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -532,37 +554,29 @@ DQ
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VTH-pa-BVt">
-                                                                    <rect key="frame" x="79" y="11" width="338" height="17"/>
+                                                                    <rect key="frame" x="79" y="18" width="164" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="iPhone 7 Plus, iOS 11 (a1234b)" id="mtB-NJ-7tR">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" minValue="1" maxValue="100" doubleValue="2" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="YNS-DG-geb">
-                                                                    <rect key="frame" x="22" y="29" width="32" height="32"/>
-                                                                </progressIndicator>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="XBj-9q-svP" secondAttribute="bottom" constant="10" id="04M-2W-laH"/>
-                                                                <constraint firstItem="YNS-DG-geb" firstAttribute="centerX" secondItem="XBj-9q-svP" secondAttribute="centerX" id="3CW-Ai-OAz"/>
-                                                                <constraint firstAttribute="trailing" secondItem="N6b-Qy-3Hr" secondAttribute="trailing" constant="8" id="53B-dv-Zr1"/>
-                                                                <constraint firstItem="Isi-59-zfr" firstAttribute="width" secondItem="N6b-Qy-3Hr" secondAttribute="width" id="C2P-ZO-YUJ"/>
-                                                                <constraint firstItem="Isi-59-zfr" firstAttribute="height" secondItem="N6b-Qy-3Hr" secondAttribute="height" id="Cvk-eu-a4y"/>
-                                                                <constraint firstAttribute="trailing" secondItem="Isi-59-zfr" secondAttribute="trailing" constant="8" id="OGi-Iq-Loz"/>
-                                                                <constraint firstAttribute="bottom" secondItem="VTH-pa-BVt" secondAttribute="bottom" constant="11" id="PSh-Cv-fIu"/>
-                                                                <constraint firstItem="VTH-pa-BVt" firstAttribute="leading" secondItem="XBj-9q-svP" secondAttribute="trailing" constant="8" id="Sdp-ON-gMZ"/>
-                                                                <constraint firstItem="N6b-Qy-3Hr" firstAttribute="leading" secondItem="XBj-9q-svP" secondAttribute="trailing" constant="8" id="WSn-ZU-mOZ"/>
-                                                                <constraint firstItem="YNS-DG-geb" firstAttribute="centerY" secondItem="XBj-9q-svP" secondAttribute="centerY" id="Xce-Ol-qAM"/>
-                                                                <constraint firstItem="XBj-9q-svP" firstAttribute="leading" secondItem="iB4-9C-0ug" secondAttribute="leading" constant="3" id="ZAb-Vc-Pg0"/>
-                                                                <constraint firstItem="VTH-pa-BVt" firstAttribute="height" secondItem="N6b-Qy-3Hr" secondAttribute="height" id="aaC-Tg-klz"/>
-                                                                <constraint firstItem="N6b-Qy-3Hr" firstAttribute="top" secondItem="iB4-9C-0ug" secondAttribute="top" constant="12" id="gDU-FY-r8y"/>
-                                                                <constraint firstItem="Isi-59-zfr" firstAttribute="top" secondItem="N6b-Qy-3Hr" secondAttribute="bottom" constant="8" id="geg-jI-ovc"/>
-                                                                <constraint firstItem="VTH-pa-BVt" firstAttribute="width" secondItem="N6b-Qy-3Hr" secondAttribute="width" id="nFu-rY-wap"/>
-                                                                <constraint firstItem="XBj-9q-svP" firstAttribute="top" secondItem="iB4-9C-0ug" secondAttribute="top" constant="10" id="qNq-We-JDP"/>
-                                                                <constraint firstItem="VTH-pa-BVt" firstAttribute="top" secondItem="Isi-59-zfr" secondAttribute="bottom" constant="8" id="sLE-hR-hSL"/>
-                                                                <constraint firstAttribute="trailing" secondItem="VTH-pa-BVt" secondAttribute="trailing" constant="8" id="tfr-Vi-HdC"/>
-                                                                <constraint firstItem="Isi-59-zfr" firstAttribute="leading" secondItem="XBj-9q-svP" secondAttribute="trailing" constant="8" id="vgW-s3-hiZ"/>
+                                                                <constraint firstItem="YNS-DG-geb" firstAttribute="centerY" secondItem="XBj-9q-svP" secondAttribute="centerY" id="0gN-Xl-Y9U"/>
+                                                                <constraint firstAttribute="bottom" secondItem="XBj-9q-svP" secondAttribute="bottom" constant="10" id="67n-MQ-THa"/>
+                                                                <constraint firstItem="VTH-pa-BVt" firstAttribute="top" secondItem="Isi-59-zfr" secondAttribute="bottom" constant="4" id="JcJ-2d-MLt"/>
+                                                                <constraint firstItem="Isi-59-zfr" firstAttribute="top" secondItem="N6b-Qy-3Hr" secondAttribute="bottom" id="Jhq-qH-pqx"/>
+                                                                <constraint firstItem="YNS-DG-geb" firstAttribute="centerX" secondItem="XBj-9q-svP" secondAttribute="centerX" id="Pub-ch-nEZ"/>
+                                                                <constraint firstItem="VTH-pa-BVt" firstAttribute="leading" secondItem="Isi-59-zfr" secondAttribute="leading" id="X3h-Wz-peh"/>
+                                                                <constraint firstItem="XBj-9q-svP" firstAttribute="top" secondItem="iB4-9C-0ug" secondAttribute="top" constant="10" id="mo6-FK-Uu1"/>
+                                                                <constraint firstItem="Isi-59-zfr" firstAttribute="leading" secondItem="XBj-9q-svP" secondAttribute="trailing" constant="8" id="oyu-fC-eMD"/>
+                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Isi-59-zfr" secondAttribute="trailing" constant="8" id="t09-Bb-TSW"/>
+                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="N6b-Qy-3Hr" secondAttribute="trailing" constant="8" id="tWx-c7-YaA"/>
+                                                                <constraint firstItem="Isi-59-zfr" firstAttribute="centerY" secondItem="XBj-9q-svP" secondAttribute="centerY" id="vJb-xD-FIe"/>
+                                                                <constraint firstItem="N6b-Qy-3Hr" firstAttribute="leading" secondItem="Isi-59-zfr" secondAttribute="leading" id="vry-0K-Cwn"/>
+                                                                <constraint firstItem="XBj-9q-svP" firstAttribute="leading" secondItem="iB4-9C-0ug" secondAttribute="leading" constant="3" id="wDc-Ga-zHQ"/>
+                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VTH-pa-BVt" secondAttribute="trailing" constant="8" id="wlo-uA-omA"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="deviceImageView" destination="XBj-9q-svP" id="AHA-2L-BA9"/>
@@ -644,11 +658,12 @@ Gw
                     </view>
                     <connections>
                         <outlet property="_outlineView" destination="UyV-i8-YJd" id="LCd-j6-Zm5"/>
+                        <outlet property="_selectButton" destination="70B-2h-H0D" id="Wee-DW-Dzz"/>
                     </connections>
                 </viewController>
                 <customObject id="o4c-ac-5sg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-481" y="747.5"/>
+            <point key="canvasLocation" x="103" y="-822"/>
         </scene>
         <!--Bottom Inspector Split View Controller-->
         <scene sceneID="zJf-PO-hby">
@@ -754,26 +769,16 @@ Gw
                                                                     </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="p3I-wb-GGH"/>
                                                                 </imageView>
-                                                                <button hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GHa-Sb-oMi">
-                                                                    <rect key="frame" x="3" y="33" width="13" height="13"/>
-                                                                    <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="above" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AJM-hr-dXw">
-                                                                        <behavior key="behavior" pushIn="YES" changeBackground="YES" changeGray="YES" lightByContents="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                </button>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="jlv-58-SlH" firstAttribute="leading" secondItem="GHa-Sb-oMi" secondAttribute="trailing" constant="4" id="5B1-Z7-XuS"/>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="9qF-V8-eJh"/>
-                                                                <constraint firstItem="GHa-Sb-oMi" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="DNM-IM-BhB"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" secondItem="jlv-58-SlH" secondAttribute="trailing" constant="8" id="DOG-LZ-mEz"/>
-                                                                <constraint firstItem="GHa-Sb-oMi" firstAttribute="leading" secondItem="ocF-A6-Lb0" secondAttribute="leading" constant="3" id="Lw3-dv-bVL"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="RAI-V4-dkq"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ocF-A6-Lb0" secondAttribute="leading" constant="28" id="d3w-UV-Jzt"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="8" id="hqh-ec-2c2"/>
+                                                                <constraint firstItem="jlv-58-SlH" firstAttribute="leading" secondItem="ocF-A6-Lb0" secondAttribute="leading" constant="20" id="lGV-Tm-6hQ"/>
                                                             </constraints>
                                                             <connections>
-                                                                <outlet property="expansionButton" destination="GHa-Sb-oMi" id="EPD-Ag-cnT"/>
                                                                 <outlet property="imageView" destination="jlv-58-SlH" id="wR8-Fi-zVT"/>
                                                                 <outlet property="textField" destination="nwg-qe-WuA" id="Tfg-EC-ViL"/>
                                                             </connections>
@@ -800,10 +805,6 @@ Gw
                                                     </prototypeCellViews>
                                                 </tableColumn>
                                             </tableColumns>
-                                            <connections>
-                                                <outlet property="dataSource" destination="8bb-Hj-q9Z" id="erF-pa-1RA"/>
-                                                <outlet property="delegate" destination="8bb-Hj-q9Z" id="cNM-yX-Wxs"/>
-                                            </connections>
                                         </tableView>
                                     </subviews>
                                 </clipView>
@@ -930,8 +931,8 @@ Gw
                                             <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="DTXTimestampColumn" editable="NO" width="70" minWidth="70" maxWidth="100000" id="eFp-9H-DG5">
-                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Time">
+                                                <tableColumn identifier="DTXTimestampColumn" editable="NO" width="72" minWidth="70" maxWidth="100000" id="eFp-9H-DG5">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -943,12 +944,12 @@ Gw
                                                     </textFieldCell>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="DTXTextCell" id="V8y-jp-k2E">
-                                                            <rect key="frame" x="1" y="1" width="70" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="72" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="O6G-5V-mW7">
-                                                                    <rect key="frame" x="0.0" y="2" width="70" height="14"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="OaR-KL-nDS">
+                                                                    <rect key="frame" x="0.0" y="2" width="72" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="OaR-KL-nDS">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -965,12 +966,12 @@ Gw
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="DTXRightAlignedTextCell" id="Uvr-GD-pwu">
-                                                            <rect key="frame" x="1" y="21" width="70" height="17"/>
+                                                            <rect key="frame" x="1" y="21" width="72" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-Yb-bnx">
-                                                                    <rect key="frame" x="0.0" y="2" width="70" height="14"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="Table View Cell" id="4Ks-Q0-h5w">
+                                                                    <rect key="frame" x="0.0" y="2" width="72" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" id="4Ks-Q0-h5w">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1096,7 +1097,7 @@ Gw
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="14" id="adf-Us-PGp"/>
                                                                             </constraints>
-                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="Ha1-g9-Wjr">
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="Ha1-g9-Wjr">
                                                                                 <font key="font" metaFont="smallSystemBold"/>
                                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1104,7 +1105,7 @@ Gw
                                                                         </textField>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-Wz-uMT">
                                                                             <rect key="frame" x="13" y="10" width="303" height="14"/>
-                                                                            <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="BME-dP-HVL">
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="BME-dP-HVL">
                                                                                 <font key="font" metaFont="smallSystem"/>
                                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1377,5 +1378,6 @@ Gw
         <image name="device_iphone_plus_silver" width="1842" height="3408"/>
         <image name="extendedInfo_highlighted" width="15" height="15"/>
         <image name="fileInfo" width="15" height="15"/>
+        <image name="stopRecording" width="12" height="12"/>
     </resources>
 </document>

@@ -11,7 +11,6 @@
 #import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
 #import "DTXPerformanceSampler.h"
-#import "DBBuildInfoProvider.h"
 #import "DTXZipper.h"
 #import "NSManagedObjectContext+PerformQOSBlock.h"
 #import "DTXNetworkRecorder.h"
@@ -20,6 +19,7 @@
 #import "DTXReactNativeSampler.h"
 #import "DTXRNJSCSourceMapsSupport.h"
 #import "DTXAddressInfo.h"
+#import "DTXDeviceInfo.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
@@ -53,6 +53,11 @@ DTX_CREATE_LOG(Profiler);
 
 @synthesize _profilerStoryListener = _profilerStoryListener;
 
+- (DTXProfilingConfiguration *)profilingConfiguration
+{
+	return _currentProfilingConfiguration;
+}
+
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
 	DTX_ASSERT_NOT_RECORDING
@@ -79,22 +84,13 @@ DTX_CREATE_LOG(Profiler);
 		_backgroundContext = _container.newBackgroundContext;
 		
 		[_backgroundContext performBlockAndWait:^{
-			DBBuildInfoProvider* buildProvider = [DBBuildInfoProvider new];
-			NSProcessInfo* processInfo = [NSProcessInfo processInfo];
-			UIDevice* currentDevice = [UIDevice currentDevice];
-			
 			_currentRecording = [[DTXRecording alloc] initWithContext:_backgroundContext];
 			_currentRecording.profilingConfiguration = configuration.dictionaryRepresentation;
-			_currentRecording.appName = buildProvider.applicationDisplayName;
-			_currentRecording.binaryName = processInfo.processName;
-			_currentRecording.deviceName = currentDevice.name;
-			_currentRecording.deviceOS = processInfo.operatingSystemVersionString;
-			_currentRecording.deviceOSType = 0; //iOS
-			_currentRecording.devicePhysicalMemory = processInfo.physicalMemory;
-			_currentRecording.deviceProcessorCount = processInfo.activeProcessorCount;
-			_currentRecording.deviceType = currentDevice.model;
-			_currentRecording.processIdentifier = processInfo.processIdentifier;
-			_currentRecording.hasReactNative = [DTXReactNativeSampler reactNativeInstalled];
+			
+			NSDictionary* deviceInfo = [DTXDeviceInfo deviceInfoDictionary];
+			[deviceInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+				[_currentRecording setValue:obj forKey:key];
+			}];
 			
 			[_profilerStoryListener createRecording:_currentRecording];
 			
@@ -154,7 +150,6 @@ DTX_CREATE_LOG(Profiler);
 		unsymbolicatedSample.stackTraceIsSymbolicated = YES;
 	}];
 }
-
 
 - (void)_symbolicateJavaScriptStackTracesInternal
 {
@@ -240,6 +235,8 @@ DTX_CREATE_LOG(Profiler);
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
+		
+		NSAssert(_currentSampleGroup.parentGroup != nil, @"Cannot pop the root sample group");
 		
 		_currentSampleGroup.closeTimestamp = [NSDate date];
 		[_profilerStoryListener popSampleGroup:_currentSampleGroup];

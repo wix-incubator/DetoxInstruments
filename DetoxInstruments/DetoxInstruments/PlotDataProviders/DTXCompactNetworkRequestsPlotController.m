@@ -65,6 +65,11 @@
 
 - (NSMutableArray<NSMutableArray<DTXNetworkSample*>*>*)_mergedSamples
 {
+	if(_frc == nil)
+	{
+		[self prepareSamples];
+	}
+	
 	if(_mergedSamples == nil)
 	{
 		[self _prepareMergedSamples];

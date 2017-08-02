@@ -122,6 +122,13 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 			_managedOutlineView.outlineTableColumn = column;
 		}
 	}];
+
+	_managedOutlineView.tableColumns[[_managedOutlineView columnWithIdentifier:@"DTXTimestampColumn"]].title = _document.documentState > DTXDocumentStateNew ? NSLocalizedString(@"Time", @"") : @"";
+	
+	if(_document.recording.rootSampleGroup == nil)
+	{
+		return;
+	}
 	
 	_rootGroupProxy = [[DTXSampleGroupProxy alloc] initWithSampleGroup:_document.recording.rootSampleGroup sampleTypes:self.sampleTypes outlineView:_managedOutlineView];
 	
@@ -140,11 +147,32 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	frame.size.width += 1;
 	frame.size.width -= 1;
 	[_managedOutlineView.window setFrame:frame display:NO];
+	
+//	@try
+//	{
+//		[self _attemptSelectionOfFirstNonGroupSample];
+//	}
+//	@catch (NSException* e) { }
+}
+
+- (void)_attemptSelectionOfFirstNonGroupSample
+{
+	id sampleToTest = nil;
+	do
+	{
+		sampleToTest = [_rootGroupProxy sampleAtIndex:0];
+	}
+	while(sampleToTest!= nil && [sampleToTest isKindOfClass:[DTXSampleGroupProxy class]]);
+	
+	if(sampleToTest != nil)
+	{
+		[_managedOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_managedOutlineView rowForItem:sampleToTest]] byExtendingSelection:NO];
+	}
 }
 
 - (BOOL)showsHeaderView
 {
-	return YES;
+	return YES && _document.documentState > DTXDocumentStateNew;
 }
 
 - (NSArray<NSNumber* /*DTXSampleType*/>* )sampleTypes
@@ -277,11 +305,6 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	}
 	
 	return MIN(1 + DTXDepthOfSample(sample.parentGroup, rootSampleGroup), 20);
-}
-
-- (void)outlineView:(NSOutlineView *)outlineView didAddRowView:(DTXTableRowView *)rowView forRow:(NSInteger)row
-{
-	
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item

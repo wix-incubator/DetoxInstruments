@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DTXPlotTableView : NSTableView
+@interface DTXPlotTableView : NSOutlineView
 
 @end

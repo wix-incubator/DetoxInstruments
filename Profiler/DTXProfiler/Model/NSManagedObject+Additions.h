@@ -14,4 +14,7 @@
 @property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentationForPropertyList;
 @property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentationOfChangedValuesForPropertyList;
 
+- (instancetype)initWithPropertyListDictionaryRepresentation:(NSDictionary*)propertyListDictionaryRepresentation context:(NSManagedObjectContext *)moc;
+- (void)updateWithPropertyListDictionaryRepresentation:(NSDictionary *)propertyListDictionaryRepresentation;
+
 @end

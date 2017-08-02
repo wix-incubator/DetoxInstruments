@@ -12,6 +12,8 @@
 @interface DTXPerformanceSamplePlotController () <NSFetchedResultsControllerDelegate>
 {
 	NSMutableArray<NSFetchedResultsController*>* _frcs;
+	BOOL _frcsPrepared;
+	
 	NSMutableArray<NSNumber*>* _insertions;
 	NSMutableArray<NSNumber*>* _updates;
 }
@@ -34,7 +36,12 @@
 
 - (void)prepareSamples
 {
-	if(self.document == nil)
+	if(self.document == nil || self.document.recording == nil)
+	{
+		return;
+	}
+	
+	if(_frcsPrepared == YES)
 	{
 		return;
 	}
@@ -57,12 +64,18 @@
 			*stop = YES;
 			return;
 		}
-		NSArray* results = frc.fetchedObjects;
 	}];
+	
+	_frcsPrepared = _frcs.count == self.sampleKeys.count;
 }
 
 - (NSArray*)samplesForPlotIndex:(NSUInteger)index
 {
+	if(_frcs.count != self.sampleKeys.count)
+	{
+		[self prepareSamples];
+	}
+	
 	return _frcs[index].fetchedObjects;
 }
 

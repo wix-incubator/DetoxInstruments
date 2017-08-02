@@ -10,10 +10,11 @@
 #import "AutoCoding.h"
 #import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
+#import "DTXRemoteProfilingBasics.h"
 
 DTX_CREATE_LOG(RemoteProfiler);
 
-@interface DTXRemoteProfiler () <_DTXProfilerStoryListener>
+@interface DTXRemoteProfiler () <DTXProfilerStoryListener>
 
 @end
 
@@ -50,12 +51,12 @@ DTX_CREATE_LOG(RemoteProfiler);
 
 - (void)_serializeCommandWithSelector:(SEL)selector managedObject:(NSManagedObject*)obj additionalParams:(NSArray*)additionalParams
 {
-	[self _serializeCommandWithSelector:selector dict:obj.dictionaryRepresentationForPropertyList additionalParams:additionalParams];
+	[self _serializeCommandWithSelector:selector entityName:obj.entity.name dict:obj.dictionaryRepresentationForPropertyList additionalParams:additionalParams];
 }
 
-- (void)_serializeCommandWithSelector:(SEL)selector dict:(NSDictionary*)obj additionalParams:(NSArray*)additionalParams
+- (void)_serializeCommandWithSelector:(SEL)selector entityName:(NSString*)entityName dict:(NSDictionary*)obj additionalParams:(NSArray*)additionalParams
 {
-	NSMutableDictionary* cmd = [@{@"selector": NSStringFromSelector(selector), @"object": obj} mutableCopy];
+	NSMutableDictionary* cmd = [@{@"cmdType": @(DTXRemoteProfilingCommandTypeProfilingStoryEvent), @"entityName": entityName, @"selector": NSStringFromSelector(selector), @"object": obj} mutableCopy];
 	cmd[@"additionalParams"] = additionalParams;
 	
 	NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
@@ -70,8 +71,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)stopProfilingWithCompletionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
 	[super stopProfilingWithCompletionHandler:^ (NSError* err) {
-		[self.remoteProfilerDelegate remoteProfilerDidFinish:self];
-		
 		if(completionHandler)
 		{
 			completionHandler(err);
@@ -103,12 +102,20 @@ DTX_CREATE_LOG(RemoteProfiler);
 
 - (void)createRecording:(DTXRecording *)recording
 {
-	[self _serializeCommandWithSelector:_cmd managedObject:recording additionalParams:nil];
+	NSMutableDictionary* recordingDict = recording.dictionaryRepresentationForPropertyList.mutableCopy;
+	NSMutableDictionary* configuration = [recordingDict[@"profilingConfiguration"] mutableCopy];
+	configuration[@"recordingFileName"] = self.profilingConfiguration.recordingFileURL.path;
+	recordingDict[@"profilingConfiguration"] = configuration;
+	
+	[self _serializeCommandWithSelector:_cmd entityName:recording.entity.name dict:recordingDict additionalParams:nil];
 }
 
 - (void)finishWithResponseForNetworkSample:(DTXNetworkSample *)networkSample
 {
-	[self _serializeCommandWithSelector:_cmd dict:networkSample.dictionaryRepresentationOfChangedValuesForPropertyList additionalParams:nil];
+	NSMutableDictionary* dict = [networkSample.dictionaryRepresentationOfChangedValuesForPropertyList mutableCopy];
+	dict[@"sampleIdentifier"] = networkSample.sampleIdentifier;
+	
+	[self _serializeCommandWithSelector:_cmd entityName:networkSample.entity.name dict:dict additionalParams:nil];
 }
 
 - (void)popSampleGroup:(DTXSampleGroup *)sampleGroup
@@ -118,7 +125,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 
 - (void)pushSampleGroup:(DTXSampleGroup *)sampleGroup isRootGroup:(BOOL)isRootGroup
 {
-	[self _serializeCommandWithSelector:_cmd managedObject:sampleGroup additionalParams:@[@{@"isRootGroup": @(isRootGroup)}]];
+	[self _serializeCommandWithSelector:_cmd managedObject:sampleGroup additionalParams:@[@(isRootGroup)]];
 }
 
 - (void)startRequestWithNetworkSample:(DTXNetworkSample *)networkSample
@@ -128,7 +135,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 
 - (void)updateRecording:(DTXRecording *)recording stopRecording:(BOOL)stopRecording
 {
-	[self _serializeCommandWithSelector:_cmd dict:recording.dictionaryRepresentationOfChangedValuesForPropertyList additionalParams:@[@{@"stopRecording": @(stopRecording)}]];
+	[self _serializeCommandWithSelector:_cmd entityName:recording.entity.name dict:recording.dictionaryRepresentationOfChangedValuesForPropertyList additionalParams:@[@(stopRecording)]];
 	
 	if(stopRecording)
 	{

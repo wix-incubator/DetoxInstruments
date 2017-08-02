@@ -10,8 +10,6 @@
 
 @interface DTXPlotTypeCellView ()
 
-@property (nonatomic, strong, readwrite) IBOutlet NSButton* expansionButton;
-
 @end
 
 @implementation DTXPlotTypeCellView

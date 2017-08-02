@@ -32,11 +32,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	
-	if (@available(macOS 10.13, *)) {
-		_logTableView.usesAutomaticRowHeights = YES;
-	}
-	
+		
 	self.view.wantsLayer = YES;
 	
 	_pathControl.pathItems = @[];
@@ -53,7 +49,7 @@
 	
 	if(_logDataProvider == nil)
 	{
-		_logDataProvider = [[DTXLogDataProvider alloc] initWithDocument:self.view.window.windowController.document managedTableView:_logTableView];
+		_logDataProvider = [[DTXLogDataProvider alloc] initWithDocument:self.document managedTableView:_logTableView];
 	}
 }
 
@@ -73,7 +69,7 @@
 	p1.image = [NSImage imageNamed: _logShown ? @"console_small" : [NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]];
 	p1.title = _logShown ? NSLocalizedString(@"Console", @"") : _managingDataProvider ? _managingDataProvider.displayName : @"";
 	
-	if(_logShown == NO)
+	if(_logShown == NO && _managingDataProvider != nil)
 	{
 		NSPathControlItem* p2 = [NSPathControlItem new];
 		p2.title = NSLocalizedString(@"Samples", @"");

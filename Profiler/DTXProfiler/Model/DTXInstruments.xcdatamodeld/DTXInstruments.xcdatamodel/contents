@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13196.5" systemVersion="17A306f" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13209.6" systemVersion="17A315i" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdvancedPerformanceSample" representedClassName="DTXAdvancedPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <attribute name="heaviestStackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
         <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -150,7 +150,6 @@
         <relationship name="threadInfo" maxCount="1" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="threadPerformanceSamples" inverseEntity="ThreadInfo" syncable="YES">
             <userInfo>
                 <entry key="includeKeyPathInDictionaryRepresentation" value="number"/>
-                <entry key="transformedDictionaryOutputKey" value="threadNumber"/>
             </userInfo>
         </relationship>
     </entity>

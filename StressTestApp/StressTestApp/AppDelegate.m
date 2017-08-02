@@ -18,19 +18,22 @@
 DTXProfiler* __;
 + (void)load
 {
-//	__ = [NSClassFromString(@"DTXRemoteProfiler") new];
-//	DTXProfilingConfiguration* conf = [DTXProfilingConfiguration defaultProfilingConfiguration];
-//	conf.recordThreadInformation = YES;
-//	conf.collectStackTraces = YES;
-//	conf.symbolicateStackTraces = YES;
-//	conf.collectJavaScriptStackTraces = YES;
-//	conf.symbolicateJavaScriptStackTraces = YES;
-//	[__ startProfilingWithConfiguration:conf];
-//	
-//	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//		[__ stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
-//			NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//		}];
+//	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0), ^{
+////	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//		__ = [NSClassFromString(@"DTXProfiler") new];
+//		DTXProfilingConfiguration* conf = [DTXProfilingConfiguration defaultProfilingConfiguration];
+//		conf.recordThreadInformation = YES;
+//		conf.collectStackTraces = YES;
+//		conf.symbolicateStackTraces = YES;
+//		conf.collectJavaScriptStackTraces = YES;
+//		conf.symbolicateJavaScriptStackTraces = YES;
+//		[__ startProfilingWithConfiguration:conf];
+//
+//		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//			[__ stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
+//				NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//			}];
+//		});
 //	});
 	
 //	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

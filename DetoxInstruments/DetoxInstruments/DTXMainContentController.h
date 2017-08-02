@@ -19,6 +19,7 @@
 
 @interface DTXMainContentController : NSViewController
 
+@property (nonatomic, strong) DTXDocument* document;
 @property (nonatomic, weak) id<DTXMainContentControllerDelegate> delegate;
 
 @end

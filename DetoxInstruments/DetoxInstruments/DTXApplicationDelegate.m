@@ -29,7 +29,7 @@
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender;
 {
-	return NO;
+	return YES;
 }
 //
 //- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender

@@ -9,7 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <DTXSourceMaps/DTXSourceMaps.h>
+#import "DTXSourceMapsParser.h"
 
 extern NSArray* DTXRNSymbolicateJSCBacktrace(NSArray<NSString*>* backtrace, BOOL* currentStackTraceSymbolicated);
 

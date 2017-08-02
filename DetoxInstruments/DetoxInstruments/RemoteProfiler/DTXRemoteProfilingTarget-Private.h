@@ -7,19 +7,20 @@
 //
 
 #import "DTXRemoteProfilingTarget.h"
+#import "DTXSocketConnection.h"
 
 @interface DTXRemoteProfilingTarget ()
 
-@property (nonatomic, assign) NSUInteger state;
-
-@property (nonatomic, assign, readwrite) NSUInteger operatingSystemType;
-@property (nonatomic, copy, readwrite) NSString* applicationName;
+@property (nonatomic, assign, readwrite) NSUInteger deviceOSType;
+@property (nonatomic, copy, readwrite) NSString* appName;
 @property (nonatomic, copy, readwrite) NSString* deviceName;
-@property (nonatomic, copy, readwrite) NSString* operatingSystemVersion;
+@property (nonatomic, copy, readwrite) NSString* deviceOS;
+@property (nonatomic, copy, readwrite) NSDictionary* deviceInfo;
 
-@property (nonatomic, copy, readwrite) NSString* hostName;
-@property (nonatomic, assign, readwrite) NSInteger port;
+@property (nonatomic, copy, readonly) NSString* hostName;
+@property (nonatomic, assign, readonly) NSInteger port;
+@property (nonatomic, strong, readonly) dispatch_queue_t workQueue;
 
-@property (nonatomic, strong, readwrite) DTXSocketConnection* connection;
+- (void)_connectWithHostName:(NSString*)hostName port:(NSInteger)port workQueue:(dispatch_queue_t)workQueue;
 
 @end

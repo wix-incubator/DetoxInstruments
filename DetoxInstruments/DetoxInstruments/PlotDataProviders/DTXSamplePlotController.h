@@ -28,6 +28,7 @@
 - (NSArray<NSColor*>*)plotColors;
 - (NSArray<NSString*>*)plotTitles;
 - (BOOL)isStepped;
+
 - (NSEdgeInsets)rangeInsets;
 - (CGFloat)yRangeMultiplier;
 

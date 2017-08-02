@@ -10,6 +10,4 @@
 
 @interface DTXPlotTypeCellView : DTXHighlightingCellView
 
-@property (nonatomic, strong, readonly) NSButton* expansionButton;
-
 @end

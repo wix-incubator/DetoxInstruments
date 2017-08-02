@@ -56,6 +56,19 @@ IB_DESIGNABLE
 	BOOL _ignoresEvents;
 }
 
+- (NSRect)frameOfOutlineCellAtRow:(NSInteger)row
+{
+	NSRect frame = [super frameOfOutlineCellAtRow:row];
+	
+	if(CGRectEqualToRect(frame, NSZeroRect))
+	{
+		return frame;
+	}
+	
+	frame.origin.x = 5;
+	return frame;
+}
+
 - (void)drawGridInClipRect:(NSRect)clipRect
 {
 	NSRect lastRowRect = [self rectOfRow:[self numberOfRows] - 1];
