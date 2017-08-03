@@ -184,7 +184,15 @@ static NSDateFormatter* __iso8601DateFormatter;
 
 - (instancetype)initWithPropertyListDictionaryRepresentation:(NSDictionary *)propertyListDictionaryRepresentation context:(NSManagedObjectContext *)moc
 {
-	self = [self initWithContext:moc];
+	if(self.entity != nil)
+	{
+		self = [self initWithContext:moc];
+	}
+	else
+	{
+		NSString* entityName = [NSStringFromClass(self.class) substringFromIndex:3];
+		self = [self initWithEntity:[NSEntityDescription entityForName:entityName inManagedObjectContext:moc] insertIntoManagedObjectContext:moc];
+	}
 	
 	if(self)
 	{

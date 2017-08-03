@@ -23,7 +23,11 @@
 
 - (instancetype)initWithProfilingTarget:(DTXRemoteProfilingTarget*)target managedObjectContext:(NSManagedObjectContext*)ctx
 {
+	NSParameterAssert(ctx != nil);
+	NSParameterAssert(target != nil);
+	
 	self = [super init];
+	
 	
 	if(self)
 	{
@@ -122,8 +126,6 @@
 	
 	NSAssert(_recording == nil, @"A recording already exists");
 	_recording = recordingObj;
-	
-	[self.delegate remoteProfilingClient:self didCreateRecording:_recording];
 }
 
 - (void)createdOrUpdatedThreadInfo:(NSDictionary *)threadInfo entityDescription:(NSEntityDescription *)entityDescription
@@ -154,6 +156,8 @@
 	if(root.boolValue)
 	{
 		_recording.rootSampleGroup = sampleGroupObj;
+		
+		[self.delegate remoteProfilingClient:self didCreateRecording:_recording];
 	}
 	else
 	{

@@ -47,6 +47,11 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[_hostingView removeFromSuperview];
+}
+
 - (void)setUpWithView:(NSView *)view
 {
 	[self setUpWithView:view insets:NSEdgeInsetsZero];

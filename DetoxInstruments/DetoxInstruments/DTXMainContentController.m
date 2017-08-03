@@ -70,6 +70,7 @@
 - (void)_documentStateDidChangeNotification:(NSNotification*)note
 {
 	_plotGroup = nil;
+	
 	[self _reloadPlotGroupIfNeeded];
 }
 

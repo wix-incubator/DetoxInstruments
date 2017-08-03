@@ -125,7 +125,19 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 	_managedOutlineView.tableColumns[[_managedOutlineView columnWithIdentifier:@"DTXTimestampColumn"]].title = _document.documentState > DTXDocumentStateNew ? NSLocalizedString(@"Time", @"") : @"";
 	
-	if(_document.recording.rootSampleGroup == nil)
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:self.document];
+	
+	[self _setupProxiesForGroups];
+}
+
+- (void)_documentStateDidChangeNotification:(NSNotification*)note
+{
+	[self _setupProxiesForGroups];
+}
+
+- (void)_setupProxiesForGroups
+{
+	if(_document.documentState < DTXDocumentStateLiveRecording)
 	{
 		return;
 	}

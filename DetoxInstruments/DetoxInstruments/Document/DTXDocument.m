@@ -121,14 +121,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 - (void)_prepareForRemoteProfilingRecordingWithTarget:(DTXRemoteProfilingTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration
 {
 	[self _preparePersistenceContainerFromURL:nil allowCreation:YES error:NULL];
-	_recording = [[DTXRecording alloc] initWithEntity:[NSEntityDescription entityForName:@"Recording" inManagedObjectContext:_container.viewContext] insertIntoManagedObjectContext:_container.viewContext];
-	_recording.profilingConfiguration = configuration.dictionaryRepresentation;
-	[target.deviceInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-		if([_recording respondsToSelector:NSSelectorFromString(key)])
-		{
-			[_recording setValue:obj forKey:key];
-		}
-	}];
 	_remoteProfilingClient = [[DTXRemoteProfilingClient alloc] initWithProfilingTarget:target managedObjectContext:_container.viewContext];
 	_remoteProfilingClient.delegate = self;
 	[_remoteProfilingClient startProfilingWithConfiguration:configuration];
