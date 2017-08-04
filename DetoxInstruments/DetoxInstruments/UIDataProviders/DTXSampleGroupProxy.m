@@ -79,7 +79,7 @@
 	_updates = [NSMutableArray new];
 	_inserts = [NSMutableArray new];
 	
-	_updatesExperiencedErrors = YES;
+	_updatesExperiencedErrors = NO;
 	
 	[_outlineView beginUpdates];
 }
