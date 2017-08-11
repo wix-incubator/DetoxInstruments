@@ -15,7 +15,6 @@
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
-	self.layer.backgroundColor = NSColor.whiteColor .CGColor;
 }
 
 - (void)viewDidMoveToWindow

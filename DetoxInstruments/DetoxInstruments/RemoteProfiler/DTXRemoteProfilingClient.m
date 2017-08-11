@@ -28,7 +28,6 @@
 	
 	self = [super init];
 	
-	
 	if(self)
 	{
 		_target = target;

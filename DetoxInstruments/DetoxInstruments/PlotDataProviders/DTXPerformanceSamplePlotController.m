@@ -46,7 +46,7 @@
 		return;
 	}
 		
-	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
+	[self.class.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSFetchRequest* fr = [self.classForPerformanceSamples fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		fr.predicate = self.predicateForPerformanceSamples;
@@ -66,12 +66,12 @@
 		}
 	}];
 	
-	_frcsPrepared = _frcs.count == self.sampleKeys.count;
+	_frcsPrepared = _frcs.count == self.class.sampleKeys.count;
 }
 
 - (NSArray*)samplesForPlotIndex:(NSUInteger)index
 {
-	if(_frcs.count != self.sampleKeys.count)
+	if(_frcs.count != self.class.sampleKeys.count)
 	{
 		[self prepareSamples];
 	}

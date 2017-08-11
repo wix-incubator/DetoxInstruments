@@ -7,11 +7,9 @@
 //
 
 #import "DTXTableRowView.h"
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXTableRowView
-{
-	NSView* _backgroundView;
-}
 
 - (instancetype)init
 {
@@ -25,22 +23,20 @@
 	return self;
 }
 
-- (void)setSelected:(BOOL)selected
-{
-	[super setSelected:selected];
-}
-
-- (void)drawSelectionInRect:(NSRect)dirtyRect {
-	[super drawSelectionInRect:dirtyRect];
+//- (void)drawSelectionInRect:(NSRect)dirtyRect {
+//	[super drawSelectionInRect:dirtyRect];
 //	if (self.selectionHighlightStyle != NSTableViewSelectionHighlightStyleNone) {
-//		NSRect selectionRect = NSInsetRect(self.bounds, 2.5, 2.5);
-//		[[NSColor colorWithCalibratedWhite:.65 alpha:1.0] setStroke];
-//		[[NSColor colorWithCalibratedWhite:.82 alpha:1.0] setFill];
-//		NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRoundedRect:selectionRect xRadius:6 yRadius:6];
+//		NSRect selectionRect = self.bounds;
+//
+//		NSColor* color = self.isEmphasized ? NSColor.alternateSelectedControlColor : NSColor.secondarySelectedControlColor;
+//
+//		[color setStroke];
+//		[color setFill];
+//		NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRect:selectionRect];
 //		[selectionPath fill];
 //		[selectionPath stroke];
 //	}
-}
+//}
 
 - (void)layout
 {

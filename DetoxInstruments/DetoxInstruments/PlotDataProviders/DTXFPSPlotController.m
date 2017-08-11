@@ -26,17 +26,17 @@
 	return [NSImage imageNamed:@"graphicsDriverUtility"];
 }
 
-- (NSArray<NSString*>*)sampleKeys
++ (NSArray<NSString*>*)sampleKeys
 {
 	return @[@"fps"];
 }
 
-- (NSArray<NSString *> *)plotTitles
++ (NSArray<NSString *> *)plotTitles
 {
 	return @[NSLocalizedString(@"FPS", @"")];
 }
 
-- (NSArray<NSColor*>*)plotColors
++ (NSArray<NSColor*>*)plotColors
 {
 	return @[[NSColor colorWithRed:198.0/255.0 green:109.0/255.0 blue:218.0/255.0 alpha:1.0]];
 }

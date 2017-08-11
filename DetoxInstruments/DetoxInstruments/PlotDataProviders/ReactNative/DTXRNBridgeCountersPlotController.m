@@ -7,8 +7,14 @@
 //
 
 #import "DTXRNBridgeCountersPlotController.h"
+#import "DTXRNBridgeCallsDataProvider.h"
 
 @implementation DTXRNBridgeCountersPlotController
+
++ (Class)UIDataProviderClass
+{
+	return [DTXRNBridgeCallsDataProvider class];
+}
 
 - (Class)classForPerformanceSamples
 {
@@ -25,12 +31,12 @@
 	return [NSImage imageNamed:@"counters"];
 }
 
-- (NSArray<NSString*>*)sampleKeys
++ (NSArray<NSString*>*)sampleKeys
 {
-	return @[@"bridgeJSToNCallCountDelta", @"bridgeNToJSCallCountDelta"];
+	return @[@"bridgeNToJSCallCountDelta", @"bridgeJSToNCallCountDelta"];
 }
 
-- (NSArray<NSColor*>*)plotColors
++ (NSArray<NSColor*>*)plotColors
 {
 #if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 	return @[[NSColor.systemPurpleColor colorWithAlphaComponent:1.0], [NSColor.systemOrangeColor colorWithAlphaComponent:1.0]];
@@ -39,17 +45,17 @@
 #endif
 }
 
-- (NSArray<NSString *> *)plotTitles
++ (NSArray<NSString *> *)plotTitles
 {
 	return @[NSLocalizedString(@"JavaScript to Native", @""), NSLocalizedString(@"Native to JavaScript", @"")];
 }
 
-- (BOOL)isStepped
++ (BOOL)isStepped
 {
 	return YES;
 }
 
-- (NSFormatter*)formatterForDataPresentation
++ (NSFormatter*)formatterForDataPresentation
 {
 	return [NSFormatter dtx_stringFormatter];
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13168.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13168.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13178.6"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
@@ -401,7 +401,7 @@
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="0.0" height="23"/>
                                     <size key="maxSize" width="68" height="35"/>
-                                    <segmentedControl key="view" verticalHuggingPriority="750" id="qva-ix-9V1">
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="qva-ix-9V1" customClass="DTXSegmentedControl">
                                         <rect key="frame" x="0.0" y="14" width="68" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="gsv-5V-UDg">
@@ -475,35 +475,22 @@
             </objects>
             <point key="canvasLocation" x="-343" y="38.5"/>
         </scene>
-        <!--Recording Target Picker View Controller-->
+        <!--Targets Outline View Contoller-->
         <scene sceneID="zJI-Du-3zV">
             <objects>
-                <viewController storyboardIdentifier="DTXRecordingTargetChooser" id="m6Q-hK-JTq" customClass="DTXRecordingTargetPickerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="_DTXTargetsOutlineViewContoller" id="m6Q-hK-JTq" customClass="_DTXTargetsOutlineViewContoller" sceneMemberID="viewController">
                     <view key="view" id="gZa-Rj-Pnf">
-                        <rect key="frame" x="0.0" y="0.0" width="468" height="425"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="340"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="70B-2h-H0D">
-                                <rect key="frame" x="352" y="13" width="102" height="32"/>
-                                <buttonCell key="cell" type="push" title="Select" bezelStyle="rounded" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cKb-L0-OvH">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="selectRecording:" target="m6Q-hK-JTq" id="7lp-Mz-kT1"/>
-                                </connections>
-                            </button>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="93" horizontalPageScroll="10" verticalLineScroll="93" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6hS-ak-QJC">
-                                <rect key="frame" x="20" y="58" width="428" height="332"/>
+                            <scrollView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" autohidesScrollers="YES" horizontalLineScroll="93" horizontalPageScroll="10" verticalLineScroll="93" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6hS-ak-QJC">
+                                <rect key="frame" x="20" y="0.0" width="500" height="305"/>
                                 <clipView key="contentView" drawsBackground="NO" id="G3w-f5-Txq">
-                                    <rect key="frame" x="1" y="1" width="426" height="330"/>
+                                    <rect key="frame" x="1" y="1" width="498" height="303"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="90" rowSizeStyle="automatic" viewBased="YES" outlineTableColumn="yZs-3u-qTY" id="UyV-i8-YJd">
-                                            <rect key="frame" x="0.0" y="0.0" width="426" height="330"/>
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="90" rowSizeStyle="automatic" viewBased="YES" outlineTableColumn="yZs-3u-qTY" id="UyV-i8-YJd">
+                                            <rect key="frame" x="0.0" y="0.0" width="498" height="303"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -515,7 +502,7 @@ DQ
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="Jcy-KC-fKt">
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" id="Jcy-KC-fKt">
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -589,14 +576,14 @@ DQ
                                                     </prototypeCellViews>
                                                 </tableColumn>
                                             </tableColumns>
-                                            <connections>
-                                                <outlet property="dataSource" destination="m6Q-hK-JTq" id="D60-fu-cMf"/>
-                                                <outlet property="delegate" destination="m6Q-hK-JTq" id="Zir-kQ-Ee1"/>
-                                            </connections>
                                         </outlineView>
                                     </subviews>
                                     <nil key="backgroundColor"/>
                                 </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="305" id="75Y-7s-Zj2"/>
+                                    <constraint firstAttribute="width" constant="500" id="QM7-p2-nfx"/>
+                                </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="HeY-Ds-1Bh">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -606,31 +593,8 @@ DQ
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8aa-bW-feN">
-                                <rect key="frame" x="14" y="13" width="102" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="Q45-5N-x4x"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="brs-AQ-GL7">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <string key="keyEquivalent" base64-UTF8="YES">
-Gw
-</string>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="cancel:" target="m6Q-hK-JTq" id="v6a-Ug-sHd"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M7K-l9-qzW">
-                                <rect key="frame" x="250" y="13" width="102" height="32"/>
-                                <buttonCell key="cell" type="push" title="Options" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qyk-z0-n30">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PVg-YW-dy8">
-                                <rect key="frame" x="18" y="398" width="159" height="17"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="PVg-YW-dy8">
+                                <rect key="frame" x="18" y="313" width="159" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select a device to record:" id="lPg-Uz-0wi">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -639,31 +603,408 @@ Gw
                             </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="M7K-l9-qzW" secondAttribute="bottom" constant="20" id="80B-Se-vKX"/>
                             <constraint firstItem="6hS-ak-QJC" firstAttribute="top" secondItem="PVg-YW-dy8" secondAttribute="bottom" constant="8" id="9Kf-7g-Ji3"/>
                             <constraint firstItem="PVg-YW-dy8" firstAttribute="top" secondItem="gZa-Rj-Pnf" secondAttribute="top" constant="10" id="EbG-sd-jcD"/>
                             <constraint firstItem="PVg-YW-dy8" firstAttribute="leading" secondItem="gZa-Rj-Pnf" secondAttribute="leading" constant="20" id="Geq-O9-oHc"/>
-                            <constraint firstItem="M7K-l9-qzW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8aa-bW-feN" secondAttribute="trailing" constant="48" id="I2u-bu-GG0"/>
-                            <constraint firstItem="70B-2h-H0D" firstAttribute="top" secondItem="6hS-ak-QJC" secondAttribute="bottom" constant="17" id="IcK-ek-NlN"/>
-                            <constraint firstAttribute="bottom" secondItem="8aa-bW-feN" secondAttribute="bottom" constant="20" id="KeU-Sj-zFP"/>
-                            <constraint firstItem="70B-2h-H0D" firstAttribute="leading" secondItem="M7K-l9-qzW" secondAttribute="trailing" constant="12" id="Mrp-QE-XkR"/>
-                            <constraint firstItem="70B-2h-H0D" firstAttribute="width" secondItem="8aa-bW-feN" secondAttribute="width" id="YSe-He-5mM"/>
-                            <constraint firstAttribute="trailing" secondItem="70B-2h-H0D" secondAttribute="trailing" constant="20" id="cRd-n9-ja1"/>
-                            <constraint firstItem="8aa-bW-feN" firstAttribute="leading" secondItem="gZa-Rj-Pnf" secondAttribute="leading" constant="20" id="ijH-mL-1gV"/>
+                            <constraint firstAttribute="bottom" secondItem="6hS-ak-QJC" secondAttribute="bottom" id="NdZ-56-hvS"/>
                             <constraint firstItem="6hS-ak-QJC" firstAttribute="leading" secondItem="gZa-Rj-Pnf" secondAttribute="leading" constant="20" id="l01-r9-cBb"/>
-                            <constraint firstItem="M7K-l9-qzW" firstAttribute="width" secondItem="70B-2h-H0D" secondAttribute="width" id="mgW-9f-IJI"/>
                             <constraint firstAttribute="trailing" secondItem="6hS-ak-QJC" secondAttribute="trailing" constant="20" id="n6T-Xu-oq5"/>
-                            <constraint firstAttribute="bottom" secondItem="70B-2h-H0D" secondAttribute="bottom" constant="20" id="wUw-7L-LU7"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="_outlineView" destination="UyV-i8-YJd" id="LCd-j6-Zm5"/>
-                        <outlet property="_selectButton" destination="70B-2h-H0D" id="Wee-DW-Dzz"/>
+                        <outlet property="_constraint" destination="QM7-p2-nfx" id="ZFr-Ok-TeC"/>
+                        <outlet property="outlineView" destination="UyV-i8-YJd" id="4co-WR-1xN"/>
                     </connections>
                 </viewController>
                 <customObject id="o4c-ac-5sg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="103" y="-822"/>
+            <point key="canvasLocation" x="657" y="-1362"/>
+        </scene>
+        <!--Profiling Configuration View Controller-->
+        <scene sceneID="LcW-yk-1Mk">
+            <objects>
+                <viewController storyboardIdentifier="_DTXProfilingConfigurationViewController" id="ZQv-Ah-3wf" customClass="_DTXProfilingConfigurationViewController" sceneMemberID="viewController">
+                    <view key="view" id="pzQ-yE-WgY">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="340"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="PoO-IA-vWd">
+                                <rect key="frame" x="33" y="305" width="156" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Configuration:" id="G4J-El-IBh">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5AU-U1-PvE">
+                                <rect key="frame" x="193" y="304" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Use default profiling configuration" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Paj-pu-mZT">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="_useDefaultConfigurationValueChanged:" target="ZQv-Ah-3wf" id="YCK-kq-s0E"/>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="VCp-6i-KSY">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Mgg-1q-DWj">
+                                <rect key="frame" x="33" y="268" width="156" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Sampling frequency:" id="W2h-Yp-r0C">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="P4w-l1-pU8">
+                                <rect key="frame" x="193" y="262" width="315" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="310" id="D1o-qt-cqB"/>
+                                </constraints>
+                                <popUpButtonCell key="cell" type="push" title="More accurate (2 samples every second)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="xc9-hk-Kdg" id="FWW-eS-VFf">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="2bQ-9B-c0X">
+                                        <items>
+                                            <menuItem title="More accurate (2 samples every second)" state="on" tag="1" id="xc9-hk-Kdg"/>
+                                            <menuItem title="Normal (One sample every second)" tag="2" id="Szy-1n-RUL"/>
+                                            <menuItem title="More performant (1 sample every 2 seconds)" tag="4" id="YsG-PO-w6Y"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="nZq-Hw-olp">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="selectedTag" keyPath="values.DTXSelectedProfilingConfiguration_samplingInterval" id="zZV-2k-V6i">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">_DTXProfilingConfigurationIntervalToTag</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </popUpButton>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="GoV-U6-EoE">
+                                <rect key="frame" x="34" y="230" width="156" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Network:" id="OsK-4O-zjb">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="spB-dC-GlW">
+                                <rect key="frame" x="193" y="229" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Record network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="hXF-U4-BB2">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="wCS-7s-IPH">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" id="xRC-U9-Eym">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="s9S-Lh-aQC">
+                                <rect key="frame" x="193" y="207" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Record localhost network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="vVr-6u-f36">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="dYB-Ev-h9P">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLocalhostNetwork" id="rW4-Uy-Bgy">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="uOU-aH-ePw">
+                                <rect key="frame" x="34" y="174" width="156" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Threads:" id="gfw-eD-MtP">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="62r-nq-8Yo">
+                                <rect key="frame" x="193" y="173" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Record thread information" bezelStyle="regularSquare" imagePosition="left" inset="2" id="3jR-IF-pSj">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="kk9-Hp-LJp">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" id="lgY-2X-1yt">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5PX-5m-Im6">
+                                <rect key="frame" x="193" y="151" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Collect stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="n1M-WH-6Yg">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="RDV-Qh-gvr">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="8Ir-3c-obc">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="GYE-rJ-pn6">
+                                <rect key="frame" x="193" y="129" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Symbolicate stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sd0-4x-pzu">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Jea-jZ-N1Y">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" previousBinding="Jea-jZ-N1Y" id="nNk-i8-PV1">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateStackTraces" id="7Rc-ro-XbI">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Nku-ik-9PG">
+                                <rect key="frame" x="34" y="96" width="156" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Log:" id="ovu-nx-we0">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Qnb-ac-Ym0">
+                                <rect key="frame" x="193" y="95" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Record log output" bezelStyle="regularSquare" imagePosition="left" inset="2" id="OGX-Tc-rRQ">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="gTf-f0-XcD">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLogOutput" id="iqY-4N-INT">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8N9-2E-7Sm">
+                                <rect key="frame" x="34" y="62" width="156" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="React Native:" id="jbP-iP-gbl">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="nF1-96-rnA">
+                                <rect key="frame" x="193" y="61" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Profile React Native (if available)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AQT-b0-WZA">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="tYu-oZ-SwS">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="kkH-BI-SIH">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QT7-Wp-bT6">
+                                <rect key="frame" x="34" y="28" width="156" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="JavaScript:" id="Xr1-0C-pTZ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Eng-0G-HZa">
+                                <rect key="frame" x="193" y="27" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Collect JavaScript stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="S8Q-JH-G14">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="glj-lJ-usS">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectJavaScriptStackTraces" id="nbQ-vm-aax">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="glj-lJ-usS" id="xxa-7P-YPX">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="sZy-Ap-ySe">
+                                <rect key="frame" x="193" y="5" width="314" height="18"/>
+                                <buttonCell key="cell" type="check" title="Symbolicate JavaScript stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="MTB-1F-YWE">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="FPO-gA-QlV">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_collectJavaScriptStackTraces" previousBinding="FPO-gA-QlV" id="zAW-2w-Ssv">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="zAW-2w-Ssv" id="2e9-5J-zVh">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateJavaScriptStackTraces" id="RdA-JU-Uow">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Qnb-ac-Ym0" firstAttribute="width" secondItem="GYE-rJ-pn6" secondAttribute="width" id="05y-Co-kkc"/>
+                            <constraint firstItem="62r-nq-8Yo" firstAttribute="top" secondItem="s9S-Lh-aQC" secondAttribute="bottom" constant="20" id="0OV-EX-wY6"/>
+                            <constraint firstItem="PoO-IA-vWd" firstAttribute="width" secondItem="Mgg-1q-DWj" secondAttribute="width" id="1k0-Lz-DcW"/>
+                            <constraint firstItem="Qnb-ac-Ym0" firstAttribute="leading" secondItem="Nku-ik-9PG" secondAttribute="trailing" constant="7" id="3Hf-Yf-RVn"/>
+                            <constraint firstItem="Qnb-ac-Ym0" firstAttribute="top" secondItem="GYE-rJ-pn6" secondAttribute="bottom" constant="20" id="4BO-Em-vu3"/>
+                            <constraint firstItem="Nku-ik-9PG" firstAttribute="width" secondItem="uOU-aH-ePw" secondAttribute="width" id="5IA-9I-bOc"/>
+                            <constraint firstItem="nF1-96-rnA" firstAttribute="leading" secondItem="Qnb-ac-Ym0" secondAttribute="leading" id="5t0-IE-zwb"/>
+                            <constraint firstItem="Eng-0G-HZa" firstAttribute="leading" secondItem="QT7-Wp-bT6" secondAttribute="trailing" constant="7" id="5zS-E4-v2i"/>
+                            <constraint firstItem="spB-dC-GlW" firstAttribute="leading" secondItem="GoV-U6-EoE" secondAttribute="trailing" constant="7" id="79I-3R-bM4"/>
+                            <constraint firstAttribute="bottom" secondItem="sZy-Ap-ySe" secondAttribute="bottom" constant="7" id="7Nt-xN-EKO"/>
+                            <constraint firstItem="spB-dC-GlW" firstAttribute="leading" secondItem="P4w-l1-pU8" secondAttribute="leading" id="Acl-VC-uEi"/>
+                            <constraint firstItem="GYE-rJ-pn6" firstAttribute="width" secondItem="5PX-5m-Im6" secondAttribute="width" id="CH8-0g-WO0"/>
+                            <constraint firstItem="GYE-rJ-pn6" firstAttribute="leading" secondItem="5PX-5m-Im6" secondAttribute="leading" id="Dhm-ie-cQZ"/>
+                            <constraint firstItem="s9S-Lh-aQC" firstAttribute="width" secondItem="spB-dC-GlW" secondAttribute="width" id="FEH-8m-gbT"/>
+                            <constraint firstItem="P4w-l1-pU8" firstAttribute="top" secondItem="5AU-U1-PvE" secondAttribute="bottom" constant="20" id="HTZ-ZI-rDf"/>
+                            <constraint firstItem="Eng-0G-HZa" firstAttribute="leading" secondItem="nF1-96-rnA" secondAttribute="leading" id="Hbp-Db-tLS"/>
+                            <constraint firstItem="Eng-0G-HZa" firstAttribute="top" secondItem="nF1-96-rnA" secondAttribute="bottom" constant="20" id="Jcw-uJ-b2V"/>
+                            <constraint firstItem="62r-nq-8Yo" firstAttribute="leading" secondItem="s9S-Lh-aQC" secondAttribute="leading" id="KLs-Gv-Ytf"/>
+                            <constraint firstAttribute="trailing" secondItem="5AU-U1-PvE" secondAttribute="trailing" constant="35" id="Kja-gP-20j"/>
+                            <constraint firstItem="P4w-l1-pU8" firstAttribute="leading" secondItem="Mgg-1q-DWj" secondAttribute="trailing" constant="8" id="MGb-qz-ksB"/>
+                            <constraint firstItem="Nku-ik-9PG" firstAttribute="baseline" secondItem="Qnb-ac-Ym0" secondAttribute="baseline" id="MOL-4O-yVs"/>
+                            <constraint firstItem="GYE-rJ-pn6" firstAttribute="top" secondItem="5PX-5m-Im6" secondAttribute="bottom" constant="8" id="OEW-zc-6sJ"/>
+                            <constraint firstItem="5AU-U1-PvE" firstAttribute="centerX" secondItem="pzQ-yE-WgY" secondAttribute="centerX" constant="80" id="OWl-MR-DjP"/>
+                            <constraint firstItem="sZy-Ap-ySe" firstAttribute="top" secondItem="Eng-0G-HZa" secondAttribute="bottom" constant="8" id="PAI-vs-PHo"/>
+                            <constraint firstItem="nF1-96-rnA" firstAttribute="leading" secondItem="8N9-2E-7Sm" secondAttribute="trailing" constant="7" id="PVm-oK-fc9"/>
+                            <constraint firstItem="Eng-0G-HZa" firstAttribute="width" secondItem="nF1-96-rnA" secondAttribute="width" id="Phd-v2-g5q"/>
+                            <constraint firstItem="uOU-aH-ePw" firstAttribute="baseline" secondItem="62r-nq-8Yo" secondAttribute="baseline" id="Qyb-hN-Vfc"/>
+                            <constraint firstItem="sZy-Ap-ySe" firstAttribute="width" secondItem="Eng-0G-HZa" secondAttribute="width" id="RDG-Us-29e"/>
+                            <constraint firstItem="s9S-Lh-aQC" firstAttribute="top" secondItem="spB-dC-GlW" secondAttribute="bottom" constant="8" id="SLg-kT-iXN"/>
+                            <constraint firstItem="Mgg-1q-DWj" firstAttribute="baseline" secondItem="P4w-l1-pU8" secondAttribute="baseline" id="VFD-Sk-GOf"/>
+                            <constraint firstItem="Mgg-1q-DWj" firstAttribute="leading" secondItem="pzQ-yE-WgY" secondAttribute="leading" constant="35" id="YGi-j3-696"/>
+                            <constraint firstItem="QT7-Wp-bT6" firstAttribute="width" secondItem="8N9-2E-7Sm" secondAttribute="width" id="Zoe-Hx-5LD"/>
+                            <constraint firstItem="spB-dC-GlW" firstAttribute="top" secondItem="P4w-l1-pU8" secondAttribute="bottom" constant="20" id="alO-eD-FLn"/>
+                            <constraint firstItem="62r-nq-8Yo" firstAttribute="leading" secondItem="uOU-aH-ePw" secondAttribute="trailing" constant="7" id="ax3-a2-JSJ"/>
+                            <constraint firstItem="spB-dC-GlW" firstAttribute="width" secondItem="P4w-l1-pU8" secondAttribute="width" id="cEA-pC-C9Z"/>
+                            <constraint firstItem="nF1-96-rnA" firstAttribute="top" secondItem="Qnb-ac-Ym0" secondAttribute="bottom" constant="20" id="cqi-yT-1Ye"/>
+                            <constraint firstItem="s9S-Lh-aQC" firstAttribute="leading" secondItem="spB-dC-GlW" secondAttribute="leading" id="dLK-zm-mrd"/>
+                            <constraint firstItem="5AU-U1-PvE" firstAttribute="leading" secondItem="PoO-IA-vWd" secondAttribute="trailing" constant="8" id="dfg-oq-uM1"/>
+                            <constraint firstItem="5PX-5m-Im6" firstAttribute="leading" secondItem="62r-nq-8Yo" secondAttribute="leading" id="dmU-tF-m7m"/>
+                            <constraint firstItem="Qnb-ac-Ym0" firstAttribute="leading" secondItem="GYE-rJ-pn6" secondAttribute="leading" id="fYp-l6-3ZX"/>
+                            <constraint firstItem="GoV-U6-EoE" firstAttribute="width" secondItem="uOU-aH-ePw" secondAttribute="width" id="fyQ-dP-xOz"/>
+                            <constraint firstItem="GoV-U6-EoE" firstAttribute="baseline" secondItem="spB-dC-GlW" secondAttribute="baseline" id="gHw-Rk-LMX"/>
+                            <constraint firstItem="62r-nq-8Yo" firstAttribute="width" secondItem="s9S-Lh-aQC" secondAttribute="width" id="gSi-6s-osN"/>
+                            <constraint firstItem="P4w-l1-pU8" firstAttribute="width" secondItem="5AU-U1-PvE" secondAttribute="width" id="hd3-CG-o6O"/>
+                            <constraint firstItem="sZy-Ap-ySe" firstAttribute="leading" secondItem="Eng-0G-HZa" secondAttribute="leading" id="koN-kj-Rb1"/>
+                            <constraint firstItem="8N9-2E-7Sm" firstAttribute="width" secondItem="Nku-ik-9PG" secondAttribute="width" id="nfy-7Y-8td"/>
+                            <constraint firstItem="PoO-IA-vWd" firstAttribute="baseline" secondItem="5AU-U1-PvE" secondAttribute="baseline" id="ngM-jy-vew"/>
+                            <constraint firstItem="QT7-Wp-bT6" firstAttribute="baseline" secondItem="Eng-0G-HZa" secondAttribute="baseline" id="qnt-kc-XMi"/>
+                            <constraint firstItem="8N9-2E-7Sm" firstAttribute="baseline" secondItem="nF1-96-rnA" secondAttribute="baseline" id="tM9-sd-1XP"/>
+                            <constraint firstItem="5AU-U1-PvE" firstAttribute="top" secondItem="pzQ-yE-WgY" secondAttribute="top" constant="20" id="uF9-7U-Zjz"/>
+                            <constraint firstItem="P4w-l1-pU8" firstAttribute="leading" secondItem="5AU-U1-PvE" secondAttribute="leading" id="vbu-DI-Ym0"/>
+                            <constraint firstItem="Mgg-1q-DWj" firstAttribute="width" secondItem="GoV-U6-EoE" secondAttribute="width" id="w54-SF-aaR"/>
+                            <constraint firstItem="nF1-96-rnA" firstAttribute="width" secondItem="Qnb-ac-Ym0" secondAttribute="width" id="xb1-ZC-Y01"/>
+                            <constraint firstItem="5PX-5m-Im6" firstAttribute="top" secondItem="62r-nq-8Yo" secondAttribute="bottom" constant="8" id="xnA-4f-wYQ"/>
+                            <constraint firstItem="5PX-5m-Im6" firstAttribute="width" secondItem="62r-nq-8Yo" secondAttribute="width" id="yeM-2J-GHZ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="Svu-N7-L4f" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="Ix8-QX-1wA"/>
+            </objects>
+            <point key="canvasLocation" x="657" y="-955"/>
         </scene>
         <!--Bottom Inspector Split View Controller-->
         <scene sceneID="zJf-PO-hby">
@@ -723,14 +1064,20 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="hrj-Un-Alg" customClass="DTXHeaderView">
+                                <rect key="frame" x="0.0" y="280" width="450" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="KUc-7G-Wbv"/>
+                                </constraints>
+                            </customView>
                             <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="82" horizontalPageScroll="10" verticalLineScroll="82" verticalPageScroll="10" usesPredominantAxisScrolling="NO" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Dyq-gr-DLO" customClass="DTXScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="282"/>
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
                                 <clipView key="contentView" wantsLayer="YES" copiesOnScroll="NO" id="3Ki-wJ-UtA">
-                                    <rect key="frame" x="0.0" y="0.0" width="450" height="282"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="80" rowSizeStyle="automatic" viewBased="YES" id="TIP-gY-a5N" customClass="DTXPlotTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="282"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="480" height="280"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -809,7 +1156,7 @@ Gw
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="n3R-Di-Yrv">
-                                    <rect key="frame" x="0.0" y="266" width="450" height="16"/>
+                                    <rect key="frame" x="0.0" y="264" width="450" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="txo-63-aGr">
@@ -817,12 +1164,6 @@ Gw
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="hrj-Un-Alg" customClass="DTXHeaderView">
-                                <rect key="frame" x="0.0" y="282" width="450" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="18" id="KUc-7G-Wbv"/>
-                                </constraints>
-                            </customView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Dyq-gr-DLO" firstAttribute="top" secondItem="hrj-Un-Alg" secondAttribute="bottom" id="1D9-AG-AHP"/>
@@ -1225,20 +1566,27 @@ Gw
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
                                                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCj-0r-N1a">
-                                                                                                                <rect key="frame" x="-2" y="0.0" width="300" height="17"/>
+                                                                                                                <rect key="frame" x="16" y="0.0" width="282" height="17"/>
                                                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Table View Cell" allowsEditingTextAttributes="YES" id="jML-Ih-R7D">
                                                                                                                     <font key="font" metaFont="system"/>
                                                                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                                                 </textFieldCell>
                                                                                                             </textField>
+                                                                                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nuR-qk-EJf">
+                                                                                                                <rect key="frame" x="0.0" y="2" width="14" height="14"/>
+                                                                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="DBGFrameUser" id="zf5-jy-uyS"/>
+                                                                                                            </imageView>
                                                                                                         </subviews>
                                                                                                         <constraints>
-                                                                                                            <constraint firstItem="dCj-0r-N1a" firstAttribute="leading" secondItem="rD4-GI-Ty8" secondAttribute="leading" id="0LQ-56-dHZ"/>
+                                                                                                            <constraint firstItem="dCj-0r-N1a" firstAttribute="leading" secondItem="nuR-qk-EJf" secondAttribute="trailing" constant="4" id="0Gx-jr-XXA"/>
                                                                                                             <constraint firstAttribute="trailing" secondItem="dCj-0r-N1a" secondAttribute="trailing" id="1rr-3U-rz6"/>
                                                                                                             <constraint firstItem="dCj-0r-N1a" firstAttribute="centerY" secondItem="rD4-GI-Ty8" secondAttribute="centerY" id="8V7-WK-y7o"/>
+                                                                                                            <constraint firstItem="nuR-qk-EJf" firstAttribute="centerY" secondItem="rD4-GI-Ty8" secondAttribute="centerY" id="EjQ-ZR-EDS"/>
+                                                                                                            <constraint firstItem="nuR-qk-EJf" firstAttribute="leading" secondItem="rD4-GI-Ty8" secondAttribute="leading" id="fQY-FV-ryq"/>
                                                                                                         </constraints>
                                                                                                         <connections>
+                                                                                                            <outlet property="imageView" destination="nuR-qk-EJf" id="lj4-3r-cTk"/>
                                                                                                             <outlet property="textField" destination="dCj-0r-N1a" id="5ld-6b-DB4"/>
                                                                                                         </connections>
                                                                                                     </tableCellView>
@@ -1371,9 +1719,92 @@ Gw
             </objects>
             <point key="canvasLocation" x="1306" y="554"/>
         </scene>
+        <!--Recording Target Picker View Controller-->
+        <scene sceneID="xRN-Jn-dCw">
+            <objects>
+                <viewController storyboardIdentifier="DTXRecordingTargetChooser" id="gep-HG-3rb" customClass="DTXRecordingTargetPickerViewController" sceneMemberID="viewController">
+                    <view key="view" id="mXY-cN-SaQ">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="401"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gub-lk-png">
+                                <rect key="frame" x="424" y="13" width="102" height="32"/>
+                                <buttonCell key="cell" type="push" title="Select" bezelStyle="rounded" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Bd-QQ-dCR">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="selectRecording:" target="gep-HG-3rb" id="Ic4-RM-Ebf"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cod-YW-qym">
+                                <rect key="frame" x="14" y="13" width="102" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="0vf-rR-MOc"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CEX-M6-My7">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancel:" target="gep-HG-3rb" id="lIP-qd-UaX"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p0S-YS-bKf">
+                                <rect key="frame" x="322" y="13" width="102" height="32"/>
+                                <buttonCell key="cell" type="push" title="Options" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wQZ-K1-svM">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="options:" target="gep-HG-3rb" id="IJD-xb-eHv"/>
+                                </connections>
+                            </button>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Xdg-vM-BnR">
+                                <rect key="frame" x="0.0" y="61" width="540" height="340"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="540" id="4GQ-pI-7np"/>
+                                    <constraint firstAttribute="height" constant="340" id="Zs6-QE-xjl"/>
+                                </constraints>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="cod-YW-qym" secondAttribute="bottom" constant="20" id="1fG-mh-fC3"/>
+                            <constraint firstItem="gub-lk-png" firstAttribute="leading" secondItem="p0S-YS-bKf" secondAttribute="trailing" constant="12" id="4sH-DC-bCw"/>
+                            <constraint firstItem="p0S-YS-bKf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cod-YW-qym" secondAttribute="trailing" constant="48" id="7FB-KZ-3k5"/>
+                            <constraint firstAttribute="bottom" secondItem="p0S-YS-bKf" secondAttribute="bottom" constant="20" id="F0H-1b-Qzb"/>
+                            <constraint firstAttribute="trailing" secondItem="Xdg-vM-BnR" secondAttribute="trailing" id="GyA-n8-KXr"/>
+                            <constraint firstItem="Xdg-vM-BnR" firstAttribute="leading" secondItem="mXY-cN-SaQ" secondAttribute="leading" id="HwN-L0-Znu"/>
+                            <constraint firstAttribute="trailing" secondItem="gub-lk-png" secondAttribute="trailing" constant="20" id="Ieg-gn-FZY"/>
+                            <constraint firstItem="p0S-YS-bKf" firstAttribute="width" secondItem="gub-lk-png" secondAttribute="width" id="PQc-8a-kOH"/>
+                            <constraint firstItem="Xdg-vM-BnR" firstAttribute="top" secondItem="mXY-cN-SaQ" secondAttribute="top" id="SUX-Va-S2T"/>
+                            <constraint firstItem="cod-YW-qym" firstAttribute="leading" secondItem="mXY-cN-SaQ" secondAttribute="leading" constant="20" id="VOX-S2-WdA"/>
+                            <constraint firstItem="cod-YW-qym" firstAttribute="top" secondItem="Xdg-vM-BnR" secondAttribute="bottom" constant="20" id="hVL-He-Xbu"/>
+                            <constraint firstItem="gub-lk-png" firstAttribute="width" secondItem="cod-YW-qym" secondAttribute="width" id="p3r-NX-kFh"/>
+                            <constraint firstAttribute="bottom" secondItem="gub-lk-png" secondAttribute="bottom" constant="20" id="v4D-N8-eJq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_cancelButton" destination="cod-YW-qym" id="RtF-r1-bqH"/>
+                        <outlet property="_containerView" destination="Xdg-vM-BnR" id="Qc0-Zm-Zru"/>
+                        <outlet property="_optionsButton" destination="p0S-YS-bKf" id="LCq-px-c7e"/>
+                        <outlet property="_selectButton" destination="gub-lk-png" id="Jxc-KY-Ncg"/>
+                    </connections>
+                </viewController>
+                <customObject id="6p3-W2-0LF" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="29" y="-843.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Bottom" width="18" height="14"/>
+        <image name="DBGFrameUser" width="14" height="14"/>
         <image name="Right" width="18" height="14"/>
         <image name="device_iphone_plus_silver" width="1842" height="3408"/>
         <image name="extendedInfo_highlighted" width="15" height="15"/>

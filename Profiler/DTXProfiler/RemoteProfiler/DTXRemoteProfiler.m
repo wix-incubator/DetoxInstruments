@@ -90,14 +90,24 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[self _serializeCommandWithSelector:_cmd managedObject:logSample additionalParams:nil];
 }
 
-- (void)addPerformanceSample:(__kindof DTXPerformanceSample *)perfrmanceSample
+- (void)addPerformanceSample:(__kindof DTXPerformanceSample *)performanceSample
 {
-	[self _serializeCommandWithSelector:_cmd managedObject:perfrmanceSample additionalParams:nil];
+	if(self.profilingConfiguration.collectStackTraces && self.profilingConfiguration.symbolicateStackTraces)
+	{
+		[self _symbolicatePerformanceSample:performanceSample];
+	}
+	
+	[self _serializeCommandWithSelector:_cmd managedObject:performanceSample additionalParams:nil];
 }
 
-- (void)addRNPerformanceSample:(DTXReactNativePeroformanceSample *)rnPerfrmanceSample
+- (void)addRNPerformanceSample:(DTXReactNativePeroformanceSample *)rnPerformanceSample
 {
-	[self _serializeCommandWithSelector:_cmd managedObject:rnPerfrmanceSample additionalParams:nil];
+	if(self.profilingConfiguration.collectJavaScriptStackTraces && self.profilingConfiguration.symbolicateJavaScriptStackTraces)
+	{
+		[self _symbolicateRNPerformanceSample:rnPerformanceSample];
+	}
+	
+	[self _serializeCommandWithSelector:_cmd managedObject:rnPerformanceSample additionalParams:nil];
 }
 
 - (void)createRecording:(DTXRecording *)recording

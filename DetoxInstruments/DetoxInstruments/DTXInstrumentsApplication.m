@@ -27,30 +27,4 @@
 	return [super init];
 }
 
-- (id)targetForAction:(SEL)action to:(id)target from:(id)sender
-{
-	//Disable new tab button
-//	if(action == @selector(newWindowForTab:))
-//	{
-//		return nil;
-//	}
-	
-//    if(action == @selector(duplicateDocument:))
-//    {
-//        return nil;
-//    }
-	
-//	if(action == @selector(saveDocument:))
-//	{
-//		return nil;
-//	}
-	
-//	if(action == @selector(saveDocumentAs:))
-//	{
-//		return nil;
-//	}
-	
-	return [super targetForAction:action to:target from:sender];
-}
-
 @end

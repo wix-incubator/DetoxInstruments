@@ -14,4 +14,7 @@
 @property (class, nonatomic, strong, readonly) NSColor* warning2Color;
 @property (class, nonatomic, strong, readonly) NSColor* warning3Color;
 
+@property (nonatomic, strong, readonly) NSColor* darkerColor;
+@property (nonatomic, strong, readonly) NSColor* lighterColor;
+
 @end

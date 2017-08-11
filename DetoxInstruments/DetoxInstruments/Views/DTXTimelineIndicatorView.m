@@ -8,24 +8,6 @@
 
 #import "DTXTimelineIndicatorView.h"
 
-@interface _DTXDashedLineLayer : CALayer
-@end
-
-@implementation _DTXDashedLineLayer
-
-- (void)drawInContext:(CGContextRef)context
-{
-	CGContextSetLineWidth(context, 1.5 / self.contentsScale);
-	CGContextSetLineDash(context, 5.0, (CGFloat[]){5.,5.}, 2);
-	
-	CGContextSetStrokeColorWithColor(context, NSColor.blackColor.CGColor);
-	CGContextMoveToPoint(context, 0, 0);    // This sets up the start point
-	CGContextAddLineToPoint(context, 0, self.bounds.size.height);
-	CGContextStrokePath(context);
-}
-
-@end
-
 @interface DTXTimelineIndicatorView () <CALayerDelegate> @end
 @implementation DTXTimelineIndicatorView
 
@@ -40,6 +22,11 @@
 	}
 	
 	return self;
+}
+
+- (BOOL)isFlipped
+{
+	return YES;
 }
 
 -(void)viewDidChangeBackingProperties
@@ -92,10 +79,7 @@
 	[self.layer setNeedsDisplay];
 }
 
-- (void)drawRect:(NSRect)dirtyRect
-{
-	
-}
+- (void)drawRect:(NSRect)dirtyRect {}
 
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)context
 {
@@ -104,12 +88,12 @@
 		return;
 	}
 	
-	CGContextSetLineWidth(context, 1.5 / self.layer.contentsScale);
-	CGContextSetLineDash(context, 5.0, (CGFloat[]){5.,5.}, 2);
+	CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineDash(context, -1.0, (CGFloat[]){3.,6.}, 2);
 	
 	CGContextSetStrokeColorWithColor(context, [NSColor.blackColor colorWithAlphaComponent:0.65].CGColor);
-	CGContextMoveToPoint(context, _indicatorOffset, 0);    // This sets up the start point
-	CGContextAddLineToPoint(context, _indicatorOffset, self.bounds.size.height);
+	CGContextMoveToPoint(context, round(_indicatorOffset), 0);    // This sets up the start point
+	CGContextAddLineToPoint(context, round(_indicatorOffset), self.bounds.size.height);
 	CGContextStrokePath(context);
 }
 

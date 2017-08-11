@@ -19,22 +19,22 @@
 - (NSArray<DTXColumnInformation *> *)columns
 {
 	DTXColumnInformation* reads = [DTXColumnInformation new];
-	reads.title = NSLocalizedString(@"Data Read", @"");
-	reads.minWidth = 70;
+	reads.title = NSLocalizedString(@"Read (Total)", @"");
+	reads.minWidth = 80;
 	
 	DTXColumnInformation* writes = [DTXColumnInformation new];
-	writes.title = NSLocalizedString(@"Data Written", @"");
-	writes.minWidth = 70;
+	writes.title = NSLocalizedString(@"Written (Total)", @"");
+	writes.minWidth = 80;
 	
 	DTXColumnInformation* readsDelta = [DTXColumnInformation new];
 	readsDelta.title = NSLocalizedString(@"Read (Delta)", @"");
-	readsDelta.minWidth = 70;
+	readsDelta.minWidth = 80;
 	
 	DTXColumnInformation* writesDelta = [DTXColumnInformation new];
 	writesDelta.title = NSLocalizedString(@"Written (Delta)", @"");
-	writesDelta.minWidth = 70;
+	writesDelta.minWidth = 80;
 	
-	return @[reads, writes, readsDelta, writesDelta];
+	return @[readsDelta, writesDelta, reads, writes];
 }
 
 - (NSArray<NSNumber *> *)sampleTypes
@@ -46,13 +46,13 @@
 {
 	switch(column)
 	{
-		case 0:
-			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item diskReads])];
-		case 1:
-			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item diskWrites])];
 		case 2:
-			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item diskReadsDelta])];
+			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item diskReads])];
 		case 3:
+			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item diskWrites])];
+		case 0:
+			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item diskReadsDelta])];
+		case 1:
 			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item diskWritesDelta])];
 		default:
 			return @"";

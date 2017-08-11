@@ -45,7 +45,7 @@ IB_DESIGNABLE
 	
 //	self.wantsLayer = YES;
 //	self.canDrawSubviewsIntoLayer = YES;
-	self.layer.backgroundColor = NSColor.whiteColor.CGColor;
+	self.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
 }
 
 - (NSColor *)dividerColor

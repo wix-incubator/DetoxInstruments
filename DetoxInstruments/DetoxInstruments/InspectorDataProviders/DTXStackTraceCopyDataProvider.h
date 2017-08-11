@@ -13,5 +13,6 @@
 - (NSArray*)arrayForStackTrace;
 - (NSString*)stackTraceFrameStringForObject:(id)obj includeFullFormat:(BOOL)fullFormat;
 - (DTXInspectorContent*)inspectorContentForStackTrace;
+- (NSImage*)imageForObject:(id)obj;
 
 @end

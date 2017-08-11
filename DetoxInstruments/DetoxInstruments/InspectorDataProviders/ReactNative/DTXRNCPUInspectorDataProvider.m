@@ -37,6 +37,49 @@
 	return stackTraceFrame;
 }
 
+- (NSImage*)imageForObject:(id)obj
+{
+	NSString* imageName = @"DBGFrameFrameworks";
+	
+	if([obj isKindOfClass:[NSString class]] == YES)
+	{
+		if([obj length] == 0)
+		{
+			imageName = nil;
+		}
+	}
+	else if([obj isKindOfClass:[NSDictionary class]] == YES)
+	{
+		NSString* sourceFileName = obj[@"sourceFileName"];
+		
+		if(sourceFileName == nil)
+		{
+			imageName = nil;
+		}
+		else {
+			if([sourceFileName isEqualToString:@"[native code]"])
+			{
+				imageName = @"DBGFrameSystem";
+			}
+			else if([sourceFileName containsString:@"node_modules/react-native/"])
+			{
+				imageName = @"DBGFrameAppKit";
+			}
+			else if([sourceFileName containsString:@"node_modules"] == NO)
+			{
+				imageName = @"DBGFrameUser";
+			}
+		}
+	}
+	
+	if(imageName.length == 0)
+	{
+		return nil;
+	}
+	
+	return [NSImage imageNamed:imageName];
+}
+
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource
 {
 	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];

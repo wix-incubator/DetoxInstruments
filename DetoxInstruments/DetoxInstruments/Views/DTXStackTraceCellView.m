@@ -35,7 +35,7 @@
 #endif
 }
 
-- (void)setStackFrames:(NSArray<NSAttributedString *> *)stackFrames
+- (void)setStackFrames:(NSArray<DTXStackTraceFrame *> *)stackFrames
 {
 	_stackFrames = stackFrames;
 	
@@ -52,9 +52,10 @@
 {
 	NSTableCellView* cellView = [tableView makeViewWithIdentifier:@"StackFrameCell" owner:nil];
 	
-	cellView.textField.attributedStringValue = _stackFrames[row];
+	cellView.textField.attributedStringValue = _stackFrames[row].stackFrameText;
 	cellView.textField.allowsDefaultTighteningForTruncation = NO;
-	cellView.toolTip = [_stackFrames[row] string];
+	cellView.imageView.image = _stackFrames[row].stackFrameIcon;
+	cellView.toolTip = [_stackFrames[row].stackFrameText string];
 	
 	return cellView;
 }

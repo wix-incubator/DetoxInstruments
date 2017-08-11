@@ -215,8 +215,8 @@ static DTXRemoteProfilingManager* __sharedManager;
 		
 		if(strongSelf == nil)
 		{
-			dispatch_cancel(_pingCheckerTimer);
-			_pingCheckerTimer = nil;
+			dispatch_cancel(pingCheckerTimer);
+			pingCheckerTimer = nil;
 			
 			return;
 		}
@@ -228,7 +228,9 @@ static DTXRemoteProfilingManager* __sharedManager;
 	
 	[self _nextCommand];
 	
-	[sender stop];
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[sender stop];
+	});
 }
 
 - (void)netServiceDidPublish:(NSNetService *)sender

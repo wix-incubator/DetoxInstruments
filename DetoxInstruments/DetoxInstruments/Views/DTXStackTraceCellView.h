@@ -7,12 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXStackTraceFrame.h"
 
 @interface DTXStackTraceCellView : NSTableCellView
 
 @property (class, nonatomic, readonly) CGFloat heightForStackFrame;
 @property (nonatomic, weak, readonly) NSTableView* stackTraceTableView;
 
-@property (nonatomic, copy) NSArray<NSAttributedString*>* stackFrames;
+@property (nonatomic, copy) NSArray<DTXStackTraceFrame*>* stackFrames;
 
 @end

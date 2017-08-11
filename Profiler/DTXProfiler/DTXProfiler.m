@@ -139,16 +139,21 @@ DTX_CREATE_LOG(Profiler);
 	
 	NSArray<DTXAdvancedPerformanceSample*>* unsymbolicatedSamples = [_backgroundContext executeFetchRequest:fr error:NULL];
 	[unsymbolicatedSamples enumerateObjectsUsingBlock:^(DTXAdvancedPerformanceSample * _Nonnull unsymbolicatedSample, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSMutableArray* symbolicatedStackTrace = [NSMutableArray new];
-		
-		[unsymbolicatedSample.heaviestStackTrace enumerateObjectsUsingBlock:^(NSNumber* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			DTXAddressInfo* addressInfo = [[DTXAddressInfo alloc] initWithAddress:obj.unsignedIntegerValue];
-			[symbolicatedStackTrace addObject:[addressInfo dictionaryRepresentation]];
-		}];
-		
-		unsymbolicatedSample.heaviestStackTrace = symbolicatedStackTrace;
-		unsymbolicatedSample.stackTraceIsSymbolicated = YES;
+		[self _symbolicatePerformanceSample:unsymbolicatedSample];
 	}];
+}
+
+- (void)_symbolicatePerformanceSample:(DTXAdvancedPerformanceSample *)unsymbolicatedSample
+{
+	NSMutableArray* symbolicatedStackTrace = [NSMutableArray new];
+	
+	[unsymbolicatedSample.heaviestStackTrace enumerateObjectsUsingBlock:^(NSNumber* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		DTXAddressInfo* addressInfo = [[DTXAddressInfo alloc] initWithAddress:obj.unsignedIntegerValue];
+		[symbolicatedStackTrace addObject:[addressInfo dictionaryRepresentation]];
+	}];
+	
+	unsymbolicatedSample.heaviestStackTrace = symbolicatedStackTrace;
+	unsymbolicatedSample.stackTraceIsSymbolicated = YES;
 }
 
 - (void)_symbolicateJavaScriptStackTracesInternal
@@ -159,11 +164,16 @@ DTX_CREATE_LOG(Profiler);
 	
 	NSArray<DTXReactNativePeroformanceSample*>* unsymbolicatedSamples = [_backgroundContext executeFetchRequest:fr error:NULL];
 	[unsymbolicatedSamples enumerateObjectsUsingBlock:^(DTXReactNativePeroformanceSample * _Nonnull unsymbolicatedSample, NSUInteger idx, BOOL * _Nonnull stop) {
-		BOOL wasSymbolicated = NO;
-		
-		unsymbolicatedSample.stackTrace = DTXRNSymbolicateJSCBacktrace(unsymbolicatedSample.stackTrace, &wasSymbolicated);
-		unsymbolicatedSample.stackTraceIsSymbolicated = wasSymbolicated;
+		[self _symbolicateRNPerformanceSample:unsymbolicatedSample];
 	}];
+}
+
+- (void)_symbolicateRNPerformanceSample:(DTXReactNativePeroformanceSample *)unsymbolicatedSample
+{
+	BOOL wasSymbolicated = NO;
+	
+	unsymbolicatedSample.stackTrace = DTXRNSymbolicateJSCBacktrace(unsymbolicatedSample.stackTrace, &wasSymbolicated);
+	unsymbolicatedSample.stackTraceIsSymbolicated = wasSymbolicated;
 }
 
 - (void)stopProfilingWithCompletionHandler:(void(^ __nullable)(NSError* __nullable error))handler

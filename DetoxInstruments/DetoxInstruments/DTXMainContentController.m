@@ -23,11 +23,15 @@
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
 
-@interface DTXMainContentController () <DTXManagedPlotControllerGroupDelegate>
+@interface DTXMainContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate>
 {
 	__weak IBOutlet DTXPlotTableView *_tableView;
 	DTXManagedPlotControllerGroup* _plotGroup;
 	__weak IBOutlet NSView *_headerView;
+	
+	DTXCPUUsagePlotController* _cpuPlotController;
+	NSMutableArray<DTXThreadInfo*>* _insertedCPUThreads;
+	NSFetchedResultsController* _threadsObserver;
 }
 
 @end
@@ -39,7 +43,7 @@
 	[super viewDidLoad];
 	
 	self.view.wantsLayer = YES;
-	self.view.layer.backgroundColor = NSColor.whiteColor.CGColor;
+	self.view.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
 }
 
 - (void)viewWillAppear
@@ -101,16 +105,21 @@
 	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 210, 0, 0)];
 	[_plotGroup addHeaderPlotController:headerPlotController];
 	
-	DTXCPUUsagePlotController* cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document];
-	[_plotGroup addPlotController:cpuPlotController];
+	_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document];
+	[_plotGroup addPlotController:_cpuPlotController];
 	
 	NSFetchRequest* fr = [DTXThreadInfo fetchRequest];
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES]];
-	NSArray* threads = [[self.document recording].managedObjectContext executeFetchRequest:fr error:NULL];
+	
+	_threadsObserver = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+	_threadsObserver.delegate = self;
+	[_threadsObserver performFetch:nil];
+	
+	NSArray* threads = _threadsObserver.fetchedObjects;
 	if(threads.count > 0)
 	{
 		[threads enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj] toPlotController:cpuPlotController];
+			[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj] toPlotController:_cpuPlotController];
 		}];
 	}
 	
@@ -158,6 +167,30 @@
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup *)group didSelectPlotController:(id<DTXPlotController>)plotController
 {
 	[self.delegate contentController:self updateUIWithUIProvider:plotController.dataProvider];
+}
+
+#pragma NSFetchedResultsControllerDelegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+	_insertedCPUThreads = [NSMutableArray new];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(nullable NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(nullable NSIndexPath *)newIndexPath
+{
+	if(type == NSFetchedResultsChangeInsert)
+	{
+		[_insertedCPUThreads addObject:anObject];
+	}
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+	[_insertedCPUThreads sortUsingDescriptors:controller.fetchRequest.sortDescriptors];
+	
+	[_insertedCPUThreads enumerateObjectsUsingBlock:^(DTXThreadInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj] toPlotController:_cpuPlotController];
+	}];
 }
 
 @end

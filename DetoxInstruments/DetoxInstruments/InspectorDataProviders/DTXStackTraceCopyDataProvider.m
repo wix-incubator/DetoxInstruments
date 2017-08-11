@@ -71,7 +71,7 @@
 {
 	DTXInspectorContent* stackTrace = [DTXInspectorContent new];
 	
-	NSMutableArray<NSAttributedString*>* stackFrames = [NSMutableArray new];
+	NSMutableArray<DTXStackTraceFrame*>* stackFrames = [NSMutableArray new];
 	NSMutableParagraphStyle* par = NSParagraphStyle.defaultParagraphStyle.mutableCopy;
 	par.lineBreakMode = NSLineBreakByTruncatingTail;
 	par.paragraphSpacing = 5.0;
@@ -86,13 +86,22 @@
 			return;
 		}
 		
-		[stackFrames addObject:[[NSAttributedString alloc] initWithString:stackTraceFrame attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [self.class _fontForStackTraceDisplay]}]];
+		DTXStackTraceFrame* frame = [DTXStackTraceFrame new];
+		frame.stackFrameText = [[NSAttributedString alloc] initWithString:stackTraceFrame attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [self.class _fontForStackTraceDisplay]}];
+		frame.stackFrameIcon = [self imageForObject:obj];
+		
+		[stackFrames addObject:frame];
 	}];
 	
 	stackTrace.stackFrames = stackFrames;
 	stackTrace.setupForWindowWideCopy = YES;
 
 	return stackTrace;
+}
+
+- (NSImage*)imageForObject:(id)obj
+{
+	return [NSImage imageNamed:@"DBGFrameGeneric"];;
 }
 
 @end

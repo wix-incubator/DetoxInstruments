@@ -8,6 +8,7 @@
 
 @import AppKit;
 #import "DTXInstrumentsWindowController.h"
+#import "DTXStackTraceFrame.h"
 
 @interface DTXInspectorContentRow : NSObject
 
@@ -33,7 +34,7 @@
 
 @property (nonatomic, strong) NSImage* image;
 @property (nonatomic, strong) NSView* customView;
-@property (nonatomic, copy) NSArray<NSAttributedString*>* stackFrames;
+@property (nonatomic, copy) NSArray<DTXStackTraceFrame*>* stackFrames;
 
 @end
 

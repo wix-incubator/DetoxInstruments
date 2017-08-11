@@ -13,4 +13,7 @@
 
 @property (nonatomic, weak, getter=_profilerStoryListener, setter=_setInternalDelegate:) id<DTXProfilerStoryListener> _profilerStoryListener;
 
+- (void)_symbolicatePerformanceSample:(DTXAdvancedPerformanceSample*)sample;
+- (void)_symbolicateRNPerformanceSample:(DTXReactNativePeroformanceSample*)sample;
+
 @end

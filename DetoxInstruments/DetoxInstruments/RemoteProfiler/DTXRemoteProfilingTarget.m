@@ -37,9 +37,11 @@
 {
 	completionHandler = completionHandler ?: ^ () {};
 	
+	__weak __auto_type weakSelf = self;
+	
 	[self.connection writeData:[DTXRemoteProfilingTarget _dataForNetworkCommand:cmd] completionHandler:^(NSError * _Nullable error) {
 		if(error) {
-			[self _errorOutWithError:error];
+			[weakSelf _errorOutWithError:error];
 			return;
 		}
 		
@@ -51,10 +53,12 @@
 {
 	completionHandler = completionHandler ?: ^ (NSDictionary* d) {};
 	
+	__weak __auto_type weakSelf = self;
+	
 	[self.connection readDataWithCompletionHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
 		if(data == nil)
 		{
-			[self _errorOutWithError:error];
+			[weakSelf _errorOutWithError:error];
 			return;
 		}
 		
@@ -82,7 +86,7 @@
 	uint64_t interval = 2.0 * NSEC_PER_SEC;
 	dispatch_source_set_timer(_pingTimer, dispatch_walltime(NULL, 0), interval, interval / 10);
 	
-	__weak __typeof(self) weakSelf = self;
+	__weak __auto_type weakSelf = self;
 	dispatch_source_set_event_handler(_pingTimer, ^ {
 		__strong __typeof(weakSelf) strongSelf = weakSelf;
 		
@@ -104,9 +108,18 @@
 
 - (void)_sendPing
 {
+	__weak __auto_type weakSelf = self;
+	
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePing)} completionHandler:^()
 	{
-		_lastPingDate = [NSDate date];
+		__strong __typeof(weakSelf) strongSelf = weakSelf;
+		
+		if(strongSelf == nil)
+		{
+			return;
+		}
+		
+		strongSelf->_lastPingDate = [NSDate date];
 	}];
 }
 
@@ -118,27 +131,34 @@
 	}
 	_pingTimer = nil;
 	
+	_connection.delegate = nil;
+	_connection = nil;
+	
 	[self.delegate connectionDidCloseForProfilingTarget:self];
 }
 
 - (void)_readNextCommand
 {
+	__weak __auto_type weakSelf = self;
+	
 	[self _readCommandWithCompletionHandler:^(NSDictionary *cmd)
 	{
 		switch ((DTXRemoteProfilingCommandType)[cmd[@"cmdType"] unsignedIntegerValue]) {
 			case DTXRemoteProfilingCommandTypeGetDeviceInfo:
-				[self _handleDeviceInfo:cmd];
+				[weakSelf _handleDeviceInfo:cmd];
 				break;
 			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
-				[self _handleProfilerStoryEvent:cmd];
+				[weakSelf _handleProfilerStoryEvent:cmd];
 				break;
 			case DTXRemoteProfilingCommandTypeStopProfiling:
-				[self _handleRecordingDidStop:cmd];
+				[weakSelf _handleRecordingDidStop:cmd];
+			case DTXRemoteProfilingCommandTypePing:
+				break;
 			default:
 				break;
 		}
 		
-		[self _readNextCommand];
+		[weakSelf _readNextCommand];
 	}];
 }
 

@@ -57,4 +57,14 @@
 	return warning3Color;
 }
 
+- (NSColor *)darkerColor
+{
+	return [self blendedColorWithFraction:0.3 ofColor:NSColor.blackColor];
+}
+
+- (NSColor *)lighterColor
+{
+	return [self blendedColorWithFraction:0.15 ofColor:NSColor.whiteColor];
+}
+
 @end

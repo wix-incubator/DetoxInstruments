@@ -19,7 +19,7 @@ NSString* const DTXDocumentStateDidChangeNotification = @"DTXDocumentStateDidCha
 
 static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
-@interface DTXDocument () <DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate>
+@interface DTXDocument () <DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate, DTXRemoteProfilingTargetDelegate>
 {
 	NSPersistentContainer* _container;
 	__weak DTXRecordingTargetPickerViewController* _recordingTargetPicker;
@@ -47,7 +47,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		return self.documentState == DTXDocumentStateLiveRecordingFinished || self.autosavedContentsFileURL != nil;
 	}
 	
-	if(item.action == @selector(moveDocument:) || item.action == @selector(renameDocument:) || item.action == @selector(lockDocument:))
+	if(item.action == @selector(duplicateDocument:) || item.action == @selector(moveDocument:) || item.action == @selector(renameDocument:) || item.action == @selector(lockDocument:))
 	{
 		return self.documentState >= DTXDocumentStateLiveRecordingFinished;
 	}
@@ -217,7 +217,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	self.documentState = DTXDocumentStateLiveRecording;
 #endif
 
-	NSError* err = nil;
 	[self _preparePersistenceContainerFromURL:url allowCreation:NO error:outError];
 	
 	return YES;
@@ -241,8 +240,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError * _Nullable __autoreleasing *)outError
 {
-	NSLog(@"💔 toURL: %@ original: %@ type: %@ fileType: %@", url, absoluteOriginalContentsURL, @(saveOperation), typeName);
-	
 	if(url != nil && _contentsURL != nil && [url isEqualTo:_contentsURL])
 	{
 		return YES;
@@ -278,12 +275,17 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			}
 		}
 		
-		_contentsURL = url;
+		if(saveOperation != NSAutosaveElsewhereOperation || [store.type isEqualToString:NSInMemoryStoreType])
+		{
+			//This is the only case that NSAutosaveElsewhereOperation is used that modifies the current document. Otherwise, NSAutosaveElsewhereOperation is used for Duplicate.
+			_contentsURL = url;
+		}
+		
 		if([store.type isEqualToString:NSInMemoryStoreType])
 		{
 			rv = nil != [_container.persistentStoreCoordinator migratePersistentStore:store toURL:[self _URLByAppendingStoreCompoenentToURL:url] options:store.options withType:NSSQLiteStoreType error:outError];
 		}
-		else
+		else if(saveOperation != NSAutosaveElsewhereOperation)
 		{
 			rv = [_container.persistentStoreCoordinator setURL:[self _URLByAppendingStoreCompoenentToURL:url] forPersistentStore:store];
 		}
@@ -318,8 +320,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)setAutosavedContentsFileURL:(NSURL *)autosavedContentsFileURL
 {
-	NSLog(@"💫 setAutosavedContentsFileURL:%@", autosavedContentsFileURL);
-	
 	[super setAutosavedContentsFileURL:autosavedContentsFileURL];
 	
 	[self _transitionPersistenceContainerToFileAtURL:autosavedContentsFileURL];
@@ -327,17 +327,41 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)setFileURL:(NSURL *)fileURL
 {
-	NSLog(@"🔥 setFileURL:%@", fileURL);
-	
 	[super setFileURL:fileURL];
 	
 	[self _transitionPersistenceContainerToFileAtURL:fileURL];
 }
 
+- (void)duplicateDocument:(id)sender
+{
+	[self autosaveWithImplicitCancellability:NO completionHandler:^(NSError * _Nullable errorOrNil) {
+		[super duplicateDocument:sender];
+	}];
+}
+
+- (NSDocument *)duplicateAndReturnError:(NSError * _Nullable __autoreleasing *)outError
+{
+	NSDocument* rv = [super duplicateAndReturnError:outError];
+	if(rv)
+	{
+		rv.displayName = [self.displayName.stringByDeletingPathExtension stringByAppendingString:NSLocalizedString(@" copy", @"")];
+	}
+	
+	return rv;
+}
+
+- (NSString *)defaultDraftName
+{
+	return NSLocalizedString(@"Untitled Recording", @"");
+}
+
 - (void)close
 {
 	@try {
-		[_container.persistentStoreCoordinator removePersistentStore:_container.persistentStoreCoordinator.persistentStores.firstObject error:NULL];
+		if(_container.persistentStoreCoordinator.persistentStores.firstObject != nil)
+		{
+			[_container.persistentStoreCoordinator removePersistentStore:_container.persistentStoreCoordinator.persistentStores.firstObject error:NULL];
+		}
 	}
 	@catch(NSException* e) {}
 	
@@ -346,7 +370,17 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)stopLiveRecording
 {
+	[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
+	
 	[_remoteProfilingClient.target stopProfiling];
+}
+
+#pragma mark DTXRemoteProfilingTargetDelegate
+
+- (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget *)target {
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
+	});
 }
 
 #pragma mark DTXRemoteProfilingClientDelegate
@@ -364,6 +398,11 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient *)client
 {
+	if(_recording.endTimestamp == nil)
+	{
+		_recording.endTimestamp = [NSDate date];
+	}
+	
 	self.documentState = DTXDocumentStateLiveRecordingFinished;
 	
 	_recording.minimumDefactoTimeInterval = 0;
@@ -375,7 +414,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 {
 	[_recording invalidateDefactoEndTimestamp];
 }
-
 
 #pragma mark Network Recording Simulation
 
@@ -392,6 +430,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 {
 	[self.windowControllers.firstObject.window.contentViewController dismissViewController:picker];
 	
+	target.delegate = self;
 	[self _prepareForRemoteProfilingRecordingWithTarget:target profilingConfiguration:configuration];
 }
 

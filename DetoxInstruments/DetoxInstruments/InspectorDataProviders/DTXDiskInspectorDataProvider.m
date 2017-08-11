@@ -7,24 +7,6 @@
 //
 
 #import "DTXDiskInspectorDataProvider.h"
-
-/*
- DTXColumnInformation* reads = [DTXColumnInformation new];
- reads.title = NSLocalizedString(@"Data Read", @"");
- reads.minWidth = 70;
- 
- DTXColumnInformation* writes = [DTXColumnInformation new];
- writes.title = NSLocalizedString(@"Data Written", @"");
- writes.minWidth = 70;
- 
- DTXColumnInformation* readsDelta = [DTXColumnInformation new];
- readsDelta.title = NSLocalizedString(@"Read (Delta)", @"");
- readsDelta.minWidth = 70;
- 
- DTXColumnInformation* writesDelta = [DTXColumnInformation new];
- writesDelta.title = NSLocalizedString(@"Written (Delta)", @"");
- writesDelta.minWidth = 70;
- */
  
 @implementation DTXDiskInspectorDataProvider
 

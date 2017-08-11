@@ -44,10 +44,23 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	_tabSwitcher.delegate = self;
 }
 
-- (void)viewWillAppear
+- (void)setDocument:(DTXDocument *)document
 {
-	[super viewWillAppear];
+	if(_document)
+	{
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:DTXDocumentStateDidChangeNotification object:_document];
+	}
 	
+	_document = document;
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChange:) name:DTXDocumentStateDidChangeNotification object:_document];
+	
+	[self _prepareRecordingDescriptionIfNeeded];
+}
+
+- (void)_documentStateDidChange:(NSNotification*)note
+{
+	_recordingDescriptionDataSource = nil;
 	[self _prepareRecordingDescriptionIfNeeded];
 }
 
@@ -79,11 +92,12 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 		return;
 	}
 	
-	DTXRecording* recording = [self.document recording];
-	if(recording == nil)
+	if(self.document.documentState <= DTXDocumentStateLiveRecording)
 	{
 		return;
 	}
+	
+	DTXRecording* recording = [self.document recording];
 	DTXProfilingConfiguration* configuration;
 	if(recording.profilingConfiguration)
 	{
@@ -156,6 +170,8 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 	if([_tabSwitcher isSelectedForSegment:1])
 	{
 		_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;
+		_nothingLabel.hidden = YES;
+		_recordingInfoTableView.hidden = NO;
 	}
 }
 
@@ -172,7 +188,7 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 	{
 		_sampleDescriptionDataSource.managedTableView = nil;
 		_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;
-		_nothingLabel.hidden = YES;
+		_nothingLabel.hidden = _recordingDescriptionDataSource != nil;
 		_recordingInfoTableView.hidden = NO;
 	}
 	

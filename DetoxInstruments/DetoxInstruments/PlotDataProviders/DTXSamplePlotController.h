@@ -24,15 +24,15 @@
 
 - (NSArray<__kindof CPTPlot*>*)plots;
 - (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph;
-- (NSArray<NSString*>*)sampleKeys;
-- (NSArray<NSColor*>*)plotColors;
-- (NSArray<NSString*>*)plotTitles;
-- (BOOL)isStepped;
++ (NSArray<NSString*>*)sampleKeys;
++ (NSArray<NSColor*>*)plotColors;
++ (NSArray<NSString*>*)plotTitles;
++ (BOOL)isStepped;
 
 - (NSEdgeInsets)rangeInsets;
 - (CGFloat)yRangeMultiplier;
 
-- (NSFormatter*)formatterForDataPresentation;
++ (NSFormatter*)formatterForDataPresentation;
 - (id)transformedValueForFormatter:(id)value;
 
 - (CPTPlotRange*)finesedPlotRangeForPlotRange:(CPTPlotRange*)yRange;

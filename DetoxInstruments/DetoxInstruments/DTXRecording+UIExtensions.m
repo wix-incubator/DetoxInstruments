@@ -9,6 +9,7 @@
 #import "DTXRecording+UIExtensions.h"
 #import "DTXInstrumentsModel.h"
 #import "DTXProfilingConfiguration.h"
+#import "AutoCoding.h"
 @import ObjectiveC;
 
 NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDidInvalidateDefactoEndTimestamp";

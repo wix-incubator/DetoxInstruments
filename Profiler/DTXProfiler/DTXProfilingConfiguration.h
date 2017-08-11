@@ -20,6 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)defaultProfilingConfiguration;
 
+/**
+ *  Returns a newly created default profiling configuration object fore remote profiling.
+ */
++ (instancetype)defaultProfilingConfigurationForRemoteProfiling;
+
 // Sampling Configuration
 
 /**

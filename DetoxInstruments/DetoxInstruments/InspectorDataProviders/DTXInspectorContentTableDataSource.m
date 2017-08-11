@@ -112,6 +112,11 @@
 				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightRegular]}]];
 			}
 		}];
+		
+		NSMutableParagraphStyle* par = NSParagraphStyle.defaultParagraphStyle.mutableCopy;
+		par.lineSpacing = 2.0;
+		[mas addAttribute:NSParagraphStyleAttributeName value:par range:NSMakeRange(0, mas.length)];
+		
 		[_attributedStrings addObject:mas];
 	}];
 }

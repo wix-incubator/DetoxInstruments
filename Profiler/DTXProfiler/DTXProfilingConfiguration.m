@@ -32,10 +32,18 @@
 	return rv;
 }
 
++ (instancetype)defaultProfilingConfigurationForRemoteProfiling
+{
+	DTXProfilingConfiguration* rv = self.defaultProfilingConfiguration;
+	rv.samplingInterval = 1.0;
+	
+	return rv;
+}
+
 + (NSURL*)_documentsDirectory
 {
-	return [NSURL fileURLWithPath:@"/Users/lnatan/Desktop/"];
-	//	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+//	return [NSURL fileURLWithPath:@"/Users/lnatan/Desktop/"];
+	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 + (NSString *)_sanitizeFileNameString:(NSString *)fileName {

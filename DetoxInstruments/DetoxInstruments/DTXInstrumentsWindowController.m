@@ -122,28 +122,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		_titleTextField.backgroundColor = nil;
 	}
 	
-	if(document != nil)
-	{
-		NSDateComponentsFormatter* ivFormatter = [NSDateComponentsFormatter new];
-		ivFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
-		
-		if(document.documentState == DTXDocumentStateOpenedFromDisk && document.recording != nil)
-		{
-			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, [ivFormatter stringFromDate:document.recording.startTimestamp toDate:document.recording.endTimestamp]];
-		}
-		else if(document.documentState == DTXDocumentStateLiveRecording)
-		{
-			_titleTextField.stringValue = NSLocalizedString(@"Recording...", @"");
-		}
-		else
-		{
-			_titleTextField.stringValue = NSLocalizedString(@"No Recording", @"");
-		}
-	}
-	else
-	{
-		_titleTextField.stringValue = @"";
-	}
+	[self _fixUpTitle];
 	
 	self.window.restorable = [(DTXDocument*)self.document documentState] >= DTXDocumentStateLiveRecordingFinished;
 }
@@ -151,8 +130,35 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 - (void)_documentStateDidChangeNotification:(NSNotification*)note
 {
 	[self _fixUpRecordingButtons];
+	[self _fixUpTitle];
 	
 	self.window.restorable = [(DTXDocument*)self.document documentState] >= DTXDocumentStateLiveRecordingFinished;
+}
+
+- (void)_fixUpTitle
+{
+	if(self.document != nil)
+	{
+		NSDateComponentsFormatter* ivFormatter = [NSDateComponentsFormatter new];
+		ivFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
+		
+		if(((DTXDocument*)self.document).documentState >= DTXDocumentStateLiveRecordingFinished)
+		{
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", ((DTXDocument*)self.document).recording.appName, [ivFormatter stringFromDate:((DTXDocument*)self.document).recording.startTimestamp toDate:((DTXDocument*)self.document).recording.endTimestamp]];
+		}
+		else if(((DTXDocument*)self.document).documentState == DTXDocumentStateLiveRecording)
+		{
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", ((DTXDocument*)self.document).recording.appName, NSLocalizedString(@"Recording...", @"")];
+		}
+		else
+		{
+			_titleTextField.stringValue = NSLocalizedString(@"———", @"");
+		}
+	}
+	else
+	{
+		_titleTextField.stringValue = @"";
+	}
 }
 
 - (void)_fixUpRecordingButtons

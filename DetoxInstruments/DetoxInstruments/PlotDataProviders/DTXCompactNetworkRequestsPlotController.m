@@ -129,7 +129,7 @@
 	// Add line style
 	CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
 	lineStyle.lineWidth = 1.25;
-	lineStyle.lineColor = [CPTColor colorWithCGColor:self.plotColors.firstObject.CGColor];
+	lineStyle.lineColor = [CPTColor colorWithCGColor:self.class.plotColors.firstObject.CGColor];
 	_plot.barLineStyle = lineStyle;
 	
 	// Bar properties
@@ -223,27 +223,27 @@
 	return MAX(f, super.requiredHeight);
 }
 
-- (NSArray<NSString*>*)sampleKeys
++ (NSArray<NSString*>*)sampleKeys
 {
 	return @[@"totalDataLength"];
 }
 
-- (NSArray<NSString *> *)plotTitles
++ (NSArray<NSString *> *)plotTitles
 {
 	return @[NSLocalizedString(@"URL", @"")];
 }
 
-- (NSArray<NSColor*>*)plotColors
++ (NSArray<NSColor*>*)plotColors
 {
 	return @[[NSColor colorWithRed:68.0/255.0 green:190.0/255.0 blue:30.0/255.0 alpha:1.0]];
 }
 
-- (NSFormatter*)formatterForDataPresentation
++ (NSFormatter*)formatterForDataPresentation
 {
 	return [NSFormatter dtx_memoryFormatter];
 }
 
-- (BOOL)isStepped
++ (BOOL)isStepped
 {
 	return YES;
 }
@@ -298,7 +298,7 @@
 	if(_selectedIndex == idx)
 	{
 		lineStyle.lineWidth = 3;
-		lineStyle.lineColor = [CPTColor colorWithCGColor:[self.plotColors.firstObject blendedColorWithFraction:0.09 ofColor:NSColor.blackColor].CGColor];
+		lineStyle.lineColor = [CPTColor colorWithCGColor:[self.class.plotColors.firstObject blendedColorWithFraction:0.09 ofColor:NSColor.blackColor].CGColor];
 	}
 	
 	if(sample.responseStatusCode == 0)

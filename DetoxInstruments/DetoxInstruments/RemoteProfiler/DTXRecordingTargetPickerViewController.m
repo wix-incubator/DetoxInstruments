@@ -10,12 +10,24 @@
 #import "DTXRemoteProfilingTarget-Private.h"
 #import "DTXRemoteProfilingTargetCellView.h"
 #import "DTXRemoteProfilingBasics.h"
-#import "DTXProfilingConfiguration.h"
+#import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
+#import "_DTXTargetsOutlineViewContoller.h"
+#import "_DTXProfilingConfigurationViewController.h"
+
+@import QuartzCore;
 
 @interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteProfilingTargetDelegate>
 {
-	IBOutlet NSOutlineView* _outlineView;
+	IBOutlet NSView* _containerView;
+	
+	_DTXTargetsOutlineViewContoller* _outlineController;
+	NSOutlineView* _outlineView;
+	
+	_DTXProfilingConfigurationViewController* _profilingConfigurationController;
+	
 	IBOutlet NSButton* _selectButton;
+	IBOutlet NSButton* _cancelButton;
+	IBOutlet NSButton* _optionsButton;
 	
 	NSNetServiceBrowser* _browser;
 	NSMutableArray<DTXRemoteProfilingTarget*>* _targets;
@@ -29,18 +41,51 @@
 
 @implementation DTXRecordingTargetPickerViewController
 
+- (void)_pinView:(NSView*)view toView:(NSView*)view2
+{
+	[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:view2.topAnchor],
+											  [view.bottomAnchor constraintEqualToAnchor:view2.bottomAnchor],
+											  [view.leftAnchor constraintEqualToAnchor:view2.leftAnchor],
+											  [view.rightAnchor constraintEqualToAnchor:view2.rightAnchor]]];
+}
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
 	
+	_containerView.wantsLayer = YES;
+	
+	_outlineController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXTargetsOutlineViewContoller"];
+	[self addChildViewController:_outlineController];
+	_outlineController.view.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	_outlineView = _outlineController.outlineView;
+	_outlineView.dataSource = self;
+	_outlineView.delegate = self;
+	
+	_profilingConfigurationController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXProfilingConfigurationViewController"];
+	[self addChildViewController:_profilingConfigurationController];
+	_profilingConfigurationController.view.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	_outlineController.view.translatesAutoresizingMaskIntoConstraints = NO;
+	_profilingConfigurationController.view.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	[_containerView addSubview:_outlineController.view];
+}
+
+- (void)viewDidAppear
+{
+	[super viewDidAppear];
+	
 	self.view.wantsLayer = YES;
 	self.view.canDrawSubviewsIntoLayer = YES;
+	_containerView.wantsLayer = YES;
 	
 	_targets = [NSMutableArray new];
 	_serviceToTargetMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 	_targetToServiceMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 	
-	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
+	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_DEFAULT, 0);
 	_workQueue = dispatch_queue_create("com.wix.DTXRemoteProfiler", qosAttribute);
 	
 	_browser = [NSNetServiceBrowser new];
@@ -51,12 +96,59 @@
 
 - (IBAction)selectRecording:(id)sender
 {
-	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:_targets[_outlineView.selectedRow] profilingConfiguration:[DTXProfilingConfiguration defaultProfilingConfiguration]];
+	DTXRemoteProfilingTarget* target = _targets[_outlineView.selectedRow];
+	
+	if(target.state != DTXRemoteProfilingTargetStateDeviceInfoLoaded)
+	{
+		return;
+	}
+	
+	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:_targets[_outlineView.selectedRow] profilingConfiguration:[DTXProfilingConfiguration profilingConfigurationForRemoteProfilingFromDefaults]];
 }
 
 - (IBAction)cancel:(id)sender
 {
+	if(_profilingConfigurationController.view.superview != nil)
+	{
+		[self _transitionToDevice];
+		
+		return;
+	}
+	
 	[self.delegate recordingTargetPickerDidCancel:self];
+}
+
+- (IBAction)options:(id)sender
+{
+	[self _transitionToOptions];
+}
+
+- (void)_transitionToOptions
+{
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+		context.duration = 0.3;
+		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+		
+		[self transitionFromViewController:_outlineController toViewController:_profilingConfigurationController options:NSViewControllerTransitionSlideForward completionHandler:nil];
+	} completionHandler:nil];
+	
+	_optionsButton.animator.alphaValue = 0.0;
+	_selectButton.animator.alphaValue = 0.0;
+	_cancelButton.animator.title = NSLocalizedString(@"Back", @"");
+}
+
+- (void)_transitionToDevice
+{
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+		context.duration = 0.3;
+		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+		
+		[self transitionFromViewController:_profilingConfigurationController toViewController:_outlineController options:NSViewControllerTransitionSlideBackward completionHandler:nil];
+	} completionHandler:nil];
+	
+	_optionsButton.animator.alphaValue = 1.0;
+	_selectButton.animator.alphaValue = 1.0;
+	_cancelButton.animator.title = NSLocalizedString(@"Cancel", @"");
 }
 
 - (void)_addTarget:(DTXRemoteProfilingTarget*)target forService:(NSNetService*)service
@@ -65,7 +157,12 @@
 	[_targetToServiceMapping setObject:service forKey:target];
 	[_targets addObject:target];
 	
-	[_outlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:_targets.count - 1] inParent:nil withAnimation:NSTableViewAnimationEffectFade];
+	NSIndexSet* itemIndexSet = [NSIndexSet indexSetWithIndex:_targets.count - 1];
+	[_outlineView insertItemsAtIndexes:itemIndexSet inParent:nil withAnimation:NSTableViewAnimationEffectNone];
+	if(itemIndexSet.firstIndex == 0)
+	{
+		[_outlineView selectRowIndexes:itemIndexSet byExtendingSelection:NO];
+	}
 }
 
 - (void)_removeTargetForService:(NSNetService*)service

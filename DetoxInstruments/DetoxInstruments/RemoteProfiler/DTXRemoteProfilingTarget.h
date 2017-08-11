@@ -22,6 +22,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 
 @protocol DTXRemoteProfilingTargetDelegate <NSObject>
 
+@optional
+
 - (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget*)target;
 - (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteProfilingTarget*)target;
 

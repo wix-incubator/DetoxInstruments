@@ -21,7 +21,11 @@
 {
 	NSString* stackTraceFrame = nil;
 	
-	if([obj isKindOfClass:[NSString class]] == YES)
+	if([obj isKindOfClass:[NSNumber class]] == YES)
+	{
+		stackTraceFrame = [NSString stringWithFormat:@"%p", (void*)[obj unsignedIntegerValue]];
+	}
+	else if([obj isKindOfClass:[NSString class]] == YES)
 	{
 		stackTraceFrame = obj;
 	}
@@ -38,6 +42,99 @@
 	}
 	
 	return stackTraceFrame;
+}
+
+- (NSImage*)imageForObject:(id)obj
+{
+	static NSDictionary<NSString*, NSString*>* _iconMaps;
+	
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		
+		_iconMaps = @{@"DTXProfiler": @"DBGFrameFrameworks",
+					  
+					  @"???": @"DBGFrameGeneric",
+					  
+					  @"UIKit": @"DBGFrameAppKit",
+					  @"UserNotificationsUI": @"DBGFrameAppKit",
+					  @"AssetsLibrary": @"DBGFrameAppKit",
+					  @"MessageUI": @"DBGFrameAppKit",
+					  @"ContactsUI": @"DBGFrameAppKit",
+					  @"WatchKit": @"DBGFrameAppKit",
+					  @"EventKitUI": @"DBGFrameAppKit",
+					  @"MapKit": @"DBGFrameAppKit",
+					  @"LocalAuthentication": @"DBGFrameAppKit",
+					  @"PhotosUI": @"DBGFrameAppKit",
+					  @"WatchConnectivity": @"DBGFrameAppKit",
+					  @"IntentsUI": @"DBGFrameAppKit",
+					  @"HealthKitUI": @"DBGFrameAppKit",
+					  @"SpriteKit": @"DBGFrameAppKit",
+					  @"AddressBookUI": @"DBGFrameAppKit",
+					  @"MediaPlayer": @"DBGFrameAppKit",
+					  @"QuickLook": @"DBGFrameAppKit",
+					  @"FileProviderUI": @"DBGFrameAppKit",
+					  
+					  @"CoreFoundation": @"DBGFrameFoundation",
+					  @"Foundation": @"DBGFrameFoundation",
+					  
+					  @"CoreGraphics": @"DBGFrameGraphics",
+					  @"GraphicsServices": @"DBGFrameGraphics",
+					  @"ARKit": @"DBGFrameGraphics",
+					  @"MetalKit.framework": @"DBGFrameGraphics",
+					  @"MetalPerformanceShaders": @"DBGFrameGraphics",
+				  
+					  @"WebCore": @"DBGFrameWeb",
+					  @"JavaScriptCore": @"DBGFrameWeb",
+					  @"WebKit": @"DBGFrameWeb",
+					  @"WebKitLegacy": @"DBGFrameWeb",
+					  @"WebUI": @"DBGFrameWeb",
+					  
+					  @"libobjc.A.dylib": @"DBGFrameLanguages",
+					  
+					  @"libdyld.dylib": @"DBGFrameSystem",
+					  @"libdispatch.dylib": @"DBGFrameSystem",
+					  @"System.framework": @"DBGFrameSystem",
+					  
+					  @"CoreData": @"DBGFrameDatabase",
+					  
+					  @"AVFoundation": @"DBGFrameAudioSpeech",
+					  @"AVKit": @"DBGFrameAudioSpeech",
+					  @"AudioToolbox": @"DBGFrameAudioSpeech",
+					  
+					  @"MultipeerConnectivity": @"DBGFrameNetworkIO",
+					  @"NetworkExtension": @"DBGFrameNetworkIO",
+					  @"CFNetwork": @"DBGFrameNetworkIO",
+					  
+					  @"Security": @"DBGFrameSecurity",
+					  };
+	});
+	
+	NSString* imageName = @"DBGFrameFrameworks";
+	
+	if([obj isKindOfClass:[NSDictionary class]])
+	{
+		NSString* symbolImage = obj[@"image"];
+		
+		if([self.document.recording.appName isEqualToString:symbolImage])
+		{
+			imageName = @"DBGFrameUser";
+		}
+		else
+		{
+			if([symbolImage hasPrefix:@"libsystem"])
+			{
+				imageName = @"DBGFrameSystem";
+			}
+			else if([symbolImage hasPrefix:@"libsqlite"])
+			{
+				imageName = @"DBGFrameDatabase";
+			}
+			
+			imageName = _iconMaps[obj[@"image"]] ?: imageName;
+		}
+	}
+	
+	return [NSImage imageNamed:imageName];
 }
 
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource

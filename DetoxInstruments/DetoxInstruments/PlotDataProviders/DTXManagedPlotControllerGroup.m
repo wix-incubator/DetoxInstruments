@@ -54,7 +54,7 @@
 		NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:_timelineView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
 		[_timelineView addTrackingArea:tracker];
 
-		[_hostingOutlineView.superview.superview.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingOutlineView.superview.superview];
+		[_hostingOutlineView.enclosingScrollView.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingOutlineView.superview.superview];
 
 		[NSLayoutConstraint activateConstraints:@[[_hostingOutlineView.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
 												  [_hostingOutlineView.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
@@ -166,6 +166,11 @@
 	return rv;
 }
 
+- (NSArray<id<DTXPlotController>>*)childPlotControllersForPlotController:(id<DTXPlotController>)plotController;
+{
+	return [self _childrenArrayForPlotController:plotController create:NO] ?: @[];
+}
+
 - (void)addChildPlotController:(id<DTXPlotController>)childPlotController toPlotController:(id<DTXPlotController>)plotController
 {
 	NSMutableArray* children = [self _childrenArrayForPlotController:plotController create:YES];
@@ -180,7 +185,6 @@
 
 - (void)removeChildPlotController:(id<DTXPlotController>)childPlotController ofPlotController:(id<DTXPlotController>)plotController
 {
-	NSMutableArray* children = [self _childrenArrayForPlotController:plotController create:YES];
 	childPlotController.delegate = nil;
 	[_managedPlotControllers removeObject:childPlotController];
 }
@@ -203,6 +207,19 @@
 	_timelineView.indicatorOffset = pointInView.x;
 }
 
+- (void)_enumerateAllPlotControllersIncludingChildrenIn:(NSMutableArray<id<DTXPlotController>>*)plotControllers usingBlock:(void (NS_NOESCAPE ^)(id<DTXPlotController> obj))block
+{
+	[plotControllers enumerateObjectsUsingBlock:^(id<DTXPlotController>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		block(obj);
+		
+		NSMutableArray<id<DTXPlotController>>* children = [_childrenMap objectForKey:obj];
+		if(children != nil)
+		{
+			[self _enumerateAllPlotControllersIncludingChildrenIn:children usingBlock:block];
+		}
+	}];
+}
+
 - (void)setStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
 {
 	_savedGlobalPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)];
@@ -211,7 +228,7 @@
 	
 	_ignoringPlotRangeNotifications = YES;
 	[_headerPlotController setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:shouldEnforce];
-	[_managedPlotControllers enumerateObjectsUsingBlock:^(id<DTXPlotController>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		[obj setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:shouldEnforce];
 	}];
 	if(shouldEnforce)
@@ -267,7 +284,7 @@ static BOOL __uglyHackTODOFixThisShit()
 		[_headerPlotController setPlotRange:plotRange];
 	}
 	
-	[_managedPlotControllers enumerateObjectsUsingBlock:^(id<DTXPlotController>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		if(obj == pc)
 		{
 			return;
