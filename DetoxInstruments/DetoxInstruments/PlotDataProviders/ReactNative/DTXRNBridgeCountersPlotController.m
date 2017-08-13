@@ -31,6 +31,11 @@
 	return [NSImage imageNamed:@"counters"];
 }
 
+- (NSImage *)secondaryIcon
+{
+	return [NSImage imageNamed:@"react"];
+}
+
 + (NSArray<NSString*>*)sampleKeys
 {
 	return @[@"bridgeNToJSCallCountDelta", @"bridgeJSToNCallCountDelta"];

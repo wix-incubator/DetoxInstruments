@@ -11,6 +11,11 @@
 @interface DTXTableRowView : NSTableRowView
 
 @property (nonatomic, strong) id item;
-@property (nonatomic, strong) NSColor* rowBackgroundColor;
+
+@end
+
+@interface DTXTagRowView : NSTableRowView
+
+@property (nonatomic, strong) id item;
 
 @end

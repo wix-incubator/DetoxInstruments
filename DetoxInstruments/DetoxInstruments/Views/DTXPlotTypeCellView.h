@@ -10,4 +10,6 @@
 
 @interface DTXPlotTypeCellView : DTXHighlightingCellView
 
+@property (nonatomic, strong, readonly) NSImageView* secondaryImageView;
+
 @end

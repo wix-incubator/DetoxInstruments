@@ -45,6 +45,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 
 - (void)loadDeviceInfo;
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
+- (void)addTagWithName:(NSString*)name;
 - (void)stopProfiling;
 
 @end

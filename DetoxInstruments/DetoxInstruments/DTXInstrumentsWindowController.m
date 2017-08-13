@@ -25,6 +25,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	NSTextField* _titleTextField;
 	
 	__weak IBOutlet NSButton* _stopRecordingButton;
+	__weak IBOutlet NSButton* _flagButton;
 	
 	DTXMainBottomPaneSplitViewController* _bottomSplitViewController;
 	DTXBottomInspectorSplitViewController* _rightSplitViewController;
@@ -164,11 +165,17 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 - (void)_fixUpRecordingButtons
 {
 	_stopRecordingButton.alphaValue = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_flagButton.alphaValue = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
 }
 
 - (IBAction)_stopRecordingButtonPressed:(id)sender
 {
 	[(DTXDocument*)self.document stopLiveRecording];
+}
+
+- (IBAction)_flagButtonPressed:(id)sender
+{
+	[(DTXDocument*)self.document addTag];
 }
 
 - (void)_fixUpSegments

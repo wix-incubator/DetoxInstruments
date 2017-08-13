@@ -10,8 +10,19 @@
 
 @interface DTXPlotTypeCellView ()
 
+@property (nonatomic, strong, readwrite) IBOutlet NSImageView* secondaryImageView;
+
 @end
 
 @implementation DTXPlotTypeCellView
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    self.secondaryImageView.wantsLayer = YES;
+    self.secondaryImageView.layer.backgroundColor = NSColor.blackColor.CGColor;
+	self.secondaryImageView.layer.cornerRadius = 10.35;
+}
 
 @end

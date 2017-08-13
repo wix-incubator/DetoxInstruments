@@ -50,9 +50,6 @@
 		NSFetchRequest* fr = [self.classForPerformanceSamples fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		fr.predicate = self.predicateForPerformanceSamples;
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-		fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[fr.predicate, [NSPredicate predicateWithFormat:@"parentGroup.recording == %@", self.document.recording]]];
-#endif
 		
 		NSFetchedResultsController* frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 		frc.delegate = self;

@@ -54,9 +54,6 @@
 {
 	NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-	fr.predicate = [NSPredicate predicateWithFormat:@"parentGroup.recording == %@", self.document.recording];
-#endif
 	
 	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 	_frc.delegate = self;

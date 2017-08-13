@@ -113,7 +113,7 @@
 	[self _addSample:rnPerfrmanceSample entityDescription:entityDescription];
 }
 
-- (void)addTag:(NSDictionary *)tag entityDescription:(NSEntityDescription *)entityDescription
+- (void)addTagSample:(NSDictionary *)tag entityDescription:(NSEntityDescription *)entityDescription
 {
 	[self _addSample:tag entityDescription:entityDescription];
 }

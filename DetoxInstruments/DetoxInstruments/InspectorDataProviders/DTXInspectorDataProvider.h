@@ -30,3 +30,6 @@
 - (void)saveAs:(id)sender inWindow:(NSWindow*)window;
 
 @end
+
+@interface DTXTagInspectorDataProvider : DTXInspectorDataProvider @end
+@interface DTXGroupInspectorDataProvider : DTXInspectorDataProvider @end

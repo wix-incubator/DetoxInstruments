@@ -11,6 +11,7 @@
 #import "DTXRecordingTargetPickerViewController.h"
 #import "DTXRemoteProfilingClient.h"
 #import "AutoCoding.h"
+#import "NSFormatter+PlotFormatters.h"
 @import ObjectiveC;
 
 NSString * const DTXDocumentDidLoadNotification = @"DTXDocumentDidLoadNotification";
@@ -24,13 +25,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	NSPersistentContainer* _container;
 	__weak DTXRecordingTargetPickerViewController* _recordingTargetPicker;
 	DTXRemoteProfilingClient* _remoteProfilingClient;
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-	DTXRecording* _actualRecording;
-	NSTimer* _simulatedRecordingTimer;
-	NSDate* _timerStartDate;
-	NSDate* _previousTickDate;
-	DTXSampleGroup* _simulatedGroup;
-#endif
 }
 
 @property (nonatomic, assign) BOOL isContentsURLTemporary;
@@ -177,19 +171,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			return;
 		}
 		
-#if ! DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
 		_recording = recording;
-#else
-		_actualRecording = recording;
-		_recording = [self _simulatedRecordingForRecording:_actualRecording];
-		_simulatedGroup = _recording.rootSampleGroup;
-		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			_timerStartDate = _previousTickDate = [NSDate date];
-			_simulatedRecordingTimer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(_simulatedRecordingTimerDidTick:) userInfo:nil repeats:YES];
-			[[NSRunLoop mainRunLoop] addTimer:_simulatedRecordingTimer forMode:NSRunLoopCommonModes];
-		});
-#endif
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:DTXDocumentDidLoadNotification object:self.windowControllers.firstObject];
 		
@@ -200,9 +182,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		}
 		
 		[self _prepareForLiveRecording:_recording];
-		
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-#endif
 	}];
 }
 
@@ -212,10 +191,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	{
 		return NO;
 	}
-
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-	self.documentState = DTXDocumentStateLiveRecording;
-#endif
 
 	[self _preparePersistenceContainerFromURL:url allowCreation:NO error:outError];
 	
@@ -368,6 +343,11 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[super close];
 }
 
+- (void)addTag
+{
+	[_remoteProfilingClient.target addTagWithName:[NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle]];
+}
+
 - (void)stopLiveRecording
 {
 	[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
@@ -433,87 +413,5 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	target.delegate = self;
 	[self _prepareForRemoteProfilingRecordingWithTarget:target profilingConfiguration:configuration];
 }
-
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-- (DTXRecording*)_simulatedRecordingForRecording:(DTXRecording*)recording
-{
-	DTXRecording* rv = [[DTXRecording alloc] initWithEntity:recording.entity insertIntoManagedObjectContext:recording.managedObjectContext];
-	
-	[recording.entity.attributesByName enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, __kindof NSPropertyDescription * _Nonnull obj, BOOL * _Nonnull stop) {
-		[rv setValue:[recording valueForKey:key] forKey:key];
-	}];
-	
-	//Simulating a network recording, so start = end at the beginning.
-	rv.endTimestamp = rv.startTimestamp;
-	
-	rv.rootSampleGroup = [[DTXSampleGroup alloc] initWithEntity:recording.rootSampleGroup.entity insertIntoManagedObjectContext:recording.managedObjectContext];
-	[recording.rootSampleGroup.entity.attributesByName enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, __kindof NSPropertyDescription * _Nonnull obj, BOOL * _Nonnull stop) {
-		[rv.rootSampleGroup setValue:[recording.rootSampleGroup valueForKey:key] forKey:key];
-	}];
-	
-	rv.threads = recording.threads;
-	rv.minimumDefactoTimeInterval = 30.0;
-	
-	return rv;
-}
-
-static NSTimeInterval __DTXTimeIntervalStretcher(NSTimeInterval ti, BOOL invert)
-{
-	double t = 1.0 / 1.0;
-	return ti * (invert ? 1.0 / t : t);
-}
-
-- (void)_simulatedRecordingTimerDidTick:(NSTimer*)timer
-{
-	NSDate* now = [NSDate date];
-	NSTimeInterval passed = __DTXTimeIntervalStretcher([now timeIntervalSinceDate:_previousTickDate], NO);
-	
-	NSTimeInterval fromTI = __DTXTimeIntervalStretcher([_previousTickDate timeIntervalSinceDate:_timerStartDate], NO);
-	NSDate* from = [_actualRecording.startTimestamp dateByAddingTimeInterval:fromTI];
-	NSDate* to = [_actualRecording.startTimestamp dateByAddingTimeInterval:(fromTI + passed)];
-	
-	if([to compare:_actualRecording.defactoEndTimestamp] == NSOrderedDescending)
-	{
-		[timer invalidate];
-		return;
-	}
-	
-	NSFetchRequest* fr = [DTXSample fetchRequest];
-	fr.predicate = [NSPredicate predicateWithFormat:@"NOT(sampleType IN %@) && timestamp >= %@ && timestamp < %@", @[@(DTXSampleTypeThreadPerformance), @(DTXSampleTypeGroup), @(DTXSampleTypeTag)], from, to];
-	
-	NSArray<__kindof DTXSample*>* samples = [_recording.managedObjectContext executeFetchRequest:fr error:NULL];
-	
-	//	DTXSampleGroup* nextGroup = [[DTXSampleGroup alloc] initWithContext:_simulatedGroup.managedObjectContext];
-	//	nextGroup.name = @"group";
-	//	nextGroup.parentGroup = _simulatedGroup;
-	//	_simulatedGroup = nextGroup;
-	
-	[samples enumerateObjectsUsingBlock:^(__kindof DTXSample* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		obj.parentGroup = _simulatedGroup;
-		
-		if([obj isKindOfClass:[DTXNetworkSample class]])
-		{
-			DTXNetworkSample* networkSample = obj;
-			int64_t code = networkSample.responseStatusCode;
-			NSDate* end = networkSample.responseTimestamp;
-			networkSample.responseStatusCode = 0;
-			networkSample.responseTimestamp = nil;
-			
-			NSTimeInterval ti = __DTXTimeIntervalStretcher([end timeIntervalSinceDate:networkSample.timestamp], YES);
-			
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ti * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				networkSample.responseStatusCode = code;
-				networkSample.responseTimestamp = end;
-			});
-		}
-	}];
-	
-	[_recording invalidateDefactoEndTimestamp];
-	
-	_previousTickDate = now;
-}
-
-#endif
-
 
 @end

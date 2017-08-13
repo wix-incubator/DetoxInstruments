@@ -225,7 +225,12 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSColor*)backgroundRowColorForItem:(id)item;
 {
-	return NSColor.whiteColor;
+	if([item isMemberOfClass:[DTXTag class]])
+	{
+		return NSColor.systemGreenColor.lighterColor.lighterColor.lighterColor.lighterColor.lighterColor;
+	}
+	
+	return nil;
 }
 
 - (NSFont*)_monospacedNumbersFontForFont:(NSFont*)font bold:(BOOL)bold
@@ -252,6 +257,8 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
+	DTXTableRowView* rowView = (id)[outlineView rowViewAtRow:[outlineView rowForItem:item] makeIfNecessary:YES];
+	
 	if([tableColumn.identifier isEqualToString:@"DTXTimestampColumn"])
 	{
 		NSTableCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXRightAlignedTextCell" owner:nil];
@@ -262,19 +269,18 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:NO];
 		cellView.textField.textColor = [item isKindOfClass:[DTXSampleGroupProxy class]] ? NSColor.blackColor : [self textColorForItem:item];
 		
-		DTXTableRowView* rowView = (id)[outlineView rowViewAtRow:[outlineView rowForItem:item] makeIfNecessary:YES]; //(id)[outlineView rowForItem:item];
-		if([rowView.item isKindOfClass:[DTXSampleGroupProxy class]])
+		if([item isKindOfClass:[DTXSampleGroupProxy class]])
 		{
 			rowView.backgroundColor = NSColor.whiteColor;
 		}
 		else
 		{
-			rowView.backgroundColor = [self backgroundRowColorForItem:rowView.item];
+			rowView.backgroundColor = [self backgroundRowColorForItem:item];
 			
-			BOOL hasParentGroup = [rowView.item respondsToSelector:@selector(parentGroup)];
-			if([rowView.backgroundColor isEqualTo:NSColor.whiteColor] && hasParentGroup && [rowView.item parentGroup] != _document.recording.rootSampleGroup)
+			BOOL hasParentGroup = [item respondsToSelector:@selector(parentGroup)];
+			if([rowView.backgroundColor isEqualTo:NSColor.whiteColor] && hasParentGroup && [item parentGroup] != _document.recording.rootSampleGroup)
 			{
-				CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(rowView.item, _document.recording.rootSampleGroup) / 30.0), 0.3);
+				CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(item, _document.recording.rootSampleGroup) / 30.0), 0.3);
 				
 				rowView.backgroundColor = [NSColor.whiteColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
 			}
@@ -288,7 +294,12 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	if([item isKindOfClass:[DTXSampleGroupProxy class]])
 	{
 		cellView.textField.stringValue = ((DTXSampleGroupProxy*)item).name;
-		cellView.textField.textColor = NSColor.blackColor;
+		cellView.textField.textColor = NSColor.textColor;
+	}
+	else if([item isMemberOfClass:[DTXTag class]])
+	{
+		cellView.textField.stringValue = ((DTXTag*)item).name;
+		cellView.textField.textColor = NSColor.textColor;
 	}
 	else
 	{
@@ -303,7 +314,15 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item
 {
-	DTXTableRowView* rowView = [DTXTableRowView new];
+	DTXTableRowView* rowView;
+	if([item isMemberOfClass:[DTXTag class]])
+	{
+		rowView = (id)[DTXTagRowView new];
+	}
+	else
+	{
+		rowView = [DTXTableRowView new];
+	}
 	rowView.item = item;
 	
 	return rowView;
@@ -321,7 +340,7 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
 {
-	return [item isKindOfClass:[DTXSampleGroupProxy class]];
+	return [item isKindOfClass:[DTXSampleGroupProxy class]] || [item isMemberOfClass:[DTXTag class]];
 }
 
 - (void)selectSample:(DTXSample*)sample
@@ -342,12 +361,22 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	{
 		idp = [[DTXGroupInspectorDataProvider alloc] initWithSample:item document:_document];
 	}
+	else if([item isMemberOfClass:[DTXTag class]])
+	{
+		idp = [[DTXTagInspectorDataProvider alloc] initWithSample:item document:_document];
+	}
 	else
 	{
 		idp = [[[self.class inspectorDataProviderClass] alloc] initWithSample:item document:_document];
 	}
 	
 	[self.delegate dataProvider:self didSelectInspectorItem:idp];
+	
+	if([item isMemberOfClass:[DTXTag class]])
+	{
+		[_plotController removeHighlight];
+		return;
+	}
 	
 	if(_ignoresSelections == NO)
 	{

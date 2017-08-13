@@ -88,6 +88,7 @@
 		
 		DTXStackTraceFrame* frame = [DTXStackTraceFrame new];
 		frame.stackFrameText = [[NSAttributedString alloc] initWithString:stackTraceFrame attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [self.class _fontForStackTraceDisplay]}];
+		frame.fullStackFrameText = [self stackTraceFrameStringForObject:obj includeFullFormat:YES];
 		frame.stackFrameIcon = [self imageForObject:obj];
 		
 		[stackFrames addObject:frame];

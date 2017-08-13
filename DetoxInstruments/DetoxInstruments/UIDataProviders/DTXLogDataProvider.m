@@ -51,9 +51,6 @@
 {
 	NSFetchRequest* fr = [DTXLogSample fetchRequest];
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-	fr.predicate = [NSPredicate predicateWithFormat:@"parentGroup.recording == %@", self.document.recording];
-#endif
 	
 	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 	_frc.delegate = self;
@@ -102,9 +99,6 @@
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
 	fr.fetchLimit = 1;
 	fr.predicate = [NSPredicate predicateWithFormat:@"timestamp < %@", timestamp];
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-	fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[fr.predicate, [NSPredicate predicateWithFormat:@"parentGroup.recording == %@", self.document.recording]]];
-#endif
 	
 	DTXLogSample* foundSample = [_document.recording.managedObjectContext executeFetchRequest:fr error:NULL].firstObject;
 	

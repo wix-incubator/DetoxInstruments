@@ -265,7 +265,7 @@ DTX_CREATE_LOG(Profiler);
 		tag.parentGroup = _currentSampleGroup;
 		tag.name = _tag;
 		
-		[_profilerStoryListener addTag:tag];
+		[_profilerStoryListener addTagSample:tag];
 		
 		[self _addPendingSampleInternal:tag];
 	} qos:QOS_CLASS_USER_INTERACTIVE];

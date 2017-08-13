@@ -146,6 +146,11 @@ static DTXRemoteProfilingManager* __sharedManager;
 				_remoteProfiler = [[DTXRemoteProfiler alloc] initWithOpenSocketConnection:_connection remoteProfilerDelegate:self];
 				[_remoteProfiler startProfilingWithConfiguration:config];
 			}	break;
+			case DTXRemoteProfilingCommandTypeAddTag:
+			{
+				NSString* name = cmd[@"name"];
+				[_remoteProfiler addTag:name];
+			}	break;
 			case DTXRemoteProfilingCommandTypeStopProfiling:
 			{
 				[_remoteProfiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {

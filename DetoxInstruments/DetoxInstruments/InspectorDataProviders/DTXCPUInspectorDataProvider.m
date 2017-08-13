@@ -82,6 +82,7 @@
 					  @"ARKit": @"DBGFrameGraphics",
 					  @"MetalKit.framework": @"DBGFrameGraphics",
 					  @"MetalPerformanceShaders": @"DBGFrameGraphics",
+					  @"QuartzCore": @"DBGFrameGraphics",
 				  
 					  @"WebCore": @"DBGFrameWeb",
 					  @"JavaScriptCore": @"DBGFrameWeb",

@@ -55,7 +55,7 @@
 	cellView.textField.attributedStringValue = _stackFrames[row].stackFrameText;
 	cellView.textField.allowsDefaultTighteningForTruncation = NO;
 	cellView.imageView.image = _stackFrames[row].stackFrameIcon;
-	cellView.toolTip = [_stackFrames[row].stackFrameText string];
+	cellView.toolTip = _stackFrames[row].fullStackFrameText;
 	
 	return cellView;
 }

@@ -50,12 +50,12 @@
 		
 		_timelineView = [DTXTimelineIndicatorView new];
 		_timelineView.translatesAutoresizingMaskIntoConstraints = NO;
-
+		
 		NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:_timelineView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
 		[_timelineView addTrackingArea:tracker];
-
+		
 		[_hostingOutlineView.enclosingScrollView.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingOutlineView.superview.superview];
-
+		
 		[NSLayoutConstraint activateConstraints:@[[_hostingOutlineView.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
 												  [_hostingOutlineView.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
 												  [_hostingOutlineView.trailingAnchor constraintEqualToAnchor:_timelineView.trailingAnchor],
@@ -341,6 +341,8 @@ static BOOL __uglyHackTODOFixThisShit()
 		cell.textField.toolTip = controller.displayName;
 		cell.textField.allowsDefaultTighteningForTruncation = YES;
 		cell.imageView.image = controller.displayIcon;
+		cell.secondaryImageView.image = controller.secondaryIcon;
+		cell.secondaryImageView.hidden = controller.secondaryIcon == nil;
 		
 		return cell;
 	}
@@ -370,7 +372,7 @@ static BOOL __uglyHackTODOFixThisShit()
 	
 	id<DTXPlotController> plotController = [_hostingOutlineView itemAtRow:_hostingOutlineView.selectedRow];
 	_currentlySelectedPlotController = plotController;
-
+	
 	[self.delegate managedPlotControllerGroup:self didSelectPlotController:plotController];
 }
 

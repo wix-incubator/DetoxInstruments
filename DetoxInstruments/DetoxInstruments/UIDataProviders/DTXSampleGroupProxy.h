@@ -23,5 +23,3 @@
 @property (nonatomic, strong) NSString* name;
 
 @end
-
-@interface DTXGroupInspectorDataProvider : DTXInspectorDataProvider @end

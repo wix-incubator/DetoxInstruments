@@ -12,6 +12,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypePing,
 	DTXRemoteProfilingCommandTypeGetDeviceInfo,
 	DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration,
+	DTXRemoteProfilingCommandTypeAddTag,
 	DTXRemoteProfilingCommandTypeProfilingStoryEvent,
 	DTXRemoteProfilingCommandTypeStopProfiling,
 };
@@ -31,7 +32,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 - (void)startRequestWithNetworkSample:(DTXNetworkSample*)networkSample;
 - (void)finishWithResponseForNetworkSample:(DTXNetworkSample*)networkSample;
 - (void)addLogSample:(DTXLogSample*)logSample;
-- (void)addTag:(DTXTag*)tag;
+- (void)addTagSample:(DTXTag*)tag;
 
 @end
 
@@ -50,6 +51,6 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 - (void)startRequestWithNetworkSample:(NSDictionary*)networkSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)finishWithResponseForNetworkSample:(NSDictionary*)networkSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)addLogSample:(NSDictionary*)logSample entityDescription:(NSEntityDescription*)entityDescription;
-- (void)addTag:(NSDictionary*)tag entityDescription:(NSEntityDescription*)entityDescription;
+- (void)addTagSample:(NSDictionary*)tag entityDescription:(NSEntityDescription*)entityDescription;
 
 @end

@@ -153,7 +153,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	}
 }
 
-- (void)addTag:(DTXTag*)tag
+- (void)addTagSample:(DTXTag*)tag
 {
 	[self _serializeCommandWithSelector:_cmd managedObject:tag additionalParams:nil];
 }

@@ -27,6 +27,7 @@
 
 @property (nonatomic, strong, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
+@property (nonatomic, strong, readonly) NSImage* secondaryIcon;
 @property (nonatomic, strong, readonly) NSFont* titleFont;
 
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;

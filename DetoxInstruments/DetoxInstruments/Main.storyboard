@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13178.6"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
@@ -407,12 +408,8 @@
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="gsv-5V-UDg">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="Bottom" width="32" selected="YES">
-                                                    <nil key="label"/>
-                                                </segment>
-                                                <segment image="Right" width="30" selected="YES" tag="1">
-                                                    <nil key="label"/>
-                                                </segment>
+                                                <segment toolTip="Show or hide the details area" image="Bottom" width="32" selected="YES"/>
+                                                <segment toolTip="Show or hide the inspectors" image="Right" width="30" selected="YES" tag="1"/>
                                             </segments>
                                             <connections>
                                                 <action selector="segmentCellAction:" target="B8D-0N-5wS" id="maM-jw-0WC"/>
@@ -420,7 +417,6 @@
                                         </segmentedCell>
                                     </segmentedControl>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="UPd-ch-BR2"/>
                                 <toolbarItem implicitItemIdentifier="C88B62F3-702A-4CBD-8EAF-DF687C481F44" label="" paletteLabel="" id="AIu-rn-Vht">
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="268" height="20"/>
@@ -438,10 +434,10 @@
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="38" height="27"/>
                                     <size key="maxSize" width="38" height="28"/>
-                                    <button key="view" verticalHuggingPriority="750" id="AEf-7c-AaH">
+                                    <button key="view" toolTip="Stop the current profiling session." verticalHuggingPriority="750" id="AEf-7c-AaH">
                                         <rect key="frame" x="0.0" y="14" width="38" height="28"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="stopRecording" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cnT-Vr-Ytg">
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="stopRecording" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cnT-Vr-Ytg">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -450,12 +446,31 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="09D217BB-BCA9-4334-BC60-53984C6DCE82" label="" paletteLabel="" image="flag" id="fgf-8X-rXg">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="38" height="27"/>
+                                    <size key="maxSize" width="38" height="28"/>
+                                    <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="Sse-Ks-B7b">
+                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="flag" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SrO-Sg-8sd">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="_flagButtonPressed:" target="B8D-0N-5wS" id="RQ6-LE-kdq"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="UPd-ch-BR2"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="nd4-Wg-8hp"/>
-                                <toolbarItem reference="UPd-ch-BR2"/>
+                                <toolbarItem reference="fgf-8X-rXg"/>
                                 <toolbarItem reference="uO1-Q0-f8b"/>
+                                <toolbarItem reference="UPd-ch-BR2"/>
                                 <toolbarItem reference="AIu-rn-Vht"/>
+                                <toolbarItem reference="UPd-ch-BR2"/>
                                 <toolbarItem reference="uO1-Q0-f8b"/>
                                 <toolbarItem reference="xCd-i5-im4"/>
                             </defaultToolbarItems>
@@ -465,6 +480,7 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="_flagButton" destination="Sse-Ks-B7b" id="7oi-eQ-e9z"/>
                         <outlet property="_layoutSegmentControl" destination="qva-ix-9V1" id="Swq-YE-oQc"/>
                         <outlet property="_stopRecordingButton" destination="AEf-7c-AaH" id="ZyQ-cR-6Ih"/>
                         <outlet property="_titleLabelContainer" destination="sWQ-Xw-c2R" id="Zgg-Dk-UAD"/>
@@ -594,8 +610,8 @@
                                 </scroller>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="PVg-YW-dy8">
-                                <rect key="frame" x="18" y="313" width="159" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select a device to record:" id="lPg-Uz-0wi">
+                                <rect key="frame" x="18" y="313" width="158" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select a device to profile:" id="lPg-Uz-0wi">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -644,11 +660,7 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="_useDefaultConfigurationValueChanged:" target="ZQv-Ah-3wf" id="YCK-kq-s0E"/>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="VCp-6i-KSY">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="KjD-SX-Rta"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Mgg-1q-DWj">
@@ -664,14 +676,14 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="310" id="D1o-qt-cqB"/>
                                 </constraints>
-                                <popUpButtonCell key="cell" type="push" title="More accurate (2 samples every second)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="xc9-hk-Kdg" id="FWW-eS-VFf">
+                                <popUpButtonCell key="cell" type="push" title="More often (2 samples every second)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="xc9-hk-Kdg" id="FWW-eS-VFf">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="2bQ-9B-c0X">
                                         <items>
-                                            <menuItem title="More accurate (2 samples every second)" state="on" tag="1" id="xc9-hk-Kdg"/>
-                                            <menuItem title="Normal (One sample every second)" tag="2" id="Szy-1n-RUL"/>
-                                            <menuItem title="More performant (1 sample every 2 seconds)" tag="4" id="YsG-PO-w6Y"/>
+                                            <menuItem title="More often (2 samples every second)" state="on" tag="1" id="xc9-hk-Kdg"/>
+                                            <menuItem title="Normal (1 sample every second)" tag="2" id="Szy-1n-RUL"/>
+                                            <menuItem title="Less often (1 sample every 2 seconds)" tag="4" id="YsG-PO-w6Y"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
@@ -710,11 +722,7 @@
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" id="xRC-U9-Eym">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" id="kJv-uV-ogt"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="s9S-Lh-aQC">
@@ -730,11 +738,7 @@
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLocalhostNetwork" id="rW4-Uy-Bgy">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLocalhostNetwork" id="NfU-8S-kjD"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="uOU-aH-ePw">
@@ -758,11 +762,7 @@
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" id="lgY-2X-1yt">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" id="OGi-Rs-t0v"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5PX-5m-Im6">
@@ -778,11 +778,7 @@
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="8Ir-3c-obc">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="bbO-bc-TXe"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="GYE-rJ-pn6">
@@ -806,11 +802,7 @@
                                             <integer key="NSNullPlaceholder" value="0"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateStackTraces" id="7Rc-ro-XbI">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateStackTraces" id="XkQ-iQ-fP3"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Nku-ik-9PG">
@@ -834,11 +826,7 @@
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLogOutput" id="iqY-4N-INT">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLogOutput" id="aT3-dp-91b"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8N9-2E-7Sm">
@@ -862,11 +850,7 @@
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="kkH-BI-SIH">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="Pe3-do-P5C"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QT7-Wp-bT6">
@@ -890,11 +874,7 @@
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectJavaScriptStackTraces" id="nbQ-vm-aax">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectJavaScriptStackTraces" id="gGy-N5-AWf"/>
                                     <binding destination="Ix8-QX-1wA" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="glj-lJ-usS" id="xxa-7P-YPX">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -934,11 +914,7 @@
                                             <integer key="NSNullPlaceholder" value="1"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateJavaScriptStackTraces" id="RdA-JU-Uow">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateJavaScriptStackTraces" id="vng-Fu-f8W"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1073,11 +1049,11 @@
                             <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="82" horizontalPageScroll="10" verticalLineScroll="82" verticalPageScroll="10" usesPredominantAxisScrolling="NO" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Dyq-gr-DLO" customClass="DTXScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
                                 <clipView key="contentView" wantsLayer="YES" copiesOnScroll="NO" id="3Ki-wJ-UtA">
-                                    <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="450" height="265"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="80" rowSizeStyle="automatic" viewBased="YES" id="TIP-gY-a5N" customClass="DTXPlotTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="280"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="480" height="265"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1116,17 +1092,26 @@
                                                                     </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="p3I-wb-GGH"/>
                                                                 </imageView>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZTR-yl-9L0">
+                                                                    <rect key="frame" x="35" y="25" width="0.0" height="0.0"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Fox-lg-7ui"/>
+                                                                </imageView>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="9qF-V8-eJh"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" secondItem="jlv-58-SlH" secondAttribute="trailing" constant="8" id="DOG-LZ-mEz"/>
+                                                                <constraint firstItem="ZTR-yl-9L0" firstAttribute="width" secondItem="jlv-58-SlH" secondAttribute="width" multiplier="0.45" id="EE5-uS-VKi"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="RAI-V4-dkq"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ocF-A6-Lb0" secondAttribute="leading" constant="28" id="d3w-UV-Jzt"/>
+                                                                <constraint firstItem="ZTR-yl-9L0" firstAttribute="centerX" secondItem="jlv-58-SlH" secondAttribute="centerX" constant="15" id="gBq-CB-tos"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="8" id="hqh-ec-2c2"/>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="leading" secondItem="ocF-A6-Lb0" secondAttribute="leading" constant="20" id="lGV-Tm-6hQ"/>
+                                                                <constraint firstItem="ZTR-yl-9L0" firstAttribute="height" secondItem="jlv-58-SlH" secondAttribute="height" multiplier="0.45" id="tNo-Np-nJA"/>
+                                                                <constraint firstItem="ZTR-yl-9L0" firstAttribute="centerY" secondItem="jlv-58-SlH" secondAttribute="centerY" constant="15" id="xXI-5x-57o"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="jlv-58-SlH" id="wR8-Fi-zVT"/>
+                                                                <outlet property="secondaryImageView" destination="ZTR-yl-9L0" id="YoC-Zy-ckD"/>
                                                                 <outlet property="textField" destination="nwg-qe-WuA" id="Tfg-EC-ViL"/>
                                                             </connections>
                                                         </tableCellView>
@@ -1156,7 +1141,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="n3R-Di-Yrv">
-                                    <rect key="frame" x="0.0" y="264" width="450" height="16"/>
+                                    <rect key="frame" x="0.0" y="265" width="450" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="txo-63-aGr">
@@ -1196,11 +1181,11 @@
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-hh-Z2i">
                                 <rect key="frame" x="0.0" y="0.0" width="497" height="271"/>
                                 <clipView key="contentView" drawsBackground="NO" id="7qk-vh-lmX">
-                                    <rect key="frame" x="0.0" y="0.0" width="497" height="271"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="497" height="256"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="ulY-Jk-M9E">
-                                            <rect key="frame" x="0.0" y="0.0" width="651" height="271"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="651" height="256"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1250,7 +1235,7 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="ZfO-GK-YnR">
-                                    <rect key="frame" x="0.0" y="255" width="497" height="16"/>
+                                    <rect key="frame" x="0.0" y="256" width="497" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="SzF-93-x6h">
@@ -1264,13 +1249,13 @@
                                     <rect key="frame" x="0.0" y="0.0" width="497" height="272"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="b6M-83-qhy" viewBased="YES" indentationMarkerFollowsCell="NO" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="b6M-83-qhy" viewBased="YES" indentationPerLevel="16" indentationMarkerFollowsCell="NO" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG">
                                             <rect key="frame" x="0.0" y="0.0" width="497" height="249"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
-                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="gridColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
                                                 <tableColumn identifier="DTXTimestampColumn" editable="NO" width="72" minWidth="70" maxWidth="100000" id="eFp-9H-DG5">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right">
@@ -1605,7 +1590,7 @@
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                             </scroller>
                                                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="O7J-mY-1PS">
-                                                                                <rect key="frame" x="283" y="0.0" width="16" height="14"/>
+                                                                                <rect key="frame" x="284" y="0.0" width="15" height="14"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                             </scroller>
                                                                         </scrollView>
@@ -1665,12 +1650,8 @@
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="extendedInfo_highlighted" width="31" selected="YES">
-                                                    <nil key="label"/>
-                                                </segment>
-                                                <segment image="fileInfo" width="31" tag="1">
-                                                    <nil key="label"/>
-                                                </segment>
+                                                <segment toolTip="Extended detail" image="extendedInfo_highlighted" width="31" selected="YES"/>
+                                                <segment toolTip="Profiling info" image="fileInfo" width="31" tag="1"/>
                                             </segments>
                                         </segmentedCell>
                                     </segmentedControl>
@@ -1809,6 +1790,7 @@ Gw
         <image name="device_iphone_plus_silver" width="1842" height="3408"/>
         <image name="extendedInfo_highlighted" width="15" height="15"/>
         <image name="fileInfo" width="15" height="15"/>
+        <image name="flag" width="8" height="15"/>
         <image name="stopRecording" width="12" height="12"/>
     </resources>
 </document>

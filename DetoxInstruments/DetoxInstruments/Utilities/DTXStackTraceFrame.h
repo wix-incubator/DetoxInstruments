@@ -11,6 +11,7 @@
 @interface DTXStackTraceFrame : NSObject
 
 @property (nonatomic, copy) NSAttributedString* stackFrameText;
+@property (nonatomic, copy) NSString* fullStackFrameText;
 @property (nonatomic, copy) NSImage* stackFrameIcon;
 
 @end

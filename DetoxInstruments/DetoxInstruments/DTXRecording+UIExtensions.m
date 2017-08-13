@@ -43,9 +43,6 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 		NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
 		fr.fetchLimit = 1;
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-		fr.predicate = [NSPredicate predicateWithFormat:@"parentGroup.recording == %@", self];
-#endif
 		
 		obj = [[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
 		if(obj == nil)
@@ -68,9 +65,6 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 		NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
 		fr.fetchLimit = 1;
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
-#if DTX_SIMULATE_NETWORK_RECORDING_FROM_FILE
-		fr.predicate = [NSPredicate predicateWithFormat:@"parentGroup.recording == %@", self];
-#endif
 		
 		obj = [[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
 		

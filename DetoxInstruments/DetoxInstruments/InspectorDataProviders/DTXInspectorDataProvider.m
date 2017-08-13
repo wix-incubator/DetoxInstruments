@@ -49,3 +49,63 @@
 }
 
 @end
+
+@implementation DTXTagInspectorDataProvider
+
+- (DTXInspectorContentTableDataSource*)inspectorTableDataSource
+{
+	DTXTag* tag = (id)self.sample;
+	
+	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
+	
+	DTXInspectorContent* request = [DTXInspectorContent new];
+	request.title = NSLocalizedString(@"Tag", @"");
+	
+	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Name", @"") description:tag.name]];
+	
+	NSTimeInterval ti = [tag.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
+	
+	request.content = content;
+	
+	rv.contentArray = @[request];
+	
+	return rv;
+}
+
+@end
+
+@implementation DTXGroupInspectorDataProvider
+
+- (DTXInspectorContentTableDataSource*)inspectorTableDataSource
+{
+	DTXSampleGroup* proxy = (id)self.sample;
+	
+	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
+	
+	DTXInspectorContent* request = [DTXInspectorContent new];
+	request.title = NSLocalizedString(@"Group", @"");
+	
+	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Name", @"") description:proxy.name]];
+	
+	NSTimeInterval ti = [proxy.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
+	
+	ti = [proxy.closeTimestamp ?: self.document.recording.endTimestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
+	
+	request.content = content;
+	
+	rv.contentArray = @[request];
+	
+	return rv;
+}
+
+@end

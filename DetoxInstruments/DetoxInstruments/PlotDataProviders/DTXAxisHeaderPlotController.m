@@ -226,6 +226,11 @@
 	return nil;
 }
 
+- (NSImage *)secondaryIcon
+{
+    return nil;
+}
+
 - (NSFont *)titleFont
 {
 	return nil;

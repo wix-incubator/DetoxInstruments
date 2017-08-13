@@ -57,5 +57,20 @@
 	}
 }
 
+@end
+
+@implementation DTXTagRowView
+
+- (instancetype)init
+{
+	self = [super init];
+	
+	if(self)
+	{
+		self.wantsLayer = YES;
+	}
+	
+	return self;
+}
 
 @end

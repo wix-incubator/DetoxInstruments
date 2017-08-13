@@ -31,6 +31,11 @@
 	return [NSImage imageNamed:@"bridgeData"];
 }
 
+- (NSImage *)secondaryIcon
+{
+	return [NSImage imageNamed:@"react"];
+}
+
 + (NSArray<NSString*>*)sampleKeys
 {
 	return @[@"bridgeNToJSDataSizeDelta", @"bridgeJSToNDataSizeDelta"];

@@ -43,6 +43,12 @@
 
 - (NSColor*)backgroundRowColorForItem:(id)item
 {
+	NSColor* superColor = [super backgroundRowColorForItem:item];
+	if(superColor != nil)
+	{
+		return superColor;
+	}
+	
 	double fps = [(DTXPerformanceSample*)item fps];
 	
 	return fps < 15 ? NSColor.warning3Color : fps <= 30 ? NSColor.warning2Color : fps <= 45 ? NSColor.warningColor : NSColor.whiteColor;

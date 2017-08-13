@@ -27,6 +27,7 @@ typedef NS_ENUM(NSUInteger, DTXDocumentState) {
 @property (nonatomic, strong, readonly) DTXRecording* recording;
 
 - (void)readyForRecordingIfNeeded;
+- (void)addTag;
 - (void)stopLiveRecording;
 
 @end
