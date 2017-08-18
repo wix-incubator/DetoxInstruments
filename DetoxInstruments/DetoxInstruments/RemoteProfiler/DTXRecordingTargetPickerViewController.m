@@ -134,8 +134,8 @@
 		[self transitionFromViewController:_outlineController toViewController:_profilingConfigurationController options:NSViewControllerTransitionSlideForward completionHandler:nil];
 	} completionHandler:nil];
 	
-	_selectButton.animator.enabled = NO;
-	_optionsButton.animator.title = NSLocalizedString(@"Back", @"");
+	_selectButton.enabled = NO;
+	_optionsButton.title = NSLocalizedString(@"Back", @"");
 }
 
 - (void)_transitionToDevice
@@ -147,8 +147,8 @@
 		[self transitionFromViewController:_profilingConfigurationController toViewController:_outlineController options:NSViewControllerTransitionSlideBackward completionHandler:nil];
 	} completionHandler:nil];
 	
-	_selectButton.animator.enabled = YES;
-	_optionsButton.animator.title = NSLocalizedString(@"Options", @"");
+	_optionsButton.title = NSLocalizedString(@"Options", @"");
+	[self _validateSelectButton];
 }
 
 - (void)_addTarget:(DTXRemoteProfilingTarget*)target forService:(NSNetService*)service
@@ -273,6 +273,11 @@
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
+	[self _validateSelectButton];
+}
+
+- (void)_validateSelectButton
 {
 	_selectButton.enabled = _outlineView.selectedRowIndexes.count > 0;
 }
