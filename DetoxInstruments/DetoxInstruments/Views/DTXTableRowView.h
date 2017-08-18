@@ -13,9 +13,3 @@
 @property (nonatomic, strong) id item;
 
 @end
-
-@interface DTXTagRowView : NSTableRowView
-
-@property (nonatomic, strong) id item;
-
-@end

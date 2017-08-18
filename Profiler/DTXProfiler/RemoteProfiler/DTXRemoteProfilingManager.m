@@ -151,6 +151,15 @@ static DTXRemoteProfilingManager* __sharedManager;
 				NSString* name = cmd[@"name"];
 				[_remoteProfiler addTag:name];
 			}	break;
+			case DTXRemoteProfilingCommandTypePushGroup:
+			{
+				NSString* name = cmd[@"name"];
+				[_remoteProfiler pushSampleGroupWithName:name];
+			}	break;
+			case DTXRemoteProfilingCommandTypePopGroup:
+			{
+				[_remoteProfiler popSampleGroup];
+			}	break;
 			case DTXRemoteProfilingCommandTypeStopProfiling:
 			{
 				[_remoteProfiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
@@ -172,6 +181,51 @@ static DTXRemoteProfilingManager* __sharedManager;
 {
 	NSMutableDictionary* cmd = [[DTXDeviceInfo deviceInfoDictionary] mutableCopy];
 	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetDeviceInfo);
+	
+//	dispatch_group_t group = dispatch_group_create();
+//	__unused __block NSData* screenImageData = nil;
+//
+//	dispatch_group_enter(group);
+//
+//	dispatch_async(dispatch_get_main_queue(), ^{
+//		UIView* view = [UIScreen.mainScreen snapshotViewAfterScreenUpdates:YES];
+//
+//		UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, UIScreen.mainScreen.scale);
+//
+//		[view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+//
+//		CGContextRef context = UIGraphicsGetCurrentContext();
+//		
+//		UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
+//
+//		if (orientation == UIInterfaceOrientationLandscapeLeft)
+//		{
+//			CGContextRotateCTM (context, 90.0 * M_PI / 180.0);
+//		}
+//		else if (orientation == UIInterfaceOrientationLandscapeRight)
+//		{
+//			CGContextRotateCTM (context, -90.0 * M_PI / 180.0);
+//		}
+//		else if (orientation == UIInterfaceOrientationPortraitUpsideDown)
+//		{
+//			CGContextRotateCTM (context, 180.0 * M_PI / 180.0);
+//		}
+//
+//		__unused UIImage *saver = UIGraphicsGetImageFromCurrentImageContext();
+//
+//		UIGraphicsEndImageContext();
+//
+//		screenImageData = UIImageJPEGRepresentation(saver, 0.5);
+//
+//		dispatch_group_leave(group);
+//	});
+//
+//	dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)));
+//
+//	if(screenImageData != nil)
+//	{
+//		cmd[@"snapshot"] = screenImageData;
+//	}
 	
 	[self _writeCommand:cmd completionHandler:nil];
 }

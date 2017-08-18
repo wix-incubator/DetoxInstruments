@@ -11,14 +11,36 @@
 #import "DTXDocument.h"
 //#import "CCNPreferencesWindowController.h"
 
+static NSString* const __lldbInitMagic = @"";
+
 @interface DTXApplicationDelegate ()
 {
 //	CCNPreferencesWindowController* _preferencesWindowController;
+	
+	__weak IBOutlet NSMenu *_appMenu;
+	__weak IBOutlet NSMenuItem *_aboutMenuItem;
+	__weak IBOutlet NSMenuItem *_hideMenuItem;
+	__weak IBOutlet NSMenuItem *_quitMenuItem;
 }
 
 @end
 
 @implementation DTXApplicationDelegate
+
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
+{
+	NSString* actualName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	
+	_appMenu.title = actualName;
+	_aboutMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"About %@", @""), actualName];
+	_hideMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Hide %@", @""), actualName];
+	_quitMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Quit %@", @""), actualName];
+}
+
+- (void)verifyLldbInitIsNotBroken
+{
+	
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -28,13 +50,16 @@
 	{
 		[DTXProfilingConfiguration.defaultProfilingConfigurationForRemoteProfiling setAsDefaultRemoteProfilingConfiguration];
 	}
-	
-	// Insert code here to initialize your application
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-	// Insert code here to tear down your application
+	
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+	[self verifyLldbInitIsNotBroken];
 }
 
 - (IBAction)openGitHubPage:(id)sender

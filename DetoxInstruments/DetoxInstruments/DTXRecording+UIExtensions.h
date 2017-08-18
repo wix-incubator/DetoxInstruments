@@ -15,7 +15,6 @@ extern NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp;
 
 @property (nonatomic, copy, readonly) NSDate* defactoStartTimestamp;
 
-@property (nonatomic) NSTimeInterval minimumDefactoTimeInterval;
 @property (nonatomic, copy, readonly) NSDate* defactoEndTimestamp;
 - (void)invalidateDefactoEndTimestamp;
 

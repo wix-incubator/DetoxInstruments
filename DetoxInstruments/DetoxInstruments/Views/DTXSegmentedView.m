@@ -46,4 +46,14 @@
 	[self.delegate segmentedView:self didSelectSegmentAtIndex:selectedSegment];
 }
 
+- (void)setSelectedSegment:(NSInteger)selectedSegment
+{
+	for(NSUInteger idx = 0; idx < self.segmentCount; idx++)
+	{
+		[self setSelected:selectedSegment == idx forSegment:idx];
+	}
+	
+	[self fixIcons];
+}
+
 @end

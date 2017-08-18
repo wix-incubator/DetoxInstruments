@@ -77,9 +77,10 @@
 	
 	if(_savedGlobalPlotRange)
 	{
-		[headerPlotController setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:YES];
+		[headerPlotController setGlobalPlotRange:_savedGlobalPlotRange];
 	}
-	else if(_savedPlotRange)
+	
+	if(_savedPlotRange)
 	{
 		[headerPlotController setPlotRange:_savedPlotRange];
 	}
@@ -122,11 +123,13 @@
 	
 	[collection insertObject:plotController atIndex:idx + 1];
 	plotController.delegate = self;
+	
 	if(_savedGlobalPlotRange)
 	{
-		[plotController setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:YES];
+		[plotController setGlobalPlotRange:_savedGlobalPlotRange];
 	}
-	else if(_savedPlotRange)
+	
+	if(_savedPlotRange)
 	{
 		[plotController setPlotRange:_savedPlotRange];
 	}
@@ -220,21 +223,31 @@
 	}];
 }
 
-- (void)setStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
+- (void)setLocalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
 {
-	_savedGlobalPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)];
-	
-	BOOL shouldEnforce = _savedPlotRange == nil || fabs(_savedPlotRange.length.doubleValue - _savedGlobalPlotRange.length.doubleValue) < 1;
+	_savedPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)];
 	
 	_ignoringPlotRangeNotifications = YES;
-	[_headerPlotController setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:shouldEnforce];
+	[_headerPlotController setPlotRange:_savedPlotRange];
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
-		[obj setGlobalPlotRange:_savedGlobalPlotRange enforceOnLocalPlotRange:shouldEnforce];
+		[obj setPlotRange:_savedPlotRange];
 	}];
-	if(shouldEnforce)
-	{
-		_savedPlotRange = nil;
-	}
+	
+	_ignoringPlotRangeNotifications = NO;
+}
+
+- (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
+{
+	NSLog(@"GLOBAL: %@ -> %@", startTimestamp, endTimestamp);
+	
+	_savedGlobalPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)];
+	
+	_ignoringPlotRangeNotifications = YES;
+	[_headerPlotController setGlobalPlotRange:_savedGlobalPlotRange];
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+		[obj setGlobalPlotRange:_savedGlobalPlotRange];
+	}];
+
 	_ignoringPlotRangeNotifications = NO;
 }
 
@@ -252,13 +265,13 @@
 
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc
 {
-	[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_hostingOutlineView childIndexForItem:pc]] byExtendingSelection:NO];
+	[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_hostingOutlineView rowForItem:pc]] byExtendingSelection:NO];
 	[_hostingOutlineView.window makeFirstResponder:_hostingOutlineView];
 }
 
 - (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc
 {
-	[_hostingOutlineView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[_hostingOutlineView childIndexForItem:pc]]];
+	[_hostingOutlineView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[_hostingOutlineView rowForItem:pc]]];
 }
 
 #pragma mark DTXPlotControllerDelegate

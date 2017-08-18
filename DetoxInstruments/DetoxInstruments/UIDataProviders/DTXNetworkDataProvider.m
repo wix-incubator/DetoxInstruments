@@ -76,12 +76,6 @@
 
 - (NSColor *)backgroundRowColorForItem:(id)item
 {
-	NSColor* superColor = [super backgroundRowColorForItem:item];
-	if(superColor != nil)
-	{
-		return superColor;
-	}
-	
 	DTXNetworkSample* sample = item;
 	
 	if(sample.responseStatusCode == 0)

@@ -41,7 +41,7 @@
 - (void)setUpWithView:(NSView*)view;
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
 
-- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange enforceOnLocalPlotRange:(BOOL)enforce;
+- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange;
 - (void)setPlotRange:(CPTPlotRange*)plotRange;
 - (void)zoomIn;
 - (void)zoomOut;

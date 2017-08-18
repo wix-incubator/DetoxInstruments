@@ -34,10 +34,9 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	[super viewDidLoad];
 	
 	self.view.wantsLayer = YES;
+	self.view.layer.backgroundColor = NSColor.windowBackgroundColor.CGColor;
 	
-	[_tabSwitcher setSelected:[[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey] == 0 forSegment:0];
-	[_tabSwitcher setSelected:[[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey] == 1 forSegment:1];
-	[_tabSwitcher fixIcons];
+	_tabSwitcher.selectedSegment = [[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey];
 	
 	[self segmentedView:_tabSwitcher didSelectSegmentAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey]];
 	
@@ -61,6 +60,12 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 - (void)_documentStateDidChange:(NSNotification*)note
 {
 	_recordingDescriptionDataSource = nil;
+	
+	if(self.document.recording == nil)
+	{
+		return;
+	}
+	
 	[self _prepareRecordingDescriptionIfNeeded];
 }
 
@@ -175,24 +180,38 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 	}
 }
 
+- (void)selectExtendedDetail
+{
+	_tabSwitcher.selectedSegment = 0;
+	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:__DTXInspectorTabKey];
+	
+	_recordingDescriptionDataSource.managedTableView = nil;
+	_sampleDescriptionDataSource.managedTableView = _recordingInfoTableView;
+	_nothingLabel.hidden = _sampleDescriptionDataSource != nil;
+	_recordingInfoTableView.hidden = _sampleDescriptionDataSource == nil;
+}
+
+- (void)selectProfilingInfo
+{
+	_tabSwitcher.selectedSegment = 1;
+	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:__DTXInspectorTabKey];
+	
+	_sampleDescriptionDataSource.managedTableView = nil;
+	_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;
+	_nothingLabel.hidden = _recordingDescriptionDataSource != nil;
+	_recordingInfoTableView.hidden = NO;
+}
+
 - (void)segmentedView:(DTXSegmentedView *)segmentedView didSelectSegmentAtIndex:(NSInteger)index
 {
 	if(index == 0)
 	{
-		_recordingDescriptionDataSource.managedTableView = nil;
-		_sampleDescriptionDataSource.managedTableView = _recordingInfoTableView;
-		_nothingLabel.hidden = _sampleDescriptionDataSource != nil;
-		_recordingInfoTableView.hidden = _sampleDescriptionDataSource == nil;
+		[self selectExtendedDetail];
 	}
 	else
 	{
-		_sampleDescriptionDataSource.managedTableView = nil;
-		_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;
-		_nothingLabel.hidden = _recordingDescriptionDataSource != nil;
-		_recordingInfoTableView.hidden = NO;
+		[self selectProfilingInfo];
 	}
-	
-	[[NSUserDefaults standardUserDefaults] setInteger:index forKey:__DTXInspectorTabKey];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem*)menuItem

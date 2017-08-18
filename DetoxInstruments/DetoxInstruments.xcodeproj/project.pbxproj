@@ -36,12 +36,14 @@
 		393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973D91EDC1C590064D4C8 /* DTXSample+UIExtensions.m */; };
 		393973E11EDC245C0064D4C8 /* DTXPerformanceSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973E01EDC245C0064D4C8 /* DTXPerformanceSample+UIExtensions.m */; };
 		393973F31EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973F21EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m */; };
+		393CD9231F4337B900FB01FE /* DTXDetailOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CD9221F4337B900FB01FE /* DTXDetailOutlineView.m */; };
 		393F41C21F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 393F41C11F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m */; };
 		3943CA851EEEF46F0009AD88 /* NSColor+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA841EEEF46F0009AD88 /* NSColor+UIAdditions.m */; };
 		3943CA951EEEFB3F0009AD88 /* DTXDiskDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA941EEEFB3F0009AD88 /* DTXDiskDataProvider.m */; };
 		3943CA981EEF1A150009AD88 /* DTXNetworkDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA971EEF1A150009AD88 /* DTXNetworkDataProvider.m */; };
 		394516B61EEF442B0093E503 /* LNInterpolation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394516B11EEF44090093E503 /* LNInterpolation.framework */; };
 		394516B71EEF442B0093E503 /* LNInterpolation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394516B11EEF44090093E503 /* LNInterpolation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		39487CBB1F435F380063E66D /* Scripts in Copy Shared Support Items */ = {isa = PBXBuildFile; fileRef = 39487CB91F435F2A0063E66D /* Scripts */; };
 		394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B42BB1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m */; };
 		394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */; };
 		395F01C31EE7E7AD00695236 /* DTXHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F01C21EE7E7AD00695236 /* DTXHeaderView.m */; };
@@ -188,6 +190,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		39487CB71F435EFA0063E66D /* Copy Shared Support Items */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 12;
+			files = (
+				39487CBB1F435F380063E66D /* Scripts in Copy Shared Support Items */,
+			);
+			name = "Copy Shared Support Items";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		398D6E771EE03E9B00AA9C11 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -260,6 +273,8 @@
 		393973E01EDC245C0064D4C8 /* DTXPerformanceSample+UIExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DTXPerformanceSample+UIExtensions.m"; sourceTree = "<group>"; };
 		393973F11EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXNetworkSample+UIExtensions.h"; sourceTree = "<group>"; };
 		393973F21EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DTXNetworkSample+UIExtensions.m"; sourceTree = "<group>"; };
+		393CD9211F4337B900FB01FE /* DTXDetailOutlineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDetailOutlineView.h; sourceTree = "<group>"; };
+		393CD9221F4337B900FB01FE /* DTXDetailOutlineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDetailOutlineView.m; sourceTree = "<group>"; };
 		393F41C01F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNCPUInspectorDataProvider.h; sourceTree = "<group>"; };
 		393F41C11F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUInspectorDataProvider.m; sourceTree = "<group>"; };
 		3943CA831EEEF46F0009AD88 /* NSColor+UIAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSColor+UIAdditions.h"; sourceTree = "<group>"; };
@@ -269,6 +284,7 @@
 		3943CA961EEF1A150009AD88 /* DTXNetworkDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkDataProvider.h; sourceTree = "<group>"; };
 		3943CA971EEF1A150009AD88 /* DTXNetworkDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkDataProvider.m; sourceTree = "<group>"; };
 		394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNInterpolation.xcodeproj; path = LNInterpolation/LNInterpolation/LNInterpolation.xcodeproj; sourceTree = SOURCE_ROOT; };
+		39487CB91F435F2A0063E66D /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
 		394B42BA1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXTargetsOutlineViewContoller.h; sourceTree = "<group>"; };
 		394B42BB1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DTXTargetsOutlineViewContoller.m; sourceTree = "<group>"; };
 		394D9D211EF50A01001220E9 /* DTXNetworkInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkInspectorDataProvider.h; sourceTree = "<group>"; };
@@ -339,6 +355,7 @@
 		39B4CA3D1F15C4AD009BD2D2 /* NSString+FileNames.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+FileNames.m"; sourceTree = "<group>"; };
 		39B706A11F20AFB500B1060D /* DTXRecordingTargetPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingTargetPickerViewController.h; sourceTree = "<group>"; };
 		39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingTargetPickerViewController.m; sourceTree = "<group>"; };
+		39BB5E0B1F45BB1200350059 /* Detox Instruments (Beta).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Detox Instruments (Beta).entitlements"; sourceTree = "<group>"; };
 		39C1415D1F3C47F7008CF5B9 /* DTXStackTraceFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackTraceFrame.h; sourceTree = "<group>"; };
 		39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackTraceFrame.m; sourceTree = "<group>"; };
 		39C141601F3C55B3008CF5B9 /* DTXTintedImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTintedImageView.h; sourceTree = "<group>"; };
@@ -377,7 +394,7 @@
 		39E20F5A1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSampleGroupProxy.m; sourceTree = "<group>"; };
 		39EA8CD01F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilingConfiguration+RemoteProfilingSupport.h"; sourceTree = "<group>"; };
 		39EA8CD11F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXProfilingConfiguration+RemoteProfilingSupport.m"; sourceTree = "<group>"; };
-		39EBDFB81ED36D45005D8AB1 /* DetoxInstruments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DetoxInstruments.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		39EBDFB81ED36D45005D8AB1 /* Detox Instruments (Beta).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Detox Instruments (Beta).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39EBDFBB1ED36D45005D8AB1 /* DTXApplicationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXApplicationDelegate.h; sourceTree = "<group>"; };
 		39EBDFBC1ED36D45005D8AB1 /* DTXApplicationDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXApplicationDelegate.m; sourceTree = "<group>"; };
 		39EBDFBF1ED36D45005D8AB1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -403,8 +420,8 @@
 		39F6F6C51F0E3D2400C7F411 /* DTXProfilingConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXProfilingConfiguration.m; path = ../../Profiler/DTXProfiler/DTXProfilingConfiguration.m; sourceTree = "<group>"; };
 		39F6F6C91F0E3D5200C7F411 /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoCoding.m; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.m; sourceTree = "<group>"; };
 		39F6F6CA1F0E3D5200C7F411 /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoCoding.h; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.h; sourceTree = "<group>"; };
-		39F6F6CC1F0E400300C7F411 /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
-		39F6F6CD1F0E400300C7F411 /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
+		39F6F6CC1F0E400300C7F411 /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+FakeDecoder.h"; path = "../../../Shared/NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
+		39F6F6CD1F0E400300C7F411 /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+FakeDecoder.m"; path = "../../../Shared/NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
 		39F6F6CF1F0E407900C7F411 /* DTXRecording+UIExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXRecording+UIExtensions.h"; sourceTree = "<group>"; };
 		39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXRecording+UIExtensions.m"; sourceTree = "<group>"; };
 		39FA40A61F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeCountersPlotController.h; sourceTree = "<group>"; };
@@ -552,6 +569,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		39487CB81F435F090063E66D /* SharedSupport */ = {
+			isa = PBXGroup;
+			children = (
+				39487CB91F435F2A0063E66D /* Scripts */,
+			);
+			path = SharedSupport;
+			sourceTree = "<group>";
+		};
 		394B42AC1F34F2CE0093986E /* InternalViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -576,6 +601,8 @@
 				39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */,
 				39C6A8F31EE1E757000E2EE1 /* DTXPlotTableView.h */,
 				39C6A8F41EE1E757000E2EE1 /* DTXPlotTableView.m */,
+				393CD9211F4337B900FB01FE /* DTXDetailOutlineView.h */,
+				393CD9221F4337B900FB01FE /* DTXDetailOutlineView.m */,
 				397FE8C91EEDC8DB002200B7 /* DTXTableRowView.h */,
 				397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */,
 				39C6A9321EE3BCCD000E2EE1 /* DTXHighlightingCellView.h */,
@@ -762,7 +789,7 @@
 		39EBDFB91ED36D45005D8AB1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				39EBDFB81ED36D45005D8AB1 /* DetoxInstruments.app */,
+				39EBDFB81ED36D45005D8AB1 /* Detox Instruments (Beta).app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -770,6 +797,7 @@
 		39EBDFBA1ED36D45005D8AB1 /* DetoxInstruments */ = {
 			isa = PBXGroup;
 			children = (
+				39BB5E0B1F45BB1200350059 /* Detox Instruments (Beta).entitlements */,
 				3988D2C01EEEC6D30090088E /* Utilities */,
 				39281E491ED6D15A002CE905 /* Model */,
 				39281E871ED71760002CE905 /* Document */,
@@ -803,18 +831,11 @@
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
 				3997A8A61EE9422D0057418B /* dtxicon.iconset */,
 				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
+				3905F48B1EF72B4B003E08C1 /* DetoxInstruments.entitlements */,
 				3914B33E1F3B89C300650539 /* Localizable.stringsdict */,
-				39EBDFBE1ED36D45005D8AB1 /* Supporting Files */,
+				39487CB81F435F090063E66D /* SharedSupport */,
 			);
 			path = DetoxInstruments;
-			sourceTree = "<group>";
-		};
-		39EBDFBE1ED36D45005D8AB1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				3905F48B1EF72B4B003E08C1 /* DetoxInstruments.entitlements */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		39F6F6C31F0E3D0800C7F411 /* Profiler */ = {
@@ -843,11 +864,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 39EBDFCF1ED36D45005D8AB1 /* Build configuration list for PBXNativeTarget "DetoxInstruments" */;
 			buildPhases = (
-				398922FC1F3F2EA600129537 /* Increment Build Number */,
 				39EBDFB41ED36D45005D8AB1 /* Sources */,
+				398922FC1F3F2EA600129537 /* Update Build Numbers */,
 				39EBDFB51ED36D45005D8AB1 /* Frameworks */,
 				39EBDFB61ED36D45005D8AB1 /* Resources */,
 				398D6E771EE03E9B00AA9C11 /* Embed Frameworks */,
+				39487CB71F435EFA0063E66D /* Copy Shared Support Items */,
+				39A829541F43780100A5FE3D /* Embed Profiler Framework */,
 			);
 			buildRules = (
 			);
@@ -856,7 +879,7 @@
 			);
 			name = DetoxInstruments;
 			productName = "Detox Instruments";
-			productReference = 39EBDFB81ED36D45005D8AB1 /* DetoxInstruments.app */;
+			productReference = 39EBDFB81ED36D45005D8AB1 /* Detox Instruments (Beta).app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -873,6 +896,9 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
+								enabled = 0;
+							};
+							com.apple.iCloud = {
 								enabled = 0;
 							};
 						};
@@ -988,19 +1014,33 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		398922FC1F3F2EA600129537 /* Increment Build Number */ = {
+		398922FC1F3F2EA600129537 /* Update Build Numbers */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Increment Build Number";
+			name = "Update Build Numbers";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nshortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"";
+		};
+		39A829541F43780100A5FE3D /* Embed Profiler Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Profiler Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/bash;
+			shellScript = "cd ${SRCROOT}/../Profiler\nxcodebuild -project DTXProfiler.xcodeproj -configuration Release -target DTXProfilerFramework build\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/iphoneos/\ncp -fr /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/iphoneos/";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1048,6 +1088,7 @@
 				39E20F5B1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m in Sources */,
 				39008F0E1EF26A960013B584 /* DTXImageViewCellView.m in Sources */,
 				394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */,
+				393CD9231F4337B900FB01FE /* DTXDetailOutlineView.m in Sources */,
 				39281E861ED7175C002CE905 /* DTXBottomContentController.m in Sources */,
 				393973F31EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m in Sources */,
 				39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */,
@@ -1230,15 +1271,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6Z9ASVU98Y;
+				DEVELOPMENT_TEAM = S9QFG2VH2E;
+				DSTROOT = /;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.LeoNatan.Detox-Instruments";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DetoxInstruments;
+				PRODUCT_NAME = "Detox Instruments (Beta)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1252,13 +1294,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6Z9ASVU98Y;
+				DEVELOPMENT_TEAM = S9QFG2VH2E;
+				DSTROOT = /;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.LeoNatan.Detox-Instruments";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DetoxInstruments;
+				PRODUCT_NAME = "Detox Instruments (Beta)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

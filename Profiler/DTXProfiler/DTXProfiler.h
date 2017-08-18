@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DTXProfiler : NSObject
 
++ (NSString*)version;
+
 /**
  *  A Boolean value indicating whether there is currently a recording in progress.
  */

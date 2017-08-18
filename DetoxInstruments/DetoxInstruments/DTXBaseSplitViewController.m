@@ -43,9 +43,7 @@ IB_DESIGNABLE
 {
 	[super awakeFromNib];
 	
-//	self.wantsLayer = YES;
-//	self.canDrawSubviewsIntoLayer = YES;
-	self.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
+	self.wantsLayer = YES;
 }
 
 - (NSColor *)dividerColor

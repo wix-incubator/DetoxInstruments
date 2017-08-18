@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		3922F8231F4484DA00F10055 /* DTXProfilerFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 3922F8261F4484DA00F10055 /* Build configuration list for PBXAggregateTarget "DTXProfilerFramework" */;
+			buildPhases = (
+				3922F82B1F44850000F10055 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = DTXProfilerFramework;
+			productName = DTXProfilerFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		3916E4C11F2EACDF00C1DB60 /* DTXColorTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3916E4BF1F2EACDF00C1DB60 /* DTXColorTransformer.h */; };
 		3916E4C21F2EACDF00C1DB60 /* DTXColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3916E4C01F2EACDF00C1DB60 /* DTXColorTransformer.m */; };
@@ -186,8 +200,8 @@
 		39D40C391ED5BAB800157C04 /* DBBuildInfoProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBBuildInfoProvider.m; path = DBDebugToolkit/DBDebugToolkit/Classes/BuildInfo/DBBuildInfoProvider.m; sourceTree = SOURCE_ROOT; };
 		39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
 		39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
-		39DA16801F3097780025C492 /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+FakeDecoder.h"; path = "../../../DetoxInstruments/DetoxInstruments/Utilities/NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
-		39DA16811F3097780025C492 /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+FakeDecoder.m"; path = "../../../DetoxInstruments/DetoxInstruments/Utilities/NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
+		39DA16801F3097780025C492 /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+FakeDecoder.h"; path = "../../../Shared/NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
+		39DA16811F3097780025C492 /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+FakeDecoder.m"; path = "../../../Shared/NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
 		39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkRecorder.h; sourceTree = "<group>"; };
 		39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkRecorder.m; sourceTree = "<group>"; };
 		39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilingConfiguration.h; sourceTree = "<group>"; };
@@ -576,6 +590,9 @@
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
+					3922F8231F4484DA00F10055 = {
+						CreatedOnToolsVersion = 9.0;
+					};
 					39D40BF81ED5ABD200157C04 = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Manual;
@@ -595,6 +612,7 @@
 			projectRoot = "";
 			targets = (
 				39D40BF81ED5ABD200157C04 /* DTXProfiler */,
+				3922F8231F4484DA00F10055 /* DTXProfilerFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -608,6 +626,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3922F82B1F44850000F10055 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" build\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" build\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 3. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n\n# Step 4. Create universal binaries for embedded frameworks if needed\nif [ -d \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks\" ]; then\nfor SUB_FRAMEWORK in $( ls \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks\" ); do\nif [ -d \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/$SUB_FRAMEWORK\" ]; then\necho \"Processing ${SUB_FRAMEWORK} as a dir\"\nBINARY_NAME=\"${SUB_FRAMEWORK%.*}\"\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\"\nelse\necho \"Processing ${SUB_FRAMEWORK} as a file\"\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\"\nfi\ndone\nfi\n\nif [ -d \"${INSTALL_DIR}\" ]; then\nrm -fr \"${INSTALL_DIR}\"\nfi\n\nmkdir -p \"${INSTALL_DIR}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-universal/${PROJECT_NAME}.framework\" ${INSTALL_DIR}";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		39D40BF41ED5ABD200157C04 /* Sources */ = {
@@ -660,6 +694,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		3922F8241F4484DA00F10055 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3922F8251F4484DA00F10055 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		39D40BFF1ED5ABD200157C04 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -688,7 +738,6 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -710,6 +759,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -745,7 +795,6 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -772,7 +821,6 @@
 		39D40C021ED5ABD200157C04 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -788,14 +836,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		39D40C031ED5ABD200157C04 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -811,13 +857,21 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3922F8261F4484DA00F10055 /* Build configuration list for PBXAggregateTarget "DTXProfilerFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3922F8241F4484DA00F10055 /* Debug */,
+				3922F8251F4484DA00F10055 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		39D40BF31ED5ABD200157C04 /* Build configuration list for PBXProject "DTXProfiler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

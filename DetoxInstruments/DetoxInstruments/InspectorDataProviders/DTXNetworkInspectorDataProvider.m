@@ -111,13 +111,13 @@
 	}
 	
 	NSImage* image;
-	if(self._hasImage)
+	if(self._hasImage && networkSample.responseData.data)
 	{
 		image = [[NSImage alloc] initWithData:networkSample.responseData.data];		
 	}
 	else
 	{
-		if(networkSample.responseMIMEType)
+		if(networkSample.responseMIMEType && networkSample.responseData.data)
 		{
 			NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)networkSample.responseMIMEType, NULL));
 			image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];

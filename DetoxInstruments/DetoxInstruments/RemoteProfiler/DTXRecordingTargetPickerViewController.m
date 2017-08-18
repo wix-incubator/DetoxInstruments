@@ -103,10 +103,17 @@
 		return;
 	}
 	
-	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:_targets[_outlineView.selectedRow] profilingConfiguration:[DTXProfilingConfiguration profilingConfigurationForRemoteProfilingFromDefaults]];
+	DTXProfilingConfiguration* config = [DTXProfilingConfiguration profilingConfigurationForRemoteProfilingFromDefaults];
+	
+	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:_targets[_outlineView.selectedRow] profilingConfiguration:config];
 }
 
 - (IBAction)cancel:(id)sender
+{
+	[self.delegate recordingTargetPickerDidCancel:self];
+}
+
+- (IBAction)options:(id)sender
 {
 	if(_profilingConfigurationController.view.superview != nil)
 	{
@@ -115,11 +122,6 @@
 		return;
 	}
 	
-	[self.delegate recordingTargetPickerDidCancel:self];
-}
-
-- (IBAction)options:(id)sender
-{
 	[self _transitionToOptions];
 }
 
@@ -132,9 +134,8 @@
 		[self transitionFromViewController:_outlineController toViewController:_profilingConfigurationController options:NSViewControllerTransitionSlideForward completionHandler:nil];
 	} completionHandler:nil];
 	
-	_optionsButton.animator.alphaValue = 0.0;
-	_selectButton.animator.alphaValue = 0.0;
-	_cancelButton.animator.title = NSLocalizedString(@"Back", @"");
+	_selectButton.animator.enabled = NO;
+	_optionsButton.animator.title = NSLocalizedString(@"Back", @"");
 }
 
 - (void)_transitionToDevice
@@ -146,9 +147,8 @@
 		[self transitionFromViewController:_profilingConfigurationController toViewController:_outlineController options:NSViewControllerTransitionSlideBackward completionHandler:nil];
 	} completionHandler:nil];
 	
-	_optionsButton.animator.alphaValue = 1.0;
-	_selectButton.animator.alphaValue = 1.0;
-	_cancelButton.animator.title = NSLocalizedString(@"Cancel", @"");
+	_selectButton.animator.enabled = YES;
+	_optionsButton.animator.title = NSLocalizedString(@"Options", @"");
 }
 
 - (void)_addTarget:(DTXRemoteProfilingTarget*)target forService:(NSNetService*)service
@@ -257,12 +257,13 @@
 			cellView.progressIndicator.hidden = NO;
 			break;
 		case DTXRemoteProfilingTargetStateDeviceInfoLoaded:
-			cellView.title1Field.stringValue = target.deviceName;
-			cellView.title2Field.stringValue = target.appName;
-			cellView.title3Field.stringValue = target.deviceOS;
+			cellView.title1Field.stringValue = target.appName;
+			cellView.title2Field.stringValue = target.deviceName;
+			cellView.title3Field.stringValue = [NSString stringWithFormat:@"iOS %@", [target.deviceOS stringByReplacingOccurrencesOfString:@"Version " withString:@""]];
 			cellView.deviceImageView.hidden = NO;
 			[cellView.progressIndicator stopAnimation:nil];
 			cellView.progressIndicator.hidden = YES;
+			cellView.deviceSnapshotImageView.image = target.deviceSnapshot;
 			break;
 		default:
 			break;

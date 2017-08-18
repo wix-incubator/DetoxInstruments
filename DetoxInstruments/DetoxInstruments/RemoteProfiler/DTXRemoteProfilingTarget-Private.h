@@ -15,6 +15,7 @@
 @property (nonatomic, copy, readwrite) NSString* appName;
 @property (nonatomic, copy, readwrite) NSString* deviceName;
 @property (nonatomic, copy, readwrite) NSString* deviceOS;
+@property (nonatomic, copy, readwrite) NSImage* deviceSnapshot;
 @property (nonatomic, copy, readwrite) NSDictionary* deviceInfo;
 
 @property (nonatomic, copy, readonly) NSString* hostName;

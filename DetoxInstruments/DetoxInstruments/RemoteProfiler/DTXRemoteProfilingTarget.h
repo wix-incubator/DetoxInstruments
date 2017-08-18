@@ -35,6 +35,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 @property (nonatomic, copy, readonly) NSString* appName;
 @property (nonatomic, copy, readonly) NSString* deviceName;
 @property (nonatomic, copy, readonly) NSString* deviceOS;
+@property (nonatomic, copy, readonly) NSImage* deviceSnapshot;
 @property (nonatomic, copy, readonly) NSDictionary* deviceInfo;
 
 @property (nonatomic, assign, readonly) DTXRemoteProfilingTargetState state;
@@ -46,6 +47,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 - (void)loadDeviceInfo;
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
 - (void)addTagWithName:(NSString*)name;
+- (void)pushSampleGroupWithName:(NSString*)name;
+- (void)popSampleGroup;
 - (void)stopProfiling;
 
 @end

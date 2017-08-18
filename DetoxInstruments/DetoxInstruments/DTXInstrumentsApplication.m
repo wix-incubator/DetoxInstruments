@@ -27,4 +27,9 @@
 	return [super init];
 }
 
+- (BOOL)sendAction:(SEL)action to:(id)target from:(id)sender
+{
+	return [super sendAction:action to:target from:sender];
+}
+
 @end

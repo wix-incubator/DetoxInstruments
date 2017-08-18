@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, DTXDocumentState) {
 	DTXDocumentStateNew,
 	DTXDocumentStateLiveRecording,
 	DTXDocumentStateLiveRecordingFinished,
-	DTXDocumentStateOpenedFromDisk,
+	DTXDocumentStateSavedToDisk,
 };
 
 @interface DTXDocument : NSDocument
@@ -28,6 +28,8 @@ typedef NS_ENUM(NSUInteger, DTXDocumentState) {
 
 - (void)readyForRecordingIfNeeded;
 - (void)addTag;
+- (void)pushGroup;
+- (void)popGroup;
 - (void)stopLiveRecording;
 
 @end

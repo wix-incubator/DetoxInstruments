@@ -49,15 +49,13 @@
       "scale" : "2x"
     },
     {
-      "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "DetoxInstruments-2 (dragged).png",
+      "size" : "512x512",
       "scale" : "1x"
     },
     {
-      "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "dtx.png",
+      "size" : "512x512",
       "scale" : "2x"
     }
   ],

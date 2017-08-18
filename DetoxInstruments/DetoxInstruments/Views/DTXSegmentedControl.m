@@ -25,10 +25,14 @@
 
 - (void)setSelected:(BOOL)selected forSegment:(NSInteger)segment
 {
-	//Fix a bug in High Sierra where images are not highlighted propertly. 
 	[super setSelected:selected forSegment:segment];
+
+	//Fix a bug in High Sierra where images are not highlighted propertly.
 	[self.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[obj _updateContentState];
+		if([obj respondsToSelector:@selector(_updateContentState)])
+		{
+			[obj _updateContentState];
+		}
 	}];
 }
 

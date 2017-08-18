@@ -57,6 +57,9 @@ static NSDateFormatter* __iso8601DateFormatter;
 	
 	NSMutableDictionary* rv = [NSMutableDictionary new];
 	
+	rv[@"__dtx_className"] = self.entity.managedObjectClassName;
+	rv[@"__dtx_entityName"] = self.entity.name;
+	
 	NSDictionary<NSString *, NSAttributeDescription *>* attributes = [[self entity] attributesByName];
 	[attributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSAttributeDescription * _Nonnull obj, BOOL * _Nonnull stop) {
 		if(filteredKeys != nil && [filteredKeys containsObject:key] == NO)
@@ -137,9 +140,12 @@ static NSDateFormatter* __iso8601DateFormatter;
 
 - (void)updateWithPropertyListDictionaryRepresentation:(NSDictionary *)propertyListDictionaryRepresentation
 {
-	int x;
-	x = 1;
 	[propertyListDictionaryRepresentation enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+		if([key isEqualToString:@"__dtx_className"] || [key isEqualToString:@"__dtx_entityName"])
+		{
+			return;
+		}
+		
 		NSRelationshipDescription* relationship = self.entity.relationshipsByName[key];
 		if(relationship)
 		{
@@ -154,7 +160,13 @@ static NSDateFormatter* __iso8601DateFormatter;
 			{
 				NSMutableArray* transformed = [NSMutableArray new];
 				[obj enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-					Class cls = NSClassFromString(relationship.destinationEntity.managedObjectClassName);
+					NSString* className = [obj respondsToSelector:@selector(objectForKey:)] ? [obj objectForKey:@"__dtx_className"] : nil;
+					if(className == nil)
+					{
+						className = relationship.destinationEntity.managedObjectClassName;
+					}
+					
+					Class cls = NSClassFromString(className);
 					__kindof NSManagedObject* managedObject = [[cls alloc] initWithPropertyListDictionaryRepresentation:obj context:self.managedObjectContext];
 					[transformed addObject:managedObject];
 				}];
@@ -172,14 +184,19 @@ static NSDateFormatter* __iso8601DateFormatter;
 			}
 			else
 			{
-				Class cls = NSClassFromString(relationship.destinationEntity.managedObjectClassName);
+				NSString* className = [obj respondsToSelector:@selector(objectForKey:)] ? [obj objectForKey:@"__dtx_className"] : nil;
+				if(className == nil)
+				{
+					className = relationship.destinationEntity.managedObjectClassName;
+				}
+				
+				Class cls = NSClassFromString(className);
 				obj = [[cls alloc] initWithPropertyListDictionaryRepresentation:obj context:self.managedObjectContext];
 			}
 		}
 		
 		[self setValue:obj forKey:key];
 	}];
-	x = 2;
 }
 
 - (instancetype)initWithPropertyListDictionaryRepresentation:(NSDictionary *)propertyListDictionaryRepresentation context:(NSManagedObjectContext *)moc

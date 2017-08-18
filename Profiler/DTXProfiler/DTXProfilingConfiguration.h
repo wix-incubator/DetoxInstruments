@@ -73,11 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Collecting stack traces may introduce some performance hit.
  *
- *  Stack trace collection is implemented using signals. Specifically, @c SIGUSR1 and @c SIGUSR2 are used.
+ *  Stack trace collection is implemented using signals. Specifically, @c SIGPROF and @c SIGCHLD are used.
  *  If your application uses those signals or installs custom handlers for those signals, there may be collision issues.
- *
- *  The debugger installs, by default, custom signal handlers which may interefere with this framework's own handlers.
- *  For information on how to properly set up your environment, see: @ref https://github.com/wix/DetoxInstruments/blob/master/Documentation/Signals.md
  *
  *  The default value is @c false.
  */
@@ -103,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Profile React Native application.
  *
  *  Currently, only one active React Native bridge is supported.
- *  If you have different needs, open an issue: @ref https://github.com/wix/DetoxInstruments/issues
+ *  If you have different needs, open an issue at @ref https://github.com/wix/DetoxInstruments/issues
  *
  *  The default value is @c true.
  */
@@ -114,18 +111,15 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Collecting JavaScript stack traces may introduce some performance hit.
  *
- *  JavaScript stack trace collection is implemented using signals. Specifically, @c SIGUSR1 and @c SIGUSR2 are used.
+ *  JavaScript stack trace collection is implemented using signals. Specifically, @c SIGPROF and @c SIGCHLD are used.
  *  If your application uses those signals or installs custom handlers for those signals, there may be collision issues.
- *
- *  The debugger installs, by default, custom signal handlers which may interefere with this framework's own handlers.
- *  For information on how to properly set up your environment, see: @ref https://github.com/wix/DetoxInstruments/blob/master/Documentation/Signals.md
  *
  *  The default value is @c false.
  */
 @property (nonatomic) BOOL collectJavaScriptStackTraces;
 
 /**
- *  Symbolicate JavaScript stack traces at runtime.
+ *  Symbolicate JavaScript stack traces at runtime using source maps (if available).
  *
  *  Symbolicating JavaScript stack traces may introduce some performance hit.
  *

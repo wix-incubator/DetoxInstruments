@@ -157,4 +157,26 @@
 	}
 }
 
+#pragma mark DTXWindowWideCopyHanler
+
+- (BOOL)canCopy
+{
+	return _managedTableView.selectedRowIndexes.count > 0;
+}
+
+- (void)copy:(id)sender targetView:(__kindof NSView*)targetView
+{
+	NSMutableString* stringToCopy = [NSMutableString new];
+	
+	[_managedTableView.selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+		DTXLogSample* logSample = [_frc objectAtIndexPath:[NSIndexPath indexPathForItem:idx inSection:0]];
+		[stringToCopy appendString:[logSample.line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]]];
+		[stringToCopy appendString:@"\n"];
+	}];
+	
+	[[NSPasteboard generalPasteboard] clearContents];
+	[[NSPasteboard generalPasteboard] setString:[stringToCopy stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]] forType:NSPasteboardTypeString];
+}
+
+
 @end

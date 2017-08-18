@@ -57,16 +57,23 @@
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		dateFileFormatter = [NSDateFormatter new];
-		dateFileFormatter.dateFormat = @"yyyy-MM-dd-HH-mm-ss";
+		dateFileFormatter.dateStyle = NSDateFormatterMediumStyle;
+		dateFileFormatter.timeStyle = NSDateFormatterMediumStyle;
+		dateFileFormatter.dateFormat = [dateFileFormatter.dateFormat stringByReplacingOccurrencesOfString:@":" withString:@"-"];
 	});
 	
 	NSString* dateString = [dateFileFormatter stringFromDate:[NSDate date]];
-	return [NSString stringWithFormat:@"%@.dtxprof", [self _sanitizeFileNameString:dateString]];
+	return [NSString stringWithFormat:@"%@ %@.dtxprof", [NSProcessInfo processInfo].processName, [self _sanitizeFileNameString:dateString]];
 }
 
 + (NSURL*)_urlForNewRecording
 {
 	return [[self _documentsDirectory] URLByAppendingPathComponent:[self _fileNameForNewRecording] isDirectory:YES];
+}
+
+- (void)_setRecordingFileURL:(NSURL *)recordingFileURL
+{
+	_nonkvc_recordingFileURL = recordingFileURL;
 }
 
 - (void)setRecordingFileURL:(NSURL *)recordingFileURL
@@ -90,7 +97,7 @@
 		recordingFileURL = [recordingFileURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.dtxprof", recordingFileURL.lastPathComponent] isDirectory:YES];
 	}
 	
-	_nonkvc_recordingFileURL = recordingFileURL;
+	[self _setRecordingFileURL:recordingFileURL];
 }
 
 - (NSURL *)recordingFileURL

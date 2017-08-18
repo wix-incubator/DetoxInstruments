@@ -9,6 +9,7 @@
 #import "DTXRemoteProfilingClient.h"
 #import "DTXRemoteProfilingBasics.h"
 #import "DTXRecording+UIExtensions.h"
+#import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 
 @interface DTXRemoteProfilingClient () <DTXProfilerStoryDecoder>
 {
@@ -95,7 +96,12 @@
 
 - (void)didDecodeStoryEvent
 {
-	[self.delegate remoteProfilingClientDidChangeDatabase:self];
+	if(_recording.managedObjectContext.insertedObjects > 0)
+	{
+		[self.delegate remoteProfilingClientDidChangeDatabase:self];
+	}
+	
+	[_recording.managedObjectContext save:NULL];
 }
 
 - (void)addLogSample:(NSDictionary *)logSample entityDescription:(NSEntityDescription *)entityDescription
@@ -121,7 +127,7 @@
 - (void)createRecording:(NSDictionary *)recording entityDescription:(NSEntityDescription *)entityDescription
 {
 	DTXRecording* recordingObj = [[DTXRecording alloc] initWithPropertyListDictionaryRepresentation:recording context:_managedObjectContext];
-	recordingObj.dtx_profilingConfiguration.recordingFileURL = [NSURL fileURLWithPath:recording[@"profilingConfiguration"][@"recordingFileName"]];
+	[recordingObj.dtx_profilingConfiguration _setRecordingFileURL:[NSURL fileURLWithPath:recording[@"profilingConfiguration"][@"recordingFileName"]]];
 	
 	NSAssert(_recording == nil, @"A recording already exists");
 	_recording = recordingObj;

@@ -53,6 +53,11 @@ DTX_CREATE_LOG(Profiler);
 
 @synthesize _profilerStoryListener = _profilerStoryListener;
 
++ (NSString *)version
+{
+	return [NSString stringWithFormat:@"%@.%@", [[NSBundle bundleForClass:self] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle bundleForClass:self] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+}
+
 - (DTXProfilingConfiguration *)profilingConfiguration
 {
 	return _currentProfilingConfiguration;
@@ -318,9 +323,9 @@ DTX_CREATE_LOG(Profiler);
 		jsonOptions |= NSJSONWritingPrettyPrinted;
 	}
 	
-	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[_currentRecording dictionaryRepresentationForJSON] options:jsonOptions error:NULL];
-	NSURL* jsonURL = [_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.json"];
-	[jsonData writeToURL:jsonURL atomically:YES];
+//	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[_currentRecording dictionaryRepresentationForJSON] options:jsonOptions error:NULL];
+//	NSURL* jsonURL = [_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.json"];
+//	[jsonData writeToURL:jsonURL atomically:YES];
 	
 	NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:[_currentRecording dictionaryRepresentationForPropertyList] format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
 	NSURL* plistURL = [_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.plist"];

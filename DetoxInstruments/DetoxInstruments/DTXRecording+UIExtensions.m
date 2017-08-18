@@ -68,12 +68,6 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 		
 		obj = [[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
 		
-		NSDate* startWithMinimum = [self.startTimestamp dateByAddingTimeInterval:self.minimumDefactoTimeInterval];
-		if(obj == nil || [obj compare:startWithMinimum] == NSOrderedAscending)
-		{
-			obj = startWithMinimum;
-		}
-		
 		objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN);
 	}
 	
@@ -85,18 +79,6 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 	objc_setAssociatedObject(self, @selector(defactoEndTimestamp), nil, OBJC_ASSOCIATION_RETAIN);
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDidInvalidateDefactoEndTimestamp object:self];
-}
-
-- (NSTimeInterval)minimumDefactoTimeInterval
-{
-	return [objc_getAssociatedObject(self, _cmd) doubleValue];
-}
-
-- (void)setMinimumDefactoTimeInterval:(NSTimeInterval)minimumDefactoTimeInterval
-{
-	objc_setAssociatedObject(self, @selector(minimumDefactoTimeInterval), @(minimumDefactoTimeInterval), OBJC_ASSOCIATION_RETAIN);
-	
-	[self invalidateDefactoEndTimestamp];
 }
 
 - (BOOL)hasNetworkSamples

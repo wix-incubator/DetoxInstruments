@@ -43,7 +43,7 @@
 		}
 		
 		NSMenuItem *selectedMenuItem = [menu itemAtIndex:selectedMenuItemIndex];
-		[menu popUpMenuPositioningItem:selectedMenuItem atLocation:NSMakePoint(NSMinX(componentRect) - 17, NSMinY(componentRect)) inView:self];
+		[menu popUpMenuPositioningItem:selectedMenuItem atLocation:NSMakePoint(NSMinX(componentRect) - 15, NSMinY(componentRect) + 1) inView:self];
 	}
 }
 

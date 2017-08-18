@@ -11,6 +11,8 @@
 #import "DTXProfilingConfiguration.h"
 #import "AutoCoding.h"
 
+//@import AppKit;
+
 @interface DTXRemoteProfilingTarget () <DTXSocketConnectionDelegate>
 {
 	dispatch_source_t _pingTimer;
@@ -167,6 +169,7 @@
 	self.deviceName = deviceInfo[@"deviceName"];
 	self.appName = deviceInfo[@"appName"];
 	self.deviceOS = deviceInfo[@"deviceOS"];
+//	self.deviceSnapshot = [[NSImage alloc] initWithData:deviceInfo[@"snapshot"]];
 	self.deviceInfo = deviceInfo;
 	
 	_state = DTXRemoteProfilingTargetStateDeviceInfoLoaded;
@@ -226,6 +229,16 @@
 - (void)addTagWithName:(NSString*)name
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeAddTag), @"name": name} completionHandler:nil];
+}
+
+- (void)pushSampleGroupWithName:(NSString *)name
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePushGroup), @"name": name} completionHandler:nil];
+}
+
+- (void)popSampleGroup
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePopGroup)} completionHandler:nil];
 }
 
 - (void)stopProfiling

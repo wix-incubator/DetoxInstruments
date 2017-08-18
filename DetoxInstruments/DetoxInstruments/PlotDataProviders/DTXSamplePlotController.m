@@ -394,7 +394,7 @@
 	[_delegate plotController:self didChangeToPlotRange:plotSpace.xRange];
 }
 
-- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange enforceOnLocalPlotRange:(BOOL)enforce
+- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange
 {
 	if(_graph != nil)
 	{
@@ -403,11 +403,6 @@
 	else
 	{
 		_pendingGlobalXPlotRange = globalPlotRange;
-	}
-	
-	if(enforce)
-	{
-		[self setPlotRange:globalPlotRange];
 	}
 }
 

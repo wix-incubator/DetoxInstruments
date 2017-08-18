@@ -33,12 +33,6 @@
 
 - (NSColor*)backgroundRowColorForItem:(id)item
 {
-	NSColor* superColor = [super backgroundRowColorForItem:item];
-	if(superColor != nil)
-	{
-		return superColor;
-	}
-	
 	DTXReactNativePeroformanceSample* sample = item;
 	
 	return sample.cpuUsage >= 0.9 ? NSColor.warning3Color : sample.cpuUsage >= 0.8 ? NSColor.warning2Color : sample.cpuUsage >= 0.7 ? NSColor.warningColor : NSColor.whiteColor;

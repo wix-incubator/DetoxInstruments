@@ -34,6 +34,7 @@
 	[super viewDidLoad];
 		
 	self.view.wantsLayer = YES;
+	self.view.layer.backgroundColor = NSColor.windowBackgroundColor.CGColor;
 	
 	_pathControl.pathItems = @[];
 	_pathControl.menu = nil;
@@ -120,6 +121,10 @@
 	_logShown = NO;
 	
 	[self _updatePathControlItems];
+	
+	DTXInstrumentsWindowController* controller = self.view.window.windowController;
+	controller.targetForCopy = nil;
+	controller.handlerForCopy = nil;
 }
 
 - (void)_selectConsole
@@ -129,6 +134,10 @@
 	_logShown = YES;
 	
 	[self _updatePathControlItems];
+	
+	DTXInstrumentsWindowController* controller = self.view.window.windowController;
+	controller.targetForCopy = _logTableView;
+	controller.handlerForCopy = _logDataProvider;
 }
 
 - (void)dataProvider:(DTXUIDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item
@@ -136,6 +145,5 @@
 	[self.delegate bottomController:self updateWithInspectorProvider:item];
 	[_logDataProvider scrollToTimestamp:item.sample.timestamp];
 }
-
 
 @end

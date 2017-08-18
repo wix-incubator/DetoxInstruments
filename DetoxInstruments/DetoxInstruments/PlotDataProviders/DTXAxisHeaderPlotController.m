@@ -177,25 +177,15 @@
 	
 }
 
-- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange enforceOnLocalPlotRange:(BOOL)enforce
+- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange
 {
 	if(_graph != nil)
 	{
-//		[CPTAnimation animate:_graph.defaultPlotSpace
-//					 property:@"globalXRange"
-//				fromPlotRange:[(CPTXYPlotSpace *)_graph.defaultPlotSpace globalXRange]
-//				  toPlotRange:globalPlotRange
-//					 duration:0.1];
 		[(CPTXYPlotSpace *)_graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
 	}
 	else
 	{
 		_pendingGlobalXPlotRange = globalPlotRange;
-	}
-	
-	if(enforce)
-	{
-		[self setPlotRange:globalPlotRange];
 	}
 }
 
@@ -203,11 +193,6 @@
 {
 	if(_graph != nil)
 	{
-//		[CPTAnimation animate:_graph.defaultPlotSpace
-//					 property:@"xRange"
-//				fromPlotRange:[(CPTXYPlotSpace *)_graph.defaultPlotSpace xRange]
-//				  toPlotRange:plotRange
-//					 duration:0.1];
 		[(CPTXYPlotSpace *)_graph.defaultPlotSpace setXRange:plotRange];
 	}
 	else

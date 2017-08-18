@@ -15,6 +15,7 @@
 @property (nonatomic, strong, readonly) NSTextField* title3Field;
 
 @property (nonatomic, strong, readonly) NSImageView* deviceImageView;
+@property (nonatomic, strong, readonly) NSImageView* deviceSnapshotImageView;
 @property (nonatomic, strong, readonly) NSProgressIndicator* progressIndicator;
 
 @end

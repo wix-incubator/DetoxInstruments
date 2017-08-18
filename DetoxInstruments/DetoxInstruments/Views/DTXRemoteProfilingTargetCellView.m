@@ -15,6 +15,7 @@
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* title3Field;
 
 @property (nonatomic, strong, readwrite) IBOutlet NSImageView* deviceImageView;
+@property (nonatomic, strong, readwrite) IBOutlet NSImageView* deviceSnapshotImageView;
 @property (nonatomic, strong, readwrite) IBOutlet NSProgressIndicator* progressIndicator;
 
 @end

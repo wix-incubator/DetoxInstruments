@@ -13,6 +13,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypeGetDeviceInfo,
 	DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration,
 	DTXRemoteProfilingCommandTypeAddTag,
+	DTXRemoteProfilingCommandTypePushGroup,
+	DTXRemoteProfilingCommandTypePopGroup,
 	DTXRemoteProfilingCommandTypeProfilingStoryEvent,
 	DTXRemoteProfilingCommandTypeStopProfiling,
 };

@@ -101,16 +101,11 @@
                                                 <action selector="saveDocumentAs:" target="Ady-hI-5gd" id="mDf-zr-I0C"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
-                                        <menuItem title="Page Setup…" keyEquivalent="P" id="qIS-W8-SiK">
-                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                        <menuItem isSeparatorItem="YES" id="zXX-Dq-JIz"/>
+                                        <menuItem title="Export Data As..." id="Cef-qI-in7">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="runPageLayout:" target="Ady-hI-5gd" id="Din-rz-gC5"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Print…" keyEquivalent="p" id="aTl-1u-JFS">
-                                            <connections>
-                                                <action selector="print:" target="Ady-hI-5gd" id="qaZ-4w-aoO"/>
+                                                <action selector="_export:" target="Ady-hI-5gd" id="1yz-zd-fuZ"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -125,11 +120,7 @@
                                                 <action selector="undo:" target="Ady-hI-5gd" id="tsu-4p-dtK"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Redo" keyEquivalent="Z" id="las-nG-35d">
-                                            <connections>
-                                                <action selector="redo:" target="Ady-hI-5gd" id="wRS-ti-xZ1"/>
-                                            </connections>
-                                        </menuItem>
+                                        <menuItem title="Redo" keyEquivalent="Z" id="las-nG-35d"/>
                                         <menuItem isSeparatorItem="YES" id="zip-7d-pop"/>
                                         <menuItem title="Copy" keyEquivalent="c" id="Mah-6J-leh">
                                             <connections>
@@ -153,9 +144,6 @@
                                                     </menuItem>
                                                     <menuItem title="Find and Replace…" tag="12" keyEquivalent="f" id="oEF-6f-KuW">
                                                         <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                                        <connections>
-                                                            <action selector="performTextFinderAction:" target="Ady-hI-5gd" id="eCH-ld-4KO"/>
-                                                        </connections>
                                                     </menuItem>
                                                     <menuItem title="Find Next" tag="2" keyEquivalent="g" id="flX-qf-pNh">
                                                         <connections>
@@ -172,11 +160,7 @@
                                                             <action selector="performFindPanelAction:" target="Ady-hI-5gd" id="52j-jL-7Ew"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Jump to Selection" keyEquivalent="j" id="gPH-Xb-dbf">
-                                                        <connections>
-                                                            <action selector="centerSelectionInVisibleArea:" target="Ady-hI-5gd" id="1lG-5E-diY"/>
-                                                        </connections>
-                                                    </menuItem>
+                                                    <menuItem title="Jump to Selection" keyEquivalent="j" id="gPH-Xb-dbf"/>
                                                 </items>
                                             </menu>
                                         </menuItem>
@@ -272,21 +256,12 @@
                                                 <items>
                                                     <menuItem title="Make Upper Case" id="cpp-fk-I1S">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="uppercaseWord:" target="Ady-hI-5gd" id="13M-eS-w5g"/>
-                                                        </connections>
                                                     </menuItem>
                                                     <menuItem title="Make Lower Case" id="qoK-Gm-xH7">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="lowercaseWord:" target="Ady-hI-5gd" id="jtW-IB-RCv"/>
-                                                        </connections>
                                                     </menuItem>
                                                     <menuItem title="Capitalize" id="5Wb-58-MLy">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="capitalizeWord:" target="Ady-hI-5gd" id="uIE-9o-ZQU"/>
-                                                        </connections>
                                                     </menuItem>
                                                 </items>
                                             </menu>
@@ -317,6 +292,36 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="BFW-BS-AL5">
                                     <items>
+                                        <menuItem title="Detail" keyEquivalent="d" id="5Zl-Qn-tkd">
+                                            <connections>
+                                                <action selector="toggleBottom:" target="Ady-hI-5gd" id="mMf-bu-zsz"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Inspectors" id="tJ7-pW-fNr">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Inspectors" id="AZL-k1-eFc">
+                                                <items>
+                                                    <menuItem title="Show Extended Detail" keyEquivalent="1" id="GBV-V5-UlD">
+                                                        <connections>
+                                                            <action selector="selectExtendedDetail:" target="Ady-hI-5gd" id="gqt-4a-PoA"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Show Profiling Info" keyEquivalent="2" id="g4H-cF-oaK">
+                                                        <connections>
+                                                            <action selector="selectProfilingInfo:" target="Ady-hI-5gd" id="DWy-Qc-EWK"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="Ndo-b7-ZLV"/>
+                                        <menuItem title="Full Screen" keyEquivalent="f" id="R5w-vi-5el">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleFullScreen:" target="Ady-hI-5gd" id="yjW-Ma-KlO"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="1m8-sj-OtB"/>
                                         <menuItem title="Zoom In" keyEquivalent="+" id="Ytd-Va-2ao">
                                             <connections>
                                                 <action selector="zoomIn:" target="Ady-hI-5gd" id="cTy-GI-X3f"/>
@@ -325,13 +330,6 @@
                                         <menuItem title="Zoom Out" keyEquivalent="-" id="Nh0-Mb-yDO">
                                             <connections>
                                                 <action selector="zoomOut:" target="Ady-hI-5gd" id="BGG-zZ-cox"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="1m8-sj-OtB"/>
-                                        <menuItem title="Enter Full Screen" keyEquivalent="f" id="R5w-vi-5el">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="toggleFullScreen:" target="Ady-hI-5gd" id="yjW-Ma-KlO"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -346,8 +344,8 @@
                                                 <action selector="performMiniaturize:" target="Ady-hI-5gd" id="VwT-WD-YPe"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Zoom" id="R4o-n2-Eq4">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menuItem title="Zoom" keyEquivalent="z" id="R4o-n2-Eq4">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                             <connections>
                                                 <action selector="performZoom:" target="Ady-hI-5gd" id="DIl-cC-cCs"/>
                                             </connections>
@@ -380,11 +378,18 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="DTXApplicationDelegate"/>
+                <customObject id="Voe-Tx-rLC" customClass="DTXApplicationDelegate">
+                    <connections>
+                        <outlet property="_aboutMenuItem" destination="5kV-Vb-QxS" id="fWE-y3-odZ"/>
+                        <outlet property="_appMenu" destination="uQy-DD-JDr" id="gkp-UD-jgp"/>
+                        <outlet property="_hideMenuItem" destination="Olw-nP-bQN" id="2Uh-Cn-MhG"/>
+                        <outlet property="_quitMenuItem" destination="4sb-4s-VLi" id="U48-Mz-MbY"/>
+                    </connections>
+                </customObject>
                 <customObject id="Lcf-oR-wGg" customClass="DTXDocumentController"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-562" y="-707"/>
+            <point key="canvasLocation" x="-928" y="-749"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -462,14 +467,50 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="90EE4064-5D29-4683-9335-5096C29E5054" label="" paletteLabel="" image="LeftHandle" id="RCX-7c-pZk">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="38" height="27"/>
+                                    <size key="maxSize" width="38" height="28"/>
+                                    <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="5cS-bM-Lku">
+                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="LeftHandle" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DzB-2L-Tds">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="_pushGroupButtonPressed:" target="B8D-0N-5wS" id="dcS-Cn-Xda"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="FD196E1C-CCF2-4420-B16B-F4D3EB208223" label="" paletteLabel="" image="RightHandle" id="iZh-Gy-GyG">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="38" height="27"/>
+                                    <size key="maxSize" width="38" height="28"/>
+                                    <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="Ll3-es-x7s">
+                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="RightHandle" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6yE-zu-ycH">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="_popGroupButtonPressed:" target="B8D-0N-5wS" id="iwS-dH-ATu"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="UPd-ch-BR2"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="nd4-Wg-8hp"/>
                                 <toolbarItem reference="fgf-8X-rXg"/>
+                                <toolbarItem reference="RCX-7c-pZk"/>
+                                <toolbarItem reference="iZh-Gy-GyG"/>
                                 <toolbarItem reference="uO1-Q0-f8b"/>
                                 <toolbarItem reference="UPd-ch-BR2"/>
                                 <toolbarItem reference="AIu-rn-Vht"/>
+                                <toolbarItem reference="UPd-ch-BR2"/>
+                                <toolbarItem reference="UPd-ch-BR2"/>
                                 <toolbarItem reference="UPd-ch-BR2"/>
                                 <toolbarItem reference="uO1-Q0-f8b"/>
                                 <toolbarItem reference="xCd-i5-im4"/>
@@ -480,16 +521,64 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="_exportPanelOptions" destination="ZhP-en-02Y" id="dyS-nS-Fag"/>
                         <outlet property="_flagButton" destination="Sse-Ks-B7b" id="7oi-eQ-e9z"/>
+                        <outlet property="_formatPopupButton" destination="6TD-ro-Yv4" id="eNv-vy-2RR"/>
                         <outlet property="_layoutSegmentControl" destination="qva-ix-9V1" id="Swq-YE-oQc"/>
+                        <outlet property="_popGroupButton" destination="Ll3-es-x7s" id="TVx-wV-aex"/>
+                        <outlet property="_pushGroupButton" destination="5cS-bM-Lku" id="rjH-yF-dkp"/>
                         <outlet property="_stopRecordingButton" destination="AEf-7c-AaH" id="ZyQ-cR-6Ih"/>
                         <outlet property="_titleLabelContainer" destination="sWQ-Xw-c2R" id="Zgg-Dk-UAD"/>
                         <segue destination="f3X-2z-0cS" kind="relationship" relationship="window.shadowedContentViewController" id="fA0-EO-7uB"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customView id="ZhP-en-02Y">
+                    <rect key="frame" x="0.0" y="0.0" width="250" height="65"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6TD-ro-Yv4">
+                            <rect key="frame" x="88" y="19" width="115" height="26"/>
+                            <popUpButtonCell key="cell" type="push" title="Property List" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="JD6-rS-EW3" id="kgh-0l-b0F">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" autoenablesItems="NO" id="wO8-JY-bYp">
+                                    <items>
+                                        <menuItem title="Property List" state="on" id="JD6-rS-EW3">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="JSON" tag="1" id="5yk-8y-hg4">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                                <connections>
+                                    <action selector="_exportFormatChanged:" target="B8D-0N-5wS" id="fOe-o8-e7D"/>
+                                    <binding destination="qJI-gz-RCJ" name="selectedTag" keyPath="values.DTXPreferredExportFormat" id="sl0-AR-7bE"/>
+                                </connections>
+                            </popUpButtonCell>
+                        </popUpButton>
+                        <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
+                            <rect key="frame" x="33" y="25" width="51" height="17"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="7Wr-AB-JVL">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="6TD-ro-Yv4" firstAttribute="centerX" secondItem="ZhP-en-02Y" secondAttribute="centerX" constant="20" id="8K5-cL-yV6"/>
+                        <constraint firstItem="A51-6N-F8J" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ZhP-en-02Y" secondAttribute="leading" constant="8" id="Lmv-Wp-A7w"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6TD-ro-Yv4" secondAttribute="trailing" constant="8" id="PfT-mD-eRo"/>
+                        <constraint firstItem="6TD-ro-Yv4" firstAttribute="centerY" secondItem="ZhP-en-02Y" secondAttribute="centerY" id="TqM-q6-1Ud"/>
+                        <constraint firstItem="A51-6N-F8J" firstAttribute="baseline" secondItem="6TD-ro-Yv4" secondAttribute="baseline" id="fzx-fx-ZFl"/>
+                        <constraint firstItem="6TD-ro-Yv4" firstAttribute="leading" secondItem="A51-6N-F8J" secondAttribute="trailing" constant="8" id="gQJ-wn-GrM"/>
+                    </constraints>
+                </customView>
+                <userDefaultsController id="qJI-gz-RCJ"/>
             </objects>
-            <point key="canvasLocation" x="-343" y="38.5"/>
+            <point key="canvasLocation" x="-846" y="-69"/>
         </scene>
         <!--Targets Outline View Contoller-->
         <scene sceneID="zJI-Du-3zV">
@@ -535,7 +624,7 @@
                                                                         <constraint firstAttribute="width" constant="70" id="BnW-y2-D4b"/>
                                                                         <constraint firstAttribute="height" constant="70" id="p0I-bj-kAJ"/>
                                                                     </constraints>
-                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="device_iphone_plus_silver" id="lXe-Mc-XbJ"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="device_iphone_silver" id="lXe-Mc-XbJ"/>
                                                                 </imageView>
                                                                 <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" minValue="1" maxValue="100" doubleValue="2" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="YNS-DG-geb">
                                                                     <rect key="frame" x="22" y="29" width="32" height="32"/>
@@ -709,7 +798,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="spB-dC-GlW">
+                            <button toolTip="Record network requests during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="spB-dC-GlW">
                                 <rect key="frame" x="193" y="229" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Record network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="hXF-U4-BB2">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -725,7 +814,7 @@
                                     <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" id="kJv-uV-ogt"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="s9S-Lh-aQC">
+                            <button toolTip="Record localhost network requests during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="s9S-Lh-aQC">
                                 <rect key="frame" x="193" y="207" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Record localhost network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="vVr-6u-f36">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -749,7 +838,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="62r-nq-8Yo">
+                            <button toolTip="Record thread information during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="62r-nq-8Yo">
                                 <rect key="frame" x="193" y="173" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Record thread information" bezelStyle="regularSquare" imagePosition="left" inset="2" id="3jR-IF-pSj">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -767,6 +856,9 @@
                             </button>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5PX-5m-Im6">
                                 <rect key="frame" x="193" y="151" width="314" height="18"/>
+                                <string key="toolTip">Collect stack trace information where appropriate.
+
+Collecting stack traces may introduce some performance hit.</string>
                                 <buttonCell key="cell" type="check" title="Collect stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="n1M-WH-6Yg">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -783,6 +875,9 @@
                             </button>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="GYE-rJ-pn6">
                                 <rect key="frame" x="193" y="129" width="314" height="18"/>
+                                <string key="toolTip">Symbolicate stack traces at runtime.
+
+Symbolicating stack traces may introduce some performance hit.</string>
                                 <buttonCell key="cell" type="check" title="Symbolicate stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sd0-4x-pzu">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -813,7 +908,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Qnb-ac-Ym0">
+                            <button toolTip="Record log output during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Qnb-ac-Ym0">
                                 <rect key="frame" x="193" y="95" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Record log output" bezelStyle="regularSquare" imagePosition="left" inset="2" id="OGX-Tc-rRQ">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -839,6 +934,9 @@
                             </textField>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="nF1-96-rnA">
                                 <rect key="frame" x="193" y="61" width="314" height="18"/>
+                                <string key="toolTip">Profile React Native application.
+
+Currently, only one active React Native bridge is supported.</string>
                                 <buttonCell key="cell" type="check" title="Profile React Native (if available)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AQT-b0-WZA">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -863,6 +961,9 @@
                             </textField>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Eng-0G-HZa">
                                 <rect key="frame" x="193" y="27" width="314" height="18"/>
+                                <string key="toolTip">Collect JavaScript stack trace information where appropriate.
+
+Collecting JavaScript stack traces may introduce some performance hit.</string>
                                 <buttonCell key="cell" type="check" title="Collect JavaScript stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="S8Q-JH-G14">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -887,6 +988,9 @@
                             </button>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="sZy-Ap-ySe">
                                 <rect key="frame" x="193" y="5" width="314" height="18"/>
+                                <string key="toolTip">Symbolicate JavaScript stack traces at runtime using source maps (if available).
+
+Symbolicating JavaScript stack traces may introduce some performance hit.</string>
                                 <buttonCell key="cell" type="check" title="Symbolicate JavaScript stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="MTB-1F-YWE">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -990,8 +1094,8 @@
                         <splitViewItem id="Pwh-Qf-mLt"/>
                         <splitViewItem id="Z4e-yk-Nwc"/>
                     </splitViewItems>
-                    <splitView key="splitView" dividerStyle="thin" vertical="YES" id="fOt-NU-sNG" customClass="_DTXSplitView">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                    <splitView key="splitView" misplaced="YES" dividerStyle="thin" vertical="YES" id="fOt-NU-sNG" customClass="_DTXSplitView">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
                             <outlet property="delegate" destination="GJ1-Mo-aZo" id="92p-Mw-143"/>
@@ -1005,7 +1109,7 @@
                 </splitViewController>
                 <customObject id="Pye-dH-cHn" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="600" y="554"/>
+            <point key="canvasLocation" x="600" y="893"/>
         </scene>
         <!--Main Bottom Pane Split View Controller-->
         <scene sceneID="C5j-rK-DpM">
@@ -1015,8 +1119,8 @@
                         <splitViewItem id="vtU-Tg-Eio"/>
                         <splitViewItem id="yYn-5h-RFR"/>
                     </splitViewItems>
-                    <splitView key="splitView" dividerStyle="thin" id="twL-on-nQz" customClass="_DTXSplitView">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                    <splitView key="splitView" misplaced="YES" dividerStyle="thin" id="twL-on-nQz" customClass="_DTXSplitView">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="800"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
                             <outlet property="delegate" destination="f3X-2z-0cS" id="vSd-fq-BJK"/>
@@ -1037,23 +1141,23 @@
             <objects>
                 <viewController id="8bb-Hj-q9Z" customClass="DTXMainContentController" sceneMemberID="viewController">
                     <view key="view" id="DF5-WI-UBi">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="800"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="hrj-Un-Alg" customClass="DTXHeaderView">
-                                <rect key="frame" x="0.0" y="280" width="450" height="20"/>
+                                <rect key="frame" x="0.0" y="780" width="1000" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="KUc-7G-Wbv"/>
                                 </constraints>
                             </customView>
                             <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="82" horizontalPageScroll="10" verticalLineScroll="82" verticalPageScroll="10" usesPredominantAxisScrolling="NO" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Dyq-gr-DLO" customClass="DTXScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1000" height="780"/>
                                 <clipView key="contentView" wantsLayer="YES" copiesOnScroll="NO" id="3Ki-wJ-UtA">
-                                    <rect key="frame" x="0.0" y="0.0" width="450" height="265"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1000" height="780"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="80" rowSizeStyle="automatic" viewBased="YES" id="TIP-gY-a5N" customClass="DTXPlotTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="265"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="1000" height="780"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1117,7 +1221,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="DTXGraphColumn" editable="NO" width="264" maxWidth="10000000" id="f1Y-qT-VmW">
+                                                <tableColumn identifier="DTXGraphColumn" editable="NO" width="784" maxWidth="10000000" id="f1Y-qT-VmW">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Graph">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1131,7 +1235,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="PlotHostingTableViewCell" focusRingType="none" id="tUk-3n-8fj" customClass="DTXPlotHostingTableCellView">
-                                                            <rect key="frame" x="214" y="1" width="264" height="80"/>
+                                                            <rect key="frame" x="214" y="1" width="784" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </tableCellView>
                                                     </prototypeCellViews>
@@ -1140,8 +1244,8 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="n3R-Di-Yrv">
-                                    <rect key="frame" x="0.0" y="265" width="450" height="15"/>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="n3R-Di-Yrv">
+                                    <rect key="frame" x="0.0" y="264" width="450" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="txo-63-aGr">
@@ -1167,7 +1271,7 @@
                 </viewController>
                 <customObject id="3M1-Lf-gAY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1306" y="11"/>
+            <point key="canvasLocation" x="1701" y="11"/>
         </scene>
         <!--Bottom Content Controller-->
         <scene sceneID="GNr-8R-oRe">
@@ -1175,23 +1279,23 @@
                 <customObject id="bet-VM-njA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController id="dY0-LA-k4i" customClass="DTXBottomContentController" sceneMemberID="viewController">
                     <view key="view" id="6ab-O0-jz6">
-                        <rect key="frame" x="0.0" y="0.0" width="497" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="680" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-hh-Z2i">
-                                <rect key="frame" x="0.0" y="0.0" width="497" height="271"/>
+                                <rect key="frame" x="0.0" y="0.0" width="680" height="271"/>
                                 <clipView key="contentView" drawsBackground="NO" id="7qk-vh-lmX">
-                                    <rect key="frame" x="0.0" y="0.0" width="497" height="256"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="680" height="271"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="ulY-Jk-M9E">
-                                            <rect key="frame" x="0.0" y="0.0" width="651" height="256"/>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="ulY-Jk-M9E" customClass="DTXAutomaticallyDeselectingTableView">
+                                            <rect key="frame" x="0.0" y="0.0" width="680" height="271"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="" width="648" minWidth="40" maxWidth="10000000000" id="rlo-56-GFp">
+                                                <tableColumn identifier="" width="677" minWidth="40" maxWidth="10000000000" id="rlo-56-GFp">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1205,11 +1309,11 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="DTXLogEntryCell" id="Deg-tm-cRn" customClass="DTXTextViewCellView">
-                                                            <rect key="frame" x="1" y="1" width="648" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="677" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rgG-e1-oet">
-                                                                    <rect key="frame" x="3" y="0.0" width="642" height="17"/>
+                                                                    <rect key="frame" x="3" y="0.0" width="671" height="17"/>
                                                                     <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" id="KQc-uL-Ajo">
                                                                         <font key="font" size="11" name="SFMono-Regular"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1234,8 +1338,8 @@
                                     </subviews>
                                     <nil key="backgroundColor"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="ZfO-GK-YnR">
-                                    <rect key="frame" x="0.0" y="256" width="497" height="15"/>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="ZfO-GK-YnR">
+                                    <rect key="frame" x="0.0" y="255" width="497" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="SzF-93-x6h">
@@ -1244,13 +1348,13 @@
                                 </scroller>
                             </scrollView>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CdH-GL-l82" customClass="DTXScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="497" height="272"/>
+                                <rect key="frame" x="0.0" y="0.0" width="680" height="272"/>
                                 <clipView key="contentView" drawsBackground="NO" id="t1C-zD-puQ">
-                                    <rect key="frame" x="0.0" y="0.0" width="497" height="272"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="680" height="272"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="b6M-83-qhy" viewBased="YES" indentationPerLevel="16" indentationMarkerFollowsCell="NO" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG">
-                                            <rect key="frame" x="0.0" y="0.0" width="497" height="249"/>
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="b6M-83-qhy" viewBased="YES" indentationPerLevel="16" indentationMarkerFollowsCell="NO" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG" customClass="DTXDetailOutlineView">
+                                            <rect key="frame" x="0.0" y="0.0" width="680" height="249"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1329,15 +1433,15 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="b6M-83-qhy">
-                                    <rect key="frame" x="0.0" y="0.0" width="497" height="23"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="680" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="qC8-Mm-qyE" customClass="DTXBorderedView">
-                                <rect key="frame" x="0.0" y="271" width="497" height="29"/>
+                                <rect key="frame" x="0.0" y="271" width="680" height="29"/>
                                 <subviews>
                                     <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l8V-u3-onY" customClass="DTXMenuPathControl">
-                                        <rect key="frame" x="5" y="5" width="487" height="20"/>
+                                        <rect key="frame" x="5" y="5" width="670" height="20"/>
                                         <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" refusesFirstResponder="YES" alignment="left" id="Rny-2o-VCR">
                                             <font key="font" metaFont="smallSystem"/>
                                             <url key="url" string="file:///Users/lnatan/Desktop/"/>
@@ -1374,7 +1478,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="601" y="1078"/>
+            <point key="canvasLocation" x="600" y="1370"/>
         </scene>
         <!--Right Inspector Controller-->
         <scene sceneID="Qym-FJ-b5S">
@@ -1590,7 +1694,7 @@
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                             </scroller>
                                                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="O7J-mY-1PS">
-                                                                                <rect key="frame" x="284" y="0.0" width="15" height="14"/>
+                                                                                <rect key="frame" x="283" y="0.0" width="16" height="14"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                             </scroller>
                                                                         </scrollView>
@@ -1698,7 +1802,7 @@
                     </items>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="1306" y="554"/>
+            <point key="canvasLocation" x="1477" y="893"/>
         </scene>
         <!--Recording Target Picker View Controller-->
         <scene sceneID="xRN-Jn-dCw">
@@ -1786,8 +1890,10 @@ Gw
     <resources>
         <image name="Bottom" width="18" height="14"/>
         <image name="DBGFrameUser" width="14" height="14"/>
+        <image name="LeftHandle" width="20" height="16"/>
         <image name="Right" width="18" height="14"/>
-        <image name="device_iphone_plus_silver" width="1842" height="3408"/>
+        <image name="RightHandle" width="20" height="16"/>
+        <image name="device_iphone_silver" width="990" height="1934"/>
         <image name="extendedInfo_highlighted" width="15" height="15"/>
         <image name="fileInfo" width="15" height="15"/>
         <image name="flag" width="8" height="15"/>

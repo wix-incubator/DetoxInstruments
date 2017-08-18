@@ -8,6 +8,12 @@
 
 #import "DTXProfilingConfiguration.h"
 
+@interface DTXProfilingConfiguration ()
+
+- (void)_setRecordingFileURL:(NSURL *)recordingFileURL;
+
+@end
+
 @interface DTXProfilingConfiguration (RemoteProfilingSupport)
 
 - (void)setAsDefaultRemoteProfilingConfiguration;

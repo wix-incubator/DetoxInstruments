@@ -13,6 +13,8 @@
 #import "DTXBottomContentController.h"
 #import "DTXRightInspectorController.h"
 #import "DTXDocument.h"
+#import <CoreServices/CoreServices.h>
+#import "DTXRecording+UIExtensions.h"
 
 static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
 static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollapsed";
@@ -26,6 +28,8 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	__weak IBOutlet NSButton* _stopRecordingButton;
 	__weak IBOutlet NSButton* _flagButton;
+	__weak IBOutlet NSButton* _pushGroupButton;
+	__weak IBOutlet NSButton* _popGroupButton;
 	
 	DTXMainBottomPaneSplitViewController* _bottomSplitViewController;
 	DTXBottomInspectorSplitViewController* _rightSplitViewController;
@@ -36,11 +40,28 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	BOOL _bottomCollapsed;
 	BOOL _rightCollapsed;
+	
+	NSSavePanel* _exportPanel;
+	IBOutlet NSView* _exportPanelOptions;
+	IBOutlet NSPopUpButton* _formatPopupButton;
 }
 
 @end
 
 @implementation DTXInstrumentsWindowController
+
+- (void)dealloc
+{
+	[_bottomSplitViewController.splitViewItems.lastObject removeObserver:self forKeyPath:@"collapsed"];
+	[_rightSplitViewController.splitViewItems.lastObject removeObserver:self forKeyPath:@"collapsed"];
+}
+
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	[_exportPanelOptions.heightAnchor constraintEqualToConstant:65].active = YES;
+}
 
 - (void)windowDidLoad
 {
@@ -143,13 +164,15 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		NSDateComponentsFormatter* ivFormatter = [NSDateComponentsFormatter new];
 		ivFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
 		
-		if(((DTXDocument*)self.document).documentState >= DTXDocumentStateLiveRecordingFinished)
+		DTXDocument* document = (DTXDocument*)self.document;
+		
+		if(document.documentState >= DTXDocumentStateLiveRecordingFinished && document.recording.startTimestamp && document.recording.endTimestamp)
 		{
-			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", ((DTXDocument*)self.document).recording.appName, [ivFormatter stringFromDate:((DTXDocument*)self.document).recording.startTimestamp toDate:((DTXDocument*)self.document).recording.endTimestamp]];
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, [ivFormatter stringFromDate:document.recording.startTimestamp toDate:document.recording.endTimestamp]];
 		}
-		else if(((DTXDocument*)self.document).documentState == DTXDocumentStateLiveRecording)
+		else if(document.documentState == DTXDocumentStateLiveRecording)
 		{
-			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", ((DTXDocument*)self.document).recording.appName, NSLocalizedString(@"Recording...", @"")];
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, NSLocalizedString(@"Recording...", @"")];
 		}
 		else
 		{
@@ -164,8 +187,10 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (void)_fixUpRecordingButtons
 {
-	_stopRecordingButton.alphaValue = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
-	_flagButton.alphaValue = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_stopRecordingButton.enabled =  _stopRecordingButton.alphaValue = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_flagButton.enabled = _flagButton.alphaValue = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_pushGroupButton.enabled = _pushGroupButton.alphaValue = 0.0; //[(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_popGroupButton.enabled = _popGroupButton.alphaValue = 0.0; //[(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
 }
 
 - (IBAction)_stopRecordingButtonPressed:(id)sender
@@ -176,6 +201,16 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 - (IBAction)_flagButtonPressed:(id)sender
 {
 	[(DTXDocument*)self.document addTag];
+}
+
+- (IBAction)_pushGroupButtonPressed:(id)sender
+{
+	[(DTXDocument*)self.document pushGroup];
+}
+
+- (IBAction)_popGroupButtonPressed:(id)sender
+{
+	[(DTXDocument*)self.document popGroup];
 }
 
 - (void)_fixUpSegments
@@ -198,6 +233,31 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	rightSplitViewItem.collapsed = _rightCollapsed;
 }
 
+- (IBAction)toggleRight:(id)sender
+{
+	if(_bottomCollapsed)
+	{
+		_rightCollapsed = NO;
+		[self _fixUpSplitViewsAnimated:NO];
+		_bottomCollapsed = NO;
+	}
+	else
+	{
+		_rightCollapsed = !_rightCollapsed;
+	}
+	
+	[self _fixUpSegments];
+	[self _fixUpSplitViewsAnimated:YES];
+}
+
+- (IBAction)toggleBottom:(id)sender
+{
+	_bottomCollapsed = !_bottomCollapsed;
+	
+	[self _fixUpSegments];
+	[self _fixUpSplitViewsAnimated:YES];
+}
+
 - (IBAction)segmentCellAction:(NSSegmentedCell*)sender
 {
 	NSInteger selectedSegment = [sender selectedSegment];
@@ -205,24 +265,12 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	switch(selectedSegment)
 	{
 		case 0:
-			_bottomCollapsed = !_bottomCollapsed;
+			[self toggleBottom:nil];
 			break;
 		case 1:
-			if(_bottomCollapsed)
-			{
-				_rightCollapsed = NO;
-				[self _fixUpSplitViewsAnimated:NO];
-				_bottomCollapsed = NO;
-			}
-			else
-			{
-				_rightCollapsed = !_rightCollapsed;
-			}
+			[self toggleRight:nil];
 			break;
 	}
-	
-	[self _fixUpSegments];
-	[self _fixUpSplitViewsAnimated:YES];
 }
 
 - (void)contentController:(DTXMainContentController*)cc updateUIWithUIProvider:(DTXUIDataProvider*)dataProvider;
@@ -238,7 +286,17 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	return self.targetForCopy && self.handlerForCopy != nil && self.handlerForCopy.canCopy;
+	if(menuItem.action == @selector(copy:))
+	{
+		return self.targetForCopy && self.handlerForCopy != nil && self.handlerForCopy.canCopy;
+	}
+	
+	if(menuItem.action == @selector(_export:))
+	{
+		return ((DTXDocument*)self.document).documentState >= DTXDocumentStateSavedToDisk;
+	}
+	
+	return menuItem.action == @selector(toggleBottom:) || menuItem.action == @selector(selectExtendedDetail:) || menuItem.action == @selector(selectProfilingInfo:);
 }
 
 - (IBAction)copy:(id)sender
@@ -254,6 +312,67 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	}
 	
 	[super encodeRestorableStateWithCoder:coder];
+}
+
+- (IBAction)selectExtendedDetail:(id)sender
+{
+	[_inspectorContentController selectExtendedDetail];
+}
+
+- (IBAction)selectProfilingInfo:(id)sender
+{
+	[_inspectorContentController selectProfilingInfo];
+}
+
+- (IBAction)_exportFormatChanged:(NSPopUpButton*)sender
+{
+	_exportPanel.allowedFileTypes = @[sender.selectedTag == 0 ? (__bridge NSString*)kUTTypePropertyList : (__bridge NSString*)kUTTypeJSON];
+}
+
+- (IBAction)_export:(id)sender
+{
+	_exportPanel = [NSSavePanel new];
+	_exportPanel.allowedFileTypes = @[_formatPopupButton.selectedTag == 0 ? (__bridge NSString*)kUTTypePropertyList : (__bridge NSString*)kUTTypeJSON];
+	_exportPanel.allowsOtherFileTypes = NO;
+	_exportPanel.canCreateDirectories = YES;
+	_exportPanel.treatsFilePackagesAsDirectories = NO;
+	_exportPanel.nameFieldLabel = NSLocalizedString(@"Export Data As", @"");
+	_exportPanel.nameFieldStringValue = [self.document displayName].lastPathComponent.stringByDeletingPathExtension;
+	
+	_exportPanel.accessoryView = _exportPanelOptions;
+	
+	[_exportPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse result) {
+		[_exportPanel orderOut:nil];
+		
+		if(result != NSModalResponseOK)
+		{
+			_exportPanel = nil;
+			return;
+		}
+		
+		NSData* data = nil;
+		NSError* error = nil;
+		
+		if(_formatPopupButton.selectedTag == 0)
+		{
+			data = [NSPropertyListSerialization dataWithPropertyList:[((DTXDocument*)self.document).recording dictionaryRepresentationForPropertyList] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
+		}
+		else
+		{
+			data = [NSJSONSerialization dataWithJSONObject:[((DTXDocument*)self.document).recording dictionaryRepresentationForJSON] options:NSJSONWritingPrettyPrinted error:&error];
+		}
+		
+		if(data != nil)
+		{
+			[data writeToURL:_exportPanel.URL atomically:YES];
+		}
+		else if(error != nil)
+		{
+			[self presentError:error modalForWindow:self.window delegate:nil didPresentSelector:nil contextInfo:nil];
+		}
+		
+		_exportPanel = nil;
+	}];
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName

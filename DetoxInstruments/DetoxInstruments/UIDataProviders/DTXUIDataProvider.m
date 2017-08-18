@@ -159,27 +159,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	frame.size.width += 1;
 	frame.size.width -= 1;
 	[_managedOutlineView.window setFrame:frame display:NO];
-	
-//	@try
-//	{
-//		[self _attemptSelectionOfFirstNonGroupSample];
-//	}
-//	@catch (NSException* e) { }
-}
-
-- (void)_attemptSelectionOfFirstNonGroupSample
-{
-	id sampleToTest = nil;
-	do
-	{
-		sampleToTest = [_rootGroupProxy sampleAtIndex:0];
-	}
-	while(sampleToTest!= nil && [sampleToTest isKindOfClass:[DTXSampleGroupProxy class]]);
-	
-	if(sampleToTest != nil)
-	{
-		[_managedOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_managedOutlineView rowForItem:sampleToTest]] byExtendingSelection:NO];
-	}
 }
 
 - (BOOL)showsHeaderView
@@ -225,11 +204,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSColor*)backgroundRowColorForItem:(id)item;
 {
-	if([item isMemberOfClass:[DTXTag class]])
-	{
-		return NSColor.systemGreenColor.lighterColor.lighterColor.lighterColor.lighterColor.lighterColor;
-	}
-	
 	return nil;
 }
 
@@ -307,22 +281,14 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		cellView.textField.textColor = [self textColorForItem:item];
 	}
 	
-	cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:[item isKindOfClass:[DTXSampleGroupProxy class]]];
+	cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:([item isKindOfClass:[DTXSampleGroupProxy class]] || [item isMemberOfClass:[DTXTag class]])];
 	
 	return cellView;
 }
 
 - (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item
 {
-	DTXTableRowView* rowView;
-	if([item isMemberOfClass:[DTXTag class]])
-	{
-		rowView = (id)[DTXTagRowView new];
-	}
-	else
-	{
-		rowView = [DTXTableRowView new];
-	}
+	DTXTableRowView* rowView = [DTXTableRowView new];
 	rowView.item = item;
 	
 	return rowView;

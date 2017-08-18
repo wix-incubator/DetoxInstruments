@@ -75,6 +75,11 @@
 {
 	_plotGroup = nil;
 	
+	if(self.document.recording == nil)
+	{
+		return;
+	}
+	
 	[self _reloadPlotGroupIfNeeded];
 }
 
@@ -97,7 +102,16 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentDefactoEndTimestampDidChange:) name:DTXDocumentDefactoEndTimestampDidChangeNotification object:self.document];
 	
-	[_plotGroup setStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:self.document.recording.defactoEndTimestamp];
+	if(self.document.documentState < DTXDocumentStateLiveRecordingFinished)
+	{
+		[_plotGroup setGlobalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:[NSDate distantFuture]];
+		[_plotGroup setLocalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:[self.document.recording.defactoStartTimestamp dateByAddingTimeInterval:120]];
+	}
+	else
+	{
+		[_plotGroup setGlobalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:self.document.recording.defactoEndTimestamp];
+		[_plotGroup setLocalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:self.document.recording.defactoEndTimestamp];
+	}
 	
 	_tableView.intercellSpacing = NSMakeSize(0, 1);
 	
@@ -159,7 +173,13 @@
 
 - (void)_documentDefactoEndTimestampDidChange:(NSNotification*)note
 {
-	[_plotGroup setStartTimestamp:[note.object recording].defactoStartTimestamp endTimestamp:[note.object recording].defactoEndTimestamp];
+	if(self.document.documentState < DTXDocumentStateLiveRecordingFinished)
+	{
+		return;
+	}
+	
+	[_plotGroup setGlobalStartTimestamp:[note.object recording].defactoStartTimestamp endTimestamp:[note.object recording].defactoEndTimestamp];
+	[_plotGroup setLocalStartTimestamp:[note.object recording].defactoStartTimestamp endTimestamp:[note.object recording].defactoEndTimestamp];
 }
 
 #pragma mark DTXManagedPlotControllerGroupDelegate

@@ -105,11 +105,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 - (void)_prepareForLiveRecording:(DTXRecording*)recording
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_recordingDefactoEndTimestampDidChange:) name:DTXRecordingDidInvalidateDefactoEndTimestamp object:recording];
-	
-	if(self.documentState < DTXDocumentStateOpenedFromDisk)
-	{
-		recording.minimumDefactoTimeInterval = 30.0;
-	}
 }
 
 - (void)_prepareForRemoteProfilingRecordingWithTarget:(DTXRemoteProfilingTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration
@@ -164,7 +159,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		
 		DTXRecording* recording = [_container.viewContext executeFetchRequest:[DTXRecording fetchRequest] error:NULL].firstObject;
 		
-		self.documentState = url != nil && recording != nil ? DTXDocumentStateOpenedFromDisk : DTXDocumentStateNew;
+		self.documentState = url != nil && recording != nil ? DTXDocumentStateSavedToDisk : DTXDocumentStateNew;
 		
 		if(recording == nil)
 		{
@@ -330,6 +325,16 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	return NSLocalizedString(@"Untitled Recording", @"");
 }
 
+- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
+{
+	if(self.documentState < DTXDocumentStateLiveRecordingFinished)
+	{
+		[self stopLiveRecording];
+	}
+	
+	[super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
+}
+
 - (void)close
 {
 	@try {
@@ -346,6 +351,16 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 - (void)addTag
 {
 	[_remoteProfilingClient.target addTagWithName:[NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle]];
+}
+
+- (void)pushGroup
+{
+	[_remoteProfilingClient.target pushSampleGroupWithName:[NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle]];
+}
+
+- (void)popGroup
+{
+	[_remoteProfilingClient.target popSampleGroup];
 }
 
 - (void)stopLiveRecording
@@ -378,14 +393,18 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient *)client
 {
+	if(_recording == nil)
+	{
+		[self close];
+		return;
+	}
+	
 	if(_recording.endTimestamp == nil)
 	{
 		_recording.endTimestamp = [NSDate date];
 	}
 	
 	self.documentState = DTXDocumentStateLiveRecordingFinished;
-	
-	_recording.minimumDefactoTimeInterval = 0;
 	
 	[self updateChangeCount:NSChangeDone];
 }

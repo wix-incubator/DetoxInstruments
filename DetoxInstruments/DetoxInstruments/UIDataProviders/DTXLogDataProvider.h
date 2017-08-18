@@ -8,7 +8,7 @@
 
 #import "DTXUIDataProvider.h"
 
-@interface DTXLogDataProvider : NSObject
+@interface DTXLogDataProvider : NSObject <DTXWindowWideCopyHanler>
 
 - (instancetype)initWithDocument:(DTXDocument*)document managedTableView:(NSTableView*)tableView;
 - (instancetype)init NS_UNAVAILABLE;

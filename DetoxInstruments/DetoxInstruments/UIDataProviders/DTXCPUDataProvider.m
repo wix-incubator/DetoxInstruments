@@ -88,12 +88,6 @@
 
 - (NSColor*)backgroundRowColorForItem:(id)item
 {
-	NSColor* superColor = [super backgroundRowColorForItem:item];
-	if(superColor != nil)
-	{
-		return superColor;
-	}
-	
 	double cpu = [(DTXPerformanceSample*)item cpuUsage];
 	double fps = [(DTXPerformanceSample*)item fps];
 	

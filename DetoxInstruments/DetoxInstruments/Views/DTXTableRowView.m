@@ -38,6 +38,11 @@
 //	}
 //}
 
+- (void)setBackgroundColor:(NSColor *)backgroundColor
+{
+	[super setBackgroundColor:backgroundColor];
+}
+
 - (void)layout
 {
 	[super layout];
@@ -47,30 +52,14 @@
 		[self.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			if([obj isKindOfClass:[NSButton class]])
 			{
-				obj.frame = (CGRect){6, obj.frame.origin.y, obj.frame.size};
+				obj.frame = (CGRect){4, obj.frame.origin.y, obj.frame.size};
 			}
 			else
 			{
-				obj.frame = (CGRect){24, obj.frame.origin.y, obj.frame.size};
+				obj.frame = (CGRect){16, obj.frame.origin.y, obj.frame.size};
 			}
 		}];
 	}
-}
-
-@end
-
-@implementation DTXTagRowView
-
-- (instancetype)init
-{
-	self = [super init];
-	
-	if(self)
-	{
-		self.wantsLayer = YES;
-	}
-	
-	return self;
 }
 
 @end
