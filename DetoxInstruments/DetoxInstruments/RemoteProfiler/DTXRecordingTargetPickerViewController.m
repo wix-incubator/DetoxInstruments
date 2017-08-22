@@ -110,11 +110,6 @@
 
 - (IBAction)cancel:(id)sender
 {
-	[self.delegate recordingTargetPickerDidCancel:self];
-}
-
-- (IBAction)options:(id)sender
-{
 	if(_profilingConfigurationController.view.superview != nil)
 	{
 		[self _transitionToDevice];
@@ -122,6 +117,11 @@
 		return;
 	}
 	
+	[self.delegate recordingTargetPickerDidCancel:self];
+}
+
+- (IBAction)options:(id)sender
+{
 	[self _transitionToOptions];
 }
 
@@ -135,7 +135,9 @@
 	} completionHandler:nil];
 	
 	_selectButton.enabled = NO;
-	_optionsButton.title = NSLocalizedString(@"Back", @"");
+	_selectButton.hidden = YES;
+	_optionsButton.hidden = YES;
+	_cancelButton.title = NSLocalizedString(@"Back", @"");
 }
 
 - (void)_transitionToDevice
@@ -147,7 +149,9 @@
 		[self transitionFromViewController:_profilingConfigurationController toViewController:_outlineController options:NSViewControllerTransitionSlideBackward completionHandler:nil];
 	} completionHandler:nil];
 	
-	_optionsButton.title = NSLocalizedString(@"Options", @"");
+	_selectButton.hidden = NO;
+	_optionsButton.hidden = NO;
+	_cancelButton.title = NSLocalizedString(@"Cancel", @"");
 	[self _validateSelectButton];
 }
 
@@ -257,6 +261,7 @@
 			cellView.progressIndicator.hidden = NO;
 			break;
 		case DTXRemoteProfilingTargetStateDeviceInfoLoaded:
+		{
 			cellView.title1Field.stringValue = target.appName;
 			cellView.title2Field.stringValue = target.deviceName;
 			cellView.title3Field.stringValue = [NSString stringWithFormat:@"iOS %@", [target.deviceOS stringByReplacingOccurrencesOfString:@"Version " withString:@""]];
@@ -264,7 +269,16 @@
 			[cellView.progressIndicator stopAnimation:nil];
 			cellView.progressIndicator.hidden = YES;
 			cellView.deviceSnapshotImageView.image = target.deviceSnapshot;
-			break;
+			
+			NSString* devicePrefix = [target.deviceInfo[@"machineName"] hasPrefix:@"iPhone"] ? @"device_iphone" : @"device_ipad";
+			NSString* deviceEnclosureColor = target.deviceInfo[@"deviceEnclosureColor"];
+			NSString* imageName = [NSString stringWithFormat:@"%@_%@", devicePrefix, deviceEnclosureColor];
+			
+			NSImage* image = [NSImage imageNamed:imageName] ?: [NSImage imageNamed:@"device_iphone_2"];;
+			
+			cellView.deviceImageView.image = image;
+			
+		}	break;
 		default:
 			break;
 	}
