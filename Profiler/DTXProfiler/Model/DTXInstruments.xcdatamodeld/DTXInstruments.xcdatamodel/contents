@@ -92,6 +92,8 @@
     <entity name="Recording" representedClassName="DTXRecording" syncable="YES" codeGenerationType="class">
         <attribute name="appName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="binaryName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deviceColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deviceEnclosureColor" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceOS" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceOSType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -100,6 +102,7 @@
         <attribute name="deviceType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="endTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="hasReactNative" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="machineName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="processIdentifier" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="profilingConfiguration" optional="YES" attributeType="Transformable" customClassName="NSDictionary" syncable="YES"/>
         <attribute name="recordingOptions" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
