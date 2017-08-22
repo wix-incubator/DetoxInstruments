@@ -22,6 +22,8 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		D864B09A1F4CC16A00443E91 /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D83CF81F4CAC57008CD867 /* DTXProfiler.framework */; };
+		D864B09B1F4CC16A00443E91 /* DTXProfiler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 39D83CF81F4CAC57008CD867 /* DTXProfiler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -207,6 +209,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		D864B09C1F4CC16A00443E91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D859F4C51F4B7A150044B2B2 /* DTXProfiler.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 39D40BF81ED5ABD200157C04;
+			remoteInfo = DTXProfiler;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -216,6 +225,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				D864B09B1F4CC16A00443E91 /* DTXProfiler.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -256,6 +266,7 @@
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				D864B09A1F4CC16A00443E91 /* DTXProfiler.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
@@ -465,6 +476,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D864B09D1F4CC16A00443E91 /* PBXTargetDependency */,
 			);
 			name = ReactNativeLegacyTesterApp;
 			productName = "Hello World";
@@ -773,6 +785,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D864B09D1F4CC16A00443E91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DTXProfiler;
+			targetProxy = D864B09C1F4CC16A00443E91 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
