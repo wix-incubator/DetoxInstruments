@@ -38,6 +38,8 @@
 		}
 #endif
 		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:self.document];
+		
 		if(_document.recording != nil)
 		{
 			[self _prepareLogData];
@@ -45,6 +47,14 @@
 	}
 	
 	return self;
+}
+
+- (void)_documentStateDidChangeNotification:(NSNotification*)note
+{
+	if(_document.recording != nil)
+	{
+		[self _prepareLogData];
+	}
 }
 
 - (void)_prepareLogData
@@ -55,7 +65,6 @@
 	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 	_frc.delegate = self;
 	[_frc performFetch:NULL];
-	//		_logEntries = [_document.recording.managedObjectContext executeFetchRequest:fr error:NULL];
 	
 	_managedTableView.dataSource = self;
 	_managedTableView.delegate = self;
@@ -132,8 +141,9 @@
 		return;
 	}
 	
-	@try {
-		[_managedTableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] withAnimation:NSTableViewAnimationEffectNone];
+	@try
+	{
+		[_managedTableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:newIndexPath.item] withAnimation:NSTableViewAnimationEffectNone];
 	}
 	@catch(NSException* ex)
 	{
@@ -143,7 +153,8 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	@try {
+	@try
+	{
 		[_managedTableView endUpdates];
 	}
 	@catch(NSException* e)
