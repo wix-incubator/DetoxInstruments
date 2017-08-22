@@ -50,6 +50,34 @@ class ReactNativeLegacyTesterApp extends Component {
     }
   }
 
+  onLogObject() {
+    const obj = {
+      name: 'my name',
+      age: 100,
+      list1: [
+        {
+          key1: 'value1',
+          key2: 'value2',
+        },
+        {
+          key3: 'value3',
+          key4: 'value4',
+        }
+      ],
+      list2: [
+        {
+          key1: 'value1',
+          key2: 'value2',
+        },
+        {
+          key3: 'value3',
+          key4: 'value4',
+        }
+      ]
+    };
+    console.log('log - my object', 'second message', obj, 'another message', obj);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -59,7 +87,10 @@ class ReactNativeLegacyTesterApp extends Component {
         <TouchableOpacity style={styles.button} onPress={() => this.onBusyBridge()}>
           <Text style={styles.buttonText}>Busy Bridge</Text>
         </TouchableOpacity>
-        <Text>Counter: {this.state.counter}</Text>
+        <TouchableOpacity style={styles.button} onPress={() => this.onLogObject()}>
+          <Text style={styles.buttonText}>Log Object</Text>
+        </TouchableOpacity>
+        <Text style={{marginTop: 30}}>Bridge Activity Counter: {this.state.counter}</Text>
       </View>
     );
   }
