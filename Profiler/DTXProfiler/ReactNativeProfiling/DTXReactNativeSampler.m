@@ -109,8 +109,7 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 			}];
 			
 			JSValueRef exception = NULL;
-			
-			callAsFunction(ctx, JSValueToObject(ctx, JSContext.currentCallee.JSValueRef, NULL), JSValueToObject(ctx, JSContext.currentThis.JSValueRef, NULL), JSContext.currentArguments.count, arguments, &exception);
+			JSValueRef rvRef = callAsFunction(ctx, JSValueToObject(ctx, JSContext.currentCallee.JSValueRef, NULL), JSValueToObject(ctx, JSContext.currentThis.JSValueRef, NULL), JSContext.currentArguments.count, arguments, &exception);
 			
 			if(exception)
 			{
@@ -119,6 +118,9 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 			}
 			
 			free(arguments);
+			
+			JSValue *rv = [JSValue valueWithJSValueRef:rvRef inContext:JSContext.currentContext];
+			return rv;
 		};
 		
 		JSObjectRef rv = JSValueToObject(ctx, JSObjectGetProperty(ctx, JSContextGetGlobalObject(ctx), name, NULL), NULL);
@@ -127,6 +129,37 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 	
 	return __orig_JSObjectMakeFunctionWithCallback(ctx, name, callAsFunction);
 }
+
+static void (*__orig_setObjectForKeyedSubscript)(id self, SEL sel, id obj, id<NSCopying> key);
+
+static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origBlock, id<NSCopying> key)
+{
+	__orig_setObjectForKeyedSubscript(self, sel, ^{
+		
+		JSContext *context = JSContext.currentContext;
+		
+		atomic_fetch_add(&__bridgeJSToNCallCount, 1);
+		
+		JSValueRef* arguments = malloc(sizeof(JSValueRef) * JSContext.currentArguments.count);
+		
+		[JSContext.currentArguments enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			atomic_fetch_add(&__bridgeJSToNDataSize, DTXJSValueJsonStringLengh(context.JSGlobalContextRef, [obj JSValueRef]));
+			
+			arguments[idx] = [obj JSValueRef];
+		}];
+		
+		JSValueRef exn = NULL;
+		
+		JSValue *jsVal = [JSValue valueWithObject:origBlock inContext:context];
+		JSObjectRef jsObjRef = JSValueToObject(context.JSGlobalContextRef, jsVal.JSValueRef, &exn);
+		JSObjectRef thisJsObjRef = JSValueToObject(context.JSGlobalContextRef, JSContext.currentThis.JSValueRef, &exn);
+		JSValueRef jsValRef = JSObjectCallAsFunction(context.JSGlobalContextRef, jsObjRef, thisJsObjRef, JSContext.currentArguments.count, arguments, &exn);
+		JSValue *rv = [JSValue valueWithJSValueRef:jsValRef inContext:context];
+		free(arguments);
+		return rv;
+	}, key);
+}
+
 
 static double __rnCPUUsage(thread_t safeRNThread)
 {
@@ -148,27 +181,38 @@ static void __DTXInitializeRNSampler()
 {
 	__rnBacktraceSem = dispatch_semaphore_create(0);
 	
+	rebind_symbols((struct rebinding[]){
+		{"JSObjectCallAsFunction",
+			__dtx_JSObjectCallAsFunction,
+			(void*)&__orig_JSObjectCallAsFunction
+		},
+	}, 1);
+
 	Class cls = NSClassFromString(@"RCTJSCExecutor");
 	Method m = NULL;
 	if(cls != NULL)
 	{
 		//Legacy RN
+		
+		Class class = [JSContext class];
+		Method originalMethod = class_getInstanceMethod(class, @selector(setObject:forKeyedSubscript:));
+		__orig_setObjectForKeyedSubscript = (void*)method_getImplementation(originalMethod);
+		
+		method_setImplementation(originalMethod, (void*)__dtx_setObjectForKeyedSubscript);
+		
+		cls = NSClassFromString(@"RCTJSCExecutor");
 		m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoopThread"));
 	}
 	else
 	{
 		//Modern RN
-        
+		
         rebind_symbols((struct rebinding[]){
             {"JSObjectMakeFunctionWithCallback",
                 __dtx_JSObjectMakeFunctionWithCallback,
                 (void*)&__orig_JSObjectMakeFunctionWithCallback
             },
-            {"JSObjectCallAsFunction",
-                __dtx_JSObjectCallAsFunction,
-                (void*)&__orig_JSObjectCallAsFunction
-            },
-        }, 2);
+        }, 1);
         
 		cls = NSClassFromString(@"RCTCxxBridge");
 		m = class_getInstanceMethod(cls, NSSelectorFromString(@"runJSRunLoop"));
