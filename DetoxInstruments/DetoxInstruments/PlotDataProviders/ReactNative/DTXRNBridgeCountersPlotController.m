@@ -52,7 +52,7 @@
 
 + (NSArray<NSString *> *)plotTitles
 {
-	return @[NSLocalizedString(@"JavaScript to Native", @""), NSLocalizedString(@"Native to JavaScript", @"")];
+	return @[NSLocalizedString(@"Native to JavaScript", @""), NSLocalizedString(@"JavaScript to Native", @"")];
 }
 
 + (BOOL)isStepped
