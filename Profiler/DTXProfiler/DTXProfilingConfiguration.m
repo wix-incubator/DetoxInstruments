@@ -59,7 +59,7 @@
 		dateFileFormatter = [NSDateFormatter new];
 		dateFileFormatter.dateStyle = NSDateFormatterMediumStyle;
 		dateFileFormatter.timeStyle = NSDateFormatterMediumStyle;
-		dateFileFormatter.dateFormat = [dateFileFormatter.dateFormat stringByReplacingOccurrencesOfString:@":" withString:@"-"];
+		dateFileFormatter.dateFormat = [dateFileFormatter.dateFormat stringByReplacingOccurrencesOfString:@":" withString:@"\\"];
 	});
 	
 	NSString* dateString = [dateFileFormatter stringFromDate:[NSDate date]];

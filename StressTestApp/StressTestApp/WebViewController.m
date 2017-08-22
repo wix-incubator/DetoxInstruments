@@ -26,7 +26,7 @@
 {
 	[super viewDidLoad];
 	
-	[_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.google.com/search?site=&tbm=isch&source=hp&biw=1680&bih=989&q=Donald+Trump+meme&oq=Donald+Trump+meme&gs_l=img.3..0l10.915.3197.0.3389.18.14.0.0.0.0.280.1632.0j9j1.10.0....0...1.1.64.img..8.10.1632.0.Ov-oXERATfs#tbm=isch&q=donald+trump+president+meme"]]];
+	[_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.google.com/search?biw=1680&bih=989&tbm=isch&sa=1&q=labrador+puppy&oq=labrador+puppy&gs_l=psy-ab.3..0l4.1212.2330.0.2473.8.8.0.0.0.0.160.570.0j4.4.0....0...1.1.64.psy-ab..5.3.409...0i7i30k1j0i67k1.Mo__QkCCpAw"]]];
 }
 
 @end

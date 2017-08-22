@@ -124,7 +124,7 @@ DTX_CREATE_LOG(Profiler);
 				[DTXLoggingRecorder addLoggingListener:self];
 			}
 			
-			if(_currentRecording.hasReactNative == YES)
+			if(_currentRecording.hasReactNative == YES && _currentProfilingConfiguration.profileReactNative == YES)
 			{
 				[_pollingManager addPollable:[[DTXReactNativeSampler alloc] initWithConfiguration:configuration] handler:^(DTXReactNativeSampler* pollable) {
 					[weakSelf reactNativeSamplerDidPoll:pollable];
@@ -194,22 +194,26 @@ DTX_CREATE_LOG(Profiler);
 		
 		_pollingManager = nil;
 		
-		if(_currentProfilingConfiguration.collectStackTraces && _currentProfilingConfiguration.symbolicateStackTraces)
+		if(_currentProfilingConfiguration.collectStackTraces == YES
+		   && _currentProfilingConfiguration.symbolicateStackTraces == YES)
 		{
 			[self _symbolicateStackTracesInternal];
 		}
 		
-		if(_currentRecording.hasReactNative && _currentProfilingConfiguration.collectJavaScriptStackTraces && _currentProfilingConfiguration.symbolicateJavaScriptStackTraces)
+		if(_currentRecording.hasReactNative
+		   && _currentProfilingConfiguration.profileReactNative == YES
+		   && _currentProfilingConfiguration.collectJavaScriptStackTraces == YES
+		   && _currentProfilingConfiguration.symbolicateJavaScriptStackTraces == YES)
 		{
 			[self _symbolicateJavaScriptStackTracesInternal];
 		}
 		
-		if(_currentProfilingConfiguration.recordNetwork)
+		if(_currentProfilingConfiguration.recordNetwork == YES)
 		{
 			[DTXNetworkRecorder removeNetworkListener:self];
 		}
 		
-		if(_currentProfilingConfiguration.recordLogOutput)
+		if(_currentProfilingConfiguration.recordLogOutput == YES)
 		{
 			[DTXLoggingRecorder removeLoggingListener:self];
 		}
