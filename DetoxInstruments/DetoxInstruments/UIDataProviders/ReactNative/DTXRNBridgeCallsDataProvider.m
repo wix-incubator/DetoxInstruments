@@ -39,21 +39,21 @@
 	writesDelta.title = NSLocalizedString(@"JS->N (Delta)", @"");
 	writesDelta.minWidth = 80;
 	
-	return @[reads, writes, readsDelta, writesDelta];
+	return @[readsDelta, writesDelta, reads, writes];
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 {
 	switch(column)
 	{
-		case 2:
-			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeNToJSCallCount])];
-		case 3:
-			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeJSToNCallCount])];
 		case 0:
 			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeNToJSCallCountDelta])];
 		case 1:
 			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeJSToNCallCountDelta])];
+		case 2:
+			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeNToJSCallCount])];
+		case 3:
+			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeJSToNCallCount])];
 		default:
 			return @"";
 	}
