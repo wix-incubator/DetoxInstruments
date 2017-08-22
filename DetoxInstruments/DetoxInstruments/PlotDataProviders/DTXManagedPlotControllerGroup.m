@@ -23,6 +23,8 @@
 	CPTPlotRange* _savedGlobalPlotRange;
 	
 	id<DTXPlotController> _currentlySelectedPlotController;
+	
+	NSTrackingArea* _tracker;
 }
 
 @property (nonatomic, strong) NSOutlineView* hostingOutlineView;
@@ -51,8 +53,8 @@
 		_timelineView = [DTXTimelineIndicatorView new];
 		_timelineView.translatesAutoresizingMaskIntoConstraints = NO;
 		
-		NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:_timelineView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
-		[_timelineView addTrackingArea:tracker];
+		_tracker = [[NSTrackingArea alloc] initWithRect:_timelineView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
+		[_timelineView addTrackingArea:_tracker];
 		
 		[_hostingOutlineView.enclosingScrollView.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingOutlineView.superview.superview];
 		
@@ -63,6 +65,12 @@
 	}
 	
 	return self;
+}
+
+- (void)dealloc
+{
+	[_timelineView removeTrackingArea:_tracker];
+	_tracker = nil;
 }
 
 - (NSArray<id<DTXPlotController>> *)plotControllers
