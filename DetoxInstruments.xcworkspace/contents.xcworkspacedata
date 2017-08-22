@@ -8,6 +8,6 @@
       location = "container:DetoxInstruments/DetoxInstruments.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:StressTestApp/StressTestApp.xcodeproj">
+      location = "group:Sample Apps/StressTestApp/StressTestApp.xcodeproj">
    </FileRef>
 </Workspace>
