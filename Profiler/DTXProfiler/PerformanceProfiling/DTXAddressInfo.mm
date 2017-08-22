@@ -51,18 +51,18 @@
 	{
 		int status = -1;
 		char* demangled = abi::__cxa_demangle(_info.dli_sname, NULL, NULL, &status);
-		NSString* symbol = nil;
+		NSString* tmpSymbol = nil;
 		if(demangled)
 		{
-			symbol = [NSString stringWithUTF8String:demangled];
+			tmpSymbol = [NSString stringWithUTF8String:demangled];
 			free(demangled);
 		}
 		else
 		{
-			symbol = [NSString stringWithUTF8String:_info.dli_sname];
+			tmpSymbol = [NSString stringWithUTF8String:_info.dli_sname];
 		}
 		
-		return symbol;
+		return tmpSymbol;
 	}
 	else if(_info.dli_fname != NULL)
 	{
