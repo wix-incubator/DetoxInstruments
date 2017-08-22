@@ -7,6 +7,7 @@
 //
 
 #import "NSColor+UIAdditions.h"
+#import <LNInterpolation/LNInterpolation.h>
 
 @implementation NSColor (UIAdditions)
 
@@ -15,11 +16,7 @@
 	static NSColor* warningColor;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 		warningColor = NSColor.systemYellowColor;
-#else
-		warningColor = NSColor.yellowColor;
-#endif
 	});
 	return warningColor;
 }
@@ -29,11 +26,7 @@
 	static NSColor* warning2Color;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 		warning2Color = NSColor.systemOrangeColor;
-#else
-		warning2Color = NSColor.orangeColor;
-#endif
 	});
 	return warning2Color;
 }
@@ -43,23 +36,21 @@
 	static NSColor* warning3Color;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 		warning3Color = NSColor.systemRedColor;
-#else
-		warning3Color = NSColor.redColor;
-#endif
 	});
 	return warning3Color;
 }
 
 - (NSColor *)darkerColor
 {
-	return [self blendedColorWithFraction:0.3 ofColor:NSColor.blackColor];
+	return [self interpolateToValue:NSColor.blackColor progress:0.3];
+//	return [self blendedColorWithFraction:0.3 ofColor:NSColor.blackColor];
 }
 
 - (NSColor *)lighterColor
 {
-	return [self blendedColorWithFraction:0.15 ofColor:NSColor.whiteColor];
+	return [self interpolateToValue:NSColor.whiteColor progress:0.15];
+//	return [self blendedColorWithFraction:0.15 ofColor:NSColor.whiteColor];
 }
 
 @end
