@@ -138,6 +138,8 @@ static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origB
 		
 		JSContext *context = JSContext.currentContext;
 		
+		__rnCtx = context.JSGlobalContextRef;
+		
 		atomic_fetch_add(&__bridgeJSToNCallCount, 1);
 		
 		JSValueRef* arguments = malloc(sizeof(JSValueRef) * JSContext.currentArguments.count);
