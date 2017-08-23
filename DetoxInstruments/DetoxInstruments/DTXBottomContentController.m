@@ -51,6 +51,7 @@
 	if(_logDataProvider == nil)
 	{
 		_logDataProvider = [[DTXLogDataProvider alloc] initWithDocument:self.document managedTableView:_logTableView];
+		_logDataProvider.delegate = self;
 	}
 }
 
@@ -143,7 +144,10 @@
 - (void)dataProvider:(DTXUIDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item
 {
 	[self.delegate bottomController:self updateWithInspectorProvider:item];
-	[_logDataProvider scrollToTimestamp:item.sample.timestamp];
+	if([item isKindOfClass:[DTXLogSample class]] != NO)
+	{
+		[_logDataProvider scrollToTimestamp:item.sample.timestamp];
+	}
 }
 
 @end

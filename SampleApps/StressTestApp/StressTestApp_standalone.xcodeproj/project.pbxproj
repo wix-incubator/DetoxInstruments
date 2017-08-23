@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3944E3431F4DB6D0001911E8 /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3944E33A1F4DB681001911E8 /* DTXProfiler.framework */; };
+		3944E3441F4DB6D0001911E8 /* DTXProfiler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3944E33A1F4DB681001911E8 /* DTXProfiler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3978000F1EEB00C1002BDEFB /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978000C1EEB0038002BDEFB /* WebViewController.m */; };
-		39D7F3691F307D9400A35D05 /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D7F3661F307D2C00A35D05 /* DTXProfiler.framework */; };
-		39D7F36A1F307D9400A35D05 /* DTXProfiler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 39D7F3661F307D2C00A35D05 /* DTXProfiler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39EBDF191ED2DEA2005D8AB1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDF181ED2DEA2005D8AB1 /* main.m */; };
 		39EBDF1C1ED2DEA2005D8AB1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDF1B1ED2DEA2005D8AB1 /* AppDelegate.m */; };
 		39EBDF1F1ED2DEA2005D8AB1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDF1E1ED2DEA2005D8AB1 /* ViewController.m */; };
@@ -19,21 +19,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		39D7F3651F307D2C00A35D05 /* PBXContainerItemProxy */ = {
+		3944E3391F4DB681001911E8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39D7F3611F307D2C00A35D05 /* DTXProfiler.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 39D40BF91ED5ABD200157C04;
 			remoteInfo = DTXProfiler;
 		};
-		39D7F3671F307D6F00A35D05 /* PBXContainerItemProxy */ = {
+		3944E33E1F4DB6B7001911E8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39D7F3611F307D2C00A35D05 /* DTXProfiler.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 39D40BF81ED5ABD200157C04;
 			remoteInfo = DTXProfiler;
 		};
-		39D7F36B1F307D9400A35D05 /* PBXContainerItemProxy */ = {
+		3944E3451F4DB6D0001911E8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39D7F3611F307D2C00A35D05 /* DTXProfiler.xcodeproj */;
 			proxyType = 1;
@@ -49,7 +49,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				39D7F36A1F307D9400A35D05 /* DTXProfiler.framework in Embed Frameworks */,
+				3944E3441F4DB6D0001911E8 /* DTXProfiler.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,7 +59,7 @@
 /* Begin PBXFileReference section */
 		3978000B1EEB0038002BDEFB /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		3978000C1EEB0038002BDEFB /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
-		39D7F3611F307D2C00A35D05 /* DTXProfiler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXProfiler.xcodeproj; path = ../Profiler/DTXProfiler.xcodeproj; sourceTree = "<group>"; };
+		39D7F3611F307D2C00A35D05 /* DTXProfiler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXProfiler.xcodeproj; path = ../../Profiler/DTXProfiler.xcodeproj; sourceTree = "<group>"; };
 		39EBDF141ED2DEA2005D8AB1 /* StressTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39EBDF181ED2DEA2005D8AB1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		39EBDF1A1ED2DEA2005D8AB1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -77,17 +77,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39D7F3691F307D9400A35D05 /* DTXProfiler.framework in Frameworks */,
+				3944E3431F4DB6D0001911E8 /* DTXProfiler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		39D7F3621F307D2C00A35D05 /* Products */ = {
+		3944E3351F4DB681001911E8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				39D7F3661F307D2C00A35D05 /* DTXProfiler.framework */,
+				3944E33A1F4DB681001911E8 /* DTXProfiler.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -151,8 +151,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				39D7F3681F307D6F00A35D05 /* PBXTargetDependency */,
-				39D7F36C1F307D9400A35D05 /* PBXTargetDependency */,
+				3944E33F1F4DB6B7001911E8 /* PBXTargetDependency */,
+				3944E3461F4DB6D0001911E8 /* PBXTargetDependency */,
 			);
 			name = StressTestApp;
 			productName = "___";
@@ -188,7 +188,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 39D7F3621F307D2C00A35D05 /* Products */;
+					ProductGroup = 3944E3351F4DB681001911E8 /* Products */;
 					ProjectRef = 39D7F3611F307D2C00A35D05 /* DTXProfiler.xcodeproj */;
 				},
 			);
@@ -200,11 +200,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		39D7F3661F307D2C00A35D05 /* DTXProfiler.framework */ = {
+		3944E33A1F4DB681001911E8 /* DTXProfiler.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = DTXProfiler.framework;
-			remoteRef = 39D7F3651F307D2C00A35D05 /* PBXContainerItemProxy */;
+			remoteRef = 3944E3391F4DB681001911E8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -237,15 +237,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		39D7F3681F307D6F00A35D05 /* PBXTargetDependency */ = {
+		3944E33F1F4DB6B7001911E8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = DTXProfiler;
-			targetProxy = 39D7F3671F307D6F00A35D05 /* PBXContainerItemProxy */;
+			targetProxy = 3944E33E1F4DB6B7001911E8 /* PBXContainerItemProxy */;
 		};
-		39D7F36C1F307D9400A35D05 /* PBXTargetDependency */ = {
+		3944E3461F4DB6D0001911E8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = DTXProfiler;
-			targetProxy = 39D7F36B1F307D9400A35D05 /* PBXContainerItemProxy */;
+			targetProxy = 3944E3451F4DB6D0001911E8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

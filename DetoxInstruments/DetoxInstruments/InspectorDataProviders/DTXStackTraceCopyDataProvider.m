@@ -10,7 +10,7 @@
 
 @implementation DTXStackTraceCopyDataProvider
 
-+ (NSFont*)_fontForStackTraceDisplay
++ (NSFont*)fontForStackTraceDisplay
 {
 	static NSFont* font;
 	
@@ -87,7 +87,7 @@
 		}
 		
 		DTXStackTraceFrame* frame = [DTXStackTraceFrame new];
-		frame.stackFrameText = [[NSAttributedString alloc] initWithString:stackTraceFrame attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [self.class _fontForStackTraceDisplay]}];
+		frame.stackFrameText = [[NSAttributedString alloc] initWithString:stackTraceFrame attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [self.class fontForStackTraceDisplay]}];
 		frame.fullStackFrameText = [self stackTraceFrameStringForObject:obj includeFullFormat:YES];
 		frame.stackFrameIcon = [self imageForObject:obj];
 		

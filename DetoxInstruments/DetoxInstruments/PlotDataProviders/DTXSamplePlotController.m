@@ -15,6 +15,7 @@
 #import <LNInterpolation/LNInterpolation.h>
 #import "DTXRecording+UIExtensions.h"
 #import "DTXStackedPlotGroup.h"
+#import "DTXCPTScatterPlot.h"
 
 @interface DTXSamplePlotController () <CPTScatterPlotDelegate>
 
@@ -313,7 +314,7 @@
 	NSMutableArray* rv = [NSMutableArray new];
 	[self.class.sampleKeys enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		// Create the plot
-		CPTScatterPlot* scatterPlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
+		CPTScatterPlot* scatterPlot = [[DTXCPTScatterPlot alloc] initWithFrame:CGRectZero];
 		scatterPlot.identifier = @(idx);
 		
 		// set interpolation types

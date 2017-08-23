@@ -29,15 +29,15 @@
 
 @end
 
-@class DTXUIDataProvider;
+@protocol DTXUIDataProvider @end
 
 @protocol DTXUIDataProviderDelegate
 
-- (void)dataProvider:(DTXUIDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item;
+- (void)dataProvider:(id<DTXUIDataProvider>)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item;
 
 @end
 
-@interface DTXUIDataProvider : NSObject
+@interface DTXUIDataProvider : NSObject <DTXUIDataProvider>
 
 + (Class)inspectorDataProviderClass;
 

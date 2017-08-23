@@ -10,6 +10,11 @@
 
 @implementation DTXCPTRangePlot
 
+- (BOOL)_canDisplayConcurrently
+{
+	return YES;
+}
+
 -(void)calculatePointsToDraw:(nonnull BOOL *)pointDrawFlags numberOfPoints:(NSUInteger)dataCount forPlotSpace:(nonnull CPTXYPlotSpace *)xyPlotSpace includeVisiblePointsOnly:(BOOL)visibleOnly
 {
 	for(NSUInteger i = 0; i < dataCount; i++)

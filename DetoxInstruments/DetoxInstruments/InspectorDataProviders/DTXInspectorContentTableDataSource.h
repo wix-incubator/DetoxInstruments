@@ -14,8 +14,10 @@
 
 @property (nonatomic, copy) NSString* title;
 @property (nonatomic, copy) NSString* description;
+@property (nonatomic, copy) NSAttributedString* attributedDescription;
 @property (nonatomic, strong) NSColor* color;
 
++ (instancetype)contentRowWithTitle:(NSString*)title attributedDescription:(NSAttributedString*)attributedDescription;
 + (instancetype)contentRowWithTitle:(NSString*)title description:(NSString*)description color:(NSColor*)color;
 + (instancetype)contentRowWithTitle:(NSString*)title description:(NSString*)description;
 + (instancetype)contentRowWithNewLine;
