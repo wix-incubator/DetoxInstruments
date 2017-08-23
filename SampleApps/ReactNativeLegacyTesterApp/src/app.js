@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
 import {AppRegistry, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import 'detox-instruments-react-native-utils';
 
 class ReactNativeLegacyTesterApp extends Component {
   constructor(props) {
