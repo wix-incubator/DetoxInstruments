@@ -82,18 +82,26 @@
 	return [DTXTableRowView new];
 }
 
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
+{
+	NSTableColumn *tableColumn = [[tableView tableColumns] objectAtIndex:0];
+	NSCell *cell = [tableColumn dataCellForRow:row];
+	NSString *content = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+	[cell setObjectValue:content];
+	[cell setWraps:YES];
+	return [cell cellSizeForBounds:NSMakeRect(0, 0, [tableColumn width], FLT_MAX)].height;
+}
+
+- (void)tableViewColumnDidResize:(NSNotification *)notification
+{
+	[_managedTableView reloadData];
+}
+
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	DTXTextViewCellView* cell = [tableView makeViewWithIdentifier:@"DTXLogEntryCell" owner:nil];
-	
 	cell.contentTextField.stringValue = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	cell.contentTextField.allowsDefaultTighteningForTruncation = NO;
-	if(_hasAutomaticRowHeights == NO)
-	{
-		cell.contentTextField.usesSingleLineMode = YES;
-		cell.contentTextField.lineBreakMode = NSLineBreakByTruncatingTail;
-	}
-	
 	return cell;
 }
 
