@@ -265,7 +265,7 @@ static void __DTXInitializeRNSampler()
 		
 		if(__rnCtx != nil)
 		{
-			JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)ctx];
+			JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
 			objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 		}
 	}
@@ -279,7 +279,7 @@ static void __DTXInitializeRNSampler()
 	
 	if(__rnCtx != nil)
 	{
-		JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)ctx];
+		JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
 		objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 	}
 }
