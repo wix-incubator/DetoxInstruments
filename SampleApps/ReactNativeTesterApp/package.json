@@ -6,6 +6,7 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "detox-instruments-react-native-utils": "^1.0.0",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.46.4"
   },
