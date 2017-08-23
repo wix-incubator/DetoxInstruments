@@ -42,6 +42,15 @@ void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
 	dispatch_semaphore_signal(__rnBacktraceSem);
 }
 
+static void installDtxNativeLoggingHook(JSContext* ctx)
+{
+	ctx[@"dtxNativeLoggingHook"] = ^ {
+		for (id val in ((JSValue *)JSContext.currentArguments.firstObject).toArray) {
+			NSLog(@"jsValue %@", val);
+		}
+	};
+}
+
 static void (*orig_runRunLoopThread)(id, SEL) = NULL;
 static void swz_runRunLoopThread(id self, SEL _cmd)
 {
@@ -92,11 +101,16 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 {
 	if(name != NULL)
 	{
+		JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)ctx];
+		
+		if(__rnCtx == nil || __rnCtx != ctx)
+		{
+			installDtxNativeLoggingHook(objcCtx);
+		}
+		
 		__rnCtx = ctx;
 		
 		NSString* str = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, name);
-		
-		JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)ctx];
 		
 		objcCtx[str] = ^ {
 			
@@ -136,11 +150,18 @@ static void (*__orig_setObjectForKeyedSubscript)(id self, SEL sel, id obj, id<NS
 
 static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origBlock, id<NSCopying> key)
 {
+	JSContext *context = self;
+	
+	BOOL shouldInstallDtxNativeLoggingHook = (__rnCtx == nil || __rnCtx != context.JSGlobalContextRef);
+	
+	__rnCtx = context.JSGlobalContextRef;
+	
+	if(shouldInstallDtxNativeLoggingHook)
+	{
+		installDtxNativeLoggingHook(context);
+	}
+	
 	__orig_setObjectForKeyedSubscript(self, sel, ^{
-		
-		JSContext *context = JSContext.currentContext;
-		
-		__rnCtx = context.JSGlobalContextRef;
 		
 		atomic_fetch_add(&__bridgeJSToNCallCount, 1);
 		
@@ -160,6 +181,7 @@ static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origB
 		JSValueRef jsValRef = JSObjectCallAsFunction(context.JSGlobalContextRef, jsObjRef, thisJsObjRef, JSContext.currentArguments.count, arguments, &exn);
 		JSValue *rv = [JSValue valueWithJSValueRef:jsValRef inContext:context];
 		free(arguments);
+		
 		return rv;
 	}, key);
 }
