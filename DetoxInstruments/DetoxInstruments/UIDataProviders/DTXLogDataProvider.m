@@ -10,6 +10,7 @@
 #import "DTXTableRowView.h"
 #import "DTXTextViewCellView.h"
 @import ObjectiveC;
+#import "DTXLogLineInspectorDataProvider.h"
 
 @interface DTXLogDataProvider() <NSTableViewDataSource, NSTableViewDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -21,6 +22,11 @@
 @end
 
 @implementation DTXLogDataProvider
+
++ (Class)inspectorDataProviderClass
+{
+	return [DTXLogLineInspectorDataProvider class];
+}
 
 - (instancetype)initWithDocument:(DTXDocument*)document managedTableView:(NSTableView*)tableView
 {
@@ -122,6 +128,19 @@
 	cell.contentTextField.stringValue = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	cell.contentTextField.allowsDefaultTighteningForTruncation = NO;
 	return cell;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+	if(_managedTableView.selectedRowIndexes.count != 1)
+	{
+		[self.delegate dataProvider:self didSelectInspectorItem:nil];
+		return;
+	}
+	
+	id item = [_frc objectAtIndexPath:[NSIndexPath indexPathForItem:_managedTableView.selectedRow inSection:0]];
+	DTXInspectorDataProvider* idp = [[[self.class inspectorDataProviderClass] alloc] initWithSample:item document:_document];
+	[self.delegate dataProvider:self didSelectInspectorItem:idp];
 }
 
 - (void)scrollToTimestamp:(NSDate*)timestamp

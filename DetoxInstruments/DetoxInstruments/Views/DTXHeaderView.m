@@ -10,6 +10,11 @@
 
 @implementation DTXHeaderView
 
+- (BOOL)canDrawConcurrently
+{
+	return YES;
+}
+
 - (void)awakeFromNib
 {
 	[super awakeFromNib];

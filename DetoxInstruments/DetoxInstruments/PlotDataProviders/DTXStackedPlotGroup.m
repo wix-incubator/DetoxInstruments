@@ -10,6 +10,11 @@
 
 @implementation DTXStackedPlotGroup
 
+- (BOOL)_canDisplayConcurrently
+{
+	return YES;
+}
+
 -(void)layoutSublayers
 {
 	CGRect selfBounds = self.bounds;

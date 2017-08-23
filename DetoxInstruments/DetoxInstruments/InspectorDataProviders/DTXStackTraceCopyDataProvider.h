@@ -10,6 +10,8 @@
 
 @interface DTXStackTraceCopyDataProvider : DTXInspectorDataProvider
 
++ (NSFont*)fontForStackTraceDisplay;
+
 - (NSArray*)arrayForStackTrace;
 - (NSString*)stackTraceFrameStringForObject:(id)obj includeFullFormat:(BOOL)fullFormat;
 - (DTXInspectorContent*)inspectorContentForStackTrace;

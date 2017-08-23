@@ -11,6 +11,11 @@
 @interface DTXTimelineIndicatorView () <CALayerDelegate> @end
 @implementation DTXTimelineIndicatorView
 
+- (BOOL)canDrawConcurrently
+{
+	return YES;
+}
+
 - (instancetype)initWithFrame:(NSRect)frameRect
 {
 	self = [super initWithFrame:frameRect];

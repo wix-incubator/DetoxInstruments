@@ -16,6 +16,11 @@
 
 @implementation DTXPlotTypeCellView
 
+- (BOOL)canDrawConcurrently
+{
+	return YES;
+}
+
 - (void)awakeFromNib
 {
     [super awakeFromNib];

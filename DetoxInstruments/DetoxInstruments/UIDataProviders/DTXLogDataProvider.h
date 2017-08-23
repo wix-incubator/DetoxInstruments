@@ -8,13 +8,14 @@
 
 #import "DTXUIDataProvider.h"
 
-@interface DTXLogDataProvider : NSObject <DTXWindowWideCopyHanler>
+@interface DTXLogDataProvider : NSObject <DTXWindowWideCopyHanler, DTXUIDataProvider>
 
 - (instancetype)initWithDocument:(DTXDocument*)document managedTableView:(NSTableView*)tableView;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
 @property (nonatomic, strong, readonly) DTXDocument* document;
+@property (nonatomic, weak) id<DTXUIDataProviderDelegate> delegate;
 @property (nonatomic, weak, readonly) NSTableView* managedTableView;
 
 - (void)scrollToTimestamp:(NSDate*)timestamp;

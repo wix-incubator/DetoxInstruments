@@ -31,6 +31,15 @@
 	return rv;
 }
 
++ (instancetype)contentRowWithTitle:(NSString*)title attributedDescription:(NSAttributedString*)attributedDescription
+{
+	DTXInspectorContentRow* rv = [DTXInspectorContentRow new];
+	rv.title = title;
+	rv.attributedDescription = attributedDescription;
+	
+	return rv;
+}
+
 + (instancetype)contentRowWithNewLine
 {
 	return [self contentRowWithTitle:@"\n" description:@"\n"];
@@ -94,7 +103,7 @@
 				return;
 			}
 			
-			if(obj.description == nil)
+			if(obj.description == nil && obj.attributedDescription == nil)
 			{
 				return;
 			}
@@ -105,7 +114,14 @@
 				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@": " attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightSemibold]}]];
 			}
 			
-			[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.description attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightRegular], NSForegroundColorAttributeName: obj.color}]];
+			if(obj.attributedDescription)
+			{
+				[mas appendAttributedString:obj.attributedDescription];
+			}
+			else
+			{
+				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.description attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightRegular], NSForegroundColorAttributeName: obj.color}]];
+			}
 			
 			if(idx < content.content.count - 1)
 			{
