@@ -14,6 +14,8 @@
 @import ObjectiveC;
 @import Darwin;
 
+static atomic_uintmax_t __numberOfRecordings = 0;
+
 static atomic_uintmax_t __bridgeNToJSDataSize = 0;
 static atomic_uintmax_t __bridgeNToJSCallCount = 0;
 static atomic_uintmax_t __bridgeJSToNDataSize = 0;
@@ -258,9 +260,28 @@ static void __DTXInitializeRNSampler()
 	{
 		_shouldSampleThread = configuration.collectJavaScriptStackTraces;
 		_shouldSymbolicate = configuration.symbolicateJavaScriptStackTraces;
+		
+		atomic_fetch_add(&__numberOfRecordings, 1);
+		
+		if(__rnCtx != nil)
+		{
+			JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)ctx];
+			objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
+		}
 	}
 	
 	return self;
+}
+
+- (void)dealloc
+{
+	atomic_fetch_sub(&__numberOfRecordings, 1);
+	
+	if(__rnCtx != nil)
+	{
+		JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)ctx];
+		objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
+	}
 }
 
 - (void)pollWithTimePassed:(NSTimeInterval)interval
