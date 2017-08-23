@@ -9,6 +9,7 @@
 #import "DTXLogDataProvider.h"
 #import "DTXTableRowView.h"
 #import "DTXTextViewCellView.h"
+@import ObjectiveC;
 
 @interface DTXLogDataProvider() <NSTableViewDataSource, NSTableViewDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -36,7 +37,13 @@
 			tableView.usesAutomaticRowHeights = YES;
 			_hasAutomaticRowHeights = YES;
 		}
+		else
 #endif
+		{
+			Method m = class_getInstanceMethod(self.class, @selector(__tableView:heightOfRow:));
+			BOOL b = class_addMethod(self.class, @selector(tableView:heightOfRow:), method_getImplementation(m), method_getTypeEncoding(m));
+			NSLog(@"b = %@", @(b));
+		}
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:self.document];
 		
@@ -82,7 +89,7 @@
 	return [DTXTableRowView new];
 }
 
-- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
+- (CGFloat)__tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
 	NSTableColumn *tableColumn = [[tableView tableColumns] objectAtIndex:0];
 	NSCell *cell = [tableColumn dataCellForRow:row];
@@ -94,7 +101,19 @@
 
 - (void)tableViewColumnDidResize:(NSNotification *)notification
 {
-	[_managedTableView reloadData];
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
+	if (NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
+#endif
+	{
+		if(_frc.managedObjectContext.persistentStoreCoordinator.persistentStores.count == 0)
+		{
+			return;
+		}
+		
+		NSIndexSet* selectedRowIndices = _managedTableView.selectedRowIndexes;
+		[_managedTableView reloadData];
+		[_managedTableView selectRowIndexes:selectedRowIndices byExtendingSelection:NO];
+	}
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
