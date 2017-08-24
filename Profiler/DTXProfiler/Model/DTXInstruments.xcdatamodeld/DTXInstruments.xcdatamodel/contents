@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13209.6" systemVersion="17A315i" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdvancedPerformanceSample" representedClassName="DTXAdvancedPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <attribute name="heaviestStackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
         <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -11,6 +11,7 @@
     </entity>
     <entity name="LogSample" representedClassName="DTXLogSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="line" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objects" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
     </entity>
     <entity name="NetworkData" representedClassName="DTXNetworkData" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -158,7 +159,7 @@
     </entity>
     <elements>
         <element name="AdvancedPerformanceSample" positionX="-9" positionY="126" width="128" height="90"/>
-        <element name="LogSample" positionX="-27" positionY="135" width="128" height="60"/>
+        <element name="LogSample" positionX="-27" positionY="135" width="128" height="75"/>
         <element name="NetworkData" positionX="-18" positionY="126" width="128" height="90"/>
         <element name="NetworkSample" positionX="9" positionY="153" width="128" height="285"/>
         <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="150"/>
