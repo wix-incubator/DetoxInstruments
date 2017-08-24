@@ -10,6 +10,7 @@
 #import "DTXTextViewCellView.h"
 #import "DTXViewCellView.h"
 #import "DTXStackTraceCellView.h"
+#import "DTXObjectsCellView.h"
 @import QuartzCore;
 
 @implementation DTXInspectorContentRow
@@ -146,7 +147,7 @@
 {
 	DTXInspectorContent* content = _contentArray[row];
 	
-	__kindof NSTableCellView* cell = [tableView makeViewWithIdentifier:content.stackFrames ? @"DTXStackTraceCellView" : content.customView ? @"DTXViewCellView" : content.image ? @"DTXImageViewCellView" : @"DTXTextViewCellView" owner:nil];
+	__kindof NSTableCellView* cell = [tableView makeViewWithIdentifier:content.stackFrames ? @"DTXStackTraceCellView" : content.objects ? @"DTXObjectsCellView" : content.customView ? @"DTXViewCellView" : content.image ? @"DTXImageViewCellView" : @"DTXTextViewCellView" owner:nil];
 	
 	NSView* targetForWindowWideCopy = cell.imageView;
 	
@@ -156,7 +157,13 @@
 		targetForWindowWideCopy = [cell stackTraceTableView];
 	}
 	
-	if(content.customView == nil && content.image == nil && content.stackFrames == nil)
+	if(content.objects != nil)
+	{
+		[cell setObjects:content.objects];
+		targetForWindowWideCopy = [cell objectsOutlineView];
+	}
+	
+	if(content.customView == nil && content.image == nil && content.stackFrames == nil && content.objects == nil)
 	{
 		[cell contentTextField].attributedStringValue = _attributedStrings[row];
 		[cell contentTextField].allowsEditingTextAttributes = YES;
@@ -191,7 +198,15 @@
 
 - (CGFloat)_displayHeightForString:(NSAttributedString*)string width:(CGFloat)width
 {
-	return [string boundingRectWithSize:NSMakeSize(width, 0) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading].size.height;
+	return [string boundingRectWithSize:NSMakeSize(width, DBL_MAX) options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading].size.height;
+}
+
+- (void)tableViewColumnDidResize:(NSNotification *)notification
+{
+	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
+	{
+		[_managedTableView reloadData];
+	}
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
@@ -206,6 +221,11 @@
 	if(content.stackFrames)
 	{
 		return top + DTXStackTraceCellView.heightForStackFrame * content.stackFrames.count + bottom;
+	}
+	
+	if(content.objects)
+	{
+		return top + DTXStackTraceCellView.heightForStackFrame * content.objects.count + bottom;
 	}
 	
 	if(content.customView)

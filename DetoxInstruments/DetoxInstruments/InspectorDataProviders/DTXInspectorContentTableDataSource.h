@@ -37,6 +37,7 @@
 @property (nonatomic, strong) NSImage* image;
 @property (nonatomic, strong) NSView* customView;
 @property (nonatomic, copy) NSArray<DTXStackTraceFrame*>* stackFrames;
+@property (nonatomic, copy) NSArray* objects;
 
 @end
 

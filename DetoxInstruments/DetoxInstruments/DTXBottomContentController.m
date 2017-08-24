@@ -84,11 +84,6 @@
 	}
 }
 
-- (void)pathControl:(NSPathControl *)pathControl willPopUpMenu:(NSMenu *)menu
-{
-//_outlineView
-}
-
 - (NSMenu *)pathControl:(NSPathControl *)pathControl menuForCell:(NSPathComponentCell *)cell
 {
 	NSUInteger indexOfCell = [[pathControl.cell pathComponentCells] indexOfObject:cell];
@@ -117,6 +112,8 @@
 
 - (void)_selectManagingDataProvider
 {
+//	[_logTableView selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
+	
 	_outlineView.superview.superview.hidden = NO;
 	_logTableView.superview.superview.hidden = YES;
 	_logShown = NO;
@@ -130,6 +127,8 @@
 
 - (void)_selectConsole
 {
+//	[_outlineView selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
+	
 	_outlineView.superview.superview.hidden = YES;
 	_logTableView.superview.superview.hidden = NO;
 	_logShown = YES;

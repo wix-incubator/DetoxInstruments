@@ -8,6 +8,7 @@
 
 #import "DTXLogLineInspectorDataProvider.h"
 #import "DTXStackTraceCopyDataProvider.h"
+#import "DTXInstrumentsModelUIExtensions.h"
 
 @implementation DTXLogLineInspectorDataProvider
 
@@ -15,14 +16,14 @@
 {
 	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
 	
-	DTXLogSample* perfSample = self.sample;
+	DTXLogSample* logSample = self.sample;
 	
 	DTXInspectorContent* request = [DTXInspectorContent new];
 	request.title = NSLocalizedString(@"Info", @"");
 	
 	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
 	
-	NSTimeInterval ti = perfSample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval ti = logSample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
 	
@@ -36,14 +37,44 @@
 	NSMutableParagraphStyle* par = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	par.hyphenationFactor = 1.0;
 	par.tighteningFactorForTruncation = 0.0;
-	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:perfSample.line attributes:@{NSFontAttributeName: [DTXStackTraceCopyDataProvider fontForStackTraceDisplay], NSForegroundColorAttributeName: NSColor.textColor, NSParagraphStyleAttributeName: par}];
+	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:logSample.line attributes:@{NSFontAttributeName: [DTXStackTraceCopyDataProvider fontForStackTraceDisplay], NSForegroundColorAttributeName: NSColor.textColor, NSParagraphStyleAttributeName: par}];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Line", @"") attributedDescription:attr]];
 	
 	logLineInfo.content = content;
 	
-	rv.contentArray = @[request, logLineInfo];
+	if(logSample.objects.count > 0)
+	{
+		DTXInspectorContent* objectsContent = [DTXInspectorContent new];
+		objectsContent.title = NSLocalizedString(@"Logged Objects", @"");
+		objectsContent.objects = logSample.objects;
+		objectsContent.setupForWindowWideCopy = YES;
+		
+		rv.contentArray = @[request, logLineInfo, objectsContent];
+	}
+	else
+	{
+		rv.contentArray = @[request, logLineInfo];
+	}
 	
 	return rv;
+}
+
+- (BOOL)canCopy
+{
+	DTXLogSample* logSample = self.sample;
+	
+	return logSample.objects.count > 0;
+}
+
+- (void)copy:(id)sender targetView:(__kindof NSView *)targetView
+{
+	NSOutlineView* outlineView = targetView;
+	NSValue* val = [outlineView itemAtRow:[outlineView selectedRow]];
+	
+	id obj = val.nonretainedObjectValue;
+	
+	[[NSPasteboard generalPasteboard] clearContents];
+	[[NSPasteboard generalPasteboard] setString:[obj description] forType:NSPasteboardTypeString];
 }
 
 @end

@@ -54,6 +54,10 @@
 		396828EB1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396828EA1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m */; };
 		396829361F1265C10012CAFB /* DTXMenuPathControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 396829351F1265C10012CAFB /* DTXMenuPathControl.m */; };
 		396829461F1286690012CAFB /* NSImage+ImageResize.m in Sources */ = {isa = PBXBuildFile; fileRef = 396829451F1286690012CAFB /* NSImage+ImageResize.m */; };
+		396A6B381F4ECA7700768536 /* DTXObjectsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B371F4ECA7700768536 /* DTXObjectsCellView.m */; };
+		396A6B481F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B471F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m */; };
+		396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */; };
+		396A6B5F1F4F107700768536 /* DTXHighlightingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5E1F4F107700768536 /* DTXHighlightingTableCellView.m */; };
 		39775F241EE826F2001F69CC /* DTXValueIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */; };
 		39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */; };
 		3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978FFE21EEAD06C002BDEFB /* DTXGraphHostingView.m */; };
@@ -308,6 +312,14 @@
 		396829351F1265C10012CAFB /* DTXMenuPathControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXMenuPathControl.m; sourceTree = "<group>"; };
 		396829441F1286690012CAFB /* NSImage+ImageResize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImage+ImageResize.h"; sourceTree = "<group>"; };
 		396829451F1286690012CAFB /* NSImage+ImageResize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSImage+ImageResize.m"; sourceTree = "<group>"; };
+		396A6B361F4ECA7700768536 /* DTXObjectsCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXObjectsCellView.h; sourceTree = "<group>"; };
+		396A6B371F4ECA7700768536 /* DTXObjectsCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXObjectsCellView.m; sourceTree = "<group>"; };
+		396A6B461F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAutomaticallyDeselectingOutlineView.h; sourceTree = "<group>"; };
+		396A6B471F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAutomaticallyDeselectingOutlineView.m; sourceTree = "<group>"; };
+		396A6B5A1F4F0C4200768536 /* DTXHighlightingAttributedTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXHighlightingAttributedTextField.h; sourceTree = "<group>"; };
+		396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXHighlightingAttributedTextField.m; sourceTree = "<group>"; };
+		396A6B5D1F4F107700768536 /* DTXHighlightingTableCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXHighlightingTableCellView.h; sourceTree = "<group>"; };
+		396A6B5E1F4F107700768536 /* DTXHighlightingTableCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXHighlightingTableCellView.m; sourceTree = "<group>"; };
 		39775F221EE826F2001F69CC /* DTXValueIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXValueIndicatorView.h; sourceTree = "<group>"; };
 		39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXValueIndicatorView.m; sourceTree = "<group>"; };
 		39775F5A1EE83729001F69CC /* NSFormatter+PlotFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFormatter+PlotFormatters.h"; sourceTree = "<group>"; };
@@ -617,8 +629,8 @@
 				397FE8C91EEDC8DB002200B7 /* DTXTableRowView.h */,
 				397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */,
 				39C6A9321EE3BCCD000E2EE1 /* DTXHighlightingCellView.h */,
-				398D6EA31EE0596500AA9C11 /* DTXPlotHostingTableCellView.h */,
 				39C6A9331EE3BCCD000E2EE1 /* DTXHighlightingCellView.m */,
+				398D6EA31EE0596500AA9C11 /* DTXPlotHostingTableCellView.h */,
 				398D6EA41EE0596500AA9C11 /* DTXPlotHostingTableCellView.m */,
 				39A876B81EED61B800AE62F8 /* DTXScrollView.h */,
 				39A876B91EED61B800AE62F8 /* DTXScrollView.m */,
@@ -650,6 +662,14 @@
 				39C141611F3C55B3008CF5B9 /* DTXTintedImageView.m */,
 				39EE1F4E1F3E2AF8002CB6C1 /* DTXSegmentedControl.h */,
 				39EE1F4F1F3E2AF8002CB6C1 /* DTXSegmentedControl.m */,
+				396A6B361F4ECA7700768536 /* DTXObjectsCellView.h */,
+				396A6B371F4ECA7700768536 /* DTXObjectsCellView.m */,
+				396A6B461F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.h */,
+				396A6B471F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m */,
+				396A6B5A1F4F0C4200768536 /* DTXHighlightingAttributedTextField.h */,
+				396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */,
+				396A6B5D1F4F107700768536 /* DTXHighlightingTableCellView.h */,
+				396A6B5E1F4F107700768536 /* DTXHighlightingTableCellView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1070,6 +1090,7 @@
 				39B706A31F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m in Sources */,
 				39EBDFC61ED36D45005D8AB1 /* DTXDocument.m in Sources */,
 				3988D2C31EEED5AF0090088E /* DTXMemoryDataProvider.m in Sources */,
+				396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */,
 				39F6F6CB1F0E3D5200C7F411 /* AutoCoding.m in Sources */,
 				39C6A8E51EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m in Sources */,
 				39FA40B81F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m in Sources */,
@@ -1081,6 +1102,7 @@
 				393973E11EDC245C0064D4C8 /* DTXPerformanceSample+UIExtensions.m in Sources */,
 				398D6EA51EE0596500AA9C11 /* DTXPlotHostingTableCellView.m in Sources */,
 				394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */,
+				396A6B381F4ECA7700768536 /* DTXObjectsCellView.m in Sources */,
 				396829361F1265C10012CAFB /* DTXMenuPathControl.m in Sources */,
 				399B4DC81ED574410098D2AC /* DTXInstrumentsWindowController.m in Sources */,
 				393973D61EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.m in Sources */,
@@ -1105,6 +1127,7 @@
 				394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */,
 				39A6A2E21F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m in Sources */,
 				393CD9231F4337B900FB01FE /* DTXDetailOutlineView.m in Sources */,
+				396A6B481F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m in Sources */,
 				39281E861ED7175C002CE905 /* DTXBottomContentController.m in Sources */,
 				393973F31EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m in Sources */,
 				39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */,
@@ -1144,6 +1167,7 @@
 				393973C01EDB02DF0064D4C8 /* DTXRightInspectorController.m in Sources */,
 				39F6F6CE1F0E400300C7F411 /* NSDictionary+FakeDecoder.m in Sources */,
 				392F09841F168959005ACF8D /* DTXStackTraceCopyDataProvider.m in Sources */,
+				396A6B5F1F4F107700768536 /* DTXHighlightingTableCellView.m in Sources */,
 				39F24F5D1EEEE9D70040EED3 /* DTXFPSDataProvider.m in Sources */,
 				39C6A9051EE37E57000E2EE1 /* DTXAxisHeaderPlotController.m in Sources */,
 				39D02CE11EF1C98F00BAD7AF /* DTXInspectorContentTableDataSource.m in Sources */,
