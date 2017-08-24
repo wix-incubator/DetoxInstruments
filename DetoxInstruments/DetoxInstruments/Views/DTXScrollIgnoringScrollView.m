@@ -28,7 +28,21 @@
 	
 	for(NSUInteger idx = 0; idx < tbl.numberOfRows; idx ++)
 	{
-		height += [tbl.delegate tableView:tbl heightOfRow:idx] + tbl.intercellSpacing.height;
+		CGFloat rowHeight = 0;
+		
+		if([tbl isKindOfClass:[NSOutlineView class]])
+		{
+			NSOutlineView* outline = (id)tbl;
+			id item = [outline itemAtRow:idx];
+			rowHeight = [outline.delegate outlineView:outline heightOfRowByItem:item];
+		}
+		else if([tbl isKindOfClass:[NSTableView class]])
+		{
+			rowHeight = [tbl.delegate tableView:tbl heightOfRow:idx];
+		}
+		
+		
+		height += rowHeight + tbl.intercellSpacing.height;
 	}
 	
 	return NSMakeSize(-1, height);
