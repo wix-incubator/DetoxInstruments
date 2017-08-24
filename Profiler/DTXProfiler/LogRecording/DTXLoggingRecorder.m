@@ -56,17 +56,22 @@ static pthread_mutex_t __recordingProfilersMutex;
 		dispatch_data_apply(data, ^bool(__unused dispatch_data_t region, __unused size_t offset, const void *buffer, size_t size) {
 			write(DTXStdErr, buffer, size);
 			
-			NSString *log = [[NSString alloc] initWithBytes:buffer length:size encoding:NSUTF8StringEncoding];
+			NSString *logLine = [[NSString alloc] initWithBytes:buffer length:size encoding:NSUTF8StringEncoding];
 			
-			pthread_mutex_lock(&__recordingProfilersMutex);
-			[__recordingProfilers enumerateObjectsUsingBlock:^(__kindof DTXProfiler * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				[obj addLogLine:log];
-			}];
-			pthread_mutex_unlock(&__recordingProfilersMutex);
+			[self addLogLine:logLine objects:nil];
 			
 			return true;
 		});
 	});
+}
+
++ (void)addLogLine:(NSString*)line objects:(NSArray*)objects
+{
+	pthread_mutex_lock(&__recordingProfilersMutex);
+	[__recordingProfilers enumerateObjectsUsingBlock:^(id<DTXLoggingListener> listener, NSUInteger idx, BOOL * _Nonnull stop) {
+		[listener loggingRecorderDidAddLogLine:line objects:objects];
+	}];
+	pthread_mutex_unlock(&__recordingProfilersMutex);
 }
 
 + (void)addLoggingListener:(id<DTXLoggingListener>)listener

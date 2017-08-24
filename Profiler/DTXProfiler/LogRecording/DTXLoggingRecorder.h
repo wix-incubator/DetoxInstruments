@@ -11,12 +11,13 @@
 extern int DTXStdErr;
 
 @protocol DTXLoggingListener <NSObject>
-- (void)loggingRecorderDidAddLogLine:(NSString*)logLine;
+- (void)loggingRecorderDidAddLogLine:(NSString*)logLine objects:(NSArray*)objects;
 @end
 
 @interface DTXLoggingRecorder : NSObject
 
 + (void)addLoggingListener:(id<DTXLoggingListener>)listener;
 + (void)removeLoggingListener:(id<DTXLoggingListener>)listener;
++ (void)addLogLine:(NSString*)line objects:(NSArray*)objects;
 
 @end

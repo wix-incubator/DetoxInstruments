@@ -282,6 +282,11 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)addLogLine:(NSString *)line
 {
+	[self addLogLine:line objects:nil];
+}
+
+- (void)addLogLine:(NSString *)line objects:(NSArray *)objects
+{
 	DTX_ASSERT_RECORDING
 	
 	[_backgroundContext performBlock:^{
@@ -290,6 +295,7 @@ DTX_CREATE_LOG(Profiler);
 		DTXLogSample* log = [[DTXLogSample alloc] initWithContext:_backgroundContext];
 		log.parentGroup = _currentSampleGroup;
 		log.line = line;
+		log.objects = objects;
 		[_profilerStoryListener addLogSample:log];
 		[self _addPendingSampleInternal:log];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -544,9 +550,9 @@ DTX_CREATE_LOG(Profiler);
 
 #pragma DTXLoggingListener
 
-- (void)loggingRecorderDidAddLogLine:(NSString *)logLine
+- (void)loggingRecorderDidAddLogLine:(NSString *)logLine objects:(NSArray*)objects
 {
-	[self addLogLine:logLine];
+	[self addLogLine:logLine objects:objects];
 }
 
 @end

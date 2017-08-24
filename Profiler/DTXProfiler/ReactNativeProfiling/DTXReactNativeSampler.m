@@ -10,6 +10,7 @@
 #import <stdatomic.h>
 #import "fishhook.h"
 #import "DTXRNJSCSourceMapsSupport.h"
+#import "DTXLoggingRecorder.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 @import ObjectiveC;
 @import Darwin;
@@ -30,7 +31,15 @@ JS_EXPORT JSStringRef JSContextCreateBacktrace(JSContextRef ctx, unsigned maxSta
 static dispatch_semaphore_t __rnBacktraceSem;
 static NSString* __rnLastBacktrace;
 
-void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
+static void resetAtomicVars()
+{
+	atomic_store(&__bridgeJSToNCallCount, 0);
+	atomic_store(&__bridgeNToJSDataSize, 0);
+	atomic_store(&__bridgeNToJSCallCount, 0);
+	atomic_store(&__bridgeJSToNDataSize, 0);
+}
+
+static void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
 {
 	JSStringRef bt = JSContextCreateBacktrace(__rnCtx, UINT_MAX);
     __rnLastBacktrace = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, bt);
@@ -44,10 +53,20 @@ void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
 
 static void installDtxNativeLoggingHook(JSContext* ctx)
 {
+	ctx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
+	
 	ctx[@"dtxNativeLoggingHook"] = ^ {
-		for (id val in ((JSValue *)JSContext.currentArguments.firstObject).toArray) {
-			NSLog(@"jsValue %@", val);
+		NSMutableString *logLine = [NSMutableString new];
+		NSMutableArray *objects = [NSMutableArray new];
+		NSArray *logArgs = ((JSValue *)JSContext.currentArguments.firstObject).toArray;
+		for (id object in logArgs) {
+			[logLine appendFormat:@"%@, ", object];
+			if([object isKindOfClass:[NSArray class]] || [object isKindOfClass:[NSDictionary class]])
+			{
+				[objects addObject:object];
+			}
 		}
+		[DTXLoggingRecorder addLogLine:[logLine stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", "]] objects:objects];
 	};
 }
 
@@ -60,7 +79,7 @@ static void swz_runRunLoopThread(id self, SEL _cmd)
 }
 
 
-NSUInteger DTXJSValueJsonStringLengh(JSContextRef ctx, JSValueRef value)
+static NSUInteger DTXJSValueJsonStringLengh(JSContextRef ctx, JSValueRef value)
 {
     NSUInteger rv = 0;
     
@@ -105,6 +124,7 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 		
 		if(__rnCtx == nil || __rnCtx != ctx)
 		{
+			resetAtomicVars();
 			installDtxNativeLoggingHook(objcCtx);
 		}
 		
@@ -158,6 +178,7 @@ static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origB
 	
 	if(shouldInstallDtxNativeLoggingHook)
 	{
+		resetAtomicVars();
 		installDtxNativeLoggingHook(context);
 	}
 	

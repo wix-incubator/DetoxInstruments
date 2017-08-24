@@ -86,6 +86,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)addLogLine:(NSString*)line;
 
+/**
+ *  Adds a log line and an array of object.
+ *
+ *  The line may be a multiline string.
+ *
+ *  Log lines are added chronologically.
+ *
+ *  @param line The line to add.
+ *  @param objects The objects to add.
+ */
+- (void)addLogLine:(NSString *)line objects:(nullable NSArray *)objects;
+
 @end
 
 NS_ASSUME_NONNULL_END
