@@ -49,7 +49,7 @@
 		objectsContent.objects = logSample.objects;
 		objectsContent.setupForWindowWideCopy = YES;
 		
-		rv.contentArray = @[request, logLineInfo, objectsContent];
+		rv.contentArray = @[request, objectsContent, logLineInfo];
 	}
 	else
 	{

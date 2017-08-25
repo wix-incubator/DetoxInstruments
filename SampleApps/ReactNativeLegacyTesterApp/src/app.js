@@ -76,7 +76,7 @@ class ReactNativeLegacyTesterApp extends Component {
         }
       ]
     };
-    console.log('log - my object', 'second message', obj, 'another message', obj);
+    console.log('log - my object', 'second message', obj, 'another message', Object.assign({}, obj));
   }
 
   render() {

@@ -209,6 +209,27 @@
 	}
 }
 
+- (int)objectsCount:(id)objects
+{
+	int counter = 0;
+	for (id obj in objects)
+	{
+		if ([obj isKindOfClass:[NSArray class]])
+		{
+			counter += 1 + [self objectsCount:obj];
+		}
+		else if ([obj isKindOfClass:[NSDictionary class]])
+		{
+			counter += 1 + [self objectsCount:[obj allObjects]];
+		}
+		else
+		{
+			counter++;
+		}
+	}
+	return counter;
+}
+
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
 	DTXInspectorContent* content = _contentArray[row];
@@ -225,13 +246,13 @@
 	
 	if(content.objects)
 	{
-		return top + DTXStackTraceCellView.heightForStackFrame * content.objects.count + bottom;
+		NSUInteger objectsCount = [self objectsCount:content.objects];
+		return top + DTXStackTraceCellView.heightForStackFrame * objectsCount + bottom;
 	}
 	
 	if(content.customView)
 	{
 		CGFloat h = top + content.customView.fittingSize.height + bottom;
-		
 		return h;
 	}
 	
