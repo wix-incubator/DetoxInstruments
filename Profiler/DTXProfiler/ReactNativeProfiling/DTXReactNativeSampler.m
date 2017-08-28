@@ -56,11 +56,10 @@ static void installDtxNativeLoggingHook(JSContext* ctx)
 	ctx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 	
 	ctx[@"dtxNativeLoggingHook"] = ^ {
-		NSMutableString *logLine = [NSMutableString new];
 		NSMutableArray *objects = [NSMutableArray new];
 		NSArray *logArgs = ((JSValue *)JSContext.currentArguments.firstObject).toArray;
+		NSString *logLine = ((JSValue *)JSContext.currentArguments.lastObject).toString;
 		for (id object in logArgs) {
-			[logLine appendFormat:@"%@, ", object];
 			if([object isKindOfClass:[NSArray class]] || [object isKindOfClass:[NSDictionary class]])
 			{
 				[objects addObject:object];
