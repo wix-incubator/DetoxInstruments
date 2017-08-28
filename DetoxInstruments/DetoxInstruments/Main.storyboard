@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="17A352a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13189.4"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
@@ -558,7 +558,7 @@
                                 </connections>
                             </popUpButtonCell>
                         </popUpButton>
-                        <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
+                        <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
                             <rect key="frame" x="33" y="25" width="51" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="7Wr-AB-JVL">
                                 <font key="font" metaFont="system"/>
@@ -629,7 +629,7 @@
                                                                 <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" minValue="1" maxValue="100" doubleValue="2" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="YNS-DG-geb">
                                                                     <rect key="frame" x="22" y="29" width="32" height="32"/>
                                                                 </progressIndicator>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6b-Qy-3Hr">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N6b-Qy-3Hr">
                                                                     <rect key="frame" x="79" y="53" width="109" height="19"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="StressTestApp" usesSingleLineMode="YES" id="rlj-VE-Ze4">
                                                                         <font key="font" metaFont="system" size="16"/>
@@ -637,7 +637,7 @@
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Isi-59-zfr">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Isi-59-zfr">
                                                                     <rect key="frame" x="79" y="36" width="121" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Leo Natan's iPhone" usesSingleLineMode="YES" id="F5N-vZ-W4z">
                                                                         <font key="font" metaFont="system"/>
@@ -645,7 +645,7 @@
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VTH-pa-BVt">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VTH-pa-BVt">
                                                                     <rect key="frame" x="79" y="18" width="164" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="iPhone 7 Plus, iOS 11 (a1234b)" id="mtB-NJ-7tR">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -698,7 +698,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PVg-YW-dy8">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="PVg-YW-dy8">
                                 <rect key="frame" x="18" y="313" width="158" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select a device to profile:" id="lPg-Uz-0wi">
                                     <font key="font" metaFont="system"/>
@@ -733,7 +733,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="540" height="340"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PoO-IA-vWd">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="PoO-IA-vWd">
                                 <rect key="frame" x="33" y="305" width="156" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Configuration:" id="G4J-El-IBh">
                                     <font key="font" metaFont="system"/>
@@ -752,7 +752,7 @@
                                     <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="KjD-SX-Rta"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mgg-1q-DWj">
+                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Mgg-1q-DWj">
                                 <rect key="frame" x="33" y="268" width="156" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Sampling frequency:" id="W2h-Yp-r0C">
                                     <font key="font" metaFont="system"/>
@@ -790,7 +790,7 @@
                                     </binding>
                                 </connections>
                             </popUpButton>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GoV-U6-EoE">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="GoV-U6-EoE">
                                 <rect key="frame" x="34" y="230" width="156" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Network:" id="OsK-4O-zjb">
                                     <font key="font" metaFont="system"/>
@@ -830,7 +830,7 @@
                                     <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLocalhostNetwork" id="NfU-8S-kjD"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOU-aH-ePw">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="uOU-aH-ePw">
                                 <rect key="frame" x="34" y="174" width="156" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Threads:" id="gfw-eD-MtP">
                                     <font key="font" metaFont="system"/>
@@ -900,7 +900,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                     <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateStackTraces" id="XkQ-iQ-fP3"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nku-ik-9PG">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Nku-ik-9PG">
                                 <rect key="frame" x="34" y="96" width="156" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Log:" id="ovu-nx-we0">
                                     <font key="font" metaFont="system"/>
@@ -924,7 +924,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                     <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLogOutput" id="aT3-dp-91b"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8N9-2E-7Sm">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8N9-2E-7Sm">
                                 <rect key="frame" x="34" y="62" width="156" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="React Native:" id="jbP-iP-gbl">
                                     <font key="font" metaFont="system"/>
@@ -951,7 +951,7 @@ Currently, only one active React Native bridge is supported.</string>
                                     <binding destination="Ix8-QX-1wA" name="value" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="Pe3-do-P5C"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QT7-Wp-bT6">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QT7-Wp-bT6">
                                 <rect key="frame" x="34" y="28" width="156" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="JavaScript:" id="Xr1-0C-pTZ">
                                     <font key="font" metaFont="system"/>
@@ -1180,7 +1180,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                             <rect key="frame" x="1" y="1" width="210" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nwg-qe-WuA">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nwg-qe-WuA">
                                                                     <rect key="frame" x="26" y="32" width="4" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" usesSingleLineMode="YES" id="PGW-5M-iVC">
                                                                         <font key="font" metaFont="system"/>
@@ -1312,7 +1312,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                             <rect key="frame" x="1" y="1" width="677" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgG-e1-oet">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgG-e1-oet">
                                                                     <rect key="frame" x="3" y="3" width="671" height="17"/>
                                                                     <textFieldCell key="cell" controlSize="mini" allowsEditingTextAttributes="YES" id="KQc-uL-Ajo">
                                                                         <font key="font" size="11" name="SFMono-Regular"/>
@@ -1378,7 +1378,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                             <rect key="frame" x="1" y="1" width="72" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6G-5V-mW7">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="O6G-5V-mW7">
                                                                     <rect key="frame" x="0.0" y="2" width="72" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="OaR-KL-nDS">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -1401,7 +1401,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                             <rect key="frame" x="1" y="21" width="72" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-Yb-bnx">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-Yb-bnx">
                                                                     <rect key="frame" x="0.0" y="2" width="72" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" id="4Ks-Q0-h5w">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -1465,10 +1465,10 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                     <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="bQ6-qJ-AWR">
                                         <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
                                     </visualEffectView>
-                                    <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
-                                        <rect key="frame" x="518" y="4" width="142" height="22"/>
+                                    <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
+                                        <rect key="frame" x="460" y="4" width="200" height="22"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="142" id="6gF-FI-OyF"/>
+                                            <constraint firstAttribute="width" constant="200" id="6gF-FI-OyF"/>
                                         </constraints>
                                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Filter" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="59k-uH-dUn">
                                             <font key="font" metaFont="smallSystem"/>
@@ -1559,7 +1559,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                     <rect key="frame" x="1" y="1" width="317" height="48"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkT-q6-qqx">
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tkT-q6-qqx">
                                                                             <rect key="frame" x="1" y="31" width="315" height="14"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="14" id="adf-Us-PGp"/>
@@ -1570,7 +1570,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                         </textField>
-                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-Wz-uMT">
+                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-Wz-uMT">
                                                                             <rect key="frame" x="13" y="10" width="303" height="14"/>
                                                                             <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="BME-dP-HVL">
                                                                                 <font key="font" metaFont="smallSystem"/>
@@ -1601,7 +1601,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                             <rect key="frame" x="3" y="10" width="309" height="56"/>
                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="CWy-fg-abZ"/>
                                                                         </imageView>
-                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fgX-rG-BjB">
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fgX-rG-BjB">
                                                                             <rect key="frame" x="1" y="73" width="315" height="14"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="14" id="bNh-WU-dvF"/>
@@ -1650,7 +1650,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                     <rect key="frame" x="1" y="162" width="317" height="48"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJz-rq-Vqj">
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CJz-rq-Vqj">
                                                                             <rect key="frame" x="1" y="31" width="315" height="14"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="14" id="QUt-9O-l2q"/>
@@ -1668,7 +1668,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="fet-qm-M01" customClass="DTXAutomaticallyDeselectingTableView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="299" height="14"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="299" height="19"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -1691,7 +1691,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                                                         <rect key="frame" x="1" y="1" width="296" height="17"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
-                                                                                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCj-0r-N1a">
+                                                                                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCj-0r-N1a">
                                                                                                                 <rect key="frame" x="16" y="0.0" width="282" height="17"/>
                                                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Table View Cell" allowsEditingTextAttributes="YES" id="jML-Ih-R7D">
                                                                                                                     <font key="font" metaFont="system"/>
@@ -1754,7 +1754,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                     <rect key="frame" x="1" y="212" width="317" height="48"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CL2-q5-92z">
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CL2-q5-92z">
                                                                             <rect key="frame" x="1" y="31" width="315" height="14"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="14" id="WH2-Md-TFp"/>
@@ -1772,7 +1772,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="luK-3M-vK4" userLabel="Outline View" customClass="DTXAutomaticallyDeselectingOutlineView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="312" height="14"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="312" height="19"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -1795,7 +1795,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                                                         <rect key="frame" x="1" y="1" width="309" height="17"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
-                                                                                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wBr-ud-Pex" customClass="DTXHighlightingAttributedTextField">
+                                                                                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wBr-ud-Pex" customClass="DTXHighlightingAttributedTextField">
                                                                                                                 <rect key="frame" x="3" y="0.0" width="308" height="17"/>
                                                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Table View Cell" allowsEditingTextAttributes="YES" usesSingleLineMode="YES" id="Nzp-Qx-W3c">
                                                                                                                     <font key="font" metaFont="system"/>
@@ -1863,7 +1863,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                     </scrollView>
-                                    <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9p8-VF-Hna">
+                                    <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9p8-VF-Hna">
                                         <rect key="frame" x="117" y="124" width="86" height="24"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="No Detail" id="poP-cF-7pq">
                                             <font key="font" metaFont="systemMedium" size="20"/>

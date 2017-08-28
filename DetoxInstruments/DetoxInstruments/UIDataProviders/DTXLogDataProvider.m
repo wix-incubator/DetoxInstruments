@@ -117,10 +117,12 @@
 {
 	NSTableColumn *tableColumn = [[tableView tableColumns] objectAtIndex:0];
 	NSCell *cell = [tableColumn dataCellForRow:row];
+	cell.font = self.class.fontForObjectDisplay;
 	NSString *content = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	[cell setObjectValue:content];
 	[cell setWraps:YES];
-	return [cell cellSizeForBounds:NSMakeRect(0, 0, [tableColumn width], FLT_MAX)].height + 5;
+	//Reduce 10 from table width due to constraints.
+	return [cell cellSizeForBounds:NSMakeRect(0, 0, tableView.bounds.size.width - 10, DBL_MAX)].height + 5;
 }
 
 - (void)tableViewColumnDidResize:(NSNotification *)notification

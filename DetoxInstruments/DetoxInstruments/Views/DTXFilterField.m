@@ -31,7 +31,7 @@
 - (void)setSearchIconWithHighlight:(BOOL)highlighted
 {
 	NSButtonCell *searchButtonCell = ((NSSearchFieldCell*)self.cell).searchButtonCell;
-	searchButtonCell.image = searchButtonCell.alternateImage = [ImageGenerator createFilterImageWithSize:14 highlighted:highlighted];
+	searchButtonCell.image = searchButtonCell.alternateImage = [ImageGenerator createFilterImageWithSize:18 highlighted:highlighted];
 }
 
 - (NSRect)rectForSearchTextWhenCentered:(BOOL)isCentered
