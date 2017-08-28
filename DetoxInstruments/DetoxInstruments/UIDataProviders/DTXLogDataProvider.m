@@ -28,6 +28,24 @@
 	return [DTXLogLineInspectorDataProvider class];
 }
 
++ (NSFont*)fontForObjectDisplay
+{
+	static NSFont* font;
+	
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		font = [NSFont fontWithName:@"SFMono-Regular" size:11];
+		
+		if(font == nil)
+		{
+			//There is no SFMono in the system, use Menlo instead.
+			font = [NSFont fontWithName:@"Menlo" size:11];
+		}
+	});
+	
+	return font;
+}
+
 - (instancetype)initWithDocument:(DTXDocument*)document managedTableView:(NSTableView*)tableView
 {
 	self = [super init];
@@ -102,7 +120,7 @@
 	NSString *content = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	[cell setObjectValue:content];
 	[cell setWraps:YES];
-	return [cell cellSizeForBounds:NSMakeRect(0, 0, [tableColumn width], FLT_MAX)].height;
+	return [cell cellSizeForBounds:NSMakeRect(0, 0, [tableColumn width], FLT_MAX)].height + 5;
 }
 
 - (void)tableViewColumnDidResize:(NSNotification *)notification
@@ -125,6 +143,7 @@
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	DTXTextViewCellView* cell = [tableView makeViewWithIdentifier:@"DTXLogEntryCell" owner:nil];
+	cell.contentTextField.font = self.class.fontForObjectDisplay;
 	cell.contentTextField.stringValue = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	cell.contentTextField.allowsDefaultTighteningForTruncation = NO;
 	return cell;

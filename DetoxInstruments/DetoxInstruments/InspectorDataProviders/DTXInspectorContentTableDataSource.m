@@ -203,7 +203,9 @@
 
 - (void)tableViewColumnDidResize:(NSNotification *)notification
 {
-	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
+	if (NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
+#endif
 	{
 		[_managedTableView reloadData];
 	}
