@@ -19,6 +19,8 @@
 	__weak IBOutlet NSOutlineView *_outlineView;
 	__weak IBOutlet NSTableView *_logTableView;
 	__weak IBOutlet NSPathControl *_pathControl;
+	__weak IBOutlet NSSearchField *_searchField;
+	__weak IBOutlet NSView *_bottomView;
 	
 	DTXLogDataProvider* _logDataProvider;
 	
@@ -32,7 +34,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-		
+	
 	self.view.wantsLayer = YES;
 	self.view.layer.backgroundColor = NSColor.windowBackgroundColor.CGColor;
 	
@@ -82,6 +84,8 @@
 	{
 		_pathControl.pathItems = @[p1];
 	}
+	
+	_bottomView.hidden = !_logShown;
 }
 
 - (NSMenu *)pathControl:(NSPathControl *)pathControl menuForCell:(NSPathComponentCell *)cell
