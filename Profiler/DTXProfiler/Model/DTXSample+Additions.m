@@ -11,6 +11,7 @@
 #import "DTXInstrumentsModel.h"
 
 static NSDictionary<NSString*, NSNumber*>* __classTypeMapping;
+static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 
 @implementation DTXSample (Additions)
 
@@ -27,7 +28,21 @@ static NSDictionary<NSString*, NSNumber*>* __classTypeMapping;
 							   NSStringFromClass([DTXLogSample class]): @(DTXSampleTypeLog),
                                NSStringFromClass([DTXReactNativePeroformanceSample class]): @(DTXSampleTypeReactNativePerformanceType),
 							   };
+		__typeClassMapping = @{@(DTXSampleTypePerformance): ([DTXPerformanceSample class]),
+							   @(DTXSampleTypeAdvancedPerformance): ([DTXAdvancedPerformanceSample class]),
+							   @(DTXSampleTypeThreadPerformance): ([DTXThreadPerformanceSample class]),
+							   @(DTXSampleTypeGroup): ([DTXSampleGroup class]),
+							   @(DTXSampleTypeNetwork): ([DTXNetworkSample class]),
+							   @(DTXSampleTypeTag): ([DTXTag class]),
+							   @(DTXSampleTypeLog): ([DTXLogSample class]),
+							   @(DTXSampleTypeReactNativePerformanceType): ([DTXReactNativePeroformanceSample class]),
+							   };
 	});
+}
+
++ (Class)classFromSampleType:(DTXSampleType)type
+{
+	return __typeClassMapping[@(type)];
 }
 
 - (void)awakeFromInsert

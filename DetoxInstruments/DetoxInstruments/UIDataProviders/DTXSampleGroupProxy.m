@@ -125,7 +125,7 @@
 		
 		[_outlineView endUpdates];
 		
-		[_outlineView expandItem:nil expandChildren:YES];
+		[_outlineView expandItem:self expandChildren:NO];
 	}
 	@catch(NSException* e)
 	{

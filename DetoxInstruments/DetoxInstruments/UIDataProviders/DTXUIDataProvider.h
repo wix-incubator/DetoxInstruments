@@ -13,7 +13,6 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "NSColor+UIAdditions.h"
 #import "DTXInstrumentsModel.h"
-#import "DTXDocument.h"
 #import "DTXUISampleTypes.h"
 #import "DTXInspectorDataProvider.h"
 
@@ -29,11 +28,26 @@
 
 @end
 
-@protocol DTXUIDataProvider @end
+@protocol DTXUIDataFiltering
+
+@property (nonatomic, assign, readonly) BOOL supportsDataFiltering;
+
+- (void)filterSamplesWithFilter:(NSString*)filter;
+
+@end
+
+@protocol DTXUIDataProvider;
 
 @protocol DTXUIDataProviderDelegate
 
 - (void)dataProvider:(id<DTXUIDataProvider>)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item;
+
+@end
+
+@protocol DTXUIDataProvider <DTXUIDataFiltering>
+
+@property (nonatomic, strong, readonly) DTXInspectorDataProvider* currentlySelectedInspectorItem;
+@property (nonatomic, weak) id<DTXUIDataProviderDelegate> delegate;
 
 @end
 
@@ -45,8 +59,6 @@
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-@property (nonatomic, weak) id<DTXUIDataProviderDelegate> delegate;
-
 @property (nonatomic, strong, readonly) DTXDocument* document;
 @property (nonatomic, weak, readonly) id<DTXPlotController> plotController;
 @property (nonatomic, weak) NSOutlineView* managedOutlineView;
@@ -55,6 +67,7 @@
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
 
 @property (nonatomic, strong, readonly) NSArray<NSNumber* /*DTXSampleType*/>* sampleTypes;
+@property (nonatomic, strong, readonly) NSArray<NSString*>* filteredAttributes;
 @property (nonatomic, readonly) BOOL showsHeaderView;
 @property (nonatomic, strong, readonly) NSArray<DTXColumnInformation*>* columns;
 

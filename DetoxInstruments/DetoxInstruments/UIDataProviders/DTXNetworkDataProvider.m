@@ -95,4 +95,14 @@
 	return NSColor.whiteColor;
 }
 
+- (BOOL)supportsDataFiltering
+{
+	return YES;
+}
+
+- (NSArray<NSString *> *)filteredAttributes
+{
+	return @[@"url", @"responseStatusCodeString", @"responseStatusCode"];
+}
+
 @end

@@ -15,6 +15,7 @@
 #import "DTXSampleGroupProxy.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXPlotController.h"
+#import "DTXFilteredDataProvider.h"
 
 const CGFloat DTXAutomaticColumnWidth = -1.0;
 
@@ -43,7 +44,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	NSArray<DTXColumnInformation*>* _columns;
 	
 	BOOL _ignoresSelections;
+	
+	DTXFilteredDataProvider* _filteredDataProvider;
 }
+
+@synthesize delegate = _delegate;
 
 + (Class)inspectorDataProviderClass
 {
@@ -132,6 +137,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (void)_documentStateDidChangeNotification:(NSNotification*)note
 {
+	if(_filteredDataProvider != nil)
+	{
+		return;
+	}
+	
 	[self _setupProxiesForGroups];
 }
 
@@ -169,6 +179,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 - (NSArray<NSNumber* /*DTXSampleType*/>* )sampleTypes
 {
 	return @[@(DTXSampleTypeUnknown)];
+}
+
+- (NSArray<NSString *> *)filteredAttributes
+{
+	return @[];
 }
 
 - (NSUInteger)outlineColumnIndex;
@@ -320,23 +335,10 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
-	
-	DTXInspectorDataProvider* idp = nil;
-	if([item isKindOfClass:[DTXSampleGroupProxy class]])
-	{
-		idp = [[DTXGroupInspectorDataProvider alloc] initWithSample:item document:_document];
-	}
-	else if([item isMemberOfClass:[DTXTag class]])
-	{
-		idp = [[DTXTagInspectorDataProvider alloc] initWithSample:item document:_document];
-	}
-	else
-	{
-		idp = [[[self.class inspectorDataProviderClass] alloc] initWithSample:item document:_document];
-	}
-	
+	DTXInspectorDataProvider* idp = self.currentlySelectedInspectorItem;
 	[self.delegate dataProvider:self didSelectInspectorItem:idp];
+	
+	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
 	
 	if([item isMemberOfClass:[DTXTag class]])
 	{
@@ -360,6 +362,65 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 			[_plotController highlightRange:groupRange];
 		}
 	}
+}
+
+#pragma mark DTXUIDataProvider
+
+- (DTXInspectorDataProvider *)currentlySelectedInspectorItem
+{
+	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
+	
+	if(item == nil)
+	{
+		return nil;
+	}
+	
+	DTXInspectorDataProvider* idp = nil;
+	if([item isKindOfClass:[DTXSampleGroupProxy class]])
+	{
+		idp = [[DTXGroupInspectorDataProvider alloc] initWithSample:item document:_document];
+	}
+	else if([item isMemberOfClass:[DTXTag class]])
+	{
+		idp = [[DTXTagInspectorDataProvider alloc] initWithSample:item document:_document];
+	}
+	else
+	{
+		idp = [[[self.class inspectorDataProviderClass] alloc] initWithSample:item document:_document];
+	}
+	
+	return idp;
+}
+
+#pragma mark DTXUIDataFiltering
+
+- (BOOL)supportsDataFiltering
+{
+	return NO;
+}
+
+- (void)filterSamplesWithFilter:(NSString *)filter
+{
+	if(filter.length == 0)
+	{
+		_filteredDataProvider = nil;
+		[self _setupProxiesForGroups];
+		return;
+	}
+	
+	_rootGroupProxy = nil;
+	
+	if(_filteredDataProvider == nil)
+	{
+		_filteredDataProvider = [[DTXFilteredDataProvider alloc] initWithDocument:self.document managedOutlineView:_managedOutlineView sampleTypes:self.sampleTypes filteredAttributes:self.filteredAttributes];
+		_managedOutlineView.dataSource = _filteredDataProvider;
+	}
+	
+	[_filteredDataProvider filterSamplesWithFilter:filter];
+	[_managedOutlineView reloadData];
+	[_managedOutlineView expandItem:nil expandChildren:YES];
+	
+	[_managedOutlineView scrollRowToVisible:0];
 }
 
 @end

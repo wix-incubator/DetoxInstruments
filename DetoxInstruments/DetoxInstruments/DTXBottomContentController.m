@@ -13,18 +13,19 @@
 #import "DTXLogDataProvider.h"
 #import "DTXMenuPathControl.h"
 #import "NSImage+ImageResize.h"
+#import "DTXFilterField.h"
 
-@interface DTXBottomContentController () <DTXMenuPathControlDelegate, DTXUIDataProviderDelegate>
+@interface DTXBottomContentController () <DTXMenuPathControlDelegate, DTXUIDataProviderDelegate, DTXFilterFieldDelegate>
 {
 	__weak IBOutlet NSOutlineView *_outlineView;
 	__weak IBOutlet NSTableView *_logTableView;
 	__weak IBOutlet NSPathControl *_pathControl;
-	__weak IBOutlet NSSearchField *_searchField;
+	__weak IBOutlet DTXFilterField *_searchField;
 	__weak IBOutlet NSView *_bottomView;
 	
 	DTXLogDataProvider* _logDataProvider;
 	
-	BOOL _logShown;
+	id<DTXUIDataProvider> _currentlyShownDataProvider;
 }
 
 @end
@@ -43,6 +44,8 @@
 	_pathControl.pathStyle = NSPathStyleStandard;
 	_pathControl.delegate = self;
 	
+	_searchField.filterDelegate = self;
+	
 	[self _selectManagingDataProvider];
 }
 
@@ -57,6 +60,15 @@
 	}
 }
 
+- (void)_updateBottomViewVisibility
+{
+	_bottomView.hidden = _currentlyShownDataProvider.supportsDataFiltering == NO;
+	
+	NSEdgeInsets insets = NSEdgeInsetsMake(0, 0, _bottomView.hidden ? 0 : _bottomView.bounds.size.height, 0);
+	
+	_logTableView.enclosingScrollView.contentInsets = _outlineView.enclosingScrollView.contentInsets = insets;
+}
+
 - (void)setManagingDataProvider:(DTXUIDataProvider *)managingDataProvider
 {
 	_managingDataProvider.managedOutlineView = nil;
@@ -64,16 +76,21 @@
 	_managingDataProvider.managedOutlineView = _outlineView;
 	_managingDataProvider.delegate = self;
 	
-	[self _updatePathControlItems];
+	[self _selectDataProvider:_managingDataProvider replaceLog:NO];
+}
+
+- (BOOL)_isLogShown
+{
+	return _logDataProvider != nil && _currentlyShownDataProvider == _logDataProvider;
 }
 
 - (void)_updatePathControlItems
 {
 	NSPathControlItem* p1 = [NSPathControlItem new];
-	p1.image = [NSImage imageNamed: _logShown ? @"console_small" : [NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]];
-	p1.title = _logShown ? NSLocalizedString(@"Console", @"") : _managingDataProvider ? _managingDataProvider.displayName : @"";
+	p1.image = [NSImage imageNamed: self._isLogShown ? @"console_small" : [NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]];
+	p1.title = self._isLogShown ? NSLocalizedString(@"Console", @"") : _managingDataProvider ? _managingDataProvider.displayName : @"";
 	
-	if(_logShown == NO && _managingDataProvider != nil)
+	if(self._isLogShown == NO && _managingDataProvider != nil)
 	{
 		NSPathControlItem* p2 = [NSPathControlItem new];
 		p2.title = NSLocalizedString(@"Samples", @"");
@@ -84,8 +101,6 @@
 	{
 		_pathControl.pathItems = @[p1];
 	}
-	
-	_bottomView.hidden = !_logShown;
 }
 
 - (NSMenu *)pathControl:(NSPathControl *)pathControl menuForCell:(NSPathComponentCell *)cell
@@ -95,7 +110,7 @@
 	NSMenu* m = [NSMenu new];
 	NSMenuItem* item1 = [NSMenuItem new];
 	item1.attributedTitle = [[NSAttributedString alloc] initWithString: indexOfCell > 0 ? cell.title : _managingDataProvider.displayName attributes: cell.font ? @{NSFontAttributeName: cell.font} : @{}];
-	item1.state = _logShown == NO ? NSOnState : NSOffState;
+	item1.state = self._isLogShown == NO ? NSOnState : NSOffState;
 	item1.image = indexOfCell == 0 ? [[NSImage imageNamed:[NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]] dtx_imageWithSize:NSMakeSize(16, 16)] : nil;
 	item1.target = self;
 	item1.action = @selector(_selectManagingDataProvider);
@@ -105,7 +120,7 @@
 		NSMenuItem* item2 = [NSMenuItem new];
 		item2.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Console", @"") attributes: cell.font ? @{NSFontAttributeName: cell.font} : @{}];
 		item2.image = [NSImage imageNamed:@"console_small"];
-		item2.state = _logShown ? NSOnState : NSOffState;
+		item2.state = self._isLogShown ? NSOnState : NSOffState;
 		item2.target = self;
 		item2.action = @selector(_selectConsole);
 		[m addItem:item2];
@@ -114,43 +129,73 @@
 	return m;
 }
 
-- (void)_selectManagingDataProvider
+- (void)_selectDataProvider:(id<DTXUIDataProvider>)dataProvider replaceLog:(BOOL)replaceLog
 {
-//	[_logTableView selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
+	if(_currentlyShownDataProvider == dataProvider)
+	{
+		return;
+	}
 	
-	_outlineView.superview.superview.hidden = NO;
-	_logTableView.superview.superview.hidden = YES;
-	_logShown = NO;
+	if(self._isLogShown && replaceLog == NO)
+	{
+		return;
+	}
+	
+	BOOL isDataProviderLog = dataProvider == _logDataProvider;
+	
+	_outlineView.superview.superview.hidden = isDataProviderLog;
+	_logTableView.superview.superview.hidden = isDataProviderLog == NO;
+	
+	_currentlyShownDataProvider = dataProvider;
+	
+	[self dataProvider:_currentlyShownDataProvider didSelectInspectorItem:_currentlyShownDataProvider.currentlySelectedInspectorItem];
 	
 	[self _updatePathControlItems];
+	[self _updateBottomViewVisibility];
+	[_searchField clearFilter];
 	
 	DTXInstrumentsWindowController* controller = self.view.window.windowController;
-	controller.targetForCopy = nil;
-	controller.handlerForCopy = nil;
+	
+	controller.targetForCopy = isDataProviderLog ? _logTableView : nil;
+	controller.handlerForCopy = isDataProviderLog ? _logDataProvider : nil;
+}
+
+- (void)_selectManagingDataProvider
+{
+	[self _selectDataProvider:self.managingDataProvider replaceLog:YES];
+	
+	[self.view.window makeFirstResponder:_outlineView];
 }
 
 - (void)_selectConsole
 {
-//	[_outlineView selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
+	[self _selectDataProvider:_logDataProvider replaceLog:YES];
 	
-	_outlineView.superview.superview.hidden = YES;
-	_logTableView.superview.superview.hidden = NO;
-	_logShown = YES;
-	
-	[self _updatePathControlItems];
-	
-	DTXInstrumentsWindowController* controller = self.view.window.windowController;
-	controller.targetForCopy = _logTableView;
-	controller.handlerForCopy = _logDataProvider;
+	[self.view.window makeFirstResponder:_logTableView];
 }
+
+#pragma mark DTXUIDataProviderDelegate
 
 - (void)dataProvider:(DTXUIDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item
 {
+	if(provider != _currentlyShownDataProvider)
+	{
+		return;
+	}
+	
 	[self.delegate bottomController:self updateWithInspectorProvider:item];
-	if([item isKindOfClass:[DTXLogSample class]] != NO)
+	
+	if(item != nil && [item.sample isKindOfClass:[DTXLogSample class]] == NO)
 	{
 		[_logDataProvider scrollToTimestamp:item.sample.timestamp];
 	}
+}
+
+#pragma mark DTXFilterFieldDelegate
+
+- (void)filterFieldTextDidChange:(DTXFilterField *)filterField
+{
+	[_currentlyShownDataProvider filterSamplesWithFilter:filterField.stringValue];
 }
 
 @end

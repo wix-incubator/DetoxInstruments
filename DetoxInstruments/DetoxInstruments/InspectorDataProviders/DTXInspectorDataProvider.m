@@ -14,6 +14,9 @@
 {
 	self = [super init];
 	
+	NSParameterAssert(sample != nil);
+	NSParameterAssert(document != nil);
+	
 	if(self)
 	{
 		_sample = sample;
