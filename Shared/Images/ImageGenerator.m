@@ -14,7 +14,6 @@ typedef void (^DrawingBlock)(CGContextRef context, CGFloat scale);
 
 + (NSImage*) drawGraphicsWithPixelsWidth:(int)width pixelsHight:(int)height drawingBlock:(DrawingBlock)drawingBlock
 {
-	//CGFloat scale = [[NSScreen mainScreen] backingScaleFactor];
 	CGSize imageSize = NSMakeSize(width, height);
 	NSImage *nsImage = [[NSImage alloc] initWithSize:imageSize];
 	for (int scale = 1; scale <= 3; scale++)
@@ -50,18 +49,21 @@ typedef void (^DrawingBlock)(CGContextRef context, CGFloat scale);
 + (NSImage*)_createFilterImageWithSize:(int)filterIconSize highlighted:(BOOL)highlighted
 {
 	return [self drawGraphicsWithPixelsWidth:filterIconSize pixelsHight:filterIconSize drawingBlock:^(CGContextRef context, CGFloat scale){
-		CGFloat lineWidth = (highlighted ? 1.5 : 1.0);
+		CGFloat lineWidth = (highlighted ? 1.75 : 1.0);
 		CGContextSetLineWidth(context, lineWidth);
 		highlighted ? CGContextSetRGBStrokeColor(context, 0.09, 0.49, 0.949, 1) : CGContextSetRGBStrokeColor(context, 0.482, 0.482, 0.482, 1);
-		CGContextStrokeEllipseInRect(context, CGRectMake (lineWidth, lineWidth, filterIconSize - lineWidth * 2, filterIconSize - lineWidth * 2));
+		NSRect rect = NSMakeRect(0, 0, filterIconSize, filterIconSize);
+		CGFloat inset = 2 - (highlighted ? 1.00 : 0);
+		rect = CGRectInset(rect, lineWidth + inset, lineWidth + inset);
+		CGContextStrokeEllipseInRect(context, rect);
 		
 		CGContextBeginPath(context);
 		{
 			CGContextSetLineWidth(context, 1.0);
-			CGFloat offset = scale == 1 ? 0.5 : 0;
-			[self drawHorizontalLineInContext:context iconsSize:filterIconSize offset:CGPointMake(3.5, 5 + offset)];
-			[self drawHorizontalLineInContext:context iconsSize:filterIconSize offset:CGPointMake(4.5, 7 + offset)];
-			[self drawHorizontalLineInContext:context iconsSize:filterIconSize offset:CGPointMake(5.5, 9 + offset)];
+			CGFloat offset = (scale == 1 ? 0.5 : 0) + 2;
+			[self drawHorizontalLineInContext:context iconsSize:filterIconSize offset:CGPointMake(5.5, 5 + offset)];
+			[self drawHorizontalLineInContext:context iconsSize:filterIconSize offset:CGPointMake(6.5, 7 + offset)];
+			[self drawHorizontalLineInContext:context iconsSize:filterIconSize offset:CGPointMake(7.5, 9 + offset)];
 		}
 		CGContextStrokePath(context);
 	}];
