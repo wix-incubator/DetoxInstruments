@@ -74,7 +74,10 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	_moreInfoDataProvider = moreInfoDataProvider;
 	
 	DTXInstrumentsWindowController* controller = self.view.window.windowController;
-	controller.handlerForCopy = _moreInfoDataProvider;
+	if(_moreInfoDataProvider.canCopy)
+	{
+		controller.handlerForCopy = _moreInfoDataProvider;
+	}
 	
 	_sampleDescriptionDataSource = _moreInfoDataProvider.inspectorTableDataSource;
 	if([_tabSwitcher isSelectedForSegment:0])

@@ -209,22 +209,20 @@
 	}
 }
 
-- (int)objectsCount:(id)objects
+- (int)_depthOfObjects:(id)objects
 {
 	int counter = 0;
 	for (id obj in objects)
 	{
+		counter += 1;
+		
 		if ([obj isKindOfClass:[NSArray class]])
 		{
-			counter += 1 + [self objectsCount:obj];
+			counter += [self _depthOfObjects:obj];
 		}
 		else if ([obj isKindOfClass:[NSDictionary class]])
 		{
-			counter += 1 + [self objectsCount:[obj allObjects]];
-		}
-		else
-		{
-			counter++;
+			counter += [self _depthOfObjects:[obj allObjects]];
 		}
 	}
 	return counter;
@@ -246,7 +244,7 @@
 	
 	if(content.objects)
 	{
-		NSUInteger objectsCount = [self objectsCount:content.objects];
+		NSUInteger objectsCount = [self _depthOfObjects:content.objects];
 		return top + DTXStackTraceCellView.heightForStackFrame * objectsCount + bottom;
 	}
 	

@@ -314,6 +314,11 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	[super encodeRestorableStateWithCoder:coder];
 }
 
+- (void)setHandlerForCopy:(id<DTXWindowWideCopyHanler>)handlerForCopy
+{
+	_handlerForCopy = handlerForCopy;
+}
+
 - (IBAction)selectExtendedDetail:(id)sender
 {
 	[_inspectorContentController selectExtendedDetail];

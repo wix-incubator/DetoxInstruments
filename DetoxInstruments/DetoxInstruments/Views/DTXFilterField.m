@@ -13,6 +13,8 @@
 
 - (void)awakeFromNib
 {
+	[super awakeFromNib];
+	
 	self.delegate = self;
 	self.centersPlaceholder = NO;
 	
@@ -47,9 +49,21 @@
 	[self setSearchIconWithHighlight:NO];
 }
 
+- (void)controlTextDidChange:(NSNotification *)obj
+{
+	[self.filterDelegate filterFieldTextDidChange:self];
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
 	[super drawRect:dirtyRect];
+}
+
+- (void)clearFilter
+{
+	NSButtonCell* buttonCell = ((NSSearchFieldCell*)self.cell).cancelButtonCell;
+	
+	[NSApp sendAction:buttonCell.action to:buttonCell.target from:buttonCell];
 }
 
 @end

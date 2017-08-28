@@ -18,22 +18,3 @@
 #import "DTXThreadInfo+CoreDataClass.h"
 #import "DTXThreadPerformanceSample+CoreDataClass.h"
 #import "DTXReactNativePeroformanceSample+CoreDataClass.h"
-
-typedef NS_ENUM(NSUInteger, DTXSampleType) {
-	DTXSampleTypeUnknown				        = 0,
-	
-	DTXSampleTypePerformance			        = 10,
-	DTXSampleTypeAdvancedPerformance	        = 11,
-	DTXSampleTypeThreadPerformance		        = 12,
-	
-	DTXSampleTypeNetwork				        = 50,
-	
-	DTXSampleTypeLog					        = 100,
-    
-	DTXSampleTypeTag					        = 200,
-	DTXSampleTypeGroup					        = 1000,
-    
-    DTXSampleTypeReactNativePerformanceType     = 10000,
-	
-	DTXSampleTypeUser					        = 20000,
-};

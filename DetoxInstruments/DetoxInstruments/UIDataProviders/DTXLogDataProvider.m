@@ -132,15 +132,7 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-	if(_managedTableView.selectedRowIndexes.count != 1)
-	{
-		[self.delegate dataProvider:self didSelectInspectorItem:nil];
-		return;
-	}
-	
-	id item = [_frc objectAtIndexPath:[NSIndexPath indexPathForItem:_managedTableView.selectedRow inSection:0]];
-	DTXInspectorDataProvider* idp = [[[self.class inspectorDataProviderClass] alloc] initWithSample:item document:_document];
-	[self.delegate dataProvider:self didSelectInspectorItem:idp];
+	[self.delegate dataProvider:self didSelectInspectorItem:self.currentlySelectedInspectorItem];
 }
 
 - (void)scrollToTimestamp:(NSDate*)timestamp
@@ -235,5 +227,35 @@
 	[[NSPasteboard generalPasteboard] setString:[stringToCopy stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]] forType:NSPasteboardTypeString];
 }
 
+#pragma mark DTXUIDataProvider
+
+- (DTXInspectorDataProvider *)currentlySelectedInspectorItem
+{
+	if(_managedTableView.selectedRowIndexes.count != 1)
+	{
+		return nil;
+	}
+	
+	id item = [_frc objectAtIndexPath:[NSIndexPath indexPathForItem:_managedTableView.selectedRow inSection:0]];
+	DTXInspectorDataProvider* idp = [[[self.class inspectorDataProviderClass] alloc] initWithSample:item document:_document];
+	
+	return idp;
+}
+
+#pragma mark DTXUIDataFiltering
+
+- (BOOL)supportsDataFiltering
+{
+	return YES;
+}
+
+- (void)filterSamplesWithFilter:(NSString*)filter;
+{
+	NSString* _filter = [filter stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+	_frc.fetchRequest.predicate = _filter.length == 0 ? nil : [NSPredicate predicateWithFormat:@"line CONTAINS[cd] %@", _filter];
+	[_frc performFetch:NULL];
+	[_managedTableView reloadData];
+}
 
 @end
