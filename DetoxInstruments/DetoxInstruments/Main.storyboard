@@ -369,6 +369,12 @@
                                                 <action selector="openGitHubPage:" target="Voe-Tx-rLC" id="vaG-VZ-9gd"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Report An Issue..." id="rAe-sN-djN">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openIssuesPage:" target="Voe-Tx-rLC" id="ryn-Oh-BCO"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -1244,6 +1250,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                         </tableView>
                                     </subviews>
                                 </clipView>
+                                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="n3R-Di-Yrv">
                                     <rect key="frame" x="0.0" y="264" width="450" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -1282,13 +1289,13 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                         <rect key="frame" x="0.0" y="0.0" width="680" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-hh-Z2i">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-hh-Z2i">
                                 <rect key="frame" x="0.0" y="0.0" width="680" height="271"/>
                                 <clipView key="contentView" drawsBackground="NO" id="7qk-vh-lmX">
                                     <rect key="frame" x="0.0" y="0.0" width="680" height="271"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" id="ulY-Jk-M9E">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="ulY-Jk-M9E">
                                             <rect key="frame" x="0.0" y="0.0" width="680" height="242"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1309,15 +1316,15 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="DTXLogEntryCell" id="Deg-tm-cRn" customClass="DTXTextViewCellView">
-                                                            <rect key="frame" x="1" y="1" width="677" height="20"/>
+                                                            <rect key="frame" x="1" y="1" width="677" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgG-e1-oet">
-                                                                    <rect key="frame" x="3" y="3" width="671" height="17"/>
+                                                                    <rect key="frame" x="3" y="0.0" width="671" height="17"/>
                                                                     <textFieldCell key="cell" controlSize="mini" allowsEditingTextAttributes="YES" id="KQc-uL-Ajo">
                                                                         <font key="font" size="11" name="SFMono-Regular"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
@@ -1325,7 +1332,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                 <constraint firstItem="rgG-e1-oet" firstAttribute="top" secondItem="Deg-tm-cRn" secondAttribute="top" id="0zg-i4-6fV"/>
                                                                 <constraint firstItem="rgG-e1-oet" firstAttribute="leading" secondItem="Deg-tm-cRn" secondAttribute="leading" constant="5" id="4Zy-Tf-jse"/>
                                                                 <constraint firstAttribute="trailing" secondItem="rgG-e1-oet" secondAttribute="trailing" constant="5" id="bf7-Ig-bvr"/>
-                                                                <constraint firstAttribute="bottom" secondItem="rgG-e1-oet" secondAttribute="bottom" constant="3" id="ccE-qy-aLf"/>
+                                                                <constraint firstAttribute="bottom" secondItem="rgG-e1-oet" secondAttribute="bottom" id="ccE-qy-aLf"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="contentTextField" destination="rgG-e1-oet" id="Wfi-HM-R5S"/>
@@ -1427,6 +1434,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                     </subviews>
                                     <nil key="backgroundColor"/>
                                 </clipView>
+                                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="cNa-Fh-d2X">
                                     <rect key="frame" x="0.0" y="7" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -1466,25 +1474,28 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                         <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
                                     </visualEffectView>
                                     <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
-                                        <rect key="frame" x="460" y="4" width="200" height="22"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="200" id="6gF-FI-OyF"/>
-                                        </constraints>
+                                        <rect key="frame" x="5" y="4" width="670" height="22"/>
                                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Filter" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="59k-uH-dUn">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </searchFieldCell>
                                     </searchField>
+                                    <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="HBJ-3J-FWs">
+                                        <rect key="frame" x="0.0" y="26" width="680" height="5"/>
+                                    </box>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="HBJ-3J-FWs" firstAttribute="top" secondItem="VaR-G4-gpu" secondAttribute="top" id="0s1-vC-POy"/>
+                                    <constraint firstAttribute="trailing" secondItem="HBJ-3J-FWs" secondAttribute="trailing" id="Bg3-YQ-7Wj"/>
                                     <constraint firstItem="bQ6-qJ-AWR" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" id="Cm3-uU-43l"/>
-                                    <constraint firstAttribute="trailing" secondItem="vSY-6N-TTj" secondAttribute="trailing" constant="20" id="CrP-S4-0C2"/>
+                                    <constraint firstAttribute="trailing" secondItem="vSY-6N-TTj" secondAttribute="trailing" constant="5" id="CrP-S4-0C2"/>
                                     <constraint firstItem="bQ6-qJ-AWR" firstAttribute="top" secondItem="VaR-G4-gpu" secondAttribute="top" id="Qwh-Se-k3k"/>
                                     <constraint firstItem="vSY-6N-TTj" firstAttribute="centerY" secondItem="VaR-G4-gpu" secondAttribute="centerY" id="bo7-Nx-2wr"/>
                                     <constraint firstAttribute="height" constant="29" id="cHH-TG-Lw3"/>
-                                    <constraint firstItem="vSY-6N-TTj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VaR-G4-gpu" secondAttribute="leading" constant="20" id="hkT-gD-7qG"/>
+                                    <constraint firstItem="vSY-6N-TTj" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" constant="5" id="hkT-gD-7qG"/>
                                     <constraint firstAttribute="trailing" secondItem="bQ6-qJ-AWR" secondAttribute="trailing" id="ob8-KA-hsd"/>
+                                    <constraint firstItem="HBJ-3J-FWs" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" id="sZU-Hd-j7V"/>
                                     <constraint firstAttribute="bottom" secondItem="bQ6-qJ-AWR" secondAttribute="bottom" id="y7p-v0-NQt"/>
                                 </constraints>
                             </customView>
