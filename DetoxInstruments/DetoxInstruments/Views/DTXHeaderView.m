@@ -44,22 +44,17 @@
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 	
-	BOOL ov = [NSGraphicsContext currentContext].shouldAntialias;
-	[NSGraphicsContext currentContext].shouldAntialias = NO;
-	
 	NSBezierPath* line = [NSBezierPath bezierPath];
-	line.lineWidth = 1 / self.window.backingScaleFactor;
-	
-	[line moveToPoint:NSMakePoint(0, 0)];
-	[line lineToPoint:NSMakePoint(self.bounds.size.width, 0)];
+
+	[line moveToPoint:NSMakePoint(0, 0.5)];
+	[line lineToPoint:NSMakePoint(self.bounds.size.width, 0.5)];
 	
 	[line moveToPoint:NSMakePoint(209.5, 0)];
 	[line lineToPoint:NSMakePoint(209.5, self.bounds.size.height)];
 	
+	line.lineWidth = 1.0;
 	[NSColor.gridColor set];
 	[line stroke];
-	
-	[NSGraphicsContext currentContext].shouldAntialias = ov;
 }
 
 @end

@@ -49,7 +49,7 @@ typedef void (^DrawingBlock)(CGContextRef context, CGFloat scale);
 + (NSImage*)_createFilterImageWithSize:(int)filterIconSize highlighted:(BOOL)highlighted
 {
 	return [self drawGraphicsWithPixelsWidth:filterIconSize pixelsHight:filterIconSize drawingBlock:^(CGContextRef context, CGFloat scale){
-		CGFloat lineWidth = (highlighted ? 1.75 : 1.0);
+		CGFloat lineWidth = (highlighted ? 2.0 : 1.0);
 		CGContextSetLineWidth(context, lineWidth);
 		highlighted ? CGContextSetRGBStrokeColor(context, 0.09, 0.49, 0.949, 1) : CGContextSetRGBStrokeColor(context, 0.482, 0.482, 0.482, 1);
 		NSRect rect = NSMakeRect(0, 0, filterIconSize, filterIconSize);

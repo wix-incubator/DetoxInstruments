@@ -58,10 +58,10 @@
 		
 		[_hostingOutlineView.enclosingScrollView.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingOutlineView.superview.superview];
 		
-		[NSLayoutConstraint activateConstraints:@[[_hostingOutlineView.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
-												  [_hostingOutlineView.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
-												  [_hostingOutlineView.trailingAnchor constraintEqualToAnchor:_timelineView.trailingAnchor],
-												  [_hostingOutlineView.bottomAnchor constraintEqualToAnchor:_timelineView.bottomAnchor]]];
+		[NSLayoutConstraint activateConstraints:@[[_hostingOutlineView.enclosingScrollView.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
+												  [_hostingOutlineView.enclosingScrollView.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
+												  [_hostingOutlineView.enclosingScrollView.trailingAnchor constraintEqualToAnchor:_timelineView.trailingAnchor],
+												  [_hostingOutlineView.enclosingScrollView.bottomAnchor constraintEqualToAnchor:_timelineView.bottomAnchor]]];
 	}
 	
 	return self;

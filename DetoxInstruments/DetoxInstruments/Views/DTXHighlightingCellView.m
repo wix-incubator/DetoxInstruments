@@ -18,7 +18,7 @@
 	[line moveToPoint:NSMakePoint(self.bounds.size.width, 0)];
 	[line lineToPoint:NSMakePoint(self.bounds.size.width, self.bounds.size.height)];
 	
-	line.lineWidth = 1;
+	line.lineWidth = 2.0;
 	[NSColor.gridColor set];
 	[line stroke];
 }

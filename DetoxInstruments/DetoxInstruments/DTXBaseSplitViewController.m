@@ -12,23 +12,17 @@ IB_DESIGNABLE
 @interface DTXBorderedView : NSView @end
 
 @implementation DTXBorderedView
-{
-	NSColor* _seperatorColor;
-}
 
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
-	
-	const CGFloat grey = 179.0 / 255.0;
-	_seperatorColor = [NSColor colorWithSRGBRed:grey green:grey blue:grey alpha:grey];
 }
 
 - (void)drawRect:(NSRect)rect
 {
 	[super drawRect:rect];
 	
-	[NSColor.darkGrayColor set];
+	[NSColor.controlShadowColor set];
 	[NSBezierPath strokeLineFromPoint:NSMakePoint(0, 0) toPoint:NSMakePoint(self.bounds.size.width, 0)];
 }
 

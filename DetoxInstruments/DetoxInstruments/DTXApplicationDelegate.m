@@ -67,6 +67,11 @@ static NSString* const __lldbInitMagic = @"";
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments"]];
 }
 
+- (IBAction)openIssuesPage:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/issues"]];
+}
+
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
 	NSMutableArray<DTXDocument*>* recordingDocuments = [NSMutableArray new];

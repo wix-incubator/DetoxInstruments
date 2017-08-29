@@ -97,17 +97,17 @@
 			_pendingXPlotRange = nil;
 		}
 		
-		const CGFloat majorTickLength = 20;
+		const CGFloat majorTickLength = 30;
 		const CGFloat minorTickLength = 6.0;
 		
 		CPTMutableLineStyle* axisLineStyle = [CPTMutableLineStyle lineStyle];
 		axisLineStyle.lineColor = [CPTColor colorWithCGColor:[NSColor grayColor].CGColor];
-		axisLineStyle.lineWidth = 0.5;
+		axisLineStyle.lineWidth = .75;
 		axisLineStyle.lineCap   = kCGLineCapRound;
 		
 		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
 		labelStyle.color = axisLineStyle.lineColor;
-		labelStyle.fontName = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightMedium].fontName;
+		labelStyle.fontName = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
 		labelStyle.fontSize = 11;
 		
 		// Axes
@@ -128,7 +128,7 @@
 		axisAutomatic.labelFormatter = [NSFormatter dtx_secondsFormatter];
 		axisAutomatic.labelAlignment = CPTAlignmentLeft;
 		axisAutomatic.tickLabelDirection = CPTSignPositive;
-		axisAutomatic.labelOffset = -(majorTickLength * 6 / 8);
+		axisAutomatic.labelOffset = -(majorTickLength * 6.5 / 8);
 		axisAutomatic.labelTextStyle = labelStyle;
 		
 		// Add axes to the graph
