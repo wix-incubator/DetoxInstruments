@@ -27,17 +27,17 @@
 	return [NSImage imageNamed:@"memoryTracker"];
 }
 
-+ (NSArray<NSString*>*)sampleKeys
+- (NSArray<NSString*>*)sampleKeys
 {
 	return @[@"memoryUsage"];
 }
 
-+ (NSArray<NSString *> *)plotTitles
+- (NSArray<NSString*>*)plotTitles
 {
 	return @[NSLocalizedString(@"Memory", @"")];
 }
 
-+ (NSArray<NSColor*>*)plotColors
+- (NSArray<NSColor*>*)plotColors
 {
 	return @[[NSColor colorWithRed:250.0/255.0 green:125.0/255.0 blue:0.0/255.0 alpha:1.0]];
 }

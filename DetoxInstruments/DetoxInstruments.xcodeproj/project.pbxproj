@@ -609,6 +609,21 @@
 			path = SharedSupport;
 			sourceTree = "<group>";
 		};
+		3948D91A1F56048D005EB5AD /* CorePlotAdditions */ = {
+			isa = PBXGroup;
+			children = (
+				397C3F3C1F35555B00BA9159 /* DTXStackedPlotGroup.h */,
+				397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */,
+				396202341EEF4A9C00D04E96 /* DTXCPTRangePlot.h */,
+				396202351EEF4A9C00D04E96 /* DTXCPTRangePlot.m */,
+				3944E3541F4DB80F001911E8 /* DTXCPTScatterPlot.h */,
+				3944E3551F4DB80F001911E8 /* DTXCPTScatterPlot.m */,
+				3944E3571F4DBA9C001911E8 /* DTXCPTXYAxis.h */,
+				3944E3581F4DBA9C001911E8 /* DTXCPTXYAxis.m */,
+			);
+			path = CorePlotAdditions;
+			sourceTree = "<group>";
+		};
 		394B42AC1F34F2CE0093986E /* InternalViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -736,14 +751,7 @@
 		398D6EA21EE058F600AA9C11 /* PlotDataProviders */ = {
 			isa = PBXGroup;
 			children = (
-				397C3F3C1F35555B00BA9159 /* DTXStackedPlotGroup.h */,
-				397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */,
-				396202341EEF4A9C00D04E96 /* DTXCPTRangePlot.h */,
-				396202351EEF4A9C00D04E96 /* DTXCPTRangePlot.m */,
-				3944E3541F4DB80F001911E8 /* DTXCPTScatterPlot.h */,
-				3944E3551F4DB80F001911E8 /* DTXCPTScatterPlot.m */,
-				3944E3571F4DBA9C001911E8 /* DTXCPTXYAxis.h */,
-				3944E3581F4DBA9C001911E8 /* DTXCPTXYAxis.m */,
+				3948D91A1F56048D005EB5AD /* CorePlotAdditions */,
 				398D6EA61EE060A300AA9C11 /* DTXPlotController.h */,
 				39C6A9031EE37E57000E2EE1 /* DTXAxisHeaderPlotController.h */,
 				39C6A9041EE37E57000E2EE1 /* DTXAxisHeaderPlotController.m */,

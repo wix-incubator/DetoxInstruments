@@ -11,6 +11,8 @@
 @interface DTXPlotTypeCellView ()
 
 @property (nonatomic, strong, readwrite) IBOutlet NSImageView* secondaryImageView;
+@property (nonatomic, strong, readwrite) IBOutlet NSTextField* topLegendTextField;
+@property (nonatomic, strong, readwrite) IBOutlet NSTextField* bottomLegendTextField;
 
 @end
 
@@ -19,6 +21,13 @@
 - (BOOL)canDrawConcurrently
 {
 	return YES;
+}
+
+- (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
+{
+	[super setBackgroundStyle:backgroundStyle];
+	
+	self.bottomLegendTextField.highlighted = self.topLegendTextField.highlighted = backgroundStyle == NSBackgroundStyleDark;
 }
 
 - (void)awakeFromNib

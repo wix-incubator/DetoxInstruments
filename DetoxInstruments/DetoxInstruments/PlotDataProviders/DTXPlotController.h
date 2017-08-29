@@ -29,6 +29,8 @@
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
 @property (nonatomic, strong, readonly) NSImage* secondaryIcon;
 @property (nonatomic, strong, readonly) NSFont* titleFont;
+@property (nonatomic, strong, readonly) NSArray<NSString*>* legendTitles;
+@property (nonatomic, strong, readonly) NSArray<NSColor*>* legendColors;
 
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;
 

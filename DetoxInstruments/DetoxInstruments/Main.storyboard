@@ -1206,23 +1206,45 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                     <rect key="frame" x="35" y="25" width="0.0" height="0.0"/>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Fox-lg-7ui"/>
                                                                 </imageView>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vw4-Oy-RIZ" customClass="DTXHighlightingAttributedTextField">
+                                                                    <rect key="frame" x="203" y="65" width="4" height="12"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="5XA-Ru-7xX">
+                                                                        <font key="font" metaFont="miniSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pgd-UG-waa" customClass="DTXHighlightingAttributedTextField">
+                                                                    <rect key="frame" x="203" y="3" width="4" height="12"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="Psj-P4-YZT">
+                                                                        <font key="font" metaFont="miniSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="9qF-V8-eJh"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" secondItem="jlv-58-SlH" secondAttribute="trailing" constant="8" id="DOG-LZ-mEz"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="width" secondItem="jlv-58-SlH" secondAttribute="width" multiplier="0.45" id="EE5-uS-VKi"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Vw4-Oy-RIZ" secondAttribute="trailing" constant="5" id="Pa5-39-bxS"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="RAI-V4-dkq"/>
+                                                                <constraint firstAttribute="trailing" secondItem="pgd-UG-waa" secondAttribute="trailing" constant="5" id="TAa-BF-dIz"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ocF-A6-Lb0" secondAttribute="leading" constant="28" id="d3w-UV-Jzt"/>
+                                                                <constraint firstItem="Vw4-Oy-RIZ" firstAttribute="top" secondItem="ocF-A6-Lb0" secondAttribute="top" constant="3" id="ero-ZW-I8R"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="centerX" secondItem="jlv-58-SlH" secondAttribute="centerX" constant="15" id="gBq-CB-tos"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="8" id="hqh-ec-2c2"/>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="leading" secondItem="ocF-A6-Lb0" secondAttribute="leading" constant="20" id="lGV-Tm-6hQ"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="height" secondItem="jlv-58-SlH" secondAttribute="height" multiplier="0.45" id="tNo-Np-nJA"/>
+                                                                <constraint firstAttribute="bottom" secondItem="pgd-UG-waa" secondAttribute="bottom" constant="3" id="xME-fh-n3p"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="centerY" secondItem="jlv-58-SlH" secondAttribute="centerY" constant="15" id="xXI-5x-57o"/>
                                                             </constraints>
                                                             <connections>
+                                                                <outlet property="bottomLegendTextField" destination="pgd-UG-waa" id="hzC-Vs-09v"/>
                                                                 <outlet property="imageView" destination="jlv-58-SlH" id="wR8-Fi-zVT"/>
                                                                 <outlet property="secondaryImageView" destination="ZTR-yl-9L0" id="YoC-Zy-ckD"/>
                                                                 <outlet property="textField" destination="nwg-qe-WuA" id="Tfg-EC-ViL"/>
+                                                                <outlet property="topLegendTextField" destination="Vw4-Oy-RIZ" id="BA6-13-1Eq"/>
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>

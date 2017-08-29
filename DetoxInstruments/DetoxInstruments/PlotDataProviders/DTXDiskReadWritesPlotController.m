@@ -27,12 +27,12 @@
 	return [NSImage imageNamed:@"fileActivity"];
 }
 
-+ (NSArray<NSString*>*)sampleKeys
+- (NSArray<NSString*>*)sampleKeys
 {
 	return @[@"diskReadsDelta", @"diskWritesDelta"];
 }
 
-+ (NSArray<NSColor*>*)plotColors
+- (NSArray<NSColor*>*)plotColors
 {
 #if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 	return @[[NSColor.systemGreenColor colorWithAlphaComponent:1.0], [NSColor.systemRedColor colorWithAlphaComponent:1.0]];
@@ -41,12 +41,12 @@
 #endif
 }
 
-+ (NSArray<NSString *> *)plotTitles
+- (NSArray<NSString*>*)plotTitles
 {
 	return @[NSLocalizedString(@"Reads", @""), NSLocalizedString(@"Writes", @"")];
 }
 
-+ (BOOL)isStepped
+- (BOOL)isStepped
 {
 	return YES;
 }

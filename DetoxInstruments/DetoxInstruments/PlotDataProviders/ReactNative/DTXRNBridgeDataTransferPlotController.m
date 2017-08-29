@@ -36,12 +36,12 @@
 	return [NSImage imageNamed:@"react"];
 }
 
-+ (NSArray<NSString*>*)sampleKeys
+- (NSArray<NSString*>*)sampleKeys
 {
 	return @[@"bridgeNToJSDataSizeDelta", @"bridgeJSToNDataSizeDelta"];
 }
 
-+ (NSArray<NSColor*>*)plotColors
+- (NSArray<NSColor*>*)plotColors
 {
 #if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 	return @[[NSColor.systemPurpleColor colorWithAlphaComponent:1.0], [NSColor.systemOrangeColor colorWithAlphaComponent:1.0]];
@@ -50,12 +50,17 @@
 #endif
 }
 
-+ (NSArray<NSString *> *)plotTitles
+- (NSArray<NSString*>*)plotTitles
 {
 	return @[NSLocalizedString(@"Native to JavaScript", @""), NSLocalizedString(@"JavaScript to Native", @"")];
 }
 
-+ (BOOL)isStepped
+- (NSArray<NSString*>*)legendTitles
+{
+	return @[NSLocalizedString(@"N → JS", @""), NSLocalizedString(@"JS → N", @"")];
+}
+
+- (BOOL)isStepped
 {
 	return YES;
 }
