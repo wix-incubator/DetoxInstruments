@@ -12,4 +12,7 @@
 
 @property (nonatomic, strong, readonly) NSImageView* secondaryImageView;
 
+@property (nonatomic, strong, readonly) NSTextField* topLegendTextField;
+@property (nonatomic, strong, readonly) NSTextField* bottomLegendTextField;
+
 @end

@@ -227,4 +227,14 @@
 	return 18;
 }
 
+- (NSArray<NSColor *> *)legendColors
+{
+	return @[];
+}
+
+- (NSArray<NSString *> *)legendTitles
+{
+	return @[];
+}
+
 @end

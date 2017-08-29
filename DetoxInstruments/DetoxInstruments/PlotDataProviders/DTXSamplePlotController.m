@@ -117,7 +117,7 @@
 		if(foundPointIndex != NSNotFound)
 		{
 			id y = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex];
-			if(self.class.isStepped == NO && foundPointIndex < numberOfRecords - 1)
+			if(self.isStepped == NO && foundPointIndex < numberOfRecords - 1)
 			{
 				CGPoint pointOfNextPoint = [obj plotAreaPointOfVisiblePointAtIndex:foundPointIndex + 1];
 				id nextY = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex + 1];
@@ -125,7 +125,7 @@
 				y = [y interpolateToValue:nextY progress:foundPointDelta / (pointOfNextPoint.x - foundPointX)];
 			}
 			
-			[dataPoints addObject:@{@"title":self.class.plotTitles[idx], @"data": [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:y]]}];
+			[dataPoints addObject:@{@"title":self.plotTitles[idx], @"data": [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:y]]}];
 		}
 	}];
 	
@@ -208,7 +208,7 @@
 	
 	CGFloat initial = yRange.location.doubleValue;
 	yRange.location = @(-insets.bottom);
-	yRange.length = @((initial + yRange.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier * self.class.sampleKeys.count);
+	yRange.length = @((initial + yRange.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier * self.sampleKeys.count);
 	
 	return yRange;
 }
@@ -309,16 +309,16 @@
 		return _plots;
 	}
 	
-	NSArray<NSColor*>* plotColors = self.class.plotColors;
+	NSArray<NSColor*>* plotColors = self.plotColors;
 	
 	NSMutableArray* rv = [NSMutableArray new];
-	[self.class.sampleKeys enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		// Create the plot
 		CPTScatterPlot* scatterPlot = [[DTXCPTScatterPlot alloc] initWithFrame:CGRectZero];
 		scatterPlot.identifier = @(idx);
 		
 		// set interpolation types
-		scatterPlot.interpolation = self.class.isStepped ? CPTScatterPlotInterpolationStepped : CPTScatterPlotInterpolationLinear;
+		scatterPlot.interpolation = self.isStepped ? CPTScatterPlotInterpolationStepped : CPTScatterPlotInterpolationLinear;
 		
 		// style plots
 		CPTMutableLineStyle *lineStyle = [scatterPlot.dataLineStyle mutableCopy];
@@ -334,7 +334,7 @@
 		gradient.angle = 90;
 
 		scatterPlot.areaFill = [CPTFill fillWithGradient:gradient];
-		if(self.class.sampleKeys.count == 2 && idx == 1)
+		if(self.sampleKeys.count == 2 && idx == 1)
 		{
 			scatterPlot.transform = CATransform3DMakeScale(1.0, -1.0, 1.0);
 			scatterPlot.areaBaseValue = @10000000000000000.0;
@@ -370,7 +370,7 @@
 	}
 	else
 	{
-		return [self transformedValueForFormatter:[[self samplesForPlotIndex:plotIdx][index] valueForKey:self.class.sampleKeys[plotIdx]]];
+		return [self transformedValueForFormatter:[[self samplesForPlotIndex:plotIdx][index] valueForKey:self.sampleKeys[plotIdx]]];
 	}
 }
 
@@ -460,7 +460,7 @@
 	
 	_highlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:_graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 	_lineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight)];
-	_lineLayer.lineColor =  self.class.plotColors.count > 1 ? NSColor.blackColor : self.class.plotColors.firstObject.darkerColor.darkerColor;
+	_lineLayer.lineColor =  self.plotColors.count > 1 ? NSColor.blackColor : self.plotColors.firstObject.darkerColor.darkerColor;
 	_highlightAnnotation.contentLayer = _lineLayer;
 	_highlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 	_highlightAnnotation.anchorPlotPoint = @[@(sampleTime), @0];
@@ -473,7 +473,7 @@
 	
 	[_graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTScatterPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		CGFloat value = [obj plotAreaPointOfVisiblePointAtIndex:sampleIdx].y;
-		if(self.class.isStepped == NO && nextSampleIdx != NSNotFound)
+		if(self.isStepped == NO && nextSampleIdx != NSNotFound)
 		{
 			CGFloat nextValue = [obj plotAreaPointOfVisiblePointAtIndex:nextSampleIdx].y;
 			
@@ -488,7 +488,7 @@
 		}
 		
 		[dataPoints addObject:@(value)];
-		[pointColors addObject:self.class.plotColors[idx]];
+		[pointColors addObject:self.plotColors[idx]];
 	}];
 	
 	_lineLayer.dataPoints = dataPoints;
@@ -512,7 +512,7 @@
 	
 	_highlightedRange = range;
 	
-	_rangeHighlightBand = [CPTLimitBand limitBandWithRange:range fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:self.class.plotColors.firstObject.darkerColor.CGColor]]];
+	_rangeHighlightBand = [CPTLimitBand limitBandWithRange:range fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:self.plotColors.firstObject.darkerColor.CGColor]]];
 	
 	[plot addAreaFillBand:_rangeHighlightBand];
 }
@@ -622,17 +622,17 @@
 	return @[];
 }
 
-+ (NSArray<NSString*>*)sampleKeys
+- (NSArray<NSString*>*)sampleKeys
 {
 	return @[];
 }
 
-+ (NSArray<NSColor*>*)plotColors
+- (NSArray<NSColor*>*)plotColors
 {
 	return @[];
 }
 
-+ (NSArray<NSString *> *)plotTitles
+- (NSArray<NSString *>*)plotTitles
 {
 	return @[];
 }
@@ -662,7 +662,7 @@
 	return value;
 }
 
-+ (BOOL)isStepped
+- (BOOL)isStepped
 {
 	return NO;
 }
@@ -670,6 +670,16 @@
 - (BOOL)canReceiveFocus
 {
 	return YES;
+}
+
+- (NSArray<NSString *> *)legendTitles
+{
+	return self.plotTitles;
+}
+
+- (NSArray<NSColor *> *)legendColors
+{
+	return self.plotColors;
 }
 
 @end
