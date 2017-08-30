@@ -15,6 +15,7 @@
 
 @interface DTXNetworkRecorder : NSObject
 
++ (BOOL)hasNetworkListeners;
 + (void)addNetworkListener:(id<DTXNetworkListener>)listener;
 + (void)removeNetworkListener:(id<DTXNetworkListener>)listener;
 

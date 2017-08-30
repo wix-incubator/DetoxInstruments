@@ -25,6 +25,12 @@
 		3916E4C21F2EACDF00C1DB60 /* DTXColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3916E4C01F2EACDF00C1DB60 /* DTXColorTransformer.m */; };
 		3916E4C51F2EACED00C1DB60 /* DTXColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3916E4C31F2EACED00C1DB60 /* DTXColor.h */; };
 		3916E4C61F2EACED00C1DB60 /* DTXColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3916E4C41F2EACED00C1DB60 /* DTXColor.m */; };
+		391E4C751F55750C0057039E /* DTXURLProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 391E4C731F55750C0057039E /* DTXURLProtocol.h */; };
+		391E4C761F55750C0057039E /* DTXURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 391E4C741F55750C0057039E /* DTXURLProtocol.m */; };
+		391E4C791F5575BF0057039E /* DTXAuthenticationChallengeProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 391E4C771F5575BF0057039E /* DTXAuthenticationChallengeProxy.h */; };
+		391E4C7A1F5575BF0057039E /* DTXAuthenticationChallengeProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 391E4C781F5575BF0057039E /* DTXAuthenticationChallengeProxy.m */; };
+		391E4C7D1F557B190057039E /* DTXExternalProtocolHooking.h in Headers */ = {isa = PBXBuildFile; fileRef = 391E4C7B1F557B190057039E /* DTXExternalProtocolHooking.h */; };
+		391E4C7E1F557B190057039E /* DTXExternalProtocolHooking.m in Sources */ = {isa = PBXBuildFile; fileRef = 391E4C7C1F557B190057039E /* DTXExternalProtocolHooking.m */; };
 		3922AE021F2B9B960034B1FE /* DTXSourceMapsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3922ADF71F2B9B3A0034B1FE /* DTXSourceMapsParser.m */; };
 		3922AE031F2B9B9B0034B1FE /* _DTXBase64VLQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 3922ADFE1F2B9B620034B1FE /* _DTXBase64VLQ.m */; };
 		3922AE041F2B9B9B0034B1FE /* _DTXBasicSourceMapsConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3922ADFC1F2B9B620034B1FE /* _DTXBasicSourceMapsConsumer.m */; };
@@ -43,6 +49,8 @@
 		39281E831ED70A77002CE905 /* DTXZipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39281E811ED70A77002CE905 /* DTXZipper.m */; };
 		39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */; };
 		39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */; };
+		39432AE91F55BE6C00468DB7 /* DTXExternalProtocolStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 39432AE71F55BE6C00468DB7 /* DTXExternalProtocolStorage.h */; };
+		39432AEA1F55BE6C00468DB7 /* DTXExternalProtocolStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 39432AE81F55BE6C00468DB7 /* DTXExternalProtocolStorage.m */; };
 		39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */; };
 		39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 39498C401F1FAE650030B620 /* DTXSocketConnection.h */; };
 		394A09651F012F8D0030BDB4 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = 394A09631F012F8D0030BDB4 /* fishhook.h */; };
@@ -81,12 +89,6 @@
 		39D40C211ED5B52100157C04 /* DBFPSCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C1D1ED5B52100157C04 /* DBFPSCalculator.m */; };
 		39D40C221ED5B52100157C04 /* DBPerformanceToolkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C1E1ED5B52100157C04 /* DBPerformanceToolkit.h */; };
 		39D40C231ED5B52100157C04 /* DBPerformanceToolkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C1F1ED5B52100157C04 /* DBPerformanceToolkit.m */; };
-		39D40C2C1ED5B5C900157C04 /* DBAuthenticationChallengeSender.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C261ED5B5C900157C04 /* DBAuthenticationChallengeSender.h */; };
-		39D40C2D1ED5B5C900157C04 /* DBAuthenticationChallengeSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C271ED5B5C900157C04 /* DBAuthenticationChallengeSender.m */; };
-		39D40C2E1ED5B5C900157C04 /* DBURLProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C281ED5B5C900157C04 /* DBURLProtocol.h */; };
-		39D40C2F1ED5B5C900157C04 /* DBURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C291ED5B5C900157C04 /* DBURLProtocol.m */; };
-		39D40C301ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C2A1ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.h */; };
-		39D40C311ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C2B1ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.m */; };
 		39D40C351ED5B60100157C04 /* NSObject+DBDebugToolkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C331ED5B60100157C04 /* NSObject+DBDebugToolkit.h */; };
 		39D40C361ED5B60100157C04 /* NSObject+DBDebugToolkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C341ED5B60100157C04 /* NSObject+DBDebugToolkit.m */; };
 		39D40C3A1ED5BAB800157C04 /* DBBuildInfoProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C381ED5BAB800157C04 /* DBBuildInfoProvider.h */; };
@@ -120,6 +122,12 @@
 		3916E4C31F2EACED00C1DB60 /* DTXColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXColor.h; sourceTree = "<group>"; };
 		3916E4C41F2EACED00C1DB60 /* DTXColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXColor.m; sourceTree = "<group>"; };
 		3916E4C71F2EAE2500C1DB60 /* DTXColorCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXColorCommon.h; sourceTree = "<group>"; };
+		391E4C731F55750C0057039E /* DTXURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXURLProtocol.h; sourceTree = "<group>"; };
+		391E4C741F55750C0057039E /* DTXURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXURLProtocol.m; sourceTree = "<group>"; };
+		391E4C771F5575BF0057039E /* DTXAuthenticationChallengeProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAuthenticationChallengeProxy.h; sourceTree = "<group>"; };
+		391E4C781F5575BF0057039E /* DTXAuthenticationChallengeProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAuthenticationChallengeProxy.m; sourceTree = "<group>"; };
+		391E4C7B1F557B190057039E /* DTXExternalProtocolHooking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXExternalProtocolHooking.h; sourceTree = "<group>"; };
+		391E4C7C1F557B190057039E /* DTXExternalProtocolHooking.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXExternalProtocolHooking.m; sourceTree = "<group>"; };
 		3922ADF71F2B9B3A0034B1FE /* DTXSourceMapsParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DTXSourceMapsParser.m; path = ../../../Shared/DTXSourceMaps/DTXSourceMaps/DTXSourceMapsParser.m; sourceTree = "<group>"; };
 		3922ADF81F2B9B3A0034B1FE /* DTXSourceMapsParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DTXSourceMapsParser.h; path = ../../../Shared/DTXSourceMaps/DTXSourceMaps/DTXSourceMapsParser.h; sourceTree = "<group>"; };
 		3922ADFB1F2B9B620034B1FE /* _DTXBase64VLQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = _DTXBase64VLQ.h; path = ../../../../Shared/DTXSourceMaps/DTXSourceMaps/Private/_DTXBase64VLQ.h; sourceTree = "<group>"; };
@@ -143,6 +151,8 @@
 		39281E811ED70A77002CE905 /* DTXZipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXZipper.m; sourceTree = "<group>"; };
 		39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
 		39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
+		39432AE71F55BE6C00468DB7 /* DTXExternalProtocolStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXExternalProtocolStorage.h; sourceTree = "<group>"; };
+		39432AE81F55BE6C00468DB7 /* DTXExternalProtocolStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXExternalProtocolStorage.m; sourceTree = "<group>"; };
 		39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSocketConnection.m; sourceTree = "<group>"; };
 		39498C401F1FAE650030B620 /* DTXSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSocketConnection.h; sourceTree = "<group>"; };
 		394A09631F012F8D0030BDB4 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = SOURCE_ROOT; };
@@ -188,12 +198,6 @@
 		39D40C1D1ED5B52100157C04 /* DBFPSCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBFPSCalculator.m; path = DBDebugToolkit/DBDebugToolkit/Classes/Performance/DBFPSCalculator.m; sourceTree = SOURCE_ROOT; };
 		39D40C1E1ED5B52100157C04 /* DBPerformanceToolkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBPerformanceToolkit.h; path = DBDebugToolkit/DBDebugToolkit/Classes/Performance/DBPerformanceToolkit.h; sourceTree = SOURCE_ROOT; };
 		39D40C1F1ED5B52100157C04 /* DBPerformanceToolkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBPerformanceToolkit.m; path = DBDebugToolkit/DBDebugToolkit/Classes/Performance/DBPerformanceToolkit.m; sourceTree = SOURCE_ROOT; };
-		39D40C261ED5B5C900157C04 /* DBAuthenticationChallengeSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBAuthenticationChallengeSender.h; path = DBDebugToolkit/DBDebugToolkit/Classes/Network/URLProtocol/DBAuthenticationChallengeSender.h; sourceTree = SOURCE_ROOT; };
-		39D40C271ED5B5C900157C04 /* DBAuthenticationChallengeSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBAuthenticationChallengeSender.m; path = DBDebugToolkit/DBDebugToolkit/Classes/Network/URLProtocol/DBAuthenticationChallengeSender.m; sourceTree = SOURCE_ROOT; };
-		39D40C281ED5B5C900157C04 /* DBURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBURLProtocol.h; path = DBDebugToolkit/DBDebugToolkit/Classes/Network/URLProtocol/DBURLProtocol.h; sourceTree = SOURCE_ROOT; };
-		39D40C291ED5B5C900157C04 /* DBURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBURLProtocol.m; path = DBDebugToolkit/DBDebugToolkit/Classes/Network/URLProtocol/DBURLProtocol.m; sourceTree = SOURCE_ROOT; };
-		39D40C2A1ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURLSessionConfiguration+DBURLProtocol.h"; path = "DBDebugToolkit/DBDebugToolkit/Classes/Network/URLProtocol/NSURLSessionConfiguration+DBURLProtocol.h"; sourceTree = SOURCE_ROOT; };
-		39D40C2B1ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLSessionConfiguration+DBURLProtocol.m"; path = "DBDebugToolkit/DBDebugToolkit/Classes/Network/URLProtocol/NSURLSessionConfiguration+DBURLProtocol.m"; sourceTree = SOURCE_ROOT; };
 		39D40C331ED5B60100157C04 /* NSObject+DBDebugToolkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+DBDebugToolkit.h"; path = "DBDebugToolkit/DBDebugToolkit/Classes/Categories/NSObject+DBDebugToolkit.h"; sourceTree = SOURCE_ROOT; };
 		39D40C341ED5B60100157C04 /* NSObject+DBDebugToolkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DBDebugToolkit.m"; path = "DBDebugToolkit/DBDebugToolkit/Classes/Categories/NSObject+DBDebugToolkit.m"; sourceTree = SOURCE_ROOT; };
 		39D40C381ED5BAB800157C04 /* DBBuildInfoProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBBuildInfoProvider.h; path = DBDebugToolkit/DBDebugToolkit/Classes/BuildInfo/DBBuildInfoProvider.h; sourceTree = SOURCE_ROOT; };
@@ -357,6 +361,14 @@
 		39C7133C1EFFD6AD00C827EB /* NetworkRecording */ = {
 			isa = PBXGroup;
 			children = (
+				39432AE71F55BE6C00468DB7 /* DTXExternalProtocolStorage.h */,
+				39432AE81F55BE6C00468DB7 /* DTXExternalProtocolStorage.m */,
+				391E4C7B1F557B190057039E /* DTXExternalProtocolHooking.h */,
+				391E4C7C1F557B190057039E /* DTXExternalProtocolHooking.m */,
+				391E4C731F55750C0057039E /* DTXURLProtocol.h */,
+				391E4C741F55750C0057039E /* DTXURLProtocol.m */,
+				391E4C771F5575BF0057039E /* DTXAuthenticationChallengeProxy.h */,
+				391E4C781F5575BF0057039E /* DTXAuthenticationChallengeProxy.m */,
 				39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */,
 				39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */,
 			);
@@ -455,7 +467,6 @@
 			children = (
 				39D40C371ED5B60F00157C04 /* BuildInfo */,
 				39D40C321ED5B5F400157C04 /* Categories */,
-				39D40C241ED5B57A00157C04 /* Network */,
 				39D40C1B1ED5B51200157C04 /* Performance */,
 			);
 			name = DBDebugToolkit;
@@ -471,27 +482,6 @@
 				39D40C1F1ED5B52100157C04 /* DBPerformanceToolkit.m */,
 			);
 			name = Performance;
-			sourceTree = "<group>";
-		};
-		39D40C241ED5B57A00157C04 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				39D40C251ED5B5C000157C04 /* URLProtocol */,
-			);
-			name = Network;
-			sourceTree = "<group>";
-		};
-		39D40C251ED5B5C000157C04 /* URLProtocol */ = {
-			isa = PBXGroup;
-			children = (
-				39D40C261ED5B5C900157C04 /* DBAuthenticationChallengeSender.h */,
-				39D40C271ED5B5C900157C04 /* DBAuthenticationChallengeSender.m */,
-				39D40C281ED5B5C900157C04 /* DBURLProtocol.h */,
-				39D40C291ED5B5C900157C04 /* DBURLProtocol.m */,
-				39D40C2A1ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.h */,
-				39D40C2B1ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.m */,
-			);
-			name = URLProtocol;
 			sourceTree = "<group>";
 		};
 		39D40C321ED5B5F400157C04 /* Categories */ = {
@@ -528,6 +518,8 @@
 				39D205501F03057200830A0D /* DTXLoggingRecorder.h in Headers */,
 				39281E701ED70458002CE905 /* unzip.h in Headers */,
 				39557CDA1F1F7E8D00FF3187 /* DTXRemoteProfiler.h in Headers */,
+				391E4C7D1F557B190057039E /* DTXExternalProtocolHooking.h in Headers */,
+				391E4C751F55750C0057039E /* DTXURLProtocol.h in Headers */,
 				396500F11F2E9E9000DA9530 /* DTXDeviceInfo.h in Headers */,
 				39D40C351ED5B60100157C04 /* NSObject+DBDebugToolkit.h in Headers */,
 				39DA16821F3097780025C492 /* NSDictionary+FakeDecoder.h in Headers */,
@@ -535,17 +527,16 @@
 				39D40C0F1ED5B43700157C04 /* DTXInstrumentsModel.h in Headers */,
 				3916E4C11F2EACDF00C1DB60 /* DTXColorTransformer.h in Headers */,
 				396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */,
+				39432AE91F55BE6C00468DB7 /* DTXExternalProtocolStorage.h in Headers */,
 				39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */,
-				39D40C2E1ED5B5C900157C04 /* DBURLProtocol.h in Headers */,
-				39D40C2C1ED5B5C900157C04 /* DBAuthenticationChallengeSender.h in Headers */,
 				39281E821ED70A77002CE905 /* DTXZipper.h in Headers */,
 				39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */,
 				39281E6C1ED70458002CE905 /* ioapi.h in Headers */,
 				394A09651F012F8D0030BDB4 /* fishhook.h in Headers */,
 				396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */,
-				39D40C301ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.h in Headers */,
 				39D40C121ED5B43700157C04 /* DTXSample+Additions.h in Headers */,
 				39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */,
+				391E4C791F5575BF0057039E /* DTXAuthenticationChallengeProxy.h in Headers */,
 				39D40C3A1ED5BAB800157C04 /* DBBuildInfoProvider.h in Headers */,
 				39C713401EFFD6FF00C827EB /* DTXReactNativeSampler.h in Headers */,
 				39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */,
@@ -654,14 +645,15 @@
 				3922AE041F2B9B9B0034B1FE /* _DTXBasicSourceMapsConsumer.m in Sources */,
 				3916E4C21F2EACDF00C1DB60 /* DTXColorTransformer.m in Sources */,
 				39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */,
-				39D40C311ED5B5C900157C04 /* NSURLSessionConfiguration+DBURLProtocol.m in Sources */,
 				39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */,
 				396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */,
 				39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */,
 				3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */,
 				39281E6B1ED70458002CE905 /* ioapi.c in Sources */,
 				39D205511F03057200830A0D /* DTXLoggingRecorder.m in Sources */,
+				391E4C7A1F5575BF0057039E /* DTXAuthenticationChallengeProxy.m in Sources */,
 				39D40C361ED5B60100157C04 /* NSObject+DBDebugToolkit.m in Sources */,
+				39432AEA1F55BE6C00468DB7 /* DTXExternalProtocolStorage.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
 				39281E831ED70A77002CE905 /* DTXZipper.m in Sources */,
 				39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
@@ -669,13 +661,13 @@
 				39C713411EFFD6FF00C827EB /* DTXReactNativeSampler.m in Sources */,
 				39D40C211ED5B52100157C04 /* DBFPSCalculator.m in Sources */,
 				39281E6F1ED70458002CE905 /* unzip.c in Sources */,
+				391E4C7E1F557B190057039E /* DTXExternalProtocolHooking.m in Sources */,
 				3916E4C61F2EACED00C1DB60 /* DTXColor.m in Sources */,
-				39D40C2D1ED5B5C900157C04 /* DBAuthenticationChallengeSender.m in Sources */,
 				39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */,
+				391E4C761F55750C0057039E /* DTXURLProtocol.m in Sources */,
 				39D40C3B1ED5BAB800157C04 /* DBBuildInfoProvider.m in Sources */,
 				39281E711ED70458002CE905 /* zip.c in Sources */,
 				396500F21F2E9E9000DA9530 /* DTXDeviceInfo.m in Sources */,
-				39D40C2F1ED5B5C900157C04 /* DBURLProtocol.m in Sources */,
 				39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */,
 				39D40C151ED5B43700157C04 /* NSManagedObject+Additions.m in Sources */,
 				39D40C131ED5B43700157C04 /* DTXSample+Additions.m in Sources */,

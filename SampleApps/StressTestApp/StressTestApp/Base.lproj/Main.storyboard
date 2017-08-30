@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.17" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,47 +21,76 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KLq-A5-AQQ">
-                                <rect key="frame" x="126" y="318" width="123" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KLq-A5-AQQ">
+                                <rect key="frame" x="126" y="318.5" width="123" height="30"/>
                                 <state key="normal" title="Slow Main Thread"/>
                                 <connections>
                                     <action selector="_slowMyDeviceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c99-o3-xIU"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBo-BC-Srv">
-                                <rect key="frame" x="102" y="356" width="172" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBo-BC-Srv">
+                                <rect key="frame" x="102" y="356.5" width="172" height="30"/>
                                 <state key="normal" title="Slow Background Thread"/>
                                 <connections>
                                     <action selector="_slowMyBackgroundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w1q-e3-3FW"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="id4-Y6-Fd9">
-                                <rect key="frame" x="158" y="280" width="58" height="30"/>
-                                <state key="normal" title="Network"/>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="id4-Y6-Fd9">
+                                <rect key="frame" x="94" y="280.5" width="186" height="30"/>
+                                <state key="normal" title="Web View (Goolge Images)"/>
                                 <connections>
                                     <segue destination="gx5-xc-mTj" kind="presentation" id="8M2-vR-cEp"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GiA-rM-g8i">
-                                <rect key="frame" x="122" y="394" width="131" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GiA-rM-g8i">
+                                <rect key="frame" x="122" y="394.5" width="131" height="30"/>
                                 <state key="normal" title="Write 10MB to Disk"/>
                                 <connections>
                                     <action selector="_writeToDisk:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fk7-0g-c6S"/>
+                                </connections>
+                            </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cUI-1f-jo0">
+                                <rect key="frame" x="162.5" y="204" width="51" height="31"/>
+                                <connections>
+                                    <action selector="protocolEnableSwitchDidChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="Rbx-LB-7fM"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Use App Protocol:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHS-Vn-pjo">
+                                <rect key="frame" x="29.5" y="211" width="125" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9RO-Jy-FIS">
+                                <rect key="frame" x="124" y="243" width="126" height="30"/>
+                                <state key="normal" title="Network Requests"/>
+                                <connections>
+                                    <action selector="startNetworkRequestsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NJC-YP-Qqm"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="KLq-A5-AQQ" firstAttribute="top" secondItem="id4-Y6-Fd9" secondAttribute="bottom" constant="8" id="2lt-Dy-xA5"/>
+                            <constraint firstItem="cUI-1f-jo0" firstAttribute="leading" secondItem="UHS-Vn-pjo" secondAttribute="trailing" constant="8" id="Ct2-SB-HXe"/>
+                            <constraint firstItem="cUI-1f-jo0" firstAttribute="centerX" secondItem="id4-Y6-Fd9" secondAttribute="centerX" priority="999" id="ETE-zK-QQt"/>
                             <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="KV5-Fw-Pbe"/>
                             <constraint firstItem="MBo-BC-Srv" firstAttribute="top" secondItem="KLq-A5-AQQ" secondAttribute="bottom" constant="8" id="OsD-zj-Ihx"/>
                             <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerX" secondItem="id4-Y6-Fd9" secondAttribute="centerX" id="T38-to-iBU"/>
+                            <constraint firstItem="9RO-Jy-FIS" firstAttribute="centerX" secondItem="id4-Y6-Fd9" secondAttribute="centerX" id="UjY-3t-IHm"/>
                             <constraint firstItem="MBo-BC-Srv" firstAttribute="centerX" secondItem="KLq-A5-AQQ" secondAttribute="centerX" id="ca3-Tc-Gwy"/>
+                            <constraint firstItem="9RO-Jy-FIS" firstAttribute="top" secondItem="cUI-1f-jo0" secondAttribute="bottom" constant="8" id="cdH-bl-UFd"/>
                             <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gol-FN-n7c"/>
                             <constraint firstItem="GiA-rM-g8i" firstAttribute="top" secondItem="MBo-BC-Srv" secondAttribute="bottom" constant="8" id="lvn-nB-IYS"/>
+                            <constraint firstItem="id4-Y6-Fd9" firstAttribute="top" secondItem="9RO-Jy-FIS" secondAttribute="bottom" constant="7.5" id="m1y-ma-RC5"/>
                             <constraint firstItem="GiA-rM-g8i" firstAttribute="centerX" secondItem="MBo-BC-Srv" secondAttribute="centerX" id="pPA-1N-ugZ"/>
+                            <constraint firstItem="UHS-Vn-pjo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="uca-VS-gM7"/>
+                            <constraint firstItem="UHS-Vn-pjo" firstAttribute="centerY" secondItem="cUI-1f-jo0" secondAttribute="centerY" id="xCG-E9-7jC"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="useProtocolSwitch" destination="cUI-1f-jo0" id="iHY-hL-Ymf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -113,7 +142,7 @@
             <objects>
                 <navigationController id="gx5-xc-mTj" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0r6-h8-rSa">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
