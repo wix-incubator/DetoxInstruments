@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39432AE31F55B78800468DB7 /* AppURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 39432AE21F55B78800468DB7 /* AppURLProtocol.m */; };
 		3944E3431F4DB6D0001911E8 /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3944E33A1F4DB681001911E8 /* DTXProfiler.framework */; };
 		3944E3441F4DB6D0001911E8 /* DTXProfiler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3944E33A1F4DB681001911E8 /* DTXProfiler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3978000F1EEB00C1002BDEFB /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978000C1EEB0038002BDEFB /* WebViewController.m */; };
@@ -57,6 +58,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		39432AE11F55B78800468DB7 /* AppURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppURLProtocol.h; sourceTree = "<group>"; };
+		39432AE21F55B78800468DB7 /* AppURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppURLProtocol.m; sourceTree = "<group>"; };
 		3978000B1EEB0038002BDEFB /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		3978000C1EEB0038002BDEFB /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		39D7F3611F307D2C00A35D05 /* DTXProfiler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXProfiler.xcodeproj; path = ../../Profiler/DTXProfiler.xcodeproj; sourceTree = "<group>"; };
@@ -84,6 +87,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39432AE61F55B7AC00468DB7 /* AppURLDemo */ = {
+			isa = PBXGroup;
+			children = (
+				39432AE11F55B78800468DB7 /* AppURLProtocol.h */,
+				39432AE21F55B78800468DB7 /* AppURLProtocol.m */,
+			);
+			path = AppURLDemo;
+			sourceTree = "<group>";
+		};
 		3944E3351F4DB681001911E8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +125,7 @@
 		39EBDF161ED2DEA2005D8AB1 /* StressTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				39432AE61F55B7AC00468DB7 /* AppURLDemo */,
 				39EBDF1A1ED2DEA2005D8AB1 /* AppDelegate.h */,
 				39EBDF1B1ED2DEA2005D8AB1 /* AppDelegate.m */,
 				39EBDF1D1ED2DEA2005D8AB1 /* ViewController.h */,
@@ -231,6 +244,7 @@
 				39EBDF1C1ED2DEA2005D8AB1 /* AppDelegate.m in Sources */,
 				39EBDF191ED2DEA2005D8AB1 /* main.m in Sources */,
 				3978000F1EEB00C1002BDEFB /* WebViewController.m in Sources */,
+				39432AE31F55B78800468DB7 /* AppURLProtocol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

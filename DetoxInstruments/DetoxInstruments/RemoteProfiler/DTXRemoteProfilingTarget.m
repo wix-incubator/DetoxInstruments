@@ -188,6 +188,8 @@
 		NSString* entityName = storyEvent[@"entityName"];
 		NSEntityDescription* entityDescription = _managedObjectContext.persistentStoreCoordinator.managedObjectModel.entitiesByName[entityName];
 		
+		NSLog(@"%@ (%@)", storyEvent[@"selector"], storyEvent[@"entityName"]);
+		
 		NSMethodSignature* sig = [(id)self.storyDecoder methodSignatureForSelector:cmd];
 		if(sig == nil)
 		{
