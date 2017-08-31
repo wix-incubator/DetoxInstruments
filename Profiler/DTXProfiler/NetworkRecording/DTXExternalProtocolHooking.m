@@ -101,11 +101,13 @@ NSArray<Class>* __dtx_protocolClasses(id self, SEL _cmd)
 			{
 				cls = objc_allocateClassPair(obj, className.UTF8String, 0);
 				
-				class_addMethod(cls, @selector(startLoading), imp_implementationWithBlock(^ (id self) {
+				class_addMethod(cls, @selector(startLoading), imp_implementationWithBlock(^ (NSURLProtocol* self) {
 					NSString* uniqueIdentifier = [NSProcessInfo processInfo].globallyUniqueString;
 					objc_setAssociatedObject(self, __DTXUniqueIdentifierForProtocolInstanceKey, uniqueIdentifier, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 					
 					[_DTXExternalProtocolStorage addProtocolInstance:self];
+					
+					[DTXURLProtocol.delegate urlProtocol:self didStartRequest:self.request uniqueIdentifier:uniqueIdentifier];
 					
 					//Call [super startLoading];
 					struct objc_super super = {.receiver = self, .super_class = [self superclass]};
