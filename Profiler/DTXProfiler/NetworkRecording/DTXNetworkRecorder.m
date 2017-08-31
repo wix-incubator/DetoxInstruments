@@ -71,7 +71,7 @@ static dispatch_queue_t __networkListenersQueue;
 
 #pragma mark DBURLProtocolDelegate
 
-+ (void)urlProtocol:(DTXURLProtocol*)protocol didStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier
++ (void)urlProtocol:(NSURLProtocol*)protocol didStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier
 {
 	dispatch_sync(__networkListenersQueue, ^{
 		[__networkListeners enumerateObjectsUsingBlock:^(id<DTXNetworkListener>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -80,7 +80,7 @@ static dispatch_queue_t __networkListenersQueue;
 	});
 }
 
-+ (void)urlProtocol:(DTXURLProtocol*)protocol didFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier
++ (void)urlProtocol:(NSURLProtocol*)protocol didFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier
 {
 	dispatch_sync(__networkListenersQueue, ^{
 		[__networkListeners enumerateObjectsUsingBlock:^(id<DTXNetworkListener>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
