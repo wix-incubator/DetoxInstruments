@@ -540,7 +540,7 @@
 	
 	_rangeHighlightBand = nil;
 	
-	if(_highlightAnnotation)
+	if(_highlightAnnotation && _highlightAnnotation.annotationHostLayer != nil)
 	{
 		[_graph removeAnnotation:_highlightAnnotation];
 	}
