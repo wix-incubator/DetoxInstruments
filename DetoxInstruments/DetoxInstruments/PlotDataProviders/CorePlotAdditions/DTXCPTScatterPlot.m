@@ -10,9 +10,9 @@
 
 @implementation DTXCPTScatterPlot
 
-- (BOOL)_canDisplayConcurrently
-{
-	return YES;
-}
+//- (BOOL)_canDisplayConcurrently
+//{
+//	return YES;
+//}
 
 @end

@@ -10,9 +10,9 @@
 
 @implementation DTXCPTXYAxis
 
-- (BOOL)_canDisplayConcurrently
-{
-	return YES;
-}
+//- (BOOL)_canDisplayConcurrently
+//{
+//	return YES;
+//}
 
 @end
