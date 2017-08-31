@@ -58,33 +58,7 @@ static void __dtx_URLProtocol_didFailWithError(id self, SEL _cmd, NSURLProtocol*
 static BOOL (*__orig_registerClass)(id, SEL, Class);
 static BOOL __dtx_registerClass(id self, SEL _cmd, Class protocolClass)
 {
-	Class cls = protocolClass;
-	if([protocolClass conformsToProtocol:@protocol(_DTXUserProtocolIsSwizzled)] == NO)
-	{
-		NSString* className = [NSString stringWithFormat:@"__dtx_%s", class_getName(protocolClass)];
-		cls = objc_getClass(className.UTF8String);
-		
-		if(cls == nil)
-		{
-			cls = objc_allocateClassPair(protocolClass, className.UTF8String, 0);
-			
-			class_addMethod(cls, @selector(startLoading), imp_implementationWithBlock(^ (id self) {
-				NSString* uniqueIdentifier = [NSProcessInfo processInfo].globallyUniqueString;
-				objc_setAssociatedObject(self, __DTXUniqueIdentifierForProtocolInstanceKey, uniqueIdentifier, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-				
-				[_DTXExternalProtocolStorage addProtocolInstance:self];
-				
-				//Call [super startLoading];
-				struct objc_super super = {.receiver = self, .super_class = [self superclass]};
-				void (*superStartLoading)(struct objc_super*, SEL) = (void*)objc_msgSendSuper;
-				superStartLoading(&super, @selector(startLoading));
-			}), method_getTypeEncoding(class_getInstanceMethod([NSURLProtocol class], @selector(startLoading))));
-			
-			objc_registerClassPair(cls);
-		}
-	}
-	
-	return __orig_registerClass(self, _cmd, cls);
+	return __orig_registerClass(self, _cmd, protocolClass);
 }
 
 void (*__orig_setProtocolClasses)(id, SEL, NSArray<Class>*);
@@ -117,7 +91,33 @@ NSArray<Class>* __dtx_protocolClasses(id self, SEL _cmd)
 			return;
 		}
 		
-		[userProtocols addObject:obj];
+		Class cls = obj;
+		if([obj conformsToProtocol:@protocol(_DTXUserProtocolIsSwizzled)] == NO)
+		{
+			NSString* className = [NSString stringWithFormat:@"__dtx_%s", class_getName(obj)];
+			cls = objc_getClass(className.UTF8String);
+			
+			if(cls == nil)
+			{
+				cls = objc_allocateClassPair(obj, className.UTF8String, 0);
+				
+				class_addMethod(cls, @selector(startLoading), imp_implementationWithBlock(^ (id self) {
+					NSString* uniqueIdentifier = [NSProcessInfo processInfo].globallyUniqueString;
+					objc_setAssociatedObject(self, __DTXUniqueIdentifierForProtocolInstanceKey, uniqueIdentifier, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+					
+					[_DTXExternalProtocolStorage addProtocolInstance:self];
+					
+					//Call [super startLoading];
+					struct objc_super super = {.receiver = self, .super_class = [self superclass]};
+					void (*superStartLoading)(struct objc_super*, SEL) = (void*)objc_msgSendSuper;
+					superStartLoading(&super, @selector(startLoading));
+				}), method_getTypeEncoding(class_getInstanceMethod([NSURLProtocol class], @selector(startLoading))));
+				
+				objc_registerClassPair(cls);
+			}
+		}
+		
+		[userProtocols addObject:cls];
 	}];
 	
 	NSMutableArray<Class>* rv = [NSMutableArray new];
