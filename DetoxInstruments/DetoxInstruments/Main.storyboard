@@ -403,9 +403,9 @@
                 <windowController storyboardIdentifier="InstrumentsWindowController" id="B8D-0N-5wS" customClass="DTXInstrumentsWindowController" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="preferred" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <rect key="contentRect" x="196" y="239" width="1000" height="801"/>
+                        <rect key="contentRect" x="196" y="239" width="1000" height="800"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-                        <value key="minSize" type="size" width="1000" height="800"/>
+                        <value key="minSize" type="size" width="900" height="500"/>
                         <toolbar key="toolbar" implicitIdentifier="1C34E879-7A07-4888-BB7B-DD6473703286" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="CAm-Ej-Jkx">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="uO1-Q0-f8b"/>
