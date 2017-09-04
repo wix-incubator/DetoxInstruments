@@ -73,9 +73,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Collecting stack traces may introduce some performance hit.
  *
- *  Stack trace collection is implemented using signals. Specifically, @c SIGPROF and @c SIGCHLD are used.
- *  If your application uses those signals or installs custom handlers for those signals, there may be collision issues.
- *
  *  The default value is @c false.
  */
 @property (nonatomic) BOOL collectStackTraces;

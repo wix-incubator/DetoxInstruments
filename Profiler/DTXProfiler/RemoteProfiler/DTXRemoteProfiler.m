@@ -92,7 +92,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 
 - (void)addPerformanceSample:(__kindof DTXPerformanceSample *)performanceSample
 {
-	if(self.profilingConfiguration.collectStackTraces && self.profilingConfiguration.symbolicateStackTraces)
+	if(self.profilingConfiguration.collectStackTraces && self.profilingConfiguration.symbolicateStackTraces && [performanceSample stackTraceIsSymbolicated] == NO)
 	{
 		[self _symbolicatePerformanceSample:performanceSample];
 	}
