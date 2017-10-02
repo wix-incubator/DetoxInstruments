@@ -43,11 +43,7 @@
 
 - (NSArray<NSColor*>*)plotColors
 {
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 	return @[[NSColor.systemPurpleColor colorWithAlphaComponent:1.0], [NSColor.systemOrangeColor colorWithAlphaComponent:1.0]];
-#else
-	return @[[NSColor.purpleColor colorWithAlphaComponent:1.0], [NSColor.orangeColor colorWithAlphaComponent:1.0]];
-#endif
 }
 
 - (NSArray<NSString*>*)plotTitles

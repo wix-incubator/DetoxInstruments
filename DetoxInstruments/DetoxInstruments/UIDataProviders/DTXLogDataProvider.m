@@ -65,8 +65,7 @@
 #endif
 		{
 			Method m = class_getInstanceMethod(self.class, @selector(__tableView:heightOfRow:));
-			BOOL b = class_addMethod(self.class, @selector(tableView:heightOfRow:), method_getImplementation(m), method_getTypeEncoding(m));
-			NSLog(@"b = %@", @(b));
+			class_addMethod(self.class, @selector(tableView:heightOfRow:), method_getImplementation(m), method_getTypeEncoding(m));
 		}
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:self.document];

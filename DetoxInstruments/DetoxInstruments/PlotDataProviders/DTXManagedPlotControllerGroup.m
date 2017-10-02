@@ -246,8 +246,6 @@
 
 - (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
 {
-	NSLog(@"GLOBAL: %@ -> %@", startTimestamp, endTimestamp);
-	
 	_savedGlobalPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)];
 	
 	_ignoringPlotRangeNotifications = YES;

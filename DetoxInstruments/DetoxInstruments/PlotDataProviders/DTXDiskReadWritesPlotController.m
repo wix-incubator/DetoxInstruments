@@ -34,11 +34,7 @@
 
 - (NSArray<NSColor*>*)plotColors
 {
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
 	return @[[NSColor.systemGreenColor colorWithAlphaComponent:1.0], [NSColor.systemRedColor colorWithAlphaComponent:1.0]];
-#else
-	return @[[NSColor.greenColor colorWithAlphaComponent:1.0], [NSColor.redColor colorWithAlphaComponent:1.0]];
-#endif
 }
 
 - (NSArray<NSString*>*)plotTitles

@@ -42,7 +42,7 @@
 
 - (CGFloat)requiredHeight
 {
-	return 20;
+	return 22;
 }
 
 - (NSPredicate*)predicateForPerformanceSamples

@@ -327,15 +327,19 @@
 	range = [self finesedPlotRangeForPlotRange:range];
 	
 	CPTXYPlotSpace* plotSpace = (id)self.graph.defaultPlotSpace;
-	[self setValue:@YES forKey:@"_resetGlobalYRange"];
+	[self setValue:range forKey:@"_globalYRange"];
 	plotSpace.globalYRange = plotSpace.yRange = range;
-	[self setValue:@NO forKey:@"_resetGlobalYRange"];
 	
 	CGFloat newHeight = self.requiredHeight;
 	
 	if(newHeight != oldHeight)
 	{
-		[self.delegate requiredHeightChangedForPlotController:self];
+		//Because of macOS bugs, delay the height change notification to next runloop.
+		dispatch_async(dispatch_get_main_queue(), ^{
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self.delegate requiredHeightChangedForPlotController:self];
+			});
+		});
 	}
 }
 

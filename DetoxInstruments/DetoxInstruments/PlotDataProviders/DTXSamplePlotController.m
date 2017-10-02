@@ -25,7 +25,6 @@
 {
 	__kindof CPTGraphHostingView* _hostingView;
 	CPTPlotRange* _globalYRange;
-	BOOL _resetGlobalYRange;
 	CPTPlotRange* _pendingGlobalXPlotRange;
 	CPTPlotRange* _pendingXPlotRange;
 	
@@ -376,7 +375,7 @@
 
 -(nullable CPTPlotRange *)plotSpace:(nonnull CPTPlotSpace *)space willChangePlotRangeTo:(nonnull CPTPlotRange *)newRange forCoordinate:(CPTCoordinate)coordinate
 {
-	if(coordinate == CPTCoordinateY && _globalYRange != nil && _resetGlobalYRange == NO)
+	if(coordinate == CPTCoordinateY && _globalYRange != nil)
 	{
 		return _globalYRange;
 	}
@@ -580,10 +579,9 @@
 	
 	if(plotSpace.yRange.length.doubleValue < newYRange.length.doubleValue)
 	{
-		_resetGlobalYRange = YES;
+		_globalYRange = newYRange;
 		plotSpace.globalYRange = newYRange;
 		plotSpace.yRange = newYRange;
-		_resetGlobalYRange = NO;
 	}
 }
 

@@ -23,7 +23,7 @@
 
 - (NSString*)titleOfCPUHeader
 {
-	return NSLocalizedString(@"React Native Thread", @"");
+	return NSLocalizedString(@"JavaScript Thread", @"");
 }
 
 - (BOOL)showsHeaviestThreadColumn

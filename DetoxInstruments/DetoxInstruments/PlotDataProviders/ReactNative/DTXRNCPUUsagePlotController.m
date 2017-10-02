@@ -23,7 +23,7 @@
 
 - (NSString *)displayName
 {
-	return NSLocalizedString(@"React Native Thread", @"");
+	return NSLocalizedString(@"JavaScript Thread", @"");
 }
 
 - (NSImage*)displayIcon
