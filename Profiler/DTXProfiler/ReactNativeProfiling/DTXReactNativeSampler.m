@@ -12,8 +12,11 @@
 #import "DTXRNJSCSourceMapsSupport.h"
 #import "DTXLoggingRecorder.h"
 #import <JavaScriptCore/JavaScriptCore.h>
+#import "DTXCustomJSCSupport.h"
 @import ObjectiveC;
 @import Darwin;
+
+static DTXJSCWrapper __jscWrapper;
 
 static atomic_uintmax_t __numberOfRecordings = 0;
 
@@ -26,11 +29,6 @@ static _Atomic thread_t __rnThread = MACH_PORT_NULL;
 
 static JSContextRef __rnCtx;
 
-JS_EXPORT JSStringRef JSContextCreateBacktrace(JSContextRef ctx, unsigned maxStackSize);
-
-static dispatch_semaphore_t __rnBacktraceSem;
-static NSString* __rnLastBacktrace;
-
 static void resetAtomicVars()
 {
 	atomic_store(&__bridgeJSToNCallCount, 0);
@@ -39,26 +37,14 @@ static void resetAtomicVars()
 	atomic_store(&__bridgeJSToNDataSize, 0);
 }
 
-static void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
-{
-	JSStringRef bt = JSContextCreateBacktrace(__rnCtx, UINT_MAX);
-    __rnLastBacktrace = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, bt);
-	if(bt)
-	{
-		JSStringRelease(bt);
-	}
-	
-	dispatch_semaphore_signal(__rnBacktraceSem);
-}
-
 static void installDtxNativeLoggingHook(JSContext* ctx)
 {
 	ctx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 	
 	ctx[@"dtxNativeLoggingHook"] = ^ {
 		NSMutableArray *objects = [NSMutableArray new];
-		NSArray *logArgs = ((JSValue *)JSContext.currentArguments.firstObject).toArray;
-		NSString *logLine = ((JSValue *)JSContext.currentArguments.lastObject).toString;
+		NSArray *logArgs = ((JSValue *)[__jscWrapper.JSContext currentArguments].firstObject).toArray;
+		NSString *logLine = ((JSValue *)[__jscWrapper.JSContext currentArguments].lastObject).toString;
 		for (id object in logArgs) {
 			if([object isKindOfClass:[NSArray class]] || [object isKindOfClass:[NSDictionary class]])
 			{
@@ -119,7 +105,7 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 {
 	if(name != NULL)
 	{
-		JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)ctx];
+		JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)ctx];
 		
 		if(__rnCtx == nil || __rnCtx != ctx)
 		{
@@ -135,26 +121,27 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 			
 			atomic_fetch_add(&__bridgeJSToNCallCount, 1);
 			
-			JSValueRef* arguments = malloc(sizeof(JSValueRef) * JSContext.currentArguments.count);
+			JSValueRef* arguments = malloc(sizeof(JSValueRef) * [__jscWrapper.JSContext currentArguments].count);
 			
-			[JSContext.currentArguments enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			[[__jscWrapper.JSContext currentArguments] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 				atomic_fetch_add(&__bridgeJSToNDataSize, DTXJSValueJsonStringLengh(ctx, [obj JSValueRef]));
 				
 				arguments[idx] = [obj JSValueRef];
 			}];
 			
 			JSValueRef exception = NULL;
-			JSValueRef rvRef = callAsFunction(ctx, JSValueToObject(ctx, JSContext.currentCallee.JSValueRef, NULL), JSValueToObject(ctx, JSContext.currentThis.JSValueRef, NULL), JSContext.currentArguments.count, arguments, &exception);
+			
+			JSValueRef rvRef = callAsFunction(ctx, JSValueToObject(ctx, [__jscWrapper.JSContext currentCallee].JSValueRef, NULL), JSValueToObject(ctx, [__jscWrapper.JSContext currentThis].JSValueRef, NULL), [__jscWrapper.JSContext currentArguments].count, arguments, &exception);
 			
 			if(exception)
 			{
-				JSValue* exceptionValue = [JSValue valueWithJSValueRef:exception inContext:JSContext.currentContext];
-				JSContext.currentContext.exception = exceptionValue;
+				JSValue* exceptionValue = [__jscWrapper.JSValue valueWithJSValueRef:exception inContext:[__jscWrapper.JSContext currentContext]];
+				[__jscWrapper.JSContext currentContext].exception = exceptionValue;
 			}
 			
 			free(arguments);
 			
-			JSValue *rv = [JSValue valueWithJSValueRef:rvRef inContext:JSContext.currentContext];
+			JSValue *rv = [__jscWrapper.JSValue valueWithJSValueRef:rvRef inContext:[__jscWrapper.JSContext currentContext]];
 			return rv;
 		};
 		
@@ -185,9 +172,9 @@ static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origB
 		
 		atomic_fetch_add(&__bridgeJSToNCallCount, 1);
 		
-		JSValueRef* arguments = malloc(sizeof(JSValueRef) * JSContext.currentArguments.count);
+		JSValueRef* arguments = malloc(sizeof(JSValueRef) * [__jscWrapper.JSContext currentArguments].count);
 		
-		[JSContext.currentArguments enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[[__jscWrapper.JSContext currentArguments] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			atomic_fetch_add(&__bridgeJSToNDataSize, DTXJSValueJsonStringLengh(context.JSGlobalContextRef, [obj JSValueRef]));
 			
 			arguments[idx] = [obj JSValueRef];
@@ -195,11 +182,11 @@ static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origB
 		
 		JSValueRef exn = NULL;
 		
-		JSValue *jsVal = [JSValue valueWithObject:origBlock inContext:context];
+		JSValue *jsVal = [__jscWrapper.JSValue valueWithObject:origBlock inContext:context];
 		JSObjectRef jsObjRef = JSValueToObject(context.JSGlobalContextRef, jsVal.JSValueRef, &exn);
-		JSObjectRef thisJsObjRef = JSValueToObject(context.JSGlobalContextRef, JSContext.currentThis.JSValueRef, &exn);
-		JSValueRef jsValRef = JSObjectCallAsFunction(context.JSGlobalContextRef, jsObjRef, thisJsObjRef, JSContext.currentArguments.count, arguments, &exn);
-		JSValue *rv = [JSValue valueWithJSValueRef:jsValRef inContext:context];
+		JSObjectRef thisJsObjRef = JSValueToObject(context.JSGlobalContextRef, [__jscWrapper.JSContext currentThis].JSValueRef, &exn);
+		JSValueRef jsValRef = JSObjectCallAsFunction(context.JSGlobalContextRef, jsObjRef, thisJsObjRef, [__jscWrapper.JSContext currentArguments].count, arguments, &exn);
+		JSValue *rv = [__jscWrapper.JSValue valueWithJSValueRef:jsValRef inContext:context];
 		free(arguments);
 		
 		return rv;
@@ -225,7 +212,7 @@ static double __rnCPUUsage(thread_t safeRNThread)
 __attribute__((constructor))
 static void __DTXInitializeRNSampler()
 {
-	__rnBacktraceSem = dispatch_semaphore_create(0);
+	__jscWrapper = DTXGetJSCWrapper();
 	
 	rebind_symbols((struct rebinding[]){
 		{"JSObjectCallAsFunction",
@@ -240,7 +227,7 @@ static void __DTXInitializeRNSampler()
 	{
 		//Legacy RN
 		
-		Class class = [JSContext class];
+		Class class = [__jscWrapper.JSContext class];
 		Method originalMethod = class_getInstanceMethod(class, @selector(setObject:forKeyedSubscript:));
 		__orig_setObjectForKeyedSubscript = (void*)method_getImplementation(originalMethod);
 		
@@ -269,12 +256,6 @@ static void __DTXInitializeRNSampler()
 		orig_runRunLoopThread = (void(*)(id, SEL))method_getImplementation(m);
 		method_setImplementation(m, (IMP)swz_runRunLoopThread);
 	}
-	
-	struct sigaction sa;
-	sigfillset(&sa.sa_mask);
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = DTXJSCStackTraceSignalHandler;
-	sigaction(SIGCHLD, &sa, NULL);
 }
 
 @implementation DTXReactNativeSampler
@@ -307,8 +288,8 @@ static void __DTXInitializeRNSampler()
 		
 		if(__rnCtx != nil)
 		{
-			JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
-			objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
+//			JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
+//			objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 		}
 	}
 	
@@ -321,8 +302,8 @@ static void __DTXInitializeRNSampler()
 	
 	if(__rnCtx != nil)
 	{
-		JSContext* objcCtx = [JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
-		objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
+//		JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
+//		objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 	}
 }
 
@@ -360,10 +341,18 @@ static void __DTXInitializeRNSampler()
 	
 	if(_shouldSampleThread)
 	{
-		pthread_kill(pthread_from_mach_thread_np(safeRNThread), SIGCHLD);
-		dispatch_semaphore_wait(__rnBacktraceSem, DISPATCH_TIME_FOREVER);
-		
-		_currentStackTrace = __rnLastBacktrace;
+		if(thread_suspend(safeRNThread) == KERN_SUCCESS)
+		{
+			const char* bt = __jscWrapper.JSContextCreateBacktrace_unsafe(__rnCtx, UINT_MAX);
+			_currentStackTrace = [NSString stringWithUTF8String:bt];
+			thread_resume(safeRNThread);
+		}
+		else
+		{
+			//Thread is already invalid, no stack trace.
+			_currentStackTrace = @"";
+		}
+
 		_currentStackTraceSymbolicated = NO;
 	}
 		
