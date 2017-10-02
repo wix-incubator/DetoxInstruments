@@ -62,6 +62,7 @@
 	_outlineView = _outlineController.outlineView;
 	_outlineView.dataSource = self;
 	_outlineView.delegate = self;
+	_outlineView.doubleAction = @selector(_doubleClicked:);
 	
 	_profilingConfigurationController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXProfilingConfigurationViewController"];
 	[self addChildViewController:_profilingConfigurationController];
@@ -96,6 +97,11 @@
 
 - (IBAction)selectRecording:(id)sender
 {
+	if(_outlineView.selectedRow == -1)
+	{
+		return;
+	}
+	
 	DTXRemoteProfilingTarget* target = _targets[_outlineView.selectedRow];
 	
 	if(target.state != DTXRemoteProfilingTargetStateDeviceInfoLoaded)
@@ -193,8 +199,26 @@
 
 - (void)_updateTarget:(DTXRemoteProfilingTarget*)target
 {
-//	[_outlineView reloadData];
 	[_outlineView reloadItem:target];
+}
+
+- (IBAction)_doubleClicked:(id)sender
+{
+	if(_outlineView.clickedRow == -1)
+	{
+		return;
+	}
+	
+	DTXRemoteProfilingTarget* target = _targets[_outlineView.clickedRow];
+	
+	if(target.state != DTXRemoteProfilingTargetStateDeviceInfoLoaded)
+	{
+		return;
+	}
+	
+	DTXProfilingConfiguration* config = [DTXProfilingConfiguration profilingConfigurationForRemoteProfilingFromDefaults];
+	
+	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:_targets[_outlineView.selectedRow] profilingConfiguration:config];
 }
 
 #pragma mark NSNetServiceBrowserDelegate

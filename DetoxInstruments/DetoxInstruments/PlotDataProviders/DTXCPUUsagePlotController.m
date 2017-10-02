@@ -58,7 +58,8 @@
 	
 	CPTMutablePlotRange* yRange = [_yRange mutableCopy];
 	
-	CGFloat initial = yRange.location.doubleValue;
+	//Leo: Not sure why this was set to what it was set. 0.0 works fine.
+	CGFloat initial = 0.0;//yRange.length.doubleValue;
 	yRange.location = @(-insets.bottom);
 	yRange.length = @((initial + MAX(yRange.length.doubleValue, 1.0) + insets.top + insets.bottom) * self.yRangeMultiplier);
 	

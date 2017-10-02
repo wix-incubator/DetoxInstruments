@@ -18,11 +18,6 @@
 
 @implementation DTXPlotTypeCellView
 
-- (BOOL)canDrawConcurrently
-{
-	return YES;
-}
-
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
 {
 	[super setBackgroundStyle:backgroundStyle];
