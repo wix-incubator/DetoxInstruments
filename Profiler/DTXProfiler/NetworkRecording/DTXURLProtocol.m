@@ -80,9 +80,7 @@ static __weak id<DTXURLProtocolDelegate> __protocolDelelgate;
 	[DTXURLProtocol.delegate urlProtocol:self didStartRequest:request uniqueIdentifier:uniqueIdentifier];
 	
 	if (!self.urlSession) {
-		self.urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-														delegate:self
-												   delegateQueue:nil];
+		self.urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
 	}
 	
 	[[self.urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {

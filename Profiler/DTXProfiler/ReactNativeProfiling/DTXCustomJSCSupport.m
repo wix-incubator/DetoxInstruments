@@ -6,9 +6,146 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#include "DTXCustomJSCSupport.h"
+#import "DTXCustomJSCSupport.h"
+#import "fishhook.h"
 
-extern DTXCustomJSCFuncs DTXCustomJSCGetFuncs(void)
+static CFBundleRef __DTXGetCustomJSCBundle()
 {
+	static CFBundleRef bundle;
 	
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSURL* thisFrameworkURL = [NSBundle bundleForClass:NSClassFromString(@"DTXReactNativeSampler")].bundleURL;
+		NSURL* jscFrameworkURL = [thisFrameworkURL URLByAppendingPathComponent:@"JSC.framework"];
+		bundle = CFBundleCreate(kCFAllocatorDefault, (__bridge CFURLRef)jscFrameworkURL);
+	});
+	
+	return bundle;
+}
+
+DTXJSCWrapper DTXGetJSCWrapper(void)
+{
+	static DTXJSCWrapper wrapper = {0};
+
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		CFBundleRef bundle = __DTXGetCustomJSCBundle();
+		wrapper.JSGlobalContextCreateInGroup = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSGlobalContextCreateInGroup"));
+		wrapper.JSGlobalContextRelease = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSGlobalContextRelease"));
+		wrapper.JSGlobalContextSetName = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSGlobalContextSetName"));
+		wrapper.JSContextGetGlobalContext = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSContextGetGlobalContext"));
+		wrapper.JSContextGetGlobalObject = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSContextGetGlobalObject"));
+		
+		wrapper.JSEvaluateScript = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSEvaluateScript"));
+		
+		wrapper.JSStringCreateWithUTF8CString = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSStringCreateWithUTF8CString"));
+		wrapper.JSStringCreateWithCFString = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSStringCreateWithCFString"));
+		wrapper.JSStringCopyCFString = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSStringCopyCFString"));
+		wrapper.JSStringGetCharactersPtr = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSStringGetCharactersPtr"));
+		wrapper.JSStringGetLength = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSStringGetLength"));
+		wrapper.JSStringGetMaximumUTF8CStringSize = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSStringGetMaximumUTF8CStringSize"));
+		wrapper.JSStringIsEqualToUTF8CString = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSStringIsEqualToUTF8CString"));
+		wrapper.JSStringRelease = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSStringRelease"));
+		wrapper.JSStringRetain = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSStringRetain"));
+		
+		wrapper.JSClassCreate = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSClassCreate"));
+		wrapper.JSClassRelease = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSClassRelease"));
+		
+		wrapper.JSObjectCallAsConstructor = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectCallAsConstructor"));
+		wrapper.JSObjectCallAsFunction = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectCallAsFunction"));
+		wrapper.JSObjectGetPrivate = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectGetPrivate"));
+		wrapper.JSObjectGetProperty = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectGetProperty"));
+		wrapper.JSObjectGetPropertyAtIndex = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectGetPropertyAtIndex"));
+		wrapper.JSObjectIsConstructor = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectIsConstructor"));
+		wrapper.JSObjectIsFunction = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectIsFunction"));
+		wrapper.JSObjectMake = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectMake"));
+		wrapper.JSObjectMakeArray = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectMakeArray"));
+		wrapper.JSObjectMakeError = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectMakeError"));
+		wrapper.JSObjectMakeFunctionWithCallback = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectMakeFunctionWithCallback"));
+		wrapper.JSObjectSetPrivate = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectSetPrivate"));
+		wrapper.JSObjectSetProperty = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectSetProperty"));
+		
+		wrapper.JSObjectCopyPropertyNames = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSObjectCopyPropertyNames"));
+		wrapper.JSPropertyNameArrayGetCount = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSPropertyNameArrayGetCount"));
+		wrapper.JSPropertyNameArrayGetNameAtIndex = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSPropertyNameArrayGetNameAtIndex"));
+		wrapper.JSPropertyNameArrayRelease = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSPropertyNameArrayRelease"));
+		
+		wrapper.JSValueCreateJSONString = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueCreateJSONString"));
+		wrapper.JSValueGetType = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueGetType"));
+		wrapper.JSValueMakeFromJSONString = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueMakeFromJSONString"));
+		wrapper.JSValueMakeBoolean = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueMakeBoolean"));
+		wrapper.JSValueMakeNull = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueMakeNull"));
+		wrapper.JSValueMakeNumber = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueMakeNumber"));
+		wrapper.JSValueMakeString = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueMakeString"));
+		wrapper.JSValueMakeUndefined = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueMakeUndefined"));
+		wrapper.JSValueProtect = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueProtect"));
+		wrapper.JSValueToBoolean = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueToBoolean"));
+		wrapper.JSValueToNumber = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueToNumber"));
+		wrapper.JSValueToObject = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueToObject"));
+		wrapper.JSValueToStringCopy = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueToStringCopy"));
+		wrapper.JSValueUnprotect = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSValueUnprotect"));
+		
+		wrapper.JSContextCreateBacktrace_unsafe = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSContextCreateBacktrace_unsafe"));
+		
+		wrapper.JSContext = NSClassFromString(@"JSContext_DTX");
+		wrapper.JSValue = NSClassFromString(@"JSValue_DTX");
+		wrapper.JSVirtualMachine = NSClassFromString(@"JSVirtualMachine_DTX");
+		wrapper.JSManagedValue = NSClassFromString(@"JSManagedValue_DTX");
+		
+		struct rebinding rebindings[] = (struct rebinding[]){
+			{"JSGlobalContextCreateInGroup", wrapper.JSGlobalContextCreateInGroup, NULL},
+			{"JSGlobalContextRelease", wrapper.JSGlobalContextRelease, NULL},
+			{"JSGlobalContextSetName", wrapper.JSGlobalContextSetName, NULL},
+			{"JSContextGetGlobalContext", wrapper.JSContextGetGlobalContext, NULL},
+			{"JSContextGetGlobalObject", wrapper.JSContextGetGlobalObject, NULL},
+			{"JSEvaluateScript", wrapper.JSEvaluateScript, NULL},
+			{"JSStringCreateWithUTF8CString", wrapper.JSStringCreateWithUTF8CString, NULL},
+			{"JSStringCreateWithCFString", wrapper.JSStringCreateWithCFString, NULL},
+			{"JSStringCopyCFString", wrapper.JSStringCopyCFString, NULL},
+			{"JSStringGetCharactersPtr", wrapper.JSStringGetCharactersPtr, NULL},
+			{"JSStringGetLength", wrapper.JSStringGetLength, NULL},
+			{"JSStringGetMaximumUTF8CStringSize", wrapper.JSStringGetMaximumUTF8CStringSize, NULL},
+			{"JSStringIsEqualToUTF8CString", wrapper.JSStringIsEqualToUTF8CString, NULL},
+			{"JSStringRelease", wrapper.JSStringRelease, NULL},
+			{"JSStringRetain", wrapper.JSStringRetain, NULL},
+			{"JSClassCreate", wrapper.JSClassCreate, NULL},
+			{"JSClassRelease", wrapper.JSClassRelease, NULL},
+			{"JSObjectCallAsConstructor", wrapper.JSObjectCallAsConstructor, NULL},
+			{"JSObjectCallAsFunction", wrapper.JSObjectCallAsFunction, NULL},
+			{"JSObjectGetPrivate", wrapper.JSObjectGetPrivate, NULL},
+			{"JSObjectGetProperty", wrapper.JSObjectGetProperty, NULL},
+			{"JSObjectGetPropertyAtIndex", wrapper.JSObjectGetPropertyAtIndex, NULL},
+			{"JSObjectIsConstructor", wrapper.JSObjectIsConstructor, NULL},
+			{"JSObjectIsFunction", wrapper.JSObjectIsFunction, NULL},
+			{"JSObjectMake", wrapper.JSObjectMake, NULL},
+			{"JSObjectMakeArray", wrapper.JSObjectMakeArray, NULL},
+			{"JSObjectMakeError", wrapper.JSObjectMakeError, NULL},
+			{"JSObjectMakeFunctionWithCallback", wrapper.JSObjectMakeFunctionWithCallback, NULL},
+			{"JSObjectSetPrivate", wrapper.JSObjectSetPrivate, NULL},
+			{"JSObjectSetProperty", wrapper.JSObjectSetProperty, NULL},
+			{"JSObjectCopyPropertyNames", wrapper.JSObjectCopyPropertyNames, NULL},
+			{"JSPropertyNameArrayGetCount", wrapper.JSPropertyNameArrayGetCount, NULL},
+			{"JSPropertyNameArrayGetNameAtIndex", wrapper.JSPropertyNameArrayGetNameAtIndex, NULL},
+			{"JSPropertyNameArrayRelease", wrapper.JSPropertyNameArrayRelease, NULL},
+			{"JSValueCreateJSONString", wrapper.JSValueCreateJSONString, NULL},
+			{"JSValueGetType", wrapper.JSValueGetType, NULL},
+			{"JSValueMakeFromJSONString", wrapper.JSValueMakeFromJSONString, NULL},
+			{"JSValueMakeBoolean", wrapper.JSValueMakeBoolean, NULL},
+			{"JSValueMakeNull", wrapper.JSValueMakeNull, NULL},
+			{"JSValueMakeNumber", wrapper.JSValueMakeNumber, NULL},
+			{"JSValueMakeString", wrapper.JSValueMakeString, NULL},
+			{"JSValueMakeUndefined", wrapper.JSValueMakeUndefined, NULL},
+			{"JSValueProtect", wrapper.JSValueProtect, NULL},
+			{"JSValueToBoolean", wrapper.JSValueToBoolean, NULL},
+			{"JSValueToNumber", wrapper.JSValueToNumber, NULL},
+			{"JSValueToObject", wrapper.JSValueToObject, NULL},
+			{"JSValueToStringCopy", wrapper.JSValueToStringCopy, NULL},
+			{"JSValueUnprotect", wrapper.JSValueUnprotect, NULL},
+		};
+		
+		//
+		rebind_symbols(rebindings, sizeof(rebindings)/sizeof(struct rebinding));
+	});
+	
+	return wrapper;
 }
