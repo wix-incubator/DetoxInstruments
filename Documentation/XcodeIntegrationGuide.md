@@ -15,7 +15,7 @@ You'll need to perform the following steps for each target that you wish to inte
   -ObjC -F"${CODESIGNING_FOLDER_PATH}"/Frameworks -framework DTXProfiler
   ```
   
-  > Add this build setting to additional configurations if you wish to profile them  
+  > Add this build setting to additional configurations if you wish to profile them.
   
   ![Other Linker Flags](Resources/Integration_OtherLinkerFlags.png "Add the Other Linker Flags build setting")
  
