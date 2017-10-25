@@ -6,9 +6,10 @@ Linking the Profiler framework into your iOS application is a quick and easy way
 
 You'll need to perform the following steps for each target that you wish to integrate:
 
-1. Open your project in Xcode, then select the project's icon in Xcode's Project Navigator.
-2. Select the target you want to profile from the **TARGETS** list.
-3. Select the **Build Settings** tab and add the following to the **Debug** configuration of the **Other Linker Flags** (`OTHER_LDFLAGS`) setting:
+1. Install Detox Instruments.
+2. Open your project in Xcode, then select the project's icon in Xcode's Project Navigator.
+3. Select the target you want to profile from the **TARGETS** list.
+4. Select the **Build Settings** tab and add the following to the **Debug** configuration of the **Other Linker Flags** (`OTHER_LDFLAGS`) setting:
  
   ```bash
   -ObjC -F"${CODESIGNING_FOLDER_PATH}"/Frameworks -framework DTXProfiler
@@ -16,7 +17,7 @@ You'll need to perform the following steps for each target that you wish to inte
   
   ![Other Linker Flags](Resources/Integration_OtherLinkerFlags.png "Add the Other Linker Flags build setting")
  
-4. Select the **Build Phases** tab and add a new **Run Script** phase—name it “Profiler Framework Integration”. Paste in the following shell script:
+5. Select the **Build Phases** tab and add a new **Run Script** phase—name it “Profiler Framework Integration”. Paste in the following shell script:
 
   ```bash
   # Only integrate the framework for Debug configuration. Edit this section to integrate with additional configurations.
@@ -39,14 +40,14 @@ You'll need to perform the following steps for each target that you wish to inte
   
   ![New Run Script](Resources/Integration_NewBuildPhase.png "Add new run script and paste the script")
   
-5. Drag the newly added script to the top of the phase list.
+6. Drag the newly added script to the top of the phase list.
   
   ![Drag to Top](Resources/Integration_DragToTop.png "Drag the new script to the top of the list")
  
-6. In Xcode, build and run your application using a scheme that is set to use the **Debug** configuration. If you are running your application on a device, ensure that it is on the same Wi-Fi network as the Mac running Detox Instruments.
+7. In Xcode, build and run your application using a scheme that is set to use the **Debug** configuration. If you are running your application on a device, ensure that it is on the same Wi-Fi network as the Mac running Detox Instruments.
 
   ![Discovered](Resources/Integration_Discovered.png "Detox Instruments lists your app")
 
  If everything worked, you should be able to see your application listed in Detox Instruments. Select your app to start profiling.
  
-7. Run your application again, this time using a scheme set to use the **Release** configuration. Verify that Detox Instruments cannot connect to your application. If you can still connect, make sure the Release configuration is not present in the **integration script** and/or the **Other Linker Flags** build setting.
+8. Run your application again, this time using a scheme set to use the **Release** configuration. Verify that Detox Instruments cannot connect to your application. If you can still connect, make sure the Release configuration is not present in the **integration script** and/or the **Other Linker Flags** build setting.
