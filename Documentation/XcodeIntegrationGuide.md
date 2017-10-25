@@ -10,7 +10,7 @@ You'll need to perform the following steps for each target that you wish to inte
 2. Select the target you want to profile from the **TARGETS** list.
 3. Select the **Build Settings** tab and add the following to the **Debug** configuration of the **Other Linker Flags** (`OTHER_LDFLAGS`) setting:
  
-  ```
+  ```bash
   -ObjC -F"${CODESIGNING_FOLDER_PATH}"/Frameworks -framework DTXProfiler
   ```
   
@@ -18,7 +18,7 @@ You'll need to perform the following steps for each target that you wish to inte
  
 4. Select the **Build Phases** tab and add a new **Run Script** phase—name it “Profiler Framework Integration”. Paste in the following shell script:
 
-  ```
+  ```bash
   # Only integrate the framework for Debug configuration. Edit this section to integrate with additional configurations.
   if [ "${CONFIGURATION}" != "Debug" ]; then
     echo "Profiler not included: current build configuration is not 'Debug'."
