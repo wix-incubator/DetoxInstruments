@@ -126,9 +126,13 @@ DTX_CREATE_LOG(Profiler);
 			
 			if(_currentRecording.hasReactNative == YES && _currentProfilingConfiguration.profileReactNative == YES)
 			{
-				[_pollingManager addPollable:[[DTXReactNativeSampler alloc] initWithConfiguration:configuration] handler:^(DTXReactNativeSampler* pollable) {
-					[weakSelf reactNativeSamplerDidPoll:pollable];
-				}];
+				DTXReactNativeSampler* rnSampler = [[DTXReactNativeSampler alloc] initWithConfiguration:configuration];
+				if(rnSampler != nil)
+				{
+					[_pollingManager addPollable:rnSampler handler:^(DTXReactNativeSampler* pollable) {
+						[weakSelf reactNativeSamplerDidPoll:pollable];
+					}];
+				}
 			}
 			
 			dtx_log_info(@"Started profiling");

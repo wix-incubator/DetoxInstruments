@@ -23,13 +23,18 @@ static CFBundleRef __DTXGetCustomJSCBundle()
 	return bundle;
 }
 
-DTXJSCWrapper DTXGetJSCWrapper(void)
+BOOL DTXLoadJSCWrapper(DTXJSCWrapper* output)
 {
+	CFBundleRef bundle = __DTXGetCustomJSCBundle();
+	if(bundle == NULL)
+	{
+		return NO;
+	}
+	
 	static DTXJSCWrapper wrapper = {0};
 
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		CFBundleRef bundle = __DTXGetCustomJSCBundle();
 		wrapper.JSGlobalContextCreateInGroup = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSGlobalContextCreateInGroup"));
 		wrapper.JSGlobalContextRelease = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSGlobalContextRelease"));
 		wrapper.JSGlobalContextSetName = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSGlobalContextSetName"));
@@ -88,9 +93,25 @@ DTXJSCWrapper DTXGetJSCWrapper(void)
 		wrapper.JSContextCreateBacktrace_unsafe = CFBundleGetFunctionPointerForName(bundle, CFSTR("JSContextCreateBacktrace_unsafe"));
 		
 		wrapper.JSContext = NSClassFromString(@"JSContext_DTX");
+		if(wrapper.JSContext == NULL)
+		{
+			wrapper.JSContext = NSClassFromString(@"JSContext");
+		}
 		wrapper.JSValue = NSClassFromString(@"JSValue_DTX");
+		if(wrapper.JSValue == NULL)
+		{
+			wrapper.JSValue = NSClassFromString(@"JSValue");
+		}
 		wrapper.JSVirtualMachine = NSClassFromString(@"JSVirtualMachine_DTX");
+		if(wrapper.JSVirtualMachine == NULL)
+		{
+			wrapper.JSVirtualMachine = NSClassFromString(@"JSVirtualMachine");
+		}
 		wrapper.JSManagedValue = NSClassFromString(@"JSManagedValue_DTX");
+		if(wrapper.JSManagedValue == NULL)
+		{
+			wrapper.JSManagedValue = NSClassFromString(@"JSManagedValue");
+		}
 		
 		struct rebinding rebindings[] = (struct rebinding[]){
 			{"JSGlobalContextCreateInGroup", wrapper.JSGlobalContextCreateInGroup, NULL},
@@ -143,9 +164,14 @@ DTXJSCWrapper DTXGetJSCWrapper(void)
 			{"JSValueUnprotect", wrapper.JSValueUnprotect, NULL},
 		};
 		
-		//
+		//Perform mother of all swizzles.
 		rebind_symbols(rebindings, sizeof(rebindings)/sizeof(struct rebinding));
 	});
 	
-	return wrapper;
+	if(output != NULL)
+	{
+		memcpy(output, &wrapper, sizeof(DTXJSCWrapper));
+	}
+	
+	return YES;
 }

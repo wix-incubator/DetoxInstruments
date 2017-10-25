@@ -1107,7 +1107,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/bash;
-			shellScript = "cd ${SRCROOT}/../Profiler\nxcodebuild -project DTXProfiler.xcodeproj -configuration Release -target DTXProfilerFramework build\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/iphoneos/\ncp -fr /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/iphoneos/";
+			shellScript = "cd ${SRCROOT}/../Profiler\nxcodebuild -project DTXProfiler.xcodeproj -configuration Release -target DTXProfilerFramework build\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\ncp -fr /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/";
 		};
 /* End PBXShellScriptBuildPhase section */
 
