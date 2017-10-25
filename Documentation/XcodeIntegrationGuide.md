@@ -15,12 +15,14 @@ You'll need to perform the following steps for each target that you wish to inte
   -ObjC -F"${CODESIGNING_FOLDER_PATH}"/Frameworks -framework DTXProfiler
   ```
   
+  > Add this build setting to additional configurations if you wish to profile them  
+  
   ![Other Linker Flags](Resources/Integration_OtherLinkerFlags.png "Add the Other Linker Flags build setting")
  
 5. Select the **Build Phases** tab and add a new **Run Script** phase—name it “Profiler Framework Integration”. Paste in the following shell script:
 
   ```bash
-  # Only integrate the framework for Debug configuration. Edit this section to integrate with additional configurations.
+  # Only integrate the framework for Debug configuration by default. Edit this section to integrate with additional configurations.
   if [ "${CONFIGURATION}" != "Debug" ]; then
     echo "Profiler not included: current build configuration is not 'Debug'."
     exit 0
