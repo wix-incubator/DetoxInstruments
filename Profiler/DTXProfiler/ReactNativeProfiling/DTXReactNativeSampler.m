@@ -212,7 +212,12 @@ static double __rnCPUUsage(thread_t safeRNThread)
 __attribute__((constructor))
 static void __DTXInitializeRNSampler()
 {
-	__jscWrapper = DTXGetJSCWrapper();
+	BOOL didSucceed = DTXLoadJSCWrapper(&__jscWrapper);
+	
+	if(didSucceed == NO)
+	{
+		return;
+	}
 	
 	rebind_symbols((struct rebinding[]){
 		{"JSObjectCallAsFunction",
@@ -272,11 +277,16 @@ static void __DTXInitializeRNSampler()
 
 + (BOOL)reactNativeInstalled
 {
-	return (NSClassFromString(@"RCTBridge") != nil);
+	return NSClassFromString(@"RCTBridge") != nil;
 }
 
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
+	if(DTXLoadJSCWrapper(NULL) == YES)
+	{
+		return nil;
+	}
+	
 	self = [super init];
 	
 	if(self)
@@ -288,6 +298,7 @@ static void __DTXInitializeRNSampler()
 		
 		if(__rnCtx != nil)
 		{
+			//TODO: Implement in a non-blocking manner.
 //			JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
 //			objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 		}
@@ -302,6 +313,7 @@ static void __DTXInitializeRNSampler()
 	
 	if(__rnCtx != nil)
 	{
+		//TODO: Implement in non-blocking manner.
 //		JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
 //		objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 	}

@@ -87,4 +87,4 @@ typedef struct DTXJSCWrapper {
 	Class JSManagedValue;
 } DTXJSCWrapper;
 
-extern DTXJSCWrapper DTXGetJSCWrapper(void);
+extern BOOL DTXLoadJSCWrapper(DTXJSCWrapper* output);

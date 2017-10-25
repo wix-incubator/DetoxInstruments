@@ -71,7 +71,6 @@
 		399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */; };
 		39ADAE5B1F79FA7700F488A5 /* DTXCustomJSCSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 39ADAE591F79FA7700F488A5 /* DTXCustomJSCSupport.h */; };
 		39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39ADAE5A1F79FA7700F488A5 /* DTXCustomJSCSupport.m */; };
-		39B888DC1F7A4E190081613E /* JSC.framework in Resources */ = {isa = PBXBuildFile; fileRef = 3933E1381F7A40180081F82F /* JSC.framework */; };
 		39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713381EFFCB4000C827EB /* AutoCoding.m */; };
 		39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713391EFFCB4000C827EB /* AutoCoding.h */; };
 		39C713401EFFD6FF00C827EB /* DTXReactNativeSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */; };
@@ -159,7 +158,6 @@
 		3933E1321F7A31950081F82F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3933E1341F7A319F0081F82F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3933E1361F7A31B40081F82F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		3933E1381F7A40180081F82F /* JSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JSC.framework; sourceTree = "<group>"; };
 		39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
 		39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
 		39432AE71F55BE6C00468DB7 /* DTXExternalProtocolStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXExternalProtocolStorage.h; sourceTree = "<group>"; };
@@ -429,7 +427,6 @@
 		39D40BEF1ED5ABD200157C04 = {
 			isa = PBXGroup;
 			children = (
-				3933E1381F7A40180081F82F /* JSC.framework */,
 				39D40BFB1ED5ABD200157C04 /* DTXProfiler */,
 				39D40BFA1ED5ABD200157C04 /* Products */,
 				39281E5B1ED70346002CE905 /* Frameworks */,
@@ -636,7 +633,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39B888DC1F7A4E190081613E /* JSC.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
