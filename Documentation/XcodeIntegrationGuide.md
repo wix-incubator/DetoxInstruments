@@ -2,7 +2,7 @@
 
 Linking the Profiler framework into your iOS application is a quick and easy way to enable profiling of your application.
 
-> WARNING: Never ship a product which has been linked with the Profiler framework. The instructions below outline a way to use build configurations to isolate linking the framework to Debug builds.
+> **WARNING:** Never ship a product which has been linked with the Profiler framework. The instructions below outline a way to use build configurations to isolate linking the framework to Debug builds.
 
 You'll need to perform the following steps for each target that you wish to integrate:
 
