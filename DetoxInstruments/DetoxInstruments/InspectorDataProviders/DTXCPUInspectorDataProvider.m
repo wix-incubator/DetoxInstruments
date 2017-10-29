@@ -86,6 +86,7 @@
 				  
 					  @"WebCore": @"DBGFrameWeb",
 					  @"JavaScriptCore": @"DBGFrameWeb",
+					  @"JSC": @"DBGFrameWeb",
 					  @"WebKit": @"DBGFrameWeb",
 					  @"WebKitLegacy": @"DBGFrameWeb",
 					  @"WebUI": @"DBGFrameWeb",
