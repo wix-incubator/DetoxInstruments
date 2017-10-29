@@ -219,6 +219,8 @@ static void __DTXInitializeRNSampler()
 		return;
 	}
 	
+	DTXInitializeSourceMapsSupport();
+	
 	rebind_symbols((struct rebinding[]){
 		{"JSObjectCallAsFunction",
 			__dtx_JSObjectCallAsFunction,
@@ -282,7 +284,7 @@ static void __DTXInitializeRNSampler()
 
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
-	if(DTXLoadJSCWrapper(NULL) == YES)
+	if(DTXLoadJSCWrapper(NULL) == NO)
 	{
 		return nil;
 	}

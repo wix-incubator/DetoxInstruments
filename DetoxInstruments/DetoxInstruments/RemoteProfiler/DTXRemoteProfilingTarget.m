@@ -182,31 +182,43 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.storyDecoder willDecodeStoryEvent];
 		
-		SEL cmd = NSSelectorFromString([NSString stringWithFormat:@"%@entityDescription:", storyEvent[@"selector"]]);
-		NSDictionary* object = storyEvent[@"object"];
-		NSArray* additionalParams = storyEvent[@"additionalParams"];
-		NSString* entityName = storyEvent[@"entityName"];
-		NSEntityDescription* entityDescription = _managedObjectContext.persistentStoreCoordinator.managedObjectModel.entitiesByName[entityName];
+		BOOL extended = NO;
+		SEL cmd = NSSelectorFromString(storyEvent[@"selector"]);
 		
 		NSMethodSignature* sig = [(id)self.storyDecoder methodSignatureForSelector:cmd];
 		if(sig == nil)
 		{
-			return;
+			cmd = NSSelectorFromString([NSString stringWithFormat:@"%@entityDescription:", storyEvent[@"selector"]]);
+			sig = [(id)self.storyDecoder methodSignatureForSelector:cmd];
+			extended = YES;
 		}
 		
-		NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:sig];
-		invocation.target = self.storyDecoder;
-		invocation.selector = cmd;
-		[invocation retainArguments];
-		[invocation setArgument:&object atIndex:2];
-		__block NSUInteger argIdx = 3;
-		[additionalParams enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			[invocation setArgument:&obj atIndex:argIdx++];
-		}];
-		[invocation setArgument:&entityDescription atIndex:argIdx];
-		
-		[invocation invoke];
-		
+		if(sig != nil)
+		{
+			NSDictionary* object = storyEvent[@"object"];
+			
+			NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:sig];
+			invocation.target = self.storyDecoder;
+			invocation.selector = cmd;
+			[invocation retainArguments];
+			[invocation setArgument:&object atIndex:2];
+			
+			NSArray* additionalParams = storyEvent[@"additionalParams"];
+			__block NSUInteger argIdx = 3;
+			[additionalParams enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				[invocation setArgument:&obj atIndex:argIdx++];
+			}];
+			
+			if(extended)
+			{
+				NSString* entityName = storyEvent[@"entityName"];
+				NSEntityDescription* entityDescription = _managedObjectContext.persistentStoreCoordinator.managedObjectModel.entitiesByName[entityName];
+				[invocation setArgument:&entityDescription atIndex:argIdx];
+			}
+			
+			[invocation invoke];
+		}
+	
 		[self.storyDecoder didDecodeStoryEvent];
 	});
 }

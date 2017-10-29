@@ -7,8 +7,9 @@
 //
 
 #import "DTXRNJSCSourceMapsSupport.h"
-#import "fishhook.h"
 #import "AutoCoding.h"
+#if DTX_PROFILER
+#import "fishhook.h"
 #import <stdatomic.h>
 
 @import JavaScriptCore;
@@ -51,12 +52,25 @@ static id __dtx_RCTBridge_initWithDelegate_bundleURL_moduleProvider_launchOption
 	return __orig_RCTBridge_initWithDelegate_bundleURL_moduleProvider_launchOptions(self, sel, delegate, bundleURL, block, launchOptions);
 }
 
+extern void DTXRNGetCurrentWorkingSourceMapsData(void (^completion)(NSData*))
+{
+	NSURL* sourceMapsURL = (__bridge NSURL*)atomic_load(&__sourceMapsURL);
+	if(sourceMapsURL == nil)
+	{
+		completion(nil);
+	}
+	
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+		completion([NSData dataWithContentsOfURL:sourceMapsURL]);
+	});
+}
+
 extern NSArray* DTXRNSymbolicateJSCBacktrace(NSArray<NSString*>* backtrace, BOOL* currentStackTraceSymbolicated)
 {
 	DTXSourceMapsParser* parser = (__bridge DTXSourceMapsParser*)atomic_load(&__rnSourceMapsParser);
 	if(parser == nil)
 	{
-		NSURL* sourceMapsURL = (__bridge_transfer NSURL*)atomic_exchange(&__sourceMapsURL, nil);
+		NSURL* sourceMapsURL = (__bridge NSURL*)atomic_load(&__sourceMapsURL);
 		if(sourceMapsURL != nil)
 		{
 			NSData* sourceMapsData = [NSData dataWithContentsOfURL:sourceMapsURL];
@@ -79,7 +93,11 @@ extern NSArray* DTXRNSymbolicateJSCBacktrace(NSArray<NSString*>* backtrace, BOOL
 			return backtrace;
 		}
 	}
-	
+#else
+NSArray* DTXRNSymbolicateJSCBacktrace(DTXSourceMapsParser* parser, NSArray<NSString*>* backtrace, BOOL* currentStackTraceSymbolicated)
+{
+	NSCParameterAssert(parser != nil);
+#endif
 	NSRegularExpression* expr = [NSRegularExpression regularExpressionWithPattern:@"\\#(\\d+) (.*)\\(\\) at (.*?)(:(\\d+))?$" options:0 error:NULL];
 	
 	NSMutableArray* symbolicatedLines = [NSMutableArray new];
@@ -130,8 +148,8 @@ extern NSArray* DTXRNSymbolicateJSCBacktrace(NSArray<NSString*>* backtrace, BOOL
 	return symbolicatedLines;
 }
 
-__attribute__((constructor))
-static void __DTXInitializeSourceMapsSupport()
+#if DTX_PROFILER
+void DTXInitializeSourceMapsSupport(void)
 {
 	rebind_symbols((struct rebinding[]){
 		{"JSEvaluateScript",
@@ -146,3 +164,4 @@ static void __DTXInitializeSourceMapsSupport()
 	__orig_RCTBridge_initWithDelegate_bundleURL_moduleProvider_launchOptions = (void*)method_getImplementation(m);
 	method_setImplementation(m, (IMP)__dtx_RCTBridge_initWithDelegate_bundleURL_moduleProvider_launchOptions);
 }
+#endif

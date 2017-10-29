@@ -143,7 +143,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 			{
 				NSDictionary* configDict = cmd[@"configuration"];
 				DTXProfilingConfiguration* config = configDict == nil ? [DTXProfilingConfiguration defaultProfilingConfiguration] : [[DTXProfilingConfiguration alloc] initWithCoder:(id)configDict];
-				_remoteProfiler = [[DTXRemoteProfiler alloc] initWithOpenSocketConnection:_connection remoteProfilerDelegate:self];
+				_remoteProfiler = [[DTXRemoteProfiler alloc] initWithOpenedSocketConnection:_connection remoteProfilerDelegate:self];
 				[_remoteProfiler startProfilingWithConfiguration:config];
 			}	break;
 			case DTXRemoteProfilingCommandTypeAddTag:
