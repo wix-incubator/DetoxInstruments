@@ -67,7 +67,7 @@
 		396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */ = {isa = PBXBuildFile; fileRef = 396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */; };
 		3966E1341F1017F900EE76A2 /* DTXAddressInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */; };
 		3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */; };
-		397A01801FA63DE500ABCB87 /* JSC.framework in Resources */ = {isa = PBXBuildFile; fileRef = 397A017E1FA63DD000ABCB87 /* JSC.framework */; };
+		397A01921FA648E700ABCB87 /* DTX_JSC.framework in Resources */ = {isa = PBXBuildFile; fileRef = 397A01901FA648DF00ABCB87 /* DTX_JSC.framework */; };
 		399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */; };
 		399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */; };
 		39ADAE5B1F79FA7700F488A5 /* DTXCustomJSCSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 39ADAE591F79FA7700F488A5 /* DTXCustomJSCSupport.h */; };
@@ -180,7 +180,7 @@
 		396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.pch; sourceTree = "<group>"; };
 		3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAddressInfo.h; sourceTree = "<group>"; };
 		3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DTXAddressInfo.mm; sourceTree = "<group>"; };
-		397A017E1FA63DD000ABCB87 /* JSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JSC.framework; path = JSC/JSC.framework; sourceTree = "<group>"; };
+		397A01901FA648DF00ABCB87 /* DTX_JSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTX_JSC.framework; path = JSC/DTX_JSC.framework; sourceTree = "<group>"; };
 		399B3FB81F248AC300335109 /* DTXRemoteProfilingBasics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingBasics.h; sourceTree = "<group>"; };
 		399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPerformanceSampler.h; sourceTree = "<group>"; };
 		399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPerformanceSampler.m; sourceTree = "<group>"; };
@@ -356,7 +356,7 @@
 		397A017D1FA63DAD00ABCB87 /* JSC */ = {
 			isa = PBXGroup;
 			children = (
-				397A017E1FA63DD000ABCB87 /* JSC.framework */,
+				397A01901FA648DF00ABCB87 /* DTX_JSC.framework */,
 			);
 			name = JSC;
 			sourceTree = "<group>";
@@ -644,7 +644,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				397A01801FA63DE500ABCB87 /* JSC.framework in Resources */,
+				397A01921FA648E700ABCB87 /* DTX_JSC.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
