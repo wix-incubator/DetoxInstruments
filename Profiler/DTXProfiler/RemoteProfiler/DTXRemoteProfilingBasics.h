@@ -43,6 +43,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 - (void)willDecodeStoryEvent;
 - (void)didDecodeStoryEvent;
 
+- (void)setSourceMapsData:(NSDictionary*)sourceMapsData;
+
 - (void)createRecording:(NSDictionary*)recording entityDescription:(NSEntityDescription*)entityDescription;
 - (void)updateRecording:(NSDictionary*)recording stopRecording:(NSNumber*)stopRecording entityDescription:(NSEntityDescription*)entityDescription;
 - (void)pushSampleGroup:(NSDictionary*)sampleGroup isRootGroup:(NSNumber*)root entityDescription:(NSEntityDescription*)entityDescription;

@@ -61,6 +61,8 @@
 		39775F241EE826F2001F69CC /* DTXValueIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */; };
 		39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */; };
 		3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978FFE21EEAD06C002BDEFB /* DTXGraphHostingView.m */; };
+		397A01751FA6348200ABCB87 /* DTXSourceMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397A01701FA6346900ABCB87 /* DTXSourceMaps.framework */; };
+		397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */; };
 		397C3F3E1F35555B00BA9159 /* DTXStackedPlotGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */; };
 		397FE8CB1EEDC8DB002200B7 /* DTXTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */; };
 		397FE8DB1EEE7ED8002200B7 /* DTXCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8DA1EEE7ED8002200B7 /* DTXCPUDataProvider.m */; };
@@ -140,6 +142,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = "CorePlot Mac";
+		};
+		397A016F1FA6346900ABCB87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 39352F901F0A23C800D033B2;
+			remoteInfo = DTXSourceMaps;
+		};
+		397A01711FA6346900ABCB87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 39352FC21F0A293000D033B2;
+			remoteInfo = DTXSourceMapsTests;
+		};
+		397A01761FA6355200ABCB87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 39352F8F1F0A23C800D033B2;
+			remoteInfo = DTXSourceMaps;
+		};
+		397A01781FA6355600ABCB87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 39EE692A1DA4E1B100F19FA9;
+			remoteInfo = LNInterpolation;
 		};
 		398D6E871EE052EC00AA9C11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -329,6 +359,9 @@
 		39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFormatter+PlotFormatters.m"; sourceTree = "<group>"; };
 		3978FFE11EEAD06C002BDEFB /* DTXGraphHostingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXGraphHostingView.h; sourceTree = "<group>"; };
 		3978FFE21EEAD06C002BDEFB /* DTXGraphHostingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXGraphHostingView.m; sourceTree = "<group>"; };
+		397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXSourceMaps.xcodeproj; path = ../../../../Shared/DTXSourceMaps/DTXSourceMaps.xcodeproj; sourceTree = "<group>"; };
+		397A017A1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXRNJSCSourceMapsSupport.h; path = ../../../../Profiler/DTXProfiler/ReactNativeProfiling/DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
+		397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXRNJSCSourceMapsSupport.m; path = ../../../../Profiler/DTXProfiler/ReactNativeProfiling/DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
 		397C3F3C1F35555B00BA9159 /* DTXStackedPlotGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackedPlotGroup.h; sourceTree = "<group>"; };
 		397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackedPlotGroup.m; sourceTree = "<group>"; };
 		397FE8C91EEDC8DB002200B7 /* DTXTableRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTableRowView.h; sourceTree = "<group>"; };
@@ -465,6 +498,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				397A01751FA6348200ABCB87 /* DTXSourceMaps.framework in Frameworks */,
 				398D6E751EE03E9B00AA9C11 /* CorePlot.framework in Frameworks */,
 				394516B61EEF442B0093E503 /* LNInterpolation.framework in Frameworks */,
 			);
@@ -506,6 +540,16 @@
 				3905F4C01EF83FF0003E08C1 /* DTXLineLayer.m */,
 			);
 			path = Layers;
+			sourceTree = "<group>";
+		};
+		3919DF781FA6342900F47DD6 /* SourceMaps */ = {
+			isa = PBXGroup;
+			children = (
+				397A017A1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.h */,
+				397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */,
+				397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */,
+			);
+			path = SourceMaps;
 			sourceTree = "<group>";
 		};
 		39281E491ED6D15A002CE905 /* Model */ = {
@@ -700,9 +744,26 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		397A015F1FA6346900ABCB87 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				397A01701FA6346900ABCB87 /* DTXSourceMaps.framework */,
+				397A01721FA6346900ABCB87 /* DTXSourceMapsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		397A01741FA6348200ABCB87 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3988D2C01EEEC6D30090088E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				3919DF781FA6342900F47DD6 /* SourceMaps */,
 				D8243F8E1F5306620005CF4B /* Images */,
 				398D6E731EE03E8B00AA9C11 /* CorePlot */,
 				394516AB1EEF43FC0093E503 /* LNInterpolation */,
@@ -838,6 +899,7 @@
 			children = (
 				39EBDFBA1ED36D45005D8AB1 /* DetoxInstruments */,
 				39EBDFB91ED36D45005D8AB1 /* Products */,
+				397A01741FA6348200ABCB87 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -942,6 +1004,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				397A01791FA6355600ABCB87 /* PBXTargetDependency */,
+				397A01771FA6355200ABCB87 /* PBXTargetDependency */,
 				394516B31EEF44190093E503 /* PBXTargetDependency */,
 			);
 			name = DetoxInstruments;
@@ -989,6 +1053,10 @@
 					ProjectRef = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
 				},
 				{
+					ProductGroup = 397A015F1FA6346900ABCB87 /* Products */;
+					ProjectRef = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
+				},
+				{
 					ProductGroup = 394516AD1EEF44090093E503 /* Products */;
 					ProjectRef = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
 				},
@@ -1006,6 +1074,20 @@
 			fileType = wrapper.framework;
 			path = LNInterpolation.framework;
 			remoteRef = 394516B01EEF44090093E503 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		397A01701FA6346900ABCB87 /* DTXSourceMaps.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DTXSourceMaps.framework;
+			remoteRef = 397A016F1FA6346900ABCB87 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		397A01721FA6346900ABCB87 /* DTXSourceMapsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DTXSourceMapsTests.xctest;
+			remoteRef = 397A01711FA6346900ABCB87 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		398D6E881EE052EC00AA9C11 /* CorePlot.framework */ = {
@@ -1142,6 +1224,7 @@
 				39EBDFC01ED36D45005D8AB1 /* main.m in Sources */,
 				3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */,
 				D8243F911F5307020005CF4B /* ImageGenerator.m in Sources */,
+				397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */,
 				39281E551ED6D16B002CE905 /* DTXSample+Additions.m in Sources */,
 				396829461F1286690012CAFB /* NSImage+ImageResize.m in Sources */,
 				39008F2A1EF2AB740013B584 /* DTXSegmentedView.m in Sources */,
@@ -1234,6 +1317,16 @@
 			isa = PBXTargetDependency;
 			name = "CorePlot Mac";
 			targetProxy = 394516B21EEF44190093E503 /* PBXContainerItemProxy */;
+		};
+		397A01771FA6355200ABCB87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DTXSourceMaps;
+			targetProxy = 397A01761FA6355200ABCB87 /* PBXContainerItemProxy */;
+		};
+		397A01791FA6355600ABCB87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LNInterpolation;
+			targetProxy = 397A01781FA6355600ABCB87 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

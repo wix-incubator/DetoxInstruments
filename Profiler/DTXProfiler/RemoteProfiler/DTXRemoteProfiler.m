@@ -11,6 +11,7 @@
 #import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
 #import "DTXRemoteProfilingBasics.h"
+#import "DTXRNJSCSourceMapsSupport.h"
 
 DTX_CREATE_LOG(RemoteProfiler);
 
@@ -35,7 +36,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	return self;
 }
 
-- (instancetype)initWithOpenSocketConnection:(DTXSocketConnection*)connection remoteProfilerDelegate:(id<DTXRemoteProfilerDelegate>)remoteProfilerDelegate
+- (instancetype)initWithOpenedSocketConnection:(DTXSocketConnection*)connection remoteProfilerDelegate:(id<DTXRemoteProfilerDelegate>)remoteProfilerDelegate
 {
 	self = [self init];
 	
@@ -44,6 +45,15 @@ DTX_CREATE_LOG(RemoteProfiler);
 		_remoteProfilerDelegate = remoteProfilerDelegate;
 		
 		_socketConnection = connection;
+		
+		DTXRNGetCurrentWorkingSourceMapsData(^(NSData* data) {
+			if(data == nil)
+			{
+				return;
+			}
+			
+			[self _serializeCommandWithSelector:NSSelectorFromString(@"setSourceMapsData:") entityName:@"" dict:@{@"data": data} additionalParams:nil];
+		});
 	}
 	
 	return self;
@@ -102,10 +112,12 @@ DTX_CREATE_LOG(RemoteProfiler);
 
 - (void)addRNPerformanceSample:(DTXReactNativePeroformanceSample *)rnPerformanceSample
 {
-	if(self.profilingConfiguration.collectJavaScriptStackTraces && self.profilingConfiguration.symbolicateJavaScriptStackTraces)
-	{
-		[self _symbolicateRNPerformanceSample:rnPerformanceSample];
-	}
+	//Instead of symbolicating here, send source maps data to Detox Instruments for remote symbolication.
+	
+//	if(self.profilingConfiguration.collectJavaScriptStackTraces && self.profilingConfiguration.symbolicateJavaScriptStackTraces)
+//	{
+//		[self _symbolicateRNPerformanceSample:rnPerformanceSample];
+//	}
 	
 	[self _serializeCommandWithSelector:_cmd managedObject:rnPerformanceSample additionalParams:nil];
 }

@@ -10,12 +10,16 @@
 #import "DTXRemoteProfilingBasics.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
+#import "DTXRNJSCSourceMapsSupport.h"
+#import <DTXSourceMaps/DTXSourceMaps.h>
 
 @interface DTXRemoteProfilingClient () <DTXProfilerStoryDecoder>
 {
 	DTXRecording* _recording;
 	DTXSampleGroup* _currentSampleGroup;
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
+	
+	DTXSourceMapsParser* _sourceMapsParser;
 }
 
 @end
@@ -56,6 +60,18 @@
 {
 	Class cls = NSClassFromString(entityDescription.managedObjectClassName);
 	__kindof DTXSample* sample = [[cls alloc] initWithPropertyListDictionaryRepresentation:sampleDict context:_managedObjectContext];
+	
+	if([sample isKindOfClass:[DTXReactNativePeroformanceSample class]] && _sourceMapsParser)
+	{
+		DTXReactNativePeroformanceSample* rnSample = (id)sample;
+		
+		if(rnSample.stackTraceIsSymbolicated == NO)
+		{
+			BOOL wasSymbolicated = NO;
+			rnSample.stackTrace = DTXRNSymbolicateJSCBacktrace(_sourceMapsParser, rnSample.stackTrace, &wasSymbolicated);
+			rnSample.stackTraceIsSymbolicated = wasSymbolicated;
+		}
+	}
 	
 	[self _addSampleObject:sample];
 }
@@ -102,6 +118,19 @@
 	}
 	
 	[_recording.managedObjectContext save:NULL];
+}
+
+- (void)setSourceMapsData:(NSDictionary*)sourceMapsData;
+{
+	NSError* error;
+	NSDictionary<NSString*, id>* sourceMaps = [NSJSONSerialization JSONObjectWithData:sourceMapsData[@"data"] options:0 error:&error];
+	if(sourceMaps == nil)
+	{
+		NSLog(@"Error parsing source maps: %@", error);
+		return;
+	}
+	
+	_sourceMapsParser = [DTXSourceMapsParser sourceMapsParserForSourceMaps:sourceMaps];
 }
 
 - (void)addLogSample:(NSDictionary *)logSample entityDescription:(NSEntityDescription *)entityDescription
