@@ -16,7 +16,7 @@ static CFBundleRef __DTXGetCustomJSCBundle()
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		NSURL* thisFrameworkURL = [NSBundle bundleForClass:NSClassFromString(@"DTXReactNativeSampler")].bundleURL;
-		NSURL* jscFrameworkURL = [thisFrameworkURL URLByAppendingPathComponent:@"JSC.framework"];
+		NSURL* jscFrameworkURL = [thisFrameworkURL URLByAppendingPathComponent:@"DTX_JSC.framework"];
 		bundle = CFBundleCreate(kCFAllocatorDefault, (__bridge CFURLRef)jscFrameworkURL);
 	});
 	
