@@ -19,6 +19,9 @@
 
 @interface DTXMainContentController : NSViewController
 
+- (void)zoomIn;
+- (void)zoomOut;
+
 @property (nonatomic, strong) DTXDocument* document;
 @property (nonatomic, weak) id<DTXMainContentControllerDelegate> delegate;
 

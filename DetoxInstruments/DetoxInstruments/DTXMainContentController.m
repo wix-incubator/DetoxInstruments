@@ -165,12 +165,12 @@
 	[self.view.window setFrame:rect display:NO];
 }
 
-- (IBAction)zoomIn:(id)sender
+- (void)zoomIn
 {
 	[_plotGroup zoomIn];
 }
 
-- (IBAction)zoomOut:(id)sender
+- (void)zoomOut
 {
 	[_plotGroup zoomOut];
 }

@@ -258,6 +258,16 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	[self _fixUpSplitViewsAnimated:YES];
 }
 
+- (IBAction)zoomIn:(id)sender
+{
+	[_mainContentController zoomIn];
+}
+
+- (IBAction)zoomOut:(id)sender
+{
+	[_mainContentController zoomOut];
+}
+
 - (IBAction)segmentCellAction:(NSSegmentedCell*)sender
 {
 	NSInteger selectedSegment = [sender selectedSegment];
@@ -286,6 +296,16 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+	if(menuItem.action == @selector(zoomIn:) || menuItem.action == @selector(zoomOut:))
+	{
+		return YES;
+	}
+	
+	if(menuItem.action == @selector(_export:))
+	{
+		return ((DTXDocument*)self.document).documentState >= DTXDocumentStateSavedToDisk;
+	}
+	
 	if(menuItem.action == @selector(copy:))
 	{
 		return self.targetForCopy && self.handlerForCopy != nil && self.handlerForCopy.canCopy;
