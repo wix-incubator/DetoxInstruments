@@ -28,6 +28,8 @@
 		39281E861ED7175C002CE905 /* DTXBottomContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39281E851ED7175C002CE905 /* DTXBottomContentController.m */; };
 		392A49561EF96F72000F397F /* DTXPieChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 392A49551EF96F72000F397F /* DTXPieChartView.m */; };
 		392A49591EFA69A0000F397F /* DTXViewCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 392A49581EFA69A0000F397F /* DTXViewCellView.m */; };
+		392D52C01FAA008000A28938 /* DTXSourceMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 392D52A91FA9FC0800A28938 /* DTXSourceMaps.framework */; };
+		392D52C11FAA008000A28938 /* DTXSourceMaps.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 392D52A91FA9FC0800A28938 /* DTXSourceMaps.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		392F09841F168959005ACF8D /* DTXStackTraceCopyDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 392F09831F168959005ACF8D /* DTXStackTraceCopyDataProvider.m */; };
 		3932A06F1F054022001AC360 /* DTXRNCPUUsagePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3932A06E1F054022001AC360 /* DTXRNCPUUsagePlotController.m */; };
 		3932A0731F0547EF001AC360 /* DTXRNCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3932A0721F0547EF001AC360 /* DTXRNCPUDataProvider.m */; };
@@ -61,7 +63,6 @@
 		39775F241EE826F2001F69CC /* DTXValueIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */; };
 		39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */; };
 		3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978FFE21EEAD06C002BDEFB /* DTXGraphHostingView.m */; };
-		397A01751FA6348200ABCB87 /* DTXSourceMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397A01701FA6346900ABCB87 /* DTXSourceMaps.framework */; };
 		397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */; };
 		397C3F3E1F35555B00BA9159 /* DTXStackedPlotGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */; };
 		397FE8CB1EEDC8DB002200B7 /* DTXTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */; };
@@ -129,6 +130,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		392D52A81FA9FC0800A28938 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 39352F901F0A23C800D033B2;
+			remoteInfo = DTXSourceMaps;
+		};
+		392D52AA1FA9FC0800A28938 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 39352FC21F0A293000D033B2;
+			remoteInfo = DTXSourceMapsTests;
+		};
+		392D52AF1FA9FC6F00A28938 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 39352F8F1F0A23C800D033B2;
+			remoteInfo = DTXSourceMaps;
+		};
+		392D52C21FAA008000A28938 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 39352F8F1F0A23C800D033B2;
+			remoteInfo = DTXSourceMaps;
+		};
 		394516B01EEF44090093E503 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
@@ -142,27 +171,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = "CorePlot Mac";
-		};
-		397A016F1FA6346900ABCB87 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 39352F901F0A23C800D033B2;
-			remoteInfo = DTXSourceMaps;
-		};
-		397A01711FA6346900ABCB87 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 39352FC21F0A293000D033B2;
-			remoteInfo = DTXSourceMapsTests;
-		};
-		397A01761FA6355200ABCB87 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 39352F8F1F0A23C800D033B2;
-			remoteInfo = DTXSourceMaps;
 		};
 		397A01781FA6355600ABCB87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -247,6 +255,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				392D52C11FAA008000A28938 /* DTXSourceMaps.framework in Embed Frameworks */,
 				398D6E761EE03E9B00AA9C11 /* CorePlot.framework in Embed Frameworks */,
 				394516B71EEF442B0093E503 /* LNInterpolation.framework in Embed Frameworks */,
 			);
@@ -359,9 +368,9 @@
 		39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFormatter+PlotFormatters.m"; sourceTree = "<group>"; };
 		3978FFE11EEAD06C002BDEFB /* DTXGraphHostingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXGraphHostingView.h; sourceTree = "<group>"; };
 		3978FFE21EEAD06C002BDEFB /* DTXGraphHostingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXGraphHostingView.m; sourceTree = "<group>"; };
-		397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXSourceMaps.xcodeproj; path = ../../../../Shared/DTXSourceMaps/DTXSourceMaps.xcodeproj; sourceTree = "<group>"; };
-		397A017A1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXRNJSCSourceMapsSupport.h; path = ../../../../Profiler/DTXProfiler/ReactNativeProfiling/DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
-		397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXRNJSCSourceMapsSupport.m; path = ../../../../Profiler/DTXProfiler/ReactNativeProfiling/DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
+		397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXSourceMaps.xcodeproj; path = ../../../Shared/DTXSourceMaps/DTXSourceMaps.xcodeproj; sourceTree = "<group>"; };
+		397A017A1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXRNJSCSourceMapsSupport.h; path = ../../../Profiler/DTXProfiler/ReactNativeProfiling/DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
+		397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXRNJSCSourceMapsSupport.m; path = ../../../Profiler/DTXProfiler/ReactNativeProfiling/DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
 		397C3F3C1F35555B00BA9159 /* DTXStackedPlotGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackedPlotGroup.h; sourceTree = "<group>"; };
 		397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackedPlotGroup.m; sourceTree = "<group>"; };
 		397FE8C91EEDC8DB002200B7 /* DTXTableRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTableRowView.h; sourceTree = "<group>"; };
@@ -498,7 +507,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				397A01751FA6348200ABCB87 /* DTXSourceMaps.framework in Frameworks */,
+				392D52C01FAA008000A28938 /* DTXSourceMaps.framework in Frameworks */,
 				398D6E751EE03E9B00AA9C11 /* CorePlot.framework in Frameworks */,
 				394516B61EEF442B0093E503 /* LNInterpolation.framework in Frameworks */,
 			);
@@ -549,7 +558,7 @@
 				397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */,
 				397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */,
 			);
-			path = SourceMaps;
+			name = SourceMaps;
 			sourceTree = "<group>";
 		};
 		39281E491ED6D15A002CE905 /* Model */ = {
@@ -587,6 +596,15 @@
 				39EC15B21F20A243007EBE22 /* DTXDocumentController.m */,
 			);
 			path = Document;
+			sourceTree = "<group>";
+		};
+		392D52A41FA9FC0800A28938 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				392D52A91FA9FC0800A28938 /* DTXSourceMaps.framework */,
+				392D52AB1FA9FC0800A28938 /* DTXSourceMapsTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		3932A05F1F053FAB001AC360 /* ReactNative */ = {
@@ -742,15 +760,6 @@
 				D8243F931F5401530005CF4B /* DTXFilterField.m */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		397A015F1FA6346900ABCB87 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				397A01701FA6346900ABCB87 /* DTXSourceMaps.framework */,
-				397A01721FA6346900ABCB87 /* DTXSourceMapsTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		397A01741FA6348200ABCB87 /* Frameworks */ = {
@@ -1004,9 +1013,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				392D52B01FA9FC6F00A28938 /* PBXTargetDependency */,
 				397A01791FA6355600ABCB87 /* PBXTargetDependency */,
-				397A01771FA6355200ABCB87 /* PBXTargetDependency */,
 				394516B31EEF44190093E503 /* PBXTargetDependency */,
+				392D52C31FAA008000A28938 /* PBXTargetDependency */,
 			);
 			name = DetoxInstruments;
 			productName = "Detox Instruments";
@@ -1024,7 +1034,7 @@
 				TargetAttributes = {
 					39EBDFB71ED36D45005D8AB1 = {
 						CreatedOnToolsVersion = 8.3.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -1053,7 +1063,7 @@
 					ProjectRef = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
 				},
 				{
-					ProductGroup = 397A015F1FA6346900ABCB87 /* Products */;
+					ProductGroup = 392D52A41FA9FC0800A28938 /* Products */;
 					ProjectRef = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
 				},
 				{
@@ -1069,25 +1079,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		392D52A91FA9FC0800A28938 /* DTXSourceMaps.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DTXSourceMaps.framework;
+			remoteRef = 392D52A81FA9FC0800A28938 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		392D52AB1FA9FC0800A28938 /* DTXSourceMapsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DTXSourceMapsTests.xctest;
+			remoteRef = 392D52AA1FA9FC0800A28938 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		394516B11EEF44090093E503 /* LNInterpolation.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = LNInterpolation.framework;
 			remoteRef = 394516B01EEF44090093E503 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		397A01701FA6346900ABCB87 /* DTXSourceMaps.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = DTXSourceMaps.framework;
-			remoteRef = 397A016F1FA6346900ABCB87 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		397A01721FA6346900ABCB87 /* DTXSourceMapsTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = DTXSourceMapsTests.xctest;
-			remoteRef = 397A01711FA6346900ABCB87 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		398D6E881EE052EC00AA9C11 /* CorePlot.framework */ = {
@@ -1313,15 +1323,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		392D52B01FA9FC6F00A28938 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DTXSourceMaps;
+			targetProxy = 392D52AF1FA9FC6F00A28938 /* PBXContainerItemProxy */;
+		};
+		392D52C31FAA008000A28938 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DTXSourceMaps;
+			targetProxy = 392D52C21FAA008000A28938 /* PBXContainerItemProxy */;
+		};
 		394516B31EEF44190093E503 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "CorePlot Mac";
 			targetProxy = 394516B21EEF44190093E503 /* PBXContainerItemProxy */;
-		};
-		397A01771FA6355200ABCB87 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DTXSourceMaps;
-			targetProxy = 397A01761FA6355200ABCB87 /* PBXContainerItemProxy */;
 		};
 		397A01791FA6355600ABCB87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1438,7 +1453,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_OBJC_UNUSED_IVARS = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S9QFG2VH2E;
@@ -1451,7 +1466,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DetoxInstruments;
 				PRODUCT_NAME = "Detox Instruments (Beta)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "89204f8e-8fde-4ada-aaf7-fcda47be4d12";
+				PROVISIONING_PROFILE_SPECIFIER = "Detox Instruments";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1460,8 +1476,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S9QFG2VH2E;
@@ -1472,7 +1488,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DetoxInstruments;
 				PRODUCT_NAME = "Detox Instruments (Beta)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3819ece0-81fd-42fd-9fc0-255cbf669fd0";
+				PROVISIONING_PROFILE_SPECIFIER = "Detox Instruments (Distribution)";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
