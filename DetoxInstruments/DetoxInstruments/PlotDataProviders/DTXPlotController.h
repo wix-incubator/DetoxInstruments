@@ -18,6 +18,10 @@
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc;
 - (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc;
 
+@optional
+
+- (void)plotController:(id<DTXPlotController>)pc didHighlightAtSampleTime:(NSTimeInterval)sampleTime;
+
 @end
 
 @protocol DTXPlotController <NSObject>
@@ -51,6 +55,7 @@
 @optional
 
 - (void)highlightSample:(id)sample;
+- (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime;
 - (void)highlightRange:(CPTPlotRange*)range;
 - (void)removeHighlight;
 

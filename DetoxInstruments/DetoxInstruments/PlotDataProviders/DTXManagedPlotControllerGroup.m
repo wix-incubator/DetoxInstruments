@@ -271,6 +271,15 @@
 
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc
 {
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+		if(obj == pc)
+		{
+			return;
+		}
+		
+		[obj removeHighlight];
+	}];
+	
 	[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_hostingOutlineView rowForItem:pc]] byExtendingSelection:NO];
 	[_hostingOutlineView.window makeFirstResponder:_hostingOutlineView];
 }
@@ -313,6 +322,21 @@ static BOOL __uglyHackTODOFixThisShit()
 	}];
 	
 	_ignoringPlotRangeNotifications = NO;
+}
+
+- (void)plotController:(id<DTXPlotController>)pc didHighlightAtSampleTime:(NSTimeInterval)sampleTime
+{
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+		if(obj == pc)
+		{
+			return;
+		}
+		
+		if([obj respondsToSelector:@selector(shadowHighlightAtSampleTime:)])
+		{
+			[obj shadowHighlightAtSampleTime:sampleTime];
+		}
+	}];
 }
 
 #pragma mark NSOutlineView Data Source & Delegate
@@ -398,7 +422,9 @@ static BOOL __uglyHackTODOFixThisShit()
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-	[_currentlySelectedPlotController removeHighlight];
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+		[obj removeHighlight];
+	}];
 	
 	id<DTXPlotController> plotController = [_hostingOutlineView itemAtRow:_hostingOutlineView.selectedRow];
 	_currentlySelectedPlotController = plotController;
