@@ -23,21 +23,27 @@
 
 @implementation DTXSamplePlotController
 {
-	__kindof CPTGraphHostingView* _hostingView;
 	CPTPlotRange* _globalYRange;
 	CPTPlotRange* _pendingGlobalXPlotRange;
 	CPTPlotRange* _pendingXPlotRange;
 	
 	NSStoryboard* _scene;
 	
+	CGRect _lastDrawBounds;
+	
 	CPTPlotSpaceAnnotation* _highlightAnnotation;
 	DTXLineLayer* _lineLayer;
-	CPTLimitBand* _rangeHighlightBand;
 	NSUInteger _highlightedSampleIndex;
 	NSUInteger _highlightedNextSampleIndex;
 	NSTimeInterval _highlightedSampleTime;
 	CGFloat _highlightedPercent;
+	
+	CPTLimitBand* _rangeHighlightBand;
 	CPTPlotRange* _highlightedRange;
+	
+	CPTPlotSpaceAnnotation* _shadowHighlightAnnotation;
+	DTXLineLayer* _shadowLineLayer;
+	NSTimeInterval _shadowHighlightedSampleTime;
 	
 	NSArray* _plots;
 	
@@ -189,7 +195,8 @@
 		id sample = [self samplesForPlotIndex:((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex];
 		id nextSample = foundPointIndex == numberOfRecords - 1 ? nil : [self samplesForPlotIndex:((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex + 1];
 		
-		[self _highlightSample:sample nextSample:nextSample plotSpaceOffset:foundPointDelta];
+		[self _highlightSample:sample nextSample:nextSample plotSpaceOffset:foundPointDelta notifyDelegate:YES];
+		
 		[_dataProvider selectSample:sample];
 	}
 }
@@ -251,8 +258,11 @@
 		
 		[self.plots enumerateObjectsUsingBlock:^(CPTPlot * _Nonnull plot, NSUInteger idx, BOOL * _Nonnull stop) {
 			plot.backgroundColor = NSColor.whiteColor.CGColor;
+			plot.delegate = self;
 			[graph addPlot:plot];
 		}];
+		
+		_lastDrawBounds = self.hostingView.bounds;
 		
 		[[self graphAnnotationsForGraph:graph] enumerateObjectsUsingBlock:^(CPTPlotSpaceAnnotation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			[graph addAnnotation:obj];
@@ -345,7 +355,6 @@
 		
 		// set data source and add plots
 		scatterPlot.dataSource = self;
-		scatterPlot.delegate = self;
 		
 		[rv addObject:scatterPlot];
 	}];
@@ -435,10 +444,31 @@
 
 - (void)highlightSample:(id)sample
 {
-	[self _highlightSample:sample nextSample:nil plotSpaceOffset:0];
+	[self _highlightSample:sample nextSample:nil plotSpaceOffset:0 notifyDelegate:YES];
 }
 
-- (void)_highlightSample:(DTXSample*)sample nextSample:(DTXSample*)nextSample plotSpaceOffset:(CGFloat)offset
+- (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime
+{
+	[self removeHighlight];
+	
+	_shadowHighlightedSampleTime = sampleTime;
+	
+	if(_graph == nil)
+	{
+		return;
+	}
+	
+	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:_graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
+	_shadowLineLayer.lineColor = [(self.plotColors.lastObject.darkerColor) colorWithAlphaComponent:0.25];
+	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
+	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
+	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
+	
+	[_graph addAnnotation:_shadowHighlightAnnotation];
+}
+
+- (void)_highlightSample:(DTXSample*)sample nextSample:(DTXSample*)nextSample plotSpaceOffset:(CGFloat)offset notifyDelegate:(BOOL)notify
 {
 	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate + offset;
 	NSUInteger sampleIdx = [[self samplesForPlotIndex:0] indexOfObject:sample];
@@ -446,6 +476,11 @@
 	CGFloat percent = offset / (nextSample.timestamp.timeIntervalSinceReferenceDate - sample.timestamp.timeIntervalSinceReferenceDate);
 	
 	[self _highlightSampleIndex:sampleIdx nextSampleIndex:nextSampleIdx sampleTime:sampleTime percect:percent makeVisible:YES];
+	
+	if(notify == YES && [self.delegate respondsToSelector:@selector(plotController:didHighlightAtSampleTime:)])
+	{
+		[self.delegate plotController:self didHighlightAtSampleTime:sampleTime];
+	}
 }
 
 - (void)_highlightSampleIndex:(NSUInteger)sampleIdx nextSampleIndex:(NSUInteger)nextSampleIdx sampleTime:(NSTimeInterval)sampleTime percect:(CGFloat)percent makeVisible:(BOOL)makeVisible
@@ -458,11 +493,11 @@
 	_highlightedPercent = percent;
 	
 	_highlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:_graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
-	_lineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight)];
+	_lineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
 	_lineLayer.lineColor =  self.plotColors.count > 1 ? NSColor.blackColor : self.plotColors.firstObject.darkerColor.darkerColor;
 	_highlightAnnotation.contentLayer = _lineLayer;
 	_highlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
-	_highlightAnnotation.anchorPlotPoint = @[@(sampleTime), @0];
+	_highlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
 	
 	NSMutableArray<NSNumber*>* dataPoints = [NSMutableArray new];
 	NSMutableArray<NSColor*>* pointColors = [NSMutableArray new];
@@ -518,7 +553,20 @@
 
 - (void)didFinishDrawing:(CPTPlot *)plot
 {
-	if(_highlightedSampleIndex != NSNotFound)
+	if(!CGRectEqualToRect(_lastDrawBounds, self.hostingView.bounds))
+	{
+		[self reloadHighlight];
+		_lastDrawBounds = self.hostingView.bounds;
+	}
+}
+
+- (void)reloadHighlight
+{
+	if(_shadowHighlightedSampleTime != 0.0)
+	{
+		[self shadowHighlightAtSampleTime:_shadowHighlightedSampleTime];
+	}
+	else if(_highlightedSampleIndex != NSNotFound)
 	{
 		[self _highlightSampleIndex:_highlightedSampleIndex nextSampleIndex:_highlightedNextSampleIndex sampleTime:_highlightedSampleTime percect:_highlightedPercent makeVisible:NO];
 	}
@@ -539,6 +587,14 @@
 	
 	_rangeHighlightBand = nil;
 	
+	if(_shadowHighlightAnnotation && _shadowHighlightAnnotation.annotationHostLayer != nil)
+	{
+		[_graph removeAnnotation:_shadowHighlightAnnotation];
+	}
+	
+	_shadowLineLayer = nil;
+	_shadowHighlightAnnotation = nil;
+	
 	if(_highlightAnnotation && _highlightAnnotation.annotationHostLayer != nil)
 	{
 		[_graph removeAnnotation:_highlightAnnotation];
@@ -552,6 +608,8 @@
 	_highlightedSampleTime = 0.0;
 	_highlightedPercent = 0.0;
 	_highlightedRange = nil;
+	
+	_shadowHighlightedSampleTime = 0.0;
 }
 
 - (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates forPlotAtIndex:(NSUInteger)index

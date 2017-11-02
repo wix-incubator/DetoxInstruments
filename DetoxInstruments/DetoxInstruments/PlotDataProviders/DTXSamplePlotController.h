@@ -14,6 +14,7 @@
 @interface DTXSamplePlotController : NSObject <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
 
 @property (nonatomic, strong, readonly) CPTGraph* graph;
+@property (nonatomic, strong, readonly) __kindof CPTGraphHostingView* hostingView;
 
 + (Class)graphHostingViewClass;
 + (Class)UIDataProviderClass;
@@ -36,5 +37,7 @@
 - (id)transformedValueForFormatter:(id)value;
 
 - (CPTPlotRange*)finesedPlotRangeForPlotRange:(CPTPlotRange*)yRange;
+
+- (void)reloadHighlight;
 
 @end

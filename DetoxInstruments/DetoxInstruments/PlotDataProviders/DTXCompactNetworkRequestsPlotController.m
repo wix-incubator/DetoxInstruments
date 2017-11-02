@@ -13,6 +13,8 @@
 #import "DTXGraphHostingView.h"
 #import "DTXNetworkDataProvider.h"
 #import "DTXCPTRangePlot.h"
+#import "DTXLineLayer.h"
+#import "DTXRecording+UIExtensions.h"
 
 @interface DTXCompactNetworkRequestsPlotController () <CPTRangePlotDataSource, NSFetchedResultsControllerDelegate>
 {
@@ -23,6 +25,10 @@
 	NSMutableArray<NSMutableArray<DTXNetworkSample*>*>* _mergedSamples;
 	NSMutableArray<NSIndexPath*>* _sampleIndices;
 	NSUInteger _selectedIndex;
+	
+	CPTPlotSpaceAnnotation* _shadowHighlightAnnotation;
+	DTXLineLayer* _shadowLineLayer;
+	NSTimeInterval _shadowHighlightedSampleTime;
 }
 @end
 
@@ -144,7 +150,7 @@
 	
 }
 
-- (void)highlightSample:(id)sample
+- (void)highlightSample:(DTXSample*)sample
 {
 	[self removeHighlight];
 	
@@ -189,6 +195,33 @@
 	{
 		[_plot reloadData];
 	}
+	
+	if([self.delegate respondsToSelector:@selector(plotController:didHighlightAtSampleTime:)])
+	{
+		NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
+		[self.delegate plotController:self didHighlightAtSampleTime:sampleTime];
+	}
+}
+
+- (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime
+{
+	[self removeHighlight];
+	
+	_shadowHighlightedSampleTime = sampleTime;
+	
+	if(self.graph == nil)
+	{
+		return;
+	}
+	
+	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
+	_shadowLineLayer.lineColor = [self.plotColors.firstObject colorWithAlphaComponent:0.25];
+	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
+	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
+	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
+	
+	[self.graph addAnnotation:_shadowHighlightAnnotation];
 }
 
 - (void)highlightRange:(CPTPlotRange *)range
@@ -198,9 +231,29 @@
 
 - (void)removeHighlight
 {
-	_selectedIndex = NSNotFound;
+	if(_shadowHighlightAnnotation && _shadowHighlightAnnotation.annotationHostLayer != nil)
+	{
+		[self.graph removeAnnotation:_shadowHighlightAnnotation];
+	}
 	
-	[self.graph.allPlots.firstObject reloadData];
+	_shadowLineLayer = nil;
+	_shadowHighlightAnnotation = nil;
+	_shadowHighlightedSampleTime = 0.0;
+	
+	if(_selectedIndex != NSNotFound)
+	{
+		_selectedIndex = NSNotFound;
+		
+		[self.graph.allPlots.firstObject reloadData];
+	}
+}
+
+- (void)reloadHighlight
+{
+	if(_shadowHighlightedSampleTime != 0.0)
+	{
+		[self shadowHighlightAtSampleTime:_shadowHighlightedSampleTime];
+	}
 }
 
 - (NSString *)displayName
