@@ -71,7 +71,7 @@ DTX_CREATE_LOG(Profiler);
 	
 	self.recording = YES;
 	
-	_currentProfilingConfiguration = configuration;
+	_currentProfilingConfiguration = [configuration copy];
 	
 	_pendingSamples = [NSMutableArray new];
 	

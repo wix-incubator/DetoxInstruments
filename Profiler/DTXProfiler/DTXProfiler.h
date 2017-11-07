@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The profiling configuration provided to @c startProfilingWithConfiguration:.
  */
-@property (atomic, strong, readonly) DTXProfilingConfiguration* profilingConfiguration;
+@property (atomic, copy, readonly) DTXProfilingConfiguration* profilingConfiguration;
 
 /**
  *  Starts a profiling recording with the provided configuration.

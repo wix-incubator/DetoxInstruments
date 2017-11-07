@@ -10,6 +10,22 @@
 #import "AutoCoding.h"
 
 @implementation DTXProfilingConfiguration
+{
+@protected
+	NSTimeInterval _samplingInterval;
+	NSUInteger _numberOfSamplesBeforeFlushToDisk;
+	BOOL _recordNetwork;
+	BOOL _recordLocalhostNetwork;
+	BOOL _recordThreadInformation;
+	BOOL _collectStackTraces;
+	BOOL _symbolicateStackTraces;
+	BOOL _recordLogOutput;
+	BOOL _profileReactNative;
+	BOOL _collectJavaScriptStackTraces;
+	BOOL _symbolicateJavaScriptStackTraces;
+	BOOL _prettyPrintJSONOutput;
+	NSURL* _nonkvc_recordingFileURL;
+}
 
 + (BOOL)supportsSecureCoding
 {
@@ -21,13 +37,14 @@
 
 + (instancetype)defaultProfilingConfiguration
 {
-	DTXProfilingConfiguration* rv = [DTXProfilingConfiguration new];;
-	rv.recordNetwork = YES;
-	rv.recordThreadInformation = YES;
-	rv.recordLogOutput = YES;
-	rv.samplingInterval = 0.5;
-	rv.numberOfSamplesBeforeFlushToDisk = 200;
-	rv.profileReactNative = YES;
+	DTXProfilingConfiguration* rv = [self new];;
+	rv->_recordNetwork = YES;
+	rv->_recordThreadInformation = YES;
+	rv->_recordLogOutput = YES;
+	rv->_samplingInterval = 0.5;
+	rv->_numberOfSamplesBeforeFlushToDisk = 200;
+	rv->_profileReactNative = YES;
+	rv->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
 	
 	return rv;
 }
@@ -35,9 +52,43 @@
 + (instancetype)defaultProfilingConfigurationForRemoteProfiling
 {
 	DTXProfilingConfiguration* rv = self.defaultProfilingConfiguration;
-	rv.samplingInterval = 1.0;
+	rv->_samplingInterval = 1.0;
 	
 	return rv;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+	self = [super initWithCoder:aDecoder];
+	
+	NSURL* recordingFileURL = [aDecoder decodeObjectForKey:@"recordingFileURL"];
+	if(recordingFileURL)
+	{
+		self->_nonkvc_recordingFileURL = recordingFileURL;
+	}
+	else
+	{
+		self->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
+	}
+	
+	return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+	return self;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone
+{
+	DTXProfilingConfiguration* copy = [DTXMutableProfilingConfiguration new];
+	
+	[DTXProfilingConfiguration.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop) {
+		[copy setValue:[self valueForKey:key] forKey:key];
+	}];
+	copy->_nonkvc_recordingFileURL = [self recordingFileURL];
+	
+	return copy;
 }
 
 + (NSURL*)_documentsDirectory
@@ -71,9 +122,91 @@
 	return [[self _documentsDirectory] URLByAppendingPathComponent:[self _fileNameForNewRecording] isDirectory:YES];
 }
 
+- (NSURL *)recordingFileURL
+{
+	return _nonkvc_recordingFileURL;
+}
+
+@end
+
+@implementation DTXMutableProfilingConfiguration
+
+@dynamic samplingInterval;
+- (void)setSamplingInterval:(NSTimeInterval)samplingInterval
+{
+	_samplingInterval = samplingInterval;
+}
+
+@dynamic numberOfSamplesBeforeFlushToDisk;
+- (void)setNumberOfSamplesBeforeFlushToDisk:(NSUInteger)numberOfSamplesBeforeFlushToDisk
+{
+	_numberOfSamplesBeforeFlushToDisk = numberOfSamplesBeforeFlushToDisk;
+}
+
+@dynamic recordNetwork;
+- (void)setRecordNetwork:(BOOL)recordNetwork
+{
+	_recordNetwork = recordNetwork;
+}
+
+@dynamic recordLocalhostNetwork;
+- (void)setRecordLocalhostNetwork:(BOOL)recordLocalhostNetwork
+{
+	_recordLocalhostNetwork = recordLocalhostNetwork;
+}
+
+@dynamic recordThreadInformation;
+- (void)setRecordThreadInformation:(BOOL)recordThreadInformation
+{
+	_recordThreadInformation = recordThreadInformation;
+}
+
+@dynamic collectStackTraces;
+- (void)setCollectStackTraces:(BOOL)collectStackTraces
+{
+	_collectStackTraces = collectStackTraces;
+}
+
+@dynamic symbolicateStackTraces;
+- (void)setSymbolicateStackTraces:(BOOL)symbolicateStackTraces
+{
+	_symbolicateStackTraces = symbolicateStackTraces;
+}
+
+@dynamic recordLogOutput;
+- (void)setRecordLogOutput:(BOOL)recordLogOutput
+{
+	_recordLogOutput = recordLogOutput;
+}
+
+@dynamic profileReactNative;
+- (void)setProfileReactNative:(BOOL)profileReactNative
+{
+	_profileReactNative = profileReactNative;
+}
+
+@dynamic collectJavaScriptStackTraces;
+- (void)setCollectJavaScriptStackTraces:(BOOL)collectJavaScriptStackTraces
+{
+	_collectJavaScriptStackTraces = collectJavaScriptStackTraces;
+}
+
+@dynamic symbolicateJavaScriptStackTraces;
+- (void)setSymbolicateJavaScriptStackTraces:(BOOL)symbolicateJavaScriptStackTraces
+{
+	_symbolicateJavaScriptStackTraces = symbolicateJavaScriptStackTraces;
+}
+
+@dynamic prettyPrintJSONOutput;
+- (void)setPrettyPrintJSONOutput:(BOOL)prettyPrintJSONOutput
+{
+	_prettyPrintJSONOutput = prettyPrintJSONOutput;
+}
+
+@dynamic recordingFileURL;
 - (void)_setRecordingFileURL:(NSURL *)recordingFileURL
 {
-	_nonkvc_recordingFileURL = recordingFileURL;
+	self->_nonkvc_recordingFileURL = recordingFileURL;
 }
 
 - (void)setRecordingFileURL:(NSURL *)recordingFileURL
@@ -100,14 +233,24 @@
 	[self _setRecordingFileURL:recordingFileURL];
 }
 
-- (NSURL *)recordingFileURL
++ (instancetype)defaultProfilingConfiguration
 {
-	if(_nonkvc_recordingFileURL == nil)
-	{
-		_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
-	}
+	DTXMutableProfilingConfiguration* rv = [super defaultProfilingConfiguration];
+	rv->_nonkvc_recordingFileURL = nil;
 	
-	return _nonkvc_recordingFileURL;
+	return rv;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+	DTXProfilingConfiguration* copy = [DTXProfilingConfiguration new];
+	
+	[DTXProfilingConfiguration.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop) {
+		[copy setValue:[self valueForKey:key] forKey:key];
+	}];
+	copy->_nonkvc_recordingFileURL = [self recordingFileURL];
+	
+	return copy;
 }
 
 @end
