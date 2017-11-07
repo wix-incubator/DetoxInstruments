@@ -470,6 +470,11 @@
 
 - (void)_highlightSample:(DTXSample*)sample nextSample:(DTXSample*)nextSample plotSpaceOffset:(CGFloat)offset notifyDelegate:(BOOL)notify
 {
+	if(nextSample == nil)
+	{
+		offset = 0.0;
+	}
+	
 	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate + offset;
 	NSUInteger sampleIdx = [[self samplesForPlotIndex:0] indexOfObject:sample];
 	NSUInteger nextSampleIdx = nextSample ? [[self samplesForPlotIndex:0] indexOfObject:nextSample] : NSNotFound;
@@ -641,6 +646,8 @@
 		plotSpace.globalYRange = newYRange;
 		plotSpace.yRange = newYRange;
 	}
+	
+	[self reloadHighlight];
 }
 
 - (NSString *)displayName
