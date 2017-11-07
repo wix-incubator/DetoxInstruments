@@ -16,9 +16,11 @@
 #endif
 
 #if DTX_PROFILER
+#import "DTXCustomJSCSupport.h"
+
 extern NSArray* DTXRNSymbolicateJSCBacktrace(NSArray<NSString*>* backtrace, BOOL* currentStackTraceSymbolicated);
 extern void DTXRNGetCurrentWorkingSourceMapsData(void (^completion)(NSData*));
-extern void DTXInitializeSourceMapsSupport(void);
+extern void DTXInitializeSourceMapsSupport(DTXJSCWrapper* wrapper);
 #else
 extern NSArray* DTXRNSymbolicateJSCBacktrace(DTXSourceMapsParser* parser, NSArray<NSString*>* backtrace, BOOL* currentStackTraceSymbolicated);
 #endif

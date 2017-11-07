@@ -66,23 +66,23 @@ static void swz_runRunLoopThread(id self, SEL _cmd)
 
 static NSUInteger DTXJSValueJsonStringLengh(JSContextRef ctx, JSValueRef value)
 {
-    NSUInteger rv = 0;
-    
-    JSValueRef exception = NULL;
-    JSStringRef jsonStrRef = JSValueCreateJSONString(ctx, value, 0, &exception);
-    
-    if(exception == NULL && jsonStrRef != NULL)
-    {
-        NSString* jsonStr = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, jsonStrRef);
-        rv = jsonStr.length;
-    }
-    
-    if(jsonStrRef != NULL)
-    {
-        JSStringRelease(jsonStrRef);
-    }
-    
-    return rv;
+	NSUInteger rv = 0;
+	
+	JSValueRef exception = NULL;
+	JSStringRef jsonStrRef = JSValueCreateJSONString(ctx, value, 0, &exception);
+	
+	if(exception == NULL && jsonStrRef != NULL)
+	{
+		NSString* jsonStr = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, jsonStrRef);
+		rv = jsonStr.length;
+	}
+	
+	if(jsonStrRef != NULL)
+	{
+		JSStringRelease(jsonStrRef);
+	}
+	
+	return rv;
 }
 
 static JSValueRef (*__orig_JSObjectCallAsFunction)(JSContextRef ctx, JSObjectRef object, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
@@ -212,57 +212,67 @@ static double __rnCPUUsage(thread_t safeRNThread)
 __attribute__((constructor))
 static void __DTXInitializeRNSampler()
 {
-	BOOL didSucceed = DTXLoadJSCWrapper(&__jscWrapper);
-	
-	if(didSucceed == NO)
-	{
-		return;
-	}
-	
-	DTXInitializeSourceMapsSupport();
-	
-	rebind_symbols((struct rebinding[]){
-		{"JSObjectCallAsFunction",
-			__dtx_JSObjectCallAsFunction,
-			(void*)&__orig_JSObjectCallAsFunction
-		},
-	}, 1);
-
-	Class cls = NSClassFromString(@"RCTJSCExecutor");
-	Method m = NULL;
-	if(cls != NULL)
-	{
-		//Legacy RN
+	dispatch_async(dispatch_get_main_queue(), ^{
+		BOOL didSucceed = DTXLoadJSCWrapper(&__jscWrapper);
 		
-		Class class = [__jscWrapper.JSContext class];
-		Method originalMethod = class_getInstanceMethod(class, @selector(setObject:forKeyedSubscript:));
-		__orig_setObjectForKeyedSubscript = (void*)method_getImplementation(originalMethod);
+		if(didSucceed == NO)
+		{
+			return;
+		}
 		
-		method_setImplementation(originalMethod, (void*)__dtx_setObjectForKeyedSubscript);
+		DTXInitializeSourceMapsSupport(&__jscWrapper);
 		
-		cls = NSClassFromString(@"RCTJSCExecutor");
-		m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoopThread"));
-	}
-	else
-	{
-		//Modern RN
+		__orig_JSObjectCallAsFunction = __jscWrapper.JSObjectCallAsFunction;
 		
-        rebind_symbols((struct rebinding[]){
-            {"JSObjectMakeFunctionWithCallback",
-                __dtx_JSObjectMakeFunctionWithCallback,
-                (void*)&__orig_JSObjectMakeFunctionWithCallback
-            },
-        }, 1);
-        
-		cls = NSClassFromString(@"RCTCxxBridge");
-		m = class_getInstanceMethod(cls, NSSelectorFromString(@"runJSRunLoop"));
-	}
-	
-	if(m != NULL)
-	{
-		orig_runRunLoopThread = (void(*)(id, SEL))method_getImplementation(m);
-		method_setImplementation(m, (IMP)swz_runRunLoopThread);
-	}
+		rebind_symbols((struct rebinding[]){
+			{"JSObjectCallAsFunction",
+				__dtx_JSObjectCallAsFunction,
+				NULL
+			},
+		}, 1);
+		
+		Class cls = NSClassFromString(@"RCTJSCExecutor");
+		Method m = NULL;
+		if(cls != NULL)
+		{
+			//Legacy RN
+			
+			Class class = [__jscWrapper.JSContext class];
+			Method originalMethod = class_getInstanceMethod(class, @selector(setObject:forKeyedSubscript:));
+			__orig_setObjectForKeyedSubscript = (void*)method_getImplementation(originalMethod);
+			
+			method_setImplementation(originalMethod, (void*)__dtx_setObjectForKeyedSubscript);
+			
+			cls = NSClassFromString(@"RCTJSCExecutor");
+			m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoopThread"));
+		}
+		else
+		{
+			//Modern RN
+			
+			__orig_JSObjectMakeFunctionWithCallback = __jscWrapper.JSObjectMakeFunctionWithCallback;
+			
+			rebind_symbols((struct rebinding[]){
+				{"JSObjectMakeFunctionWithCallback",
+					__dtx_JSObjectMakeFunctionWithCallback,
+					NULL
+				},
+			}, 1);
+			
+			cls = NSClassFromString(@"RCTCxxBridge");
+			m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoop"));
+			if(m == NULL)
+			{
+				m = class_getInstanceMethod(cls, NSSelectorFromString(@"runJSRunLoop"));
+			}
+		}
+		
+		if(m != NULL)
+		{
+			orig_runRunLoopThread = (void(*)(id, SEL))method_getImplementation(m);
+			method_setImplementation(m, (IMP)swz_runRunLoopThread);
+		}
+	});
 }
 
 @implementation DTXReactNativeSampler
@@ -301,8 +311,8 @@ static void __DTXInitializeRNSampler()
 		if(__rnCtx != nil)
 		{
 			//TODO: Implement in a non-blocking manner.
-//			JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
-//			objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
+			//			JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
+			//			objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 		}
 	}
 	
@@ -316,8 +326,8 @@ static void __DTXInitializeRNSampler()
 	if(__rnCtx != nil)
 	{
 		//TODO: Implement in non-blocking manner.
-//		JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
-//		objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
+		//		JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
+		//		objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
 	}
 }
 
@@ -366,10 +376,10 @@ static void __DTXInitializeRNSampler()
 			//Thread is already invalid, no stack trace.
 			_currentStackTrace = @"";
 		}
-
+		
 		_currentStackTraceSymbolicated = NO;
 	}
-		
+	
 	_cpu = __rnCPUUsage(safeRNThread);
 }
 @end

@@ -9,6 +9,8 @@
 #import "DTXCustomJSCSupport.h"
 #import "fishhook.h"
 
+@import ObjectiveC;
+
 static CFBundleRef __DTXGetCustomJSCBundle()
 {
 	static CFBundleRef bundle;
@@ -23,11 +25,46 @@ static CFBundleRef __DTXGetCustomJSCBundle()
 	return bundle;
 }
 
+static void __DTXPoseClassAsClass(Class target, Class posingClass)
+{
+	if(target == posingClass)
+	{
+		return;
+	}
+	
+	//Copy class methods
+	Class targetMetaclass = object_getClass(target);
+	
+	unsigned int methodCount = 0;
+	Method *methods = class_copyMethodList(object_getClass(posingClass), &methodCount);
+	
+	for (unsigned int i = 0; i < methodCount; i++)
+	{
+		Method method = methods[i];
+		if(strcmp(sel_getName(method_getName(method)), "load") == 0 || strcmp(sel_getName(method_getName(method)), "initialize") == 0)
+		{
+			continue;
+		}
+		
+		class_replaceMethod(targetMetaclass, method_getName(method), method_getImplementation(method), method_getTypeEncoding(method));
+	}
+	
+	free(methods);
+}
+
 BOOL DTXLoadJSCWrapper(DTXJSCWrapper* output)
 {
 	CFBundleRef bundle = __DTXGetCustomJSCBundle();
 	if(bundle == NULL)
 	{
+		return NO;
+	}
+	
+	CFErrorRef error;
+	if(CFBundleLoadExecutableAndReturnError(bundle, &error) == NO)
+	{
+		NSURL* bundleURL = CFBridgingRelease(CFBundleCopyBundleURL(bundle));
+		NSLog(@"Error loading %@: %@", bundleURL.lastPathComponent, error);
 		return NO;
 	}
 	
@@ -97,21 +134,28 @@ BOOL DTXLoadJSCWrapper(DTXJSCWrapper* output)
 		{
 			wrapper.JSContext = NSClassFromString(@"JSContext");
 		}
+		__DTXPoseClassAsClass(NSClassFromString(@"JSContext"), wrapper.JSContext);
+		
 		wrapper.JSValue = NSClassFromString(@"JSValue_DTX");
 		if(wrapper.JSValue == NULL)
 		{
 			wrapper.JSValue = NSClassFromString(@"JSValue");
 		}
+		__DTXPoseClassAsClass(NSClassFromString(@"JSValue"), wrapper.JSValue);
+		
 		wrapper.JSVirtualMachine = NSClassFromString(@"JSVirtualMachine_DTX");
 		if(wrapper.JSVirtualMachine == NULL)
 		{
 			wrapper.JSVirtualMachine = NSClassFromString(@"JSVirtualMachine");
 		}
+		__DTXPoseClassAsClass(NSClassFromString(@"JSVirtualMachine"), wrapper.JSVirtualMachine);
+		
 		wrapper.JSManagedValue = NSClassFromString(@"JSManagedValue_DTX");
 		if(wrapper.JSManagedValue == NULL)
 		{
 			wrapper.JSManagedValue = NSClassFromString(@"JSManagedValue");
 		}
+		__DTXPoseClassAsClass(NSClassFromString(@"JSManagedValue"), wrapper.JSManagedValue);
 		
 		struct rebinding rebindings[] = (struct rebinding[]){
 			{"JSGlobalContextCreateInGroup", wrapper.JSGlobalContextCreateInGroup, NULL},
