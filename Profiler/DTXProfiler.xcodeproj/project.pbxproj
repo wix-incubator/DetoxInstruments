@@ -98,6 +98,7 @@
 		39D40C361ED5B60100157C04 /* NSObject+DBDebugToolkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C341ED5B60100157C04 /* NSObject+DBDebugToolkit.m */; };
 		39D40C3A1ED5BAB800157C04 /* DBBuildInfoProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C381ED5BAB800157C04 /* DBBuildInfoProvider.h */; };
 		39D40C3B1ED5BAB800157C04 /* DBBuildInfoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C391ED5BAB800157C04 /* DBBuildInfoProvider.m */; };
+		39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3933E1341F7A319F0081F82F /* UIKit.framework */; };
 		39D94EF01EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */; };
 		39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */; };
 		39DA16821F3097780025C492 /* NSDictionary+FakeDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39DA16801F3097780025C492 /* NSDictionary+FakeDecoder.h */; };
@@ -230,6 +231,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */,
 				39281E5D1ED70347002CE905 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

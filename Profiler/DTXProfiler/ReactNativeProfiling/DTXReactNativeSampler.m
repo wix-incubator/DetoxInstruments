@@ -15,6 +15,7 @@
 #import "DTXCustomJSCSupport.h"
 @import ObjectiveC;
 @import Darwin;
+@import UIKit;
 
 static DTXJSCWrapper __jscWrapper;
 
@@ -209,70 +210,82 @@ static double __rnCPUUsage(thread_t safeRNThread)
 	return threadBasicInfo->cpu_usage / (double)TH_USAGE_SCALE;
 }
 
-__attribute__((constructor))
-static void __DTXInitializeRNSampler()
+static int (*__orig_UIApplicationMain)(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName);
+static int __dtx_UIApplicationMain(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName)
 {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		BOOL didSucceed = DTXLoadJSCWrapper(&__jscWrapper);
+	Class cls = NSClassFromString(@"RCTJSCExecutor");
+	Method m = NULL;
+	if(cls != NULL)
+	{
+		//Legacy RN
 		
-		if(didSucceed == NO)
-		{
-			return;
-		}
+		Class class = [__jscWrapper.JSContext class];
+		Method originalMethod = class_getInstanceMethod(class, @selector(setObject:forKeyedSubscript:));
+		__orig_setObjectForKeyedSubscript = (void*)method_getImplementation(originalMethod);
 		
-		DTXInitializeSourceMapsSupport(&__jscWrapper);
+		method_setImplementation(originalMethod, (void*)__dtx_setObjectForKeyedSubscript);
 		
-		__orig_JSObjectCallAsFunction = __jscWrapper.JSObjectCallAsFunction;
+		cls = NSClassFromString(@"RCTJSCExecutor");
+		m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoopThread"));
+	}
+	else
+	{
+		//Modern RN
+		
+		__orig_JSObjectMakeFunctionWithCallback = __jscWrapper.JSObjectMakeFunctionWithCallback;
 		
 		rebind_symbols((struct rebinding[]){
-			{"JSObjectCallAsFunction",
-				__dtx_JSObjectCallAsFunction,
+			{"JSObjectMakeFunctionWithCallback",
+				__dtx_JSObjectMakeFunctionWithCallback,
 				NULL
 			},
 		}, 1);
 		
-		Class cls = NSClassFromString(@"RCTJSCExecutor");
-		Method m = NULL;
-		if(cls != NULL)
+		cls = NSClassFromString(@"RCTCxxBridge");
+		m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoop"));
+		if(m == NULL)
 		{
-			//Legacy RN
-			
-			Class class = [__jscWrapper.JSContext class];
-			Method originalMethod = class_getInstanceMethod(class, @selector(setObject:forKeyedSubscript:));
-			__orig_setObjectForKeyedSubscript = (void*)method_getImplementation(originalMethod);
-			
-			method_setImplementation(originalMethod, (void*)__dtx_setObjectForKeyedSubscript);
-			
-			cls = NSClassFromString(@"RCTJSCExecutor");
-			m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoopThread"));
+			m = class_getInstanceMethod(cls, NSSelectorFromString(@"runJSRunLoop"));
 		}
-		else
-		{
-			//Modern RN
-			
-			__orig_JSObjectMakeFunctionWithCallback = __jscWrapper.JSObjectMakeFunctionWithCallback;
-			
-			rebind_symbols((struct rebinding[]){
-				{"JSObjectMakeFunctionWithCallback",
-					__dtx_JSObjectMakeFunctionWithCallback,
-					NULL
-				},
-			}, 1);
-			
-			cls = NSClassFromString(@"RCTCxxBridge");
-			m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoop"));
-			if(m == NULL)
-			{
-				m = class_getInstanceMethod(cls, NSSelectorFromString(@"runJSRunLoop"));
-			}
-		}
-		
-		if(m != NULL)
-		{
-			orig_runRunLoopThread = (void(*)(id, SEL))method_getImplementation(m);
-			method_setImplementation(m, (IMP)swz_runRunLoopThread);
-		}
-	});
+	}
+	
+	if(m != NULL)
+	{
+		orig_runRunLoopThread = (void(*)(id, SEL))method_getImplementation(m);
+		method_setImplementation(m, (IMP)swz_runRunLoopThread);
+	}
+	
+	return __orig_UIApplicationMain(argc, argv, principalClassName, delegateClassName);
+}
+
+__attribute__((constructor))
+static void __DTXInitializeRNSampler()
+{	
+	BOOL didSucceed = DTXLoadJSCWrapper(&__jscWrapper);
+	
+	if(didSucceed == NO)
+	{
+		return;
+	}
+	
+	DTXInitializeSourceMapsSupport(&__jscWrapper);
+	
+	__orig_JSObjectCallAsFunction = __jscWrapper.JSObjectCallAsFunction;
+	
+	rebind_symbols((struct rebinding[]){
+		{"JSObjectCallAsFunction",
+			__dtx_JSObjectCallAsFunction,
+			NULL
+		},
+	}, 1);
+	
+	__orig_UIApplicationMain = dlsym(RTLD_DEFAULT, "UIApplicationMain");
+	rebind_symbols((struct rebinding[]){
+		{"UIApplicationMain",
+			__dtx_UIApplicationMain,
+			NULL
+		},
+	}, 1);
 }
 
 @implementation DTXReactNativeSampler
