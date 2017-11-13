@@ -277,15 +277,11 @@ static void __DTXInitializeRNSampler()
 			__dtx_JSObjectCallAsFunction,
 			NULL
 		},
-	}, 1);
-	
-	__orig_UIApplicationMain = dlsym(RTLD_DEFAULT, "UIApplicationMain");
-	rebind_symbols((struct rebinding[]){
 		{"UIApplicationMain",
 			__dtx_UIApplicationMain,
 			NULL
 		},
-	}, 1);
+	}, 2);
 }
 
 @implementation DTXReactNativeSampler
