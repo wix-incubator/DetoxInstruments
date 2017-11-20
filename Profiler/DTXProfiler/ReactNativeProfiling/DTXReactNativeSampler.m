@@ -271,6 +271,7 @@ static void __DTXInitializeRNSampler()
 	DTXInitializeSourceMapsSupport(&__jscWrapper);
 	
 	__orig_JSObjectCallAsFunction = __jscWrapper.JSObjectCallAsFunction;
+	__orig_UIApplicationMain = dlsym(RTLD_DEFAULT, "UIApplicationMain");
 	
 	rebind_symbols((struct rebinding[]){
 		{"JSObjectCallAsFunction",
