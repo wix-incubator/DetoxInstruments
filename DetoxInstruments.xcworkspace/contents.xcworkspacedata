@@ -7,7 +7,4 @@
    <FileRef
       location = "container:DetoxInstruments/DetoxInstruments.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:Sample Apps/StressTestApp/StressTestApp.xcodeproj">
-   </FileRef>
 </Workspace>
