@@ -10,5 +10,6 @@
 #define DTXProfiler_pch
 
 #import "DTXLogging.h"
+#import "Swiftier.h"
 
 #endif /* DTXProfiler_pch */

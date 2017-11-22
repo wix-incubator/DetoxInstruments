@@ -51,6 +51,7 @@
 		39281E831ED70A77002CE905 /* DTXZipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39281E811ED70A77002CE905 /* DTXZipper.m */; };
 		39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */; };
 		39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */; };
+		393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */ = {isa = PBXBuildFile; fileRef = 393E66DD1FC59B730092EE89 /* Swiftier.h */; };
 		39432AE91F55BE6C00468DB7 /* DTXExternalProtocolStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 39432AE71F55BE6C00468DB7 /* DTXExternalProtocolStorage.h */; };
 		39432AEA1F55BE6C00468DB7 /* DTXExternalProtocolStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 39432AE81F55BE6C00468DB7 /* DTXExternalProtocolStorage.m */; };
 		39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */; };
@@ -162,6 +163,7 @@
 		3933E1361F7A31B40081F82F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
 		39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
+		393E66DD1FC59B730092EE89 /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../Shared/Swiftier.h; sourceTree = "<group>"; };
 		39432AE71F55BE6C00468DB7 /* DTXExternalProtocolStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXExternalProtocolStorage.h; sourceTree = "<group>"; };
 		39432AE81F55BE6C00468DB7 /* DTXExternalProtocolStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXExternalProtocolStorage.m; sourceTree = "<group>"; };
 		39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSocketConnection.m; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 				39557CD71F1F7E5500FF3187 /* DTXProfiler-Private.h */,
 				39D40C171ED5B43F00157C04 /* DTXProfiler.m */,
 				39D40BFD1ED5ABD200157C04 /* Info.plist */,
+				393E66DD1FC59B730092EE89 /* Swiftier.h */,
 				396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */,
 			);
 			path = DTXProfiler;
@@ -541,6 +544,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
+				393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */,
 				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
 				39281E721ED70458002CE905 /* zip.h in Headers */,
 				399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */,
