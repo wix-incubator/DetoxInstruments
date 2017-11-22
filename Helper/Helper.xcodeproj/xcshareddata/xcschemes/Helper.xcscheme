@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "39D40BF81ED5ABD200157C04"
-               BuildableName = "DTXProfiler.framework"
-               BlueprintName = "DTXProfiler"
-               ReferencedContainer = "container:DTXProfiler.xcodeproj">
+               BlueprintIdentifier = "396487691FC325C400006341"
+               BuildableName = "Helper"
+               BlueprintName = "Helper"
+               ReferencedContainer = "container:Helper.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,10 +33,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "39D40BF81ED5ABD200157C04"
-            BuildableName = "DTXProfiler.framework"
-            BlueprintName = "DTXProfiler"
-            ReferencedContainer = "container:DTXProfiler.xcodeproj">
+            BlueprintIdentifier = "396487691FC325C400006341"
+            BuildableName = "Helper"
+            BlueprintName = "Helper"
+            ReferencedContainer = "container:Helper.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -53,15 +53,22 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "39D40BF81ED5ABD200157C04"
-            BuildableName = "DTXProfiler.framework"
-            BlueprintName = "DTXProfiler"
-            ReferencedContainer = "container:DTXProfiler.xcodeproj">
+            BlueprintIdentifier = "396487691FC325C400006341"
+            BuildableName = "Helper"
+            BlueprintName = "Helper"
+            ReferencedContainer = "container:Helper.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "/Users/lnatan/Desktop/90_sec_no_rn.dtxprof"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -71,15 +78,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "39D40BF81ED5ABD200157C04"
-            BuildableName = "DTXProfiler.framework"
-            BlueprintName = "DTXProfiler"
-            ReferencedContainer = "container:DTXProfiler.xcodeproj">
+            BlueprintIdentifier = "396487691FC325C400006341"
+            BuildableName = "Helper"
+            BlueprintName = "Helper"
+            ReferencedContainer = "container:Helper.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

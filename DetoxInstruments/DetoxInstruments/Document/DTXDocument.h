@@ -8,7 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DTXInstrumentsModel.h"
+
+#ifndef CLI
 #import "DTXRemoteProfilingTarget.h"
+#endif
 
 extern NSString* const DTXDocumentDidLoadNotification;
 extern NSString* const DTXDocumentDefactoEndTimestampDidChangeNotification;
@@ -26,11 +29,13 @@ typedef NS_ENUM(NSUInteger, DTXDocumentState) {
 @property (nonatomic) DTXDocumentState documentState;
 @property (nonatomic, strong, readonly) DTXRecording* recording;
 
+#ifndef CLI
 - (void)readyForRecordingIfNeeded;
 - (void)addTag;
 - (void)pushGroup;
 - (void)popGroup;
 - (void)stopLiveRecording;
+#endif
 
 @end
 

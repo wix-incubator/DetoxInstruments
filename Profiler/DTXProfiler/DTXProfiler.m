@@ -331,12 +331,12 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_closeContainerInternal
 {
-	NSJSONWritingOptions jsonOptions = 0;
-	if(_currentProfilingConfiguration.prettyPrintJSONOutput == YES)
-	{
-		jsonOptions |= NSJSONWritingPrettyPrinted;
-	}
-	
+//	NSJSONWritingOptions jsonOptions = 0;
+//	if(_currentProfilingConfiguration.prettyPrintJSONOutput == YES)
+//	{
+//		jsonOptions |= NSJSONWritingPrettyPrinted;
+//	}
+//	
 //	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[_currentRecording dictionaryRepresentationForJSON] options:jsonOptions error:NULL];
 //	NSURL* jsonURL = [_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.json"];
 //	[jsonData writeToURL:jsonURL atomically:YES];

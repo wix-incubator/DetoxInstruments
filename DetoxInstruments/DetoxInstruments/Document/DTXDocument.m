@@ -8,10 +8,12 @@
 
 #import "DTXDocument.h"
 #import "DTXRecording+UIExtensions.h"
+#ifndef CLI
 #import "DTXRecordingTargetPickerViewController.h"
 #import "DTXRemoteProfilingClient.h"
-#import "AutoCoding.h"
 #import "NSFormatter+PlotFormatters.h"
+#endif
+#import "AutoCoding.h"
 @import ObjectiveC;
 
 NSString * const DTXDocumentDidLoadNotification = @"DTXDocumentDidLoadNotification";
@@ -20,11 +22,16 @@ NSString* const DTXDocumentStateDidChangeNotification = @"DTXDocumentStateDidCha
 
 static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
-@interface DTXDocument () <DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate, DTXRemoteProfilingTargetDelegate>
+@interface DTXDocument ()
+#ifndef CLI
+<DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate, DTXRemoteProfilingTargetDelegate>
+#endif
 {
 	NSPersistentContainer* _container;
+#ifndef CLI
 	__weak DTXRecordingTargetPickerViewController* _recordingTargetPicker;
 	DTXRemoteProfilingClient* _remoteProfilingClient;
+#endif
 }
 
 @property (nonatomic, assign) BOOL isContentsURLTemporary;
@@ -34,6 +41,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 @implementation DTXDocument
 
+#ifndef CLI
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
 	if(item.action == @selector(saveDocument:))
@@ -48,6 +56,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	
 	return [super validateUserInterfaceItem:item];
 }
+#endif
 
 + (BOOL)autosavesInPlace
 {
@@ -102,6 +111,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	return self;
 }
 
+#ifndef CLI
 - (void)_prepareForLiveRecording:(DTXRecording*)recording
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_recordingDefactoEndTimestampDidChange:) name:DTXRecordingDidInvalidateDefactoEndTimestamp object:recording];
@@ -119,6 +129,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 {
 	[self addWindowController:[[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"InstrumentsWindowController"]];
 }
+#endif
 
 - (NSURL*)_URLByAppendingStoreCompoenentToURL:(NSURL*)url
 {
@@ -176,7 +187,9 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			_recording.endTimestamp = _recording.defactoEndTimestamp;
 		}
 		
+#ifndef CLI
 		[self _prepareForLiveRecording:_recording];
+#endif
 	}];
 }
 
@@ -197,6 +210,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[[NSNotificationCenter defaultCenter] postNotificationName:DTXDocumentDefactoEndTimestampDidChangeNotification object:self];
 }
 
+#ifndef CLI
 - (void)readyForRecordingIfNeeded
 {
 	if(self.documentState == DTXDocumentStateNew)
@@ -207,6 +221,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		_recordingTargetPicker = vc;
 	}
 }
+#endif
 
 - (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError * _Nullable __autoreleasing *)outError
 {
@@ -327,10 +342,12 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
 {
+#ifndef CLI
 	if(self.documentState < DTXDocumentStateLiveRecordingFinished)
 	{
 		[self stopLiveRecording];
 	}
+#endif
 	
 	[super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
 }
@@ -348,6 +365,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[super close];
 }
 
+#ifndef CLI
 - (void)addTag
 {
 	[_remoteProfilingClient.target addTagWithName:[NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle]];
@@ -432,5 +450,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	target.delegate = self;
 	[self _prepareForRemoteProfilingRecordingWithTarget:target profilingConfiguration:configuration];
 }
+#endif
 
 @end

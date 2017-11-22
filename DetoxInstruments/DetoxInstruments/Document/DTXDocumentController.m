@@ -7,6 +7,7 @@
 //
 
 #import "DTXDocumentController.h"
+#import "DTXDocument.h"
 
 @implementation DTXDocumentController
 
@@ -18,6 +19,16 @@
 - (BOOL)allowsAutomaticShareMenu
 {
 	return NO;
+}
+
+- (NSArray<NSString *> *)documentClassNames
+{
+	return @[@"DTXDocument"];
+}
+
+- (nullable Class)documentClassForType:(NSString *)typeName
+{
+	return [DTXDocument class];
 }
 
 @end
