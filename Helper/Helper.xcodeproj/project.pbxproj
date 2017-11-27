@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3935104E1FCB9BE2001FB466 /* LNLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3935104B1FCB9BE2001FB466 /* LNLog.m */; };
+		3935104F1FCB9BE2001FB466 /* LNOptionsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3935104C1FCB9BE2001FB466 /* LNOptionsParser.m */; };
+		3935105A1FCB9BF9001FB466 /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 393510521FCB9BF8001FB466 /* GBOptionsHelper.m */; };
+		3935105B1FCB9BF9001FB466 /* GBCommandLineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 393510531FCB9BF8001FB466 /* GBCommandLineParser.m */; };
+		3935105C1FCB9BF9001FB466 /* GBPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 393510551FCB9BF8001FB466 /* GBPrint.m */; };
+		3935105D1FCB9BF9001FB466 /* GBSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 393510591FCB9BF9001FB466 /* GBSettings.m */; };
 		393E66D31FC5918F0092EE89 /* DTXNetworkSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393E66C81FC5918E0092EE89 /* DTXNetworkSample+UIExtensions.m */; };
 		393E66D41FC5918F0092EE89 /* DTXRecording+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393E66C91FC5918E0092EE89 /* DTXRecording+UIExtensions.m */; };
 		393E66D51FC5918F0092EE89 /* DTXSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393E66CB1FC5918E0092EE89 /* DTXSample+UIExtensions.m */; };
@@ -36,6 +42,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3935104A1FCB9BE2001FB466 /* LNOptionsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LNOptionsParser.h; path = ObjCCLIInfra/LNOptionsParser.h; sourceTree = SOURCE_ROOT; };
+		3935104B1FCB9BE2001FB466 /* LNLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNLog.m; path = ObjCCLIInfra/LNLog.m; sourceTree = SOURCE_ROOT; };
+		3935104C1FCB9BE2001FB466 /* LNOptionsParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNOptionsParser.m; path = ObjCCLIInfra/LNOptionsParser.m; sourceTree = SOURCE_ROOT; };
+		3935104D1FCB9BE2001FB466 /* LNLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LNLog.h; path = ObjCCLIInfra/LNLog.h; sourceTree = SOURCE_ROOT; };
+		393510511FCB9BF8001FB466 /* GBCli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBCli.h; path = ObjCCLIInfra/GBCli/GBCli/src/GBCli.h; sourceTree = SOURCE_ROOT; };
+		393510521FCB9BF8001FB466 /* GBOptionsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GBOptionsHelper.m; path = ObjCCLIInfra/GBCli/GBCli/src/GBOptionsHelper.m; sourceTree = SOURCE_ROOT; };
+		393510531FCB9BF8001FB466 /* GBCommandLineParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GBCommandLineParser.m; path = ObjCCLIInfra/GBCli/GBCli/src/GBCommandLineParser.m; sourceTree = SOURCE_ROOT; };
+		393510541FCB9BF8001FB466 /* GBPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBPrint.h; path = ObjCCLIInfra/GBCli/GBCli/src/GBPrint.h; sourceTree = SOURCE_ROOT; };
+		393510551FCB9BF8001FB466 /* GBPrint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GBPrint.m; path = ObjCCLIInfra/GBCli/GBCli/src/GBPrint.m; sourceTree = SOURCE_ROOT; };
+		393510561FCB9BF8001FB466 /* GBCommandLineParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBCommandLineParser.h; path = ObjCCLIInfra/GBCli/GBCli/src/GBCommandLineParser.h; sourceTree = SOURCE_ROOT; };
+		393510571FCB9BF8001FB466 /* GBOptionsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBOptionsHelper.h; path = ObjCCLIInfra/GBCli/GBCli/src/GBOptionsHelper.h; sourceTree = SOURCE_ROOT; };
+		393510581FCB9BF8001FB466 /* GBSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBSettings.h; path = ObjCCLIInfra/GBCli/GBCli/src/GBSettings.h; sourceTree = SOURCE_ROOT; };
+		393510591FCB9BF9001FB466 /* GBSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GBSettings.m; path = ObjCCLIInfra/GBCli/GBCli/src/GBSettings.m; sourceTree = SOURCE_ROOT; };
 		393E66C81FC5918E0092EE89 /* DTXNetworkSample+UIExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DTXNetworkSample+UIExtensions.m"; sourceTree = "<group>"; };
 		393E66C91FC5918E0092EE89 /* DTXRecording+UIExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DTXRecording+UIExtensions.m"; sourceTree = "<group>"; };
 		393E66CA1FC5918E0092EE89 /* DTXInstrumentsModelUIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXInstrumentsModelUIExtensions.h; sourceTree = "<group>"; };
@@ -80,6 +99,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		393510491FCB9BC8001FB466 /* CLIInfra */ = {
+			isa = PBXGroup;
+			children = (
+				393510501FCB9BEF001FB466 /* GBCli */,
+				3935104D1FCB9BE2001FB466 /* LNLog.h */,
+				3935104B1FCB9BE2001FB466 /* LNLog.m */,
+				3935104A1FCB9BE2001FB466 /* LNOptionsParser.h */,
+				3935104C1FCB9BE2001FB466 /* LNOptionsParser.m */,
+			);
+			name = CLIInfra;
+			sourceTree = "<group>";
+		};
+		393510501FCB9BEF001FB466 /* GBCli */ = {
+			isa = PBXGroup;
+			children = (
+				393510511FCB9BF8001FB466 /* GBCli.h */,
+				393510561FCB9BF8001FB466 /* GBCommandLineParser.h */,
+				393510531FCB9BF8001FB466 /* GBCommandLineParser.m */,
+				393510571FCB9BF8001FB466 /* GBOptionsHelper.h */,
+				393510521FCB9BF8001FB466 /* GBOptionsHelper.m */,
+				393510541FCB9BF8001FB466 /* GBPrint.h */,
+				393510551FCB9BF8001FB466 /* GBPrint.m */,
+				393510581FCB9BF8001FB466 /* GBSettings.h */,
+				393510591FCB9BF9001FB466 /* GBSettings.m */,
+			);
+			name = GBCli;
+			sourceTree = "<group>";
+		};
 		393E66C71FC5918E0092EE89 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +205,7 @@
 		3964879B1FC32E6300006341 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				393510491FCB9BC8001FB466 /* CLIInfra */,
 				3964879C1FC32E8600006341 /* AutoCoding */,
 			);
 			name = Utilities;
@@ -243,8 +291,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				396487811FC327DB00006341 /* DTXSample+Additions.m in Sources */,
+				3935105D1FCB9BF9001FB466 /* GBSettings.m in Sources */,
+				3935105B1FCB9BF9001FB466 /* GBCommandLineParser.m in Sources */,
 				3964876E1FC325C400006341 /* main.m in Sources */,
 				396487991FC32E2800006341 /* DTXProfilingConfiguration.m in Sources */,
+				3935105C1FCB9BF9001FB466 /* GBPrint.m in Sources */,
+				3935104E1FCB9BE2001FB466 /* LNLog.m in Sources */,
 				396487841FC327DB00006341 /* NSManagedObject+Additions.m in Sources */,
 				393E66D71FC5918F0092EE89 /* DTXSampleGroup+UIExtensions.m in Sources */,
 				393E66D61FC5918F0092EE89 /* DTXPerformanceSample+UIExtensions.m in Sources */,
@@ -252,10 +304,12 @@
 				3964879F1FC32E8600006341 /* AutoCoding.m in Sources */,
 				396487831FC327DB00006341 /* DTXInstruments.xcdatamodeld in Sources */,
 				393E66D41FC5918F0092EE89 /* DTXRecording+UIExtensions.m in Sources */,
+				3935105A1FCB9BF9001FB466 /* GBOptionsHelper.m in Sources */,
 				396487A81FC3322C00006341 /* DTXDocument.m in Sources */,
 				396487A91FC3322C00006341 /* DTXDocumentController.m in Sources */,
 				393E66D51FC5918F0092EE89 /* DTXSample+UIExtensions.m in Sources */,
 				393E66D31FC5918F0092EE89 /* DTXNetworkSample+UIExtensions.m in Sources */,
+				3935104F1FCB9BE2001FB466 /* LNOptionsParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
