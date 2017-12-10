@@ -25,3 +25,6 @@ url=https://github.com/wix/DTXSocketConnection.git
 [submodule "Helper/ObjCCLIInfra"]
 	path = Helper/ObjCCLIInfra
 	url = https://github.com/wix/ObjCCLIInfra.git
+[submodule "Shared/DTXLoggingInfra"]
+	path = Shared/DTXLoggingInfra
+	url = https://github.com/wix/DTXLoggingInfra.git

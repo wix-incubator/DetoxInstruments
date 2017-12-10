@@ -64,7 +64,6 @@
 		396500F21F2E9E9000DA9530 /* DTXDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 396500F01F2E9E9000DA9530 /* DTXDeviceInfo.m */; };
 		396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 396677B11F1FCE18002D5E43 /* DTXRemoteProfilingManager.h */; };
 		396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 396677B21F1FCE18002D5E43 /* DTXRemoteProfilingManager.m */; };
-		396677B91F1FD95D002D5E43 /* DTXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 396677B81F1FD95D002D5E43 /* DTXLogging.m */; };
 		396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */ = {isa = PBXBuildFile; fileRef = 396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */; };
 		3966E1341F1017F900EE76A2 /* DTXAddressInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */; };
 		3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */; };
@@ -106,6 +105,8 @@
 		39DA16831F3097780025C492 /* NSDictionary+FakeDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DA16811F3097780025C492 /* NSDictionary+FakeDecoder.m */; };
 		39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */; };
 		39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */; };
+		39F6421B1FDD5DBF00468FED /* DTXLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 39F642191FDD5DBF00468FED /* DTXLogging.h */; };
+		39F6421C1FDD5DBF00468FED /* DTXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6421A1FDD5DBF00468FED /* DTXLogging.m */; };
 		39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */; };
 /* End PBXBuildFile section */
@@ -177,9 +178,7 @@
 		396500F01F2E9E9000DA9530 /* DTXDeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDeviceInfo.m; sourceTree = "<group>"; };
 		396677B11F1FCE18002D5E43 /* DTXRemoteProfilingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingManager.h; sourceTree = "<group>"; };
 		396677B21F1FCE18002D5E43 /* DTXRemoteProfilingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRemoteProfilingManager.m; sourceTree = "<group>"; };
-		396677B61F1FD2BE002D5E43 /* DTXLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLogging.h; sourceTree = "<group>"; };
 		396677B71F1FD867002D5E43 /* DTXLoggingSubsystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLoggingSubsystem.h; sourceTree = "<group>"; };
-		396677B81F1FD95D002D5E43 /* DTXLogging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLogging.m; sourceTree = "<group>"; };
 		396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.pch; sourceTree = "<group>"; };
 		3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAddressInfo.h; sourceTree = "<group>"; };
 		3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DTXAddressInfo.mm; sourceTree = "<group>"; };
@@ -224,6 +223,8 @@
 		39DA16811F3097780025C492 /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+FakeDecoder.m"; path = "../../../Shared/NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
 		39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkRecorder.h; sourceTree = "<group>"; };
 		39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkRecorder.m; sourceTree = "<group>"; };
+		39F642191FDD5DBF00468FED /* DTXLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXLogging.h; path = ../../../../Shared/DTXLoggingInfra/DTXLogging.h; sourceTree = "<group>"; };
+		39F6421A1FDD5DBF00468FED /* DTXLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXLogging.m; path = ../../../../Shared/DTXLoggingInfra/DTXLogging.m; sourceTree = "<group>"; };
 		39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilingConfiguration.h; sourceTree = "<group>"; };
 		39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXProfilingConfiguration.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -340,9 +341,9 @@
 		396677B51F1FD2B1002D5E43 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
+				39F642191FDD5DBF00468FED /* DTXLogging.h */,
+				39F6421A1FDD5DBF00468FED /* DTXLogging.m */,
 				396677B71F1FD867002D5E43 /* DTXLoggingSubsystem.h */,
-				396677B61F1FD2BE002D5E43 /* DTXLogging.h */,
-				396677B81F1FD95D002D5E43 /* DTXLogging.m */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -574,6 +575,7 @@
 				39D40C121ED5B43700157C04 /* DTXSample+Additions.h in Headers */,
 				39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */,
 				391E4C791F5575BF0057039E /* DTXAuthenticationChallengeProxy.h in Headers */,
+				39F6421B1FDD5DBF00468FED /* DTXLogging.h in Headers */,
 				39D40C3A1ED5BAB800157C04 /* DBBuildInfoProvider.h in Headers */,
 				39C713401EFFD6FF00C827EB /* DTXReactNativeSampler.h in Headers */,
 				39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */,
@@ -686,6 +688,7 @@
 				39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */,
 				396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */,
 				39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */,
+				39F6421C1FDD5DBF00468FED /* DTXLogging.m in Sources */,
 				3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */,
 				39281E6B1ED70458002CE905 /* ioapi.c in Sources */,
 				39D205511F03057200830A0D /* DTXLoggingRecorder.m in Sources */,
@@ -717,7 +720,6 @@
 				39D40C0E1ED5B43700157C04 /* DTXInstruments.xcdatamodeld in Sources */,
 				399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */,
 				39DA16831F3097780025C492 /* NSDictionary+FakeDecoder.m in Sources */,
-				396677B91F1FD95D002D5E43 /* DTXLogging.m in Sources */,
 				39D40C231ED5B52100157C04 /* DBPerformanceToolkit.m in Sources */,
 				3922AE031F2B9B9B0034B1FE /* _DTXBase64VLQ.m in Sources */,
 			);
