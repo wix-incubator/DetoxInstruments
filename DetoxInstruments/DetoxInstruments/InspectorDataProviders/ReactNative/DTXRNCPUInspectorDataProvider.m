@@ -23,15 +23,42 @@
 	if([obj isKindOfClass:[NSString class]] == YES)
 	{
 		stackTraceFrame = obj;
+		
+//		\#(\d+) (.*)\(\) at (.*?)(:(\d+))?$
+		NSRegularExpression* expr = [NSRegularExpression regularExpressionWithPattern:@"\\#(\\d+) (.*)\\(\\) at (.*?)(:(\\d+))?$" options:0 error:NULL];
+		
+		NSTextCheckingResult* match = [expr matchesInString:stackTraceFrame options:0 range:NSMakeRange(0, stackTraceFrame.length)].firstObject;
+		
+		if(match.numberOfRanges == 6)
+		{
+			NSString* funcName = [obj substringWithRange:[match rangeAtIndex:2]];
+			NSString* codeURLString = [obj substringWithRange:[match rangeAtIndex:3]];
+			
+			NSNumber* line;
+			NSNumber* column = @0;
+			
+			if([match rangeAtIndex:4].location != NSNotFound)
+			{
+				NSInteger lineNumber = [obj substringWithRange:[match rangeAtIndex:5]].integerValue;
+				
+				line = @(lineNumber);
+			}
+			
+			NSString* sourceFileName = codeURLString;
+			
+			NSString* symbolName = funcName;
+
+			stackTraceFrame = [NSString stringWithFormat:@"%@() at %@%@", symbolName, fullFormat ? sourceFileName : [sourceFileName lastPathComponent], line ? [NSString stringWithFormat:@":%@", line] : @""];
+		}
 	}
 	else if([obj isKindOfClass:[NSDictionary class]] == YES)
 	{
 		stackTraceFrame = [NSString stringWithFormat:@"%@() at %@%@", obj[@"symbolName"], fullFormat ? obj[@"sourceFileName"] : [obj[@"sourceFileName"] lastPathComponent], obj[@"line"] ? [NSString stringWithFormat:@":%@", obj[@"line"]] : @""];
 	}
 	
-	if(stackTraceFrame.length == 0)
+	if([stackTraceFrame stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0)
 	{
-		stackTraceFrame = @"<idle>";
+		stackTraceFrame = @"<native>";
 	}
 	
 	return stackTraceFrame;

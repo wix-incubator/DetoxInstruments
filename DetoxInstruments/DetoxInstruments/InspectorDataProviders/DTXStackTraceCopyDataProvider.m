@@ -77,7 +77,13 @@
 	par.paragraphSpacing = 5.0;
 	par.allowsDefaultTighteningForTruncation = NO;
 	
-	[self.arrayForStackTrace enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	NSArray* arrayForStackTrace = self.arrayForStackTrace;
+	if(arrayForStackTrace.count == 0)
+	{
+		arrayForStackTrace = @[@""];
+	}
+	
+	[arrayForStackTrace enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSString* stackTraceFrame = [self stackTraceFrameStringForObject:obj includeFullFormat:NO];
 		
 		if(stackTraceFrame == nil)

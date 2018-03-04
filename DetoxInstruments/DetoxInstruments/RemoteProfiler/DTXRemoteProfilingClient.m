@@ -65,7 +65,7 @@
 	{
 		DTXReactNativePeroformanceSample* rnSample = (id)sample;
 		
-		if(rnSample.stackTraceIsSymbolicated == NO)
+		if(rnSample.stackTraceIsSymbolicated == NO && _recording.dtx_profilingConfiguration.symbolicateJavaScriptStackTraces)
 		{
 			BOOL wasSymbolicated = NO;
 			rnSample.stackTrace = DTXRNSymbolicateJSCBacktrace(_sourceMapsParser, rnSample.stackTrace, &wasSymbolicated);
@@ -156,7 +156,7 @@
 - (void)createRecording:(NSDictionary *)recording entityDescription:(NSEntityDescription *)entityDescription
 {
 	DTXRecording* recordingObj = [[DTXRecording alloc] initWithPropertyListDictionaryRepresentation:recording context:_managedObjectContext];
-	[recordingObj.dtx_profilingConfiguration _setRecordingFileURL:[NSURL fileURLWithPath:recording[@"profilingConfiguration"][@"recordingFileName"]]];
+	[recordingObj.dtx_profilingConfiguration setValue:[NSURL fileURLWithPath:recording[@"profilingConfiguration"][@"recordingFileName"]] forKey:@"_nonkvc_recordingFileURL"];
 	
 	NSAssert(_recording == nil, @"A recording already exists");
 	_recording = recordingObj;

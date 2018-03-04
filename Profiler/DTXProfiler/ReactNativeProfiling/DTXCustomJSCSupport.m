@@ -60,7 +60,7 @@ BOOL DTXLoadJSCWrapper(DTXJSCWrapper* output)
 		return NO;
 	}
 	
-	CFErrorRef error;
+	CFErrorRef error = NULL;
 	if(CFBundleLoadExecutableAndReturnError(bundle, &error) == NO)
 	{
 		NSURL* bundleURL = CFBridgingRelease(CFBundleCopyBundleURL(bundle));
