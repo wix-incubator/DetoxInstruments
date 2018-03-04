@@ -19,20 +19,20 @@
 	
 	if(val > 2.0)
 	{
-		return @4;
+		return @200;
 	}
 	
-	if(val < 0.5)
+	if(val < 0.25)
 	{
-		return @1;
+		return @25;
 	}
 	
-	return @(val * 2.0);
+	return @(val * 100.0);
 }
 
 - (nullable id)reverseTransformedValue:(nullable id)value
 {
-	return @([value doubleValue] / 2.0);
+	return @([value doubleValue] / 100.0);
 }
 
 @end

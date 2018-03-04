@@ -30,12 +30,30 @@ static _Atomic thread_t __rnThread = MACH_PORT_NULL;
 
 static JSContextRef __rnCtx;
 
+static dispatch_semaphore_t __rnBacktraceSem;
+static NSString* __rnLastBacktrace;
+
 static void resetAtomicVars()
 {
 	atomic_store(&__bridgeJSToNCallCount, 0);
 	atomic_store(&__bridgeNToJSDataSize, 0);
 	atomic_store(&__bridgeNToJSCallCount, 0);
 	atomic_store(&__bridgeJSToNDataSize, 0);
+}
+
+static void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
+{
+	const char* bt = __jscWrapper.JSContextCreateBacktrace_unsafe(__rnCtx, UINT_MAX);
+	if(bt == NULL)
+	{
+		__rnLastBacktrace = @"";
+	}
+	else
+	{
+		__rnLastBacktrace = [NSString stringWithUTF8String:bt];
+	}
+	
+	dispatch_semaphore_signal(__rnBacktraceSem);
 }
 
 static void installDtxNativeLoggingHook(JSContext* ctx)
@@ -260,7 +278,8 @@ static int __dtx_UIApplicationMain(int argc, char * _Nonnull * _Null_unspecified
 
 __attribute__((constructor))
 static void __DTXInitializeRNSampler()
-{	
+{
+	__rnBacktraceSem = dispatch_semaphore_create(0);
 	BOOL didSucceed = DTXLoadJSCWrapper(&__jscWrapper);
 	
 	if(didSucceed == NO)
@@ -283,6 +302,12 @@ static void __DTXInitializeRNSampler()
 			NULL
 		},
 	}, 2);
+	
+	struct sigaction sa;
+	sigfillset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = DTXJSCStackTraceSignalHandler;
+	sigaction(SIGCHLD, &sa, NULL);
 }
 
 @implementation DTXReactNativeSampler
@@ -375,17 +400,22 @@ static void __DTXInitializeRNSampler()
 	
 	if(_shouldSampleThread)
 	{
-		if(thread_suspend(safeRNThread) == KERN_SUCCESS)
-		{
-			const char* bt = __jscWrapper.JSContextCreateBacktrace_unsafe(__rnCtx, UINT_MAX);
-			_currentStackTrace = [NSString stringWithUTF8String:bt];
-			thread_resume(safeRNThread);
-		}
-		else
-		{
-			//Thread is already invalid, no stack trace.
-			_currentStackTrace = @"";
-		}
+		pthread_kill(pthread_from_mach_thread_np(safeRNThread), SIGCHLD);
+		dispatch_semaphore_wait(__rnBacktraceSem, DISPATCH_TIME_FOREVER);
+		
+		_currentStackTrace = __rnLastBacktrace;
+		
+//		if(thread_suspend(safeRNThread) == KERN_SUCCESS)
+//		{
+//			const char* bt = __jscWrapper.JSContextCreateBacktrace_unsafe(__rnCtx, UINT_MAX);
+//			_currentStackTrace = [NSString stringWithUTF8String:bt];
+//			thread_resume(safeRNThread);
+//		}
+//		else
+//		{
+//			//Thread is already invalid, no stack trace.
+//			_currentStackTrace = @"";
+//		}
 		
 		_currentStackTraceSymbolicated = NO;
 	}

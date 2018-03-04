@@ -46,14 +46,17 @@ DTX_CREATE_LOG(RemoteProfiler);
 		
 		_socketConnection = connection;
 		
-		DTXRNGetCurrentWorkingSourceMapsData(^(NSData* data) {
-			if(data == nil)
-			{
-				return;
-			}
-			
-			[self _serializeCommandWithSelector:NSSelectorFromString(@"setSourceMapsData:") entityName:@"" dict:@{@"data": data} additionalParams:nil];
-		});
+		if(self.profilingConfiguration.symbolicateJavaScriptStackTraces)
+		{
+			DTXRNGetCurrentWorkingSourceMapsData(^(NSData* data) {
+				if(data == nil)
+				{
+					return;
+				}
+				
+				[self _serializeCommandWithSelector:NSSelectorFromString(@"setSourceMapsData:") entityName:@"" dict:@{@"data": data} additionalParams:nil];
+			});
+		}
 	}
 	
 	return self;
@@ -113,11 +116,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)addRNPerformanceSample:(DTXReactNativePeroformanceSample *)rnPerformanceSample
 {
 	//Instead of symbolicating here, send source maps data to Detox Instruments for remote symbolication.
-	
-//	if(self.profilingConfiguration.collectJavaScriptStackTraces && self.profilingConfiguration.symbolicateJavaScriptStackTraces)
-//	{
-//		[self _symbolicateRNPerformanceSample:rnPerformanceSample];
-//	}
 	
 	[self _serializeCommandWithSelector:_cmd managedObject:rnPerformanceSample additionalParams:nil];
 }
