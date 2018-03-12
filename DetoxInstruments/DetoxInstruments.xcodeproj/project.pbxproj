@@ -52,6 +52,8 @@
 		396828EB1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396828EA1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m */; };
 		396829361F1265C10012CAFB /* DTXMenuPathControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 396829351F1265C10012CAFB /* DTXMenuPathControl.m */; };
 		396829461F1286690012CAFB /* NSImage+ImageResize.m in Sources */ = {isa = PBXBuildFile; fileRef = 396829451F1286690012CAFB /* NSImage+ImageResize.m */; };
+		3968DE6B2056F56D0089609A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3968DE5C2056F55F0089609A /* Sparkle.framework */; };
+		3968DE6C2056F56D0089609A /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3968DE5C2056F55F0089609A /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		396A6B381F4ECA7700768536 /* DTXObjectsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B371F4ECA7700768536 /* DTXObjectsCellView.m */; };
 		396A6B481F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B471F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m */; };
 		396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */; };
@@ -172,6 +174,69 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = "CorePlot Mac";
 		};
+		3968DE5B2056F55F0089609A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
+		3968DE5D2056F55F0089609A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61B5F90209C4CEE200B25A18;
+			remoteInfo = "Sparkle Test App";
+		};
+		3968DE5F2056F55F0089609A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 612279D90DB5470200AB99EA;
+			remoteInfo = "Sparkle Unit Tests";
+		};
+		3968DE612056F55F0089609A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5D06E8D00FD68C7C005AE3F6;
+			remoteInfo = BinaryDelta;
+		};
+		3968DE632056F55F0089609A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 55C14BB7136EEF1500649790;
+			remoteInfo = Autoupdate;
+		};
+		3968DE652056F55F0089609A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 726B2B5D1C645FC900388755;
+			remoteInfo = "UI Tests";
+		};
+		3968DE672056F55F0089609A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 722954B41D04ADAF00ECF9CA;
+			remoteInfo = fileop;
+		};
+		3968DE692056F55F0089609A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5AE13FB31E0D9E07000D2C2C;
+			remoteInfo = generate_appcast;
+		};
+		3968DE6D2056F56D0089609A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
 		397A01781FA6355600ABCB87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
@@ -258,6 +323,7 @@
 				392D52C11FAA008000A28938 /* DTXSourceMaps.framework in Embed Frameworks */,
 				398D6E761EE03E9B00AA9C11 /* CorePlot.framework in Embed Frameworks */,
 				394516B71EEF442B0093E503 /* LNInterpolation.framework in Embed Frameworks */,
+				3968DE6C2056F56D0089609A /* Sparkle.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +414,7 @@
 		396829351F1265C10012CAFB /* DTXMenuPathControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXMenuPathControl.m; sourceTree = "<group>"; };
 		396829441F1286690012CAFB /* NSImage+ImageResize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImage+ImageResize.h"; sourceTree = "<group>"; };
 		396829451F1286690012CAFB /* NSImage+ImageResize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSImage+ImageResize.m"; sourceTree = "<group>"; };
+		3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = SOURCE_ROOT; };
 		396A6B361F4ECA7700768536 /* DTXObjectsCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXObjectsCellView.h; sourceTree = "<group>"; };
 		396A6B371F4ECA7700768536 /* DTXObjectsCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXObjectsCellView.m; sourceTree = "<group>"; };
 		396A6B461F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAutomaticallyDeselectingOutlineView.h; sourceTree = "<group>"; };
@@ -511,6 +578,7 @@
 				392D52C01FAA008000A28938 /* DTXSourceMaps.framework in Frameworks */,
 				398D6E751EE03E9B00AA9C11 /* CorePlot.framework in Frameworks */,
 				394516B61EEF442B0093E503 /* LNInterpolation.framework in Frameworks */,
+				3968DE6B2056F56D0089609A /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +831,29 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		3968DE4C2056F5580089609A /* Sparkle */ = {
+			isa = PBXGroup;
+			children = (
+				3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */,
+			);
+			path = Sparkle;
+			sourceTree = "<group>";
+		};
+		3968DE4E2056F55F0089609A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3968DE5C2056F55F0089609A /* Sparkle.framework */,
+				3968DE5E2056F55F0089609A /* Sparkle Test App.app */,
+				3968DE602056F55F0089609A /* Sparkle Unit Tests.xctest */,
+				3968DE622056F55F0089609A /* BinaryDelta */,
+				3968DE642056F55F0089609A /* Autoupdate.app */,
+				3968DE662056F55F0089609A /* UI Tests.xctest */,
+				3968DE682056F55F0089609A /* fileop */,
+				3968DE6A2056F55F0089609A /* generate_appcast */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		397A01741FA6348200ABCB87 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -773,6 +864,7 @@
 		3988D2C01EEEC6D30090088E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				3968DE4C2056F5580089609A /* Sparkle */,
 				3919DF781FA6342900F47DD6 /* SourceMaps */,
 				D8243F8E1F5306620005CF4B /* Images */,
 				398D6E731EE03E8B00AA9C11 /* CorePlot */,
@@ -1019,6 +1111,7 @@
 				397A01791FA6355600ABCB87 /* PBXTargetDependency */,
 				394516B31EEF44190093E503 /* PBXTargetDependency */,
 				392D52C31FAA008000A28938 /* PBXTargetDependency */,
+				3968DE6E2056F56D0089609A /* PBXTargetDependency */,
 			);
 			name = DetoxInstruments;
 			productName = "Detox Instruments";
@@ -1072,6 +1165,10 @@
 					ProductGroup = 394516AD1EEF44090093E503 /* Products */;
 					ProjectRef = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
 				},
+				{
+					ProductGroup = 3968DE4E2056F55F0089609A /* Products */;
+					ProjectRef = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1100,6 +1197,62 @@
 			fileType = wrapper.framework;
 			path = LNInterpolation.framework;
 			remoteRef = 394516B01EEF44090093E503 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3968DE5C2056F55F0089609A /* Sparkle.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Sparkle.framework;
+			remoteRef = 3968DE5B2056F55F0089609A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3968DE5E2056F55F0089609A /* Sparkle Test App.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Sparkle Test App.app";
+			remoteRef = 3968DE5D2056F55F0089609A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3968DE602056F55F0089609A /* Sparkle Unit Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Sparkle Unit Tests.xctest";
+			remoteRef = 3968DE5F2056F55F0089609A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3968DE622056F55F0089609A /* BinaryDelta */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = BinaryDelta;
+			remoteRef = 3968DE612056F55F0089609A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3968DE642056F55F0089609A /* Autoupdate.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Autoupdate.app;
+			remoteRef = 3968DE632056F55F0089609A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3968DE662056F55F0089609A /* UI Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "UI Tests.xctest";
+			remoteRef = 3968DE652056F55F0089609A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3968DE682056F55F0089609A /* fileop */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = fileop;
+			remoteRef = 3968DE672056F55F0089609A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3968DE6A2056F55F0089609A /* generate_appcast */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = generate_appcast;
+			remoteRef = 3968DE692056F55F0089609A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		398D6E881EE052EC00AA9C11 /* CorePlot.framework */ = {
@@ -1191,7 +1344,7 @@
 		};
 		39A829541F43780100A5FE3D /* Embed Profiler Framework */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -1199,7 +1352,7 @@
 			name = "Embed Profiler Framework";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/bash;
 			shellScript = "cd ${SRCROOT}/../Profiler\nxcodebuild -project DTXProfiler.xcodeproj -configuration Release_External -target DTXProfilerFramework build\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\ncp -fr /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/";
 		};
@@ -1339,6 +1492,11 @@
 			isa = PBXTargetDependency;
 			name = "CorePlot Mac";
 			targetProxy = 394516B21EEF44190093E503 /* PBXContainerItemProxy */;
+		};
+		3968DE6E2056F56D0089609A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Sparkle;
+			targetProxy = 3968DE6D2056F56D0089609A /* PBXContainerItemProxy */;
 		};
 		397A01791FA6355600ABCB87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
