@@ -11,9 +11,11 @@
 #import "DTXDocument.h"
 //#import "CCNPreferencesWindowController.h"
 
+@import Sparkle;
+
 static NSString* const __lldbInitMagic = @"";
 
-@interface DTXApplicationDelegate ()
+@interface DTXApplicationDelegate () <SUUpdaterDelegate>
 {
 //	CCNPreferencesWindowController* _preferencesWindowController;
 	

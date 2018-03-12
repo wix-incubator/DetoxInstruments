@@ -28,3 +28,6 @@ url=https://github.com/wix/DTXSocketConnection.git
 [submodule "Shared/DTXLoggingInfra"]
 	path = Shared/DTXLoggingInfra
 	url = https://github.com/wix/DTXLoggingInfra.git
+[submodule "DetoxInstruments/Sparkle"]
+	path = DetoxInstruments/Sparkle
+	url = https://github.com/sparkle-project/Sparkle.git
