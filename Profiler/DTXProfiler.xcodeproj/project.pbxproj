@@ -67,7 +67,6 @@
 		396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */ = {isa = PBXBuildFile; fileRef = 396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */; };
 		3966E1341F1017F900EE76A2 /* DTXAddressInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */; };
 		3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */; };
-		397A01921FA648E700ABCB87 /* DTX_JSC.framework in Resources */ = {isa = PBXBuildFile; fileRef = 397A01901FA648DF00ABCB87 /* DTX_JSC.framework */; };
 		399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */; };
 		399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */; };
 		39ADAE5B1F79FA7700F488A5 /* DTXCustomJSCSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 39ADAE591F79FA7700F488A5 /* DTXCustomJSCSupport.h */; };
@@ -652,7 +651,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				397A01921FA648E700ABCB87 /* DTX_JSC.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
