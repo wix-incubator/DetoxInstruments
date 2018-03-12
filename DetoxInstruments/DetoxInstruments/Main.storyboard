@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13770" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14105" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13770"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14105"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
@@ -771,12 +771,12 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="310" id="D1o-qt-cqB"/>
                                 </constraints>
-                                <popUpButtonCell key="cell" type="push" title="Very often (4 samples every second)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="25" imageScaling="proportionallyDown" inset="2" selectedItem="xc9-hk-Kdg" id="FWW-eS-VFf">
+                                <popUpButtonCell key="cell" type="push" title="Very often (4 samples every second)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="25" imageScaling="proportionallyDown" inset="2" selectedItem="xc9-hk-Kdg" id="FWW-eS-VFf">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="2bQ-9B-c0X">
                                         <items>
-                                            <menuItem title="Very often (4 samples every second)" tag="25" id="xc9-hk-Kdg"/>
+                                            <menuItem title="Very often (4 samples every second)" state="on" tag="25" id="xc9-hk-Kdg"/>
                                             <menuItem title="More often (2 samples every second)" tag="50" id="UIn-hf-0fM"/>
                                             <menuItem title="Normal (1 sample every second)" tag="100" id="Szy-1n-RUL"/>
                                             <menuItem title="Less often (1 sample every 2 seconds)" tag="200" id="YsG-PO-w6Y"/>
@@ -976,6 +976,14 @@ Collecting JavaScript stack traces may introduce some performance hit.</string>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled3" keyPath="values.DTXProfilingConfigurationForceDisableJSCFeatures" previousBinding="xxa-7P-YPX" id="C72-r8-95i">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
                                     <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="glj-lJ-usS">
                                         <dictionary key="options">
                                             <integer key="NSNullPlaceholder" value="1"/>
@@ -1003,6 +1011,14 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
+                                    <binding destination="Ix8-QX-1wA" name="enabled4" keyPath="values.DTXProfilingConfigurationForceDisableJSCFeatures" previousBinding="2e9-5J-zVh" id="emh-fd-4nL">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
                                     <binding destination="Ix8-QX-1wA" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="FPO-gA-QlV">
                                         <dictionary key="options">
                                             <integer key="NSNullPlaceholder" value="1"/>

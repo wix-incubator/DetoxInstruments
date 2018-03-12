@@ -35,7 +35,7 @@
 			NSString* codeURLString = [obj substringWithRange:[match rangeAtIndex:3]];
 			
 			NSNumber* line;
-			NSNumber* column = @0;
+			__unused NSNumber* column = @0;
 			
 			if([match rangeAtIndex:4].location != NSNotFound)
 			{
