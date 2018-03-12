@@ -44,9 +44,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.9</string>
 	<key>CFBundleVersion</key>
-	<string>4506</string>
+	<string>4518</string>
 	<key>DTXBuildDate</key>
-	<date>2018-03-12T11:07:37Z</date>
+	<date>2018-03-12T11:44:09Z</date>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>
