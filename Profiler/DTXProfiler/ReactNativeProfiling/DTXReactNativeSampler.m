@@ -280,16 +280,18 @@ __attribute__((constructor))
 static void __DTXInitializeRNSampler()
 {
 	__rnBacktraceSem = dispatch_semaphore_create(0);
-	BOOL didSucceed = DTXLoadJSCWrapper(&__jscWrapper);
+	BOOL didLoadCustomJSCWrapper = DTXLoadJSCWrapper(&__jscWrapper);
 	
-	if(didSucceed == NO)
+	if(didLoadCustomJSCWrapper == YES)
 	{
-		return;
+		DTXInitializeSourceMapsSupport(&__jscWrapper);
+		__orig_JSObjectCallAsFunction = __jscWrapper.JSObjectCallAsFunction;
+	}
+	else
+	{
+		__orig_JSObjectCallAsFunction = dlsym(RTLD_DEFAULT, "JSObjectCallAsFunction");
 	}
 	
-	DTXInitializeSourceMapsSupport(&__jscWrapper);
-	
-	__orig_JSObjectCallAsFunction = __jscWrapper.JSObjectCallAsFunction;
 	__orig_UIApplicationMain = dlsym(RTLD_DEFAULT, "UIApplicationMain");
 	
 	rebind_symbols((struct rebinding[]){
@@ -329,17 +331,14 @@ static void __DTXInitializeRNSampler()
 
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
-	if(DTXLoadJSCWrapper(NULL) == NO)
-	{
-		return nil;
-	}
+	BOOL didLoadCustomJSCWrapper = DTXLoadJSCWrapper(NULL);
 	
 	self = [super init];
 	
 	if(self)
 	{
-		_shouldSampleThread = configuration.collectJavaScriptStackTraces;
-		_shouldSymbolicate = configuration.symbolicateJavaScriptStackTraces;
+		_shouldSampleThread = didLoadCustomJSCWrapper && configuration.collectJavaScriptStackTraces;
+		_shouldSymbolicate = didLoadCustomJSCWrapper && configuration.symbolicateJavaScriptStackTraces;
 		
 		atomic_fetch_add(&__numberOfRecordings, 1);
 		
