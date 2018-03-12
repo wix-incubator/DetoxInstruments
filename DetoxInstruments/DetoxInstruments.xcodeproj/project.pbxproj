@@ -425,7 +425,6 @@
 		39B4CA3D1F15C4AD009BD2D2 /* NSString+FileNames.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+FileNames.m"; sourceTree = "<group>"; };
 		39B706A11F20AFB500B1060D /* DTXRecordingTargetPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingTargetPickerViewController.h; sourceTree = "<group>"; };
 		39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingTargetPickerViewController.m; sourceTree = "<group>"; };
-		39BB5E0B1F45BB1200350059 /* Detox Instruments (Beta).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Detox Instruments (Beta).entitlements"; sourceTree = "<group>"; };
 		39C1415D1F3C47F7008CF5B9 /* DTXStackTraceFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackTraceFrame.h; sourceTree = "<group>"; };
 		39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackTraceFrame.m; sourceTree = "<group>"; };
 		39C141601F3C55B3008CF5B9 /* DTXTintedImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTintedImageView.h; sourceTree = "<group>"; };
@@ -927,7 +926,6 @@
 		39EBDFBA1ED36D45005D8AB1 /* DetoxInstruments */ = {
 			isa = PBXGroup;
 			children = (
-				39BB5E0B1F45BB1200350059 /* Detox Instruments (Beta).entitlements */,
 				3988D2C01EEEC6D30090088E /* Utilities */,
 				39281E491ED6D15A002CE905 /* Model */,
 				39281E871ED71760002CE905 /* Document */,
@@ -1456,11 +1454,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_OBJC_UNUSED_IVARS = NO;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S9QFG2VH2E;
+				DEVELOPMENT_TEAM = S3GLW74Y8N;
 				DSTROOT = /;
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -1469,10 +1467,10 @@
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DetoxInstruments;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
 				PRODUCT_NAME = "Detox Instruments (Beta)";
-				PROVISIONING_PROFILE = "89204f8e-8fde-4ada-aaf7-fcda47be4d12";
-				PROVISIONING_PROFILE_SPECIFIER = "Detox Instruments";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1485,17 +1483,17 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S9QFG2VH2E;
+				DEVELOPMENT_TEAM = S3GLW74Y8N;
 				DSTROOT = /;
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DetoxInstruments;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
 				PRODUCT_NAME = "Detox Instruments (Beta)";
-				PROVISIONING_PROFILE = "3819ece0-81fd-42fd-9fc0-255cbf669fd0";
-				PROVISIONING_PROFILE_SPECIFIER = "Detox Instruments (Distribution)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
