@@ -31,3 +31,6 @@ url=https://github.com/wix/DTXSocketConnection.git
 [submodule "DetoxInstruments/Sparkle"]
 	path = DetoxInstruments/Sparkle
 	url = https://github.com/sparkle-project/Sparkle.git
+[submodule "Distribution/homebrew-brew"]
+	path = Distribution/homebrew-brew
+	url = https://github.com/wix/homebrew-brew.git
