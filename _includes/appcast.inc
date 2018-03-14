@@ -12,7 +12,7 @@
                         <description><![CDATA[{{ release.body | markdownify }}]]></description>
                         <pubDate>{{ release.published_at | date_to_rfc822 }}</pubDate>
                         {% for asset in release.assets limit:1 %}
-                            {% assign build_nums = asset.name | replace_first:'DetoxInstruments.v','' | replace_first:'.b',',' | remove_first:'.zip' | split:',' %}
+                            {% assign build_nums = asset.name | replace_first:'DetoxInstruments-v','' | replace_first:'.b',',' | remove_first:'.zip' | split:',' %}
                             {% if build_nums.size == 2 %}
                                 {% assign version = build_nums[1] %}
                                 {% assign short_version = build_nums[0] %}
@@ -22,7 +22,7 @@
                             <enclosure
                                 url="{{ asset.browser_download_url }}"
                                 sparkle:version="{{ version }}"
-                                {% if short_version %}sparkle:shortVersionString="{{ short_version | replace_first:'DetoxInstruments.v','' }}"{% endif %}
+                                {% if short_version %}sparkle:shortVersionString="{{ short_version | replace_first:'DetoxInstruments-v','' }}"{% endif %}
                                 length="{{ asset.size }}"
                                 type="application/octet-stream" />
                         {% endfor %}
