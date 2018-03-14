@@ -15,7 +15,7 @@
                             {% assign build_nums = asset.name | replace_first:'Project.v','' | replace_first:'.b',',' | remove_first:'.zip' | split:',' %}
                             {% if build_nums.size == 2 %}
                                 {% assign version = build_nums[1] %}
-                                {% assign short_version = release.tag_name | remove_first:'v' %}
+                                {% assign short_version = build_nums[0] %}
                             {% else %}
                                 {% assign version = release.tag_name | remove_first:'v' %}
                             {% endif %}
