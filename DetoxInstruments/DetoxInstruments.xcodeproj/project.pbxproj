@@ -530,7 +530,7 @@
 		39E20F5A1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSampleGroupProxy.m; sourceTree = "<group>"; };
 		39EA8CD01F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilingConfiguration+RemoteProfilingSupport.h"; sourceTree = "<group>"; };
 		39EA8CD11F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXProfilingConfiguration+RemoteProfilingSupport.m"; sourceTree = "<group>"; };
-		39EBDFB81ED36D45005D8AB1 /* Detox Instruments (Beta).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Detox Instruments (Beta).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		39EBDFB81ED36D45005D8AB1 /* Detox Instruments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Detox Instruments.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39EBDFBB1ED36D45005D8AB1 /* DTXApplicationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXApplicationDelegate.h; sourceTree = "<group>"; };
 		39EBDFBC1ED36D45005D8AB1 /* DTXApplicationDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXApplicationDelegate.m; sourceTree = "<group>"; };
 		39EBDFBF1ED36D45005D8AB1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1010,7 +1010,7 @@
 		39EBDFB91ED36D45005D8AB1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				39EBDFB81ED36D45005D8AB1 /* Detox Instruments (Beta).app */,
+				39EBDFB81ED36D45005D8AB1 /* Detox Instruments.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1115,7 +1115,7 @@
 			);
 			name = DetoxInstruments;
 			productName = "Detox Instruments";
-			productReference = 39EBDFB81ED36D45005D8AB1 /* Detox Instruments (Beta).app */;
+			productReference = 39EBDFB81ED36D45005D8AB1 /* Detox Instruments.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1124,7 +1124,7 @@
 		39EBDFB01ED36D45005D8AB1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
 					39EBDFB71ED36D45005D8AB1 = {
@@ -1610,7 +1610,7 @@
 		39EBDFD01ED36D45005D8AB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = DetoxInstrumentsBeta;
 				CLANG_ANALYZER_OBJC_UNUSED_IVARS = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
@@ -1626,7 +1626,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
-				PRODUCT_NAME = "Detox Instruments (Beta)";
+				PRODUCT_NAME = "Detox Instruments";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1636,7 +1636,7 @@
 		39EBDFD11ED36D45005D8AB1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = DetoxInstrumentsBeta;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1649,7 +1649,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
-				PRODUCT_NAME = "Detox Instruments (Beta)";
+				PRODUCT_NAME = "Detox Instruments";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
