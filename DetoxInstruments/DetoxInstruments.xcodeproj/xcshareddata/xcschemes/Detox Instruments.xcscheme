@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0920"
+   LastUpgradeVersion = "0930"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "39EBDFB71ED36D45005D8AB1"
-               BuildableName = "Detox Instruments (Beta).app"
+               BuildableName = "Detox Instruments.app"
                BlueprintName = "DetoxInstruments"
                ReferencedContainer = "container:DetoxInstruments.xcodeproj">
             </BuildableReference>
@@ -47,7 +47,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "39EBDFB71ED36D45005D8AB1"
-            BuildableName = "Detox Instruments (Beta).app"
+            BuildableName = "Detox Instruments.app"
             BlueprintName = "DetoxInstruments"
             ReferencedContainer = "container:DetoxInstruments.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "39EBDFB71ED36D45005D8AB1"
-            BuildableName = "Detox Instruments (Beta).app"
+            BuildableName = "Detox Instruments.app"
             BlueprintName = "DetoxInstruments"
             ReferencedContainer = "container:DetoxInstruments.xcodeproj">
          </BuildableReference>
@@ -112,7 +112,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "39EBDFB71ED36D45005D8AB1"
-            BuildableName = "Detox Instruments (Beta).app"
+            BuildableName = "Detox Instruments.app"
             BlueprintName = "DetoxInstruments"
             ReferencedContainer = "container:DetoxInstruments.xcodeproj">
          </BuildableReference>
@@ -134,7 +134,7 @@
                   <BuildableReference
                      BuildableIdentifier = "primary"
                      BlueprintIdentifier = "39EBDFB71ED36D45005D8AB1"
-                     BuildableName = "Detox Instruments (Beta).app"
+                     BuildableName = "Detox Instruments.app"
                      BlueprintName = "DetoxInstruments"
                      ReferencedContainer = "container:DetoxInstruments.xcodeproj">
                   </BuildableReference>
