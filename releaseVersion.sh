@@ -83,7 +83,7 @@ curl -H "Content-Type: application/json; charset=UTF-8" -X PUT -d '{"message": "
 echo -e "\033[1;34mOpening archive in Xcode\033[0m"
 
 open "${ARCHIVE}"
-sleep 15
+sleep 8
 
 echo -e "\033[1;34mCleaning up\033[0m"
 
