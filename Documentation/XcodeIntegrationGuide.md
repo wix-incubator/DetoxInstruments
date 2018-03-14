@@ -1,4 +1,4 @@
-## Profiler Framework Integration Guide
+# Profiler Framework Integration Guide
 
 Linking the Profiler framework into your iOS application is a quick and easy way to enable profiling of your application.
 
@@ -48,8 +48,8 @@ You'll need to perform the following steps for each target that you wish to inte
  
 7. In Xcode, build and run your application using a scheme that is set to use the **Debug** configuration. If you are running your application on a device, ensure that it is on the same Wi-Fi network as the Mac running Detox Instruments.
 
-  ![Discovered](Resources/Integration_Discovered.png "Detox Instruments lists your app")
+ If everything worked correctly, you should be able to see your application listed in Detox Instruments. Select your app to start profiling.
 
- If everything worked, you should be able to see your application listed in Detox Instruments. Select your app to start profiling.
+  ![Discovered](Resources/Integration_Discovered.png "Detox Instruments lists your app")
  
 8. Run your application again, this time using a scheme set to use the **Release** configuration. Verify that Detox Instruments cannot connect to your application. If you can still connect, make sure the Release configuration is not present in the **integration script** and/or the **Other Linker Flags** build setting.
