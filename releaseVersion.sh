@@ -1,5 +1,13 @@
 #!/bin/bash -e
 
+# This script is responsible for creating a release and getting all the gears in motion
+# so that cask, appcast and GitHub releases are all updated with the new release.
+# Prerequisites:
+#	$GITHUB_RELEASES_TOKEN should be valid and include a GitHub OAuth 2 token with at least repo permission.
+#		See https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/ and https://github.com/settings/tokens 
+#	jq for json parsing and querying.
+#		brew install jq
+
 if  [[ -n $(git status --porcelain) ]]; then
 	printf >&2 "\033[1;31mCannot release version because there are unstaged changes, aborting.\nChanges:\033[0m\n"
 	git status --short
@@ -78,7 +86,7 @@ curl -s --data-binary @"${ZIP_FILE}" -H "Content-Type: application/octet-stream"
 
 echo -e "\033[1;34mTriggering gh-pages rebuild\033[0m"
 
-curl -H "Content-Type: application/json; charset=UTF-8" -X PUT -d '{"message": "Rebuild GH Pages", "committer": { "name": "PublishScript", "email": "somefakeaddress@wix.com" }, "content": "LnB1Ymxpc2gK", "sha": "3f949857e8ed4cb106f9744e40b638a7aabf647f", "branch": "gh-pages"}' https://api.github.com/repos/wix/DetoxInstruments/contents/.publish?access_token=${GITHUB_RELEASES_TOKEN}
+curl -H "Content-Type: application/json; charset=UTF-8" -X PUT -d '{"message": "Rebuild GH Pages", "committer": { "name": "PublishScript", "email": "somefakeaddress@wix.com" }, "content": "LnB1Ymxpc2gK", "sha": "3f949857e8ed4cb106f9744e40b638a7aabf647f", "branch": "gh-pages"}' https://api.github.com/repos/wix/DetoxInstruments/contents/.publish?access_token=${GITHUB_RELEASES_TOKEN} | jq "." &> /dev/null
 
 echo -e "\033[1;34mOpening archive in Xcode\033[0m"
 
