@@ -370,11 +370,25 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
-                                        <menuItem title="GitHub Page" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="Detox Instruments on GitHub" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="openGitHubPage:" target="Voe-Tx-rLC" id="vaG-VZ-9gd"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="MBf-uM-ubB"/>
+                                        <menuItem title="Xcode Integration Guide" id="dfs-LJ-pCj">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openIntegrationGuidePage:" target="Voe-Tx-rLC" id="HdF-1r-PMn"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Reveal Profile Framework In Finder" id="QuA-wE-t51">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="revealProfilerFramework:" target="Voe-Tx-rLC" id="xaf-eH-vUb"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="hk2-sS-m3h"/>
                                         <menuItem title="Report An Issue..." id="rAe-sN-djN">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
