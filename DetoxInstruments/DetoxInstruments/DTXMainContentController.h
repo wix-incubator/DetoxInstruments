@@ -21,6 +21,7 @@
 
 - (void)zoomIn;
 - (void)zoomOut;
+- (void)fitAllData;
 
 @property (nonatomic, strong) DTXDocument* document;
 @property (nonatomic, weak) id<DTXMainContentControllerDelegate> delegate;

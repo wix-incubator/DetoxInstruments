@@ -43,5 +43,6 @@
 - (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
 - (void)zoomIn;
 - (void)zoomOut;
+- (void)zoomToFitAllData;
 
 @end

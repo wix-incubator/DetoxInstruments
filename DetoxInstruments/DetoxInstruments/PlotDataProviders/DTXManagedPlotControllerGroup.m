@@ -269,6 +269,12 @@
 	[_managedPlotControllers.firstObject zoomOut];
 }
 
+- (void)zoomToFitAllData
+{
+	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
+	[_managedPlotControllers.firstObject zoomToFitAllData];
+}
+
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc
 {
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {

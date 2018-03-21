@@ -258,7 +258,7 @@
 
 - (NSString *)displayName
 {
-	return NSLocalizedString(@"Network Requests", @"");
+	return NSLocalizedString(@"Network Activity", @"");
 }
 
 - (NSImage*)displayIcon
