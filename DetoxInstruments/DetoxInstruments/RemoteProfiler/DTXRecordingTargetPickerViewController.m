@@ -294,11 +294,17 @@
 			cellView.progressIndicator.hidden = YES;
 			cellView.deviceSnapshotImageView.image = target.deviceSnapshot;
 			
+			NSArray<NSString*>* xSuffix = @[@"10,3", @"10,6"];
+			__block BOOL hasNotch = false;
+			[xSuffix enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				hasNotch = hasNotch || [target.deviceInfo[@"machineName"] hasSuffix:obj];
+			}];
+			
 			NSString* devicePrefix = [target.deviceInfo[@"machineName"] hasPrefix:@"iPhone"] ? @"device_iphone" : @"device_ipad";
 			NSString* deviceEnclosureColor = target.deviceInfo[@"deviceEnclosureColor"];
-			NSString* imageName = [NSString stringWithFormat:@"%@_%@", devicePrefix, deviceEnclosureColor];
+			NSString* imageName = [NSString stringWithFormat:@"%@_%@%@", devicePrefix, hasNotch ? @"x_" : @"", deviceEnclosureColor];
 			
-			NSImage* image = [NSImage imageNamed:imageName] ?: [NSImage imageNamed:@"device_iphone_2"];;
+			NSImage* image = [NSImage imageNamed:imageName] ?: [NSImage imageNamed:@"device_iphone_x_2"];;
 			
 			cellView.deviceImageView.image = image;
 			
