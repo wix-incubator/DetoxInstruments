@@ -268,6 +268,11 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	[_mainContentController zoomOut];
 }
 
+- (IBAction)fitAllData:(id)sender
+{
+	[_mainContentController fitAllData];
+}
+
 - (IBAction)segmentCellAction:(NSSegmentedCell*)sender
 {
 	NSInteger selectedSegment = [sender selectedSegment];
@@ -296,7 +301,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	if(menuItem.action == @selector(zoomIn:) || menuItem.action == @selector(zoomOut:))
+	if(menuItem.action == @selector(fitAllData:) || menuItem.action == @selector(zoomIn:) || menuItem.action == @selector(zoomOut:))
 	{
 		return YES;
 	}

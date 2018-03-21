@@ -175,6 +175,11 @@
 	[_plotGroup zoomOut];
 }
 
+- (void)fitAllData
+{
+	[_plotGroup zoomToFitAllData];
+}
+
 - (void)_documentDefactoEndTimestampDidChange:(NSNotification*)note
 {
 	if(self.document.documentState < DTXDocumentStateLiveRecordingFinished)

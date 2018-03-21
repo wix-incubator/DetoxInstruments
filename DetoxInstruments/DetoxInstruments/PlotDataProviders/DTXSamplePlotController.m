@@ -442,6 +442,11 @@
 	[self _zoomToScale:0.5];
 }
 
+- (void)zoomToFitAllData
+{
+	[_graph.defaultPlotSpace scaleToFitEntirePlots:_plots];
+}
+
 - (void)highlightSample:(id)sample
 {
 	[self _highlightSample:sample nextSample:nil plotSpaceOffset:0 notifyDelegate:YES];

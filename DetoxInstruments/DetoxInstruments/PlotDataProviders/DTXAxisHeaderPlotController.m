@@ -168,15 +168,10 @@
 	[_delegate plotController:self didChangeToPlotRange:plotSpace.xRange];
 }
 
-- (void)zoomIn
-{
-	
-}
+- (void)zoomIn {}
+- (void)zoomOut {}
+- (void)zoomToFitAllData {}
 
-- (void)zoomOut
-{
-	
-}
 
 - (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange
 {

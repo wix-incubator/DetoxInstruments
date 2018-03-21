@@ -51,6 +51,7 @@
 - (void)setPlotRange:(CPTPlotRange*)plotRange;
 - (void)zoomIn;
 - (void)zoomOut;
+- (void)zoomToFitAllData;
 
 @optional
 

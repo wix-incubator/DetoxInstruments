@@ -312,7 +312,7 @@
                                                             <action selector="selectExtendedDetail:" target="Ady-hI-5gd" id="gqt-4a-PoA"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Show Profiling Info" keyEquivalent="2" id="g4H-cF-oaK">
+                                                    <menuItem title="Show Recording Info" keyEquivalent="2" id="g4H-cF-oaK">
                                                         <connections>
                                                             <action selector="selectProfilingInfo:" target="Ady-hI-5gd" id="DWy-Qc-EWK"/>
                                                         </connections>
@@ -336,6 +336,12 @@
                                         <menuItem title="Zoom Out" keyEquivalent="-" id="Nh0-Mb-yDO">
                                             <connections>
                                                 <action selector="zoomOut:" target="Ady-hI-5gd" id="BGG-zZ-cox"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Fit All Recorded Data" keyEquivalent="z" id="Ft3-OF-bIv">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="fitAllData:" target="Ady-hI-5gd" id="yg4-df-9K6"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -2024,7 +2030,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gub-lk-png">
                                 <rect key="frame" x="424" y="13" width="102" height="32"/>
-                                <buttonCell key="cell" type="push" title="Select" bezelStyle="rounded" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Bd-QQ-dCR">
+                                <buttonCell key="cell" type="push" title="Profile" bezelStyle="rounded" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Bd-QQ-dCR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <string key="keyEquivalent" base64-UTF8="YES">
