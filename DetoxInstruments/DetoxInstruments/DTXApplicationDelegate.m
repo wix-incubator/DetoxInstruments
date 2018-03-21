@@ -69,6 +69,16 @@ static NSString* const __lldbInitMagic = @"";
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments"]];
 }
 
+- (IBAction)openIntegrationGuidePage:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/blob/master/Documentation/XcodeIntegrationGuide.md"]];
+}
+
+- (IBAction)revealProfilerFramework:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[[NSBundle mainBundle].bundleURL URLByAppendingPathComponent:@"Contents/SharedSupport/ProfilerFramework/DTXProfiler.framework"]]];
+}
+
 - (IBAction)openIssuesPage:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/issues"]];
