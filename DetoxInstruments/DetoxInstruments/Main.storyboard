@@ -24,14 +24,14 @@
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
                                         <menuItem title="Check for Updates..." id="1Pd-40-g1P">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="checkForUpdates:" target="Ajg-Dd-84l" id="gd1-an-0Ox"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -406,7 +406,7 @@
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-928" y="-749"/>
+            <point key="canvasLocation" x="-846" y="-630"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -647,7 +647,7 @@
                                                                     <rect key="frame" x="22" y="29" width="32" height="32"/>
                                                                 </progressIndicator>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N6b-Qy-3Hr">
-                                                                    <rect key="frame" x="79" y="53" width="109" height="19"/>
+                                                                    <rect key="frame" x="79" y="56" width="109" height="19"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="StressTestApp" usesSingleLineMode="YES" id="rlj-VE-Ze4">
                                                                         <font key="font" metaFont="system" size="16"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -655,7 +655,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Isi-59-zfr">
-                                                                    <rect key="frame" x="79" y="36" width="121" height="17"/>
+                                                                    <rect key="frame" x="79" y="39" width="121" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Leo Natan's iPhone" usesSingleLineMode="YES" id="F5N-vZ-W4z">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -663,7 +663,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VTH-pa-BVt">
-                                                                    <rect key="frame" x="79" y="18" width="164" height="14"/>
+                                                                    <rect key="frame" x="79" y="21" width="164" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="iPhone 7 Plus, iOS 11 (a1234b)" id="mtB-NJ-7tR">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -682,7 +682,7 @@
                                                                 <constraint firstItem="Isi-59-zfr" firstAttribute="leading" secondItem="XBj-9q-svP" secondAttribute="trailing" constant="8" id="oyu-fC-eMD"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Isi-59-zfr" secondAttribute="trailing" constant="8" id="t09-Bb-TSW"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="N6b-Qy-3Hr" secondAttribute="trailing" constant="8" id="tWx-c7-YaA"/>
-                                                                <constraint firstItem="Isi-59-zfr" firstAttribute="centerY" secondItem="XBj-9q-svP" secondAttribute="centerY" id="vJb-xD-FIe"/>
+                                                                <constraint firstItem="Isi-59-zfr" firstAttribute="centerY" secondItem="XBj-9q-svP" secondAttribute="centerY" constant="-2" id="vJb-xD-FIe"/>
                                                                 <constraint firstItem="N6b-Qy-3Hr" firstAttribute="leading" secondItem="Isi-59-zfr" secondAttribute="leading" id="vry-0K-Cwn"/>
                                                                 <constraint firstItem="XBj-9q-svP" firstAttribute="leading" secondItem="iB4-9C-0ug" secondAttribute="leading" constant="3" id="wDc-Ga-zHQ"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VTH-pa-BVt" secondAttribute="trailing" constant="8" id="wlo-uA-omA"/>
