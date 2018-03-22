@@ -71,3 +71,4 @@ package-lock.json
 Distribution/DetoxInstruments*.zip
 Distribution/Export
 Distribution/_tmp_release_notes.md
+yarn.lock
