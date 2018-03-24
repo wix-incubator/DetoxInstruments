@@ -387,11 +387,12 @@ static BOOL __uglyHackTODOFixThisShit()
 		DTXPlotTypeCellView* cell = [outlineView makeViewWithIdentifier:@"InfoTableViewCell" owner:nil];
 		cell.textField.font = controller.titleFont;
 		cell.textField.stringValue = controller.displayName;
-		cell.textField.toolTip = controller.displayName;
+		cell.textField.toolTip = controller.toolTip ?: controller.displayName;
 		cell.textField.allowsDefaultTighteningForTruncation = YES;
 		cell.imageView.image = controller.displayIcon;
 		cell.secondaryImageView.image = controller.secondaryIcon;
 		cell.secondaryImageView.hidden = controller.secondaryIcon == nil;
+		cell.toolTip = controller.toolTip ?: controller.displayName;
 		
 		if(controller.legendTitles.count > 1)
 		{

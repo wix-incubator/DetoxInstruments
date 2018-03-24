@@ -22,6 +22,11 @@
 	return NSLocalizedString(@"Memory Usage", @"");
 }
 
+- (NSString *)toolTip
+{
+	return NSLocalizedString(@"The Memory Usage instrument captures information about the profiled app's memory usage.", @"");
+}
+
 - (NSImage*)displayIcon
 {
 	return [NSImage imageNamed:@"memoryTracker"];

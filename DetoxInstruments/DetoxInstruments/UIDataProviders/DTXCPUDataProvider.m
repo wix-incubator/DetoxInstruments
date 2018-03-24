@@ -26,7 +26,7 @@
 	
 	[rv addObject:info];
 	
-	if(self.showsHeaviestThreadColumn && [self.document.recording.managedObjectContext countForFetchRequest:[DTXAdvancedPerformanceSample fetchRequest] error:NULL])
+	if(self.showsHeaviestThreadColumn)
    {
 	   DTXColumnInformation* heaviestThread = [DTXColumnInformation new];
 	   heaviestThread.title = NSLocalizedString(@"Heaviest Thread", @"");

@@ -19,7 +19,12 @@
 
 - (NSString *)displayName
 {
-	return NSLocalizedString(@"Disk Usage", @"");
+	return NSLocalizedString(@"Disk Activity", @"");
+}
+
+- (NSString *)toolTip
+{
+	return NSLocalizedString(@"The Disk Activity instrument captures information about the profiled app's disk reads and writes.", @"");
 }
 
 - (NSImage*)displayIcon

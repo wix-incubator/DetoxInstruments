@@ -82,12 +82,20 @@ static DTXRemoteProfilingManager* __sharedManager;
 	}];
 }
 
+- (void)_applicationDidEnterForeground
+{
+	[_publishingService stop];
+	[self _resumePublishing];
+}
+
 - (instancetype)init
 {
 	self = [super init];
 	
 	if(self)
 	{
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationDidEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+		
 		_publishingService = [[NSNetService alloc] initWithDomain:@"local" type:@"_detoxprofiling._tcp" name:@"" port:0];
 		_publishingService.delegate = self;
 		[self _resumePublishing];
@@ -98,6 +106,11 @@ static DTXRemoteProfilingManager* __sharedManager;
 
 - (void)_resumePublishing
 {
+	if(_remoteProfiler != nil)
+	{
+		return;
+	}
+	
 	dtx_log_info(@"Attempting to publish “%@” service", _publishingService.type);
 	[_publishingService publishWithOptions:NSNetServiceListenForConnections];
 }
