@@ -35,6 +35,11 @@
 	return _threadInfo.name.length > 0 ? _threadInfo.name : _threadInfo.number == 0 ? NSLocalizedString(@"Main Thread", @"") : [NSString stringWithFormat:NSLocalizedString(@"Thread %@", @""), @(_threadInfo.number)];
 }
 
+- (NSString *)toolTip
+{
+	return nil;
+}
+
 - (NSFont *)titleFont
 {
 	return [NSFont systemFontOfSize:10];

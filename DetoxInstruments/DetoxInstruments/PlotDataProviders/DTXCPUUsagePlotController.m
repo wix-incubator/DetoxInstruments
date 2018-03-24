@@ -22,6 +22,11 @@
 	return NSLocalizedString(@"CPU Usage", @"");
 }
 
+- (NSString *)toolTip
+{
+	return NSLocalizedString(@"The CPU Usage instrument captures information about the profiled app's load on the CPU.", @"");
+}
+
 - (NSImage*)displayIcon
 {
 	return [NSImage imageNamed:@"CPUActivity"];

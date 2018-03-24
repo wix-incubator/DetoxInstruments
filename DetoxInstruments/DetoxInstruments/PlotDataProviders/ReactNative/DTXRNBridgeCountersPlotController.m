@@ -23,7 +23,12 @@
 
 - (NSString *)displayName
 {
-	return NSLocalizedString(@"Bridge Calls", @"");
+	return NSLocalizedString(@"Bridge Counters", @"");
+}
+
+- (NSString *)toolTip
+{
+	return NSLocalizedString(@"The Bridge Counters instrument captures information about React Native bridge calls made by the profiled app.", @"");
 }
 
 - (NSImage*)displayIcon

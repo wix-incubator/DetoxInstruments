@@ -261,6 +261,11 @@
 	return NSLocalizedString(@"Network Activity", @"");
 }
 
+- (NSString *)toolTip
+{
+	return NSLocalizedString(@"The Network Activity instrument captures information about the profiled app's network activity.", @"");
+}
+
 - (NSImage*)displayIcon
 {
 	return [NSImage imageNamed:@"networkActivity"];

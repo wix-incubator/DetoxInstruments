@@ -660,6 +660,11 @@
 	return @"";
 }
 
+- (NSString *)toolTip
+{
+	return nil;
+}
+
 - (NSImage*)displayIcon
 {
 	return nil;

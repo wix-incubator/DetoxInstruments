@@ -42,7 +42,9 @@
 		NSParameterAssert(self.sampleTypes.count == 1);
 		
 		NSFetchRequest* fr = [NSFetchRequest new];
-		fr.entity = [[DTXSample classFromSampleType:self.sampleTypes.firstObject.unsignedIntegerValue] entity]; //[NSEntityDescription entityForName:@"Sample" inManagedObjectContext:_document.recording.managedObjectContext];
+		Class cls = [DTXSample classFromSampleType:self.sampleTypes.firstObject.unsignedIntegerValue];
+		NSString* entityName = [NSStringFromClass(cls) substringFromIndex:3];
+		fr.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:_document.recording.managedObjectContext];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		
 		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
