@@ -44,13 +44,13 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.9</string>
 	<key>CFBundleVersion</key>
-	<string>4601</string>
+	<string>4620</string>
 	<key>DTXBuildDate</key>
-	<date>2018-03-24T21:16:48Z</date>
+	<date>2018-03-24T23:23:37Z</date>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2018 Wix. All rights reserved.</string>
+	<string>Copyright © 2017-2018 Wix.com, Inc. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
