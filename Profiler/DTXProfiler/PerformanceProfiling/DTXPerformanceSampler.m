@@ -48,6 +48,8 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 	{
 		_collectStackTraces = configuration.collectStackTraces;
 		_collectThreadInfo = configuration.recordThreadInformation;
+		
+		self.fpsCalculator = [DTXFPSCalculator new];
 	}
 	
 	return self;
@@ -112,7 +114,8 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 {
 	task_info_data_t taskInfo;
 	mach_msg_type_number_t taskInfoCount = TASK_INFO_MAX;
-	if (task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)taskInfo, &taskInfoCount) != KERN_SUCCESS) {
+	if (task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)taskInfo, &taskInfoCount) != KERN_SUCCESS)
+	{
 		return nil;
 	}
 	
@@ -120,7 +123,8 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 	mach_msg_type_number_t threadCount;
 	thread_info_data_t threadInfo;
 	
-	if (task_threads(mach_task_self(), &threadList, &threadCount) != KERN_SUCCESS) {
+	if (task_threads(mach_task_self(), &threadList, &threadCount) != KERN_SUCCESS)
+	{
 		return nil;
 	}
 	double totalCpu = 0;
@@ -131,15 +135,25 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 	double maxCPU = -1;
 	DTXThreadMeasurement* heaviestThread;
 	
-	for (int threadIndex = 0; threadIndex < threadCount; threadIndex++) {
+	mach_port_t self_thread = mach_thread_self();
+	
+	for (int threadIndex = 0; threadIndex < threadCount; threadIndex++)
+	{
+		if(threadList[threadIndex] == self_thread)
+		{
+			continue;
+		}
+		
 		mach_msg_type_number_t threadInfoCount = THREAD_INFO_MAX;
-		if (thread_info(threadList[threadIndex], THREAD_EXTENDED_INFO, (thread_info_t)threadInfo, &threadInfoCount) != KERN_SUCCESS) {
+		if (thread_info(threadList[threadIndex], THREAD_EXTENDED_INFO, (thread_info_t)threadInfo, &threadInfoCount) != KERN_SUCCESS)
+		{
 			return nil;
 		}
 		
 		thread_extended_info_t threadExtendedInfo = (thread_extended_info_t)threadInfo;
 		
-		if (!(threadExtendedInfo->pth_flags & TH_FLAGS_IDLE)) {
+		if (!(threadExtendedInfo->pth_flags & TH_FLAGS_IDLE))
+		{
 			totalCpu += (threadExtendedInfo->pth_cpu_usage / (double)TH_USAGE_SCALE);
 			
 			if(_collectThreadInfo)
@@ -149,7 +163,8 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 				thread.cpu = threadExtendedInfo->pth_cpu_usage / (double)TH_USAGE_SCALE;
 				thread.name = [NSString stringWithUTF8String:threadExtendedInfo->pth_name];
 				
-				if (thread_info(threadList[threadIndex], THREAD_IDENTIFIER_INFO, (thread_info_t)threadInfo, &threadInfoCount) != KERN_SUCCESS) {
+				if (thread_info(threadList[threadIndex], THREAD_IDENTIFIER_INFO, (thread_info_t)threadInfo, &threadInfoCount) != KERN_SUCCESS)
+				{
 					return nil;
 				}
 				
@@ -178,14 +193,16 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 
 #pragma mark - Memory
 
-- (CGFloat)memory {
+- (CGFloat)memory
+{
 	struct task_basic_info taskInfo;
 	mach_msg_type_number_t taskInfoCount = sizeof(taskInfo);
 	kern_return_t result = task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&taskInfo, &taskInfoCount);
 	return result == KERN_SUCCESS ? taskInfo.resident_size : 0;
 }
 
-- (void)simulateMemoryWarning {
+- (void)simulateMemoryWarning
+{
 	NSAssert([NSThread isMainThread], @"Must be called on main thread.");
 	
 	// Making sure to minimize the risk of rejecting app because of the private API.
@@ -197,7 +214,8 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 
 #pragma mark - Disk IO
 
-- (uint64_t)diskReads {
+- (uint64_t)diskReads
+{
 	struct rusage_info_v3 usage_info;
 	
 	if(proc_pid_rusage([NSProcessInfo processInfo].processIdentifier, RUSAGE_INFO_V3, (rusage_info_t*)&usage_info) != KERN_SUCCESS)
@@ -208,7 +226,8 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 	return usage_info.ri_diskio_bytesread;
 }
 
-- (uint64_t)diskWrites {
+- (uint64_t)diskWrites
+{
 	struct rusage_info_v3 usage_info;
 	
 	if(proc_pid_rusage([NSProcessInfo processInfo].processIdentifier, RUSAGE_INFO_V3, (rusage_info_t*)&usage_info) != KERN_SUCCESS)
