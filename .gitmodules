@@ -1,6 +1,3 @@
-[submodule "DBDebugToolkit"]
-	path = Profiler/DBDebugToolkit
-	url = https://github.com/wix/DBDebugToolkit.git
 [submodule "DetoxInstruments/core-plot"]
 	path = DetoxInstruments/core-plot
 	url = https://github.com/core-plot/core-plot.git
