@@ -73,12 +73,7 @@
 	
 	_managedTableView = managedTableView;
 	
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
-	if (@available(macOS 10.13, *))
-	{
-		_managedTableView.usesAutomaticRowHeights = YES;
-	}
-#endif
+	_managedTableView.usesAutomaticRowHeights = YES;
 	
 	_managedTableView.dataSource = self;
 	_managedTableView.delegate = self;
@@ -199,16 +194,6 @@
 - (CGFloat)_displayHeightForString:(NSAttributedString*)string width:(CGFloat)width
 {
 	return [string boundingRectWithSize:NSMakeSize(width, DBL_MAX) options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading].size.height;
-}
-
-- (void)tableViewColumnDidResize:(NSNotification *)notification
-{
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
-	if (NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
-#endif
-	{
-		[_managedTableView reloadData];
-	}
 }
 
 - (int)_depthOfObjects:(id)objects

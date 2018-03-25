@@ -15,7 +15,7 @@
                 <windowController storyboardIdentifier="AboutWindowController" id="7kL-wY-jgv" customClass="DTXAboutWindowController" sceneMemberID="viewController">
                     <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" id="fER-Y6-k83">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" fullSizeContentView="YES"/>
-                        <rect key="contentRect" x="245" y="310" width="550" height="270"/>
+                        <rect key="contentRect" x="245" y="310" width="552" height="210"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
                         <connections>
                             <outlet property="delegate" destination="7kL-wY-jgv" id="IU8-6O-TSO"/>
@@ -34,17 +34,17 @@
             <objects>
                 <viewController id="8o4-CM-wan" customClass="DTXAboutViewController" sceneMemberID="viewController">
                     <view key="view" id="OZj-aT-R77">
-                        <rect key="frame" x="0.0" y="0.0" width="552" height="220"/>
+                        <rect key="frame" x="0.0" y="0.0" width="552" height="210"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box boxType="custom" borderType="none" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="NUO-oa-6sd">
-                                <rect key="frame" x="0.0" y="0.0" width="552" height="220"/>
+                                <rect key="frame" x="0.0" y="0.0" width="552" height="210"/>
                                 <view key="contentView" id="ZVD-Pz-yLK">
-                                    <rect key="frame" x="0.0" y="0.0" width="552" height="220"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="552" height="210"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="h3z-wj-I6a">
-                                            <rect key="frame" x="196" y="152" width="180" height="48"/>
+                                            <rect key="frame" x="196" y="142" width="180" height="48"/>
                                             <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="Application" id="Bfc-eE-1y8">
                                                 <font key="font" metaFont="systemUltraLight" size="40"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -52,7 +52,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="aIO-ha-b5d">
-                                            <rect key="frame" x="196" y="127" width="49" height="17"/>
+                                            <rect key="frame" x="196" y="117" width="49" height="17"/>
                                             <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version" id="af4-sF-O2l">
                                                 <font key="font" metaFont="systemLight" size="13"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -76,7 +76,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="openIntegrationGuidePage:" target="8o4-CM-wan" id="KzO-24-gQr"/>
+                                                <action selector="openAcknowledgementsPage:" target="8o4-CM-wan" id="H8W-f1-H4g"/>
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="9g1-jh-QdN">
@@ -106,10 +106,9 @@
                                     </constraints>
                                 </view>
                                 <color key="fillColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                <font key="titleFont" metaFont="message" size="11"/>
                             </box>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="60n-g4-gBY">
-                                <rect key="frame" x="35" y="46" width="128" height="128"/>
+                                <rect key="frame" x="35" y="41" width="128" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="DzE-NZ-6yR"/>
                                     <constraint firstAttribute="width" constant="128" id="rmS-n7-pXS"/>
@@ -556,7 +555,7 @@
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-846" y="-630"/>
+            <point key="canvasLocation" x="-853" y="-714"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">

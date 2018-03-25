@@ -55,18 +55,8 @@
 		_document = document;
 		_managedTableView = tableView;
 		
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
-		if (@available(macOS 10.13, *))
-		{
-			tableView.usesAutomaticRowHeights = YES;
-			_hasAutomaticRowHeights = YES;
-		}
-		else
-#endif
-		{
-			Method m = class_getInstanceMethod(self.class, @selector(__tableView:heightOfRow:));
-			class_addMethod(self.class, @selector(tableView:heightOfRow:), method_getImplementation(m), method_getTypeEncoding(m));
-		}
+		tableView.usesAutomaticRowHeights = YES;
+		_hasAutomaticRowHeights = YES;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:self.document];
 		
@@ -110,35 +100,6 @@
 - (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
 {
 	return [DTXTableRowView new];
-}
-
-- (CGFloat)__tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
-{
-	NSTableColumn *tableColumn = [[tableView tableColumns] objectAtIndex:0];
-	NSCell *cell = [tableColumn dataCellForRow:row];
-	cell.font = self.class.fontForObjectDisplay;
-	NSString *content = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-	[cell setObjectValue:content];
-	[cell setWraps:YES];
-	//Reduce 10 from table width due to constraints.
-	return [cell cellSizeForBounds:NSMakeRect(0, 0, tableView.bounds.size.width - 10, DBL_MAX)].height + 5;
-}
-
-- (void)tableViewColumnDidResize:(NSNotification *)notification
-{
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
-	if (NSProcessInfo.processInfo.operatingSystemVersion.minorVersion <= 12)
-#endif
-	{
-		if(_frc.managedObjectContext.persistentStoreCoordinator.persistentStores.count == 0)
-		{
-			return;
-		}
-		
-		NSIndexSet* selectedRowIndices = _managedTableView.selectedRowIndexes;
-		[_managedTableView reloadData];
-		[_managedTableView selectRowIndexes:selectedRowIndices byExtendingSelection:NO];
-	}
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row

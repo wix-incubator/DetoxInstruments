@@ -54,11 +54,7 @@ static id __keyForObject(id obj)
 	_objectsOutlineView.intercellSpacing = NSZeroSize;
 	_objectsOutlineView.dataSource = self;
 	_objectsOutlineView.delegate = self;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > __MAC_10_12_4
-	if (@available(macOS 10.13, *)) {
-		_objectsOutlineView.usesAutomaticRowHeights = NO;
-	}
-#endif
+	_objectsOutlineView.usesAutomaticRowHeights = NO;
 	
 	[_objectsOutlineView reloadData];
 }

@@ -23,7 +23,7 @@
 	if(self)
 	{
 		self.wantsLayer = YES;
-		self.acceptsTouchEvents = NO;
+		self.allowedTouchTypes = 0;
 	}
 	
 	return self;
