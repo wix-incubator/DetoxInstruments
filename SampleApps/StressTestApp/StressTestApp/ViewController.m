@@ -12,6 +12,7 @@
 @interface ViewController ()
 
 @property (nonatomic, weak) IBOutlet UISwitch* useProtocolSwitch;
+@property (nonatomic, weak) IBOutlet UIButton* startDemoButton;
 
 @end
 
@@ -22,7 +23,6 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -79,11 +79,12 @@
 
 - (IBAction)_writeToDisk:(id)sender
 {
-	NSData* data = [[NSMutableData alloc] initWithLength:10 * 1024 * 1024];
-	[data writeToFile:@"/Users/lnatan/Desktop/largeFile.dat" atomically:YES];
+	NSData* data = [[NSMutableData alloc] initWithLength:20 * 1024 * 1024];
+	
+	[data writeToURL:[[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"largeFile.dat"] atomically:YES];
 }
 
--(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue
+- (IBAction)prepareForUnwind:(UIStoryboardSegue *)segue
 {
 }
 
@@ -99,5 +100,74 @@
 	}
 }
 
+- (void)_peform:(void(^)(void))block after:(NSTimeInterval)after
+{
+	__block NSTimeInterval localAfter = after;
+	
+	if(localAfter == 0)
+	{
+		[self.startDemoButton setTitle:@"Running" forState:UIControlStateNormal];
+		block();
+	}
+	else
+	{
+		[self.startDemoButton setTitle:[NSString stringWithFormat:@"%@", @(localAfter)] forState:UIControlStateNormal];
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			localAfter -= 1;
+			[self _peform:block after:localAfter];
+		});
+	}
+}
+
+- (IBAction)startDemoTapped:(UIButton*)sender
+{
+	[sender setEnabled:NO];
+	
+	[self _peform:^{
+		[self _slowMyBackgroundTapped:nil];
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self _slowMyBackgroundTapped:nil];
+			
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[self _slowMyBackgroundTapped:nil];
+			});
+			
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[self _slowMyBackgroundTapped:nil];
+				
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+					[self performSegueWithIdentifier:@"LNOpenWebView" sender:nil];
+					
+					dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+						[[(UINavigationController*)self.presentedViewController topViewController] performSegueWithIdentifier:@"LNUnwindToMain" sender:nil];
+						
+						dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+							[self _writeToDisk:nil];
+							[self _writeToDisk:nil];
+							[self _writeToDisk:nil];
+							[self _writeToDisk:nil];
+							[self _writeToDisk:nil];
+							
+							dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+								[self _writeToDisk:nil];
+								[self _writeToDisk:nil];
+								
+								dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+									[self startNetworkRequestsTapped:nil];
+									
+									dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+										[self.startDemoButton setTitle:@"Start Demo" forState:UIControlStateNormal];
+										[self.startDemoButton setEnabled:YES];
+									});
+								});
+							});
+						});
+					});
+				});
+			});
+		});
+	} after:10];
+}
 
 @end
