@@ -7,7 +7,6 @@
 //
 
 #import "DTXDeviceInfo.h"
-#import "DBBuildInfoProvider.h"
 #import "DTXReactNativeSampler.h"
 @import UIKit;
 @import Darwin;
@@ -23,14 +22,40 @@
 	return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 }
 
++ (NSString *)_bundleName
+{
+	return [NSBundle.mainBundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
+}
+
++ (NSString *)_applicationDisplayName
+{
+	NSString* displayName = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	return displayName ?: [self _bundleName];
+}
+
++ (NSString *)_buildVersion
+{
+	return [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+}
+
++ (NSString *)_buildNumber
+{
+	return [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+}
+
++ (NSString *)_buildInfoString
+{
+	NSString *buildInfoStringFormat = @"%@, v. %@ (%@)";
+	return [NSString stringWithFormat:buildInfoStringFormat, [self _applicationDisplayName], [self _buildVersion], [self _buildNumber]];
+}
+
 + (NSDictionary*)deviceInfoDictionary
 {
-	DBBuildInfoProvider* buildProvider = [DBBuildInfoProvider new];
 	NSProcessInfo* processInfo = [NSProcessInfo processInfo];
 	UIDevice* currentDevice = [UIDevice currentDevice];
 	
 	NSMutableDictionary* deviceDetails = [NSMutableDictionary new];
-	deviceDetails[@"appName"] = buildProvider.applicationDisplayName;
+	deviceDetails[@"appName"] = self._applicationDisplayName;
 	deviceDetails[@"binaryName"] = processInfo.processName;
 #if ! TARGET_OS_SIMULATOR
 	deviceDetails[@"deviceName"] = currentDevice.name;

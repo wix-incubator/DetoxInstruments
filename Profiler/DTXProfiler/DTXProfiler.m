@@ -358,13 +358,13 @@ DTX_CREATE_LOG(Profiler);
 {
 	DTX_IGNORE_NOT_RECORDING
 	
-	DTXCPUMeasurement* cpu = performanceSampler.performanceToolkit.currentCPU;
-	CGFloat memory = performanceSampler.performanceToolkit.currentMemory;
-	CGFloat fps = performanceSampler.performanceToolkit.currentFPS;
-	uint64_t diskReads = performanceSampler.performanceToolkit.currentDiskReads;
-	uint64_t diskWrites = performanceSampler.performanceToolkit.currentDiskWrites;
-	uint64_t diskReadsDelta = performanceSampler.performanceToolkit.currentDiskReadsDelta;
-	uint64_t diskWritesDelta = performanceSampler.performanceToolkit.currentDiskWritesDelta;
+	DTXCPUMeasurement* cpu = performanceSampler.currentCPU;
+	CGFloat memory = performanceSampler.currentMemory;
+	CGFloat fps = performanceSampler.currentFPS;
+	uint64_t diskReads = performanceSampler.currentDiskReads;
+	uint64_t diskWrites = performanceSampler.currentDiskWrites;
+	uint64_t diskReadsDelta = performanceSampler.currentDiskReadsDelta;
+	uint64_t diskWritesDelta = performanceSampler.currentDiskWritesDelta;
 	
 	NSArray* stackTrace = performanceSampler.callStackSymbols;
 	
