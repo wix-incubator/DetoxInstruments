@@ -34,7 +34,7 @@
 
 - (IBAction)openIntegrationGuidePage:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/blob/master/README.md#Acknowledgements"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/blob/master/Documentation/Acknowledgements.md"]];
 }
 
 + (NSImage *)_bestIcon
