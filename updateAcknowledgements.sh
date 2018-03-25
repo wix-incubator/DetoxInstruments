@@ -6,6 +6,8 @@ touch Documentation/Acknowledgements.md
 printf "# Acknowledgements\n\n" >> Documentation/Acknowledgements.md
 
 SUBMODULES=$(git submodule --quiet foreach git config --get remote.origin.url | sort --ignore-case)
+# Append implicit dependency of Mozilla's source-map
+SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/mozilla/source-map.git")
 
 while read -r line; do  
   REPO_FULL_NAME=`expr "$line" : '^https:\/\/github.com\/\(.*\).git'`
