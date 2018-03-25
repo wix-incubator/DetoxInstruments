@@ -273,7 +273,9 @@
 
 - (CGFloat)requiredHeight
 {
-	CGFloat f = self._mergedSamples.count * 2 * 4 + 6;
+	NSEdgeInsets rangeInsets = self.rangeInsets;
+	//The higher the number, the more spaced vertically the requests are.
+	CGFloat f = self._mergedSamples.count * 9 + rangeInsets.top + rangeInsets.bottom;
 	
 	return MAX(f, super.requiredHeight);
 }

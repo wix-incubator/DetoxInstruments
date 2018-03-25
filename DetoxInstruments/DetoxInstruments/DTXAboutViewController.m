@@ -32,7 +32,7 @@
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments"]];
 }
 
-- (IBAction)openIntegrationGuidePage:(id)sender
+- (IBAction)openAcknowledgementsPage:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/blob/master/Documentation/Acknowledgements.md"]];
 }
