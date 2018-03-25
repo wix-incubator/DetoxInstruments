@@ -9,6 +9,7 @@
 #import "DTXApplicationDelegate.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import "DTXDocument.h"
+#import "DTXAboutWindowController.h"
 //#import "CCNPreferencesWindowController.h"
 
 @import Sparkle;
@@ -23,6 +24,8 @@ static NSString* const __lldbInitMagic = @"";
 	__weak IBOutlet NSMenuItem *_aboutMenuItem;
 	__weak IBOutlet NSMenuItem *_hideMenuItem;
 	__weak IBOutlet NSMenuItem *_quitMenuItem;
+	
+	DTXAboutWindowController* _aboutWindowController;
 }
 
 @end
@@ -37,6 +40,14 @@ static NSString* const __lldbInitMagic = @"";
 	_aboutMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"About %@", @""), actualName];
 	_hideMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Hide %@", @""), actualName];
 	_quitMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Quit %@", @""), actualName];
+	
+	_aboutWindowController = [[NSStoryboard storyboardWithName:@"Main" bundle:NSBundle.mainBundle] instantiateControllerWithIdentifier:@"AboutWindowController"];
+	NSLog(@"");
+}
+
+- (IBAction)showAboutWindow:(id)sender
+{
+	[_aboutWindowController showWindow:nil];
 }
 
 - (void)verifyLldbInitIsNotBroken

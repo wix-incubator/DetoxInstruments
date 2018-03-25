@@ -62,6 +62,10 @@ git commit -m "Detox Instruments ${VERSION}" &> /dev/null
 git push &> /dev/null
 popd &> /dev/null
 
+echo -e "\033[1;34mUpdating Acknowledgements.md\033[0m"
+
+./updateAcknowledgements.sh
+
 echo -e "\033[1;34mPushing updated versions\033[0m"
 
 git add -A &> /dev/null
