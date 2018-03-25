@@ -60,6 +60,8 @@
 		394A09661F012F8D0030BDB4 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = 394A09641F012F8D0030BDB4 /* fishhook.c */; };
 		39557CDA1F1F7E8D00FF3187 /* DTXRemoteProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39557CD81F1F7E8D00FF3187 /* DTXRemoteProfiler.h */; };
 		39557CDB1F1F7E8D00FF3187 /* DTXRemoteProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39557CD91F1F7E8D00FF3187 /* DTXRemoteProfiler.m */; };
+		395B26A02067B12C00FD7368 /* DTXFPSCalculator.h in Headers */ = {isa = PBXBuildFile; fileRef = 395B269E2067B12C00FD7368 /* DTXFPSCalculator.h */; };
+		395B26A12067B12C00FD7368 /* DTXFPSCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 395B269F2067B12C00FD7368 /* DTXFPSCalculator.m */; };
 		396500F11F2E9E9000DA9530 /* DTXDeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 396500EF1F2E9E9000DA9530 /* DTXDeviceInfo.h */; };
 		396500F21F2E9E9000DA9530 /* DTXDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 396500F01F2E9E9000DA9530 /* DTXDeviceInfo.m */; };
 		396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 396677B11F1FCE18002D5E43 /* DTXRemoteProfilingManager.h */; };
@@ -89,14 +91,6 @@
 		39D40C151ED5B43700157C04 /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */; };
 		39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C161ED5B43F00157C04 /* DTXProfiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C171ED5B43F00157C04 /* DTXProfiler.m */; };
-		39D40C201ED5B52100157C04 /* DBFPSCalculator.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C1C1ED5B52100157C04 /* DBFPSCalculator.h */; };
-		39D40C211ED5B52100157C04 /* DBFPSCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C1D1ED5B52100157C04 /* DBFPSCalculator.m */; };
-		39D40C221ED5B52100157C04 /* DBPerformanceToolkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C1E1ED5B52100157C04 /* DBPerformanceToolkit.h */; };
-		39D40C231ED5B52100157C04 /* DBPerformanceToolkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C1F1ED5B52100157C04 /* DBPerformanceToolkit.m */; };
-		39D40C351ED5B60100157C04 /* NSObject+DBDebugToolkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C331ED5B60100157C04 /* NSObject+DBDebugToolkit.h */; };
-		39D40C361ED5B60100157C04 /* NSObject+DBDebugToolkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C341ED5B60100157C04 /* NSObject+DBDebugToolkit.m */; };
-		39D40C3A1ED5BAB800157C04 /* DBBuildInfoProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C381ED5BAB800157C04 /* DBBuildInfoProvider.h */; };
-		39D40C3B1ED5BAB800157C04 /* DBBuildInfoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C391ED5BAB800157C04 /* DBBuildInfoProvider.m */; };
 		39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3933E1341F7A319F0081F82F /* UIKit.framework */; };
 		39D94EF01EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */; };
 		39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */; };
@@ -173,6 +167,8 @@
 		39557CD71F1F7E5500FF3187 /* DTXProfiler-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfiler-Private.h"; sourceTree = "<group>"; };
 		39557CD81F1F7E8D00FF3187 /* DTXRemoteProfiler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfiler.h; sourceTree = "<group>"; };
 		39557CD91F1F7E8D00FF3187 /* DTXRemoteProfiler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRemoteProfiler.m; sourceTree = "<group>"; };
+		395B269E2067B12C00FD7368 /* DTXFPSCalculator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXFPSCalculator.h; sourceTree = "<group>"; };
+		395B269F2067B12C00FD7368 /* DTXFPSCalculator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXFPSCalculator.m; sourceTree = "<group>"; };
 		396500EF1F2E9E9000DA9530 /* DTXDeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDeviceInfo.h; sourceTree = "<group>"; };
 		396500F01F2E9E9000DA9530 /* DTXDeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDeviceInfo.m; sourceTree = "<group>"; };
 		396677B11F1FCE18002D5E43 /* DTXRemoteProfilingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingManager.h; sourceTree = "<group>"; };
@@ -208,14 +204,6 @@
 		39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Additions.m"; sourceTree = "<group>"; };
 		39D40C161ED5B43F00157C04 /* DTXProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.h; sourceTree = "<group>"; };
 		39D40C171ED5B43F00157C04 /* DTXProfiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXProfiler.m; sourceTree = "<group>"; };
-		39D40C1C1ED5B52100157C04 /* DBFPSCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBFPSCalculator.h; path = DBDebugToolkit/DBDebugToolkit/Classes/Performance/DBFPSCalculator.h; sourceTree = SOURCE_ROOT; };
-		39D40C1D1ED5B52100157C04 /* DBFPSCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBFPSCalculator.m; path = DBDebugToolkit/DBDebugToolkit/Classes/Performance/DBFPSCalculator.m; sourceTree = SOURCE_ROOT; };
-		39D40C1E1ED5B52100157C04 /* DBPerformanceToolkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBPerformanceToolkit.h; path = DBDebugToolkit/DBDebugToolkit/Classes/Performance/DBPerformanceToolkit.h; sourceTree = SOURCE_ROOT; };
-		39D40C1F1ED5B52100157C04 /* DBPerformanceToolkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBPerformanceToolkit.m; path = DBDebugToolkit/DBDebugToolkit/Classes/Performance/DBPerformanceToolkit.m; sourceTree = SOURCE_ROOT; };
-		39D40C331ED5B60100157C04 /* NSObject+DBDebugToolkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+DBDebugToolkit.h"; path = "DBDebugToolkit/DBDebugToolkit/Classes/Categories/NSObject+DBDebugToolkit.h"; sourceTree = SOURCE_ROOT; };
-		39D40C341ED5B60100157C04 /* NSObject+DBDebugToolkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DBDebugToolkit.m"; path = "DBDebugToolkit/DBDebugToolkit/Classes/Categories/NSObject+DBDebugToolkit.m"; sourceTree = SOURCE_ROOT; };
-		39D40C381ED5BAB800157C04 /* DBBuildInfoProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBBuildInfoProvider.h; path = DBDebugToolkit/DBDebugToolkit/Classes/BuildInfo/DBBuildInfoProvider.h; sourceTree = SOURCE_ROOT; };
-		39D40C391ED5BAB800157C04 /* DBBuildInfoProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBBuildInfoProvider.m; path = DBDebugToolkit/DBDebugToolkit/Classes/BuildInfo/DBBuildInfoProvider.m; sourceTree = SOURCE_ROOT; };
 		39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
 		39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
 		39DA16801F3097780025C492 /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+FakeDecoder.h"; path = "../../../Shared/NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
@@ -368,7 +356,8 @@
 		399E0EEB1F0ECA720047CF92 /* PerformanceProfiling */ = {
 			isa = PBXGroup;
 			children = (
-				39D40C1A1ED5B4DB00157C04 /* DBDebugToolkit */,
+				395B269E2067B12C00FD7368 /* DTXFPSCalculator.h */,
+				395B269F2067B12C00FD7368 /* DTXFPSCalculator.m */,
 				3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */,
 				3901A89E1F5D5CA60021916B /* DTXMachUtilities.m */,
 				399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */,
@@ -496,46 +485,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		39D40C1A1ED5B4DB00157C04 /* DBDebugToolkit */ = {
-			isa = PBXGroup;
-			children = (
-				39D40C371ED5B60F00157C04 /* BuildInfo */,
-				39D40C321ED5B5F400157C04 /* Categories */,
-				39D40C1B1ED5B51200157C04 /* Performance */,
-			);
-			name = DBDebugToolkit;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		39D40C1B1ED5B51200157C04 /* Performance */ = {
-			isa = PBXGroup;
-			children = (
-				39D40C1C1ED5B52100157C04 /* DBFPSCalculator.h */,
-				39D40C1D1ED5B52100157C04 /* DBFPSCalculator.m */,
-				39D40C1E1ED5B52100157C04 /* DBPerformanceToolkit.h */,
-				39D40C1F1ED5B52100157C04 /* DBPerformanceToolkit.m */,
-			);
-			name = Performance;
-			sourceTree = "<group>";
-		};
-		39D40C321ED5B5F400157C04 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				39D40C331ED5B60100157C04 /* NSObject+DBDebugToolkit.h */,
-				39D40C341ED5B60100157C04 /* NSObject+DBDebugToolkit.m */,
-			);
-			name = Categories;
-			sourceTree = "<group>";
-		};
-		39D40C371ED5B60F00157C04 /* BuildInfo */ = {
-			isa = PBXGroup;
-			children = (
-				39D40C381ED5BAB800157C04 /* DBBuildInfoProvider.h */,
-				39D40C391ED5BAB800157C04 /* DBBuildInfoProvider.m */,
-			);
-			name = BuildInfo;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -548,6 +497,7 @@
 				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
 				39281E721ED70458002CE905 /* zip.h in Headers */,
 				399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */,
+				395B26A02067B12C00FD7368 /* DTXFPSCalculator.h in Headers */,
 				39281E6A1ED70458002CE905 /* crypt.h in Headers */,
 				39D40C141ED5B43700157C04 /* NSManagedObject+Additions.h in Headers */,
 				39D205501F03057200830A0D /* DTXLoggingRecorder.h in Headers */,
@@ -558,7 +508,6 @@
 				39ADAE5B1F79FA7700F488A5 /* DTXCustomJSCSupport.h in Headers */,
 				3901A89F1F5D5CA60021916B /* DTXMachUtilities.h in Headers */,
 				396500F11F2E9E9000DA9530 /* DTXDeviceInfo.h in Headers */,
-				39D40C351ED5B60100157C04 /* NSObject+DBDebugToolkit.h in Headers */,
 				39DA16821F3097780025C492 /* NSDictionary+FakeDecoder.h in Headers */,
 				3916E4C51F2EACED00C1DB60 /* DTXColor.h in Headers */,
 				39D40C0F1ED5B43700157C04 /* DTXInstrumentsModel.h in Headers */,
@@ -575,12 +524,9 @@
 				39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */,
 				391E4C791F5575BF0057039E /* DTXAuthenticationChallengeProxy.h in Headers */,
 				39F6421B1FDD5DBF00468FED /* DTXLogging.h in Headers */,
-				39D40C3A1ED5BAB800157C04 /* DBBuildInfoProvider.h in Headers */,
 				39C713401EFFD6FF00C827EB /* DTXReactNativeSampler.h in Headers */,
 				39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */,
 				39C713451EFFDB2500C827EB /* DTXPollingManager.h in Headers */,
-				39D40C201ED5B52100157C04 /* DBFPSCalculator.h in Headers */,
-				39D40C221ED5B52100157C04 /* DBPerformanceToolkit.h in Headers */,
 				39D40C101ED5B43700157C04 /* DTXRecording+Additions.h in Headers */,
 				39D94EF01EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h in Headers */,
 				3966E1341F1017F900EE76A2 /* DTXAddressInfo.h in Headers */,
@@ -706,22 +652,20 @@
 				39281E6B1ED70458002CE905 /* ioapi.c in Sources */,
 				39D205511F03057200830A0D /* DTXLoggingRecorder.m in Sources */,
 				391E4C7A1F5575BF0057039E /* DTXAuthenticationChallengeProxy.m in Sources */,
-				39D40C361ED5B60100157C04 /* NSObject+DBDebugToolkit.m in Sources */,
 				39432AEA1F55BE6C00468DB7 /* DTXExternalProtocolStorage.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
 				39281E831ED70A77002CE905 /* DTXZipper.m in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
 				39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
+				395B26A12067B12C00FD7368 /* DTXFPSCalculator.m in Sources */,
 				3901A8A01F5D5CA60021916B /* DTXMachUtilities.m in Sources */,
 				39281E6D1ED70458002CE905 /* mztools.c in Sources */,
 				39C713411EFFD6FF00C827EB /* DTXReactNativeSampler.m in Sources */,
-				39D40C211ED5B52100157C04 /* DBFPSCalculator.m in Sources */,
 				39281E6F1ED70458002CE905 /* unzip.c in Sources */,
 				391E4C7E1F557B190057039E /* DTXExternalProtocolHooking.m in Sources */,
 				3916E4C61F2EACED00C1DB60 /* DTXColor.m in Sources */,
 				39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */,
 				391E4C761F55750C0057039E /* DTXURLProtocol.m in Sources */,
-				39D40C3B1ED5BAB800157C04 /* DBBuildInfoProvider.m in Sources */,
 				39281E711ED70458002CE905 /* zip.c in Sources */,
 				396500F21F2E9E9000DA9530 /* DTXDeviceInfo.m in Sources */,
 				39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */,
@@ -733,7 +677,6 @@
 				39D40C0E1ED5B43700157C04 /* DTXInstruments.xcdatamodeld in Sources */,
 				399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */,
 				39DA16831F3097780025C492 /* NSDictionary+FakeDecoder.m in Sources */,
-				39D40C231ED5B52100157C04 /* DBPerformanceToolkit.m in Sources */,
 				3922AE031F2B9B9B0034B1FE /* _DTXBase64VLQ.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
