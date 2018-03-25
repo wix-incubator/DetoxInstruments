@@ -32,7 +32,8 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 - (instancetype)init
 {
 	self = [super init];
-	if (self) {
+	if (self)
+	{
 		[self setupFPSMonitoring];
 		[self setupNotifications];
 	}
@@ -40,7 +41,8 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 	return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
 	[self.displayLink setPaused:YES];
 	[self.displayLink removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 }
@@ -86,7 +88,7 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 {
 	if(atomic_load(&_enabled) == NO)
 	{
-		dispatch_sync(_lastKnownFPSQueue, ^{
+		dispatch_sync(_lastKnownFPSQueue, ^ {
 			self.lastKnownFPS = 0;
 		});
 		
@@ -101,17 +103,19 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 	});
 }
 
-- (void)displayLinkTick {
+- (void)displayLinkTick
+{
 #if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
 	atomic_fetch_add(&_frameCount, 1);
 #else
 	_frameCount++;
 #endif
-}
+	}
 
 #pragma mark - Notifications
 
-- (void)setupNotifications {
+- (void)setupNotifications
+{
 	[[NSNotificationCenter defaultCenter] addObserver: self
 											 selector: @selector(applicationDidBecomeActiveNotification:)
 												 name: UIApplicationDidBecomeActiveNotification
@@ -123,21 +127,24 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 											   object: nil];
 }
 
-- (void)applicationDidBecomeActiveNotification:(NSNotification *)notification {
+- (void)applicationDidBecomeActiveNotification:(NSNotification *)notification
+{
 	atomic_exchange(&_frameCount, 0);
 	[self.displayLink setPaused:NO];
 	atomic_store(&_enabled, YES);
 }
 
 
-- (void)applicationWillResignActiveNotification:(NSNotification *)notification {
+- (void)applicationWillResignActiveNotification:(NSNotification *)notification
+{
 	[self.displayLink setPaused:YES];
 	atomic_store(&_enabled, NO);
 }
 
 #pragma mark - FPS
 
-- (CGFloat)fps {
+- (CGFloat)fps
+{
 	__block CGFloat fps;
 	
 #if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
