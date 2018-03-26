@@ -78,11 +78,11 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "YES"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-com.apple.CoreData.ConcurrencyDebug"
