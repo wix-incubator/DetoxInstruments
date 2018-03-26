@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14105" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14105"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="box content view" minToolsVersion="7.0"/>
@@ -257,9 +256,25 @@
                                         </menuItem>
                                         <menuItem title="Redo" keyEquivalent="Z" id="las-nG-35d"/>
                                         <menuItem isSeparatorItem="YES" id="zip-7d-pop"/>
+                                        <menuItem title="Cut" keyEquivalent="x" id="MiR-RO-Qfi">
+                                            <connections>
+                                                <action selector="cut:" target="Ady-hI-5gd" id="vbV-ap-FjV"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Copy" keyEquivalent="c" id="Mah-6J-leh">
                                             <connections>
                                                 <action selector="copy:" target="Ady-hI-5gd" id="cAv-nI-gGU"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Paste" keyEquivalent="v" id="OBo-A9-2Nc">
+                                            <connections>
+                                                <action selector="paste:" target="Ady-hI-5gd" id="Ke8-NK-ebf"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Delete" id="UF0-ej-fb1">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="delete:" target="Ady-hI-5gd" id="NcN-MQ-KO8"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Select All" keyEquivalent="a" id="YbZ-Nt-A1p">

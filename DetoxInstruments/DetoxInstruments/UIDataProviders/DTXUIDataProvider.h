@@ -33,6 +33,7 @@
 @property (nonatomic, assign, readonly) BOOL supportsDataFiltering;
 
 - (void)filterSamplesWithFilter:(NSString*)filter;
+- (NSPredicate*)predicateForFilter:(NSString*)filter;
 
 @end
 

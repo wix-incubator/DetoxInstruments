@@ -230,11 +230,16 @@
 	return YES;
 }
 
+- (NSPredicate *)predicateForFilter:(NSString *)filter
+{
+	return filter.length == 0 ? nil : [NSPredicate predicateWithFormat:@"line CONTAINS[cd] %@", filter];
+}
+
 - (void)filterSamplesWithFilter:(NSString*)filter;
 {
 	NSString* _filter = [filter stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	
-	_frc.fetchRequest.predicate = _filter.length == 0 ? nil : [NSPredicate predicateWithFormat:@"line CONTAINS[cd] %@", _filter];
+	_frc.fetchRequest.predicate = [self predicateForFilter:_filter];
 	[_frc performFetch:NULL];
 	[_managedTableView reloadData];
 }

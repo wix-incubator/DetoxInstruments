@@ -35,7 +35,7 @@
 	return self;
 }
 
-- (void)filterSamplesWithFilter:(NSString *)filter
+- (void)filterSamplesWithPredicate:(NSPredicate *)predicate
 {
 	if(_frc == nil)
 	{
@@ -51,13 +51,7 @@
 		_frc.delegate = self;
 	}
 
-	NSMutableArray* predicates = [NSMutableArray new];
-
-	[self.filteredAttributes enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[predicates addObject:[NSPredicate predicateWithFormat:@"%K CONTAINS[cd] %@", obj, filter]];
-	}];
-
-	_frc.fetchRequest.predicate = [NSCompoundPredicate orPredicateWithSubpredicates:predicates];
+	_frc.fetchRequest.predicate = predicate;
 
 	[_frc performFetch:NULL];
 }

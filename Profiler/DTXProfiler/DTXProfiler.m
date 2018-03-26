@@ -498,6 +498,7 @@ DTX_CREATE_LOG(Profiler);
 		networkSample.requestTimeoutInterval = request.timeoutInterval;
 		networkSample.requestHTTPMethod = request.HTTPMethod;
 		networkSample.requestHeaders = request.allHTTPHeaderFields;
+		networkSample.requestHeadersFlat = request.allHTTPHeaderFields.debugDescription;
 		
 		DTXNetworkData* requestData = [[DTXNetworkData alloc] initWithContext:_backgroundContext];
 		requestData.data = request.HTTPBody;
@@ -537,6 +538,7 @@ DTX_CREATE_LOG(Profiler);
 			networkSample.responseStatusCode = httpResponse.statusCode;
 			networkSample.responseStatusCodeString = [NSHTTPURLResponse localizedStringForStatusCode:httpResponse.statusCode];
 			networkSample.responseHeaders = httpResponse.allHeaderFields;
+			networkSample.responseHeadersFlat = httpResponse.allHeaderFields.debugDescription;
 		}
 		
 		DTXNetworkData* responseData = [[DTXNetworkData alloc] initWithContext:_backgroundContext];
