@@ -25,7 +25,7 @@
 	
 	DTXLogDataProvider* _logDataProvider;
 	
-	id<DTXUIDataProvider> _currentlyShownDataProvider;
+	NSObject<DTXUIDataProvider>* _currentlyShownDataProvider;
 }
 
 @end
@@ -62,7 +62,7 @@
 
 - (void)_updateBottomViewVisibility
 {
-	_bottomView.hidden = _currentlyShownDataProvider.supportsDataFiltering == NO;
+	_bottomView.hidden = [_currentlyShownDataProvider.class conformsToProtocol:@protocol(DTXUIDataFiltering)] && _currentlyShownDataProvider.supportsDataFiltering == NO;
 	
 	NSEdgeInsets insets = NSEdgeInsetsMake(0, 0, _bottomView.hidden ? 0 : _bottomView.bounds.size.height, 0);
 	
@@ -129,7 +129,7 @@
 	return m;
 }
 
-- (void)_selectDataProvider:(id<DTXUIDataProvider>)dataProvider replaceLog:(BOOL)replaceLog
+- (void)_selectDataProvider:(NSObject<DTXUIDataProvider>*)dataProvider replaceLog:(BOOL)replaceLog
 {
 	if(_currentlyShownDataProvider == dataProvider)
 	{

@@ -21,6 +21,6 @@
 @property (nonatomic, strong, readonly) NSArray<NSNumber* /* DTXSampleType */>* sampleTypes;
 @property (nonatomic, strong, readonly) NSArray<NSString*>* filteredAttributes;
 
-- (void)filterSamplesWithFilter:(NSString*)filter;
+- (void)filterSamplesWithPredicate:(NSPredicate*)predicate;
 
 @end

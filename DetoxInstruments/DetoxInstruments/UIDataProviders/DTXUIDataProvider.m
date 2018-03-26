@@ -399,6 +399,17 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	return NO;
 }
 
+- (NSPredicate *)predicateForFilter:(NSString *)filter
+{
+	NSMutableArray* predicates = [NSMutableArray new];
+	
+	[self.filteredAttributes enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[predicates addObject:[NSPredicate predicateWithFormat:@"%K CONTAINS[cd] %@", obj, filter]];
+	}];
+	
+	return [NSCompoundPredicate orPredicateWithSubpredicates:predicates];
+}
+
 - (void)filterSamplesWithFilter:(NSString *)filter
 {
 	if(filter.length == 0)
@@ -416,7 +427,7 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 		_managedOutlineView.dataSource = _filteredDataProvider;
 	}
 	
-	[_filteredDataProvider filterSamplesWithFilter:filter];
+	[_filteredDataProvider filterSamplesWithPredicate:[self predicateForFilter:filter]];
 	[_managedOutlineView reloadData];
 	[_managedOutlineView expandItem:nil expandChildren:YES];
 	

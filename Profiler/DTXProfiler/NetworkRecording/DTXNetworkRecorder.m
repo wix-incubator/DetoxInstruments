@@ -69,7 +69,7 @@ static dispatch_queue_t __networkListenersQueue;
 	});
 }
 
-#pragma mark DBURLProtocolDelegate
+#pragma mark NSURLProtocolDelegate
 
 + (void)urlProtocol:(NSURLProtocol*)protocol didStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier
 {
