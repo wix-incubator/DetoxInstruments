@@ -16,6 +16,7 @@
 #import <CoreServices/CoreServices.h>
 #import "DTXRecording+UIExtensions.h"
 
+static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility";
 static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
 static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollapsed";
 
@@ -67,7 +68,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 {
     [super windowDidLoad];
 	
-//	self.window.titleVisibility = NSWindowTitleHidden;
+	self.window.titleVisibility = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowTitleVisibility];
 	
 	[self.window center];
 	
@@ -187,10 +188,17 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (void)_fixUpRecordingButtons
 {
-	_stopRecordingButton.enabled =  _stopRecordingButton.alphaValue = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
-	_flagButton.enabled = _flagButton.alphaValue = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
-	_pushGroupButton.enabled = _pushGroupButton.alphaValue = 0.0; //[(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
-	_popGroupButton.enabled = _popGroupButton.alphaValue = 0.0; //[(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_stopRecordingButton.enabled = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_stopRecordingButton.hidden = !_stopRecordingButton.enabled;
+	
+	_flagButton.enabled = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_flagButton.hidden = !_flagButton.enabled;
+	
+	_pushGroupButton.enabled = 0.0; //[(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_pushGroupButton.hidden = !_pushGroupButton.enabled;
+	
+	_popGroupButton.enabled = _popGroupButton.hidden = 0.0; //[(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_popGroupButton.hidden = !_popGroupButton.enabled;
 }
 
 - (IBAction)_stopRecordingButtonPressed:(id)sender
@@ -301,6 +309,13 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+	if(menuItem.action == @selector(_toggleTitleVisibility:))
+	{
+		menuItem.title = self.window.titleVisibility == NSWindowTitleHidden ? NSLocalizedString(@"Show Window Title", @"") : NSLocalizedString(@"Hide Window Title", @"");
+		
+		return YES;
+	}
+	
 	if(menuItem.action == @selector(fitAllData:) || menuItem.action == @selector(zoomIn:) || menuItem.action == @selector(zoomOut:))
 	{
 		return YES;
@@ -322,6 +337,34 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	}
 	
 	return menuItem.action == @selector(toggleBottom:) || menuItem.action == @selector(selectExtendedDetail:) || menuItem.action == @selector(selectProfilingInfo:);
+}
+
+- (void)_resetWindowTitles
+{
+	NSURL* url = self.window.representedURL;
+	[self.window setRepresentedURL:nil];
+	[self.window setRepresentedURL:url];
+	
+	[self.window.tabbedWindows enumerateObjectsUsingBlock:^(NSWindow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSURL* url = obj.representedURL;
+		[obj setRepresentedURL:nil];
+		[obj setRepresentedURL:url];
+	}];
+}
+
+- (IBAction)_toggleTitleVisibility:(id)sender
+{
+	self.window.titleVisibility = 1 - self.window.titleVisibility;
+	
+	[self.window.tabbedWindows enumerateObjectsUsingBlock:^(NSWindow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		obj.titleVisibility = self.window.titleVisibility;
+	}];
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self _resetWindowTitles];
+	});
+	
+	[NSUserDefaults.standardUserDefaults setInteger:self.window.titleVisibility forKey:__DTXWindowTitleVisibility];
 }
 
 - (IBAction)copy:(id)sender

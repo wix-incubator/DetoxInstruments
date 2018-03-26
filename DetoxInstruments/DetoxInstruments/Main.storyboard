@@ -471,6 +471,12 @@
                                                 <action selector="toggleFullScreen:" target="Ady-hI-5gd" id="yjW-Ma-KlO"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Hide Window Title" id="XWS-r2-0VU">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="_toggleTitleVisibility:" target="Ady-hI-5gd" id="pDj-qy-KBB"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1m8-sj-OtB"/>
                                         <menuItem title="Zoom In" keyEquivalent="+" id="Ytd-Va-2ao">
                                             <connections>
@@ -570,7 +576,7 @@
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-853" y="-714"/>
+            <point key="canvasLocation" x="-902" y="-758"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
