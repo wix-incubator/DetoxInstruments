@@ -27,16 +27,6 @@
 	self.applicationCopyrightTextField.stringValue = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"];
 }
 
-- (IBAction)openGitHubPage:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments"]];
-}
-
-- (IBAction)openAcknowledgementsPage:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/blob/master/Documentation/Acknowledgements.md"]];
-}
-
 + (NSImage *)_bestIcon
 {
 	NSString *resource = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleIconFile"];

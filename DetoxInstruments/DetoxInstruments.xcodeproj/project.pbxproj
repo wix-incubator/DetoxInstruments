@@ -60,6 +60,8 @@
 		396A6B481F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B471F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m */; };
 		396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */; };
 		396A6B5F1F4F107700768536 /* DTXHighlightingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5E1F4F107700768536 /* DTXHighlightingTableCellView.m */; };
+		3972E67920694E6800F099DE /* Acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 3972E67820694E6800F099DE /* Acknowledgements.html */; };
+		3972E67C2069544900F099DE /* DTXAcknowledgementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */; };
 		39775F241EE826F2001F69CC /* DTXValueIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */; };
 		39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */; };
 		39782CDB1FC590DB0034D70A /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39782CD21FC590D90034D70A /* DTXInstruments.xcdatamodeld */; };
@@ -429,6 +431,9 @@
 		396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXHighlightingAttributedTextField.m; sourceTree = "<group>"; };
 		396A6B5D1F4F107700768536 /* DTXHighlightingTableCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXHighlightingTableCellView.h; sourceTree = "<group>"; };
 		396A6B5E1F4F107700768536 /* DTXHighlightingTableCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXHighlightingTableCellView.m; sourceTree = "<group>"; };
+		3972E67820694E6800F099DE /* Acknowledgements.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = Acknowledgements.html; sourceTree = "<group>"; };
+		3972E67A2069544900F099DE /* DTXAcknowledgementsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAcknowledgementsViewController.h; sourceTree = "<group>"; };
+		3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAcknowledgementsViewController.m; sourceTree = "<group>"; };
 		39775F221EE826F2001F69CC /* DTXValueIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXValueIndicatorView.h; sourceTree = "<group>"; };
 		39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXValueIndicatorView.m; sourceTree = "<group>"; };
 		39775F5A1EE83729001F69CC /* NSFormatter+PlotFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFormatter+PlotFormatters.h"; sourceTree = "<group>"; };
@@ -1058,6 +1063,8 @@
 				390442432067036100A29048 /* DTXAboutWindowController.m */,
 				3904425C206703E500A29048 /* DTXAboutViewController.h */,
 				3904425D206703E500A29048 /* DTXAboutViewController.m */,
+				3972E67A2069544900F099DE /* DTXAcknowledgementsViewController.h */,
+				3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
 				3997A8A61EE9422D0057418B /* dtxicon.iconset */,
 				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
@@ -1066,6 +1073,7 @@
 				39487CB81F435F090063E66D /* SharedSupport */,
 				393E66D81FC592BE0092EE89 /* Swiftier.h */,
 				393E66DA1FC594B30092EE89 /* PrefixHeader.pch */,
+				3972E67820694E6800F099DE /* Acknowledgements.html */,
 			);
 			path = DetoxInstruments;
 			sourceTree = "<group>";
@@ -1329,6 +1337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
+				3972E67920694E6800F099DE /* Acknowledgements.html in Resources */,
 				3914B33F1F3B89C300650539 /* Localizable.stringsdict in Resources */,
 				399B4DCD1ED574E70098D2AC /* Main.storyboard in Resources */,
 				3997A8A71EE94BD00057418B /* dtxicon.iconset in Resources */,
@@ -1413,6 +1422,7 @@
 				39008F241EF274FD0013B584 /* DTXInspectorTableView.m in Sources */,
 				3943CA851EEEF46F0009AD88 /* NSColor+UIAdditions.m in Sources */,
 				39EE1F581F3E4411002CB6C1 /* DTXRNBridgeCallsDataProvider.m in Sources */,
+				3972E67C2069544900F099DE /* DTXAcknowledgementsViewController.m in Sources */,
 				39E20F5B1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m in Sources */,
 				39008F0E1EF26A960013B584 /* DTXImageViewCellView.m in Sources */,
 				394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */,

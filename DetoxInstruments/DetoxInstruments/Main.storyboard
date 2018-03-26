@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14105" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14105"/>
+        <plugIn identifier="com.apple.WebKit2IBPlugin" version="14105"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -26,7 +27,53 @@
                 </windowController>
                 <customObject id="CB1-Tv-orm" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-853" y="-1529"/>
+            <point key="canvasLocation" x="-1016" y="-1578"/>
+        </scene>
+        <!--Acknowledgements View Controller-->
+        <scene sceneID="GeM-yE-4pz">
+            <objects>
+                <viewController id="7ar-qN-jCn" customClass="DTXAcknowledgementsViewController" sceneMemberID="viewController">
+                    <view key="view" id="pTN-zg-Kqv">
+                        <rect key="frame" x="0.0" y="0.0" width="716" height="429"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RDj-fF-Hpv">
+                                <rect key="frame" x="627" y="13" width="75" height="32"/>
+                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fDS-Pr-qbn">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="7ar-qN-jCn" id="YES-kQ-ub9"/>
+                                </connections>
+                            </button>
+                            <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aRa-rQ-NRP">
+                                <rect key="frame" x="0.0" y="61" width="716" height="368"/>
+                                <wkWebViewConfiguration key="configuration" suppressesIncrementalRendering="YES">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences" javaScriptCanOpenWindowsAutomatically="NO" javaScriptEnabled="NO"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="RDj-fF-Hpv" firstAttribute="top" secondItem="aRa-rQ-NRP" secondAttribute="bottom" constant="20" id="EJC-pW-F2O"/>
+                            <constraint firstAttribute="trailing" secondItem="RDj-fF-Hpv" secondAttribute="trailing" constant="20" id="Gq1-Zx-rcJ"/>
+                            <constraint firstItem="aRa-rQ-NRP" firstAttribute="leading" secondItem="pTN-zg-Kqv" secondAttribute="leading" id="PtH-3D-wB8"/>
+                            <constraint firstAttribute="trailing" secondItem="aRa-rQ-NRP" secondAttribute="trailing" id="SRC-KI-VG7"/>
+                            <constraint firstAttribute="bottom" secondItem="RDj-fF-Hpv" secondAttribute="bottom" constant="20" id="bAR-cK-Drx"/>
+                            <constraint firstItem="aRa-rQ-NRP" firstAttribute="top" secondItem="pTN-zg-Kqv" secondAttribute="top" id="eHv-R1-b77"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_webView" destination="aRa-rQ-NRP" id="YQw-7K-pbz"/>
+                    </connections>
+                </viewController>
+                <customObject id="Ad7-g0-rFk" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-200" y="-1421.5"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="F1j-ej-yNt">
@@ -65,7 +112,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="openGitHubPage:" target="8o4-CM-wan" id="KpA-AH-9nE"/>
+                                                <action selector="openGitHubPage:" target="7EW-pk-PoW" id="xDk-qr-HDZ"/>
                                             </connections>
                                         </button>
                                         <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1FV-EM-lIt">
@@ -75,7 +122,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="openAcknowledgementsPage:" target="8o4-CM-wan" id="H8W-f1-H4g"/>
+                                                <segue destination="7ar-qN-jCn" kind="sheet" id="QBa-17-5ZZ"/>
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="9g1-jh-QdN">
@@ -134,7 +181,7 @@
                 </viewController>
                 <customObject id="7EW-pk-PoW" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-853" y="-1103"/>
+            <point key="canvasLocation" x="-1016" y="-1102"/>
         </scene>
         <!--Instruments Application-->
         <scene sceneID="JPo-4y-FX3">
