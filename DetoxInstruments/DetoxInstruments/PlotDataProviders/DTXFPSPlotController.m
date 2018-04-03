@@ -28,7 +28,7 @@
 
 - (NSImage*)displayIcon
 {
-	return [NSImage imageNamed:@"graphicsDriverUtility"];
+	return [NSImage imageNamed:@"GPU"];
 }
 
 - (NSArray<NSString*>*)sampleKeys

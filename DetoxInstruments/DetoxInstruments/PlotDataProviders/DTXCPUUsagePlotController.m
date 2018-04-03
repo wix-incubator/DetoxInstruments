@@ -29,7 +29,7 @@
 
 - (NSImage*)displayIcon
 {
-	return [NSImage imageNamed:@"CPUActivity"];
+	return [NSImage imageNamed:@"CPUUsage"];
 }
 
 - (NSArray<NSString*>*)sampleKeys

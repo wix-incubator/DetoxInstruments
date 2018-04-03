@@ -10,19 +10,4 @@
 
 @implementation DTXSample (UIExtensions)
 
-- (NSString *)descriptionForUI
-{
-	return [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Sample", @""), NSStringFromClass([self class])];
-}
-
-- (NSImage*)imageForUI
-{
-	return [NSImage imageNamed:@"networkActivity_tb"];
-}
-
-- (BOOL)isKind
-{
-	return YES;
-}
-
 @end

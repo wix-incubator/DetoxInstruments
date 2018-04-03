@@ -136,7 +136,10 @@
 	_connection.delegate = nil;
 	_connection = nil;
 	
-	[self.delegate connectionDidCloseForProfilingTarget:self];
+	if([self.delegate respondsToSelector:@selector(connectionDidCloseForProfilingTarget:)])
+	{
+		[self.delegate connectionDidCloseForProfilingTarget:self];
+	}
 }
 
 - (void)_readNextCommand
@@ -146,6 +149,12 @@
 	[self _readCommandWithCompletionHandler:^(NSDictionary *cmd)
 	{
 		switch ((DTXRemoteProfilingCommandType)[cmd[@"cmdType"] unsignedIntegerValue]) {
+			case DTXRemoteProfilingCommandTypeDownloadContainer:
+				[weakSelf _handleDeviceContainerContentsZip:cmd];
+				break;
+			case DTXRemoteProfilingCommandTypeGetContainerContents:
+				[weakSelf _handleDeviceContainerContents:cmd];
+				break;
 			case DTXRemoteProfilingCommandTypeGetDeviceInfo:
 				[weakSelf _handleDeviceInfo:cmd];
 				break;
@@ -174,7 +183,30 @@
 	
 	_state = DTXRemoteProfilingTargetStateDeviceInfoLoaded;
 	
-	[self.delegate profilingTargetDidLoadDeviceInfo:self];
+	if([self.delegate respondsToSelector:@selector(profilingTargetDidLoadDeviceInfo:)])
+	{
+		[self.delegate profilingTargetDidLoadDeviceInfo:self];
+	}
+}
+
+- (void)_handleDeviceContainerContents:(NSDictionary*)containerContents
+{
+	_containerContents = [NSKeyedUnarchiver unarchiveObjectWithData:containerContents[@"containerContents"]];
+	
+	if([self.delegate respondsToSelector:@selector(profilingTargetdidLoadContainerContents:)])
+	{
+		[self.delegate profilingTargetdidLoadContainerContents:self];
+	}
+}
+
+- (void)_handleDeviceContainerContentsZip:(NSDictionary*)containerContents
+{
+	NSData* containerContentsZip = containerContents[@"containerContentsZip"];
+	
+	if([self.delegate respondsToSelector:@selector(profilingTarget:didDownloadContainerContents:)])
+	{
+		[self.delegate profilingTarget:self didDownloadContainerContents:containerContentsZip];
+	}
 }
 
 - (void)_handleProfilerStoryEvent:(NSDictionary*)storyEvent
@@ -231,6 +263,16 @@
 - (void)loadDeviceInfo
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetDeviceInfo)} completionHandler:nil];
+}
+
+- (void)loadContainerContents
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetContainerContents)} completionHandler:nil];
+}
+
+- (void)downloadContainer
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeDownloadContainer)} completionHandler:nil];
 }
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration

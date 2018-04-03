@@ -33,7 +33,7 @@
 
 - (NSImage*)displayIcon
 {
-	return [NSImage imageNamed:@"CPUActivity"];
+	return [NSImage imageNamed:@"CPUUsage"];
 }
 
 - (NSImage *)secondaryIcon

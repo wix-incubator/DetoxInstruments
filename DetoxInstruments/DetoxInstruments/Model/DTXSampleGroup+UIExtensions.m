@@ -11,11 +11,6 @@
 
 @implementation DTXSampleGroup (UIExtensions)
 
-- (NSString *)descriptionForUI
-{
-	return self.name ?: [NSDateFormatter localizedStringFromDate:self.timestamp dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle];
-}
-
 - (NSFetchRequest<DTXSample*>*)fetchRequestForSamplesWithTypes:(NSArray<NSNumber*>*)sampleTypes includingGroups:(BOOL)includeGroups
 {
 	NSFetchRequest* fr = [NSFetchRequest new];

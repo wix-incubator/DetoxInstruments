@@ -11,9 +11,4 @@
 
 @interface DTXSample (UIExtensions)
 
-@property (nonatomic, copy, readonly) NSString* descriptionForUI;
-@property (nonatomic, strong, readonly) NSImage* imageForUI;
-
-- (BOOL)isKind;
-
 @end

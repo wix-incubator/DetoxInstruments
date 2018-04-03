@@ -8,4 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-extern BOOL DTXWriteZipFileWithDirectoryContents(NSURL* url, NSURL* directoryURL);
+extern BOOL DTXWriteZipFileWithDirectoryContents(NSURL* zipURL, NSURL* directoryURL);

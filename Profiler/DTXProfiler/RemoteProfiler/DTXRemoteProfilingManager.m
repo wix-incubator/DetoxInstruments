@@ -13,6 +13,7 @@
 #import "DTXRemoteProfiler.h"
 #import "DTXRemoteProfilingBasics.h"
 #import "DTXDeviceInfo.h"
+#import "DTXFileSystemItem.h"
 #import "AutoCoding.h"
 
 DTX_CREATE_LOG(RemoteProfilingManager);
@@ -180,6 +181,16 @@ static DTXRemoteProfilingManager* __sharedManager;
 				}];
 				_remoteProfiler = nil;
 			}	break;
+			case DTXRemoteProfilingCommandTypeGetContainerContents:
+			{
+				[self _sendContainerContents];
+				
+			}	break;
+			case DTXRemoteProfilingCommandTypeDownloadContainer:
+			{
+				[self _sendContainerContentsZip];
+				
+			}	break;
 			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
 			{
 				NSAssert(NO, @"Should not be here.");
@@ -239,6 +250,30 @@ static DTXRemoteProfilingManager* __sharedManager;
 //	{
 //		cmd[@"snapshot"] = screenImageData;
 //	}
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)_sendContainerContents
+{
+	NSURL* baseDataURL = [[[[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@".."] URLByStandardizingPath];
+	DTXFileSystemItem* rootItem = [[DTXFileSystemItem alloc] initWithFileURL:baseDataURL];
+	
+	NSMutableDictionary* cmd = [NSMutableDictionary new];
+	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetContainerContents);
+	cmd[@"containerContents"] = [NSKeyedArchiver archivedDataWithRootObject:rootItem];
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)_sendContainerContentsZip
+{
+	NSURL* baseDataURL = [[[[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@".."] URLByStandardizingPath];
+	DTXFileSystemItem* rootItem = [[DTXFileSystemItem alloc] initWithFileURL:baseDataURL];
+	
+	NSMutableDictionary* cmd = [NSMutableDictionary new];
+	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeDownloadContainer);
+	cmd[@"containerContentsZip"] = [rootItem zipContents];
 	
 	[self _writeCommand:cmd completionHandler:nil];
 }

@@ -26,9 +26,4 @@ NSByteCountFormatter* __byteFormatter;
 	});
 }
 
-- (NSString *)descriptionForUI
-{
-	return [NSString stringWithFormat:@"%@: %2lf %@: %@ %@: %@ %@: %@, %@: %@", NSLocalizedString(@"FPS", @""), self.fps, NSLocalizedString(@"CPU", @""), [__percentFormatter stringFromNumber:@(self.cpuUsage / 100.0)], NSLocalizedString(@"Memory", @""), [__byteFormatter stringFromByteCount:self.memoryUsage], NSLocalizedString(@"Disk Read", @""), [__byteFormatter stringFromByteCount:self.diskReads], NSLocalizedString(@"Disk Written", @""), [__byteFormatter stringFromByteCount:self.diskWrites]];
-}
-
 @end
