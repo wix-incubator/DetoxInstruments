@@ -26,6 +26,13 @@
 	self.view.wantsLayer = YES;
 }
 
+- (void)viewDidAppear
+{
+	[super viewDidAppear];
+	
+	[_outlineView.window makeFirstResponder:_outlineView];
+}
+
 //- (void)viewWillAppear
 //{
 //	_constraint.active = NO;

@@ -49,6 +49,11 @@
 	return [NSString stringWithFormat:buildInfoStringFormat, [self _applicationDisplayName], [self _buildVersion], [self _buildNumber]];
 }
 
++ (NSString*)_bundleIdentifier
+{
+	return [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+}
+
 + (NSDictionary*)deviceInfoDictionary
 {
 	NSProcessInfo* processInfo = [NSProcessInfo processInfo];

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DTXFileSystemItem.h"
 @import CoreData;
 
 @class DTXRemoteProfilingTarget, DTXProfilingConfiguration;
@@ -26,6 +27,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 
 - (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget*)target;
 - (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteProfilingTarget*)target;
+- (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget*)target;
+- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didDownloadContainerContents:(NSData*)containerContentsZip;
 
 @end
 
@@ -37,6 +40,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 @property (nonatomic, copy, readonly) NSString* deviceOS;
 @property (nonatomic, copy, readonly) NSImage* deviceSnapshot;
 @property (nonatomic, copy, readonly) NSDictionary* deviceInfo;
+
+@property (nonatomic, strong, readonly) DTXFileSystemItem* containerContents;
 
 @property (nonatomic, assign, readonly) DTXRemoteProfilingTargetState state;
 
@@ -50,5 +55,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 - (void)pushSampleGroupWithName:(NSString*)name;
 - (void)popSampleGroup;
 - (void)stopProfiling;
+- (void)loadContainerContents;
+- (void)downloadContainer;
 
 @end

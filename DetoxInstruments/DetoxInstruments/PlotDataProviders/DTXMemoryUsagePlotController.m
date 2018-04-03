@@ -29,7 +29,7 @@
 
 - (NSImage*)displayIcon
 {
-	return [NSImage imageNamed:@"memoryTracker"];
+	return [NSImage imageNamed:@"MemoryUsage"];
 }
 
 - (NSArray<NSString*>*)sampleKeys

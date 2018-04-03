@@ -13,6 +13,7 @@
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import "_DTXTargetsOutlineViewContoller.h"
 #import "_DTXProfilingConfigurationViewController.h"
+#import "_DTXContainerContentsOutlineViewController.h"
 
 @import QuartzCore;
 
@@ -24,6 +25,8 @@
 	NSOutlineView* _outlineView;
 	
 	_DTXProfilingConfigurationViewController* _profilingConfigurationController;
+	_DTXContainerContentsOutlineViewController* _containerContentsOutlineViewController;
+	NSViewController* _activeController;
 	
 	IBOutlet NSButton* _selectButton;
 	IBOutlet NSButton* _cancelButton;
@@ -66,12 +69,19 @@
 	
 	_profilingConfigurationController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXProfilingConfigurationViewController"];
 	[self addChildViewController:_profilingConfigurationController];
-	_profilingConfigurationController.view.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	_containerContentsOutlineViewController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXContainerContentsOutlineViewController"];
+	[self addChildViewController:_containerContentsOutlineViewController];
 	
 	_outlineController.view.translatesAutoresizingMaskIntoConstraints = NO;
 	_profilingConfigurationController.view.translatesAutoresizingMaskIntoConstraints = NO;
+	_containerContentsOutlineViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
 	
 	[_containerView addSubview:_outlineController.view];
+	
+	_activeController = _outlineController;
+	
+	[self _resetToDevice];
 }
 
 - (void)viewDidAppear
@@ -95,7 +105,7 @@
 	[_browser searchForServicesOfType:@"_detoxprofiling._tcp" inDomain:@""];
 }
 
-- (IBAction)selectRecording:(id)sender
+- (IBAction)selectButtonClicked:(id)sender
 {
 	if(_outlineView.selectedRow == -1)
 	{
@@ -116,7 +126,7 @@
 
 - (IBAction)cancel:(id)sender
 {
-	if(_profilingConfigurationController.view.superview != nil)
+	if(_activeController != _outlineController)
 	{
 		[self _transitionToDevice];
 		
@@ -133,6 +143,8 @@
 
 - (void)_transitionToOptions
 {
+	_activeController = _profilingConfigurationController;
+	
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
 		context.duration = 0.3;
 		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
@@ -146,19 +158,62 @@
 	_cancelButton.title = NSLocalizedString(@"Back", @"");
 }
 
+- (void)_resetToDevice
+{
+	_selectButton.hidden = NO;
+	_selectButton.target = self;
+	_selectButton.keyEquivalent = @"\r";
+	_selectButton.title = NSLocalizedString(@"Profile", @"");
+	_optionsButton.hidden = NO;
+	_cancelButton.title = NSLocalizedString(@"Cancel", @"");
+	[self _validateSelectButton];
+}
+
 - (void)_transitionToDevice
 {
+	[_containerContentsOutlineViewController.defaultButton removeFromSuperview];
+	
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
 		context.duration = 0.3;
 		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
 		
-		[self transitionFromViewController:_profilingConfigurationController toViewController:_outlineController options:NSViewControllerTransitionSlideBackward completionHandler:nil];
+		[self transitionFromViewController:_activeController toViewController:_outlineController options:NSViewControllerTransitionSlideBackward completionHandler:nil];
 	} completionHandler:nil];
 	
-	_selectButton.hidden = NO;
-	_optionsButton.hidden = NO;
-	_cancelButton.title = NSLocalizedString(@"Cancel", @"");
-	[self _validateSelectButton];
+	_activeController = _outlineController;
+	
+	[self _resetToDevice];
+}
+
+- (void)_transitionToContainerContentsWithTarget:(DTXRemoteProfilingTarget*)target
+{
+	_activeController = _containerContentsOutlineViewController;
+
+	_containerContentsOutlineViewController.profilingTarget = target;
+
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+		context.duration = 0.3;
+		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+
+		[self transitionFromViewController:_outlineController toViewController:_containerContentsOutlineViewController options:NSViewControllerTransitionSlideForward completionHandler:nil];
+	} completionHandler:nil];
+
+	_selectButton.enabled = NO;
+	_selectButton.hidden = YES;
+	_optionsButton.hidden = YES;
+	
+	NSButton* button = _containerContentsOutlineViewController.defaultButton;
+	button.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.view addSubview:button];
+	
+	[NSLayoutConstraint activateConstraints:@[
+											  [_selectButton.widthAnchor constraintEqualToAnchor:button.widthAnchor],
+											  [_selectButton.heightAnchor constraintEqualToAnchor:button.heightAnchor],
+											  [_selectButton.leadingAnchor constraintEqualToAnchor:button.leadingAnchor],
+											  [_selectButton.bottomAnchor constraintEqualToAnchor:button.bottomAnchor],
+											  ]];
+	
+	_cancelButton.title = NSLocalizedString(@"Back", @"");
 }
 
 - (void)_addTarget:(DTXRemoteProfilingTarget*)target forService:(NSNetService*)service
@@ -180,6 +235,8 @@
 	DTXRemoteProfilingTarget* target = [_serviceToTargetMapping objectForKey:service];
 	if(target == nil)
 	{
+		[_outlineView reloadData];
+		
 		return;
 	}
 	
@@ -187,6 +244,8 @@
 	
 	if(index == NSNotFound)
 	{
+		[_outlineView reloadData];
+		
 		return;
 	}
 	
@@ -200,6 +259,13 @@
 - (void)_updateTarget:(DTXRemoteProfilingTarget*)target
 {
 	[_outlineView reloadItem:target];
+}
+
+- (IBAction)_containerContentsClicked:(NSButton*)sender
+{
+	NSInteger row = [_outlineView rowForView:sender];
+	
+	[self _transitionToContainerContentsWithTarget:_targets[row]];
 }
 
 - (IBAction)_doubleClicked:(id)sender
@@ -358,6 +424,27 @@
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self _updateTarget:target];
+	});
+}
+
+- (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget *)target
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[_containerContentsOutlineViewController reloadContainerContents];
+	});
+}
+
+- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didDownloadContainerContents:(NSData *)containerContentsZip
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[_containerContentsOutlineViewController showSaveDialogWithCompletionHandler:^(NSURL *saveLocation) {
+			if(saveLocation == nil)
+			{
+				return;
+			}
+			
+			[containerContentsZip writeToURL:saveLocation atomically:YES];
+		}];
 	});
 }
 

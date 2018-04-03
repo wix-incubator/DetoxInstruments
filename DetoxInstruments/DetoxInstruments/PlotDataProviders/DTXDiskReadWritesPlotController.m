@@ -29,7 +29,7 @@
 
 - (NSImage*)displayIcon
 {
-	return [NSImage imageNamed:@"fileActivity"];
+	return [NSImage imageNamed:@"DiskActivity"];
 }
 
 - (NSArray<NSString*>*)sampleKeys

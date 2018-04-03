@@ -12,7 +12,6 @@
 #import "DTXInstrumentsModelUIExtensions.h"
 #import "DTXLogDataProvider.h"
 #import "DTXMenuPathControl.h"
-#import "NSImage+ImageResize.h"
 #import "DTXFilterField.h"
 
 @interface DTXBottomContentController () <DTXMenuPathControlDelegate, DTXUIDataProviderDelegate, DTXFilterFieldDelegate>
@@ -111,7 +110,8 @@
 	NSMenuItem* item1 = [NSMenuItem new];
 	item1.attributedTitle = [[NSAttributedString alloc] initWithString: indexOfCell > 0 ? cell.title : _managingDataProvider.displayName attributes: cell.font ? @{NSFontAttributeName: cell.font} : @{}];
 	item1.state = self._isLogShown == NO ? NSOnState : NSOffState;
-	item1.image = indexOfCell == 0 ? [[NSImage imageNamed:[NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]] dtx_imageWithSize:NSMakeSize(16, 16)] : nil;
+	item1.image = indexOfCell == 0 ? [NSImage imageNamed:[NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]] : nil;
+	item1.image.size = NSMakeSize(16, 16);
 	item1.target = self;
 	item1.action = @selector(_selectManagingDataProvider);
 	[m addItem:item1];

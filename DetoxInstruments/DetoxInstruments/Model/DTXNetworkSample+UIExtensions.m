@@ -13,9 +13,4 @@ extern NSByteCountFormatter* __byteFormatter;
 
 @implementation DTXNetworkSample (UIExtensions)
 
-- (NSString *)descriptionForUI
-{
-	return [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"URL", @""), self.url];
-}
-
 @end

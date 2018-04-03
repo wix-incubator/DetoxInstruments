@@ -33,7 +33,7 @@
 
 - (NSImage*)displayIcon
 {
-	return [NSImage imageNamed:@"bridgeData"];
+	return [NSImage imageNamed:@"RNBridgeData"];
 }
 
 - (NSImage *)secondaryIcon

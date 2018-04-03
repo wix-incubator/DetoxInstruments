@@ -268,7 +268,7 @@
 
 - (NSImage*)displayIcon
 {
-	return [NSImage imageNamed:@"networkActivity"];
+	return [NSImage imageNamed:@"NetworkActivity"];
 }
 
 - (CGFloat)requiredHeight

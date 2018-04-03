@@ -33,7 +33,7 @@
 
 - (NSImage*)displayIcon
 {
-	return [NSImage imageNamed:@"counters"];
+	return [NSImage imageNamed:@"RNBridgeCounters"];
 }
 
 - (NSImage *)secondaryIcon
