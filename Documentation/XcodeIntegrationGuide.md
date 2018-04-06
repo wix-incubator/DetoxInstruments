@@ -1,4 +1,4 @@
-# Profiler Framework Integration Guide—iOS
+# Profiler Framework Integration Guide with Xcode
 
 The following steps explain how to link the Profiler framework into your iOS application, providing a quick and easy way to enable profiling of your application.
 
