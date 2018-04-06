@@ -80,6 +80,7 @@
 		398D6EA51EE0596500AA9C11 /* DTXPlotHostingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA41EE0596500AA9C11 /* DTXPlotHostingTableCellView.m */; };
 		398D6EA91EE061FE00AA9C11 /* DTXMainContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA81EE061FE00AA9C11 /* DTXMainContentController.m */; };
 		398D6EAC1EE0626400AA9C11 /* DTXSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */; };
+		3991281A2078252500180673 /* DetoxInstruments.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 399128012078252500180673 /* DetoxInstruments.iconset */; };
 		3997A8A71EE94BD00057418B /* dtxicon.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 3997A8A61EE9422D0057418B /* dtxicon.iconset */; };
 		3997A8BA1EE980700057418B /* DTXUIDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997A8B91EE980700057418B /* DTXUIDataProvider.m */; };
 		399B3FBC1F248C3C00335109 /* DTXRemoteProfilingTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B3FBB1F248C3C00335109 /* DTXRemoteProfilingTarget.m */; };
@@ -471,6 +472,7 @@
 		398D6EA81EE061FE00AA9C11 /* DTXMainContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXMainContentController.m; sourceTree = "<group>"; };
 		398D6EAA1EE0626400AA9C11 /* DTXSamplePlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSamplePlotController.h; sourceTree = "<group>"; };
 		398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSamplePlotController.m; sourceTree = "<group>"; };
+		399128012078252500180673 /* DetoxInstruments.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = DetoxInstruments.iconset; sourceTree = "<group>"; };
 		3997A8A61EE9422D0057418B /* dtxicon.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = dtxicon.iconset; sourceTree = "<group>"; };
 		3997A8B61EE97DFE0057418B /* DTXUISampleTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXUISampleTypes.h; sourceTree = "<group>"; };
 		3997A8B81EE980700057418B /* DTXUIDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXUIDataProvider.h; sourceTree = "<group>"; };
@@ -1072,6 +1074,7 @@
 				3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
 				3997A8A61EE9422D0057418B /* dtxicon.iconset */,
+				399128012078252500180673 /* DetoxInstruments.iconset */,
 				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
 				3905F48B1EF72B4B003E08C1 /* DetoxInstruments.entitlements */,
 				3914B33E1F3B89C300650539 /* Localizable.stringsdict */,
@@ -1346,6 +1349,7 @@
 				3914B33F1F3B89C300650539 /* Localizable.stringsdict in Resources */,
 				399B4DCD1ED574E70098D2AC /* Main.storyboard in Resources */,
 				3997A8A71EE94BD00057418B /* dtxicon.iconset in Resources */,
+				3991281A2078252500180673 /* DetoxInstruments.iconset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1640,7 +1644,7 @@
 		39EBDFD01ED36D45005D8AB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = DetoxInstrumentsBeta;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_OBJC_UNUSED_IVARS = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
@@ -1665,7 +1669,7 @@
 		39EBDFD11ED36D45005D8AB1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = DetoxInstrumentsBeta;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
