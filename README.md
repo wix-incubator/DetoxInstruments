@@ -12,7 +12,7 @@ Detox Instruments supports profiling the following metrics:
 
 * Performance Profiling
 	* CPU Load
-		* Per Thread Breakdown of CPU load
+		* Per Thread Breakdown of CPU Load
 		* Heaviest Stack Trace Sampling
 		* Automatic Runtime Symbolication of Stack Traces
 	* Memory Usage
@@ -28,6 +28,8 @@ Detox Instruments supports profiling the following metrics:
 	* Bridge Call Counters
 	* Bridge Data Counters
 		* Bridge Data Collection **(Coming Soon)**
+
+For a list of available instruments and their description, see [Available Instruments](Documentation/AvailableInstruments.md).
 
 ## Installation
 
@@ -67,6 +69,14 @@ A recording document is used to initiate new profiling and view and analyze the 
 You can also save and reopen recording documents in which you’ve collected data previously. A recording document can contain a lot of extremely detailed information, and this information is presented to you through a number of panes and areas.
 
 For detailed information on the recording document, see [The Recording Document](Documentation/RecordingDocument.md).
+
+#### Instruments
+
+Detox Instruments includes many instruments to analyze many aspects of your app.
+
+![CPU Usage](Documentation/Resources/Instrument_CPUUsage.png "CPU Usage")
+
+For a list of available instruments and their description, see [Available Instruments](Documentation/AvailableInstruments.md).
 
 ## Acknowledgements
 
