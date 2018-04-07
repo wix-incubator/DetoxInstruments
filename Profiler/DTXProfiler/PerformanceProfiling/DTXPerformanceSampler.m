@@ -25,8 +25,8 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 @property (nonatomic, strong) DTXFPSCalculator *fpsCalculator;
 
 @property (nonatomic, strong) DTXCPUMeasurement* currentCPU;
-@property (nonatomic, assign) CGFloat currentMemory;
-@property (nonatomic, assign) CGFloat currentFPS;
+@property (nonatomic, assign) double currentMemory;
+@property (nonatomic, assign) double currentFPS;
 @property (nonatomic, assign) uint64_t currentDiskReads;
 @property (nonatomic, assign) uint64_t currentDiskReadsDelta;
 @property (nonatomic, assign) uint64_t currentDiskWrites;
