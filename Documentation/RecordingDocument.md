@@ -1,6 +1,8 @@
 # The Recording Document
 
-A recording document is used to initiate new profiling and view and analyze the results of profiling. You create a new recording document by selecting **New Recording...** in the **File** menu and choosing an app-device pair to profile. You can also save and reopen recording documents in which you’ve collected data previously. A recording document can contain a lot of extremely detailed information, and this information is presented to you through a number of panes and areas.
+A recording document is used to initiate new profiling and view and analyze the results of profiling. You create a new recording document by selecting **File** ➔ **New Recording...** and choosing an app-device pair to profile. You can also save and reopen recording documents in which you’ve collected data previously. A recording document can contain a lot of extremely detailed information, and this information is presented to you through a number of panes and areas.
+
+
 
 ![The Recording Document](Resources/RecordingDocument_Example.png "The Recording Document")
 
@@ -48,11 +50,11 @@ This pane contains instrument-specific additional information that may be useful
 
 ![Inspector Pane](Resources/RecordingDocument_InspectorPane.png "Inspector Pane")
 
-###### Extended Detail
+##### Extended Detail
 
 For some instruments, the extended detail area in the inspector pane shows additional information about the sample currently selected in the detail pane. This extended detail information can include a description, the time when the information was recorded, a stack trace for a sample from the CPU instrument or response and request data for a Network Activity sample.
 
-###### Recording Info
+##### Recording Info
 
 The recording info area includes information about the recording and the profiling options which were used for the recording.
 
