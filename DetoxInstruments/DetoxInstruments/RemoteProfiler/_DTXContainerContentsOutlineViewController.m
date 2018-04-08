@@ -18,6 +18,11 @@
 
 @implementation _DTXContainerContentsOutlineViewController
 
+- (NSArray<NSButton *> *)actionButtons
+{
+	return @[];
+}
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];

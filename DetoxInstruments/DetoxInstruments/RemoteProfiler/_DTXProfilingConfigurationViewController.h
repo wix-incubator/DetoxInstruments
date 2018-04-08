@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "_DTXActionButtonProvider.h"
 
-@interface _DTXProfilingConfigurationViewController : NSViewController
+@interface _DTXProfilingConfigurationViewController : NSViewController <_DTXActionButtonProvider>
 
 @end

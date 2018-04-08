@@ -38,6 +38,9 @@
 @end
 
 @implementation _DTXProfilingConfigurationViewController
+{
+	IBOutlet NSButton* _helpButton;
+}
 
 - (void)viewDidLoad
 {
@@ -54,5 +57,14 @@
 	}
 }
 
+- (NSArray<NSButton *> *)actionButtons
+{
+	return @[_helpButton];
+}
+
+- (IBAction)_helpButtonClicked:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/blob/master/Documentation/ProfilingOptions.md"]];
+}
 
 @end
