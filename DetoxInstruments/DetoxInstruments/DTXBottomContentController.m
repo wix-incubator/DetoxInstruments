@@ -25,6 +25,8 @@
 	DTXLogDataProvider* _logDataProvider;
 	
 	NSObject<DTXUIDataProvider>* _currentlyShownDataProvider;
+	
+	NSImage* _consoleAppImage;
 }
 
 @end
@@ -44,6 +46,10 @@
 	_pathControl.delegate = self;
 	
 	_searchField.filterDelegate = self;
+	
+	__unused NSString* path = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Console"];
+	_consoleAppImage = [[NSWorkspace sharedWorkspace] iconForFile:path] ?: [NSImage imageNamed:@"console_small"];
+	_consoleAppImage.size = NSMakeSize(16, 16);
 	
 	[self _selectManagingDataProvider];
 }
@@ -86,7 +92,7 @@
 - (void)_updatePathControlItems
 {
 	NSPathControlItem* p1 = [NSPathControlItem new];
-	p1.image = [NSImage imageNamed: self._isLogShown ? @"console_small" : [NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]];
+	p1.image = self._isLogShown ? _consoleAppImage : [NSImage imageNamed: [NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]];
 	p1.title = self._isLogShown ? NSLocalizedString(@"Console", @"") : _managingDataProvider ? _managingDataProvider.displayName : @"";
 	
 	if(self._isLogShown == NO && _managingDataProvider != nil)
@@ -119,7 +125,7 @@
 	{
 		NSMenuItem* item2 = [NSMenuItem new];
 		item2.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Console", @"") attributes: cell.font ? @{NSFontAttributeName: cell.font} : @{}];
-		item2.image = [NSImage imageNamed:@"console_small"];
+		item2.image = _consoleAppImage;
 		item2.state = self._isLogShown ? NSOnState : NSOffState;
 		item2.target = self;
 		item2.action = @selector(_selectConsole);
