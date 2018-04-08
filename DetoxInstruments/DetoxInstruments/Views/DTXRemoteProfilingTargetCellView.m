@@ -21,6 +21,18 @@
 @end
 
 @implementation DTXRemoteProfilingTargetCellView
+{
+	IBOutlet NSButton* _filesButton;
+}
+
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	NSImage* folder = [NSImage imageNamed:@"files"];//[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kOpenFolderIcon)];
+	folder.size = NSMakeSize(10, 10);
+	_filesButton.image = folder;
+}
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
 {

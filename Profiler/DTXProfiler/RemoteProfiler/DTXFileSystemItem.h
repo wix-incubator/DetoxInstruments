@@ -11,6 +11,7 @@
 @interface DTXFileSystemItem : NSObject <NSSecureCoding>
 
 @property (nonatomic) BOOL isDirectory;
+@property (nonatomic) BOOL isDirectoryForUI;
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic, copy) NSNumber* size;
 @property (nonatomic, copy) NSArray* children;
@@ -18,6 +19,7 @@
 
 - (instancetype)initWithFileURL:(NSURL*)fileURL;
 
+- (NSData*)contents;
 - (NSData*)zipContents;
 
 @end

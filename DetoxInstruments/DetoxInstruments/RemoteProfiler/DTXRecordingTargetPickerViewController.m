@@ -15,10 +15,11 @@
 #import "_DTXProfilingConfigurationViewController.h"
 #import "_DTXContainerContentsOutlineViewController.h"
 #import "_DTXActionButtonProvider.h"
+#import "SSZipArchive.h"
 
 @import QuartzCore;
 
-@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteProfilingTargetDelegate>
+@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteProfilingTargetDelegate, SSZipArchiveDelegate>
 {
 	IBOutlet NSView* _containerView;
 	IBOutlet NSStackView* _actionButtonStackView;
@@ -406,8 +407,14 @@
 	});
 }
 
-- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didDownloadContainerContents:(NSData *)containerContentsZip
+- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didDownloadContainerContents:(NSData *)containerContents wasZipped:(BOOL)wasZipped
 {
+	if(containerContents.length == 0)
+	{
+		//TODO: Display error
+		return;
+	}
+	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[_containerContentsOutlineViewController showSaveDialogWithCompletionHandler:^(NSURL *saveLocation) {
 			if(saveLocation == nil)
@@ -415,7 +422,21 @@
 				return;
 			}
 			
-			[containerContentsZip writeToURL:saveLocation atomically:YES];
+			if(wasZipped)
+			{
+				NSURL* tempZipURL = [[NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES] URLByAppendingPathComponent:@".containerContents.zip"];
+				[containerContents writeToURL:tempZipURL atomically:YES];
+				
+				[SSZipArchive unzipFileAtPath:tempZipURL.path toDestination:saveLocation.path delegate:self];
+				
+				[[NSFileManager defaultManager] removeItemAtURL:tempZipURL error:NULL];
+			}
+			else
+			{
+				[containerContents writeToURL:saveLocation atomically:YES];
+			}
+			
+			[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[saveLocation]];
 		}];
 	});
 }

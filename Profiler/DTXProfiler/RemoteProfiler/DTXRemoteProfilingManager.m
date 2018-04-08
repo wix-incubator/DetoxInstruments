@@ -188,8 +188,14 @@ static DTXRemoteProfilingManager* __sharedManager;
 			}	break;
 			case DTXRemoteProfilingCommandTypeDownloadContainer:
 			{
-				[self _sendContainerContentsZip];
+				NSURL* URL = [NSURL fileURLWithPath:cmd[@"URL"]];
+				[self _sendContainerContentsZipWithURL:URL];
 				
+			}	break;
+			case DTXRemoteProfilingCommandTypeDeleteContainerIten:
+			{
+				NSURL* URL = [NSURL fileURLWithPath:cmd[@"URL"]];
+				[self _deleteContainerItemWithURL:URL];
 			}	break;
 			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
 			{
@@ -266,14 +272,28 @@ static DTXRemoteProfilingManager* __sharedManager;
 	[self _writeCommand:cmd completionHandler:nil];
 }
 
-- (void)_sendContainerContentsZip
+- (void)_deleteContainerItemWithURL:(NSURL*)URL
 {
-	NSURL* baseDataURL = [[[[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@".."] URLByStandardizingPath];
+	if(URL != nil)
+	{
+		[[NSFileManager defaultManager] removeItemAtURL:URL error:NULL];
+	}
+}
+
+- (void)_sendContainerContentsZipWithURL:(NSURL*)URL
+{
+	NSURL* baseDataURL = URL;
+	if(baseDataURL == nil)
+	{
+		baseDataURL = [[[[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@".."] URLByStandardizingPath];
+	}
+		
 	DTXFileSystemItem* rootItem = [[DTXFileSystemItem alloc] initWithFileURL:baseDataURL];
 	
 	NSMutableDictionary* cmd = [NSMutableDictionary new];
 	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeDownloadContainer);
-	cmd[@"containerContentsZip"] = [rootItem zipContents];
+	cmd[@"containerContents"] = rootItem.isDirectory ? rootItem.zipContents : rootItem.contents;
+	cmd[@"wasZipped"] = @(rootItem.isDirectory);
 	
 	[self _writeCommand:cmd completionHandler:nil];
 }
