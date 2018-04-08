@@ -31,3 +31,6 @@ url=https://github.com/wix/DTXSocketConnection.git
 [submodule "Distribution/homebrew-brew"]
 	path = Distribution/homebrew-brew
 	url = https://github.com/wix/homebrew-brew.git
+[submodule "Shared/ZipArchive"]
+	path = Shared/ZipArchive
+	url = https://github.com/ZipArchive/ZipArchive.git
