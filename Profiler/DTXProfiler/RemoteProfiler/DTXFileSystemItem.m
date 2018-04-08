@@ -89,7 +89,7 @@
 	[aCoder encodeObject:self.children forKey:@"children"];
 }
 
-- (BOOL)isDirectory
+- (BOOL)isDirectoryForUI
 {
 	return _isDirectory && [self.name.pathExtension isEqualToString:@"dtxprof"] == NO;
 }
@@ -99,11 +99,21 @@
 	return [NSString stringWithFormat:@"<%@: %p [%@] name: %@, size: %@>", self.class, self, self.isDirectory ? @"D" : @"F", self.name, self.size == nil ? @"--" : [NSByteCountFormatter stringFromByteCount:self.size.unsignedIntegerValue countStyle:NSByteCountFormatterCountStyleFile]];
 }
 
+- (NSData*)contents
+{
+	if(_isDirectory == YES)
+	{
+		return nil;
+	}
+	
+	return [NSData dataWithContentsOfURL:self.URL];
+}
+
 - (NSData*)zipContents
 {
 #if __has_include("DTXZipper.h")
 	NSURL* tempFileURL = [[NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES] URLByAppendingPathComponent:@".containerContents.zip"];	
-	DTXWriteZipFileWithDirectoryContents(tempFileURL, self.URL);
+	DTXWriteZipFileWithContents(tempFileURL, self.URL);
 	
 	NSData* data = [NSData dataWithContentsOfURL:tempFileURL];
 	

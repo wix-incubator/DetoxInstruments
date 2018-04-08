@@ -894,9 +894,13 @@ DQ
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="FKI-VE-4lt">
                                                                     <rect key="frame" x="463" y="3" width="25" height="84"/>
                                                                     <subviews>
-                                                                        <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7i5-pi-J6P" customClass="DTXDeviceActionButton">
-                                                                            <rect key="frame" x="0.0" y="28" width="25" height="25"/>
-                                                                            <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HzR-38-3Xv">
+                                                                        <button toolTip="App Container Files" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7i5-pi-J6P" customClass="DTXDeviceActionButton">
+                                                                            <rect key="frame" x="-2" y="27" width="29" height="29"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="25" id="6rP-od-DSW"/>
+                                                                                <constraint firstAttribute="height" constant="25" id="hUN-zX-O98"/>
+                                                                            </constraints>
+                                                                            <buttonCell key="cell" type="help" bezelStyle="helpButton" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HzR-38-3Xv" customClass="DTXDeviceActionButtonCell">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                 <font key="font" metaFont="system"/>
                                                                             </buttonCell>
@@ -932,6 +936,7 @@ DQ
                                                                 <constraint firstItem="XBj-9q-svP" firstAttribute="leading" secondItem="iB4-9C-0ug" secondAttribute="leading" constant="3" id="wDc-Ga-zHQ"/>
                                                             </constraints>
                                                             <connections>
+                                                                <outlet property="_filesButton" destination="7i5-pi-J6P" id="aH1-dw-ydt"/>
                                                                 <outlet property="deviceImageView" destination="XBj-9q-svP" id="AHA-2L-BA9"/>
                                                                 <outlet property="progressIndicator" destination="YNS-DG-geb" id="e0W-Uv-9hL"/>
                                                                 <outlet property="title1Field" destination="N6b-Qy-3Hr" id="P04-jd-0qi"/>
@@ -2361,7 +2366,7 @@ Gw
                                     <rect key="frame" x="1" y="1" width="498" height="318"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" autoresizesOutlineColumn="YES" outlineTableColumn="3as-aO-H8L" id="pbF-dN-MTY">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" autoresizesOutlineColumn="YES" outlineTableColumn="3as-aO-H8L" id="pbF-dN-MTY" customClass="DTXFileListOutlineView">
                                             <rect key="frame" x="0.0" y="0.0" width="498" height="318"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
@@ -2411,6 +2416,7 @@ Gw
                                             <connections>
                                                 <outlet property="dataSource" destination="WX0-T1-UWU" id="1aW-0K-uNd"/>
                                                 <outlet property="delegate" destination="WX0-T1-UWU" id="38f-BB-7Ea"/>
+                                                <outlet property="menu" destination="WPq-uJ-hyT" id="oDe-yp-kTa"/>
                                             </connections>
                                         </outlineView>
                                     </subviews>
@@ -2452,15 +2458,27 @@ Gw
                         <menu key="menu" id="Onj-ph-k75">
                             <items>
                                 <menuItem title="Container" state="on" hidden="YES" id="y9O-Gj-NUI"/>
-                                <menuItem title="Download Container" id="l4I-zE-RlR">
-                                    <connections>
-                                        <action selector="_downloadContainer:" target="WX0-T1-UWU" id="ijf-aU-FnR"/>
-                                    </connections>
-                                </menuItem>
+                                <menuItem title="Download Container" id="l4I-zE-RlR"/>
                             </items>
                         </menu>
                     </popUpButtonCell>
                 </popUpButton>
+                <menu id="WPq-uJ-hyT">
+                    <items>
+                        <menuItem title="Download" id="Hub-hj-okD">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="_downloadContainer:" target="WX0-T1-UWU" id="zNg-RC-rOh"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Delete" id="DYk-0w-ypK">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="_deleteItem:" target="WX0-T1-UWU" id="oNL-gU-Jf5"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
             <point key="canvasLocation" x="1623" y="-1467"/>
         </scene>
@@ -2475,7 +2493,7 @@ Gw
         <image name="RightHandle" width="20" height="16"/>
         <image name="extendedInfo_highlighted" width="15" height="15"/>
         <image name="fileInfo" width="15" height="15"/>
-        <image name="flag" width="8" height="15"/>
+        <image name="flag" width="12" height="15"/>
         <image name="stopRecording" width="12" height="12"/>
     </resources>
 </document>

@@ -9,7 +9,30 @@
 #import "DTXZipper.h"
 #import "SSZipArchive.h"
 
-extern BOOL DTXWriteZipFileWithDirectoryContents(NSURL* zipURL, NSURL* directoryURL)
+BOOL DTXWriteZipFileWithContents(NSURL* zipURL, NSURL* contentsURL)
+{
+	NSNumber* isDirectory;
+	[contentsURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+	
+	if(isDirectory.boolValue == YES)
+	{
+		return DTXWriteZipFileWithDirectoryContents(zipURL, contentsURL);
+	}
+	else
+	{
+		return DTXWriteZipFileWithFile(zipURL, contentsURL);
+	}
+}
+
+BOOL DTXWriteZipFileWithFile(NSURL* zipURL, NSURL* fileURL)
+{
+	SSZipArchive *zipArchive = [[SSZipArchive alloc] initWithPath:zipURL.path];
+	BOOL success = [zipArchive open];
+	success &= [zipArchive writeFileAtPath:fileURL.path withFileName:zipURL.lastPathComponent compressionLevel:0 password:nil AES:YES];
+	return success & [zipArchive close];
+}
+
+BOOL DTXWriteZipFileWithDirectoryContents(NSURL* zipURL, NSURL* directoryURL)
 {
 	SSZipArchive *zipArchive = [[SSZipArchive alloc] initWithPath:zipURL.path];
 	BOOL success = [zipArchive open];

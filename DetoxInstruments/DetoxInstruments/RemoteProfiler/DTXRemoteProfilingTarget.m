@@ -201,11 +201,12 @@
 
 - (void)_handleDeviceContainerContentsZip:(NSDictionary*)containerContents
 {
-	NSData* containerContentsZip = containerContents[@"containerContentsZip"];
+	NSData* containerContentsData = containerContents[@"containerContents"];
+	BOOL wasZipped = [containerContents[@"wasZipped"] boolValue];
 	
-	if([self.delegate respondsToSelector:@selector(profilingTarget:didDownloadContainerContents:)])
+	if([self.delegate respondsToSelector:@selector(profilingTarget:didDownloadContainerContents:wasZipped:)])
 	{
-		[self.delegate profilingTarget:self didDownloadContainerContents:containerContentsZip];
+		[self.delegate profilingTarget:self didDownloadContainerContents:containerContentsData wasZipped:wasZipped];
 	}
 }
 
@@ -270,9 +271,20 @@
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetContainerContents)} completionHandler:nil];
 }
 
-- (void)downloadContainer
+- (void)downloadContainerAtURL:(NSURL*)URL
 {
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeDownloadContainer)} completionHandler:nil];
+	NSMutableDictionary* cmd = @{@"cmdType": @(DTXRemoteProfilingCommandTypeDownloadContainer)}.mutableCopy;
+	if(URL != nil)
+	{
+		cmd[@"URL"] = URL.path;
+	}
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)deleteContainerItemAtURL:(NSURL*)URL
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeDeleteContainerIten), @"URL": URL.path} completionHandler:nil];
 }
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration

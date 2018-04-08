@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 - (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget*)target;
 - (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteProfilingTarget*)target;
 - (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget*)target;
-- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didDownloadContainerContents:(NSData*)containerContentsZip;
+- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didDownloadContainerContents:(NSData*)containerContents wasZipped:(BOOL)wasZipped;
 
 @end
 
@@ -56,6 +56,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 - (void)popSampleGroup;
 - (void)stopProfiling;
 - (void)loadContainerContents;
-- (void)downloadContainer;
+- (void)downloadContainerAtURL:(NSURL*)URL;
+- (void)deleteContainerItemAtURL:(NSURL*)URL;
 
 @end
