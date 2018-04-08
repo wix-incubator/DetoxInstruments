@@ -14,23 +14,23 @@
 #import "_DTXTargetsOutlineViewContoller.h"
 #import "_DTXProfilingConfigurationViewController.h"
 #import "_DTXContainerContentsOutlineViewController.h"
+#import "_DTXActionButtonProvider.h"
 
 @import QuartzCore;
 
 @interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteProfilingTargetDelegate>
 {
 	IBOutlet NSView* _containerView;
+	IBOutlet NSStackView* _actionButtonStackView;
 	
 	_DTXTargetsOutlineViewContoller* _outlineController;
 	NSOutlineView* _outlineView;
 	
 	_DTXProfilingConfigurationViewController* _profilingConfigurationController;
 	_DTXContainerContentsOutlineViewController* _containerContentsOutlineViewController;
-	NSViewController* _activeController;
+	NSViewController<_DTXActionButtonProvider>* _activeController;
 	
-	IBOutlet NSButton* _selectButton;
 	IBOutlet NSButton* _cancelButton;
-	IBOutlet NSButton* _optionsButton;
 	
 	NSNetServiceBrowser* _browser;
 	NSMutableArray<DTXRemoteProfilingTarget*>* _targets;
@@ -79,9 +79,9 @@
 	
 	[_containerView addSubview:_outlineController.view];
 	
+	[self _setupActionButtonsWithProvider:_outlineController];
 	_activeController = _outlineController;
-	
-	[self _resetToDevice];
+	[self _validateSelectButton];
 }
 
 - (void)viewDidAppear
@@ -128,7 +128,7 @@
 {
 	if(_activeController != _outlineController)
 	{
-		[self _transitionToDevice];
+		[self _transitionToController:_outlineController];
 		
 		return;
 	}
@@ -138,82 +138,53 @@
 
 - (IBAction)options:(id)sender
 {
-	[self _transitionToOptions];
+	[self _transitionToController:_profilingConfigurationController];
 }
 
-- (void)_transitionToOptions
+- (void)_setupActionButtonsWithProvider:(id<_DTXActionButtonProvider>)provider
 {
-	_activeController = _profilingConfigurationController;
+	[provider.actionButtons enumerateObjectsUsingBlock:^(NSButton * _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
+		[_actionButtonStackView insertArrangedSubview:button atIndex:0];
+		if(button.bezelStyle != NSBezelStyleHelpButton)
+		{
+			[NSLayoutConstraint activateConstraints:@[[button.widthAnchor constraintEqualToAnchor:_cancelButton.widthAnchor]]];
+		}
+	}];
+}
+
+- (void)_removeActionButtonsWithProvider:(id<_DTXActionButtonProvider>)provider
+{
+	[provider.actionButtons enumerateObjectsUsingBlock:^(NSButton * _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
+		[_actionButtonStackView removeView:button];
+	}];
+}
+
+- (void)_transitionToController:(NSViewController<_DTXActionButtonProvider>*)controller
+{
+	NSViewControllerTransitionOptions transitionOptions = NSViewControllerTransitionSlideForward;
+	if(controller == _outlineController)
+	{
+		transitionOptions = NSViewControllerTransitionSlideBackward;
+		_cancelButton.title = NSLocalizedString(@"Cancel", @"");
+	}
+	else
+	{
+		_cancelButton.title = NSLocalizedString(@"Back", @"");
+	}
 	
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
 		context.duration = 0.3;
 		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
 		
-		[self transitionFromViewController:_outlineController toViewController:_profilingConfigurationController options:NSViewControllerTransitionSlideForward completionHandler:nil];
+		[self _removeActionButtonsWithProvider:_activeController];
+		[self _setupActionButtonsWithProvider:controller];
+		
+		[self transitionFromViewController:_activeController toViewController:controller options:transitionOptions completionHandler:nil];
 	} completionHandler:nil];
 	
-	_selectButton.enabled = NO;
-	_selectButton.hidden = YES;
-	_optionsButton.hidden = YES;
-	_cancelButton.title = NSLocalizedString(@"Back", @"");
-}
-
-- (void)_resetToDevice
-{
-	_selectButton.hidden = NO;
-	_selectButton.target = self;
-	_selectButton.keyEquivalent = @"\r";
-	_selectButton.title = NSLocalizedString(@"Profile", @"");
-	_optionsButton.hidden = NO;
-	_cancelButton.title = NSLocalizedString(@"Cancel", @"");
+	_activeController = controller;
+	
 	[self _validateSelectButton];
-}
-
-- (void)_transitionToDevice
-{
-	[_containerContentsOutlineViewController.defaultButton removeFromSuperview];
-	
-	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-		context.duration = 0.3;
-		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-		
-		[self transitionFromViewController:_activeController toViewController:_outlineController options:NSViewControllerTransitionSlideBackward completionHandler:nil];
-	} completionHandler:nil];
-	
-	_activeController = _outlineController;
-	
-	[self _resetToDevice];
-}
-
-- (void)_transitionToContainerContentsWithTarget:(DTXRemoteProfilingTarget*)target
-{
-	_activeController = _containerContentsOutlineViewController;
-
-	_containerContentsOutlineViewController.profilingTarget = target;
-
-	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-		context.duration = 0.3;
-		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-
-		[self transitionFromViewController:_outlineController toViewController:_containerContentsOutlineViewController options:NSViewControllerTransitionSlideForward completionHandler:nil];
-	} completionHandler:nil];
-
-	_selectButton.enabled = NO;
-	_selectButton.hidden = YES;
-	_optionsButton.hidden = YES;
-	
-	NSButton* button = _containerContentsOutlineViewController.defaultButton;
-	button.translatesAutoresizingMaskIntoConstraints = NO;
-	[self.view addSubview:button];
-	
-	[NSLayoutConstraint activateConstraints:@[
-											  [_selectButton.widthAnchor constraintEqualToAnchor:button.widthAnchor],
-											  [_selectButton.heightAnchor constraintEqualToAnchor:button.heightAnchor],
-											  [_selectButton.leadingAnchor constraintEqualToAnchor:button.leadingAnchor],
-											  [_selectButton.bottomAnchor constraintEqualToAnchor:button.bottomAnchor],
-											  ]];
-	
-	_cancelButton.title = NSLocalizedString(@"Back", @"");
 }
 
 - (void)_addTarget:(DTXRemoteProfilingTarget*)target forService:(NSNetService*)service
@@ -265,7 +236,8 @@
 {
 	NSInteger row = [_outlineView rowForView:sender];
 	
-	[self _transitionToContainerContentsWithTarget:_targets[row]];
+	_containerContentsOutlineViewController.profilingTarget = _targets[row];
+	[self _transitionToController:_containerContentsOutlineViewController];
 }
 
 - (IBAction)_doubleClicked:(id)sender
@@ -389,7 +361,7 @@
 
 - (void)_validateSelectButton
 {
-	_selectButton.enabled = _outlineView.selectedRowIndexes.count > 0;
+	_outlineController.selectButton.enabled = _outlineView.selectedRowIndexes.count > 0;
 }
 
 #pragma mark NSNetServiceDelegate

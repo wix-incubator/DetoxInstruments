@@ -8,12 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DTXRemoteProfilingTarget.h"
+#import "_DTXActionButtonProvider.h"
 
-@interface _DTXContainerContentsOutlineViewController : NSViewController
+@interface _DTXContainerContentsOutlineViewController : NSViewController <_DTXActionButtonProvider>
 
 @property (nonatomic, strong) DTXRemoteProfilingTarget* profilingTarget;
-
-@property (nonatomic, strong, readonly) NSButton* defaultButton;
 
 - (void)reloadContainerContents;
 - (void)showSaveDialogWithCompletionHandler:(void(^)(NSURL* saveLocation))completionHandler;

@@ -99,6 +99,7 @@
 		39B1CB091F34F679002C5239 /* _DTXProfilingConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B1CB081F34F679002C5239 /* _DTXProfilingConfigurationViewController.m */; };
 		39B4CA3E1F15C4AD009BD2D2 /* NSString+FileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4CA3D1F15C4AD009BD2D2 /* NSString+FileNames.m */; };
 		39B706A31F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */; };
+		39BEE165207A1AA9003AF93E /* DTXDeviceActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE164207A1AA9003AF93E /* DTXDeviceActionButton.m */; };
 		39C1415F1F3C47F7008CF5B9 /* DTXStackTraceFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */; };
 		39C141621F3C55B3008CF5B9 /* DTXTintedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C141611F3C55B3008CF5B9 /* DTXTintedImageView.m */; };
 		39C646571F249CA100DF0C77 /* DTXRemoteProfilingTargetCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C646561F249CA100DF0C77 /* DTXRemoteProfilingTargetCellView.m */; };
@@ -508,6 +509,9 @@
 		39B4CA3D1F15C4AD009BD2D2 /* NSString+FileNames.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+FileNames.m"; sourceTree = "<group>"; };
 		39B706A11F20AFB500B1060D /* DTXRecordingTargetPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingTargetPickerViewController.h; sourceTree = "<group>"; };
 		39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingTargetPickerViewController.m; sourceTree = "<group>"; };
+		39BEE163207A1AA9003AF93E /* DTXDeviceActionButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDeviceActionButton.h; sourceTree = "<group>"; };
+		39BEE164207A1AA9003AF93E /* DTXDeviceActionButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDeviceActionButton.m; sourceTree = "<group>"; };
+		39BEE166207A1C80003AF93E /* _DTXActionButtonProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXActionButtonProvider.h; sourceTree = "<group>"; };
 		39C1415D1F3C47F7008CF5B9 /* DTXStackTraceFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackTraceFrame.h; sourceTree = "<group>"; };
 		39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackTraceFrame.m; sourceTree = "<group>"; };
 		39C141601F3C55B3008CF5B9 /* DTXTintedImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTintedImageView.h; sourceTree = "<group>"; };
@@ -774,6 +778,7 @@
 		394B42AC1F34F2CE0093986E /* InternalViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				39BEE166207A1C80003AF93E /* _DTXActionButtonProvider.h */,
 				394B42BA1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.h */,
 				394B42BB1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m */,
 				39B1CB071F34F679002C5239 /* _DTXProfilingConfigurationViewController.h */,
@@ -845,6 +850,8 @@
 				396A6B5E1F4F107700768536 /* DTXHighlightingTableCellView.m */,
 				D8243F921F5401530005CF4B /* DTXFilterField.h */,
 				D8243F931F5401530005CF4B /* DTXFilterField.m */,
+				39BEE163207A1AA9003AF93E /* DTXDeviceActionButton.h */,
+				39BEE164207A1AA9003AF93E /* DTXDeviceActionButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1497,6 +1504,7 @@
 				392A49561EF96F72000F397F /* DTXPieChartView.m in Sources */,
 				39EE1F551F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.m in Sources */,
 				3905F4BD1EF834CE003E08C1 /* DTXCPUInspectorDataProvider.m in Sources */,
+				39BEE165207A1AA9003AF93E /* DTXDeviceActionButton.m in Sources */,
 				39EE1F5E1F3E489F002CB6C1 /* DTXRNBridgeDataInspectorDataProvider.m in Sources */,
 				3944E3561F4DB80F001911E8 /* DTXCPTScatterPlot.m in Sources */,
 				395F01C31EE7E7AD00695236 /* DTXHeaderView.m in Sources */,

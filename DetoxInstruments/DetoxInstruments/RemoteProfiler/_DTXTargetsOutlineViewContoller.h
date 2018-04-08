@@ -7,9 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "_DTXActionButtonProvider.h"
 
-@interface _DTXTargetsOutlineViewContoller : NSViewController
+@interface _DTXTargetsOutlineViewContoller : NSViewController <_DTXActionButtonProvider>
 
 @property (nonatomic, strong, readonly) NSOutlineView* outlineView;
+@property (nonatomic, strong, readonly) NSButton* selectButton;
 
 @end

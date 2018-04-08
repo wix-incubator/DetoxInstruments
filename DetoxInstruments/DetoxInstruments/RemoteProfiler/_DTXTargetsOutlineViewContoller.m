@@ -11,6 +11,8 @@
 @interface _DTXTargetsOutlineViewContoller ()
 {
 	IBOutlet NSLayoutConstraint* _constraint;
+	IBOutlet NSButton* _selectButton;
+	IBOutlet NSButton* _optionsButton;
 }
 
 @property (nonatomic, strong, readwrite) IBOutlet NSOutlineView* outlineView;
@@ -18,6 +20,11 @@
 @end
 
 @implementation _DTXTargetsOutlineViewContoller
+
+- (NSArray<NSButton *> *)actionButtons
+{
+	return @[_selectButton, _optionsButton];
+}
 
 - (void)viewDidLoad
 {
