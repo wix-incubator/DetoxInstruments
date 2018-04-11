@@ -287,6 +287,11 @@
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeDeleteContainerIten), @"URL": URL.path} completionHandler:nil];
 }
 
+- (void)putContainerItemAtURL:(NSURL *)URL data:(NSData *)data wasZipped:(BOOL)wasZipped
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePutContainerItem), @"URL": URL.path, @"contents": data, @"wasZipped": @(wasZipped)} completionHandler:nil];
+}
+
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration), @"configuration": configuration.dictionaryRepresentation} completionHandler:nil];

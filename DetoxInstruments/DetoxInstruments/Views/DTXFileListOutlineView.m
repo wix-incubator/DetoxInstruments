@@ -35,4 +35,21 @@
 	[super keyDown:event];
 }
 
+-(NSMenu *)menuForEvent:(NSEvent *)event
+{
+	NSMenu* menu = [super menuForEvent:event];
+	
+	if(self.clickedRow == -1)
+	{
+		return nil;
+	}
+	
+	return menu;
+}
+
+- (BOOL)shouldCollapseAutoExpandedItemsForDeposited:(BOOL)deposited
+{
+	return NO;
+}
+
 @end

@@ -15,11 +15,10 @@
 #import "_DTXProfilingConfigurationViewController.h"
 #import "_DTXContainerContentsOutlineViewController.h"
 #import "_DTXActionButtonProvider.h"
-#import "SSZipArchive.h"
 
 @import QuartzCore;
 
-@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteProfilingTargetDelegate, SSZipArchiveDelegate>
+@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteProfilingTargetDelegate>
 {
 	IBOutlet NSView* _containerView;
 	IBOutlet NSStackView* _actionButtonStackView;
@@ -27,6 +26,7 @@
 	_DTXTargetsOutlineViewContoller* _outlineController;
 	NSOutlineView* _outlineView;
 	
+	DTXRemoteProfilingTarget* _inspectedTarget;
 	_DTXProfilingConfigurationViewController* _profilingConfigurationController;
 	_DTXContainerContentsOutlineViewController* _containerContentsOutlineViewController;
 	NSViewController<_DTXActionButtonProvider>* _activeController;
@@ -39,6 +39,8 @@
 	NSMapTable<DTXRemoteProfilingTarget*, NSNetService*>* _targetToServiceMapping;
 	
 	dispatch_queue_t _workQueue;
+	
+	IBOutlet NSMenu* _appManageMenu;
 }
 
 @end
@@ -145,8 +147,9 @@
 - (void)_setupActionButtonsWithProvider:(id<_DTXActionButtonProvider>)provider
 {
 	[provider.actionButtons enumerateObjectsUsingBlock:^(NSButton * _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
+		button.translatesAutoresizingMaskIntoConstraints = NO;
 		[_actionButtonStackView insertArrangedSubview:button atIndex:0];
-		if(button.bezelStyle != NSBezelStyleHelpButton)
+		if(button.bezelStyle != NSBezelStyleHelpButton && [button.title isEqualToString:@"Refresh"] == NO)
 		{
 			[NSLayoutConstraint activateConstraints:@[[button.widthAnchor constraintEqualToAnchor:_cancelButton.widthAnchor]]];
 		}
@@ -167,6 +170,7 @@
 	{
 		transitionOptions = NSViewControllerTransitionSlideBackward;
 		_cancelButton.title = NSLocalizedString(@"Cancel", @"");
+		_inspectedTarget = nil;
 	}
 	else
 	{
@@ -209,7 +213,14 @@
 	{
 		[_outlineView reloadData];
 		
+		[self _transitionToController:_outlineController];
+		
 		return;
+	}
+	
+	if(target == _inspectedTarget)
+	{
+		[self _transitionToController:_outlineController];
 	}
 	
 	NSInteger index = [_targets indexOfObject:target];
@@ -233,12 +244,32 @@
 	[_outlineView reloadItem:target];
 }
 
-- (IBAction)_containerContentsClicked:(NSButton*)sender
+- (IBAction)_manageMenuButtonClicked:(NSButton*)sender
 {
 	NSInteger row = [_outlineView rowForView:sender];
+	id target = _targets[row];
 	
-	_containerContentsOutlineViewController.profilingTarget = _targets[row];
+	[_appManageMenu.itemArray enumerateObjectsUsingBlock:^(NSMenuItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		obj.representedObject = target;
+	}];
+	
+	[_appManageMenu popUpMenuPositioningItem:_appManageMenu.itemArray.firstObject atLocation:NSMakePoint(30, 30) inView:sender];
+}
+
+- (void)_clearRepresentedItemsFromMenu
+{
+	[_appManageMenu.itemArray enumerateObjectsUsingBlock:^(NSMenuItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		obj.representedObject = nil;
+	}];
+}
+
+- (IBAction)_containerContentsSelected:(NSMenuItem*)sender
+{
+	_inspectedTarget = sender.representedObject;
+	_containerContentsOutlineViewController.profilingTarget = _inspectedTarget;
 	[self _transitionToController:_containerContentsOutlineViewController];
+	
+	[self _clearRepresentedItemsFromMenu];
 }
 
 - (IBAction)_doubleClicked:(id)sender
@@ -311,6 +342,7 @@
 	
 	DTXRemoteProfilingTargetCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXRemoteProfilingTargetCellView" owner:nil];
 	cellView.progressIndicator.usesThreadedAnimation = YES;
+	[cellView updateFeatureSetWithProfilerVersion:target.deviceInfo[@"profilerVersion"]];
 	
 	switch(target.state)
 	{
@@ -403,7 +435,7 @@
 - (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget *)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[_containerContentsOutlineViewController reloadContainerContents];
+		[_containerContentsOutlineViewController reloadContainerContentsOutline];
 	});
 }
 
@@ -416,28 +448,12 @@
 	}
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[_containerContentsOutlineViewController showSaveDialogWithCompletionHandler:^(NSURL *saveLocation) {
-			if(saveLocation == nil)
-			{
-				return;
-			}
-			
-			if(wasZipped)
-			{
-				NSURL* tempZipURL = [[NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES] URLByAppendingPathComponent:@".containerContents.zip"];
-				[containerContents writeToURL:tempZipURL atomically:YES];
-				
-				[SSZipArchive unzipFileAtPath:tempZipURL.path toDestination:saveLocation.path delegate:self];
-				
-				[[NSFileManager defaultManager] removeItemAtURL:tempZipURL error:NULL];
-			}
-			else
-			{
-				[containerContents writeToURL:saveLocation atomically:YES];
-			}
-			
-			[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[saveLocation]];
-		}];
+		if(target != _inspectedTarget)
+		{
+			return;
+		}
+		
+		[_containerContentsOutlineViewController showSaveDialogForSavingData:containerContents dataWasZipped:wasZipped];
 	});
 }
 

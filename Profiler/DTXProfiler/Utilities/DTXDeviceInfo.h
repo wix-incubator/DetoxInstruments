@@ -10,6 +10,6 @@
 
 @interface DTXDeviceInfo : NSObject
 
-+ (NSDictionary*)deviceInfoDictionary;
++ (NSDictionary*)deviceInfo;
 
 @end

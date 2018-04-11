@@ -15,6 +15,8 @@
 #import "DTXDeviceInfo.h"
 #import "DTXFileSystemItem.h"
 #import "AutoCoding.h"
+#import "DTXZipper.h"
+#import "SSZipArchive.h"
 
 DTX_CREATE_LOG(RemoteProfilingManager);
 
@@ -197,6 +199,13 @@ static DTXRemoteProfilingManager* __sharedManager;
 				NSURL* URL = [NSURL fileURLWithPath:cmd[@"URL"]];
 				[self _deleteContainerItemWithURL:URL];
 			}	break;
+			case DTXRemoteProfilingCommandTypePutContainerItem:
+			{
+				NSURL* URL = [NSURL fileURLWithPath:cmd[@"URL"]];
+				NSData* data = cmd[@"contents"];
+				bool wasZipped = [cmd[@"wasZipped"] boolValue];
+				[self _putContainerItemWithURL:URL data:data wasZipped:wasZipped];
+			}	break;
 			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
 			{
 				NSAssert(NO, @"Should not be here.");
@@ -209,7 +218,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 
 - (void)_sendDeviceInfo
 {
-	NSMutableDictionary* cmd = [[DTXDeviceInfo deviceInfoDictionary] mutableCopy];
+	NSMutableDictionary* cmd = [[DTXDeviceInfo deviceInfo] mutableCopy];
 	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetDeviceInfo);
 	
 //	dispatch_group_t group = dispatch_group_create();
@@ -278,6 +287,22 @@ static DTXRemoteProfilingManager* __sharedManager;
 	{
 		[[NSFileManager defaultManager] removeItemAtURL:URL error:NULL];
 	}
+}
+
+- (void)_putContainerItemWithURL:(NSURL*)URL data:(NSData*)data wasZipped:(BOOL)wasZipped
+{
+	if(wasZipped == NO)
+	{
+		[data writeToURL:URL atomically:YES];
+		return;
+	}
+	
+	NSURL* tempZipURL = DTXTempZipURL();
+	[data writeToURL:tempZipURL atomically:YES];
+	
+	[SSZipArchive unzipFileAtPath:tempZipURL.path toDestination:URL.path];
+	
+	[[NSFileManager defaultManager] removeItemAtURL:tempZipURL error:NULL];
 }
 
 - (void)_sendContainerContentsZipWithURL:(NSURL*)URL

@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-extern BOOL DTXWriteZipFileWithContents(NSURL* zipURL, NSURL* contentsURL);
-extern BOOL DTXWriteZipFileWithFile(NSURL* zipURL, NSURL* fileURL);
-extern BOOL DTXWriteZipFileWithDirectoryContents(NSURL* zipURL, NSURL* directoryURL);
+extern NSURL* DTXTempZipURL(void);
+
+extern BOOL DTXWriteZipFileWithURL(NSURL* zipURL, NSURL* contentsURL);
+extern BOOL DTXWriteZipFileWithFileURL(NSURL* zipURL, NSURL* fileURL);
+extern BOOL DTXWriteZipFileWithDirectoryURL(NSURL* zipURL, NSURL* directoryURL);
+
+extern BOOL DTXWriteZipFileWithURLArray(NSURL* zipURL, NSArray<NSURL*>* contentsURLs);

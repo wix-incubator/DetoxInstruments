@@ -7,10 +7,7 @@
 //
 
 #import "DTXFileSystemItem.h"
-
-#if __has_include("DTXZipper.h")
 #import "DTXZipper.h"
-#endif
 
 @implementation DTXFileSystemItem
 
@@ -106,23 +103,41 @@
 		return nil;
 	}
 	
-	return [NSData dataWithContentsOfURL:self.URL];
+	return [NSData dataWithContentsOfURL:self.URL options:NSDataReadingMappedAlways error:NULL];
 }
 
 - (NSData*)zipContents
 {
-#if __has_include("DTXZipper.h")
-	NSURL* tempFileURL = [[NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES] URLByAppendingPathComponent:@".containerContents.zip"];	
-	DTXWriteZipFileWithContents(tempFileURL, self.URL);
+	NSURL* tempFileURL = DTXTempZipURL();
+	DTXWriteZipFileWithURL(tempFileURL, self.URL);
 	
-	NSData* data = [NSData dataWithContentsOfURL:tempFileURL];
+	NSData* data = [NSData dataWithContentsOfURL:tempFileURL options:NSDataReadingMappedAlways error:NULL];
 	
 	[[NSFileManager defaultManager] removeItemAtURL:tempFileURL error:NULL];
 	
 	return data;
-#else
-	return nil;
-#endif
+}
+
+- (NSUInteger)hash
+{
+	return self.URL.hash;
+}
+
+- (BOOL)isEqual:(id)object
+{
+	DTXFileSystemItem* anotherItem = object;
+	
+	return [self.URL isEqual:anotherItem.URL] && self.isDirectory == anotherItem.isDirectory;
+}
+
+- (BOOL)isEqualToFileSystemItem:(id)object
+{
+	return [self isEqual:object];
+}
+
+- (NSComparisonResult)compare:(DTXFileSystemItem*)object
+{
+	return [self.URL.path compare:((DTXFileSystemItem*)object).URL.path];
 }
 
 @end
