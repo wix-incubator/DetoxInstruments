@@ -13,22 +13,22 @@
 
 @implementation DTXDeviceActionButtonCell
 {
-	NSColor* _highlightBackgroundColor;
+//	NSColor* _highlightBackgroundColor;
 }
-
-- (void)drawBezelWithFrame:(NSRect)frame inView:(NSView *)controlView
-{
-	if(_highlightBackgroundColor == nil)
-	{
-		_highlightBackgroundColor = [NSColor.blackColor interpolateToValue:NSColor.whiteColor progress:0.95];
-	}
-	
-	[super drawBezelWithFrame:frame inView:controlView];
-	
-	NSBezierPath* rectanglePath = [NSBezierPath bezierPathWithRect: NSMakeRect(11, 8.5, 7, 11)];
-	[self.isHighlighted ? _highlightBackgroundColor : NSColor.whiteColor setFill];
-	[rectanglePath fill];
-}
+//
+//- (void)drawBezelWithFrame:(NSRect)frame inView:(NSView *)controlView
+//{
+//	if(_highlightBackgroundColor == nil)
+//	{
+//		_highlightBackgroundColor = [NSColor.blackColor interpolateToValue:NSColor.whiteColor progress:0.95];
+//	}
+//
+//	[super drawBezelWithFrame:frame inView:controlView];
+//
+//	NSBezierPath* rectanglePath = [NSBezierPath bezierPathWithRect: NSMakeRect(11, 6.5, 7, 11)];
+//	[self.isHighlighted ? _highlightBackgroundColor : NSColor.whiteColor setFill];
+//	[rectanglePath fill];
+//}
 
 @end
 

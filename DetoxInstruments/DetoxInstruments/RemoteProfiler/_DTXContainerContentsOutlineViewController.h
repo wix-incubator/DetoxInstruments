@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) DTXRemoteProfilingTarget* profilingTarget;
 
-- (void)reloadContainerContents;
-- (void)showSaveDialogWithCompletionHandler:(void(^)(NSURL* saveLocation))completionHandler;
+- (void)reloadContainerContentsOutline;
+- (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped;
 
 @end

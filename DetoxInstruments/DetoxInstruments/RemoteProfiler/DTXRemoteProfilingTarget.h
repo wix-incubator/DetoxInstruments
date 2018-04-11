@@ -58,5 +58,6 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 - (void)loadContainerContents;
 - (void)downloadContainerAtURL:(NSURL*)URL;
 - (void)deleteContainerItemAtURL:(NSURL*)URL;
+- (void)putContainerItemAtURL:(NSURL *)URL data:(NSData *)data wasZipped:(BOOL)wasZipped;
 
 @end

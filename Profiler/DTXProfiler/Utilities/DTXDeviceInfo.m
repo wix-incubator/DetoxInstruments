@@ -11,6 +11,10 @@
 @import UIKit;
 @import Darwin;
 
+static NSString* __version =
+#include "version.h"
+;
+
 @implementation DTXDeviceInfo
 
 + (NSString*)_machineName
@@ -54,7 +58,7 @@
 	return [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
 }
 
-+ (NSDictionary*)deviceInfoDictionary
++ (NSDictionary*)deviceInfo
 {
 	NSProcessInfo* processInfo = [NSProcessInfo processInfo];
 	UIDevice* currentDevice = [UIDevice currentDevice];
@@ -76,6 +80,7 @@
 	deviceDetails[@"deviceType"] = currentDevice.model;
 	deviceDetails[@"processIdentifier"] = @(processInfo.processIdentifier);
 	deviceDetails[@"hasReactNative"] = @([DTXReactNativeSampler reactNativeInstalled]);
+	deviceDetails[@"profilerVersion"] = __version;
 	
 #if ! TARGET_OS_SIMULATOR
 #pragma clang diagnostic push

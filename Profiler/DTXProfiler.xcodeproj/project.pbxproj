@@ -202,6 +202,7 @@
 		3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAddressInfo.h; sourceTree = "<group>"; };
 		3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DTXAddressInfo.mm; sourceTree = "<group>"; };
 		397A01901FA648DF00ABCB87 /* DTX_JSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTX_JSC.framework; path = JSC/DTX_JSC.framework; sourceTree = "<group>"; };
+		398EC43A207B571C00C55809 /* Version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		399B3FB81F248AC300335109 /* DTXRemoteProfilingBasics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingBasics.h; sourceTree = "<group>"; };
 		399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPerformanceSampler.h; sourceTree = "<group>"; };
 		399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPerformanceSampler.m; sourceTree = "<group>"; };
@@ -576,6 +577,7 @@
 				39D40BFD1ED5ABD200157C04 /* Info.plist */,
 				393E66DD1FC59B730092EE89 /* Swiftier.h */,
 				396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */,
+				398EC43A207B571C00C55809 /* Version.h */,
 			);
 			path = DTXProfiler;
 			sourceTree = "<group>";
@@ -756,7 +758,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" = \"Release_External\" ]; then\nexit 0\nfi\n\n#Xcode calls this script twice for each SDK (iphoneos & iphonesimulatoros)\nif [ \"${SDK_NAME}\" = \"iphoneos11.2\" ]; then\nexit 0\nfi\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nshortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"";
+			shellScript = "shortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\n\necho \"@\\\"${shortVersion}\\\"\" > DTXProfiler/Version.h\n\nif [ \"${CONFIGURATION}\" = \"Release_External\" ]; then\nexit 0\nfi\n\n#Xcode calls this script twice for each SDK (iphoneos & iphonesimulatoros)\nif [ \"${SDK_NAME}\" = \"iphoneos11.2\" ]; then\nexit 0\nfi\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

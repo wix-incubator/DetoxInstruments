@@ -92,7 +92,7 @@ DTX_CREATE_LOG(Profiler);
 			_currentRecording = [[DTXRecording alloc] initWithContext:_backgroundContext];
 			_currentRecording.profilingConfiguration = configuration.dictionaryRepresentation;
 			
-			NSDictionary* deviceInfo = [DTXDeviceInfo deviceInfoDictionary];
+			NSDictionary* deviceInfo = [DTXDeviceInfo deviceInfo];
 			[deviceInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 				[_currentRecording setValue:obj forKey:key];
 			}];
@@ -349,7 +349,7 @@ DTX_CREATE_LOG(Profiler);
 		[_container.persistentStoreCoordinator removePersistentStore:obj error:NULL];
 	}];
 	
-	DTXWriteZipFileWithDirectoryContents([_currentProfilingConfiguration.recordingFileURL URLByAppendingPathExtension:@"zip"], _currentProfilingConfiguration.recordingFileURL);
+	DTXWriteZipFileWithDirectoryURL([_currentProfilingConfiguration.recordingFileURL URLByAppendingPathExtension:@"zip"], _currentProfilingConfiguration.recordingFileURL);
 	
 	_container = nil;
 }

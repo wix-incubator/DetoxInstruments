@@ -22,4 +22,7 @@
 - (NSData*)contents;
 - (NSData*)zipContents;
 
+- (NSComparisonResult)compare:(DTXFileSystemItem*)object;
+- (BOOL)isEqualToFileSystemItem:(id)object;
+
 @end

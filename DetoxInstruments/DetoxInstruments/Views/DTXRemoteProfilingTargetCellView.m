@@ -29,7 +29,7 @@
 {
 	[super awakeFromNib];
 	
-	NSImage* folder = [NSImage imageNamed:@"files"];//[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kOpenFolderIcon)];
+	NSImage* folder = [NSImage imageNamed:@"gear"];//[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kOpenFolderIcon)];
 	folder.size = NSMakeSize(10, 10);
 	_filesButton.image = folder;
 }
@@ -41,6 +41,23 @@
 	self.title1Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
 	self.title2Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
 	self.title3Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor grayColor];
+}
+
+- (void)updateFeatureSetWithProfilerVersion:(NSString*)profilerVersion
+{
+	if(profilerVersion == nil)
+	{
+		profilerVersion = @"0";
+	}
+
+	if([profilerVersion compare:@"0.9.1" options:(NSNumericSearch)] == NSOrderedAscending)
+	{
+		_filesButton.hidden = !(_filesButton.enabled = NO);
+	}
+	else
+	{
+		_filesButton.hidden = !(_filesButton.enabled = YES);
+	}
 }
 
 @end
