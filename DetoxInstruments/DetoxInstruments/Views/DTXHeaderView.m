@@ -7,6 +7,7 @@
 //
 
 #import "DTXHeaderView.h"
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXHeaderView
 
@@ -20,10 +21,13 @@
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
+	self.layer.backgroundColor = NSColor.themeControlBackgroundColor.CGColor;
 }
 
 - (void)viewDidMoveToWindow
 {
+	[super viewDidMoveToWindow];
+	
 	[self viewDidChangeBackingProperties];
 }
 
@@ -44,6 +48,8 @@
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 	
+	[NSColor.themeGridColor set];
+	
 	NSBezierPath* line = [NSBezierPath bezierPath];
 
 	[line moveToPoint:NSMakePoint(0, 0.5)];
@@ -52,8 +58,7 @@
 	[line moveToPoint:NSMakePoint(209.5, 0)];
 	[line lineToPoint:NSMakePoint(209.5, self.bounds.size.height)];
 	
-	line.lineWidth = 1.0;
-	[NSColor.gridColor set];
+	line.lineWidth = 1;
 	[line stroke];
 }
 

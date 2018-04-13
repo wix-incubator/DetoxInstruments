@@ -101,12 +101,12 @@
 		const CGFloat minorTickLength = 6.0;
 		
 		CPTMutableLineStyle* axisLineStyle = [CPTMutableLineStyle lineStyle];
-		axisLineStyle.lineColor = [CPTColor colorWithCGColor:[NSColor grayColor].CGColor];
-		axisLineStyle.lineWidth = .75;
+		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.themeGridColor.CGColor];
+		axisLineStyle.lineWidth = 1.0;
 		axisLineStyle.lineCap   = kCGLineCapRound;
 		
 		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
-		labelStyle.color = axisLineStyle.lineColor;
+		labelStyle.color = [CPTColor colorWithCGColor:NSColor.themeDisabledControlTextColor.CGColor];
 		labelStyle.fontName = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
 		labelStyle.fontSize = 11;
 		

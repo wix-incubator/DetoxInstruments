@@ -137,7 +137,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 												  [_titleTextField.widthAnchor constraintLessThanOrEqualToConstant:_titleLabelContainer.bounds.size.width - 10]]];
 		
 		_titleTextField.font = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightRegular];
-		_titleTextField.textColor = [NSColor darkGrayColor];
+		_titleTextField.textColor = [NSColor controlTextColor];
 		_titleTextField.alignment = NSTextAlignmentCenter;
 		_titleTextField.editable = NO;
 		_titleTextField.selectable = NO;

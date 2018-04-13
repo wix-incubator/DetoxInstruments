@@ -42,7 +42,6 @@ static NSString* const __lldbInitMagic = @"";
 	_quitMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Quit %@", @""), actualName];
 	
 	_aboutWindowController = [[NSStoryboard storyboardWithName:@"Main" bundle:NSBundle.mainBundle] instantiateControllerWithIdentifier:@"AboutWindowController"];
-	NSLog(@"");
 }
 
 - (IBAction)showAboutWindow:(id)sender

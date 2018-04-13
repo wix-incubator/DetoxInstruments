@@ -214,7 +214,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSColor*)textColorForItem:(id)item
 {
-	return NSColor.blackColor;
+	return NSColor.textColor;
 }
 
 - (NSColor*)backgroundRowColorForItem:(id)item;
@@ -256,22 +256,22 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 							 
 		cellView.textField.stringValue = [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:NO];
-		cellView.textField.textColor = [item isKindOfClass:[DTXSampleGroupProxy class]] ? NSColor.blackColor : [self textColorForItem:item];
+		cellView.textField.textColor = [item isKindOfClass:[DTXSampleGroupProxy class]] ? NSColor.textColor : [self textColorForItem:item];
 		
 		if([item isKindOfClass:[DTXSampleGroupProxy class]])
 		{
-			rowView.backgroundColor = NSColor.whiteColor;
+			rowView.backgroundColor = NSColor.controlBackgroundColor;
 		}
 		else
 		{
 			rowView.backgroundColor = [self backgroundRowColorForItem:item];
 			
 			BOOL hasParentGroup = [item respondsToSelector:@selector(parentGroup)];
-			if([rowView.backgroundColor isEqualTo:NSColor.whiteColor] && hasParentGroup && [item parentGroup] != _document.recording.rootSampleGroup)
+			if([rowView.backgroundColor isEqualTo:NSColor.controlBackgroundColor] && hasParentGroup && [item parentGroup] != _document.recording.rootSampleGroup)
 			{
 				CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(item, _document.recording.rootSampleGroup) / 30.0), 0.3);
 				
-				rowView.backgroundColor = [NSColor.whiteColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
+				rowView.backgroundColor = [NSColor.controlBackgroundColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
 			}
 		}
 		

@@ -44,13 +44,36 @@
 - (NSColor *)darkerColor
 {
 	return [self interpolateToValue:NSColor.blackColor progress:0.3];
-//	return [self blendedColorWithFraction:0.3 ofColor:NSColor.blackColor];
 }
 
 - (NSColor *)lighterColor
 {
 	return [self interpolateToValue:NSColor.whiteColor progress:0.15];
-//	return [self blendedColorWithFraction:0.15 ofColor:NSColor.whiteColor];
+}
+
++ (NSColor*)themeGridColor
+{
+	return NSColor.gridColor;
+}
+
++ (NSColor*)themeControlBackgroundColor
+{
+	return NSColor.controlBackgroundColor;
+}
+
++ (NSColor*)themeSelectedTextColor
+{
+	return NSColor.selectedTextColor;
+}
+
++ (NSColor*)themeTextColor
+{
+	return NSColor.textColor;
+}
+
++ (NSColor*)themeDisabledControlTextColor
+{
+	return NSColor.disabledControlTextColor;
 }
 
 @end

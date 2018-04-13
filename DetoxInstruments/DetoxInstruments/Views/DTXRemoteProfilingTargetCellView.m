@@ -7,6 +7,7 @@
 //
 
 #import "DTXRemoteProfilingTargetCellView.h"
+#import "NSColor+UIAdditions.h"
 
 @interface DTXRemoteProfilingTargetCellView ()
 
@@ -29,18 +30,16 @@
 {
 	[super awakeFromNib];
 	
-	NSImage* folder = [NSImage imageNamed:@"gear"];//[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kOpenFolderIcon)];
-	folder.size = NSMakeSize(10, 10);
-	_filesButton.image = folder;
+	self.wantsLayer = YES;
 }
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
 {
 	[super setBackgroundStyle:backgroundStyle];
 	
-	self.title1Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
-	self.title2Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
-	self.title3Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor grayColor];
+	self.title1Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor themeSelectedTextColor] : [NSColor textColor];
+	self.title2Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor themeSelectedTextColor] : [NSColor textColor];
+	self.title3Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor themeSelectedTextColor] : [NSColor controlTextColor];
 }
 
 - (void)updateFeatureSetWithProfilerVersion:(NSString*)profilerVersion

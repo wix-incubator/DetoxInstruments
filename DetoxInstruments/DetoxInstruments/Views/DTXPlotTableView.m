@@ -24,8 +24,11 @@
 - (instancetype)initWithEvent:(NSEvent*)event fakedCoordsOfView:(NSView*)view
 {
 	self = [super init];
-	_obj = event;
-	_view = view;
+	if(self)
+	{
+		_obj = event;
+		_view = view;
+	}
 	return self;
 }
 
@@ -59,6 +62,13 @@ IB_DESIGNABLE
 @implementation DTXPlotTableView
 {
 	BOOL _ignoresEvents;
+}
+
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	self.wantsLayer = YES;
 }
 
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row

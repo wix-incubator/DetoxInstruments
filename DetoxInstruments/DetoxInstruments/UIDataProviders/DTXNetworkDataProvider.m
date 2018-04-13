@@ -92,7 +92,7 @@
 		return NSColor.warning3Color;
 	}
 	
-	return NSColor.whiteColor;
+	return NSColor.controlBackgroundColor;
 }
 
 - (BOOL)supportsDataFiltering

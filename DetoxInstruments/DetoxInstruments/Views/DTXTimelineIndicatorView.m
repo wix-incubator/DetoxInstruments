@@ -7,6 +7,7 @@
 //
 
 #import "DTXTimelineIndicatorView.h"
+#import "NSColor+UIAdditions.h"
 
 @interface DTXTimelineIndicatorView () <CALayerDelegate> @end
 @implementation DTXTimelineIndicatorView
@@ -96,7 +97,7 @@
 	CGContextSetLineWidth(context, 1.0);
 	CGContextSetLineDash(context, -1.0, (CGFloat[]){3.,6.}, 2);
 	
-	CGContextSetStrokeColorWithColor(context, [NSColor.blackColor colorWithAlphaComponent:0.65].CGColor);
+	CGContextSetStrokeColorWithColor(context, [NSColor.themeTextColor colorWithAlphaComponent:0.65].CGColor);
 	CGContextMoveToPoint(context, round(_indicatorOffset), 0);    // This sets up the start point
 	CGContextAddLineToPoint(context, round(_indicatorOffset), self.bounds.size.height);
 	CGContextStrokePath(context);
