@@ -18,7 +18,7 @@
 {
 	_normalString = [attributedStringValue copy];
 	_highlightedString = [_normalString mutableCopy];
-	[_highlightedString addAttribute:NSForegroundColorAttributeName value:NSColor.whiteColor range:NSMakeRange(0, _normalString.length)];
+	[_highlightedString addAttribute:NSForegroundColorAttributeName value:NSColor.alternateSelectedControlTextColor range:NSMakeRange(0, _normalString.length)];
 	
 	[super setAttributedStringValue:self.isHighlighted ? _highlightedString : _normalString];
 }

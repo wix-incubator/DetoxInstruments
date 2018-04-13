@@ -7,6 +7,7 @@
 //
 
 #import "DTXHighlightingCellView.h"
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXHighlightingCellView
 
@@ -27,7 +28,7 @@
 {
 	[super setBackgroundStyle:backgroundStyle];
 	
-	self.textField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
+	self.textField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor themeSelectedTextColor] : [NSColor textColor];
 }
 
 @end

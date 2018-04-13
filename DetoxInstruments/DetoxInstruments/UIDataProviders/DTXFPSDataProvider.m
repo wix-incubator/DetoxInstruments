@@ -38,14 +38,14 @@
 
 - (NSColor*)textColorForItem:(id)item
 {
-	return NSColor.blackColor;
+	return NSColor.textColor;
 }
 
 - (NSColor*)backgroundRowColorForItem:(id)item
 {
 	double fps = [(DTXPerformanceSample*)item fps];
 	
-	return fps < 15 ? NSColor.warning3Color : fps <= 30 ? NSColor.warning2Color : fps <= 45 ? NSColor.warningColor : NSColor.whiteColor;
+	return fps < 15 ? NSColor.warning3Color : fps <= 30 ? NSColor.warning2Color : fps <= 45 ? NSColor.warningColor : NSColor.controlBackgroundColor;
 }
 
 @end

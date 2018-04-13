@@ -155,7 +155,7 @@ DQ
                                         <constraint firstItem="h3z-wj-I6a" firstAttribute="top" secondItem="ZVD-Pz-yLK" secondAttribute="top" constant="20" id="zji-LU-01Z"/>
                                     </constraints>
                                 </view>
-                                <color key="fillColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <color key="fillColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </box>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="60n-g4-gBY">
                                 <rect key="frame" x="35" y="41" width="128" height="128"/>
@@ -1624,13 +1624,13 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                         <rect key="frame" x="0.0" y="0.0" width="680" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-hh-Z2i">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-hh-Z2i">
                                 <rect key="frame" x="0.0" y="0.0" width="680" height="271"/>
                                 <clipView key="contentView" drawsBackground="NO" id="7qk-vh-lmX">
                                     <rect key="frame" x="0.0" y="0.0" width="680" height="271"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="ulY-Jk-M9E">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" id="ulY-Jk-M9E">
                                             <rect key="frame" x="0.0" y="0.0" width="680" height="242"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1651,11 +1651,11 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="DTXLogEntryCell" id="Deg-tm-cRn" customClass="DTXTextViewCellView">
-                                                            <rect key="frame" x="1" y="1" width="677" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="677" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgG-e1-oet">
-                                                                    <rect key="frame" x="3" y="0.0" width="671" height="17"/>
+                                                                    <rect key="frame" x="3" y="3" width="671" height="17"/>
                                                                     <textFieldCell key="cell" controlSize="mini" allowsEditingTextAttributes="YES" id="KQc-uL-Ajo">
                                                                         <font key="font" size="11" name="SFMono-Regular"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1667,7 +1667,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                 <constraint firstItem="rgG-e1-oet" firstAttribute="top" secondItem="Deg-tm-cRn" secondAttribute="top" id="0zg-i4-6fV"/>
                                                                 <constraint firstItem="rgG-e1-oet" firstAttribute="leading" secondItem="Deg-tm-cRn" secondAttribute="leading" constant="5" id="4Zy-Tf-jse"/>
                                                                 <constraint firstAttribute="trailing" secondItem="rgG-e1-oet" secondAttribute="trailing" constant="5" id="bf7-Ig-bvr"/>
-                                                                <constraint firstAttribute="bottom" secondItem="rgG-e1-oet" secondAttribute="bottom" id="ccE-qy-aLf"/>
+                                                                <constraint firstAttribute="bottom" secondItem="rgG-e1-oet" secondAttribute="bottom" constant="3" id="ccE-qy-aLf"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="contentTextField" destination="rgG-e1-oet" id="Wfi-HM-R5S"/>
@@ -2041,7 +2041,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                                                                 <rect key="frame" x="16" y="0.0" width="282" height="17"/>
                                                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Table View Cell" allowsEditingTextAttributes="YES" id="jML-Ih-R7D">
                                                                                                                     <font key="font" metaFont="system"/>
-                                                                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                                                 </textFieldCell>
                                                                                                             </textField>

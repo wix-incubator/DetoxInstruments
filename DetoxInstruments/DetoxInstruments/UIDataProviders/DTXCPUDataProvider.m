@@ -83,7 +83,7 @@
 
 - (NSColor*)textColorForItem:(id)item
 {
-	return NSColor.blackColor;
+	return NSColor.textColor;
 }
 
 - (NSColor*)backgroundRowColorForItem:(id)item
@@ -118,7 +118,7 @@
 		}
 	}
 	
-	return cpu >= 2.0 ? NSColor.warning3Color : cpu > 1.5 ? NSColor.warning2Color : cpu > 1.0 ? NSColor.warningColor : NSColor.whiteColor;
+	return cpu >= 2.0 ? NSColor.warning3Color : cpu > 1.5 ? NSColor.warning2Color : cpu > 1.0 ? NSColor.warningColor : NSColor.controlBackgroundColor;
 }
 
 - (NSString*)titleOfCPUHeader

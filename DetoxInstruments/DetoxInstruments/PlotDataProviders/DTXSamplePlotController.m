@@ -257,7 +257,7 @@
 		plotSpace.delegate = self;
 		
 		[self.plots enumerateObjectsUsingBlock:^(CPTPlot * _Nonnull plot, NSUInteger idx, BOOL * _Nonnull stop) {
-			plot.backgroundColor = NSColor.controlBackgroundColor.CGColor;
+			plot.backgroundColor = NSColor.themeControlBackgroundColor.CGColor;
 			plot.delegate = self;
 			[graph addPlot:plot];
 		}];

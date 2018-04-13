@@ -38,7 +38,6 @@
 	[super viewDidLoad];
 	
 	self.view.wantsLayer = YES;
-	self.view.layer.backgroundColor = NSColor.windowBackgroundColor.CGColor;
 	
 	_pathControl.pathItems = @[];
 	_pathControl.menu = nil;

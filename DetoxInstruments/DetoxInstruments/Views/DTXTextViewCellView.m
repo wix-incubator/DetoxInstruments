@@ -7,6 +7,7 @@
 //
 
 #import "DTXTextViewCellView.h"
+#import "NSColor+UIAdditions.h"
 
 @interface DTXTextViewCellView ()
 
@@ -27,7 +28,7 @@
 	
 	if(self.contentTextField.selectable == NO)
 	{
-		self.contentTextField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor whiteColor] : [NSColor blackColor];
+		self.contentTextField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor themeSelectedTextColor] : [NSColor textColor];
 	}
 }
 

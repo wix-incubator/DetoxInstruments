@@ -113,10 +113,10 @@
 		[_plotGroup setLocalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:self.document.recording.defactoEndTimestamp];
 	}
 	
-	_tableView.intercellSpacing = NSMakeSize(0, 1);
+	_tableView.intercellSpacing = NSMakeSize(0, 1 / self.view.window.screen.backingScaleFactor);
 	
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document];
-	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 210, 0, 0)];
+	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 209.5, 0, 0)];
 	[_plotGroup addHeaderPlotController:headerPlotController];
 	
 	_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document];

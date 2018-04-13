@@ -34,7 +34,6 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	[super viewDidLoad];
 	
 	self.view.wantsLayer = YES;
-	self.view.layer.backgroundColor = NSColor.windowBackgroundColor.CGColor;
 	
 	_tabSwitcher.selectedSegment = [[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey];
 	

@@ -19,7 +19,7 @@
 
 + (instancetype)contentRowWithTitle:(NSString *)title description:(NSString *)description
 {
-	return [self contentRowWithTitle:title description:description color:NSColor.blackColor];
+	return [self contentRowWithTitle:title description:description color:NSColor.textColor];
 }
 
 + (instancetype)contentRowWithTitle:(NSString*)title description:(NSString*)description color:(NSColor*)color
@@ -90,6 +90,7 @@
 - (void)_prepareAttributedStrings
 {
 	_attributedStrings = [NSMutableArray new];
+	
 	[_contentArray enumerateObjectsUsingBlock:^(DTXInspectorContent * _Nonnull content, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSMutableAttributedString* mas = [NSMutableAttributedString new];
 		[content.content enumerateObjectsUsingBlock:^(DTXInspectorContentRow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -106,8 +107,8 @@
 			
 			if(obj.title)
 			{
-				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.title attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightSemibold]}]];
-				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@": " attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightSemibold]}]];
+				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.title attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightSemibold], NSForegroundColorAttributeName: NSColor.textColor}]];
+				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@": " attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightSemibold], NSForegroundColorAttributeName: NSColor.textColor}]];
 			}
 			
 			if(obj.attributedDescription)
