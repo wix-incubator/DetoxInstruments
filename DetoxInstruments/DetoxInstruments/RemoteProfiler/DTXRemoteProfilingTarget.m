@@ -155,6 +155,9 @@
 			case DTXRemoteProfilingCommandTypeGetContainerContents:
 				[weakSelf _handleDeviceContainerContents:cmd];
 				break;
+			case DTXRemoteProfilingCommandTypeGetUserDefaults:
+				[weakSelf _handleUserDefaults:cmd];
+				break;
 			case DTXRemoteProfilingCommandTypeGetDeviceInfo:
 				[weakSelf _handleDeviceInfo:cmd];
 				break;
@@ -207,6 +210,16 @@
 	if([self.delegate respondsToSelector:@selector(profilingTarget:didDownloadContainerContents:wasZipped:)])
 	{
 		[self.delegate profilingTarget:self didDownloadContainerContents:containerContentsData wasZipped:wasZipped];
+	}
+}
+
+- (void)_handleUserDefaults:(NSDictionary*)containerContents
+{
+	NSDictionary* userDefaults = containerContents[@"userDefaults"];
+	
+	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadUserDefaults:)])
+	{
+		[self.delegate profilingTarget:self didLoadUserDefaults:userDefaults];
 	}
 }
 
@@ -315,6 +328,11 @@
 - (void)stopProfiling
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStopProfiling)} completionHandler:nil];
+}
+
+- (void)loadUserDefaults
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetUserDefaults)} completionHandler:nil];
 }
 
 #pragma mark DTXSocketConnectionDelegate

@@ -44,10 +44,6 @@
 	
 	self.view.wantsLayer = YES;
 	self.view.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
-	
-	static const CGFloat inset = 25.0;
-	_tableView.enclosingScrollView.contentInsets = NSEdgeInsetsMake(0, 0, inset, 0);
-	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, 0, -inset, 0);
 }
 
 - (void)viewWillAppear

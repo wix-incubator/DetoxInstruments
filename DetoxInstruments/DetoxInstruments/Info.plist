@@ -15,6 +15,10 @@
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>dtxicon</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>com.wix.dinst.recording</string>
+			</array>
 			<key>CFBundleTypeName</key>
 			<string>ProfilingRecording</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -44,9 +48,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.9.1</string>
 	<key>CFBundleVersion</key>
-	<string>5279</string>
+	<string>5291</string>
 	<key>DTXBuildDate</key>
-	<date>2018-04-11T18:09:00Z</date>
+	<date>2018-04-13T21:16:08Z</date>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>

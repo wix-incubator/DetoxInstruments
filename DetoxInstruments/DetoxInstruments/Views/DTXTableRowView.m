@@ -23,26 +23,6 @@
 	return self;
 }
 
-//- (void)drawSelectionInRect:(NSRect)dirtyRect {
-//	[super drawSelectionInRect:dirtyRect];
-//	if (self.selectionHighlightStyle != NSTableViewSelectionHighlightStyleNone) {
-//		NSRect selectionRect = self.bounds;
-//
-//		NSColor* color = self.isEmphasized ? NSColor.alternateSelectedControlColor : NSColor.secondarySelectedControlColor;
-//
-//		[color setStroke];
-//		[color setFill];
-//		NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRect:selectionRect];
-//		[selectionPath fill];
-//		[selectionPath stroke];
-//	}
-//}
-
-- (void)setBackgroundColor:(NSColor *)backgroundColor
-{
-	[super setBackgroundColor:backgroundColor];
-}
-
 - (void)layout
 {
 	[super layout];

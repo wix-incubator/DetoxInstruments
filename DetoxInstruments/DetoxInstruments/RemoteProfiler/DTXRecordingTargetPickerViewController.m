@@ -407,6 +407,7 @@
 	[target _connectWithHostName:sender.hostName port:sender.port workQueue:_workQueue];
 	
 	[target loadDeviceInfo];
+	[target loadUserDefaults];
 	
 	[self _updateTarget:target];
 }
@@ -455,6 +456,11 @@
 		
 		[_containerContentsOutlineViewController showSaveDialogForSavingData:containerContents dataWasZipped:wasZipped];
 	});
+}
+
+- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadUserDefaults:(NSDictionary *)userDefaults
+{
+	
 }
 
 @end

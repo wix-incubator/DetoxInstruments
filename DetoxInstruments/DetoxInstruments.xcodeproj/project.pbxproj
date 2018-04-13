@@ -329,6 +329,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		393E1802207EEE88002E6136 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		39487CB71F435EFA0063E66D /* Copy Shared Support Items */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -417,6 +427,7 @@
 		393CD9221F4337B900FB01FE /* DTXDetailOutlineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDetailOutlineView.m; sourceTree = "<group>"; };
 		393E17B7207E70A4002E6136 /* _DTXModalProgressIndicatorController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXModalProgressIndicatorController.h; sourceTree = "<group>"; };
 		393E17B8207E70A4002E6136 /* _DTXModalProgressIndicatorController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DTXModalProgressIndicatorController.m; sourceTree = "<group>"; };
+		393E17DA207EEE88002E6136 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		393E66D81FC592BE0092EE89 /* Swiftier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../Shared/Swiftier.h; sourceTree = "<group>"; };
 		393E66DA1FC594B30092EE89 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		393F41C01F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNCPUInspectorDataProvider.h; sourceTree = "<group>"; };
@@ -948,6 +959,7 @@
 		397A01741FA6348200ABCB87 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				393E17DA207EEE88002E6136 /* Quartz.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1266,6 +1278,7 @@
 				398D6E771EE03E9B00AA9C11 /* Embed Frameworks */,
 				39A829541F43780100A5FE3D /* Embed Profiler Framework */,
 				39487CB71F435EFA0063E66D /* Copy Shared Support Items */,
+				393E1802207EEE88002E6136 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
