@@ -206,6 +206,11 @@ static DTXRemoteProfilingManager* __sharedManager;
 				bool wasZipped = [cmd[@"wasZipped"] boolValue];
 				[self _putContainerItemWithURL:URL data:data wasZipped:wasZipped];
 			}	break;
+			case DTXRemoteProfilingCommandTypeGetUserDefaults:
+			{
+				[self _sendUserDefaults];
+				
+			}	break;
 			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
 			{
 				NSAssert(NO, @"Should not be here.");
@@ -277,6 +282,15 @@ static DTXRemoteProfilingManager* __sharedManager;
 	NSMutableDictionary* cmd = [NSMutableDictionary new];
 	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetContainerContents);
 	cmd[@"containerContents"] = [NSKeyedArchiver archivedDataWithRootObject:rootItem];
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)_sendUserDefaults
+{	
+	NSMutableDictionary* cmd = [NSMutableDictionary new];
+	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetUserDefaults);
+	cmd[@"userDefaults"] = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
 	
 	[self _writeCommand:cmd completionHandler:nil];
 }

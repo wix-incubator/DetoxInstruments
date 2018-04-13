@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypeDownloadContainer,
 	DTXRemoteProfilingCommandTypeDeleteContainerIten,
 	DTXRemoteProfilingCommandTypePutContainerItem,
+	DTXRemoteProfilingCommandTypeGetUserDefaults,
 };
 
 @class DTXRecording, DTXSampleGroup, DTXPerformanceSample, DTXAdvancedPerformanceSample;

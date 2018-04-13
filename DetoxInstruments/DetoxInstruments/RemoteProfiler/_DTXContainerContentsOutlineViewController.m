@@ -109,7 +109,7 @@
 	[self decreaseProgressIndicatorCounter];
 	
 	BOOL isDirectoryForUI = _currentlyBeingSaved.isDirectoryForUI;
-	BOOL isDirectoryActual = _currentlyBeingSaved.isDirectory;
+//	BOOL isDirectoryActual = _currentlyBeingSaved.isDirectory;
 	NSString* fileName = _currentlyBeingSaved.name;
 	if([_currentlyBeingSaved isEqualToFileSystemItem:self.profilingTarget.containerContents])
 	{
@@ -350,9 +350,7 @@
 		return NSDragOperationNone;
 	}
 	
-	NSPasteboard* pb = info.draggingPasteboard;
-	
-	return NSDragOperationMove;
+	return NSDragOperationCopy;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(nullable id)item childIndex:(NSInteger)index
@@ -395,11 +393,14 @@
 			else
 			{
 				NSURL* tempFileURL = DTXTempZipURL();
-				BOOL b = DTXWriteZipFileWithURLArray(tempFileURL, draggedFileURLs);
-				NSData* data = [NSData dataWithContentsOfURL:tempFileURL options:NSDataReadingMappedAlways error:NULL];
-				[[NSFileManager defaultManager] removeItemAtURL:tempFileURL error:NULL];
-				
-				[self.profilingTarget putContainerItemAtURL:targetURL data:data wasZipped:YES];
+				BOOL zipWasSuccessful = DTXWriteZipFileWithURLArray(tempFileURL, draggedFileURLs);
+				if(zipWasSuccessful)
+				{
+					NSData* data = [NSData dataWithContentsOfURL:tempFileURL options:NSDataReadingMappedAlways error:NULL];
+					[[NSFileManager defaultManager] removeItemAtURL:tempFileURL error:NULL];
+					
+					[self.profilingTarget putContainerItemAtURL:targetURL data:data wasZipped:YES];
+				}
 			}
 			
 			[self.profilingTarget loadContainerContents];
