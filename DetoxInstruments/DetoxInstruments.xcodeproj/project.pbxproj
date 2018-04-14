@@ -51,6 +51,7 @@
 		394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B42BB1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m */; };
 		394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */; };
 		3958043A206D36BD00E99909 /* DTXFileSystemItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39580421206D36BD00E99909 /* DTXFileSystemItem.m */; };
+		395A43EA2081A2FB00DDF995 /* NSImage+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 395A43E92081A2FB00DDF995 /* NSImage+UIAdditions.m */; };
 		395F01C31EE7E7AD00695236 /* DTXHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F01C21EE7E7AD00695236 /* DTXHeaderView.m */; };
 		395F01C61EE81DA200695236 /* DTXTimelineIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F01C51EE81DA200695236 /* DTXTimelineIndicatorView.m */; };
 		396202361EEF4A9C00D04E96 /* DTXCPTRangePlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 396202351EEF4A9C00D04E96 /* DTXCPTRangePlot.m */; };
@@ -450,6 +451,8 @@
 		394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkInspectorDataProvider.m; sourceTree = "<group>"; };
 		39580421206D36BD00E99909 /* DTXFileSystemItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXFileSystemItem.m; path = ../../../Profiler/DTXProfiler/RemoteProfiler/DTXFileSystemItem.m; sourceTree = "<group>"; };
 		39580439206D36BD00E99909 /* DTXFileSystemItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXFileSystemItem.h; path = ../../../Profiler/DTXProfiler/RemoteProfiler/DTXFileSystemItem.h; sourceTree = "<group>"; };
+		395A43E82081A2FB00DDF995 /* NSImage+UIAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImage+UIAdditions.h"; sourceTree = "<group>"; };
+		395A43E92081A2FB00DDF995 /* NSImage+UIAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSImage+UIAdditions.m"; sourceTree = "<group>"; };
 		395F01C11EE7E7AD00695236 /* DTXHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXHeaderView.h; sourceTree = "<group>"; };
 		395F01C21EE7E7AD00695236 /* DTXHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXHeaderView.m; sourceTree = "<group>"; };
 		395F01C41EE81DA200695236 /* DTXTimelineIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXTimelineIndicatorView.h; sourceTree = "<group>"; };
@@ -978,6 +981,8 @@
 				39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */,
 				3943CA831EEEF46F0009AD88 /* NSColor+UIAdditions.h */,
 				3943CA841EEEF46F0009AD88 /* NSColor+UIAdditions.m */,
+				395A43E82081A2FB00DDF995 /* NSImage+UIAdditions.h */,
+				395A43E92081A2FB00DDF995 /* NSImage+UIAdditions.m */,
 				39F6F6CC1F0E400300C7F411 /* NSDictionary+FakeDecoder.h */,
 				39F6F6CD1F0E400300C7F411 /* NSDictionary+FakeDecoder.m */,
 				39B4CA3C1F15C4AD009BD2D2 /* NSString+FileNames.h */,
@@ -1574,6 +1579,7 @@
 				39EBDFC01ED36D45005D8AB1 /* main.m in Sources */,
 				3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */,
 				D8243F911F5307020005CF4B /* ImageGenerator.m in Sources */,
+				395A43EA2081A2FB00DDF995 /* NSImage+UIAdditions.m in Sources */,
 				39BEE1E7207A47B3003AF93E /* hmac.c in Sources */,
 				397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */,
 				39BEE1E2207A47B3003AF93E /* ioapi.c in Sources */,
