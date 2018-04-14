@@ -97,6 +97,7 @@
 	if(self._isLogShown == NO && _managingDataProvider != nil)
 	{
 		NSPathControlItem* p2 = [NSPathControlItem new];
+		p2.image = [NSImage imageNamed:@"samples"];
 		p2.title = NSLocalizedString(@"Samples", @"");
 		
 		_pathControl.pathItems = @[p1, p2];
@@ -115,7 +116,7 @@
 	NSMenuItem* item1 = [NSMenuItem new];
 	item1.attributedTitle = [[NSAttributedString alloc] initWithString: indexOfCell > 0 ? cell.title : _managingDataProvider.displayName attributes: cell.font ? @{NSFontAttributeName: cell.font} : @{}];
 	item1.state = self._isLogShown == NO ? NSOnState : NSOffState;
-	item1.image = indexOfCell == 0 ? [NSImage imageNamed:[NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]] : nil;
+	item1.image = indexOfCell == 0 ? [NSImage imageNamed:[NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]] : cell.image;
 	item1.image.size = NSMakeSize(16, 16);
 	item1.target = self;
 	item1.action = @selector(_selectManagingDataProvider);
