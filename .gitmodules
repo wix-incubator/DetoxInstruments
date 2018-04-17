@@ -34,3 +34,6 @@ url=https://github.com/wix/DTXSocketConnection.git
 [submodule "Shared/ZipArchive"]
 	path = Shared/ZipArchive
 	url = https://github.com/ZipArchive/ZipArchive.git
+[submodule "DetoxInstruments/LNPropertyListEditor"]
+	path = DetoxInstruments/LNPropertyListEditor
+	url = https://github.com/LeoNatan/LNPropertyListEditor.git

@@ -28,7 +28,7 @@
 {
 	[super setBackgroundStyle:backgroundStyle];
 	
-	self.textField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor themeSelectedTextColor] : [NSColor textColor];
+	self.textField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
 }
 
 @end

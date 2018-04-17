@@ -14,7 +14,7 @@
 #import "_DTXTargetsOutlineViewContoller.h"
 #import "_DTXProfilingConfigurationViewController.h"
 #import "_DTXContainerContentsOutlineViewController.h"
-#import "_DTXActionButtonProvider.h"
+#import "_DTXUserDefaultsOutlineViewController.h"
 
 @import QuartzCore;
 
@@ -29,6 +29,7 @@
 	DTXRemoteProfilingTarget* _inspectedTarget;
 	_DTXProfilingConfigurationViewController* _profilingConfigurationController;
 	_DTXContainerContentsOutlineViewController* _containerContentsOutlineViewController;
+	_DTXUserDefaultsOutlineViewController* _userDefaultsViewController;
 	NSViewController<_DTXActionButtonProvider>* _activeController;
 	
 	IBOutlet NSButton* _cancelButton;
@@ -63,7 +64,7 @@
 	
 	_outlineController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXTargetsOutlineViewContoller"];
 	[self addChildViewController:_outlineController];
-	_outlineController.view.translatesAutoresizingMaskIntoConstraints = NO;
+	[_outlineController view];
 	
 	_outlineView = _outlineController.outlineView;
 	_outlineView.dataSource = self;
@@ -76,9 +77,12 @@
 	_containerContentsOutlineViewController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXContainerContentsOutlineViewController"];
 	[self addChildViewController:_containerContentsOutlineViewController];
 	
-	_outlineController.view.translatesAutoresizingMaskIntoConstraints = NO;
-	_profilingConfigurationController.view.translatesAutoresizingMaskIntoConstraints = NO;
-	_containerContentsOutlineViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
+	_userDefaultsViewController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXUserDefaultsOutlineViewController"];
+	[self addChildViewController:_userDefaultsViewController];
+	
+	[_profilingConfigurationController view];
+	[_containerContentsOutlineViewController view];
+	[_userDefaultsViewController view];
 	
 	[_containerView addSubview:_outlineController.view];
 	
@@ -199,7 +203,9 @@
 	[_targets addObject:target];
 	
 	NSIndexSet* itemIndexSet = [NSIndexSet indexSetWithIndex:_targets.count - 1];
+	[_outlineView beginUpdates];
 	[_outlineView insertItemsAtIndexes:itemIndexSet inParent:nil withAnimation:NSTableViewAnimationEffectNone];
+	[_outlineView endUpdates];
 	if(itemIndexSet.firstIndex == 0)
 	{
 		[_outlineView selectRowIndexes:itemIndexSet byExtendingSelection:NO];
@@ -236,7 +242,9 @@
 	[_serviceToTargetMapping removeObjectForKey:service];
 	[_targetToServiceMapping removeObjectForKey:target];
 	
+	[_outlineView beginUpdates];
 	[_outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:nil withAnimation:NSTableViewAnimationEffectFade];
+	[_outlineView endUpdates];
 }
 
 - (void)_updateTarget:(DTXRemoteProfilingTarget*)target
@@ -263,11 +271,20 @@
 	}];
 }
 
-- (IBAction)_containerContentsSelected:(NSMenuItem*)sender
+- (IBAction)_containerContents:(NSMenuItem*)sender
 {
 	_inspectedTarget = sender.representedObject;
 	_containerContentsOutlineViewController.profilingTarget = _inspectedTarget;
 	[self _transitionToController:_containerContentsOutlineViewController];
+	
+	[self _clearRepresentedItemsFromMenu];
+}
+
+- (IBAction)_userDefaults:(NSMenuItem*)sender
+{
+	_inspectedTarget = sender.representedObject;
+	_userDefaultsViewController.profilingTarget = _inspectedTarget;
+	[self _transitionToController:_userDefaultsViewController];
 	
 	[self _clearRepresentedItemsFromMenu];
 }
@@ -407,7 +424,6 @@
 	[target _connectWithHostName:sender.hostName port:sender.port workQueue:_workQueue];
 	
 	[target loadDeviceInfo];
-	[target loadUserDefaults];
 	
 	[self _updateTarget:target];
 }
@@ -436,7 +452,7 @@
 - (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget *)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[_containerContentsOutlineViewController reloadContainerContentsOutline];
+		[_containerContentsOutlineViewController noteProfilingTargetDidLoadServiceData];
 	});
 }
 
@@ -460,7 +476,9 @@
 
 - (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadUserDefaults:(NSDictionary *)userDefaults
 {
-	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[_userDefaultsViewController noteProfilingTargetDidLoadServiceData];
+	});
 }
 
 @end

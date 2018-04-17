@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 @property (nonatomic, copy, readonly) NSDictionary* deviceInfo;
 
 @property (nonatomic, strong, readonly) DTXFileSystemItem* containerContents;
+@property (nonatomic, strong, readonly) id userDefaults;
 
 @property (nonatomic, assign, readonly) DTXRemoteProfilingTargetState state;
 

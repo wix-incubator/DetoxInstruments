@@ -22,7 +22,7 @@
 	[self setSearchIconWithHighlight:NO];
 }
 
-- (void) setCancelIcon
+- (void)setCancelIcon
 {
 	NSButtonCell *cancelButtonCell = ((NSSearchFieldCell*)self.cell).cancelButtonCell;
 	cancelButtonCell.image = cancelButtonCell.alternateImage = [ImageGenerator createCancelImageWithSize:11];

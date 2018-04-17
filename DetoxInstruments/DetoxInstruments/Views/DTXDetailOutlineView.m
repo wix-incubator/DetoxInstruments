@@ -11,6 +11,13 @@
 
 @implementation DTXDetailOutlineView
 
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	self.wantsLayer = YES;
+}
+
 - (NSRect)frameOfCellAtColumn:(NSInteger)column row:(NSInteger)row
 {
 	struct objc_super mySuper = {

@@ -51,29 +51,4 @@
 	return [self interpolateToValue:NSColor.whiteColor progress:0.15];
 }
 
-+ (NSColor*)themeGridColor
-{
-	return NSColor.gridColor;
-}
-
-+ (NSColor*)themeControlBackgroundColor
-{
-	return NSColor.controlBackgroundColor;
-}
-
-+ (NSColor*)themeSelectedTextColor
-{
-	return NSColor.selectedTextColor;
-}
-
-+ (NSColor*)themeTextColor
-{
-	return NSColor.textColor;
-}
-
-+ (NSColor*)themeDisabledControlTextColor
-{
-	return NSColor.disabledControlTextColor;
-}
-
 @end

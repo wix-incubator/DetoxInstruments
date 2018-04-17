@@ -9,6 +9,7 @@
 #import "_DTXContainerContentsOutlineViewController.h"
 #import "DTXZipper.h"
 #import "SSZipArchive.h"
+#import "DTXTwoLabelsCellView.h"
 
 @interface _DTXContainerContentsOutlineViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
 {
@@ -21,6 +22,8 @@
 	
 	NSUInteger _progressIndicatorCounter;
 	NSViewController* _modalProgressIndicatorController;
+	
+	NSByteCountFormatter* _sizeFormatter;
 }
 
 @end
@@ -34,23 +37,20 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	NSString* format;
-	DTXFileSystemItem* item = [_outlineView itemAtRow:_outlineView.clickedRow];
+	NSInteger row = _outlineView.clickedRow;
+	if(row == -1)
+	{
+		row = _outlineView.selectedRow;
+	}
+	if(row == -1)
+	{
+		return NO;
+	}
+	
+	DTXFileSystemItem* item = [_outlineView itemAtRow:row];
 	BOOL isRoot = [item isEqualToFileSystemItem:self.profilingTarget.containerContents];
 	
-	if(menuItem.action == @selector(_downloadContainer:))
-	{
-		format = NSLocalizedString(@"Download “%@”", @"");
-	}
-	
-	if(menuItem.action == @selector(_deleteItem:))
-	{
-		format = NSLocalizedString(@"Delete “%@”", @"");
-	}
-	
-	menuItem.title = [NSString stringWithFormat:format, isRoot ? self.profilingTarget.appName : item.name];
-	
-	if(isRoot && menuItem.action == @selector(_deleteItem:))
+	if(isRoot && menuItem.action == @selector(delete:))
 	{
 		return NO;
 	}
@@ -68,6 +68,10 @@
 	self.view.wantsLayer = YES;
 	
 	_modalProgressIndicatorController = [self.storyboard instantiateControllerWithIdentifier:@"ModalProgressIndicator"];
+	
+	_sizeFormatter = [NSByteCountFormatter new];
+	_sizeFormatter.countStyle = NSByteCountFormatterCountStyleFile;
+	_sizeFormatter.allowsNonnumericFormatting = NO;
 }
 
 - (void)viewDidAppear
@@ -84,24 +88,39 @@
 	[_modalProgressIndicatorController dismissController:nil];
 }
 
+- (void)viewDidLayout
+{
+	[super viewDidLayout];
+	
+	_outlineView.outlineTableColumn.maxWidth = _outlineView.enclosingScrollView.bounds.size.width - 2;
+	_outlineView.outlineTableColumn.width = _outlineView.enclosingScrollView.bounds.size.width - 2;
+	[_outlineView tile];
+	[_outlineView setNeedsLayout:YES];
+	[_outlineView layoutSubtreeIfNeeded];
+}
+
 - (void)setProfilingTarget:(DTXRemoteProfilingTarget *)profilingTarget
 {
-	_profilingTarget = profilingTarget;
+	[super setProfilingTarget:profilingTarget];
 	
 	[self.profilingTarget loadContainerContents];
 	[self increaseProgressIndicatorCounterAndDisplayRightAway:NO];
 }
 
-- (void)reloadContainerContentsOutline
+- (void)noteProfilingTargetDidLoadServiceData
 {
-	if(_profilingTarget == nil)
+	if(self.profilingTarget == nil)
 	{
 		return;
 	}
 	
 	[self decreaseProgressIndicatorCounter];
 	
+	DTXFileSystemItem* selectedItem = [_outlineView itemAtRow:_outlineView.selectedRow];
+	
 	[_outlineView reloadItem:nil reloadChildren:YES];
+	
+	[_outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_outlineView rowForItem:selectedItem]] byExtendingSelection:NO];
 }
 
 - (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped
@@ -178,14 +197,14 @@
 	}];
 }
 
-- (IBAction)_refreshContainerContents:(id)sender
+- (IBAction)refresh:(id)sender
 {
 	[self.profilingTarget loadContainerContents];
 	
 	[self increaseProgressIndicatorCounterAndDisplayRightAway:NO];
 }
 
-- (IBAction)_downloadContainer:(id)sender
+- (IBAction)downloadSelectedItems:(id)sender
 {
 	_currentlyBeingSaved = [_outlineView itemAtRow:_outlineView.clickedRow];
 	
@@ -196,6 +215,12 @@
 
 - (void)deleteItemAtRow:(NSInteger)row
 {
+	if(row == -1)
+	{
+		NSBeep();
+		return;
+	}
+	
 	_currentlyBeingSaved = [_outlineView itemAtRow:row];
 	
 	NSAlert* alert = [NSAlert new];
@@ -217,9 +242,9 @@
 	}];
 }
 
-- (IBAction)_deleteItem:(id)sender
+- (IBAction)delete:(id)sender
 {
-	[self deleteItemAtRow:_outlineView.clickedRow];
+	[self deleteItemAtRow:_outlineView.clickedRow != -1 ? _outlineView.clickedRow : _outlineView.selectedRow];
 }
 
 - (void)increaseProgressIndicatorCounterAndDisplayRightAway:(BOOL)rightAway
@@ -301,7 +326,7 @@
 {
 	DTXFileSystemItem* fsItem = item;
 	
-	NSTableCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXFileItemCellView" owner:nil];
+	DTXTwoLabelsCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXFileItemCellView" owner:nil];
 	
 	NSString* itemName = fsItem.name;
 	if([fsItem isEqualToFileSystemItem:self.profilingTarget.containerContents])
@@ -310,6 +335,7 @@
 	}
 	
 	cellView.textField.stringValue = itemName;
+	cellView.detailTextField.stringValue = [_sizeFormatter stringFromByteCount:fsItem.size.unsignedLongLongValue];
 	
 	NSImage* icon;
 	

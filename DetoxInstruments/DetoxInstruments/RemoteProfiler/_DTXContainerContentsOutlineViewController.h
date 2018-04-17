@@ -7,14 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "DTXRemoteProfilingTarget.h"
-#import "_DTXActionButtonProvider.h"
+#import "_DTXDeviceServicesViewController.h"
 
-@interface _DTXContainerContentsOutlineViewController : NSViewController <_DTXActionButtonProvider>
+@interface _DTXContainerContentsOutlineViewController : _DTXDeviceServicesViewController
 
-@property (nonatomic, strong) DTXRemoteProfilingTarget* profilingTarget;
-
-- (void)reloadContainerContentsOutline;
 - (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped;
 
 @end
