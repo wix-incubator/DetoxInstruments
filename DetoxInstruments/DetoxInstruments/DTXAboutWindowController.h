@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DTXAboutWindowController : NSWindowController
+@interface DTXAboutWindow : NSWindow @end
 
-@end
+@interface DTXAboutWindowController : NSWindowController @end

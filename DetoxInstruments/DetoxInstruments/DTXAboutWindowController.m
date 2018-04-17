@@ -8,6 +8,22 @@
 
 #import "DTXAboutWindowController.h"
 
+@implementation DTXAboutWindow
+
+- (void)keyDown:(NSEvent *)event
+{
+	//Escape
+	if(event.keyCode == 53)
+	{
+		[self close];
+		return;
+	}
+	
+	[super keyDown:event];
+}
+
+@end
+
 @implementation DTXAboutWindowController
 
 @end

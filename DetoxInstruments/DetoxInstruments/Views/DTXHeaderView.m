@@ -21,7 +21,7 @@
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
-	self.layer.backgroundColor = NSColor.themeControlBackgroundColor.CGColor;
+	self.layer.backgroundColor = NSColor.controlBackgroundColor.CGColor;
 }
 
 - (void)viewDidMoveToWindow
@@ -48,7 +48,7 @@
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 	
-	[NSColor.themeGridColor set];
+	[NSColor.gridColor set];
 	
 	NSBezierPath* line = [NSBezierPath bezierPath];
 

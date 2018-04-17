@@ -215,11 +215,11 @@
 
 - (void)_handleUserDefaults:(NSDictionary*)containerContents
 {
-	NSDictionary* userDefaults = containerContents[@"userDefaults"];
+	_userDefaults = containerContents[@"userDefaults"];
 	
 	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadUserDefaults:)])
 	{
-		[self.delegate profilingTarget:self didLoadUserDefaults:userDefaults];
+		[self.delegate profilingTarget:self didLoadUserDefaults:self.userDefaults];
 	}
 }
 

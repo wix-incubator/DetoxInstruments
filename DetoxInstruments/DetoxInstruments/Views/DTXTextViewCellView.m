@@ -28,7 +28,7 @@
 	
 	if(self.contentTextField.selectable == NO)
 	{
-		self.contentTextField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor themeSelectedTextColor] : [NSColor textColor];
+		self.contentTextField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
 	}
 }
 

@@ -45,12 +45,16 @@
 			
 			NSMutableArray* children = [NSMutableArray new];
 			
+			__block unsigned long long size = 0;
+			
 			[childURLs enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 				DTXFileSystemItem* child = [[DTXFileSystemItem alloc] initWithFileURL:obj];
+				size += child.size.unsignedLongLongValue;
 				[children addObject:child];
 			}];
 			
 			self.children = children;
+			self.size = @(size);
 		}
 		else
 		{

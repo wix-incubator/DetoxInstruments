@@ -10,6 +10,13 @@
 
 @implementation DTXInspectorTableView
 
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	self.wantsLayer = YES;
+}
+
 - (void)drawGridInClipRect:(NSRect)clipRect
 {
 	NSRect lastRowRect = [self rectOfRow:[self numberOfRows] - 1];

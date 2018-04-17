@@ -2,7 +2,7 @@
 
 CURRENTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd ../../DetoxInstruments/dtxicon.iconset
+cd ../../DetoxInstruments/DetoxInstruments/dtxicon.iconset
 rm *.png
 cp "${CURRENTDIR}"/16.png icon_16x16.png
 cp "${CURRENTDIR}"/32.png icon_16x16@2x.png

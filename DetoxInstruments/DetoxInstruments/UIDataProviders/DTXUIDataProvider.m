@@ -166,8 +166,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	[_managedOutlineView scrollRowToVisible:0];
 	
 	CGRect frame = _managedOutlineView.window.frame;
-	frame.size.width += 1;
-	frame.size.width -= 1;
 	[_managedOutlineView.window setFrame:frame display:NO];
 }
 
