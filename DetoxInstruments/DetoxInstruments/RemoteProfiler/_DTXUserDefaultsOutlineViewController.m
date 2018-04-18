@@ -38,10 +38,10 @@
 	[_plistEditor.window makeFirstResponder:_plistEditor];
 	
 	NSRect frame = _plistEditor.window.frame;
-	frame.size.width = 850;
-	frame.size.height = 550;
+	frame.size.width = MAX(850, frame.size.width);
+	frame.size.height = MAX(550, frame.size.height);
 	[_plistEditor.window setFrame:frame display:YES animate:YES];
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([_plistEditor.window animationResizeTime:frame] * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		_plistEditor.propertyList = _plistEditor.propertyList;
 	});
 }
