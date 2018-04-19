@@ -16,7 +16,7 @@
 
 #define defer_block_name_with_prefix(prefix, suffix) prefix ## suffix
 #define defer_block_name(suffix) defer_block_name_with_prefix(defer_, suffix)
-#define defer __strong void(^defer_block_name(__LINE__))(void) __attribute__((cleanup(defer_cleanup_block), unused)) = ^
+#define dtx_defer __strong void(^defer_block_name(__LINE__))(void) __attribute__((cleanup(defer_cleanup_block), unused)) = ^
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-function"
 static void defer_cleanup_block(__strong void(^*block)(void)) {

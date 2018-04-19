@@ -1,5 +1,5 @@
 //
-//  _DTXContainerContentsOutlineViewController.h
+//  DTXContainerContentsViewController.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 4/1/18.
@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "_DTXDeviceServicesViewController.h"
+#import "DTXProfilingTargetManagement.h"
 
-@interface _DTXContainerContentsOutlineViewController : _DTXDeviceServicesViewController
+@interface DTXContainerContentsViewController : NSViewController <DTXProfilingTargetManagement>
 
 - (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped;
 
