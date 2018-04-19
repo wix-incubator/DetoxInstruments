@@ -143,7 +143,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[[NSNotificationCenter defaultCenter] postNotificationName:DTXDocumentStateDidChangeNotification object:self];
 }
 
-- (void)_preparePersistenceContainerFromURL:(NSURL*)url allowCreation:(BOOL)allowCreation error:(NSError * _Nullable __autoreleasing *)outError
+- (void)_preparePersistenceContainerFromURL:(NSURL*)url allowCreation:(BOOL)allowCreation error:(NSError **)outError
 {
 	NSURL* storeURL = [self _URLByAppendingStoreCompoenentToURL:url];
 	
@@ -159,10 +159,12 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
 	_container.persistentStoreDescriptions = @[description];
 	
+	__block NSError* outerError;
+	
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
 		if(error)
 		{
-			*outError = error;
+			outerError = error;
 			return;
 		}
 		
@@ -191,9 +193,11 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		[self _prepareForLiveRecording:_recording];
 #endif
 	}];
+	
+	*outError = outerError;
 }
 
-- (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable __autoreleasing *)outError
+- (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError
 {
 	if(url == nil)
 	{
@@ -202,7 +206,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 	[self _preparePersistenceContainerFromURL:url allowCreation:NO error:outError];
 	
-	return YES;
+	return *outError == nil;
 }
 
 - (void)_recordingDefactoEndTimestampDidChange:(NSNotification*)note
@@ -223,7 +227,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 }
 #endif
 
-- (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError * _Nullable __autoreleasing *)outError
+- (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)outError
 {
 	if(url != nil && _contentsURL != nil && [url isEqualTo:_contentsURL])
 	{
@@ -324,7 +328,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	}];
 }
 
-- (NSDocument *)duplicateAndReturnError:(NSError * _Nullable __autoreleasing *)outError
+- (NSDocument *)duplicateAndReturnError:(NSError **)outError
 {
 	NSDocument* rv = [super duplicateAndReturnError:outError];
 	if(rv)
