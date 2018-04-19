@@ -77,6 +77,7 @@
 		397C3F3E1F35555B00BA9159 /* DTXStackedPlotGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */; };
 		397FE8CB1EEDC8DB002200B7 /* DTXTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */; };
 		397FE8DB1EEE7ED8002200B7 /* DTXCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8DA1EEE7ED8002200B7 /* DTXCPUDataProvider.m */; };
+		3980C0DF2086C75000789E3B /* DetoxInstruments.help in Resources */ = {isa = PBXBuildFile; fileRef = 3980C0C72086C75000789E3B /* DetoxInstruments.help */; };
 		3988D2C31EEED5AF0090088E /* DTXMemoryDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3988D2C21EEED5AF0090088E /* DTXMemoryDataProvider.m */; };
 		398D6E751EE03E9B00AA9C11 /* CorePlot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398D6E741EE03E9B00AA9C11 /* CorePlot.framework */; };
 		398D6E761EE03E9B00AA9C11 /* CorePlot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 398D6E741EE03E9B00AA9C11 /* CorePlot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -520,6 +521,7 @@
 		397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTableRowView.m; sourceTree = "<group>"; };
 		397FE8D91EEE7ED8002200B7 /* DTXCPUDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCPUDataProvider.h; sourceTree = "<group>"; };
 		397FE8DA1EEE7ED8002200B7 /* DTXCPUDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCPUDataProvider.m; sourceTree = "<group>"; };
+		3980C0C72086C75000789E3B /* DetoxInstruments.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DetoxInstruments.help; sourceTree = SOURCE_ROOT; };
 		3988D2C11EEED5AF0090088E /* DTXMemoryDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMemoryDataProvider.h; sourceTree = "<group>"; };
 		3988D2C21EEED5AF0090088E /* DTXMemoryDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXMemoryDataProvider.m; sourceTree = "<group>"; };
 		398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CorePlot.xcodeproj; path = "../core-plot/framework/CorePlot.xcodeproj"; sourceTree = "<group>"; };
@@ -1278,15 +1280,16 @@
 				3904425D206703E500A29048 /* DTXAboutViewController.m */,
 				3972E67A2069544900F099DE /* DTXAcknowledgementsViewController.h */,
 				3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */,
+				393E66D81FC592BE0092EE89 /* Swiftier.h */,
+				393E66DA1FC594B30092EE89 /* PrefixHeader.pch */,
+				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
+				3905F48B1EF72B4B003E08C1 /* DetoxInstruments.entitlements */,
+				3972E67820694E6800F099DE /* Acknowledgements.html */,
+				3980C0C72086C75000789E3B /* DetoxInstruments.help */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
 				3997A8A61EE9422D0057418B /* dtxicon.iconset */,
 				399128012078252500180673 /* DetoxInstruments.iconset */,
-				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
-				3905F48B1EF72B4B003E08C1 /* DetoxInstruments.entitlements */,
 				39487CB81F435F090063E66D /* SharedSupport */,
-				393E66D81FC592BE0092EE89 /* Swiftier.h */,
-				393E66DA1FC594B30092EE89 /* PrefixHeader.pch */,
-				3972E67820694E6800F099DE /* Acknowledgements.html */,
 			);
 			path = DetoxInstruments;
 			sourceTree = "<group>";
@@ -1562,6 +1565,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3980C0DF2086C75000789E3B /* DetoxInstruments.help in Resources */,
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
 				3972E67920694E6800F099DE /* Acknowledgements.html in Resources */,
 				399B4DCD1ED574E70098D2AC /* Main.storyboard in Resources */,

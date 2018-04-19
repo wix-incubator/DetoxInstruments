@@ -12,9 +12,39 @@
 #import "DTXAboutWindowController.h"
 //#import "CCNPreferencesWindowController.h"
 
+@import Carbon;
 @import Sparkle;
 
-static NSString* const __lldbInitMagic = @"";
+OSStatus DTXGoToHelpPage(NSString* pagePath)
+{
+	if(pagePath)
+	{
+		pagePath = [NSString stringWithFormat:@"Documentation/%@.html", pagePath];
+	}
+	
+	CFBundleRef myApplicationBundle = NULL;
+	CFStringRef myBookName = NULL;
+	OSStatus err = noErr;
+	
+	myApplicationBundle = CFBundleGetMainBundle();
+	if (myApplicationBundle == NULL)
+	{
+		return fnfErr;
+	}
+	
+	myBookName = CFBundleGetValueForInfoDictionaryKey(myApplicationBundle, CFSTR("CFBundleHelpBookName"));
+	if (myBookName == NULL)
+	{
+		return fnfErr;
+	}
+	
+	if (CFGetTypeID(myBookName) != CFStringGetTypeID())
+	{
+		return paramErr;
+	}
+	
+	return AHGotoPage(myBookName, (__bridge CFStringRef)pagePath, NULL);
+}
 
 @interface DTXApplicationDelegate () <SUUpdaterDelegate>
 {
@@ -79,9 +109,14 @@ static NSString* const __lldbInitMagic = @"";
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments"]];
 }
 
-- (IBAction)openIntegrationGuidePage:(id)sender
+- (IBAction)helpIntegrationGuidePage:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/blob/master/Documentation/XcodeIntegrationGuide.md"]];
+	DTXGoToHelpPage(@"XcodeIntegrationGuide");
+}
+
+- (IBAction)helpProfilingOptions:(id)sender
+{
+	DTXGoToHelpPage(@"ProfilingOptions");
 }
 
 - (IBAction)revealProfilerFramework:(id)sender

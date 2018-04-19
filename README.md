@@ -74,11 +74,10 @@ For detailed information on the recording document, see [The Recording Document]
 
 Detox Instruments includes many instruments to analyze many aspects of your app.
 
-![CPU Usage](Documentation/Resources/Instrument_CPUUsage.png "CPU Usage")
+![Instruments](Documentation/Resources/RecordingDocument_TimelinePane.png "Instruments")
 
 For a list of available instruments and their description, see [Available Instruments](Documentation/AvailableInstruments.md).
 
 ## Acknowledgements
 
 See [Acknowledgements](Documentation/Acknowledgements.md)
- 

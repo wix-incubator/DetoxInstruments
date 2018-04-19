@@ -62,9 +62,4 @@
 	return @[_helpButton];
 }
 
-- (IBAction)_helpButtonClicked:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/blob/master/Documentation/ProfilingOptions.md"]];
-}
-
 @end
