@@ -200,7 +200,7 @@ DQ
                                         <menuItem title="About Detox Instruments" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="showAboutWindow:" target="Voe-Tx-rLC" id="4ud-Ud-GX4"/>
+                                                <action selector="helpIntegrationGuidePage:" target="Voe-Tx-rLC" id="4ud-Ud-GX4"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
@@ -588,29 +588,35 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
-                                        <menuItem title="Detox Instruments on GitHub" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="Detox Instruments Help" keyEquivalent="?" id="wsJ-KF-n0u">
                                             <connections>
-                                                <action selector="openGitHubPage:" target="Voe-Tx-rLC" id="vaG-VZ-9gd"/>
+                                                <action selector="showHelp:" target="Ady-hI-5gd" id="vpB-5Z-oKT"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="MBf-uM-ubB"/>
                                         <menuItem title="Xcode Integration Guide" id="dfs-LJ-pCj">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="openIntegrationGuidePage:" target="Voe-Tx-rLC" id="HdF-1r-PMn"/>
+                                                <action selector="helpIntegrationGuidePage:" target="Voe-Tx-rLC" id="HdF-1r-PMn"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Reveal Profile Framework In Finder" id="QuA-wE-t51">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="revealProfilerFramework:" target="Voe-Tx-rLC" id="xaf-eH-vUb"/>
+                                                <action selector="helpIntegrationGuidePage:" target="Voe-Tx-rLC" id="xaf-eH-vUb"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hk2-sS-m3h"/>
+                                        <menuItem title="Detox Instruments on GitHub" id="FKE-Sm-Kum">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="helpIntegrationGuidePage:" target="Voe-Tx-rLC" id="vaG-VZ-9gd"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Report An Issue..." id="rAe-sN-djN">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="openIssuesPage:" target="Voe-Tx-rLC" id="ryn-Oh-BCO"/>
+                                                <action selector="helpIntegrationGuidePage:" target="Voe-Tx-rLC" id="ryn-Oh-BCO"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -1411,7 +1417,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="_helpButtonClicked:" target="ZQv-Ah-3wf" id="8Fe-L9-5R0"/>
+                        <action selector="helpProfilingOptions:" target="Svu-N7-L4f" id="UfR-Ok-M2Z"/>
                     </connections>
                 </button>
             </objects>

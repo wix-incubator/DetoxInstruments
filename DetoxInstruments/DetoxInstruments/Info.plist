@@ -35,6 +35,10 @@
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>DetoxInstruments.help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>com.wix.DetoxInstruments.help</string>
 	<key>CFBundleIconFile</key>
 	<string>DetoxInstruments</string>
 	<key>CFBundleIdentifier</key>
@@ -48,9 +52,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.9.1</string>
 	<key>CFBundleVersion</key>
-	<string>5334</string>
+	<string>5367</string>
 	<key>DTXBuildDate</key>
-	<date>2018-04-18T00:07:36Z</date>
+	<date>2018-04-19T01:57:32Z</date>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>

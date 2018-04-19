@@ -36,6 +36,7 @@ fi
 echo -e "\033[1;34mUpdating Acknowledgements.md and Acknowledgements.html\033[0m"
 
 ./updateAcknowledgements.sh
+./updateHelp.sh
 
 echo -e "\033[1;34mBuilding archive and exporting\033[0m"
 

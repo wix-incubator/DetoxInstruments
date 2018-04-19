@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html><head><meta name="AppleTitle" content="Detox Instruments Help" /><meta name="copyright" content="Copyright © 2018" /><meta charset="UTF-8"><style>
+</style>
+<style>body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+img { max-width: 100%; height: auto; }
+pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
+blockquote { border-left-color: rgb(223, 226, 229); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+ul { padding-left: 1.3em; }
+</style>
+<title>Detox Instruments Help</title></head><body>
+<h1>
+<a id="user-content-profiler-framework-integration-guide-with-xcode" class="anchor" href="#profiler-framework-integration-guide-with-xcode" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Profiler Framework Integration Guide with Xcode</h1>
+<p>The following steps explain how to link the Profiler framework into your iOS application, providing a quick and easy way to enable profiling of your application.</p>
+<blockquote>
+<p><strong>WARNING:</strong> Never submit a product which has been linked with the Profiler framework to the App Store. The instructions below outline a way to use build configurations to isolate linking the framework to Debug builds only. You can customize this to allow profiling of other configurations, but be careful.</p>
+</blockquote>
+<p>You'll need to perform the following steps for each target that you wish to integrate:</p>
+<ol>
+<li>Before starting the integration process, ensure that Detox Instruments has been installed using Homebrew Cask, as explained in the README document.</li>
+<li>Open your project in Xcode, then select the project's icon in Xcode's Project Navigator.</li>
+<li>Select the target you want to profile from the <strong>TARGETS</strong> list.</li>
+<li>Select the <strong>Build Settings</strong> tab and add the following to the <strong>Debug</strong> configuration of the <strong>Other Linker Flags</strong> (<code>OTHER_LDFLAGS</code>) setting:</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre>-ObjC -F<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${CODESIGNING_FOLDER_PATH}</span><span class="pl-pds">"</span></span>/Frameworks -framework DTXProfiler</pre></div>
+<blockquote>
+<p>Add this build setting to additional configurations if you wish to profile them.</p>
+</blockquote>
+<p><a href="Resources/Integration_OtherLinkerFlags.png" target="_blank"><img src="Resources/Integration_OtherLinkerFlags.png" alt="Other Linker Flags" title="Add the Other Linker Flags build setting" style="max-width:100%;"></a></p>
+<ol start="5">
+<li>Select the <strong>Build Phases</strong> tab and add a new <strong>Run Script</strong> phase—name it “Profiler Framework Integration”. Paste in the following shell script:</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> Only integrate the framework for Debug configuration by default. Edit this section to integrate with additional configurations.</span>
+<span class="pl-k">if</span> [ <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${CONFIGURATION}</span><span class="pl-pds">"</span></span> <span class="pl-k">!=</span> <span class="pl-s"><span class="pl-pds">"</span>Debug<span class="pl-pds">"</span></span> ]<span class="pl-k">;</span> <span class="pl-k">then</span>
+  <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Profiler not included: current build configuration is not 'Debug'.<span class="pl-pds">"</span></span>
+  <span class="pl-c1">exit</span> 0
+<span class="pl-k">fi</span>
+
+<span class="pl-c"><span class="pl-c">#</span> Find where the Detox Instruments app is installed</span>
+INSTRUMENTS_APP_PATH=<span class="pl-s"><span class="pl-pds">$(</span.htmlfind kMDItemCFBundleIdentifier=<span class="pl-s"><span class="pl-pds">"</span>com.wix.DetoxInstruments<span class="pl-pds">"</span></span> <span class="pl-k">|</span> head -n 1<span class="pl-pds">)</span></span>
+PROFILER_BUILD_SCRIPT_PATH=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${INSTRUMENTS_APP_PATH}</span>/Contents/SharedSupport/Scripts/profiler_build_phase.sh<span class="pl-pds">"</span></span>
+<span class="pl-k">if</span> [ <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${INSTRUMENTS_APP_PATH}</span><span class="pl-pds">"</span></span> <span class="pl-k">-a</span> <span class="pl-k">-e</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span> ]<span class="pl-k">;</span> <span class="pl-k">then</span>
+  <span class="pl-c1">echo</span> Found integration script at <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span>
+  <span class="pl-c"><span class="pl-c">#</span> Run the Profiler framework integration script</span>
+  <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span>
+<span class="pl-k">else</span>
+  <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Profiler not included: Cannot find an installed Detox Instruments app.<span class="pl-pds">"</span></span>
+<span class="pl-k">fi</span></pre></div>
+<p><a href="Resources/Integration_NewBuildPhase.png" target="_blank"><img src="Resources/Integration_NewBuildPhase.png" alt="New Run Script" title="Add new run script and paste the script" style="max-width:100%;"></a></p>
+<ol start="6">
+<li>Drag the newly added script to the top of the phase list.</li>
+</ol>
+<p><a href="Resources/Integration_DragToTop.png" target="_blank"><img src="Resources/Integration_DragToTop.png" alt="Drag to Top" title="Drag the new script to the top of the list" style="max-width:100%;"></a></p>
+<ol start="7">
+<li>
+<p>In Xcode, build and run your application using a scheme that is set to use the <strong>Debug</strong> configuration. If you are running your application on a device, ensure that it is on the same Wi-Fi network as the Mac running Detox Instruments.</p>
+<p>If everything worked correctly, you should be able to see your application listed in Detox Instruments. Select your app to start profiling.</p>
+</li>
+</ol>
+<p><a href="Resources/Integration_Discovered.png" target="_blank"><img src="Resources/Integration_Discovered.png" alt="Discovered" title="Detox Instruments lists your app" style="max-width:100%;"></a></p>
+<ol start="8">
+<li>Run your application again, this time using a scheme set to use the <strong>Release</strong> configuration. Verify that Detox Instruments cannot connect to your application. If you can still connect, make sure the Release configuration is not present in the <strong>integration script</strong> and/or the <strong>Other Linker Flags</strong> build setting.</li>
+</ol>
+</body></html>

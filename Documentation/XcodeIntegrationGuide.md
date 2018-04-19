@@ -48,7 +48,7 @@ You'll need to perform the following steps for each target that you wish to inte
  
 7. In Xcode, build and run your application using a scheme that is set to use the **Debug** configuration. If you are running your application on a device, ensure that it is on the same Wi-Fi network as the Mac running Detox Instruments.
 
- If everything worked correctly, you should be able to see your application listed in Detox Instruments. Select your app to start profiling.
+	If everything worked correctly, you should be able to see your application listed in Detox Instruments. Select your app to start profiling.
 
   ![Discovered](Resources/Integration_Discovered.png "Detox Instruments lists your app")
  
