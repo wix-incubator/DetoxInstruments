@@ -13,8 +13,7 @@
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import "_DTXTargetsOutlineViewContoller.h"
 #import "_DTXProfilingConfigurationViewController.h"
-#import "_DTXContainerContentsOutlineViewController.h"
-#import "_DTXUserDefaultsOutlineViewController.h"
+#import "DTXProfilingTargetManagementWindowController.h"
 
 @import QuartzCore;
 
@@ -28,8 +27,6 @@
 	
 	DTXRemoteProfilingTarget* _inspectedTarget;
 	_DTXProfilingConfigurationViewController* _profilingConfigurationController;
-	_DTXContainerContentsOutlineViewController* _containerContentsOutlineViewController;
-	_DTXUserDefaultsOutlineViewController* _userDefaultsViewController;
 	NSViewController<_DTXActionButtonProvider>* _activeController;
 	
 	IBOutlet NSButton* _cancelButton;
@@ -41,7 +38,7 @@
 	
 	dispatch_queue_t _workQueue;
 	
-	IBOutlet NSMenu* _appManageMenu;
+	DTXProfilingTargetManagementWindowController* _deviceManagementWindowController;
 }
 
 @end
@@ -74,26 +71,22 @@
 	_profilingConfigurationController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXProfilingConfigurationViewController"];
 	[self addChildViewController:_profilingConfigurationController];
 	
-	_containerContentsOutlineViewController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXContainerContentsOutlineViewController"];
-	[self addChildViewController:_containerContentsOutlineViewController];
-	
-	_userDefaultsViewController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXUserDefaultsOutlineViewController"];
-	[self addChildViewController:_userDefaultsViewController];
-	
 	[_profilingConfigurationController view];
-	[_containerContentsOutlineViewController view];
-	[_userDefaultsViewController view];
 	
 	[_containerView addSubview:_outlineController.view];
 	
 	[self _setupActionButtonsWithProvider:_outlineController];
 	_activeController = _outlineController;
 	[self _validateSelectButton];
+	
+	_deviceManagementWindowController = [DTXProfilingTargetManagementWindowController new];
 }
 
 - (void)viewDidAppear
 {
 	[super viewDidAppear];
+	
+	self.view.window.preventsApplicationTerminationWhenModal = NO;
 	
 	self.view.wantsLayer = YES;
 	self.view.canDrawSubviewsIntoLayer = YES;
@@ -112,7 +105,7 @@
 	[_browser searchForServicesOfType:@"_detoxprofiling._tcp" inDomain:@""];
 }
 
-- (IBAction)selectButtonClicked:(id)sender
+- (IBAction)selectProfilingTarget:(id)sender
 {
 	if(_outlineView.selectedRow == -1)
 	{
@@ -226,7 +219,7 @@
 	
 	if(target == _inspectedTarget)
 	{
-		[self _transitionToController:_outlineController];
+		[_deviceManagementWindowController dismissPreferencesWindow];
 	}
 	
 	NSInteger index = [_targets indexOfObject:target];
@@ -252,41 +245,22 @@
 	[_outlineView reloadItem:target];
 }
 
-- (IBAction)_manageMenuButtonClicked:(NSButton*)sender
+- (IBAction)_manageProfilingTarget:(NSButton*)sender
 {
 	NSInteger row = [_outlineView rowForView:sender];
+	if(row == -1)
+	{
+		return;
+	}
+	
 	id target = _targets[row];
-	
-	[_appManageMenu.itemArray enumerateObjectsUsingBlock:^(NSMenuItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		obj.representedObject = target;
-	}];
-	
-	[_appManageMenu popUpMenuPositioningItem:_appManageMenu.itemArray.firstObject atLocation:NSMakePoint(30, 30) inView:sender];
-}
 
-- (void)_clearRepresentedItemsFromMenu
-{
-	[_appManageMenu.itemArray enumerateObjectsUsingBlock:^(NSMenuItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		obj.representedObject = nil;
-	}];
-}
+	_inspectedTarget = target;
+	[_deviceManagementWindowController setProfilingTarget:target];
 
-- (IBAction)_containerContents:(NSMenuItem*)sender
-{
-	_inspectedTarget = sender.representedObject;
-	_containerContentsOutlineViewController.profilingTarget = _inspectedTarget;
-	[self _transitionToController:_containerContentsOutlineViewController];
-	
-	[self _clearRepresentedItemsFromMenu];
-}
-
-- (IBAction)_userDefaults:(NSMenuItem*)sender
-{
-	_inspectedTarget = sender.representedObject;
-	_userDefaultsViewController.profilingTarget = _inspectedTarget;
-	[self _transitionToController:_userDefaultsViewController];
-	
-	[self _clearRepresentedItemsFromMenu];
+	_deviceManagementWindowController.allowsVibrancy = YES;
+	[_deviceManagementWindowController showPreferencesWindow];
+	[(NSWindow*)[_deviceManagementWindowController valueForKey:@"window"] center];
 }
 
 - (IBAction)_doubleClicked:(id)sender
@@ -452,7 +426,7 @@
 - (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget *)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[_containerContentsOutlineViewController noteProfilingTargetDidLoadServiceData];
+		[_deviceManagementWindowController noteProfilingTargetDidLoadContainerContents];
 	});
 }
 
@@ -470,14 +444,14 @@
 			return;
 		}
 		
-		[_containerContentsOutlineViewController showSaveDialogForSavingData:containerContents dataWasZipped:wasZipped];
+		[_deviceManagementWindowController showSaveDialogForSavingData:containerContents dataWasZipped:wasZipped];
 	});
 }
 
 - (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadUserDefaults:(NSDictionary *)userDefaults
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[_userDefaultsViewController noteProfilingTargetDidLoadServiceData];
+		[_deviceManagementWindowController noteProfilingTargetDidLoadUserDefaults];
 	});
 }
 

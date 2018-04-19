@@ -1,26 +1,27 @@
 //
-//  _DTXContainerContentsOutlineViewController.m
+//  DTXContainerContentsViewController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 4/1/18.
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
-#import "_DTXContainerContentsOutlineViewController.h"
+#import "DTXContainerContentsViewController.h"
 #import "DTXZipper.h"
 #import "SSZipArchive.h"
 #import "DTXTwoLabelsCellView.h"
 
-@interface _DTXContainerContentsOutlineViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
+@interface DTXContainerContentsViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
 {
 	IBOutlet NSOutlineView* _outlineView;
 	
+	IBOutlet NSMenu* _menu;
 	IBOutlet NSButton* _helpButton;
 	IBOutlet NSButton* _refreshButton;
 	
 	DTXFileSystemItem* _currentlyBeingSaved;
 	
-	NSUInteger _progressIndicatorCounter;
+	NSInteger _progressIndicatorCounter;
 	NSViewController* _modalProgressIndicatorController;
 	
 	NSByteCountFormatter* _sizeFormatter;
@@ -28,12 +29,9 @@
 
 @end
 
-@implementation _DTXContainerContentsOutlineViewController
+@implementation DTXContainerContentsViewController
 
-- (NSArray<NSButton *> *)actionButtons
-{
-	return @[_helpButton, _refreshButton];
-}
+@synthesize profilingTarget=_profilingTarget;
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
@@ -101,7 +99,12 @@
 
 - (void)setProfilingTarget:(DTXRemoteProfilingTarget *)profilingTarget
 {
-	[super setProfilingTarget:profilingTarget];
+	_profilingTarget = profilingTarget;
+	
+	if(profilingTarget == nil)
+	{
+		return;
+	}
 	
 	[self.profilingTarget loadContainerContents];
 	[self increaseProgressIndicatorCounterAndDisplayRightAway:NO];
@@ -436,6 +439,26 @@
 	}];
 	
 	return YES;
+}
+
+#pragma mark CCNPreferencesWindowControllerProtocol
+
+- (NSImage *)preferenceIcon
+{
+	NSImage* image = [NSImage imageNamed:NSImageNameFolder];
+	image.size = NSMakeSize(32, 32);
+	
+	return image;
+}
+
+- (NSString *)preferenceIdentifier
+{
+	return @"ContainerContents";
+}
+
+- (NSString *)preferenceTitle
+{
+	return NSLocalizedString(@"Container Files", @"");
 }
 
 @end

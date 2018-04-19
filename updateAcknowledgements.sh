@@ -8,6 +8,7 @@ printf "# Acknowledgements\n\n" >> Documentation/Acknowledgements.md
 SUBMODULES=$(git submodule --quiet foreach git config --get remote.origin.url)
 # Append implicit dependency of Mozilla's source-map
 SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/mozilla/source-map.git")
+SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/phranck/CCNPreferencesWindowController.git")
 SUBMODULES=$(echo "$SUBMODULES" | sort --ignore-case)
 
 while read -r line; do  

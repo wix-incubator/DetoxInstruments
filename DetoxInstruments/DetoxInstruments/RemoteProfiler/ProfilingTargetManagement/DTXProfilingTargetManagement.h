@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DTXRemoteProfilingTarget.h"
-#import "_DTXActionButtonProvider.h"
+#import "CCNPreferencesWindowControllerProtocol.h"
 
-@interface _DTXDeviceServicesViewController : NSViewController <_DTXActionButtonProvider>
+@protocol DTXProfilingTargetManagement <NSObject, CCNPreferencesWindowControllerProtocol>
 
 @property (nonatomic, strong) DTXRemoteProfilingTarget* profilingTarget;
 
