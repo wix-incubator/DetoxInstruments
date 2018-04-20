@@ -35,7 +35,8 @@
 		_userDefaultsViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXUserDefaultsViewController"];
 		[_userDefaultsViewController view];
 		
-		self.centerToolbarItems = NO;
+		self.allowsVibrancy = YES;
+		self.centerToolbarItems = YES;
 	}
 	
 	return self;
@@ -43,7 +44,7 @@
 
 - (void)setProfilingTarget:(DTXRemoteProfilingTarget *)profilingTarget
 {
-	self.titlePrepend = profilingTarget.appName;
+	self.titleOverride = profilingTarget.appName;
 	_containerContentsOutlineViewController.profilingTarget = profilingTarget;
 	_userDefaultsViewController.profilingTarget = profilingTarget;
 }
@@ -68,6 +69,8 @@
 	[self setPreferencesViewControllers:@[_containerContentsOutlineViewController, _userDefaultsViewController]];
 	
 	[super showPreferencesWindow];
+	
+	[self.window center];
 }
 
 @end

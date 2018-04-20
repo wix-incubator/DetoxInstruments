@@ -35,7 +35,7 @@
 
 #pragma mark - Preferences Window Behaviour
 
-@property (copy, nonatomic) NSString* titlePrepend;
+@property (copy, nonatomic) NSString* titleOverride;
 
 /** @name Preferences Window Behaviour */
 

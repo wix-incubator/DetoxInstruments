@@ -284,7 +284,7 @@
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetContainerContents)} completionHandler:nil];
 }
 
-- (void)downloadContainerAtURL:(NSURL*)URL
+- (void)downloadContainerItemsAtURL:(NSURL*)URL
 {
 	NSMutableDictionary* cmd = @{@"cmdType": @(DTXRemoteProfilingCommandTypeDownloadContainer)}.mutableCopy;
 	if(URL != nil)

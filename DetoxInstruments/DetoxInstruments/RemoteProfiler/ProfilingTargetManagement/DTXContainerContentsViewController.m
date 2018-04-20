@@ -86,17 +86,6 @@
 	[_modalProgressIndicatorController dismissController:nil];
 }
 
-- (void)viewDidLayout
-{
-	[super viewDidLayout];
-	
-	_outlineView.outlineTableColumn.maxWidth = _outlineView.enclosingScrollView.bounds.size.width - 2;
-	_outlineView.outlineTableColumn.width = _outlineView.enclosingScrollView.bounds.size.width - 2;
-	[_outlineView tile];
-	[_outlineView setNeedsLayout:YES];
-	[_outlineView layoutSubtreeIfNeeded];
-}
-
 - (void)setProfilingTarget:(DTXRemoteProfilingTarget *)profilingTarget
 {
 	_profilingTarget = profilingTarget;
@@ -211,7 +200,7 @@
 {
 	_currentlyBeingSaved = [_outlineView itemAtRow:_outlineView.clickedRow];
 	
-	[self.profilingTarget downloadContainerAtURL:_currentlyBeingSaved.URL];
+	[self.profilingTarget downloadContainerItemsAtURL:_currentlyBeingSaved.URL];
 	
 	[self increaseProgressIndicatorCounterAndDisplayRightAway:YES];
 }
