@@ -194,7 +194,10 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 #endif
 	}];
 	
-	*outError = outerError;
+	if(outError)
+	{
+		*outError = outerError;
+	}
 }
 
 - (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError

@@ -268,9 +268,9 @@ static unsigned short const CCNEscapeKey = 53;
     }
     else {
 		NSString* title = [viewController preferenceTitle];
-		if(self.titlePrepend)
+		if(self.titleOverride)
 		{
-			title = [NSString stringWithFormat:@"%@ — %@", self.titlePrepend, title];
+			title = self.titleOverride;
 		}
 		
         self.window.title = title;
@@ -290,17 +290,14 @@ static unsigned short const CCNEscapeKey = 53;
         [view addSubview:newContentView];
         self.window.contentView = view;
     }
-
-    __weak typeof(self) wSelf = self;
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        context.duration = (animate ? 0.25 : 0);
-        context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        [[wSelf.window animator] setFrame:newWindowFrame display:YES];
-        [[newContentView animator] setAlphaValue:1.0];
-
-    } completionHandler:^{
-        wSelf.activeViewController = viewController;
-    }];
+	
+	[newContentView setAlphaValue:1.0];
+	
+	[self.window setFrame:newWindowFrame display:animate animate:YES];
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(animate * [self.window animationResizeTime:newWindowFrame] * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		self.activeViewController = viewController;
+	});
 }
 
 #pragma mark - NSToolbarItem Actions

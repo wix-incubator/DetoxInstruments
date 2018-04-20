@@ -27,4 +27,15 @@
 	return NO;
 }
 
+- (void)layout
+{
+	[super layout];
+	
+	self.outlineTableColumn.maxWidth = self.bounds.size.width - 2;
+	self.outlineTableColumn.width = self.bounds.size.width - 2;
+	[self tile];
+	[self setNeedsLayout:YES];
+	[self layoutSubtreeIfNeeded];
+}
+
 @end

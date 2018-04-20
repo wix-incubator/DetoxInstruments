@@ -105,6 +105,13 @@
 	[_browser searchForServicesOfType:@"_detoxprofiling._tcp" inDomain:@""];
 }
 
+- (void)viewWillDisappear
+{
+	[super viewWillDisappear];
+	
+	[_deviceManagementWindowController dismissPreferencesWindow];
+}
+
 - (IBAction)selectProfilingTarget:(id)sender
 {
 	if(_outlineView.selectedRow == -1)
@@ -258,9 +265,7 @@
 	_inspectedTarget = target;
 	[_deviceManagementWindowController setProfilingTarget:target];
 
-	_deviceManagementWindowController.allowsVibrancy = YES;
 	[_deviceManagementWindowController showPreferencesWindow];
-	[(NSWindow*)[_deviceManagementWindowController valueForKey:@"window"] center];
 }
 
 - (IBAction)_doubleClicked:(id)sender

@@ -593,6 +593,11 @@ CA
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="vpB-5Z-oKT"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Detox Instruments Help" hidden="YES" keyEquivalent="/" allowsKeyEquivalentWhenHidden="YES" id="YJl-NU-z6b">
+                                            <connections>
+                                                <action selector="showHelp:" target="Ady-hI-5gd" id="5bU-Jk-f2G"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="MBf-uM-ubB"/>
                                         <menuItem title="Xcode Integration Guide" id="dfs-LJ-pCj">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -613,7 +618,7 @@ CA
                                                 <action selector="openGitHubPage:" target="Voe-Tx-rLC" id="AXj-Sv-uH2"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Report An Issue..." id="rAe-sN-djN">
+                                        <menuItem title="Report An Issue" id="rAe-sN-djN">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="openIssuesPage:" target="Voe-Tx-rLC" id="uwD-dY-cY7"/>
@@ -2094,7 +2099,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                             </scroller>
                                                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="O7J-mY-1PS">
-                                                                                <rect key="frame" x="283" y="0.0" width="16" height="14"/>
+                                                                                <rect key="frame" x="301" y="0.0" width="16" height="14"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                             </scroller>
                                                                         </scrollView>
@@ -2518,7 +2523,7 @@ Gw
                     </items>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="2619" y="-1897"/>
+            <point key="canvasLocation" x="2619" y="-1902"/>
         </scene>
         <!--User Defaults View Controller-->
         <scene sceneID="iLx-sY-GrU">
