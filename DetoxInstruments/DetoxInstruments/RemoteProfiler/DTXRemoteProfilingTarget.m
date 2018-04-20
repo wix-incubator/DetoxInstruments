@@ -25,6 +25,8 @@
 
 @implementation DTXRemoteProfilingTarget
 
+#pragma mark Connection and Commands
+
 + (NSData*)_dataForNetworkCommand:(NSDictionary*)cmd
 {
 	return [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
@@ -176,12 +178,19 @@
 	}];
 }
 
+#pragma mark Device Info
+
+- (void)loadDeviceInfo
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetDeviceInfo)} completionHandler:nil];
+}
+
 - (void)_handleDeviceInfo:(NSDictionary*)deviceInfo
 {
 	self.deviceName = deviceInfo[@"deviceName"];
 	self.appName = deviceInfo[@"appName"];
 	self.deviceOS = deviceInfo[@"deviceOS"];
-//	self.deviceSnapshot = [[NSImage alloc] initWithData:deviceInfo[@"snapshot"]];
+	//	self.deviceSnapshot = [[NSImage alloc] initWithData:deviceInfo[@"snapshot"]];
 	self.deviceInfo = deviceInfo;
 	
 	_state = DTXRemoteProfilingTargetStateDeviceInfoLoaded;
@@ -190,6 +199,34 @@
 	{
 		[self.delegate profilingTargetDidLoadDeviceInfo:self];
 	}
+}
+
+#pragma mark Container Contents
+
+- (void)loadContainerContents
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetContainerContents)} completionHandler:nil];
+}
+
+- (void)downloadContainerItemsAtURL:(NSURL*)URL
+{
+	NSMutableDictionary* cmd = @{@"cmdType": @(DTXRemoteProfilingCommandTypeDownloadContainer)}.mutableCopy;
+	if(URL != nil)
+	{
+		cmd[@"URL"] = URL.path;
+	}
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)deleteContainerItemAtURL:(NSURL*)URL
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeDeleteContainerIten), @"URL": URL.path} completionHandler:nil];
+}
+
+- (void)putContainerItemAtURL:(NSURL *)URL data:(NSData *)data wasZipped:(BOOL)wasZipped
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePutContainerItem), @"URL": URL.path, @"contents": data, @"wasZipped": @(wasZipped)} completionHandler:nil];
 }
 
 - (void)_handleDeviceContainerContents:(NSDictionary*)containerContents
@@ -213,6 +250,27 @@
 	}
 }
 
+#pragma mark User Defaults
+
+- (void)loadUserDefaults
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetUserDefaults)} completionHandler:nil];
+}
+
+- (void)changeUserDefaultsItemWithKey:(NSString*)key changeType:(DTXUserDefaultsChangeType)changeType value:(id)value previousKey:(NSString*)previousKey
+{
+	NSMutableDictionary* cmd = @{@"cmdType": @(DTXRemoteProfilingCommandTypeChangeUserDefaultsItem)}.mutableCopy;
+	cmd[@"type"] = @(changeType);
+	cmd[@"key"] = key;
+	cmd[@"value"] = value;
+	if(previousKey)
+	{
+		cmd[@"previousKey"] = previousKey;
+	}
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
 - (void)_handleUserDefaults:(NSDictionary*)containerContents
 {
 	_userDefaults = containerContents[@"userDefaults"];
@@ -221,6 +279,33 @@
 	{
 		[self.delegate profilingTarget:self didLoadUserDefaults:self.userDefaults];
 	}
+}
+
+#pragma mark Remote Profiling
+
+- (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration), @"configuration": configuration.dictionaryRepresentation} completionHandler:nil];
+}
+
+- (void)addTagWithName:(NSString*)name
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeAddTag), @"name": name} completionHandler:nil];
+}
+
+- (void)pushSampleGroupWithName:(NSString *)name
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePushGroup), @"name": name} completionHandler:nil];
+}
+
+- (void)popSampleGroup
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePopGroup)} completionHandler:nil];
+}
+
+- (void)stopProfiling
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStopProfiling)} completionHandler:nil];
 }
 
 - (void)_handleProfilerStoryEvent:(NSDictionary*)storyEvent
@@ -264,7 +349,7 @@
 			
 			[invocation invoke];
 		}
-	
+		
 		[self.storyDecoder didDecodeStoryEvent];
 	});
 }
@@ -272,67 +357,6 @@
 - (void)_handleRecordingDidStop:(NSDictionary*)storyEvent
 {
 	
-}
-
-- (void)loadDeviceInfo
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetDeviceInfo)} completionHandler:nil];
-}
-
-- (void)loadContainerContents
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetContainerContents)} completionHandler:nil];
-}
-
-- (void)downloadContainerItemsAtURL:(NSURL*)URL
-{
-	NSMutableDictionary* cmd = @{@"cmdType": @(DTXRemoteProfilingCommandTypeDownloadContainer)}.mutableCopy;
-	if(URL != nil)
-	{
-		cmd[@"URL"] = URL.path;
-	}
-	
-	[self _writeCommand:cmd completionHandler:nil];
-}
-
-- (void)deleteContainerItemAtURL:(NSURL*)URL
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeDeleteContainerIten), @"URL": URL.path} completionHandler:nil];
-}
-
-- (void)putContainerItemAtURL:(NSURL *)URL data:(NSData *)data wasZipped:(BOOL)wasZipped
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePutContainerItem), @"URL": URL.path, @"contents": data, @"wasZipped": @(wasZipped)} completionHandler:nil];
-}
-
-- (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration), @"configuration": configuration.dictionaryRepresentation} completionHandler:nil];
-}
-
-- (void)addTagWithName:(NSString*)name
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeAddTag), @"name": name} completionHandler:nil];
-}
-
-- (void)pushSampleGroupWithName:(NSString *)name
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePushGroup), @"name": name} completionHandler:nil];
-}
-
-- (void)popSampleGroup
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePopGroup)} completionHandler:nil];
-}
-
-- (void)stopProfiling
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStopProfiling)} completionHandler:nil];
-}
-
-- (void)loadUserDefaults
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetUserDefaults)} completionHandler:nil];
 }
 
 #pragma mark DTXSocketConnectionDelegate

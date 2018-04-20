@@ -183,6 +183,11 @@ static DTXRemoteProfilingManager* __sharedManager;
 				}];
 				_remoteProfiler = nil;
 			}	break;
+			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
+			{
+				NSAssert(NO, @"Should not be here.");
+			}	break;
+				
 			case DTXRemoteProfilingCommandTypeGetContainerContents:
 			{
 				[self _sendContainerContents];
@@ -206,20 +211,29 @@ static DTXRemoteProfilingManager* __sharedManager;
 				bool wasZipped = [cmd[@"wasZipped"] boolValue];
 				[self _putContainerItemWithURL:URL data:data wasZipped:wasZipped];
 			}	break;
+			
 			case DTXRemoteProfilingCommandTypeGetUserDefaults:
 			{
 				[self _sendUserDefaults];
 				
 			}	break;
-			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
+				
+			case DTXRemoteProfilingCommandTypeChangeUserDefaultsItem:
 			{
-				NSAssert(NO, @"Should not be here.");
+				NSString* key = cmd[@"key"];
+				NSString* previousKey = cmd[@"previousKey"];
+				id value = cmd[@"value"];
+				DTXUserDefaultsChangeType type = [cmd[@"type"] unsignedIntegerValue];
+				
+				[self _changeUserDefaultsItemWithKey:key changeType:type value:value previousKey:previousKey];
 			}	break;
 		}
 		
 		[self _nextCommand];
 	}];
 }
+
+#pragma mark Device Info
 
 - (void)_sendDeviceInfo
 {
@@ -274,6 +288,8 @@ static DTXRemoteProfilingManager* __sharedManager;
 	[self _writeCommand:cmd completionHandler:nil];
 }
 
+#pragma mark Container Contents
+
 - (void)_sendContainerContents
 {
 	NSURL* baseDataURL = [[[[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@".."] URLByStandardizingPath];
@@ -282,15 +298,6 @@ static DTXRemoteProfilingManager* __sharedManager;
 	NSMutableDictionary* cmd = [NSMutableDictionary new];
 	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetContainerContents);
 	cmd[@"containerContents"] = [NSKeyedArchiver archivedDataWithRootObject:rootItem];
-	
-	[self _writeCommand:cmd completionHandler:nil];
-}
-
-- (void)_sendUserDefaults
-{	
-	NSMutableDictionary* cmd = [NSMutableDictionary new];
-	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetUserDefaults);
-	cmd[@"userDefaults"] = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
 	
 	[self _writeCommand:cmd completionHandler:nil];
 }
@@ -337,10 +344,44 @@ static DTXRemoteProfilingManager* __sharedManager;
 	[self _writeCommand:cmd completionHandler:nil];
 }
 
+#pragma mark User Defaults
+
+- (void)_sendUserDefaults
+{
+	NSMutableDictionary* cmd = [NSMutableDictionary new];
+	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetUserDefaults);
+	cmd[@"userDefaults"] = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)_changeUserDefaultsItemWithKey:(NSString*)key changeType:(DTXUserDefaultsChangeType)changeType value:(id)value previousKey:(NSString*)previousKey
+{
+	if(previousKey != nil && [previousKey isEqualToString:key] == NO)
+	{
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:previousKey];
+	}
+	
+	if(changeType == DTXUserDefaultsChangeTypeDelete)
+	{
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+	}
+	else
+	{
+		[[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
+	}
+	
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark Remote Profiling
+
 - (void)_sendRecordingDidStop
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStopProfiling)} completionHandler:nil];
 }
+
+
 
 #pragma mark NSNetServiceDelegate
 

@@ -17,11 +17,47 @@
 @end
 
 @implementation ViewController
+{
+	BOOL darkMode;
+}
 
 - (void)viewDidLoad
 {
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNDemoUserDarkMode"];
+	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"LNDemoUserDarkMode"];
+	
 	[super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
+	
+	[self _updateLightDrak];
+}
+
+- (void)userDefaultsDidChange:(NSNotification*)note
+{
+	[self _updateLightDrak];
+}
+
+- (void)_updateLightDrak
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		BOOL newDarkMode = [[NSUserDefaults standardUserDefaults] boolForKey:@"LNDemoUserDarkMode"];
+		if(self->darkMode != newDarkMode)
+		{
+			self->darkMode = newDarkMode;
+			[UIView transitionWithView:self.view duration:0.15 options:0 animations:^{
+				self.view.backgroundColor = self->darkMode ? UIColor.blackColor : UIColor.whiteColor;
+				[self.view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+					[obj setTintColor: self->darkMode ? UIColor.whiteColor : self.view.window.tintColor];
+					
+					if([obj isKindOfClass:[UILabel class]])
+					{
+						[(UILabel*)obj setTextColor:self->darkMode ? UIColor.whiteColor : UIColor.blackColor];
+					}
+				}];
+			} completion:nil];
+		}
+	});
 }
 
 - (void)didReceiveMemoryWarning

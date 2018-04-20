@@ -339,6 +339,12 @@ CA
                                                 <action selector="delete:" target="Ady-hI-5gd" id="CFh-pZ-baa"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Delete" hidden="YES" keyEquivalent="" allowsKeyEquivalentWhenHidden="YES" id="EcI-7V-E2e">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="delete:" target="Ady-hI-5gd" id="M6M-HJ-ad8"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Select All" keyEquivalent="a" id="YbZ-Nt-A1p">
                                             <connections>
                                                 <action selector="selectAll:" target="Ady-hI-5gd" id="71u-nq-r3I"/>
