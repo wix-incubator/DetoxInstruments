@@ -22,6 +22,14 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypeDeleteContainerIten,
 	DTXRemoteProfilingCommandTypePutContainerItem,
 	DTXRemoteProfilingCommandTypeGetUserDefaults,
+	DTXRemoteProfilingCommandTypeChangeUserDefaultsItem,
+};
+
+typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
+	DTXUserDefaultsChangeTypeInsert,
+	DTXUserDefaultsChangeTypeDelete,
+	DTXUserDefaultsChangeTypeMove,
+	DTXUserDefaultsChangeTypeUpdate
 };
 
 @class DTXRecording, DTXSampleGroup, DTXPerformanceSample, DTXAdvancedPerformanceSample;

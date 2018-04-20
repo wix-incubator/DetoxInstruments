@@ -9,7 +9,7 @@
 #import "DTXUserDefaultsViewController.h"
 @import LNPropertyListEditor;
 
-@interface DTXUserDefaultsViewController ()
+@interface DTXUserDefaultsViewController () <LNPropertyListEditorDelegate>
 {
 	IBOutlet LNPropertyListEditor* _plistEditor;
 	IBOutlet NSButton* _helpButton;
@@ -24,6 +24,8 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	
+	_plistEditor.delegate = self;
 	
 	self.view.wantsLayer = YES;
 }
@@ -75,6 +77,15 @@
 - (NSString *)preferenceTitle
 {
 	return NSLocalizedString(@"User Defaults", @"");
+}
+
+#pragma mark LNPropertyListEditorDelegate
+
+- (void)propertyListEditor:(LNPropertyListEditor *)editor willChangeNode:(LNPropertyListNode *)node changeType:(LNPropertyListNodeChangeType)changeType previousKey:(NSString *)previousKey
+{
+	LNPropertyListNode* childOfParent = [editor.rootPropertyListNode childNodeContainingDescendantNode:node];
+	
+	[self.profilingTarget changeUserDefaultsItemWithKey:childOfParent.key changeType:childOfParent == node ? (DTXUserDefaultsChangeType)changeType : DTXUserDefaultsChangeTypeUpdate value:childOfParent.propertyList previousKey:childOfParent == node ? previousKey : nil];
 }
 
 @end
