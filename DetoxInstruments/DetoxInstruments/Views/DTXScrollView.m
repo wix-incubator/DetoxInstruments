@@ -15,7 +15,7 @@
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
-	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawBeforeViewResize;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 @end

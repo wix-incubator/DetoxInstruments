@@ -16,6 +16,8 @@
 #import <CoreServices/CoreServices.h>
 #import "DTXRecording+UIExtensions.h"
 
+@import QuartzCore;
+
 static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility";
 static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
 static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollapsed";
@@ -234,14 +236,18 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 {
 	NSSplitViewItem* bottomSplitViewItem = _bottomSplitViewController.splitViewItems.lastObject;
 	NSSplitViewItem* rightSplitViewItem = _rightSplitViewController.splitViewItems.lastObject;
-	if(animated)
-	{
-		bottomSplitViewItem = bottomSplitViewItem.animator;
-		rightSplitViewItem = rightSplitViewItem.animator;
-	}
 	
-	bottomSplitViewItem.collapsed = _bottomCollapsed;
-	rightSplitViewItem.collapsed = _rightCollapsed;
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+		context.allowsImplicitAnimation = YES;
+		context.duration = animated ? 1.0 : 0;
+		
+		bottomSplitViewItem.animator.collapsed = _bottomCollapsed;
+		rightSplitViewItem.animator.collapsed = _rightCollapsed;
+
+		[_bottomSplitViewController.view.animator layoutSubtreeIfNeeded];
+		[_rightSplitViewController.view.animator layoutSubtreeIfNeeded];
+	} completionHandler:nil];
 }
 
 - (IBAction)toggleRight:(id)sender

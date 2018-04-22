@@ -15,6 +15,7 @@
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 - (void)drawGridInClipRect:(NSRect)clipRect
