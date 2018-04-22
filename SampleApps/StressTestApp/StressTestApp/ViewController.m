@@ -35,29 +35,40 @@
 
 - (void)userDefaultsDidChange:(NSNotification*)note
 {
-	[self _updateLightDrak];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self _updateLightDrak];
+	});
 }
 
 - (void)_updateLightDrak
 {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		BOOL newDarkMode = [[NSUserDefaults standardUserDefaults] boolForKey:@"LNDemoUserDarkMode"];
-		if(self->darkMode != newDarkMode)
-		{
-			self->darkMode = newDarkMode;
-			[UIView transitionWithView:self.view duration:0.15 options:0 animations:^{
-				self.view.backgroundColor = self->darkMode ? UIColor.blackColor : UIColor.whiteColor;
-				[self.view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-					[obj setTintColor: self->darkMode ? UIColor.whiteColor : self.view.window.tintColor];
-					
-					if([obj isKindOfClass:[UILabel class]])
-					{
-						[(UILabel*)obj setTextColor:self->darkMode ? UIColor.whiteColor : UIColor.blackColor];
-					}
-				}];
-			} completion:nil];
-		}
-	});
+	BOOL newDarkMode = [[NSUserDefaults standardUserDefaults] boolForKey:@"LNDemoUserDarkMode"];
+	if(self->darkMode != newDarkMode)
+	{
+		self->darkMode = newDarkMode;
+		[UIView animateWithDuration:0.15 animations:^{
+			self.view.backgroundColor = self->darkMode ? UIColor.blackColor : UIColor.whiteColor;
+			[self.view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				if([obj isKindOfClass:[UISwitch class]])
+				{
+					return;
+				}
+				
+				[obj setTintColor: self->darkMode ? UIColor.whiteColor : self.view.window.tintColor];
+				
+				if([obj isKindOfClass:[UILabel class]])
+				{
+					[(UILabel*)obj setTextColor:self->darkMode ? UIColor.whiteColor : UIColor.blackColor];
+				}
+			}];
+			[self setNeedsStatusBarAppearanceUpdate];
+		} completion:nil];
+	}
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+	return darkMode ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,7 +103,7 @@
 		[protocols insertObject:[AppURLProtocol class] atIndex:0];
 		config.protocolClasses = protocols;
 	}
-		
+	
 	NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
 	
 	[[session dataTaskWithURL:[NSURL URLWithString:@"https://jsonplaceholder.typicode.com/photos"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -103,7 +114,7 @@
 			{
 				*stop = YES;
 			}
-
+			
 			executedRequests++;
 			
 			[[session dataTaskWithURL:[NSURL URLWithString:obj[@"thumbnailUrl"]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
