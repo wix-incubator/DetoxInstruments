@@ -22,6 +22,10 @@
 	__weak IBOutlet DTXFilterField *_searchField;
 	__weak IBOutlet NSView *_bottomView;
 	
+	__strong IBOutlet NSScrollView* _logTableViewEnclosingScrollView;
+	__strong IBOutlet NSScrollView* _outlineViewEnclosingScrollView;
+	__weak IBOutlet NSView* _topView;
+	
 	DTXLogDataProvider* _logDataProvider;
 	
 	NSObject<DTXUIDataProvider>* _currentlyShownDataProvider;
@@ -38,6 +42,9 @@
 	[super viewDidLoad];
 	
 	self.view.wantsLayer = YES;
+	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	_outlineView.wantsLayer = YES;
+	_outlineView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	_pathControl.pathItems = @[];
 	_pathControl.menu = nil;
@@ -135,6 +142,16 @@
 	return m;
 }
 
+- (void)_setupConstraintsForMiddleView:(NSView*)view
+{
+	[NSLayoutConstraint activateConstraints:@[
+											  [view.topAnchor constraintEqualToAnchor:_topView.bottomAnchor constant:-.5],
+											  [view.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+											  [view.leftAnchor constraintEqualToAnchor:self.view.leftAnchor],
+											  [view.rightAnchor constraintEqualToAnchor:self.view.rightAnchor],
+											  ]];
+}
+
 - (void)_selectDataProvider:(NSObject<DTXUIDataProvider>*)dataProvider replaceLog:(BOOL)replaceLog
 {
 	if(_currentlyShownDataProvider == dataProvider)
@@ -149,8 +166,20 @@
 	
 	BOOL isDataProviderLog = dataProvider == _logDataProvider;
 	
-	_outlineView.superview.superview.hidden = isDataProviderLog;
-	_logTableView.superview.superview.hidden = isDataProviderLog == NO;
+	if(isDataProviderLog)
+	{
+		_logTableViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+		[self.view addSubview:_logTableViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
+		[self _setupConstraintsForMiddleView:_logTableViewEnclosingScrollView];
+		[_outlineViewEnclosingScrollView removeFromSuperview];
+	}
+	else
+	{
+		_outlineViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+		[self.view addSubview:_outlineViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
+		[self _setupConstraintsForMiddleView:_outlineViewEnclosingScrollView];
+		[_logTableViewEnclosingScrollView removeFromSuperview];
+	}
 	
 	_currentlyShownDataProvider = dataProvider;
 	
