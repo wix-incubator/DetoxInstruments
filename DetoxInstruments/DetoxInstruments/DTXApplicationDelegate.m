@@ -92,6 +92,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	{
 		[DTXProfilingConfiguration.defaultProfilingConfigurationForRemoteProfiling setAsDefaultRemoteProfilingConfiguration];
 	}
+	
+	AHRegisterHelpBookWithURL((__bridge CFURLRef)NSBundle.mainBundle.bundleURL);
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification

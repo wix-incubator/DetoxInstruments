@@ -1,41 +1,47 @@
-<!DOCTYPE html>
-<html><head><meta name="AppleTitle" content="Detox Instruments Help" /><meta name="copyright" content="Copyright © 2018" /><meta charset="UTF-8"><style>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="AppleTitle" content="Profiling Options" />
+<title>Profiling Options</title>
+<meta name="description" content="Before profiling, you can set options that change how the profiling performs and what should be recorded. These options control the accuracy and amount of data collected at the expense of potential performance impact." />
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
 </style>
-<style>body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
 img { max-width: 100%; height: auto; }
 pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
-blockquote { border-left-color: rgb(223, 226, 229); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+blockquote { border-left-color: rgb(245, 242, 240); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
 ul { padding-left: 1.3em; }
 </style>
 <title>Detox Instruments Help</title></head><body>
 <h1>
-<a id="user-content-profiling-options" class="anchor" href="#profiling-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Profiling Options</h1>
+<a name="user-content-profiling-options" class="anchor" href="#profiling-options"><span class="octicon octicon-link"></span></a>Profiling Options</h1>
 <p>Before profiling, you can set options that change how the profiling performs and what should be recorded. These options control the accuracy and amount of data collected at the expense of potential performance impact.</p>
-<p><a href="Resources/ProfilingOptions_ProfilingOptions.png" target="_blank"><img src="Resources/ProfilingOptions_ProfilingOptions.png" alt="Profiling Options" title="Profiling options" style="max-width:100%;"></a></p>
+<p><a href="Resources/ProfilingOptions_ProfilingOptions.png" target="_blank"><img src="Resources/ProfilingOptions_ProfilingOptions.png" alt="Profiling Options" title="Profiling options" style="max-width:100%;" /></a></p>
 <h3>
-<a id="user-content-configuration" class="anchor" href="#configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration</h3>
+<a name="user-content-configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h3>
 <p>The <strong>Use default profiling configuration</strong> option sets all other options to their default value. When enabled, profiling will be performed using the these default values. These defaults may change from time to time, depending on development and feedback considerations.</p>
 <h3>
-<a id="user-content-sampling-frequency" class="anchor" href="#sampling-frequency" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sampling Frequency</h3>
+<a name="user-content-sampling-frequency" class="anchor" href="#sampling-frequency"><span class="octicon octicon-link"></span></a>Sampling Frequency</h3>
 <p>The <strong>Sampling frequency</strong> option configures how many samples should be collected every second. The more samples collected, the more accurate the profiling, at some expense of performance.</p>
 <p>It is recommended to start with the default value and only increase sampling frequency if necessary.</p>
 <h3>
-<a id="user-content-network" class="anchor" href="#network" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Network</h3>
+<a name="user-content-network" class="anchor" href="#network"><span class="octicon octicon-link"></span></a>Network</h3>
 <p>The <strong>Record network</strong> option controls whether any network traffic is recorded, including headers and data. Depending on your app's activity, this can take a small-to-moderate toll on performance. If network recording is not necessary, you can turn this option off to save performance.</p>
 <p>The <strong>Record localhost network</strong> option extends the network recording to localhost connections as well. Depending on your app's activity, this may introduce a lot of unwanted noise. Enable if you need to profile or debug localhost connections.</p>
 <h3>
-<a id="user-content-threads" class="anchor" href="#threads" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Threads</h3>
+<a name="user-content-threads" class="anchor" href="#threads"><span class="octicon octicon-link"></span></a>Threads</h3>
 <p>The <strong>Record thread information</strong> option controls whether any thread information is recorded during profiling. Recording thread information can provide additional performance metrics per thread. Normally, recording thread information is not an expensive operation and should be enabled unless absolutely not needed.</p>
 <p>The <strong>Collect stack traces</strong> option enables the recording of the stack trace of the heaviest thread. This provides code symbol information for additional debugging purposes. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.</p>
 <p>The <strong>Symbolicate stack traces</strong> option enables the runtime symbolication of symbols collected in stack traces. This further assists development by creating human-readable symbols. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.</p>
 <h3>
-<a id="user-content-log" class="anchor" href="#log" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Log</h3>
+<a name="user-content-log" class="anchor" href="#log"><span class="octicon octicon-link"></span></a>Log</h3>
 <p>The <strong>Collect log output</strong> options enables the recording of your app's log output. This can be very useful for cross-referencing your debug log output with profiling samples of your app. This is an inexpensive operation, but depending on the log output amount, may have a slight performance cost.</p>
 <h3>
-<a id="user-content-react-native" class="anchor" href="#react-native" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>React Native</h3>
+<a name="user-content-react-native" class="anchor" href="#react-native"><span class="octicon octicon-link"></span></a>React Native</h3>
 <p>The <strong>Profile React Native (if available)</strong> options controls the React Native profiling systems in Detox Instruments and its Profiler framework. These systems provide information such as JavaScript thread performance, bridge calls and bridge data, which can be very helpful when debugging apps with React Native usage.</p>
 <h3>
-<a id="user-content-javascript" class="anchor" href="#javascript" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JavaScript</h3>
+<a name="user-content-javascript" class="anchor" href="#javascript"><span class="octicon octicon-link"></span></a>JavaScript</h3>
 <p><strong>These options are disabled and will be available in a future release.</strong></p>
 <p>The <strong>Collect JavaScript stack traces</strong> option enables the recording of the stack trace of the JavaScript virtual machine. This provides code symbol information for additional debugging purposes. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.</p>
 <p>The <strong>Symbolicate JavaScript stack traces</strong> option enables the runtime symbolication of symbols collected in JavaScript stack traces, using Source Maps generated by the React Native bundler/packager. This further assists development by creating human-readable symbols. This is a slightly expensive operation, and depending on the sampling frequency, may have a performance impact on the app.</p>

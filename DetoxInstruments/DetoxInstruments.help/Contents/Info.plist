@@ -23,7 +23,7 @@
 	<key>HPDBookIconPath</key>
 	<string>shrd/icon.png</string>
 	<key>HPDBookIndexPath</key>
-	<string>search.helpindex</string>
+	<string>Search.helpindex</string>
 	<key>HPDBookKBProduct</key>
 	<string>Detox Instruments</string>
 	<key>HPDBookTitle</key>

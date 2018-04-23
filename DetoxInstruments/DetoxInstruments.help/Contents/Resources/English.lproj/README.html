@@ -1,19 +1,23 @@
-<!DOCTYPE html>
-<html><head><meta name="AppleTitle" content="Detox Instruments Help" /><meta name="copyright" content="Copyright © 2018" /><meta charset="UTF-8"><style>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="AppleTitle" content="Detox Instruments Help" />
+<title>Detox Instruments Help</title>
+<meta name="description" content="Detox Instruments is a performance–analysis and testing framework, designed to help developers profile their mobile apps in order to better understand and optimize their behavior and performance." /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
 </style>
-<style>body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
 img { max-width: 100%; height: auto; }
 pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
-blockquote { border-left-color: rgb(223, 226, 229); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+blockquote { border-left-color: rgb(245, 242, 240); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
 ul { padding-left: 1.3em; }
 </style>
 <title>Detox Instruments Help</title></head><body>
 <h1>
-<a id="user-content-detox-instruments" class="anchor" href="#detox-instruments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Detox Instruments</h1>
+<a name="user-content-detox-instruments" class="anchor" href="#detox-instruments"><span class="octicon octicon-link"></span></a>Detox Instruments</h1>
 <h2>
-<a id="user-content-about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About</h2>
+<a name="user-content-about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
 <p>Detox Instruments is a performance–analysis and testing framework, designed to help developers profile their mobile apps in order to better understand and optimize their behavior and performance.</p>
-<p><a href="Documentation/Resources/Readme_Intro.png" target="_blank"><img src="Documentation/Resources/Readme_Intro.png" alt="Detox Instruments" title="Detox Instruments" style="max-width:100%;"></a></p>
+<p><a href="Documentation/Resources/Readme_Intro.png" target="_blank"><img src="Documentation/Resources/Readme_Intro.png" alt="Detox Instruments" title="Detox Instruments" style="max-width:100%;" /></a></p>
 <p>Incorporating Detox Instruments into the development workflow from the beginning of the app development process can save time later by helping find issues early in the development cycle. Detox Instruments has first–class support for React Native, allowing seamless analysis of the entire app lifecycle in one place.</p>
 <p>Detox Instruments supports profiling the following metrics:</p>
 <ul>
@@ -59,35 +63,35 @@ ul { padding-left: 1.3em; }
 </ul>
 <p>For a list of available instruments and their description, see <a href="Documentation/AvailableInstruments.html">Available Instruments</a>.</p>
 <h2>
-<a id="user-content-installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+<a name="user-content-installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 <p>The Detox Instruments application requires macOS 10.13 and higher. The Profiler framework supports iOS 10 and higher.</p>
 <p>Detox Instruments is installed using Homebrew Cask, by running the following commands:</p>
 <div class="highlight highlight-source-shell"><pre>brew tap wix/brew
 brew cask install detox-instruments</pre></div>
 <p>This will install Detox Instruments under <code>/Applications</code>.</p>
 <h2>
-<a id="user-content-integration-with-mobile-app" class="anchor" href="#integration-with-mobile-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Integration with Mobile App</h2>
+<a name="user-content-integration-with-mobile-app" class="anchor" href="#integration-with-mobile-app"><span class="octicon octicon-link"></span></a>Integration with Mobile App</h2>
 <p>In order to begin profiling your app, you need to integrate the Profiler framework in your app's project. See <a href="Documentation/XcodeIntegrationGuide.html">Profiler Framework Integration Guide</a> for more information.</p>
 <h2>
-<a id="user-content-profiling-an-app" class="anchor" href="#profiling-an-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Profiling an App</h2>
+<a name="user-content-profiling-an-app" class="anchor" href="#profiling-an-app"><span class="octicon octicon-link"></span></a>Profiling an App</h2>
 <p>Once you've installed Detox Instruments and integrated the Profiler framework with your app's project, you can start profiling your app.</p>
 <h4>
-<a id="user-content-the-app-selection-dialog" class="anchor" href="#the-app-selection-dialog" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The App Selection Dialog</h4>
+<a name="user-content-the-app-selection-dialog" class="anchor" href="#the-app-selection-dialog"><span class="octicon octicon-link"></span></a>The App Selection Dialog</h4>
 <p>After launching Detox Instruments or selecting <strong>File</strong> ➔ <strong>New Recording...</strong>, you will be presented with an app selection dialog, displaying a list of available apps to profile. Launch your app on your mobile device or simulator and your app will appear in the list.</p>
-<p><a href="Documentation/Resources/Readme_Discovered.png" target="_blank"><img src="Documentation/Resources/Readme_Discovered.png" alt="App Discovered" title="App Discovered" style="max-width:100%;"></a></p>
+<p><a href="Documentation/Resources/Readme_Discovered.png" target="_blank"><img src="Documentation/Resources/Readme_Discovered.png" alt="App Discovered" title="App Discovered" style="max-width:100%;" /></a></p>
 <p>To start profiling, select your app and click on the Profile button. To configure profiling options, such as sampling frequency and recording features, click on the Options button. For an in-depth look at profiling options, see <a href="Documentation/ProfilingOptions.html">Profiling Options</a>.</p>
 <h4>
-<a id="user-content-the-recording-document" class="anchor" href="#the-recording-document" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The Recording Document</h4>
+<a name="user-content-the-recording-document" class="anchor" href="#the-recording-document"><span class="octicon octicon-link"></span></a>The Recording Document</h4>
 <p>A recording document is used to initiate new profiling and view and analyze the results of profiling. You create a new recording document by selecting <strong>File</strong> ➔ <strong>New Recording...</strong> and choosing an app to profile.</p>
-<p><a href="Documentation/Resources/Readme_Intro.png" target="_blank"><img src="Documentation/Resources/Readme_Intro.png" alt="Detox Instruments" title="Detox Instruments" style="max-width:100%;"></a></p>
+<p><a href="Documentation/Resources/Readme_Intro.png" target="_blank"><img src="Documentation/Resources/Readme_Intro.png" alt="Detox Instruments" title="Detox Instruments" style="max-width:100%;" /></a></p>
 <p>You can also save and reopen recording documents in which you’ve collected data previously. A recording document can contain a lot of extremely detailed information, and this information is presented to you through a number of panes and areas.</p>
 <p>For detailed information on the recording document, see <a href="Documentation/RecordingDocument.html">The Recording Document</a>.</p>
 <h4>
-<a id="user-content-instruments" class="anchor" href="#instruments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Instruments</h4>
+<a name="user-content-instruments" class="anchor" href="#instruments"><span class="octicon octicon-link"></span></a>Instruments</h4>
 <p>Detox Instruments includes many instruments to analyze many aspects of your app.</p>
-<p><a href="Documentation/Resources/RecordingDocument_TimelinePane.png" target="_blank"><img src="Documentation/Resources/RecordingDocument_TimelinePane.png" alt="Instruments" title="Instruments" style="max-width:100%;"></a></p>
+<p><a href="Documentation/Resources/RecordingDocument_TimelinePane.png" target="_blank"><img src="Documentation/Resources/RecordingDocument_TimelinePane.png" alt="Instruments" title="Instruments" style="max-width:100%;" /></a></p>
 <p>For a list of available instruments and their description, see <a href="Documentation/AvailableInstruments.html">Available Instruments</a>.</p>
 <h2>
-<a id="user-content-acknowledgements" class="anchor" href="#acknowledgements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Acknowledgements</h2>
+<a name="user-content-acknowledgements" class="anchor" href="#acknowledgements"><span class="octicon octicon-link"></span></a>Acknowledgements</h2>
 <p>See <a href="Documentation/Acknowledgements.html">Acknowledgements</a></p>
 </body></html>
