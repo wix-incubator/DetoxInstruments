@@ -1652,6 +1652,58 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                         <rect key="frame" x="0.0" y="0.0" width="680" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="CTK-Sj-Sng">
+                                <rect key="frame" x="0.0" y="0.0" width="680" height="272"/>
+                                <subviews>
+                                    <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-G4-gpu">
+                                        <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
+                                        <subviews>
+                                            <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="bQ6-qJ-AWR">
+                                                <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
+                                            </visualEffectView>
+                                            <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
+                                                <rect key="frame" x="5" y="4" width="670" height="22"/>
+                                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Filter" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="59k-uH-dUn">
+                                                    <font key="font" metaFont="smallSystem"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </searchFieldCell>
+                                            </searchField>
+                                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="HBJ-3J-FWs">
+                                                <rect key="frame" x="0.0" y="26" width="680" height="5"/>
+                                            </box>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="HBJ-3J-FWs" firstAttribute="top" secondItem="VaR-G4-gpu" secondAttribute="top" id="0s1-vC-POy"/>
+                                            <constraint firstAttribute="trailing" secondItem="HBJ-3J-FWs" secondAttribute="trailing" id="Bg3-YQ-7Wj"/>
+                                            <constraint firstItem="bQ6-qJ-AWR" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" id="Cm3-uU-43l"/>
+                                            <constraint firstAttribute="trailing" secondItem="vSY-6N-TTj" secondAttribute="trailing" constant="5" id="CrP-S4-0C2"/>
+                                            <constraint firstItem="bQ6-qJ-AWR" firstAttribute="top" secondItem="VaR-G4-gpu" secondAttribute="top" id="Qwh-Se-k3k"/>
+                                            <constraint firstItem="vSY-6N-TTj" firstAttribute="centerY" secondItem="VaR-G4-gpu" secondAttribute="centerY" id="bo7-Nx-2wr"/>
+                                            <constraint firstAttribute="height" constant="29" id="cHH-TG-Lw3"/>
+                                            <constraint firstItem="vSY-6N-TTj" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" constant="5" id="hkT-gD-7qG"/>
+                                            <constraint firstAttribute="trailing" secondItem="bQ6-qJ-AWR" secondAttribute="trailing" id="ob8-KA-hsd"/>
+                                            <constraint firstItem="HBJ-3J-FWs" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" id="sZU-Hd-j7V"/>
+                                            <constraint firstAttribute="bottom" secondItem="bQ6-qJ-AWR" secondAttribute="bottom" id="y7p-v0-NQt"/>
+                                        </constraints>
+                                    </customView>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wCf-t2-BEV">
+                                        <rect key="frame" x="282" y="124" width="116" height="24"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="No Samples" id="wxS-lv-Wdt">
+                                            <font key="font" metaFont="systemMedium" size="20"/>
+                                            <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="wCf-t2-BEV" firstAttribute="centerX" secondItem="CTK-Sj-Sng" secondAttribute="centerX" id="FFz-dG-fdo"/>
+                                    <constraint firstItem="wCf-t2-BEV" firstAttribute="centerY" secondItem="CTK-Sj-Sng" secondAttribute="centerY" id="R42-j5-f2g"/>
+                                    <constraint firstItem="VaR-G4-gpu" firstAttribute="leading" secondItem="CTK-Sj-Sng" secondAttribute="leading" id="oc7-Sh-8hP"/>
+                                    <constraint firstAttribute="bottom" secondItem="VaR-G4-gpu" secondAttribute="bottom" id="rg3-LJ-bu2"/>
+                                    <constraint firstAttribute="trailing" secondItem="VaR-G4-gpu" secondAttribute="trailing" id="veD-8h-w2B"/>
+                                </constraints>
+                            </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="qC8-Mm-qyE" customClass="DTXBorderedView">
                                 <rect key="frame" x="0.0" y="271" width="680" height="29"/>
                                 <subviews>
@@ -1671,52 +1723,23 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                     <constraint firstAttribute="trailing" secondItem="l8V-u3-onY" secondAttribute="trailing" constant="5" id="NX0-IL-Qln"/>
                                 </constraints>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="VaR-G4-gpu" customClass="DTXBorderedView">
-                                <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
-                                <subviews>
-                                    <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="bQ6-qJ-AWR">
-                                        <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
-                                    </visualEffectView>
-                                    <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
-                                        <rect key="frame" x="5" y="4" width="670" height="22"/>
-                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Filter" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="59k-uH-dUn">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </searchFieldCell>
-                                    </searchField>
-                                    <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="HBJ-3J-FWs">
-                                        <rect key="frame" x="0.0" y="26" width="680" height="5"/>
-                                    </box>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="HBJ-3J-FWs" firstAttribute="top" secondItem="VaR-G4-gpu" secondAttribute="top" id="0s1-vC-POy"/>
-                                    <constraint firstAttribute="trailing" secondItem="HBJ-3J-FWs" secondAttribute="trailing" id="Bg3-YQ-7Wj"/>
-                                    <constraint firstItem="bQ6-qJ-AWR" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" id="Cm3-uU-43l"/>
-                                    <constraint firstAttribute="trailing" secondItem="vSY-6N-TTj" secondAttribute="trailing" constant="5" id="CrP-S4-0C2"/>
-                                    <constraint firstItem="bQ6-qJ-AWR" firstAttribute="top" secondItem="VaR-G4-gpu" secondAttribute="top" id="Qwh-Se-k3k"/>
-                                    <constraint firstItem="vSY-6N-TTj" firstAttribute="centerY" secondItem="VaR-G4-gpu" secondAttribute="centerY" id="bo7-Nx-2wr"/>
-                                    <constraint firstAttribute="height" constant="29" id="cHH-TG-Lw3"/>
-                                    <constraint firstItem="vSY-6N-TTj" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" constant="5" id="hkT-gD-7qG"/>
-                                    <constraint firstAttribute="trailing" secondItem="bQ6-qJ-AWR" secondAttribute="trailing" id="ob8-KA-hsd"/>
-                                    <constraint firstItem="HBJ-3J-FWs" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" id="sZU-Hd-j7V"/>
-                                    <constraint firstAttribute="bottom" secondItem="bQ6-qJ-AWR" secondAttribute="bottom" id="y7p-v0-NQt"/>
-                                </constraints>
-                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="VaR-G4-gpu" secondAttribute="trailing" id="E8j-Na-heI"/>
+                            <constraint firstItem="CTK-Sj-Sng" firstAttribute="top" secondItem="qC8-Mm-qyE" secondAttribute="bottom" constant="-0.5" id="3gU-mG-QIi"/>
+                            <constraint firstItem="CTK-Sj-Sng" firstAttribute="width" secondItem="6ab-O0-jz6" secondAttribute="width" id="GCd-Ju-KwB"/>
+                            <constraint firstAttribute="bottom" secondItem="CTK-Sj-Sng" secondAttribute="bottom" id="IB3-18-s8m"/>
                             <constraint firstItem="qC8-Mm-qyE" firstAttribute="top" secondItem="6ab-O0-jz6" secondAttribute="top" id="Pb1-Rc-Ah5"/>
+                            <constraint firstItem="CTK-Sj-Sng" firstAttribute="centerX" secondItem="6ab-O0-jz6" secondAttribute="centerX" id="R3I-wQ-qb8"/>
                             <constraint firstItem="qC8-Mm-qyE" firstAttribute="leading" secondItem="6ab-O0-jz6" secondAttribute="leading" id="VhT-JF-WxP"/>
-                            <constraint firstAttribute="bottom" secondItem="VaR-G4-gpu" secondAttribute="bottom" id="YqX-0G-cYf"/>
                             <constraint firstAttribute="trailing" secondItem="qC8-Mm-qyE" secondAttribute="trailing" id="jbR-ZV-HFT"/>
-                            <constraint firstItem="VaR-G4-gpu" firstAttribute="leading" secondItem="6ab-O0-jz6" secondAttribute="leading" id="msk-K3-REY"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="_bottomView" destination="VaR-G4-gpu" id="45N-gZ-ChI"/>
+                        <outlet property="_bottomViewsContainer" destination="CTK-Sj-Sng" id="53t-bm-NJg"/>
                         <outlet property="_logTableView" destination="ulY-Jk-M9E" id="wu6-G1-tEb"/>
                         <outlet property="_logTableViewEnclosingScrollView" destination="nSe-hh-Z2i" id="OJu-zP-7BK"/>
+                        <outlet property="_noSamplesLabel" destination="wCf-t2-BEV" id="l6o-9Z-W3Y"/>
                         <outlet property="_outlineView" destination="Kbq-cg-BDG" id="Hqs-ew-oeG"/>
                         <outlet property="_outlineViewEnclosingScrollView" destination="CdH-GL-l82" id="Nkr-fU-B1F"/>
                         <outlet property="_pathControl" destination="l8V-u3-onY" id="Z7o-hb-NbO"/>
@@ -1796,7 +1819,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" drawsBackground="NO" id="t1C-zD-puQ">
                         <rect key="frame" x="0.0" y="0.0" width="680" height="272"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="b6M-83-qhy" viewBased="YES" indentationPerLevel="16" indentationMarkerFollowsCell="NO" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG" customClass="DTXDetailOutlineView">
                                 <rect key="frame" x="0.0" y="0.0" width="680" height="249"/>
@@ -2235,8 +2258,8 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                         </scroller>
                                     </scrollView>
                                     <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9p8-VF-Hna">
-                                        <rect key="frame" x="117" y="124" width="86" height="24"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="No Detail" id="poP-cF-7pq">
+                                        <rect key="frame" x="115" y="124" width="90" height="24"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="No Detail" id="poP-cF-7pq">
                                             <font key="font" metaFont="systemMedium" size="20"/>
                                             <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

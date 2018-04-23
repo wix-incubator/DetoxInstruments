@@ -16,19 +16,23 @@
 
 @interface DTXBottomContentController () <DTXMenuPathControlDelegate, DTXUIDataProviderDelegate, DTXFilterFieldDelegate>
 {
-	__weak IBOutlet NSOutlineView *_outlineView;
-	__weak IBOutlet NSTableView *_logTableView;
-	__weak IBOutlet NSPathControl *_pathControl;
-	__weak IBOutlet DTXFilterField *_searchField;
-	__weak IBOutlet NSView *_bottomView;
-	
-	__strong IBOutlet NSScrollView* _logTableViewEnclosingScrollView;
-	__strong IBOutlet NSScrollView* _outlineViewEnclosingScrollView;
 	__weak IBOutlet NSView* _topView;
+	__weak IBOutlet NSPathControl* _pathControl;
+	
+	__weak IBOutlet NSTextField* _noSamplesLabel;
+	
+	__weak IBOutlet NSView* _bottomViewsContainer;
+	__weak IBOutlet NSOutlineView* _outlineView;
+	__strong IBOutlet NSScrollView* _outlineViewEnclosingScrollView;
+	__weak IBOutlet NSTableView* _logTableView;
+	__strong IBOutlet NSScrollView* _logTableViewEnclosingScrollView;
+
+	__weak IBOutlet NSView* _bottomView;
+	__weak IBOutlet DTXFilterField* _searchField;
 	
 	DTXLogDataProvider* _logDataProvider;
 	
-	NSObject<DTXUIDataProvider>* _currentlyShownDataProvider;
+	NSObject<DTXUIDataProvider>* _currentlyShowsDataProvider;
 	
 	NSImage* _consoleAppImage;
 }
@@ -43,8 +47,6 @@
 	
 	self.view.wantsLayer = YES;
 	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	_outlineView.wantsLayer = YES;
-	_outlineView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	_pathControl.pathItems = @[];
 	_pathControl.menu = nil;
@@ -73,7 +75,7 @@
 
 - (void)_updateBottomViewVisibility
 {
-	_bottomView.hidden = [_currentlyShownDataProvider.class conformsToProtocol:@protocol(DTXUIDataFiltering)] && _currentlyShownDataProvider.supportsDataFiltering == NO;
+	_bottomView.hidden = [_currentlyShowsDataProvider.class conformsToProtocol:@protocol(DTXUIDataFiltering)] && _currentlyShowsDataProvider.supportsDataFiltering == NO;
 	
 	NSEdgeInsets insets = NSEdgeInsetsMake(0, 0, _bottomView.hidden ? 0 : _bottomView.bounds.size.height, 0);
 	
@@ -92,7 +94,7 @@
 
 - (BOOL)_isLogShown
 {
-	return _logDataProvider != nil && _currentlyShownDataProvider == _logDataProvider;
+	return _logDataProvider != nil && _currentlyShowsDataProvider == _logDataProvider;
 }
 
 - (void)_updatePathControlItems
@@ -145,16 +147,32 @@
 - (void)_setupConstraintsForMiddleView:(NSView*)view
 {
 	[NSLayoutConstraint activateConstraints:@[
-											  [view.topAnchor constraintEqualToAnchor:_topView.bottomAnchor constant:-.5],
-											  [view.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-											  [view.leftAnchor constraintEqualToAnchor:self.view.leftAnchor],
-											  [view.rightAnchor constraintEqualToAnchor:self.view.rightAnchor],
+											  [view.topAnchor constraintEqualToAnchor:_bottomViewsContainer.topAnchor],
+											  [view.bottomAnchor constraintEqualToAnchor:_bottomViewsContainer.bottomAnchor],
+											  [view.leftAnchor constraintEqualToAnchor:_bottomViewsContainer.leftAnchor],
+											  [view.rightAnchor constraintEqualToAnchor:_bottomViewsContainer.rightAnchor],
 											  ]];
+}
+
+- (void)_setLogTableViewAsMiddleView
+{
+	_logTableViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+	[_bottomViewsContainer addSubview:_logTableViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
+	[self _setupConstraintsForMiddleView:_logTableViewEnclosingScrollView];
+	[_outlineViewEnclosingScrollView removeFromSuperview];
+}
+
+- (void)_setOutlineViewAsMiddleView
+{
+	_outlineViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+	[_bottomViewsContainer addSubview:_outlineViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
+	[self _setupConstraintsForMiddleView:_outlineViewEnclosingScrollView];
+	[_logTableViewEnclosingScrollView removeFromSuperview];
 }
 
 - (void)_selectDataProvider:(NSObject<DTXUIDataProvider>*)dataProvider replaceLog:(BOOL)replaceLog
 {
-	if(_currentlyShownDataProvider == dataProvider)
+	if(_currentlyShowsDataProvider == dataProvider)
 	{
 		return;
 	}
@@ -166,24 +184,19 @@
 	
 	BOOL isDataProviderLog = dataProvider == _logDataProvider;
 	
+	_noSamplesLabel.hidden = YES;
 	if(isDataProviderLog)
 	{
-		_logTableViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
-		[self.view addSubview:_logTableViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
-		[self _setupConstraintsForMiddleView:_logTableViewEnclosingScrollView];
-		[_outlineViewEnclosingScrollView removeFromSuperview];
+		[self _setLogTableViewAsMiddleView];
 	}
 	else
 	{
-		_outlineViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
-		[self.view addSubview:_outlineViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
-		[self _setupConstraintsForMiddleView:_outlineViewEnclosingScrollView];
-		[_logTableViewEnclosingScrollView removeFromSuperview];
+		[self _setOutlineViewAsMiddleView];
 	}
 	
-	_currentlyShownDataProvider = dataProvider;
+	_currentlyShowsDataProvider = dataProvider;
 	
-	[self dataProvider:_currentlyShownDataProvider didSelectInspectorItem:_currentlyShownDataProvider.currentlySelectedInspectorItem];
+	[self dataProvider:_currentlyShowsDataProvider didSelectInspectorItem:_currentlyShowsDataProvider.currentlySelectedInspectorItem];
 	
 	[self _updatePathControlItems];
 	[self _updateBottomViewVisibility];
@@ -213,7 +226,7 @@
 
 - (void)dataProvider:(DTXUIDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item
 {
-	if(provider != _currentlyShownDataProvider)
+	if(provider != _currentlyShowsDataProvider)
 	{
 		return;
 	}
@@ -230,7 +243,7 @@
 
 - (void)filterFieldTextDidChange:(DTXFilterField *)filterField
 {
-	[_currentlyShownDataProvider filterSamplesWithFilter:filterField.stringValue];
+	[_currentlyShowsDataProvider filterSamplesWithFilter:filterField.stringValue];
 }
 
 @end

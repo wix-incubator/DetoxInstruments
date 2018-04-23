@@ -54,6 +54,7 @@
 	[self.filterDelegate filterFieldTextDidChange:self];
 }
 
+//This somehow makes the image image be drawn.
 - (void)drawRect:(NSRect)dirtyRect
 {
 	[super drawRect:dirtyRect];
