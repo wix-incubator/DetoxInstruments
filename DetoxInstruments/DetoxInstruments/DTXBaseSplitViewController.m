@@ -16,6 +16,8 @@ IB_DESIGNABLE
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
+	self.wantsLayer = YES;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 - (void)drawRect:(NSRect)rect
@@ -38,6 +40,7 @@ IB_DESIGNABLE
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 - (NSColor *)dividerColor
@@ -68,6 +71,7 @@ IB_DESIGNABLE
     [super viewDidLoad];
 	
 	self.view.wantsLayer = YES;
+	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	self.splitViewItems.lastObject.minimumThickness = [self lastSplitItemMinThickness];
 	self.splitViewItems.lastObject.maximumThickness = [self lastSplitItemMaxThickness];

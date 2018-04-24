@@ -31,6 +31,7 @@
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle

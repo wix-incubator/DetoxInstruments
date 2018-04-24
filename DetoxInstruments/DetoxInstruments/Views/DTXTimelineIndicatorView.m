@@ -24,6 +24,7 @@
 	if(self)
 	{
 		self.wantsLayer = YES;
+		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 		self.allowedTouchTypes = 0;
 	}
 	

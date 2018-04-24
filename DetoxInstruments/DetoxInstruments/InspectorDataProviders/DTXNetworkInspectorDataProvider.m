@@ -194,6 +194,7 @@
 	NSSavePanel* panel = [NSSavePanel savePanel];
 	[panel setNameFieldStringValue:fileName];
 	panel.contentView.wantsLayer = YES;
+	panel.contentView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	[panel beginSheetModalForWindow:window completionHandler:^ (NSInteger result) {
 		if (result == NSModalResponseOK)

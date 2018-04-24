@@ -43,6 +43,7 @@
 	[super viewDidLoad];
 	
 	self.view.wantsLayer = YES;
+	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	self.view.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
 }
 

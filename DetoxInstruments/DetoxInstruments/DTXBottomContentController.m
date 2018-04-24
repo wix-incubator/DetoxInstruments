@@ -75,7 +75,7 @@
 
 - (void)_updateBottomViewVisibility
 {
-	_bottomView.hidden = [_currentlyShowsDataProvider.class conformsToProtocol:@protocol(DTXUIDataFiltering)] && _currentlyShowsDataProvider.supportsDataFiltering == NO;
+	_bottomView.hidden = _currentlyShowsDataProvider == nil || ([_currentlyShowsDataProvider.class conformsToProtocol:@protocol(DTXUIDataFiltering)] && _currentlyShowsDataProvider.supportsDataFiltering) == NO;
 	
 	NSEdgeInsets insets = NSEdgeInsetsMake(0, 0, _bottomView.hidden ? 0 : _bottomView.bounds.size.height, 0);
 	
@@ -159,7 +159,6 @@
 	_logTableViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
 	[_bottomViewsContainer addSubview:_logTableViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
 	[self _setupConstraintsForMiddleView:_logTableViewEnclosingScrollView];
-	[_outlineViewEnclosingScrollView removeFromSuperview];
 }
 
 - (void)_setOutlineViewAsMiddleView
@@ -167,7 +166,6 @@
 	_outlineViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
 	[_bottomViewsContainer addSubview:_outlineViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
 	[self _setupConstraintsForMiddleView:_outlineViewEnclosingScrollView];
-	[_logTableViewEnclosingScrollView removeFromSuperview];
 }
 
 - (void)_selectDataProvider:(NSObject<DTXUIDataProvider>*)dataProvider replaceLog:(BOOL)replaceLog
@@ -182,7 +180,16 @@
 		return;
 	}
 	
+	_currentlyShowsDataProvider = dataProvider;
+	
+	[self _updatePathControlItems];
+	[self _updateBottomViewVisibility];
+	[_searchField clearFilter];
+	
 	BOOL isDataProviderLog = dataProvider == _logDataProvider;
+	
+	[_outlineViewEnclosingScrollView removeFromSuperview];
+	[_logTableViewEnclosingScrollView removeFromSuperview];
 	
 	_noSamplesLabel.hidden = YES;
 	if(isDataProviderLog)
@@ -194,13 +201,7 @@
 		[self _setOutlineViewAsMiddleView];
 	}
 	
-	_currentlyShowsDataProvider = dataProvider;
-	
 	[self dataProvider:_currentlyShowsDataProvider didSelectInspectorItem:_currentlyShowsDataProvider.currentlySelectedInspectorItem];
-	
-	[self _updatePathControlItems];
-	[self _updateBottomViewVisibility];
-	[_searchField clearFilter];
 	
 	DTXInstrumentsWindowController* controller = self.view.window.windowController;
 	

@@ -16,6 +16,7 @@
 	if(self)
 	{
 		self.wantsLayer = YES;
+		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 		self.openHandCursor = [NSCursor arrowCursor];
 //		self.closedHandCursor = [NSCursor arrowCursor];
 	}

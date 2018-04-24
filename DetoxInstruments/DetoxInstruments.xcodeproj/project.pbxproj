@@ -161,7 +161,6 @@
 		39F6F6D11F0E407900C7F411 /* DTXRecording+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */; };
 		39FA40A81F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA40A71F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m */; };
 		39FA40B81F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA40B71F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m */; };
-		D8243F911F5307020005CF4B /* ImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = D8243F901F5307020005CF4B /* ImageGenerator.m */; };
 		D8243F941F5401530005CF4B /* DTXFilterField.m in Sources */ = {isa = PBXBuildFile; fileRef = D8243F931F5401530005CF4B /* DTXFilterField.m */; };
 /* End PBXBuildFile section */
 
@@ -694,8 +693,6 @@
 		39FA40A71F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeCountersPlotController.m; sourceTree = "<group>"; };
 		39FA40B61F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeDataTransferPlotController.h; sourceTree = "<group>"; };
 		39FA40B71F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeDataTransferPlotController.m; sourceTree = "<group>"; };
-		D8243F8F1F5307020005CF4B /* ImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageGenerator.h; sourceTree = "<group>"; };
-		D8243F901F5307020005CF4B /* ImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageGenerator.m; sourceTree = "<group>"; };
 		D8243F921F5401530005CF4B /* DTXFilterField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXFilterField.h; sourceTree = "<group>"; };
 		D8243F931F5401530005CF4B /* DTXFilterField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXFilterField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1034,7 +1031,6 @@
 				39BEE1B6207A47A6003AF93E /* SSZipArchive */,
 				3968DE4C2056F5580089609A /* Sparkle */,
 				3919DF781FA6342900F47DD6 /* SourceMaps */,
-				D8243F8E1F5306620005CF4B /* Images */,
 				398D6E731EE03E8B00AA9C11 /* CorePlot */,
 				394516AB1EEF43FC0093E503 /* LNInterpolation */,
 				39F6F6C81F0E3D3900C7F411 /* AutoCoding */,
@@ -1336,16 +1332,6 @@
 			);
 			name = AutoCoding;
 			path = ..;
-			sourceTree = "<group>";
-		};
-		D8243F8E1F5306620005CF4B /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				D8243F8F1F5307020005CF4B /* ImageGenerator.h */,
-				D8243F901F5307020005CF4B /* ImageGenerator.m */,
-			);
-			name = Images;
-			path = ../../../Shared/Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1671,7 +1657,6 @@
 				39BEE1DF207A47B3003AF93E /* crypt.c in Sources */,
 				39EBDFC01ED36D45005D8AB1 /* main.m in Sources */,
 				3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */,
-				D8243F911F5307020005CF4B /* ImageGenerator.m in Sources */,
 				395A43EA2081A2FB00DDF995 /* NSImage+UIAdditions.m in Sources */,
 				39BEE1E7207A47B3003AF93E /* hmac.c in Sources */,
 				397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */,

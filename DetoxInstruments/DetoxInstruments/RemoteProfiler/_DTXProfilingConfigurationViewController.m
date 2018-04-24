@@ -47,6 +47,7 @@
 	[super viewDidLoad];
 	
 	self.view.wantsLayer = YES;
+	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 - (IBAction)_useDefaultConfigurationValueChanged:(NSButton *)sender

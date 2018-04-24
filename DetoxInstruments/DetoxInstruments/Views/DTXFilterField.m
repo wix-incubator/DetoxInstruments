@@ -7,9 +7,12 @@
 //
 
 #import "DTXFilterField.h"
-#import "ImageGenerator.h"
 
 @implementation DTXFilterField
+{
+	IBOutlet NSImageView* _filterImageView;
+	IBOutlet NSButton* _cancelButton;
+}
 
 - (void)awakeFromNib
 {
@@ -18,20 +21,22 @@
 	self.delegate = self;
 	self.centersPlaceholder = NO;
 	
-	[self setCancelIcon];
 	[self setSearchIconWithHighlight:NO];
-}
-
-- (void)setCancelIcon
-{
-	NSButtonCell *cancelButtonCell = ((NSSearchFieldCell*)self.cell).cancelButtonCell;
-	cancelButtonCell.image = cancelButtonCell.alternateImage = [ImageGenerator createCancelImageWithSize:11];
+	
+	self.wantsLayer = YES;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	
+	[((NSSearchFieldCell*)self.cell).searchButtonCell setTransparent:YES];
+	[((NSSearchFieldCell*)self.cell).searchButtonCell setEnabled:NO];
+	[((NSSearchFieldCell*)self.cell).cancelButtonCell setTransparent:YES];
+	[((NSSearchFieldCell*)self.cell).cancelButtonCell setEnabled:NO];
+	
+	_cancelButton.hidden = YES;
 }
 
 - (void)setSearchIconWithHighlight:(BOOL)highlighted
 {
-	NSButtonCell *searchButtonCell = ((NSSearchFieldCell*)self.cell).searchButtonCell;
-	searchButtonCell.image = searchButtonCell.alternateImage = [ImageGenerator createFilterImageWithSize:18 highlighted:highlighted];
+	_filterImageView.image = [NSImage imageNamed:[NSString stringWithFormat:@"SearchFilter%@", highlighted ? @"On" : @"Off"]];
 }
 
 - (NSRect)rectForSearchTextWhenCentered:(BOOL)isCentered
@@ -42,16 +47,25 @@
 - (void)searchFieldDidStartSearching:(NSSearchField *)sender
 {
 	[self setSearchIconWithHighlight:YES];
+	_cancelButton.hidden = NO;
 }
 
 - (void)searchFieldDidEndSearching:(NSSearchField *)sender
 {
 	[self setSearchIconWithHighlight:NO];
+	_cancelButton.hidden = YES;
 }
 
 - (void)controlTextDidChange:(NSNotification *)obj
 {
 	[self.filterDelegate filterFieldTextDidChange:self];
+}
+
+- (void)setFrame:(NSRect)frame
+{
+	[super setFrame:frame];
+	
+	[self setNeedsDisplay];
 }
 
 //This somehow makes the image image be drawn.
@@ -60,10 +74,14 @@
 	[super drawRect:dirtyRect];
 }
 
+- (IBAction)clearFilter:(id)sender
+{
+	[self clearFilter];
+}
+
 - (void)clearFilter
 {
 	NSButtonCell* buttonCell = ((NSSearchFieldCell*)self.cell).cancelButtonCell;
-	
 	[NSApp sendAction:buttonCell.action to:buttonCell.target from:buttonCell];
 }
 
