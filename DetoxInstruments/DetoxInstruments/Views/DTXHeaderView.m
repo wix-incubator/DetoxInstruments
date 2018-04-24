@@ -21,6 +21,7 @@
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	self.layer.backgroundColor = NSColor.controlBackgroundColor.CGColor;
 }
 

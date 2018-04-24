@@ -18,6 +18,7 @@
 	if(self)
 	{
 		self.wantsLayer = YES;
+		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	}
 	
 	return self;

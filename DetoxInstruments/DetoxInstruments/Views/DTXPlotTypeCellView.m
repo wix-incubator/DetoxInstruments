@@ -30,6 +30,7 @@
     [super awakeFromNib];
     
     self.secondaryImageView.wantsLayer = YES;
+	self.secondaryImageView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
     self.secondaryImageView.layer.backgroundColor = NSColor.blackColor.CGColor;
 	self.secondaryImageView.layer.cornerRadius = 10.35;
 }

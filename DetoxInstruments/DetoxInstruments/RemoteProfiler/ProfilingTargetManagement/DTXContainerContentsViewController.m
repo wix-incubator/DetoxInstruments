@@ -64,6 +64,7 @@
 	[_outlineView registerForDraggedTypes:[NSArray arrayWithObject:(NSString*)kUTTypeFileURL]];
 	
 	self.view.wantsLayer = YES;
+	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	_modalProgressIndicatorController = [self.storyboard instantiateControllerWithIdentifier:@"ModalProgressIndicator"];
 	
@@ -146,6 +147,7 @@
 	savePanel.nameFieldStringValue = fileName;
 	savePanel.canCreateDirectories = YES;
 	savePanel.contentView.wantsLayer = YES;
+	savePanel.contentView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	[savePanel beginSheetModalForWindow:self.view.window completionHandler:^ (NSInteger result) {
 		NSURL* URL;

@@ -69,6 +69,7 @@ IB_DESIGNABLE
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row

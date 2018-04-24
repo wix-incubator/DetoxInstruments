@@ -1655,35 +1655,51 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="CTK-Sj-Sng">
                                 <rect key="frame" x="0.0" y="0.0" width="680" height="272"/>
                                 <subviews>
-                                    <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-G4-gpu">
+                                    <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-G4-gpu" customClass="DTXBorderedView">
                                         <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
                                         <subviews>
                                             <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="bQ6-qJ-AWR">
                                                 <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
                                             </visualEffectView>
-                                            <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
+                                            <searchField wantsLayer="YES" canDrawConcurrently="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
                                                 <rect key="frame" x="5" y="4" width="670" height="22"/>
                                                 <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Filter" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="59k-uH-dUn">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                 </searchFieldCell>
+                                                <connections>
+                                                    <outlet property="_cancelButton" destination="xcM-IJ-Efz" id="gqV-6N-SJY"/>
+                                                    <outlet property="_filterImageView" destination="2Kd-u4-gHA" id="Tv2-jJ-maP"/>
+                                                </connections>
                                             </searchField>
-                                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="HBJ-3J-FWs">
-                                                <rect key="frame" x="0.0" y="26" width="680" height="5"/>
-                                            </box>
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Kd-u4-gHA">
+                                                <rect key="frame" x="9" y="8" width="15" height="15"/>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="SearchFilterOff" id="XFn-ul-pvD"/>
+                                            </imageView>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xcM-IJ-Efz">
+                                                <rect key="frame" x="656" y="8" width="15" height="15"/>
+                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="SearchFilterClear" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="VzT-Iy-XGF">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="clearFilter:" target="vSY-6N-TTj" id="oos-3k-hiP"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="HBJ-3J-FWs" firstAttribute="top" secondItem="VaR-G4-gpu" secondAttribute="top" id="0s1-vC-POy"/>
-                                            <constraint firstAttribute="trailing" secondItem="HBJ-3J-FWs" secondAttribute="trailing" id="Bg3-YQ-7Wj"/>
                                             <constraint firstItem="bQ6-qJ-AWR" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" id="Cm3-uU-43l"/>
-                                            <constraint firstAttribute="trailing" secondItem="vSY-6N-TTj" secondAttribute="trailing" constant="5" id="CrP-S4-0C2"/>
+                                            <constraint firstItem="2Kd-u4-gHA" firstAttribute="centerY" secondItem="vSY-6N-TTj" secondAttribute="centerY" id="JLe-Ho-MM8"/>
+                                            <constraint firstItem="2Kd-u4-gHA" firstAttribute="leading" secondItem="vSY-6N-TTj" secondAttribute="leading" constant="4" id="Pc5-Dj-2sA"/>
                                             <constraint firstItem="bQ6-qJ-AWR" firstAttribute="top" secondItem="VaR-G4-gpu" secondAttribute="top" id="Qwh-Se-k3k"/>
                                             <constraint firstItem="vSY-6N-TTj" firstAttribute="centerY" secondItem="VaR-G4-gpu" secondAttribute="centerY" id="bo7-Nx-2wr"/>
                                             <constraint firstAttribute="height" constant="29" id="cHH-TG-Lw3"/>
+                                            <constraint firstItem="xcM-IJ-Efz" firstAttribute="centerY" secondItem="vSY-6N-TTj" secondAttribute="centerY" id="grp-bD-5fe"/>
                                             <constraint firstItem="vSY-6N-TTj" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" constant="5" id="hkT-gD-7qG"/>
                                             <constraint firstAttribute="trailing" secondItem="bQ6-qJ-AWR" secondAttribute="trailing" id="ob8-KA-hsd"/>
-                                            <constraint firstItem="HBJ-3J-FWs" firstAttribute="leading" secondItem="VaR-G4-gpu" secondAttribute="leading" id="sZU-Hd-j7V"/>
+                                            <constraint firstItem="vSY-6N-TTj" firstAttribute="width" secondItem="VaR-G4-gpu" secondAttribute="width" constant="-10" id="wIq-Hp-jZJ"/>
+                                            <constraint firstItem="vSY-6N-TTj" firstAttribute="trailing" secondItem="xcM-IJ-Efz" secondAttribute="trailing" constant="4" id="wzK-Xu-pAz"/>
                                             <constraint firstAttribute="bottom" secondItem="bQ6-qJ-AWR" secondAttribute="bottom" id="y7p-v0-NQt"/>
                                         </constraints>
                                     </customView>
@@ -1747,7 +1763,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                         <outlet property="_topView" destination="qC8-Mm-qyE" id="IUg-Ur-iYF"/>
                     </connections>
                 </viewController>
-                <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="nSe-hh-Z2i">
+                <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="nSe-hh-Z2i" customClass="DTXScrollView">
                     <rect key="frame" x="0.0" y="0.0" width="680" height="271"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" drawsBackground="NO" id="7qk-vh-lmX">
@@ -1755,7 +1771,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" id="ulY-Jk-M9E">
-                                <rect key="frame" x="0.0" y="0.0" width="680" height="242"/>
+                                <rect key="frame" x="0.0" y="0.0" width="680" height="271"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1804,7 +1820,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                         </subviews>
                         <nil key="backgroundColor"/>
                     </clipView>
-                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="29"/>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="ZfO-GK-YnR">
                         <rect key="frame" x="0.0" y="255" width="497" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1819,7 +1835,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" drawsBackground="NO" id="t1C-zD-puQ">
                         <rect key="frame" x="0.0" y="0.0" width="680" height="272"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="b6M-83-qhy" viewBased="YES" indentationPerLevel="16" indentationMarkerFollowsCell="NO" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG" customClass="DTXDetailOutlineView">
                                 <rect key="frame" x="0.0" y="0.0" width="680" height="249"/>
@@ -2667,6 +2683,8 @@ Gw
         <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="Right" width="18" height="14"/>
         <image name="RightHandle" width="20" height="16"/>
+        <image name="SearchFilterClear" width="15" height="15"/>
+        <image name="SearchFilterOff" width="15" height="15"/>
         <image name="extendedInfo_highlighted" width="15" height="15"/>
         <image name="fileInfo" width="15" height="15"/>
         <image name="flag" width="12" height="15"/>

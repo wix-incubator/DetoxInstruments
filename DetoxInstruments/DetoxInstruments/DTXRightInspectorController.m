@@ -34,6 +34,7 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	[super viewDidLoad];
 	
 	self.view.wantsLayer = YES;
+	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	_tabSwitcher.selectedSegment = [[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey];
 	

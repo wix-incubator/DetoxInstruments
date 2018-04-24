@@ -58,6 +58,7 @@
 	[super viewDidLoad];
 	
 	_containerView.wantsLayer = YES;
+	_containerView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	_outlineController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXTargetsOutlineViewContoller"];
 	[self addChildViewController:_outlineController];
@@ -89,8 +90,10 @@
 	self.view.window.preventsApplicationTerminationWhenModal = NO;
 	
 	self.view.wantsLayer = YES;
+	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	self.view.canDrawSubviewsIntoLayer = YES;
 	_containerView.wantsLayer = YES;
+	_containerView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	_targets = [NSMutableArray new];
 	_serviceToTargetMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];

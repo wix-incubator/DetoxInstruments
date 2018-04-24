@@ -28,6 +28,7 @@
 	_plistEditor.delegate = self;
 	
 	self.view.wantsLayer = YES;
+	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 - (void)viewDidAppear

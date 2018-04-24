@@ -16,6 +16,7 @@
 	[super awakeFromNib];
 	
 	self.wantsLayer = YES;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 - (NSRect)frameOfCellAtColumn:(NSInteger)column row:(NSInteger)row

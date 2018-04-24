@@ -94,6 +94,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	[self _fixUpSplitViewsAnimated:NO];
 	
 	self.window.contentView.wantsLayer = YES;
+	self.window.contentView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	self.window.contentView.canDrawSubviewsIntoLayer = YES;
 	
 	[self.window setFrame:(CGRect){0, 0, CGSizeApplyAffineTransform(self.window.screen.frame.size, CGAffineTransformMakeScale(0.85 , 0.85))} display:YES];
@@ -237,17 +238,25 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	NSSplitViewItem* bottomSplitViewItem = _bottomSplitViewController.splitViewItems.lastObject;
 	NSSplitViewItem* rightSplitViewItem = _rightSplitViewController.splitViewItems.lastObject;
 	
-	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-		context.allowsImplicitAnimation = YES;
-		context.duration = animated ? 1.0 : 0;
-		
-		bottomSplitViewItem.animator.collapsed = _bottomCollapsed;
-		rightSplitViewItem.animator.collapsed = _rightCollapsed;
-
-		[_bottomSplitViewController.view.animator layoutSubtreeIfNeeded];
-		[_rightSplitViewController.view.animator layoutSubtreeIfNeeded];
-	} completionHandler:nil];
+	if(animated)
+	{
+		[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+			context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+			context.allowsImplicitAnimation = YES;
+			context.duration = animated ? 1.0 : 0;
+			
+			bottomSplitViewItem.animator.collapsed = _bottomCollapsed;
+			rightSplitViewItem.animator.collapsed = _rightCollapsed;
+			
+			[_bottomSplitViewController.view.animator layoutSubtreeIfNeeded];
+			[_rightSplitViewController.view.animator layoutSubtreeIfNeeded];
+		} completionHandler:nil];
+	}
+	else
+	{
+		bottomSplitViewItem.collapsed = _bottomCollapsed;
+		rightSplitViewItem.collapsed = _rightCollapsed;
+	}
 }
 
 - (IBAction)toggleRight:(id)sender
