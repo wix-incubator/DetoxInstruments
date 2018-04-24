@@ -20,6 +20,9 @@
 
 @interface DTXPieChartView : NSView
 
-@property (nonatomic, copy) NSArray<DTXPieChartEntry*>* entries;
+@property (nonatomic, copy, readonly) NSArray<DTXPieChartEntry*>* entries;
+@property (nonatomic, assign, readonly) NSUInteger highlightedEntry;
+
+- (void)setEntries:(NSArray<DTXPieChartEntry *> *)entries highlightedEntry:(NSUInteger)highlightedEntry;
 
 @end

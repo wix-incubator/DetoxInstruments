@@ -16,4 +16,13 @@
 
 @implementation DTXViewCellView
 
+- (void)prepareForReuse
+{
+	[super prepareForReuse];
+	
+	[self.contentView.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj removeFromSuperview];
+	}];
+}
+
 @end

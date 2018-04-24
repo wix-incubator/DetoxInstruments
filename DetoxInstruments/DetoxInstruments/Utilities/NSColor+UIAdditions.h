@@ -17,4 +17,6 @@
 @property (nonatomic, strong, readonly) NSColor* darkerColor;
 @property (nonatomic, strong, readonly) NSColor* lighterColor;
 
++ (NSColor*)randomColorWithSeed:(NSString*)seed;
+
 @end

@@ -8,6 +8,7 @@
 
 #import "DTXCPUDataProvider.h"
 #import "DTXCPUInspectorDataProvider.h"
+#import "DTXThreadInfo+UIExtensions.h"
 
 @implementation DTXCPUDataProvider
 
@@ -73,12 +74,7 @@
 		return @"<?>";
 	}
 	
-	if(heaviestThread.number == 0)
-	{
-		return NSLocalizedString(@"0 (Main Thread)", @"");
-	}
-	
-	return [NSString stringWithFormat:@"%@%@%@", heaviestThread.name.length == 0 ? NSLocalizedString(@"Thread ", @"") : @"", @(heaviestThread.number), heaviestThread.name.length > 0 ? [NSString stringWithFormat:@" (%@)", heaviestThread.name] : @""];
+	return heaviestThread.friendlyName;
 }
 
 - (NSColor*)textColorForItem:(id)item
