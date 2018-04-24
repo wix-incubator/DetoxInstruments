@@ -1,5 +1,5 @@
 //
-//  DTXUIDataProvider.h
+//  DTXDetailDataProvider.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 08/06/2017.
@@ -13,7 +13,6 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "NSColor+UIAdditions.h"
 #import "DTXInstrumentsModel.h"
-#import "DTXUISampleTypes.h"
 #import "DTXInspectorDataProvider.h"
 
 @protocol DTXPlotController;
@@ -37,22 +36,22 @@
 
 @end
 
-@protocol DTXUIDataProvider;
+@protocol DTXDetailDataProvider;
 
-@protocol DTXUIDataProviderDelegate
+@protocol DTXDetailDataProviderDelegate
 
-- (void)dataProvider:(id<DTXUIDataProvider>)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item;
+- (void)dataProvider:(id<DTXDetailDataProvider>)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item;
 
 @end
 
-@protocol DTXUIDataProvider <DTXUIDataFiltering>
+@protocol DTXDetailDataProvider <DTXUIDataFiltering>
 
 @property (nonatomic, strong, readonly) DTXInspectorDataProvider* currentlySelectedInspectorItem;
-@property (nonatomic, weak) id<DTXUIDataProviderDelegate> delegate;
+@property (nonatomic, weak) id<DTXDetailDataProviderDelegate> delegate;
 
 @end
 
-@interface DTXUIDataProvider : NSObject <DTXUIDataProvider>
+@interface DTXDetailDataProvider : NSObject <DTXDetailDataProvider>
 
 + (Class)inspectorDataProviderClass;
 

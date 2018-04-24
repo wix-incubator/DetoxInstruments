@@ -7,13 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "DTXUIDataProvider.h"
+#import "DTXDetailDataProvider.h"
 
 @class DTXMainContentController;
 
 @protocol DTXMainContentControllerDelegate
 
-- (void)contentController:(DTXMainContentController*)cc updateUIWithUIProvider:(DTXUIDataProvider*)dataProvider;
+- (void)contentController:(DTXMainContentController*)cc updateUIWithUIProvider:(DTXDetailDataProvider*)dataProvider;
 
 @end
 

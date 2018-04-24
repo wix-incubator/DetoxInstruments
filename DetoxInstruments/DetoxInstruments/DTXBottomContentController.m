@@ -14,7 +14,7 @@
 #import "DTXMenuPathControl.h"
 #import "DTXFilterField.h"
 
-@interface DTXBottomContentController () <DTXMenuPathControlDelegate, DTXUIDataProviderDelegate, DTXFilterFieldDelegate>
+@interface DTXBottomContentController () <DTXMenuPathControlDelegate, DTXDetailDataProviderDelegate, DTXFilterFieldDelegate>
 {
 	__weak IBOutlet NSView* _topView;
 	__weak IBOutlet NSPathControl* _pathControl;
@@ -32,7 +32,7 @@
 	
 	DTXLogDataProvider* _logDataProvider;
 	
-	NSObject<DTXUIDataProvider>* _currentlyShowsDataProvider;
+	NSObject<DTXDetailDataProvider>* _currentlyShowsDataProvider;
 	
 	NSImage* _consoleAppImage;
 }
@@ -82,7 +82,7 @@
 	_logTableView.enclosingScrollView.contentInsets = _outlineView.enclosingScrollView.contentInsets = insets;
 }
 
-- (void)setManagingDataProvider:(DTXUIDataProvider *)managingDataProvider
+- (void)setManagingDataProvider:(DTXDetailDataProvider *)managingDataProvider
 {
 	_managingDataProvider.managedOutlineView = nil;
 	_managingDataProvider = managingDataProvider;
@@ -168,7 +168,7 @@
 	[self _setupConstraintsForMiddleView:_outlineViewEnclosingScrollView];
 }
 
-- (void)_selectDataProvider:(NSObject<DTXUIDataProvider>*)dataProvider replaceLog:(BOOL)replaceLog
+- (void)_selectDataProvider:(NSObject<DTXDetailDataProvider>*)dataProvider replaceLog:(BOOL)replaceLog
 {
 	if(_currentlyShowsDataProvider == dataProvider)
 	{
@@ -223,9 +223,9 @@
 	[self.view.window makeFirstResponder:_logTableView];
 }
 
-#pragma mark DTXUIDataProviderDelegate
+#pragma mark DTXDetailDataProviderDelegate
 
-- (void)dataProvider:(DTXUIDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item
+- (void)dataProvider:(DTXDetailDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item
 {
 	if(provider != _currentlyShowsDataProvider)
 	{

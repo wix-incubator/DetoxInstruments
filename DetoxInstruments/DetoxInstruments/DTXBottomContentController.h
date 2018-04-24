@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DTXInstrumentsModel.h"
-#import "DTXUIDataProvider.h"
+#import "DTXDetailDataProvider.h"
 
 @class DTXBottomContentController;
 
@@ -22,6 +22,6 @@
 
 @property (nonatomic, strong) DTXDocument* document;
 @property (nonatomic, weak) id<DTXBottomContentControllerDelegate> delegate;
-@property (nonatomic, strong) DTXUIDataProvider* managingDataProvider;
+@property (nonatomic, strong) DTXDetailDataProvider* managingDataProvider;
 
 @end

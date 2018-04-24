@@ -6,9 +6,9 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXUIDataProvider.h"
+#import "DTXDetailDataProvider.h"
 
-@interface DTXCPUDataProvider : DTXUIDataProvider
+@interface DTXCPUDataProvider : DTXDetailDataProvider
 
 - (NSString*)titleOfCPUHeader;
 - (BOOL)showsHeaviestThreadColumn;

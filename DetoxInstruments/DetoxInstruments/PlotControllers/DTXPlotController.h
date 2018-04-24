@@ -8,7 +8,7 @@
 
 @import Cocoa;
 #import <CorePlot/CorePlot.h>
-#import "DTXUIDataProvider.h"
+#import "DTXDetailDataProvider.h"
 
 @protocol DTXPlotController;
 
@@ -39,7 +39,7 @@
 
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;
 
-@property (nonatomic, strong, readonly) DTXUIDataProvider* dataProvider;
+@property (nonatomic, strong, readonly) DTXDetailDataProvider* dataProvider;
 
 - (instancetype)initWithDocument:(DTXDocument*)document;
 - (instancetype)init NS_UNAVAILABLE;

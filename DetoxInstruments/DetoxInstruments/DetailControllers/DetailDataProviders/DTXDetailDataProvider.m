@@ -1,5 +1,5 @@
 //
-//  DTXUIDataProvider.m
+//  DTXDetailDataProvider.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 08/06/2017.
@@ -7,7 +7,7 @@
 //
 
 #import <LNInterpolation/LNInterpolation.h>
-#import "DTXUIDataProvider.h"
+#import "DTXDetailDataProvider.h"
 #import "DTXTableRowView.h"
 #import "DTXInstrumentsModel.h"
 #import "DTXInstrumentsModelUIExtensions.h"
@@ -34,10 +34,10 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 @end
 
-@interface DTXUIDataProvider () <NSOutlineViewDataSource, NSOutlineViewDelegate>
+@interface DTXDetailDataProvider () <NSOutlineViewDataSource, NSOutlineViewDelegate>
 @end
 
-@implementation DTXUIDataProvider
+@implementation DTXDetailDataProvider
 {
 	DTXDocument* _document;
 	DTXSampleGroupProxy* _rootGroupProxy;
@@ -362,7 +362,7 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	}
 }
 
-#pragma mark DTXUIDataProvider
+#pragma mark DTXDetailDataProvider
 
 - (DTXInspectorDataProvider *)currentlySelectedInspectorItem
 {

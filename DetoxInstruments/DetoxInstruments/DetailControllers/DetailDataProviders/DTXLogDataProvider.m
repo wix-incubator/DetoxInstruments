@@ -208,7 +208,7 @@
 	[[NSPasteboard generalPasteboard] setString:[stringToCopy stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]] forType:NSPasteboardTypeString];
 }
 
-#pragma mark DTXUIDataProvider
+#pragma mark DTXDetailDataProvider
 
 - (DTXInspectorDataProvider *)currentlySelectedInspectorItem
 {
