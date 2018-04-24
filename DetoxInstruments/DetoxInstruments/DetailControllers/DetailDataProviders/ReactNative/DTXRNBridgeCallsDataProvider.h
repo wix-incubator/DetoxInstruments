@@ -6,8 +6,8 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXUIDataProvider.h"
+#import "DTXDetailDataProvider.h"
 
-@interface DTXRNBridgeCallsDataProvider : DTXUIDataProvider
+@interface DTXRNBridgeCallsDataProvider : DTXDetailDataProvider
 
 @end

@@ -6,16 +6,16 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXUIDataProvider.h"
+#import "DTXDetailDataProvider.h"
 
-@interface DTXLogDataProvider : NSObject <DTXWindowWideCopyHanler, DTXUIDataProvider>
+@interface DTXLogDataProvider : NSObject <DTXWindowWideCopyHanler, DTXDetailDataProvider>
 
 - (instancetype)initWithDocument:(DTXDocument*)document managedTableView:(NSTableView*)tableView;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
 @property (nonatomic, strong, readonly) DTXDocument* document;
-@property (nonatomic, weak) id<DTXUIDataProviderDelegate> delegate;
+@property (nonatomic, weak) id<DTXDetailDataProviderDelegate> delegate;
 @property (nonatomic, weak, readonly) NSTableView* managedTableView;
 
 - (void)scrollToTimestamp:(NSDate*)timestamp;

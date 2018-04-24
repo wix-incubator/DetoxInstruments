@@ -314,7 +314,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	}
 }
 
-- (void)contentController:(DTXMainContentController*)cc updateUIWithUIProvider:(DTXUIDataProvider*)dataProvider;
+- (void)contentController:(DTXMainContentController*)cc updateUIWithUIProvider:(DTXDetailDataProvider*)dataProvider;
 {
 	_bottomContentController.managingDataProvider = dataProvider;
 	_inspectorContentController.moreInfoDataProvider = nil;
