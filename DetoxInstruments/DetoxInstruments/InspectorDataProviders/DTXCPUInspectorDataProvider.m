@@ -9,6 +9,7 @@
 #import "DTXCPUInspectorDataProvider.h"
 #import "DTXPieChartView.h"
 #import "DTXRecording+UIExtensions.h"
+#import "DTXThreadInfo+UIExtensions.h"
 
 @implementation DTXCPUInspectorDataProvider
 
@@ -153,33 +154,58 @@
 	NSTimeInterval ti = perfSample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"CPU Usage", @"") description:[NSFormatter.dtx_percentFormatter stringForObjectValue:@(perfSample.cpuUsage)]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Total CPU Usage", @"") description:[NSFormatter.dtx_percentFormatter stringForObjectValue:@(perfSample.cpuUsage)]]];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Active CPU Cores", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(self.document.recording.deviceProcessorCount)]]];
 	
 	request.content = content;
 	
-//	DTXPieChartView* pieChartView = [[DTXPieChartView alloc] initWithFrame:NSMakeRect(0, 0, 300, 300)];
-//
-//	pieChartView.entries = @[[DTXPieChartEntry entryWithValue:@10 title:nil color:NSColor.redColor], [DTXPieChartEntry entryWithValue:@20 title:nil color:NSColor.greenColor], [DTXPieChartEntry entryWithValue:@30 title:nil color:NSColor.blueColor]];
-//
-//	pieChartView.translatesAutoresizingMaskIntoConstraints = NO;
-//	[NSLayoutConstraint activateConstraints:@[[pieChartView.widthAnchor constraintEqualToConstant:300], [pieChartView.heightAnchor constraintEqualToConstant:300]]];
-//
-//	DTXInspectorContent* pieChartContent = [DTXInspectorContent new];
-//	pieChartContent.title = @"Pie Chart";
-//	pieChartContent.customView = pieChartView;
+	NSMutableArray<DTXInspectorContent*>* contentArray = @[request].mutableCopy;
+	
+	if(perfSample.recording.dtx_profilingConfiguration.recordThreadInformation)
+	{
+		DTXAdvancedPerformanceSample* sample = (id)perfSample;
+		
+		DTXPieChartView* pieChartView = [[DTXPieChartView alloc] initWithFrame:NSMakeRect(0, 0, 300, 100)];
+		NSMutableArray<DTXPieChartEntry*>* entries = NSMutableArray.new;
+		
+		NSMutableOrderedSet* threadSamples = sample.threadSamples.mutableCopy;
+//		[threadSamples filterUsingPredicate:[NSPredicate predicateWithFormat:@"cpuUsage > 0"]];
+//		[threadSamples sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"cpuUsage" ascending:NO]]];
+		
+		__block NSUInteger heaviestThreadIdx = 0;
+		__block double heaviestCPU = -1;
+		
+		[threadSamples enumerateObjectsUsingBlock:^(DTXThreadPerformanceSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			if(obj.cpuUsage > heaviestCPU)
+			{
+				heaviestThreadIdx = idx;
+				heaviestCPU = obj.cpuUsage;
+			}
+			
+			[entries addObject:[DTXPieChartEntry entryWithValue:@(obj.cpuUsage > 0 ? obj.cpuUsage : 0.01) title:obj.threadInfo.friendlyName color:nil]];
+		}];
+		
+		[pieChartView setEntries:entries highlightedEntry:heaviestThreadIdx];
+		
+		pieChartView.translatesAutoresizingMaskIntoConstraints = NO;
+		[NSLayoutConstraint activateConstraints:@[[pieChartView.widthAnchor constraintEqualToConstant:300], [pieChartView.heightAnchor constraintEqualToConstant:200]]];
+		
+		DTXInspectorContent* pieChartContent = [DTXInspectorContent new];
+		pieChartContent.title = NSLocalizedString(@"Thread Breakdown", @"");
+		pieChartContent.customView = pieChartView;
+		
+		[contentArray addObject:pieChartContent];
+	}
 	
 	if(perfSample.recording.dtx_profilingConfiguration.collectStackTraces)
 	{
 		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
 		stackTrace.title = NSLocalizedString(@"Heaviest Stack Trace", @"");
 		
-		rv.contentArray = @[request, stackTrace];
+		[contentArray addObject:stackTrace];
 	}
-	else
-	{
-		rv.contentArray = @[request];
-	}
+	
+	rv.contentArray = contentArray;
 	
 	return rv;
 }

@@ -51,4 +51,31 @@
 	return [self interpolateToValue:NSColor.whiteColor progress:0.15];
 }
 
++ (NSColor*)randomColorWithSeed:(NSString*)seed;
+{
+	srand48(seed.hash * 200);
+	double r = drand48();
+	
+	srand48(seed.hash);
+	double g = drand48();
+	
+	srand48(seed.hash / 200);
+	double b = drand48();
+	
+	return [NSColor colorWithRed:r green:g blue:b alpha:1.0];
+	
+//	srand48(total * 200)
+//	let r = CGFloat(drand48())
+//
+//	srand48(total)
+//	let g = CGFloat(drand48())
+//
+//	srand48(total / 200)
+//	let b = CGFloat(drand48())
+//
+//	return UIColor(red: r, green: g, blue: b, alpha: 1)
+	
+//	return [NSColor systemBlueColor];
+}
+
 @end

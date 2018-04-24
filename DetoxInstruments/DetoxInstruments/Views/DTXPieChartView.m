@@ -9,6 +9,7 @@
 #import "DTXPieChartView.h"
 #import <CorePlot/CorePlot.h>
 #import "DTXGraphHostingView.h"
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXPieChartEntry
 
@@ -37,34 +38,44 @@
 	CPTPieChart* _chart;
 }
 
+- (void)mouseDown:(NSEvent *)event
+{
+	
+}
+
 - (instancetype)initWithFrame:(NSRect)frameRect
 {
 	self = [super initWithFrame:frameRect];
 	
 	if(self)
 	{
-		_chart = [[CPTPieChart alloc] initWithFrame:self.bounds];
+		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
+		labelStyle.color = [CPTColor colorWithCGColor:NSColor.disabledControlTextColor.CGColor];
+		labelStyle.fontName = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
+		labelStyle.fontSize = 11;
+		
+		CPTMutableLineStyle* lineStyle = [CPTMutableLineStyle lineStyle];
+		lineStyle.lineWidth = 0.5;
+		
+		_chart = [[CPTPieChart alloc] init];
 		_chart.dataSource = self;
-		_chart.pieRadius = 300;
-		
-		CPTMutableLineStyle *whiteLineStyle = [CPTMutableLineStyle lineStyle];
-		whiteLineStyle.lineColor = [CPTColor whiteColor];
-		
-		CPTMutableShadow *whiteShadow = [CPTMutableShadow shadow];
-		whiteShadow.shadowOffset     = CGSizeMake(2.0, -4.0);
-		whiteShadow.shadowBlurRadius = 4.0;
-		whiteShadow.shadowColor      = [[CPTColor whiteColor] colorWithAlphaComponent:0.25];
-		
-		_chart.pieInnerRadius  = _chart.pieRadius + 5.0;
-		_chart.borderLineStyle = whiteLineStyle;
-		_chart.startAngle      = M_PI_4;
-		_chart.endAngle        = 3.0 * M_PI_4;
-		_chart.sliceDirection  = CPTPieDirectionCounterClockwise;
+		_chart.pieRadius = 80;
+		_chart.pieInnerRadius = 40;
+		_chart.startAngle = CPTFloat(M_PI_4);
+		_chart.sliceDirection = CPTPieDirectionClockwise;
+//		_chart.labelTextStyle = labelStyle;
+		_chart.borderLineStyle = lineStyle;
 		
 		_graph = [[CPTXYGraph alloc] initWithFrame:self.bounds];
 		[_graph addPlot:_chart];
 		
 		_graph.axisSet = nil;
+		_graph.backgroundColor = NSColor.clearColor.CGColor;
+		_graph.paddingLeft = 0;
+		_graph.paddingTop = 0;
+		_graph.paddingRight = 0;
+		_graph.paddingBottom = 0;
+		_graph.masksToBorder  = NO;
 		
 		_host = [[DTXGraphHostingView alloc] initWithFrame:self.bounds];
 		_host.translatesAutoresizingMaskIntoConstraints = NO;
@@ -93,20 +104,34 @@
 {
 	if(fieldEnum == CPTPieChartFieldSliceWidth)
 	{
-		return _entries[idx];
+		return _entries[idx].value;
 	}
 	
-	return @(idx);
+	return nil;
 }
 
 -(nullable CPTFill *)sliceFillForPieChart:(nonnull CPTPieChart *)pieChart recordIndex:(NSUInteger)idx
 {
-	return [CPTFill fillWithColor:[CPTColor colorWithCGColor:_entries[idx].color.CGColor]];
+	CPTColor* sliceColor = [CPTColor colorWithCGColor:[NSColor randomColorWithSeed:_entries[idx].title].CGColor];
+	return   [CPTFill fillWithColor:sliceColor];
 }
 
-- (void)setEntries:(NSArray<DTXPieChartEntry*>*)entries
+- (CGFloat)radialOffsetForPieChart:(CPTPieChart *)pieChart recordIndex:(NSUInteger)idx
+{
+	return idx == _highlightedEntry ? 10 : 0;
+}
+
+- (nullable NSString *)legendTitleForPieChart:(nonnull CPTPieChart *)pieChart recordIndex:(NSUInteger)idx
+{
+	NSLog(@"%@", _entries[idx].title);
+	
+	return _entries[idx].title;
+}
+
+- (void)setEntries:(NSArray<DTXPieChartEntry *> *)entries highlightedEntry:(NSUInteger)highlightedEntry
 {
 	_entries = [entries copy];
+	_highlightedEntry = highlightedEntry;
 	
 	[_chart reloadData];
 }
