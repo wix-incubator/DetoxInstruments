@@ -24,7 +24,6 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	
 	CFBundleRef myApplicationBundle = NULL;
 	CFStringRef myBookName = NULL;
-	OSStatus err = noErr;
 	
 	myApplicationBundle = CFBundleGetMainBundle();
 	if (myApplicationBundle == NULL)

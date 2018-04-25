@@ -186,6 +186,7 @@
 	[self detailController:_activeDetailController didSelectInspectorItem:_activeDetailController.detailDataProvider.currentlySelectedInspectorItem];
 	
 	[self _updatePathControlItems];
+	[self _updateBottomViewVisibility];
 }
 
 - (IBAction)_selectDetailProviderControllerFromMenuItem:(NSMenuItem*)sender

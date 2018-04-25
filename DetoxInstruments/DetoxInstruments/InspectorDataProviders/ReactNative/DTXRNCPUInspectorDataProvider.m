@@ -48,7 +48,7 @@
 			
 			NSString* symbolName = funcName;
 
-			stackTraceFrame = [NSString stringWithFormat:@"%@() at %@%@", symbolName, fullFormat ? sourceFileName : [sourceFileName lastPathComponent], line ? [NSString stringWithFormat:@":%@", line] : @""];
+			stackTraceFrame = [NSString stringWithFormat:@"%@() at %@%@", symbolName, fullFormat ? sourceFileName : [sourceFileName lastPathComponent], line != nil ? [NSString stringWithFormat:@":%@", line] : @""];
 		}
 	}
 	else if([obj isKindOfClass:[NSDictionary class]] == YES)

@@ -405,7 +405,7 @@
 			
 			NSNumber* isFirstItemDirectory;
 			[draggedFileURLs.firstObject getResourceValue:&isFirstItemDirectory forKey:NSURLIsDirectoryKey error:nil];
-			if(draggedFileURLs.count == 1 && isFirstItemDirectory == NO)
+			if(draggedFileURLs.count == 1 && isFirstItemDirectory.boolValue == NO)
 			{
 				targetURL = [targetURL URLByAppendingPathComponent:draggedFileURLs.firstObject.pathExtension];
 				[self.profilingTarget putContainerItemAtURL:targetURL data:[NSData dataWithContentsOfURL:draggedFileURLs.firstObject] wasZipped:NO];

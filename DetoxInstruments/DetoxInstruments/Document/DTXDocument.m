@@ -143,13 +143,13 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[[NSNotificationCenter defaultCenter] postNotificationName:DTXDocumentStateDidChangeNotification object:self];
 }
 
-- (void)_preparePersistenceContainerFromURL:(NSURL*)url allowCreation:(BOOL)allowCreation error:(NSError **)outError
+- (BOOL)_preparePersistenceContainerFromURL:(NSURL*)url allowCreation:(BOOL)allowCreation error:(NSError **)outError
 {
 	NSURL* storeURL = [self _URLByAppendingStoreCompoenentToURL:url];
 	
 	if(allowCreation == NO && [storeURL checkResourceIsReachableAndReturnError:outError] == NO)
 	{
-		return;
+		return NO;
 	}
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:storeURL];
@@ -198,6 +198,8 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	{
 		*outError = outerError;
 	}
+	
+	return outerError == nil;
 }
 
 - (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError
