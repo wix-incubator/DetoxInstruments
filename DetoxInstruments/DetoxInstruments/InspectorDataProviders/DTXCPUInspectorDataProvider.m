@@ -182,7 +182,7 @@
 				heaviestCPU = obj.cpuUsage;
 			}
 			
-			[entries addObject:[DTXPieChartEntry entryWithValue:@(obj.cpuUsage > 0 ? obj.cpuUsage : 0.01) title:obj.threadInfo.friendlyName color:nil]];
+			[entries addObject:[DTXPieChartEntry entryWithValue:@(obj.cpuUsage > 0 ? obj.cpuUsage : 0.0001) title:obj.threadInfo.friendlyName color:nil]];
 		}];
 		
 		[pieChartView setEntries:entries highlightedEntry:heaviestThreadIdx];

@@ -45,6 +45,9 @@
 	self.view.wantsLayer = YES;
 	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	self.view.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
+	
+	_tableView.enclosingScrollView.contentInsets = NSEdgeInsetsMake(0, 0, 20, 0);
+	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, 0, -20, 0);
 }
 
 - (void)viewWillAppear
@@ -192,7 +195,7 @@
 
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup *)group didSelectPlotController:(id<DTXPlotController>)plotController
 {
-	[self.delegate contentController:self updateUIWithUIProvider:plotController.dataProvider];
+	[self.delegate contentController:self updatePlotController:plotController];
 }
 
 #pragma NSFetchedResultsControllerDelegate

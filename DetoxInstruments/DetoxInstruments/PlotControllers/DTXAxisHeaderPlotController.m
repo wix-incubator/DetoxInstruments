@@ -29,7 +29,7 @@
 
 @synthesize delegate = _delegate;
 @synthesize document = _document;
-@synthesize dataProvider = _dataProvider;
+@synthesize dataProviderControllers = _dataProviderControllers;
 
 -(CGFloat)titleSize
 {
@@ -208,6 +208,11 @@
 }
 
 - (NSImage*)displayIcon
+{
+	return nil;
+}
+
+- (NSImage*)smallDisplayIcon
 {
 	return nil;
 }

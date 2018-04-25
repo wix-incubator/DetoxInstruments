@@ -14,6 +14,7 @@
 #import "NSColor+UIAdditions.h"
 #import "DTXInstrumentsModel.h"
 #import "DTXInspectorDataProvider.h"
+#import "DTXPlotController.h"
 
 @protocol DTXPlotController;
 

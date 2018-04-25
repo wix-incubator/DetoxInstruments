@@ -8,7 +8,9 @@
 
 @import Cocoa;
 #import <CorePlot/CorePlot.h>
-#import "DTXDetailDataProvider.h"
+#import "DTXDocument.h"
+
+@class DTXDetailController;
 
 @protocol DTXPlotController;
 
@@ -17,10 +19,13 @@
 - (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange;
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc;
 - (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc;
-
-@optional
-
 - (void)plotController:(id<DTXPlotController>)pc didHighlightAtSampleTime:(NSTimeInterval)sampleTime;
+
+@end
+
+@protocol DTXPlotControllerSampleClickHandlingDelegate <NSObject>
+
+- (void)plotController:(id<DTXPlotController>)pc didClickOnSample:(DTXSample *)sample;
 
 @end
 
@@ -31,6 +36,7 @@
 
 @property (nonatomic, strong, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
+@property (nonatomic, strong, readonly) NSImage* smallDisplayIcon;
 @property (nonatomic, strong, readonly) NSImage* secondaryIcon;
 @property (nonatomic, strong, readonly) NSString* toolTip;
 @property (nonatomic, strong, readonly) NSFont* titleFont;
@@ -39,7 +45,7 @@
 
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;
 
-@property (nonatomic, strong, readonly) DTXDetailDataProvider* dataProvider;
+@property (nonatomic, copy, readonly) NSArray<DTXDetailController*>* dataProviderControllers;
 
 - (instancetype)initWithDocument:(DTXDocument*)document;
 - (instancetype)init NS_UNAVAILABLE;
@@ -55,6 +61,8 @@
 - (void)zoomToFitAllData;
 
 @optional
+
+@property (nonatomic, weak) id<DTXPlotControllerSampleClickHandlingDelegate> sampleClickDelegate;
 
 - (void)highlightSample:(id)sample;
 - (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime;

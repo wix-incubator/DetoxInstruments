@@ -16,6 +16,7 @@
 #import "DTXRecording+UIExtensions.h"
 #import "DTXStackedPlotGroup.h"
 #import "DTXCPTScatterPlot.h"
+#import "DTXDetailController.h"
 
 @interface DTXSamplePlotController () <CPTScatterPlotDelegate>
 
@@ -52,7 +53,8 @@
 
 @synthesize delegate = _delegate;
 @synthesize document = _document;
-@synthesize dataProvider = _dataProvider;
+@synthesize dataProviderControllers = _dataProviderControllers;
+@synthesize sampleClickDelegate = _sampleClickDelegate;
 
 + (Class)graphHostingViewClass
 {
@@ -72,7 +74,6 @@
 	{
 		_document = document;
 		_scene = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
-		_dataProvider = [[[self.class UIDataProviderClass] alloc] initWithDocument:_document plotController:self];
 		
 		_samplingInterval = [_document.recording.profilingConfiguration[@"samplingInterval"] doubleValue];
 		
@@ -81,6 +82,14 @@
 	}
 	
 	return self;
+}
+
+- (NSArray<DTXDetailController *> *)dataProviderControllers
+{
+	DTXDetailController* detailController = [_scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+	detailController.detailDataProvider = [[self.class.UIDataProviderClass alloc] initWithDocument:_document plotController:self];
+	
+	return @[detailController];
 }
 
 - (void)mouseEntered:(NSEvent *)event
@@ -197,7 +206,7 @@
 		
 		[self _highlightSample:sample nextSample:nextSample plotSpaceOffset:foundPointDelta notifyDelegate:YES];
 		
-		[_dataProvider selectSample:sample];
+		[self.sampleClickDelegate plotController:self didClickOnSample:sample];
 	}
 }
 
@@ -668,6 +677,14 @@
 - (NSImage*)displayIcon
 {
 	return nil;
+}
+
+- (NSImage *)smallDisplayIcon
+{
+	NSImage* image = [NSImage imageNamed:[NSString stringWithFormat:@"%@_small", self.displayIcon.name]];
+	image.size = NSMakeSize(16, 16);
+	
+	return image;
 }
 
 - (NSImage *)secondaryIcon

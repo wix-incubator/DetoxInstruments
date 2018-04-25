@@ -11,6 +11,7 @@
 #import "DTXTableRowView.h"
 #import "DTXPlotTypeCellView.h"
 #import "DTXPlotHostingTableCellView.h"
+#import "NSColor+UIAdditions.h"
 
 @interface DTXManagedPlotControllerGroup () <DTXPlotControllerDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
