@@ -10,31 +10,23 @@
 #import "DTXDocument.h"
 #import "DTXSampleGroup+UIExtensions.h"
 #import "DTXInstrumentsModelUIExtensions.h"
-#import "DTXLogDataProvider.h"
+#import "DTXLogDetailController.h"
 #import "DTXMenuPathControl.h"
 #import "DTXFilterField.h"
 
-@interface DTXBottomContentController () <DTXMenuPathControlDelegate, DTXDetailDataProviderDelegate, DTXFilterFieldDelegate>
+@interface DTXBottomContentController () <DTXMenuPathControlDelegate, DTXDetailControllerDelegate, DTXFilterFieldDelegate, DTXPlotControllerSampleClickHandlingDelegate>
 {
 	__weak IBOutlet NSView* _topView;
 	__weak IBOutlet NSPathControl* _pathControl;
-	
 	__weak IBOutlet NSTextField* _noSamplesLabel;
-	
 	__weak IBOutlet NSView* _bottomViewsContainer;
-	__weak IBOutlet NSOutlineView* _outlineView;
-	__strong IBOutlet NSScrollView* _outlineViewEnclosingScrollView;
-	__weak IBOutlet NSTableView* _logTableView;
-	__strong IBOutlet NSScrollView* _logTableViewEnclosingScrollView;
-
 	__weak IBOutlet NSView* _bottomView;
 	__weak IBOutlet DTXFilterField* _searchField;
 	
-	DTXLogDataProvider* _logDataProvider;
+	DTXLogDetailController* _logDetailController;
 	
-	NSObject<DTXDetailDataProvider>* _currentlyShowsDataProvider;
-	
-	NSImage* _consoleAppImage;
+	NSArray<DTXDetailController*>* _cachedDetailControllers;
+	DTXDetailController* _activeDetailController;
 }
 
 @end
@@ -54,94 +46,106 @@
 	_pathControl.delegate = self;
 	
 	_searchField.filterDelegate = self;
-	
-	__unused NSString* path = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Console"];
-	_consoleAppImage = [[NSWorkspace sharedWorkspace] iconForFile:path] ?: [NSImage imageNamed:@"console_small"];
-	_consoleAppImage.size = NSMakeSize(16, 16);
-	
-	[self _selectManagingDataProvider];
 }
 
 - (void)viewWillAppear
 {
 	[super viewWillAppear];
 	
-	if(_logDataProvider == nil)
+	if(_logDetailController == nil)
 	{
-		_logDataProvider = [[DTXLogDataProvider alloc] initWithDocument:self.document managedTableView:_logTableView];
-		_logDataProvider.delegate = self;
+		_logDetailController = [self.storyboard instantiateControllerWithIdentifier:@"DTXLogDetailController"];
+		[_logDetailController loadProviderWithDocument:self.document];
+//		_logDataProvider.delegate = self;
 	}
 }
 
 - (void)_updateBottomViewVisibility
 {
-	_bottomView.hidden = _currentlyShowsDataProvider == nil || ([_currentlyShowsDataProvider.class conformsToProtocol:@protocol(DTXUIDataFiltering)] && _currentlyShowsDataProvider.supportsDataFiltering) == NO;
+	_bottomView.hidden = _activeDetailController == nil || _activeDetailController.supportsDataFiltering == NO;
 	
 	NSEdgeInsets insets = NSEdgeInsetsMake(0, 0, _bottomView.hidden ? 0 : _bottomView.bounds.size.height, 0);
 	
-	_logTableView.enclosingScrollView.contentInsets = _outlineView.enclosingScrollView.contentInsets = insets;
+	[_activeDetailController updateViewWithInsets:insets];
 }
 
-- (void)setManagingDataProvider:(DTXDetailDataProvider *)managingDataProvider
+- (void)setManagingPlotController:(id<DTXPlotController>)managingPlotController
 {
-	_managingDataProvider.managedOutlineView = nil;
-	_managingDataProvider = managingDataProvider;
-	_managingDataProvider.managedOutlineView = _outlineView;
-	_managingDataProvider.delegate = self;
+	_managingPlotController.sampleClickDelegate = nil;
 	
-	[self _selectDataProvider:_managingDataProvider replaceLog:NO];
+	_managingPlotController = managingPlotController;
+	_cachedDetailControllers = managingPlotController.dataProviderControllers;
+	
+	_managingPlotController.sampleClickDelegate = self;
+	
+	[self _activateDetailProviderController:_cachedDetailControllers.firstObject];
 }
 
 - (BOOL)_isLogShown
 {
-	return _logDataProvider != nil && _currentlyShowsDataProvider == _logDataProvider;
+	return _logDetailController != nil && _activeDetailController == _logDetailController;
 }
 
 - (void)_updatePathControlItems
 {
-	NSPathControlItem* p1 = [NSPathControlItem new];
-	p1.image = self._isLogShown ? _consoleAppImage : [NSImage imageNamed: [NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]];
-	p1.title = self._isLogShown ? NSLocalizedString(@"Console", @"") : _managingDataProvider ? _managingDataProvider.displayName : @"";
-	
-	if(self._isLogShown == NO && _managingDataProvider != nil)
+	NSPathControlItem* currentItem = [NSPathControlItem new];
+	currentItem.title = _activeDetailController.displayName;
+	currentItem.image = _activeDetailController.smallDisplayIcon;
+
+	if([_cachedDetailControllers containsObject:_activeDetailController])
 	{
-		NSPathControlItem* p2 = [NSPathControlItem new];
-		p2.image = [NSImage imageNamed:@"samples"];
-		p2.title = NSLocalizedString(@"Samples", @"");
-		
-		_pathControl.pathItems = @[p1, p2];
+		NSPathControlItem* parentItem = [NSPathControlItem new];
+		parentItem.title = self.managingPlotController.displayName;
+		parentItem.image = self.managingPlotController.smallDisplayIcon;
+
+		_pathControl.pathItems = @[parentItem, currentItem];
 	}
 	else
 	{
-		_pathControl.pathItems = @[p1];
+		_pathControl.pathItems = @[currentItem];
 	}
 }
 
 - (NSMenu *)pathControl:(NSPathControl *)pathControl menuForCell:(NSPathComponentCell *)cell
 {
+	NSMenu* menu = [NSMenu new];
 	NSUInteger indexOfCell = [[pathControl.cell pathComponentCells] indexOfObject:cell];
 	
-	NSMenu* m = [NSMenu new];
-	NSMenuItem* item1 = [NSMenuItem new];
-	item1.attributedTitle = [[NSAttributedString alloc] initWithString: indexOfCell > 0 ? cell.title : _managingDataProvider.displayName attributes: cell.font ? @{NSFontAttributeName: cell.font} : @{}];
-	item1.state = self._isLogShown == NO ? NSOnState : NSOffState;
-	item1.image = indexOfCell == 0 ? [NSImage imageNamed:[NSString stringWithFormat:@"%@_small", _managingDataProvider.displayIcon.name]] : cell.image;
-	item1.image.size = NSMakeSize(16, 16);
-	item1.target = self;
-	item1.action = @selector(_selectManagingDataProvider);
-	[m addItem:item1];
-	if(indexOfCell == 0)
+	if(indexOfCell == 1)
 	{
-		NSMenuItem* item2 = [NSMenuItem new];
-		item2.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Console", @"") attributes: cell.font ? @{NSFontAttributeName: cell.font} : @{}];
-		item2.image = _consoleAppImage;
-		item2.state = self._isLogShown ? NSOnState : NSOffState;
-		item2.target = self;
-		item2.action = @selector(_selectConsole);
-		[m addItem:item2];
+		[_cachedDetailControllers enumerateObjectsUsingBlock:^(DTXDetailController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			NSMenuItem* item = [NSMenuItem new];
+			item.attributedTitle = [[NSAttributedString alloc] initWithString:obj.displayName attributes:cell.font ? @{NSFontAttributeName: cell.font} : @{}];
+			item.image = obj.smallDisplayIcon;
+			item.state = _activeDetailController == obj;
+			item.representedObject = obj;
+			item.target = self;
+			item.action = @selector(_selectDetailProviderControllerFromMenuItem:);
+			[menu addItem:item];
+		}];
+	}
+	else
+	{
+		NSMenuItem* plotControllerItem = [NSMenuItem new];
+		plotControllerItem.attributedTitle = [[NSAttributedString alloc] initWithString:_managingPlotController.displayName attributes:cell.font ? @{NSFontAttributeName: cell.font} : @{}];
+		plotControllerItem.image = _managingPlotController.smallDisplayIcon;
+		plotControllerItem.state = [_cachedDetailControllers containsObject:_activeDetailController];
+		plotControllerItem.representedObject = _managingPlotController;
+		plotControllerItem.target = self;
+		plotControllerItem.action = @selector(_selectDetailProviderControllerFromMenuItem:);
+		[menu addItem:plotControllerItem];
+		
+		NSMenuItem* logItem = [NSMenuItem new];
+		logItem.attributedTitle = [[NSAttributedString alloc] initWithString:_logDetailController.displayName attributes:cell.font ? @{NSFontAttributeName: cell.font} : @{}];
+		logItem.image = _logDetailController.smallDisplayIcon;
+		logItem.state = _activeDetailController == _logDetailController;
+		logItem.representedObject = _logDetailController;
+		logItem.target = self;
+		logItem.action = @selector(_selectDetailProviderControllerFromMenuItem:);
+		[menu addItem:logItem];
 	}
 	
-	return m;
+	return menu;
 }
 
 - (void)_setupConstraintsForMiddleView:(NSView*)view
@@ -154,80 +158,58 @@
 											  ]];
 }
 
-- (void)_setLogTableViewAsMiddleView
+- (void)_setDetailProviderControllerAsMiddleView
 {
-	_logTableViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
-	[_bottomViewsContainer addSubview:_logTableViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
-	[self _setupConstraintsForMiddleView:_logTableViewEnclosingScrollView];
+	_activeDetailController.view.translatesAutoresizingMaskIntoConstraints = NO;
+	[_bottomViewsContainer addSubview:_activeDetailController.view positioned:NSWindowBelow relativeTo:_bottomView];
+	[self addChildViewController:_activeDetailController];
+	[self _setupConstraintsForMiddleView:_activeDetailController.view];
 }
 
-- (void)_setOutlineViewAsMiddleView
+- (void)_activateDetailProviderController:(DTXDetailController*)dataProviderController
 {
-	_outlineViewEnclosingScrollView.translatesAutoresizingMaskIntoConstraints = NO;
-	[_bottomViewsContainer addSubview:_outlineViewEnclosingScrollView positioned:NSWindowBelow relativeTo:_topView];
-	[self _setupConstraintsForMiddleView:_outlineViewEnclosingScrollView];
-}
-
-- (void)_selectDataProvider:(NSObject<DTXDetailDataProvider>*)dataProvider replaceLog:(BOOL)replaceLog
-{
-	if(_currentlyShowsDataProvider == dataProvider)
+	if(_activeDetailController == dataProviderController)
 	{
 		return;
 	}
+
+	[_activeDetailController.view removeFromSuperview];
+	[_activeDetailController removeFromParentViewController];
+	_activeDetailController.delegate = nil;
 	
-	if(self._isLogShown && replaceLog == NO)
-	{
-		return;
-	}
+	_activeDetailController = dataProviderController;
+	_activeDetailController.delegate = self;
+
+	_noSamplesLabel.hidden = YES;
+	[self _setDetailProviderControllerAsMiddleView];
 	
-	_currentlyShowsDataProvider = dataProvider;
+	[self detailController:_activeDetailController didSelectInspectorItem:_activeDetailController.detailDataProvider.currentlySelectedInspectorItem];
 	
 	[self _updatePathControlItems];
-	[self _updateBottomViewVisibility];
-	[_searchField clearFilter];
-	
-	BOOL isDataProviderLog = dataProvider == _logDataProvider;
-	
-	[_outlineViewEnclosingScrollView removeFromSuperview];
-	[_logTableViewEnclosingScrollView removeFromSuperview];
-	
-	_noSamplesLabel.hidden = YES;
-	if(isDataProviderLog)
+}
+
+- (IBAction)_selectDetailProviderControllerFromMenuItem:(NSMenuItem*)sender
+{
+	if([sender.representedObject isKindOfClass:[DTXDetailController class]])
 	{
-		[self _setLogTableViewAsMiddleView];
-	}
-	else
-	{
-		[self _setOutlineViewAsMiddleView];
+		[self _activateDetailProviderController:sender.representedObject];
+		return;
 	}
 	
-	[self dataProvider:_currentlyShowsDataProvider didSelectInspectorItem:_currentlyShowsDataProvider.currentlySelectedInspectorItem];
+	if(sender.representedObject == _managingPlotController)
+	{
+		[self _activateDetailProviderController:_cachedDetailControllers.firstObject];
+		return;
+	}
 	
-	DTXInstrumentsWindowController* controller = self.view.window.windowController;
-	
-	controller.targetForCopy = isDataProviderLog ? _logTableView : nil;
-	controller.handlerForCopy = isDataProviderLog ? _logDataProvider : nil;
+	[self _activateDetailProviderController:_logDetailController];
 }
 
-- (void)_selectManagingDataProvider
-{
-	[self _selectDataProvider:self.managingDataProvider replaceLog:YES];
-	
-	[self.view.window makeFirstResponder:_outlineView];
-}
+#pragma mark DTXDetailControllerDelegate
 
-- (void)_selectConsole
+- (void)detailController:(DTXDetailController *)detailController didSelectInspectorItem:(DTXInspectorDataProvider *)item
 {
-	[self _selectDataProvider:_logDataProvider replaceLog:YES];
-	
-	[self.view.window makeFirstResponder:_logTableView];
-}
-
-#pragma mark DTXDetailDataProviderDelegate
-
-- (void)dataProvider:(DTXDetailDataProvider*)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item
-{
-	if(provider != _currentlyShowsDataProvider)
+	if(detailController != _activeDetailController)
 	{
 		return;
 	}
@@ -236,7 +218,7 @@
 	
 	if(item != nil && [item.sample isKindOfClass:[DTXLogSample class]] == NO)
 	{
-		[_logDataProvider scrollToTimestamp:item.sample.timestamp];
+		[_logDetailController scrollToTimestamp:item.sample.timestamp];
 	}
 }
 
@@ -244,7 +226,16 @@
 
 - (void)filterFieldTextDidChange:(DTXFilterField *)filterField
 {
-	[_currentlyShowsDataProvider filterSamplesWithFilter:filterField.stringValue];
+	[_activeDetailController filterSamples:filterField.stringValue];
+}
+
+#pragma mark DTXPlotControllerSampleClickHandlingDelegate
+
+- (void)plotController:(id<DTXPlotController>)pc didClickOnSample:(DTXSample *)sample
+{
+	[_cachedDetailControllers enumerateObjectsUsingBlock:^(DTXDetailController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj selectSample:sample];
+	}];
 }
 
 @end

@@ -107,11 +107,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		if(idx == _columns.count - 1 && obj.automaticallyGrowsWithTable)
 		{
 			column.resizingMask = NSTableColumnAutoresizingMask;
-			__block CGFloat bestWidth = _managedOutlineView.bounds.size.width;
-			[_managedOutlineView.tableColumns enumerateObjectsUsingBlock:^(NSTableColumn * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				bestWidth -= (obj.width + _managedOutlineView.intercellSpacing.width);
-			}];
-			column.width = bestWidth - _managedOutlineView.intercellSpacing.width;
 		}
 		else
 		{

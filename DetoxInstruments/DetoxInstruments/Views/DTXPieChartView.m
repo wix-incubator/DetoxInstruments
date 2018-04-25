@@ -121,13 +121,6 @@
 	return idx == _highlightedEntry ? 10 : 0;
 }
 
-- (nullable NSString *)legendTitleForPieChart:(nonnull CPTPieChart *)pieChart recordIndex:(NSUInteger)idx
-{
-	NSLog(@"%@", _entries[idx].title);
-	
-	return _entries[idx].title;
-}
-
 - (void)setEntries:(NSArray<DTXPieChartEntry *> *)entries highlightedEntry:(NSUInteger)highlightedEntry
 {
 	_entries = [entries copy];
