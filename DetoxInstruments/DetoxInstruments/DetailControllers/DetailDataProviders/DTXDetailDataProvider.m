@@ -155,13 +155,10 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	_managedOutlineView.delegate = self;
 	_managedOutlineView.dataSource = self;
-	[_managedOutlineView reloadData];
+	
 	[_managedOutlineView expandItem:nil expandChildren:YES];
 	
 	[_managedOutlineView scrollRowToVisible:0];
-	
-	CGRect frame = _managedOutlineView.window.frame;
-	[_managedOutlineView.window setFrame:frame display:NO];
 }
 
 - (BOOL)showsHeaderView

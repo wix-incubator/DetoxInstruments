@@ -22,7 +22,6 @@
 	
 	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	self.layer.backgroundColor = NSColor.controlBackgroundColor.CGColor;
 }
 
 - (void)viewDidMoveToWindow
@@ -34,15 +33,6 @@
 
 -(void)viewDidChangeBackingProperties
 {
-//	if (self.window)
-//	{
-//		self.layer.contentsScale = self.window.backingScaleFactor;
-//	}
-//	else
-//	{
-//		self.layer.contentsScale = 1.0;
-//	}
-	
 	[self setNeedsDisplay:YES];
 }
 

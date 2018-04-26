@@ -22,14 +22,4 @@
 	return self.contentTextField.selectable ? [super hitTest:aPoint] : nil;
 }
 
-- (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
-{
-	[super setBackgroundStyle:backgroundStyle];
-	
-	if(self.contentTextField.selectable == NO)
-	{
-		self.contentTextField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
-	}
-}
-
 @end

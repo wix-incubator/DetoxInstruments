@@ -34,11 +34,6 @@
 
 @implementation DTXCompactNetworkRequestsPlotController
 
-+ (Class)graphHostingViewClass
-{
-	return [DTXInvertedGraphHostingView class];
-}
-
 + (Class)UIDataProviderClass
 {
 	return [DTXNetworkDataProvider class];
@@ -54,6 +49,13 @@
 	}
 	
 	return self;
+}
+
+- (void)setupPlotsForGraph
+{
+	[super setupPlotsForGraph];
+	
+	self.hostingView.flipped = YES;
 }
 
 - (void)prepareSamples

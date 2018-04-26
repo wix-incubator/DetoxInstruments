@@ -38,9 +38,18 @@
 	CPTPieChart* _chart;
 }
 
-- (void)mouseDown:(NSEvent *)event
+- (BOOL)wantsUpdateLayer
 {
+	return YES;
+}
+
+- (void)updateLayer
+{
+	CPTMutableLineStyle* lineStyle = [CPTMutableLineStyle lineStyle];
+	lineStyle.lineWidth = 0.5;
+	lineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.textColor.CGColor];
 	
+	_chart.borderLineStyle = lineStyle;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect
@@ -49,22 +58,12 @@
 	
 	if(self)
 	{
-		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
-		labelStyle.color = [CPTColor colorWithCGColor:NSColor.disabledControlTextColor.CGColor];
-		labelStyle.fontName = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
-		labelStyle.fontSize = 11;
-		
-		CPTMutableLineStyle* lineStyle = [CPTMutableLineStyle lineStyle];
-		lineStyle.lineWidth = 0.5;
-		
 		_chart = [[CPTPieChart alloc] init];
 		_chart.dataSource = self;
 		_chart.pieRadius = 80;
 		_chart.pieInnerRadius = 40;
 		_chart.startAngle = CPTFloat(M_PI_4);
 		_chart.sliceDirection = CPTPieDirectionClockwise;
-//		_chart.labelTextStyle = labelStyle;
-		_chart.borderLineStyle = lineStyle;
 		
 		_graph = [[CPTXYGraph alloc] initWithFrame:self.bounds];
 		[_graph addPlot:_chart];
@@ -127,6 +126,16 @@
 	_highlightedEntry = highlightedEntry;
 	
 	[_chart reloadData];
+}
+
+- (void)mouseDown:(NSEvent *)event
+{
+	//Ignore mouse down on ugnore
+}
+
+- (void)mouseUp:(NSEvent *)event
+{
+	//Ignore mouse up on ugnore
 }
 
 @end

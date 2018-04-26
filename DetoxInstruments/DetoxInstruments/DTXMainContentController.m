@@ -23,6 +23,8 @@
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
 
+#import "DTXLayerView.h"
+
 @interface DTXMainContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate>
 {
 	__weak IBOutlet DTXPlotTableView *_tableView;
@@ -42,12 +44,12 @@
 {
 	[super viewDidLoad];
 	
-	self.view.wantsLayer = YES;
-	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	self.view.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
-	
 	_tableView.enclosingScrollView.contentInsets = NSEdgeInsetsMake(0, 0, 20, 0);
 	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, 0, -20, 0);
+	
+	[(DTXLayerView*)self.view setUpdateLayerHandler:^ (NSView* view) {
+		view.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
+	}];
 }
 
 - (void)viewWillAppear

@@ -8,6 +8,14 @@
 
 #import "DTXTableRowView.h"
 #import "NSColor+UIAdditions.h"
+#import "NSAppearance+UIAdditions.h"
+
+@interface NSTableRowView ()
+
+- (NSColor*)primarySelectionColor;
+- (NSColor*)secondarySelectedControlColor;
+
+@end
 
 @implementation DTXTableRowView
 
@@ -22,6 +30,24 @@
 	}
 	
 	return self;
+}
+
+- (NSColor*)selectionColor
+{
+	if(self.isEmphasized)
+	{
+		return self.primarySelectionColor;
+	}
+	
+	
+	return NSAppearance.currentAppearance.isAppearanceDark ? NSColor.lightGrayColor : self.secondarySelectedControlColor;
+}
+
+- (void)drawSelectionInRect:(NSRect)dirtyRect
+{
+	[self.selectionColor setFill];
+	
+	[[NSBezierPath bezierPathWithRect:dirtyRect] fill];
 }
 
 - (void)layout

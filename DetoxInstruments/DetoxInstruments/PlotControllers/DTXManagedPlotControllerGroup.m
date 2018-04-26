@@ -8,7 +8,7 @@
 
 #import "DTXManagedPlotControllerGroup.h"
 #import "DTXTimelineIndicatorView.h"
-#import "DTXTableRowView.h"
+#import "DTXPlotRowView.h"
 #import "DTXPlotTypeCellView.h"
 #import "DTXPlotHostingTableCellView.h"
 #import "NSColor+UIAdditions.h"
@@ -24,8 +24,6 @@
 	CPTPlotRange* _savedGlobalPlotRange;
 	
 	id<DTXPlotController> _currentlySelectedPlotController;
-	
-	NSTrackingArea* _tracker;
 }
 
 @property (nonatomic, strong) NSOutlineView* hostingOutlineView;
@@ -54,24 +52,17 @@
 		_timelineView = [DTXTimelineIndicatorView new];
 		_timelineView.translatesAutoresizingMaskIntoConstraints = NO;
 		
-		_tracker = [[NSTrackingArea alloc] initWithRect:_timelineView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
-		[_timelineView addTrackingArea:_tracker];
-		
 		[_hostingOutlineView.enclosingScrollView.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingOutlineView.superview.superview];
 		
-		[NSLayoutConstraint activateConstraints:@[[_hostingOutlineView.enclosingScrollView.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
+		[NSLayoutConstraint activateConstraints:@[
+												  [_hostingOutlineView.enclosingScrollView.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
 												  [_hostingOutlineView.enclosingScrollView.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
 												  [_hostingOutlineView.enclosingScrollView.trailingAnchor constraintEqualToAnchor:_timelineView.trailingAnchor],
-												  [_hostingOutlineView.enclosingScrollView.bottomAnchor constraintEqualToAnchor:_timelineView.bottomAnchor]]];
+												  [_hostingOutlineView.enclosingScrollView.bottomAnchor constraintEqualToAnchor:_timelineView.bottomAnchor]
+												  ]];
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[_timelineView removeTrackingArea:_tracker];
-	_tracker = nil;
 }
 
 - (NSArray<id<DTXPlotController>> *)plotControllers
@@ -199,24 +190,6 @@
 {
 	childPlotController.delegate = nil;
 	[_managedPlotControllers removeObject:childPlotController];
-}
-
-- (void)mouseEntered:(NSEvent *)event
-{
-	[self mouseMoved:event];
-}
-
-- (void)mouseExited:(NSEvent *)event
-{
-	_timelineView.displaysIndicator = NO;
-}
-
-- (void)mouseMoved:(NSEvent *)event
-{
-	CGPoint pointInView = [_hostingOutlineView convertPoint:[event locationInWindow] fromView:nil];
-	
-	_timelineView.displaysIndicator = pointInView.x >= 210;
-	_timelineView.indicatorOffset = pointInView.x;
 }
 
 - (void)_enumerateAllPlotControllersIncludingChildrenIn:(NSMutableArray<id<DTXPlotController>>*)plotControllers usingBlock:(void (NS_NOESCAPE ^)(id<DTXPlotController> obj))block
@@ -376,7 +349,7 @@ static BOOL __uglyHackTODOFixThisShit()
 
 - (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item
 {
-	return [DTXTableRowView new];
+	return [DTXPlotRowView new];
 }
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
