@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DTXPlotHostConstructor.h"
 #import "DTXDocument.h"
 #import "DTXPlotController.h"
 
-@interface DTXAxisHeaderPlotController : NSObject <DTXPlotController>
+@interface DTXAxisHeaderPlotController : DTXPlotHostConstructor <DTXPlotController>
 
 @end

@@ -11,6 +11,9 @@
 
 @interface DTXTimelineIndicatorView () <CALayerDelegate> @end
 @implementation DTXTimelineIndicatorView
+{
+	NSTrackingArea* _tracker;
+}
 
 - (BOOL)canDrawConcurrently
 {
@@ -26,6 +29,9 @@
 		self.wantsLayer = YES;
 		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 		self.allowedTouchTypes = 0;
+		
+		_tracker = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
+		[self addTrackingArea:_tracker];
 	}
 	
 	return self;
@@ -38,16 +44,7 @@
 
 -(void)viewDidChangeBackingProperties
 {
-	if (self.window)
-	{
-		self.layer.contentsScale = self.window.backingScaleFactor;
-	}
-	else
-	{
-		self.layer.contentsScale = 1.0;
-	}
-	
-	[self.layer setNeedsDisplay];
+	[self setNeedsDisplay:YES];
 }
 
 - (BOOL)acceptsFirstResponder
@@ -76,32 +73,58 @@
 {
 	_indicatorOffset = indicatorOffset;
 	
-	[self.layer setNeedsDisplay];
+	[self setNeedsDisplay:YES];
 }
 
 - (void)setDisplaysIndicator:(BOOL)displaysIndicator
 {
 	_displaysIndicator = displaysIndicator;
 	
-	[self.layer setNeedsDisplay];
+	[self setNeedsDisplay:YES];
 }
 
-- (void)drawRect:(NSRect)dirtyRect {}
-
-- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)context
+- (void)drawRect:(NSRect)dirtyRect
 {
-	if(_displaysIndicator == NO)
+	if(self.displaysIndicator == NO)
 	{
 		return;
 	}
 	
-	CGContextSetLineWidth(context, 1.0);
-	CGContextSetLineDash(context, -1.0, (CGFloat[]){3.,6.}, 2);
+	NSBezierPath* bp = [NSBezierPath bezierPath];
+	[bp moveToPoint:NSMakePoint(round(_indicatorOffset), 0)];
+	[bp lineToPoint:NSMakePoint(round(_indicatorOffset), self.bounds.size.height)];
 	
-	CGContextSetStrokeColorWithColor(context, [NSColor.textColor colorWithAlphaComponent:0.45].CGColor);
-	CGContextMoveToPoint(context, round(_indicatorOffset), 0);    // This sets up the start point
-	CGContextAddLineToPoint(context, round(_indicatorOffset), self.bounds.size.height);
-	CGContextStrokePath(context);
+	bp.lineWidth = 1.0;
+	[bp setLineDash:(CGFloat[]){3.,6.} count:2 phase:-1];
+	
+	[NSColor.textColor set];
+	
+	[bp stroke];
+}
+
+- (void)mouseEntered:(NSEvent *)event
+{
+	[self mouseMoved:event];
+}
+
+- (void)mouseExited:(NSEvent *)event
+{
+	self.displaysIndicator = NO;
+}
+
+- (void)mouseMoved:(NSEvent *)event
+{
+	CGPoint pointInView = [self convertPoint:[event locationInWindow] fromView:nil];
+	
+	self.displaysIndicator = pointInView.x >= 210;
+	self.indicatorOffset = pointInView.x;
+}
+
+
+- (void)dealloc
+{
+	[self removeTrackingArea:_tracker];
+	_tracker = nil;
 }
 
 @end

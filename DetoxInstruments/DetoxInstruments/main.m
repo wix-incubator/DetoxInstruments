@@ -8,7 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
+@interface NSStoryboard (XcodePoop) @end
+
+@implementation NSStoryboard (XcodePoop)
+
+- (NSBundle*)_bundle
+{
+	return [NSBundle mainBundle];
+}
+
+@end
+
 int main(int argc, const char * argv[])
-{	
+{
 	return NSApplicationMain(argc, argv);
 }

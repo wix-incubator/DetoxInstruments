@@ -7,6 +7,7 @@
 //
 
 #import "DTXStackTraceCellView.h"
+#import "DTXTableRowView.h"
 
 @interface DTXStackTraceCellView () <NSTableViewDataSource, NSTableViewDelegate>
 
@@ -42,6 +43,11 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
 	return _stackFrames.count;
+}
+
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+	return [DTXTableRowView new];
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row

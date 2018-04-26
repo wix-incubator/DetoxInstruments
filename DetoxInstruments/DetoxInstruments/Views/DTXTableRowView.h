@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) id item;
 
+@property (nonatomic, strong, readonly) NSColor* selectionColor;
+
 @end

@@ -10,8 +10,6 @@
 
 @interface DTXGraphHostingView : CPTGraphHostingView
 
-@end
-
-@interface DTXInvertedGraphHostingView : DTXGraphHostingView
+@property (getter=isFlipped, readwrite) BOOL flipped;
 
 @end

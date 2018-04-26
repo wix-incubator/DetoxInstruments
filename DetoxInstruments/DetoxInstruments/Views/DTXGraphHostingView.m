@@ -10,6 +10,8 @@
 
 @implementation DTXGraphHostingView
 
+@synthesize flipped=_flipped;
+
 - (instancetype)initWithFrame:(NSRect)frameRect
 {
 	self = [super initWithFrame:frameRect];
@@ -39,15 +41,6 @@
 	}
 	
 	[super scrollWheel:theEvent];
-}
-
-@end
-
-@implementation DTXInvertedGraphHostingView
-
-- (BOOL)isFlipped
-{
-	return YES;
 }
 
 @end

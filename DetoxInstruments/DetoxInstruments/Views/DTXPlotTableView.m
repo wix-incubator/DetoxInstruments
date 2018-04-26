@@ -18,7 +18,7 @@
 
 - (BOOL)canDrawConcurrently
 {
-	return YES;
+	return NO;
 }
 
 - (instancetype)initWithEvent:(NSEvent*)event fakedCoordsOfView:(NSView*)view

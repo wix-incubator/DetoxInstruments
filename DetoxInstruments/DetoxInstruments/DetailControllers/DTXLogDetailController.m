@@ -25,6 +25,11 @@
 	_consoleAppImage.size = NSMakeSize(16, 16);
 }
 
+- (BOOL)canCopy
+{
+	return YES;
+}
+
 - (void)loadProviderWithDocument:(DTXDocument*)document
 {
 	[self view];

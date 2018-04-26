@@ -99,16 +99,16 @@
 
 - (void)mouseExited:(NSEvent *)event
 {
-	[_hostingView removeAllToolTips];
+	[self.hostingView removeAllToolTips];
 }
 
 - (void)mouseMoved:(NSEvent *)event
 {
-	CGPoint pointInView = [_hostingView convertPoint:[event locationInWindow] fromView:nil];
+	CGPoint pointInView = [self.hostingView convertPoint:[event locationInWindow] fromView:nil];
 	
 	NSMutableArray<NSDictionary<NSString*, NSString*>*>* dataPoints = [NSMutableArray new];
 	
-	[_graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	[self.graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSUInteger numberOfRecords = [self numberOfRecordsForPlot:obj];
 		NSUInteger foundPointIndex = NSNotFound;
 		CGFloat foundPointDelta = 0;
@@ -148,10 +148,10 @@
 		return;
 	}
 	
-	[_hostingView removeAllToolTips];
+	[self.hostingView removeAllToolTips];
 	if(dataPoints.count == 1)
 	{
-		[_hostingView setToolTip:dataPoints.firstObject[@"data"]];
+		[self.hostingView setToolTip:dataPoints.firstObject[@"data"]];
 	}
 	else
 	{
@@ -160,7 +160,7 @@
 			[tooltip appendString:[NSString stringWithFormat:@"%@: %@\n", obj[@"title"], obj[@"data"]]];
 		}];
 		
-		[_hostingView setToolTip:[tooltip stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]]];
+		[self.hostingView setToolTip:[tooltip stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]]];
 	}
 }
 
@@ -173,18 +173,18 @@
 	
 	[self.delegate plotControllerUserDidClickInPlotBounds:self];
 	
-	if([_graph.allPlots.firstObject isKindOfClass:[CPTScatterPlot class]])
+	if([self.graph.allPlots.firstObject isKindOfClass:[CPTScatterPlot class]])
 	{
-		NSPoint pointInView = [cgr locationInView:_hostingView];
+		NSPoint pointInView = [cgr locationInView:self.hostingView];
 		
-		CPTNumberArray* pointInPlot = [_graph.defaultPlotSpace plotPointForPlotAreaViewPoint:pointInView];
+		CPTNumberArray* pointInPlot = [self.graph.defaultPlotSpace plotPointForPlotAreaViewPoint:pointInView];
 		
 		NSUInteger numberOfRecords = [self numberOfRecordsForPlot:self.plots.firstObject];
 		NSUInteger foundPointIndex = NSNotFound;
 		CGFloat foundPointDelta = 0;
 		for(NSUInteger idx = 0; idx < numberOfRecords; idx++)
 		{
-			NSNumber* xOfPointInPlot = [self numberForPlot:_graph.allPlots.firstObject field:CPTScatterPlotFieldX recordIndex:idx];
+			NSNumber* xOfPointInPlot = [self numberForPlot:self.graph.allPlots.firstObject field:CPTScatterPlotFieldX recordIndex:idx];
 			if(xOfPointInPlot.doubleValue <= pointInPlot.firstObject.doubleValue)
 			{
 				foundPointIndex = idx;
@@ -228,96 +228,65 @@
 	return yRange;
 }
 
-- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets
+- (void)setupPlotsForGraph
 {
-	if(_hostingView)
+	[self prepareSamples];
+	
+	NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_clicked:)];
+	[self.hostingView addGestureRecognizer:clickGestureRecognizer];
+	
+	NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:self.hostingView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
+	[self.hostingView addTrackingArea:tracker];
+	
+	self.graph.plotAreaFrame.plotGroup = [DTXStackedPlotGroup new];
+	
+	self.graph.axisSet = nil;
+	
+	// Setup scatter plot space
+	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
+	plotSpace.allowsUserInteraction = YES;
+	plotSpace.delegate = self;
+	
+	[self.plots enumerateObjectsUsingBlock:^(CPTPlot * _Nonnull plot, NSUInteger idx, BOOL * _Nonnull stop) {
+		plot.delegate = self;
+		[self.graph addPlot:plot];
+	}];
+	
+	_lastDrawBounds = self.hostingView.bounds;
+	
+	[[self graphAnnotationsForGraph:self.graph] enumerateObjectsUsingBlock:^(CPTPlotSpaceAnnotation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[self.graph addAnnotation:obj];
+	}];
+	
+	// Auto scale the plot space to fit the plot data
+	[plotSpace scaleToFitPlots:[self.graph allPlots]];
+	
+	CPTPlotRange *xRange;
+	if(_pendingGlobalXPlotRange)
 	{
-		[_hostingView removeFromSuperview];
-		_hostingView.frame = view.bounds;
+		xRange = _pendingGlobalXPlotRange;
+		_pendingGlobalXPlotRange = nil;
 	}
 	else
 	{
-		[self prepareSamples];
-		
-		_hostingView = [[[self.class graphHostingViewClass] alloc] initWithFrame:view.bounds];
-		_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_clicked:)];
-		[_hostingView addGestureRecognizer:clickGestureRecognizer];
-		
-		NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:_hostingView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
-		[_hostingView addTrackingArea:tracker];
-		
-		CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:_hostingView.bounds];
-		graph.plotAreaFrame.plotGroup = [DTXStackedPlotGroup new];
-		
-		graph.axisSet = nil;
-		graph.backgroundColor = NSColor.gridColor.CGColor;
-		
-		graph.paddingLeft = 0;
-		graph.paddingTop = 0;
-		graph.paddingRight = 0;
-		graph.paddingBottom = 0;
-		graph.masksToBorder  = NO;
-		
-		// Setup scatter plot space
-		CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
-		plotSpace.allowsUserInteraction = YES;
-		plotSpace.delegate = self;
-		
-		[self.plots enumerateObjectsUsingBlock:^(CPTPlot * _Nonnull plot, NSUInteger idx, BOOL * _Nonnull stop) {
-			plot.backgroundColor = NSColor.controlBackgroundColor.CGColor;
-			plot.delegate = self;
-			[graph addPlot:plot];
-		}];
-		
-		_lastDrawBounds = self.hostingView.bounds;
-		
-		[[self graphAnnotationsForGraph:graph] enumerateObjectsUsingBlock:^(CPTPlotSpaceAnnotation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			[graph addAnnotation:obj];
-		}];
-		
-		// Auto scale the plot space to fit the plot data
-		[plotSpace scaleToFitPlots:[graph allPlots]];
-		
-		CPTPlotRange *xRange;
-		if(_pendingGlobalXPlotRange)
-		{
-			xRange = _pendingGlobalXPlotRange;
-			_pendingGlobalXPlotRange = nil;
-		}
-		else
-		{
-			xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate])];
-		}
-		CPTPlotRange *yRange = [plotSpace.yRange mutableCopy];
-		
-		yRange = [self finesedPlotRangeForPlotRange:yRange];
-		
-		plotSpace.globalXRange = xRange;
-		plotSpace.globalYRange = yRange;
-		_globalYRange = yRange;
-		
-		plotSpace.xRange = xRange;
-		plotSpace.yRange = yRange;
-		
-		if(_pendingXPlotRange)
-		{
-			plotSpace.xRange = _pendingXPlotRange;
-			_pendingXPlotRange = nil;
-		}
-		
-		_graph = graph;
-		
-		_hostingView.hostedGraph = _graph;
+		xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate])];
 	}
+	CPTPlotRange *yRange = [plotSpace.yRange mutableCopy];
 	
-	[view addSubview:_hostingView];
+	yRange = [self finesedPlotRangeForPlotRange:yRange];
 	
-	[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_hostingView.topAnchor constant:insets.top],
-											  [view.leadingAnchor constraintEqualToAnchor:_hostingView.leadingAnchor constant:insets.left],
-											  [view.trailingAnchor constraintEqualToAnchor:_hostingView.trailingAnchor constant:insets.right],
-											  [view.bottomAnchor constraintEqualToAnchor:_hostingView.bottomAnchor constant:insets.bottom]]];
+	plotSpace.globalXRange = xRange;
+	plotSpace.globalYRange = yRange;
+	_globalYRange = yRange;
+	
+	plotSpace.xRange = xRange;
+	plotSpace.yRange = yRange;
+	
+	if(_pendingXPlotRange)
+	{
+		plotSpace.xRange = _pendingXPlotRange;
+		_pendingXPlotRange = nil;
+	}
 }
 
 - (NSArray<__kindof CPTPlot *> *)plots
@@ -403,20 +372,20 @@
 
 -(void)plotSpace:(nonnull CPTPlotSpace *)space didChangePlotRangeForCoordinate:(CPTCoordinate)coordinate
 {
-	if(_graph == nil || coordinate != CPTCoordinateX)
+	if(self.graph == nil || coordinate != CPTCoordinateX)
 	{
 		return;
 	}
 	
-	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)_graph.defaultPlotSpace;
+	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
 	[_delegate plotController:self didChangeToPlotRange:plotSpace.xRange];
 }
 
 - (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange
 {
-	if(_graph != nil)
+	if(self.graph != nil)
 	{
-		[(CPTXYPlotSpace *)_graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
+		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
 	}
 	else
 	{
@@ -426,9 +395,9 @@
 
 - (void)setPlotRange:(CPTPlotRange *)plotRange
 {
-	if(_graph != nil)
+	if(self.graph != nil)
 	{
-		[(CPTXYPlotSpace *)_graph.defaultPlotSpace setXRange:plotRange];
+		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setXRange:plotRange];
 	}
 	else
 	{
@@ -438,7 +407,7 @@
 
 - (void)_zoomToScale:(CGFloat)scale
 {
-	[_graph.defaultPlotSpace scaleBy:scale aboutPoint:CGPointMake(CGRectGetMidX(_hostingView.bounds), CGRectGetMidY(_hostingView.bounds))];
+	[self.graph.defaultPlotSpace scaleBy:scale aboutPoint:CGPointMake(CGRectGetMidX(self.hostingView.bounds), CGRectGetMidY(self.hostingView.bounds))];
 }
 
 - (void)zoomIn
@@ -453,7 +422,7 @@
 
 - (void)zoomToFitAllData
 {
-	[_graph.defaultPlotSpace scaleToFitEntirePlots:_plots];
+	[self.graph.defaultPlotSpace scaleToFitEntirePlots:_plots];
 }
 
 - (void)highlightSample:(id)sample
@@ -467,19 +436,19 @@
 	
 	_shadowHighlightedSampleTime = sampleTime;
 	
-	if(_graph == nil)
+	if(self.graph == nil)
 	{
 		return;
 	}
 	
-	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:_graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
 	_shadowLineLayer.lineColor = [(self.plotColors.lastObject.darkerColor) colorWithAlphaComponent:0.25];
 	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
 	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
 	
-	[_graph addAnnotation:_shadowHighlightAnnotation];
+	[self.graph addAnnotation:_shadowHighlightAnnotation];
 }
 
 - (void)_highlightSample:(DTXSample*)sample nextSample:(DTXSample*)nextSample plotSpaceOffset:(CGFloat)offset notifyDelegate:(BOOL)notify
@@ -511,7 +480,7 @@
 	_highlightedSampleTime = sampleTime;
 	_highlightedPercent = percent;
 	
-	_highlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:_graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+	_highlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 	_lineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
 	_lineLayer.lineColor =  self.plotColors.count > 1 ? NSColor.blackColor : self.plotColors.firstObject.darkerColor.darkerColor;
 	_highlightAnnotation.contentLayer = _lineLayer;
@@ -521,10 +490,10 @@
 	NSMutableArray<NSNumber*>* dataPoints = [NSMutableArray new];
 	NSMutableArray<NSColor*>* pointColors = [NSMutableArray new];
 	
-	NSUInteger count = _graph.allPlots.count;
-	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)_graph.defaultPlotSpace;
+	NSUInteger count = self.graph.allPlots.count;
+	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
 	
-	[_graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTScatterPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	[self.graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTScatterPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		CGFloat value = [obj plotAreaPointOfVisiblePointAtIndex:sampleIdx].y;
 		if(self.isStepped == NO && nextSampleIdx != NSNotFound)
 		{
@@ -533,11 +502,11 @@
 			value = [@(value) interpolateToValue:@(nextValue) progress:percent].doubleValue;
 		}
 		
-		value += (count - 1 - idx) * (_graph.bounds.size.height / count + 1);
+		value += (count - 1 - idx) * (self.graph.bounds.size.height / count + 1);
 		
 		if(count == 2 && idx == 1)
 		{
-			value = (_graph.bounds.size.height / count) - value;
+			value = (self.graph.bounds.size.height / count) - value;
 		}
 		
 		[dataPoints addObject:@(value)];
@@ -547,7 +516,7 @@
 	_lineLayer.dataPoints = dataPoints;
 	_lineLayer.pointColors = pointColors;
 	
-	[_graph addAnnotation:_highlightAnnotation];
+	[self.graph addAnnotation:_highlightAnnotation];
 	
 	if(makeVisible && (sampleTime < plotSpace.xRange.location.doubleValue || sampleTime > (plotSpace.xRange.location.doubleValue + plotSpace.xRange.length.doubleValue)))
 	{
@@ -608,7 +577,7 @@
 	
 	if(_shadowHighlightAnnotation && _shadowHighlightAnnotation.annotationHostLayer != nil)
 	{
-		[_graph removeAnnotation:_shadowHighlightAnnotation];
+		[self.graph removeAnnotation:_shadowHighlightAnnotation];
 	}
 	
 	_shadowLineLayer = nil;
@@ -616,7 +585,7 @@
 	
 	if(_highlightAnnotation && _highlightAnnotation.annotationHostLayer != nil)
 	{
-		[_graph removeAnnotation:_highlightAnnotation];
+		[self.graph removeAnnotation:_highlightAnnotation];
 	}
 	
 	_lineLayer = nil;
@@ -650,7 +619,7 @@
 		}
 	}];
 	
-	CPTXYPlotSpace* plotSpace = (id)_graph.defaultPlotSpace;
+	CPTXYPlotSpace* plotSpace = (id)self.graph.defaultPlotSpace;
 	CPTPlotRange* newYRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(maxValue)];
 	newYRange = [self finesedPlotRangeForPlotRange:newYRange];
 	

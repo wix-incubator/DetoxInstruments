@@ -91,12 +91,14 @@
 	NSPathControlItem* currentItem = [NSPathControlItem new];
 	currentItem.title = _activeDetailController.displayName;
 	currentItem.image = _activeDetailController.smallDisplayIcon;
+	[[currentItem valueForKey:@"secretCell"] setTextColor:NSColor.textColor];
 
 	if([_cachedDetailControllers containsObject:_activeDetailController])
 	{
 		NSPathControlItem* parentItem = [NSPathControlItem new];
 		parentItem.title = self.managingPlotController.displayName;
 		parentItem.image = self.managingPlotController.smallDisplayIcon;
+		[[parentItem valueForKey:@"secretCell"] setTextColor:NSColor.textColor];
 
 		_pathControl.pathItems = @[parentItem, currentItem];
 	}
@@ -106,44 +108,53 @@
 	}
 }
 
-- (NSMenu *)pathControl:(NSPathControl *)pathControl menuForCell:(NSPathComponentCell *)cell
+- (NSMenu *)_menuForCachedDetailControllersWithFont:(NSFont*)font
 {
 	NSMenu* menu = [NSMenu new];
-	NSUInteger indexOfCell = [[pathControl.cell pathComponentCells] indexOfObject:cell];
 	
+	[_cachedDetailControllers enumerateObjectsUsingBlock:^(DTXDetailController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSMenuItem* item = [NSMenuItem new];
+		item.attributedTitle = [[NSAttributedString alloc] initWithString:obj.displayName attributes:font ? @{NSFontAttributeName: font} : @{}];
+		item.image = obj.smallDisplayIcon;
+		item.state = _activeDetailController == obj;
+		item.representedObject = obj;
+		item.target = self;
+		item.action = @selector(_selectDetailProviderControllerFromMenuItem:);
+		[menu addItem:item];
+	}];
+	
+	return menu;
+}
+
+- (NSMenu *)pathControl:(NSPathControl *)pathControl menuForCell:(NSPathComponentCell *)cell
+{
+	NSMenu* menuForCachedDetailControllers = [self _menuForCachedDetailControllersWithFont:cell.font];
+	NSUInteger indexOfCell = [[pathControl.cell pathComponentCells] indexOfObject:cell];
 	if(indexOfCell == 1)
 	{
-		[_cachedDetailControllers enumerateObjectsUsingBlock:^(DTXDetailController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSMenuItem* item = [NSMenuItem new];
-			item.attributedTitle = [[NSAttributedString alloc] initWithString:obj.displayName attributes:cell.font ? @{NSFontAttributeName: cell.font} : @{}];
-			item.image = obj.smallDisplayIcon;
-			item.state = _activeDetailController == obj;
-			item.representedObject = obj;
-			item.target = self;
-			item.action = @selector(_selectDetailProviderControllerFromMenuItem:);
-			[menu addItem:item];
-		}];
+		return menuForCachedDetailControllers;
 	}
-	else
-	{
-		NSMenuItem* plotControllerItem = [NSMenuItem new];
-		plotControllerItem.attributedTitle = [[NSAttributedString alloc] initWithString:_managingPlotController.displayName attributes:cell.font ? @{NSFontAttributeName: cell.font} : @{}];
-		plotControllerItem.image = _managingPlotController.smallDisplayIcon;
-		plotControllerItem.state = [_cachedDetailControllers containsObject:_activeDetailController];
-		plotControllerItem.representedObject = _managingPlotController;
-		plotControllerItem.target = self;
-		plotControllerItem.action = @selector(_selectDetailProviderControllerFromMenuItem:);
-		[menu addItem:plotControllerItem];
-		
-		NSMenuItem* logItem = [NSMenuItem new];
-		logItem.attributedTitle = [[NSAttributedString alloc] initWithString:_logDetailController.displayName attributes:cell.font ? @{NSFontAttributeName: cell.font} : @{}];
-		logItem.image = _logDetailController.smallDisplayIcon;
-		logItem.state = _activeDetailController == _logDetailController;
-		logItem.representedObject = _logDetailController;
-		logItem.target = self;
-		logItem.action = @selector(_selectDetailProviderControllerFromMenuItem:);
-		[menu addItem:logItem];
-	}
+	
+	NSMenu* menu = [NSMenu new];
+	
+	NSMenuItem* plotControllerItem = [NSMenuItem new];
+	plotControllerItem.attributedTitle = [[NSAttributedString alloc] initWithString:_managingPlotController.displayName attributes:cell.font ? @{NSFontAttributeName: cell.font} : @{}];
+	plotControllerItem.image = _managingPlotController.smallDisplayIcon;
+//	plotControllerItem.state = [_cachedDetailControllers containsObject:_activeDetailController];
+	plotControllerItem.submenu = menuForCachedDetailControllers;
+	plotControllerItem.representedObject = _managingPlotController;
+	plotControllerItem.target = self;
+	plotControllerItem.action = @selector(_selectDetailProviderControllerFromMenuItem:);
+	[menu addItem:plotControllerItem];
+	
+	NSMenuItem* logItem = [NSMenuItem new];
+	logItem.attributedTitle = [[NSAttributedString alloc] initWithString:_logDetailController.displayName attributes:cell.font ? @{NSFontAttributeName: cell.font} : @{}];
+	logItem.image = _logDetailController.smallDisplayIcon;
+	logItem.state = _activeDetailController == _logDetailController;
+	logItem.representedObject = _logDetailController;
+	logItem.target = self;
+	logItem.action = @selector(_selectDetailProviderControllerFromMenuItem:);
+	[menu addItem:logItem];
 	
 	return menu;
 }

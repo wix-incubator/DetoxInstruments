@@ -88,8 +88,6 @@
 	
 	_managedTableView.dataSource = self;
 	_managedTableView.delegate = self;
-	
-	[_managedTableView reloadData];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView

@@ -8,11 +8,11 @@
 
 #import "DTXAxisHeaderPlotController.h"
 #import <CorePlot/CorePlot.h>
-#import "DTXGraphHostingView.h"
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXCPTXYAxis.h"
+#import "NSAppearance+UIAdditions.h"
 
 @interface DTXAxisHeaderPlotController ()
 
@@ -20,8 +20,6 @@
 
 @implementation DTXAxisHeaderPlotController
 {
-	CPTGraphHostingView* _hostingView;
-	CPTGraph* _graph;
 	CPTPlotRange* _pendingGlobalXPlotRange;
 	CPTPlotRange* _pendingXPlotRange;
 	CPTMutablePlotRange* _globalYRange;
@@ -33,7 +31,7 @@
 
 -(CGFloat)titleSize
 {
-	return 24;
+	return 0;
 }
 
 - (instancetype)initWithDocument:(DTXDocument*)document
@@ -48,65 +46,40 @@
 	return self;
 }
 
-- (void)dealloc
+- (void)setupPlotsForGraph
 {
-	[_hostingView removeFromSuperview];
-}
-
-- (void)setUpWithView:(NSView *)view
-{
-	[self setUpWithView:view insets:NSEdgeInsetsZero];
-}
-
-- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets
-{
-	if(_hostingView)
+	// Setup scatter plot space
+	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
+	if(_pendingGlobalXPlotRange)
 	{
-		[_hostingView removeFromSuperview];
-		_hostingView.frame = view.bounds;
+		plotSpace.globalXRange = _pendingGlobalXPlotRange;
+		_pendingGlobalXPlotRange = nil;
 	}
 	else
 	{
-		_hostingView = [[DTXGraphHostingView alloc] initWithFrame:view.bounds];
-		_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:_hostingView.bounds];
-		
-		graph.paddingLeft = 0;
-		graph.paddingTop = 0;
-		graph.paddingRight = 0;
-		graph.paddingBottom = 0;
-		graph.masksToBorder  = NO;
-		
-		// Setup scatter plot space
-		CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
-		if(_pendingGlobalXPlotRange)
-		{
-			plotSpace.globalXRange = _pendingGlobalXPlotRange;
-			_pendingGlobalXPlotRange = nil;
-		}
-		else
-		{
-			plotSpace.globalXRange = plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
-		}
-		plotSpace.globalYRange = plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:@0.5 length:@5.0];
-		
-		if(_pendingXPlotRange)
-		{
-			plotSpace.xRange = _pendingXPlotRange;
-			_pendingXPlotRange = nil;
-		}
-		
-		const CGFloat majorTickLength = 30;
-		const CGFloat minorTickLength = 6.0;
-		
+		plotSpace.globalXRange = plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
+	}
+	plotSpace.globalYRange = plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:@0.5 length:@5.0];
+	
+	if(_pendingXPlotRange)
+	{
+		plotSpace.xRange = _pendingXPlotRange;
+		_pendingXPlotRange = nil;
+	}
+	
+	const CGFloat majorTickLength = 30;
+	const CGFloat minorTickLength = 6.0;
+	
+	__weak auto weakSelf = self;
+	
+	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
 		CPTMutableLineStyle* axisLineStyle = [CPTMutableLineStyle lineStyle];
 		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.gridColor.CGColor];
 		axisLineStyle.lineWidth = 1.0;
 		axisLineStyle.lineCap   = kCGLineCapRound;
 		
 		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
-		labelStyle.color = [CPTColor colorWithCGColor:NSColor.disabledControlTextColor.CGColor];
+		labelStyle.color = [CPTColor colorWithCGColor:(view.effectiveAppearance.isAppearanceDark ? NSColor.textColor : NSColor.disabledControlTextColor).CGColor];
 		labelStyle.fontName = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
 		labelStyle.fontSize = 11;
 		
@@ -114,7 +87,7 @@
 		
 		// CPTAxisLabelingPolicyAutomatic
 		CPTXYAxis *axisAutomatic = [[DTXCPTXYAxis alloc] init];
-		axisAutomatic.plotSpace = graph.defaultPlotSpace;
+		axisAutomatic.plotSpace = weakSelf.graph.defaultPlotSpace;
 		axisAutomatic.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
 		axisAutomatic.preferredNumberOfMajorTicks = 10;
 		axisAutomatic.orthogonalPosition = @0.0;
@@ -132,19 +105,8 @@
 		axisAutomatic.labelTextStyle = labelStyle;
 		
 		// Add axes to the graph
-		graph.axisSet.axes = @[axisAutomatic];
-		
-		_graph = graph;
-	
-		_hostingView.hostedGraph = _graph;
-	}
-	
-	[view addSubview:_hostingView];
-	
-	[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:_hostingView.topAnchor constant:-insets.top],
-											  [view.leadingAnchor constraintEqualToAnchor:_hostingView.leadingAnchor constant:-insets.left],
-											  [view.trailingAnchor constraintEqualToAnchor:_hostingView.trailingAnchor constant:-insets.right],
-											  [view.bottomAnchor constraintEqualToAnchor:_hostingView.bottomAnchor constant:-insets.bottom]]];
+		weakSelf.graph.axisSet.axes = @[axisAutomatic];
+	};
 }
 
 -(nullable CPTPlotRange *)plotSpace:(nonnull CPTPlotSpace *)space willChangePlotRangeTo:(nonnull CPTPlotRange *)newRange forCoordinate:(CPTCoordinate)coordinate
@@ -159,12 +121,12 @@
 
 -(void)plotSpace:(nonnull CPTPlotSpace *)space didChangePlotRangeForCoordinate:(CPTCoordinate)coordinate
 {
-	if(_graph == nil || coordinate != CPTCoordinateX)
+	if(self.graph == nil || coordinate != CPTCoordinateX)
 	{
 		return;
 	}
 	
-	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)_graph.defaultPlotSpace;
+	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
 	[_delegate plotController:self didChangeToPlotRange:plotSpace.xRange];
 }
 
@@ -175,9 +137,9 @@
 
 - (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange
 {
-	if(_graph != nil)
+	if(self.graph != nil)
 	{
-		[(CPTXYPlotSpace *)_graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
+		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
 	}
 	else
 	{
@@ -187,9 +149,9 @@
 
 - (void)setPlotRange:(CPTPlotRange *)plotRange
 {
-	if(_graph != nil)
+	if(self.graph != nil)
 	{
-		[(CPTXYPlotSpace *)_graph.defaultPlotSpace setXRange:plotRange];
+		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setXRange:plotRange];
 	}
 	else
 	{

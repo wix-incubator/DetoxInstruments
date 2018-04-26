@@ -24,11 +24,4 @@
 	[line stroke];
 }
 
-- (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
-{
-	[super setBackgroundStyle:backgroundStyle];
-	
-	self.textField.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
-}
-
 @end

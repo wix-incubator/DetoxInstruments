@@ -7,14 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DTXPlotHostConstructor.h"
 #import <CorePlot/CorePlot.h>
 #import "DTXDocument.h"
 #import "DTXPlotController.h"
 
-@interface DTXSamplePlotController : NSObject <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
-
-@property (nonatomic, strong, readonly) CPTGraph* graph;
-@property (nonatomic, strong, readonly) __kindof CPTGraphHostingView* hostingView;
+@interface DTXSamplePlotController : DTXPlotHostConstructor <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
 
 + (Class)graphHostingViewClass;
 + (Class)UIDataProviderClass;
