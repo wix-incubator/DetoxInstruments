@@ -63,9 +63,6 @@
 	_outlineView.indentationPerLevel = 15;
 	[_outlineView registerForDraggedTypes:[NSArray arrayWithObject:(NSString*)kUTTypeFileURL]];
 	
-	self.view.wantsLayer = YES;
-	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	
 	_modalProgressIndicatorController = [self.storyboard instantiateControllerWithIdentifier:@"ModalProgressIndicator"];
 	
 	_sizeFormatter = [NSByteCountFormatter new];

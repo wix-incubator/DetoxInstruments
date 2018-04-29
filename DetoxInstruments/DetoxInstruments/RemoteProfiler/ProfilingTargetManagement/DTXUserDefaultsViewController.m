@@ -26,9 +26,6 @@
 	[super viewDidLoad];
 	
 	_plistEditor.delegate = self;
-	
-	self.view.wantsLayer = YES;
-	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 - (void)viewDidAppear
@@ -55,6 +52,16 @@
 	[self.profilingTarget loadUserDefaults];
 }
 
+- (IBAction)save:(id)sender
+{
+	//Make users feel good; nothing needs to be done here.
+}
+
+- (IBAction)saveDocument:(id)sender
+{
+	[self save:sender];
+}
+
 - (void)noteProfilingTargetDidLoadServiceData
 {
 	_plistEditor.propertyList = self.profilingTarget.userDefaults;
@@ -64,7 +71,7 @@
 
 - (NSImage *)preferenceIcon
 {
-	NSImage* image = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kToolbarCustomizeIcon)];
+	NSImage* image = [NSImage imageNamed:@"NSToolbarCustomizeToolbarItemImage"];
 	image.size = NSMakeSize(32, 32);
 	
 	return image;

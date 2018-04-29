@@ -227,6 +227,14 @@ static DTXRemoteProfilingManager* __sharedManager;
 				
 				[self _changeUserDefaultsItemWithKey:key changeType:type value:value previousKey:previousKey];
 			}	break;
+			case DTXRemoteProfilingCommandTypeGetCookies:
+			{
+				[self _sendCookies];
+			}	break;
+			case DTXRemoteProfilingCommandTypeSetCookies:
+			{
+				[self _setCookies:cmd[@"cookies"]];
+			}	break;
 		}
 		
 		[self _nextCommand];
@@ -372,6 +380,30 @@ static DTXRemoteProfilingManager* __sharedManager;
 	}
 	
 	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark Cookies
+
+- (void)_sendCookies
+{
+	NSMutableDictionary* cmd = [NSMutableDictionary new];
+	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetCookies);
+	cmd[@"cookies"] = [[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies] valueForKey:@"properties"];
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)_setCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies
+{
+	//Delete all old cookies
+	[[[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies] copy] enumerateObjectsUsingBlock:^(NSHTTPCookie * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:obj];
+	}];
+	
+	[cookies enumerateObjectsUsingBlock:^(NSDictionary<NSString *,id> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSHTTPCookie* cookie = [NSHTTPCookie cookieWithProperties:obj];
+		[[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+	}];
 }
 
 #pragma mark Remote Profiling

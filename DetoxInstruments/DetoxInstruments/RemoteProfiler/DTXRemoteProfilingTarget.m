@@ -170,7 +170,17 @@
 				[weakSelf _handleRecordingDidStop:cmd];
 			case DTXRemoteProfilingCommandTypePing:
 				break;
-			default:
+			case DTXRemoteProfilingCommandTypeGetCookies:
+				[weakSelf _handleCookies:cmd];
+				break;
+			case DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration:
+			case DTXRemoteProfilingCommandTypeAddTag:
+			case DTXRemoteProfilingCommandTypePushGroup:
+			case DTXRemoteProfilingCommandTypePopGroup:
+			case DTXRemoteProfilingCommandTypeDeleteContainerIten:
+			case DTXRemoteProfilingCommandTypePutContainerItem:
+			case DTXRemoteProfilingCommandTypeChangeUserDefaultsItem:
+				case DTXRemoteProfilingCommandTypeSetCookies:
 				break;
 		}
 		
@@ -271,14 +281,36 @@
 	[self _writeCommand:cmd completionHandler:nil];
 }
 
-- (void)_handleUserDefaults:(NSDictionary*)containerContents
+- (void)_handleUserDefaults:(NSDictionary*)userDefaults
 {
-	_userDefaults = containerContents[@"userDefaults"];
+	_userDefaults = userDefaults[@"userDefaults"];
 	
 	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadUserDefaults:)])
 	{
 		[self.delegate profilingTarget:self didLoadUserDefaults:self.userDefaults];
 	}
+}
+
+#pragma mark Cookies
+
+- (void)loadCookies
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetCookies)} completionHandler:nil];
+}
+
+- (void)_handleCookies:(NSDictionary*)cookies
+{
+	_cookies = cookies[@"cookies"];
+	
+	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadCookies:)])
+	{
+		[self.delegate profilingTarget:self didLoadCookies:self.cookies];
+	}
+}
+
+- (void)setCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeSetCookies), @"cookies": cookies} completionHandler:nil];
 }
 
 #pragma mark Remote Profiling

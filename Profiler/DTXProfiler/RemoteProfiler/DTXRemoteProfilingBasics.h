@@ -17,12 +17,17 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypePopGroup,
 	DTXRemoteProfilingCommandTypeProfilingStoryEvent,
 	DTXRemoteProfilingCommandTypeStopProfiling,
+	
 	DTXRemoteProfilingCommandTypeGetContainerContents,
 	DTXRemoteProfilingCommandTypeDownloadContainer,
 	DTXRemoteProfilingCommandTypeDeleteContainerIten,
 	DTXRemoteProfilingCommandTypePutContainerItem,
+	
 	DTXRemoteProfilingCommandTypeGetUserDefaults,
 	DTXRemoteProfilingCommandTypeChangeUserDefaultsItem,
+	
+	DTXRemoteProfilingCommandTypeGetCookies,
+	DTXRemoteProfilingCommandTypeSetCookies,
 };
 
 typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {

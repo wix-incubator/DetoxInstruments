@@ -93,6 +93,13 @@
 	});
 }
 
+- (IBAction)_clearCookies:(id)sender
+{
+	[NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies.copy enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[NSHTTPCookieStorage.sharedHTTPCookieStorage deleteCookie:obj];
+	}];
+}
+
 - (IBAction)startNetworkRequestsTapped:(id)sender
 {
 	NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];

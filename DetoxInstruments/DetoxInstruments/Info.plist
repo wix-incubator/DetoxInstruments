@@ -39,8 +39,6 @@
 	<string>DetoxInstruments.help</string>
 	<key>CFBundleHelpBookName</key>
 	<string>com.wix.DetoxInstruments.help</string>
-	<key>CFBundleIconFile</key>
-	<string>DetoxInstruments</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -52,9 +50,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.9.1</string>
 	<key>CFBundleVersion</key>
-	<string>5641</string>
+	<string>5732</string>
 	<key>DTXBuildDate</key>
-	<date>2018-04-26T10:28:14Z</date>
+	<date>2018-04-29T11:24:11Z</date>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>
@@ -64,7 +62,7 @@
 	<key>NSPrincipalClass</key>
 	<string>DTXInstrumentsApplication</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
-	<false/>
+	<true/>
 	<key>SUBundleName</key>
 	<string>Detox Instruments</string>
 	<key>SUEnableAutomaticChecks</key>

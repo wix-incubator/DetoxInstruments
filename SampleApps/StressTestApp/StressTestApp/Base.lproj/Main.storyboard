@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14105" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14111" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -77,10 +77,18 @@
                                     <action selector="startDemoTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ur3-34-7VW"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h5x-cd-byP">
+                                <rect key="frame" x="323" y="280" width="36" height="30"/>
+                                <state key="normal" title="Clear"/>
+                                <connections>
+                                    <action selector="_clearCookies:" destination="dkx-z0-nzr" eventType="touchUpInside" id="w2S-0k-aOE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="KLq-A5-AQQ" firstAttribute="top" secondItem="id4-Y6-Fd9" secondAttribute="bottom" constant="8" id="2lt-Dy-xA5"/>
+                            <constraint firstAttribute="trailing" secondItem="h5x-cd-byP" secondAttribute="trailing" constant="16" id="B6l-LC-2wX"/>
                             <constraint firstItem="cUI-1f-jo0" firstAttribute="leading" secondItem="UHS-Vn-pjo" secondAttribute="trailing" constant="8" id="Ct2-SB-HXe"/>
                             <constraint firstItem="cUI-1f-jo0" firstAttribute="centerX" secondItem="id4-Y6-Fd9" secondAttribute="centerX" priority="999" id="ETE-zK-QQt"/>
                             <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="KV5-Fw-Pbe"/>
@@ -88,6 +96,7 @@
                             <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerX" secondItem="id4-Y6-Fd9" secondAttribute="centerX" id="T38-to-iBU"/>
                             <constraint firstItem="yWV-V4-vVz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="TMW-5W-iT2"/>
                             <constraint firstItem="9RO-Jy-FIS" firstAttribute="centerX" secondItem="id4-Y6-Fd9" secondAttribute="centerX" id="UjY-3t-IHm"/>
+                            <constraint firstItem="id4-Y6-Fd9" firstAttribute="baseline" secondItem="h5x-cd-byP" secondAttribute="baseline" id="afz-Vm-krl"/>
                             <constraint firstItem="MBo-BC-Srv" firstAttribute="centerX" secondItem="KLq-A5-AQQ" secondAttribute="centerX" id="ca3-Tc-Gwy"/>
                             <constraint firstItem="9RO-Jy-FIS" firstAttribute="top" secondItem="cUI-1f-jo0" secondAttribute="bottom" constant="8" id="cdH-bl-UFd"/>
                             <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gol-FN-n7c"/>
