@@ -463,4 +463,11 @@
 	});
 }
 
+- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadCookies:(NSArray<NSDictionary<NSString *,id> *> *)cookies
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[_deviceManagementWindowController noteProfilingTargetDidLoadCookies];
+	});
+}
+
 @end

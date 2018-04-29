@@ -90,8 +90,6 @@
 		398D6EA91EE061FE00AA9C11 /* DTXMainContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA81EE061FE00AA9C11 /* DTXMainContentController.m */; };
 		398D6EAC1EE0626400AA9C11 /* DTXSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */; };
 		398EC454207BCA1100C55809 /* DTXZipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 398EC453207BCA1000C55809 /* DTXZipper.m */; };
-		3991281A2078252500180673 /* DetoxInstruments.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 399128012078252500180673 /* DetoxInstruments.iconset */; };
-		3997A8A71EE94BD00057418B /* dtxicon.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 3997A8A61EE9422D0057418B /* dtxicon.iconset */; };
 		3997A8BA1EE980700057418B /* DTXDetailDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997A8B91EE980700057418B /* DTXDetailDataProvider.m */; };
 		399B3FBC1F248C3C00335109 /* DTXRemoteProfilingTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B3FBB1F248C3C00335109 /* DTXRemoteProfilingTarget.m */; };
 		399B4DC81ED574410098D2AC /* DTXInstrumentsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DC71ED574410098D2AC /* DTXInstrumentsWindowController.m */; };
@@ -150,6 +148,7 @@
 		39D76E7B2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D76E7A2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m */; };
 		39D76EA12086B8470033BDE2 /* LNPropertyListEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D76EA02086B83B0033BDE2 /* LNPropertyListEditor.framework */; };
 		39D76EA22086B8470033BDE2 /* LNPropertyListEditor.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 39D76EA02086B83B0033BDE2 /* LNPropertyListEditor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		39DE8E7A2091EDFD00ED16B4 /* DTXCookiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE8E792091EDFD00ED16B4 /* DTXCookiesViewController.m */; };
 		39E20F5B1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E20F5A1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m */; };
 		39EA8CD21F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA8CD11F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m */; };
 		39EBDFBD1ED36D45005D8AB1 /* DTXApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDFBC1ED36D45005D8AB1 /* DTXApplicationDelegate.m */; };
@@ -554,8 +553,6 @@
 		398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSamplePlotController.m; sourceTree = "<group>"; };
 		398EC43B207BCA1000C55809 /* DTXZipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXZipper.h; path = ../../../Profiler/DTXProfiler/Utilities/DTXZipper.h; sourceTree = "<group>"; };
 		398EC453207BCA1000C55809 /* DTXZipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXZipper.m; path = ../../../Profiler/DTXProfiler/Utilities/DTXZipper.m; sourceTree = "<group>"; };
-		399128012078252500180673 /* DetoxInstruments.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = DetoxInstruments.iconset; sourceTree = "<group>"; };
-		3997A8A61EE9422D0057418B /* dtxicon.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = dtxicon.iconset; sourceTree = "<group>"; };
 		3997A8B81EE980700057418B /* DTXDetailDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDetailDataProvider.h; sourceTree = "<group>"; };
 		3997A8B91EE980700057418B /* DTXDetailDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDetailDataProvider.m; sourceTree = "<group>"; };
 		399B3FBA1F248C3C00335109 /* DTXRemoteProfilingTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingTarget.h; sourceTree = "<group>"; };
@@ -678,6 +675,8 @@
 		39D76E7A2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXUserDefaultsViewController.m; sourceTree = "<group>"; };
 		39D76E7C2086B6F00033BDE2 /* DTXProfilingTargetManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilingTargetManagement.h; sourceTree = "<group>"; };
 		39D76E9B2086B83B0033BDE2 /* LNPropertyListEditor.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNPropertyListEditor.xcodeproj; path = LNPropertyListEditor/LNPropertyListEditor/LNPropertyListEditor.xcodeproj; sourceTree = SOURCE_ROOT; };
+		39DE8E782091EDFD00ED16B4 /* DTXCookiesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCookiesViewController.h; sourceTree = "<group>"; };
+		39DE8E792091EDFD00ED16B4 /* DTXCookiesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCookiesViewController.m; sourceTree = "<group>"; };
 		39E20F591EEEB40700FEEBE3 /* DTXSampleGroupProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSampleGroupProxy.h; sourceTree = "<group>"; };
 		39E20F5A1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSampleGroupProxy.m; sourceTree = "<group>"; };
 		39EA8CD01F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilingConfiguration+RemoteProfilingSupport.h"; sourceTree = "<group>"; };
@@ -956,6 +955,8 @@
 				39042FC120711B4E00C85368 /* DTXContainerContentsViewController.m */,
 				39D76E792086B6BF0033BDE2 /* DTXUserDefaultsViewController.h */,
 				39D76E7A2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m */,
+				39DE8E782091EDFD00ED16B4 /* DTXCookiesViewController.h */,
+				39DE8E792091EDFD00ED16B4 /* DTXCookiesViewController.m */,
 				3954CAA720883FAA00934BCE /* DTXProfilingTargetManagementWindowController.h */,
 				3954CAA820883FAA00934BCE /* DTXProfilingTargetManagementWindowController.m */,
 			);
@@ -1354,8 +1355,6 @@
 				3972E67820694E6800F099DE /* Acknowledgements.html */,
 				3980C0C72086C75000789E3B /* DetoxInstruments.help */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
-				3997A8A61EE9422D0057418B /* dtxicon.iconset */,
-				399128012078252500180673 /* DetoxInstruments.iconset */,
 				39487CB81F435F090063E66D /* SharedSupport */,
 			);
 			path = DetoxInstruments;
@@ -1626,8 +1625,6 @@
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
 				3972E67920694E6800F099DE /* Acknowledgements.html in Resources */,
 				399B4DCD1ED574E70098D2AC /* Main.storyboard in Resources */,
-				3997A8A71EE94BD00057418B /* dtxicon.iconset in Resources */,
-				3991281A2078252500180673 /* DetoxInstruments.iconset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1716,6 +1713,7 @@
 				39008F271EF27D9D0013B584 /* DTXScrollIgnoringScrollView.m in Sources */,
 				39C6A9121EE3A2BC000E2EE1 /* DTXPerformanceSamplePlotController.m in Sources */,
 				39C141621F3C55B3008CF5B9 /* DTXTintedImageView.m in Sources */,
+				39DE8E7A2091EDFD00ED16B4 /* DTXCookiesViewController.m in Sources */,
 				39BEE1EE207A47B3003AF93E /* aestab.c in Sources */,
 				D8243F941F5401530005CF4B /* DTXFilterField.m in Sources */,
 				39EBDFBD1ED36D45005D8AB1 /* DTXApplicationDelegate.m in Sources */,
@@ -1943,7 +1941,6 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1962,6 +1959,7 @@
 		39EBDFD01ED36D45005D8AB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_OBJC_UNUSED_IVARS = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
@@ -1987,6 +1985,7 @@
 		39EBDFD11ED36D45005D8AB1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;

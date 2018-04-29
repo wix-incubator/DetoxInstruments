@@ -27,10 +27,15 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 @optional
 
 - (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget*)target;
+
 - (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteProfilingTarget*)target;
+
 - (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget*)target;
 - (void)profilingTarget:(DTXRemoteProfilingTarget*)target didDownloadContainerContents:(NSData*)containerContents wasZipped:(BOOL)wasZipped;
+
 - (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadUserDefaults:(NSDictionary*)userDefaults;
+
+- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies;
 
 @end
 
@@ -42,9 +47,6 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 @property (nonatomic, copy, readonly) NSString* deviceOS;
 @property (nonatomic, copy, readonly) NSImage* deviceSnapshot;
 @property (nonatomic, copy, readonly) NSDictionary* deviceInfo;
-
-@property (nonatomic, strong, readonly) DTXFileSystemItem* containerContents;
-@property (nonatomic, strong, readonly) id userDefaults;
 
 @property (nonatomic, assign, readonly) DTXRemoteProfilingTargetState state;
 
@@ -59,13 +61,18 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 - (void)popSampleGroup;
 - (void)stopProfiling;
 
+@property (nonatomic, strong, readonly) DTXFileSystemItem* containerContents;
 - (void)loadContainerContents;
 - (void)downloadContainerItemsAtURL:(NSURL*)URL;
 - (void)deleteContainerItemAtURL:(NSURL*)URL;
 - (void)putContainerItemAtURL:(NSURL *)URL data:(NSData *)data wasZipped:(BOOL)wasZipped;
 
+@property (nonatomic, strong, readonly) id userDefaults;
 - (void)loadUserDefaults;
 - (void)changeUserDefaultsItemWithKey:(NSString*)key changeType:(DTXUserDefaultsChangeType)changeType value:(id)value previousKey:(NSString*)previousKey;
 
+@property (nonatomic, strong, readonly) NSArray<NSDictionary<NSString*, id>*>* cookies;
+- (void)loadCookies;
+- (void)setCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies;
 
 @end

@@ -9,17 +9,6 @@
 #import "DTXInstrumentsApplication.h"
 #import "DTXDocument.h"
 
-//@interface NSView (LayerForAll) @end
-//
-//@implementation NSView (LayerForAll)
-//
-//- (BOOL)wantsLayer
-//{
-//	return YES;
-//}
-//
-//@end
-
 @implementation DTXInstrumentsApplication
 
 - (instancetype)init

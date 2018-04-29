@@ -127,22 +127,25 @@
 
 - (NSArray<CPTPlot *> *)plots
 {
-	// Create a plot that uses the data source method
-	_plot = [[DTXCPTRangePlot alloc] init];
-	_plot.identifier = @"Date Plot";
-	
-	// Add line style
-	CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
-	lineStyle.lineWidth = 1.25;
-	lineStyle.lineColor = [CPTColor colorWithCGColor:self.plotColors.firstObject.CGColor];
-	_plot.barLineStyle = lineStyle;
-	
-	// Bar properties
-	_plot.barWidth = 6.0;
-	_plot.gapWidth = 0.0;
-	_plot.gapHeight = 0.0;
-	
-	_plot.dataSource = self;
+	if(_plot == nil)
+	{
+		// Create a plot that uses the data source method
+		_plot = [[DTXCPTRangePlot alloc] init];
+		_plot.identifier = @"Date Plot";
+		
+		// Add line style
+		CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
+		lineStyle.lineWidth = 1.25;
+		lineStyle.lineColor = [CPTColor colorWithCGColor:self.plotColors.firstObject.CGColor];
+		_plot.barLineStyle = lineStyle;
+		
+		// Bar properties
+		_plot.barWidth = 6.0;
+		_plot.gapWidth = 0.0;
+		_plot.gapHeight = 0.0;
+		
+		_plot.dataSource = self;
+	}
 	
 	return @[_plot];
 }

@@ -9,12 +9,16 @@
 #import "DTXProfilingTargetManagementWindowController.h"
 #import "DTXContainerContentsViewController.h"
 #import "DTXUserDefaultsViewController.h"
+#import "DTXCookiesViewController.h"
 
 @interface DTXProfilingTargetManagementWindowController ()
 {
 	NSStoryboard* _storyboard;
 	DTXContainerContentsViewController* _containerContentsOutlineViewController;
 	DTXUserDefaultsViewController* _userDefaultsViewController;
+	DTXCookiesViewController* _cookiesViewController;
+	
+	NSArray<id<DTXProfilingTargetManagement>>* _controllers;
 }
 
 @end
@@ -35,7 +39,12 @@
 		_userDefaultsViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXUserDefaultsViewController"];
 		[_userDefaultsViewController view];
 		
-		self.allowsVibrancy = YES;
+		_cookiesViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXCookiesViewController"];
+		[_cookiesViewController view];
+		
+		_controllers = @[_containerContentsOutlineViewController, _userDefaultsViewController, _cookiesViewController];
+		
+		self.allowsVibrancy = NO;
 		self.centerToolbarItems = YES;
 	}
 	
@@ -44,9 +53,11 @@
 
 - (void)setProfilingTarget:(DTXRemoteProfilingTarget *)profilingTarget
 {
-	self.titleOverride = profilingTarget.appName;
-	_containerContentsOutlineViewController.profilingTarget = profilingTarget;
-	_userDefaultsViewController.profilingTarget = profilingTarget;
+	self.titleOverride = [NSString stringWithFormat:@"%@ — %@", profilingTarget.appName, profilingTarget.deviceName];
+	
+	[_controllers enumerateObjectsUsingBlock:^(id<DTXProfilingTargetManagement>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj setProfilingTarget:profilingTarget];
+	}];
 }
 
 - (void)noteProfilingTargetDidLoadContainerContents
@@ -59,6 +70,11 @@
 	[_userDefaultsViewController noteProfilingTargetDidLoadServiceData];
 }
 
+- (void)noteProfilingTargetDidLoadCookies
+{
+	[_cookiesViewController noteProfilingTargetDidLoadServiceData];
+}
+
 - (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped
 {
 	[_containerContentsOutlineViewController showSaveDialogForSavingData:data dataWasZipped:wasZipped];
@@ -66,7 +82,14 @@
 
 - (void)showPreferencesWindow
 {
-	[self setPreferencesViewControllers:@[_containerContentsOutlineViewController, _userDefaultsViewController]];
+	if([self.window isVisible])
+	{
+		[self.window makeKeyAndOrderFront:nil];
+		
+		return;
+	}
+	
+	[self setPreferencesViewControllers:_controllers];
 	
 	[super showPreferencesWindow];
 	

@@ -210,11 +210,6 @@
 	}
 }
 
-- (void)setUpWithView:(NSView *)view
-{
-	[self setUpWithView:view insets:NSEdgeInsetsZero];
-}
-
 - (CPTPlotRange*)finesedPlotRangeForPlotRange:(CPTPlotRange*)_yRange;
 {
 	NSEdgeInsets insets = self.rangeInsets;
@@ -287,6 +282,15 @@
 		plotSpace.xRange = _pendingXPlotRange;
 		_pendingXPlotRange = nil;
 	}
+	
+	__weak auto weakSelf = self;
+	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
+		weakSelf.graph.backgroundColor = NSColor.controlColor.CGColor;
+		
+		[weakSelf.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			obj.backgroundColor = NSColor.textBackgroundColor.CGColor;
+		}];
+	};
 }
 
 - (NSArray<__kindof CPTPlot *> *)plots
