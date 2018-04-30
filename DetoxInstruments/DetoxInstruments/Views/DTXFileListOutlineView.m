@@ -31,8 +31,7 @@
 {
 	[super layout];
 	
-	self.outlineTableColumn.maxWidth = self.bounds.size.width - 2;
-	self.outlineTableColumn.width = self.bounds.size.width - 2;
+	[self sizeLastColumnToFit];
 	[self tile];
 	[self setNeedsLayout:YES];
 	[self layoutSubtreeIfNeeded];

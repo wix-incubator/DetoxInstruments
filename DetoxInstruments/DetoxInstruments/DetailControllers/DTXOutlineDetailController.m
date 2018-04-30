@@ -63,23 +63,12 @@
 {
 	[super viewDidLayout];
 	
-	NSTableColumn* lastColumn = _outlineView.tableColumns.lastObject;
-	
-	if(lastColumn.resizingMask != NSTableColumnAutoresizingMask)
+	if(_outlineView.tableColumns.lastObject.resizingMask != NSTableColumnAutoresizingMask)
 	{
 		return;
 	}
 	
-	__block CGFloat bestWidth = _outlineView.bounds.size.width;
-	[_outlineView.tableColumns enumerateObjectsUsingBlock:^(NSTableColumn * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if(obj == lastColumn)
-		{
-			return;
-		}
-		
-		bestWidth -= (obj.width + _outlineView.intercellSpacing.width);
-	}];
-	lastColumn.width = bestWidth - _outlineView.intercellSpacing.width;
+	[_outlineView sizeLastColumnToFit];
 }
 
 - (void)updateViewWithInsets:(NSEdgeInsets)insets
