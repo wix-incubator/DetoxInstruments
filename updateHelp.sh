@@ -5,7 +5,7 @@ HTMLDIR=DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj
 rm -fr "${HTMLDIR}"/Documentation
 mkdir -p "${HTMLDIR}"/Documentation
 cp -R Documentation/Resources "${HTMLDIR}"/Documentation/
-cp DetoxInstruments/DetoxInstruments/DetoxInstruments.iconset/icon_512x512@2x.png "${HTMLDIR}"/Documentation/Resources/
+cp DetoxInstruments/DetoxInstruments/Assets.xcassets/AppIcon.appiconset/1024.png "${HTMLDIR}"/Documentation/Resources/icon_512x512@2x.png
 
 function render_markdown {
   SOURCE_FILE="$1"
