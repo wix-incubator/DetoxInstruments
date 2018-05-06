@@ -28,6 +28,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	
 	DTXRemoteProfilingCommandTypeGetCookies,
 	DTXRemoteProfilingCommandTypeSetCookies,
+	
+	DTXRemoteProfilingCommandTypeGetPasteboard,
 };
 
 typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {

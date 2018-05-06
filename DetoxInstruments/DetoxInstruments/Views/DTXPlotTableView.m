@@ -16,11 +16,6 @@
 	NSView* _view;
 }
 
-- (BOOL)canDrawConcurrently
-{
-	return NO;
-}
-
 - (instancetype)initWithEvent:(NSEvent*)event fakedCoordsOfView:(NSView*)view
 {
 	self = [super init];

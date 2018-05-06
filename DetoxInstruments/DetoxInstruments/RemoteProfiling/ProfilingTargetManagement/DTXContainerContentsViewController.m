@@ -33,7 +33,7 @@
 
 @synthesize profilingTarget=_profilingTarget;
 
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+- (DTXFileSystemItem*)selectedOrClicked
 {
 	NSInteger row = _outlineView.clickedRow;
 	if(row == -1)
@@ -42,10 +42,26 @@
 	}
 	if(row == -1)
 	{
+		return nil;
+	}
+	
+	return [_outlineView itemAtRow:row];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	if(menuItem.action == @selector(paste:))
+	{
+		return [NSPasteboard.generalPasteboard canReadItemWithDataConformingToTypes:@[(__bridge id)kUTTypeFileURL]];
+	}
+	
+	DTXFileSystemItem* item = self.selectedOrClicked;
+	
+	if(item == nil)
+	{
 		return NO;
 	}
 	
-	DTXFileSystemItem* item = [_outlineView itemAtRow:row];
 	BOOL isRoot = [item isEqualToFileSystemItem:self.profilingTarget.containerContents];
 	
 	if(isRoot && menuItem.action == @selector(delete:))
@@ -113,17 +129,18 @@
 	[_outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_outlineView rowForItem:selectedItem]] byExtendingSelection:NO];
 }
 
+- (NSString*)_prettyNameForFileSystemItem:(DTXFileSystemItem*)item
+{
+	return [item isEqualToFileSystemItem:self.profilingTarget.containerContents] ? self.profilingTarget.appName : item.name;
+}
+
 - (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped
 {
 	[self decreaseProgressIndicatorCounter];
 	
+	NSString* fileName = [self _prettyNameForFileSystemItem:_currentlyBeingSaved];
 	BOOL isDirectoryForUI = _currentlyBeingSaved.isDirectoryForUI;
 //	BOOL isDirectoryActual = _currentlyBeingSaved.isDirectory;
-	NSString* fileName = _currentlyBeingSaved.name;
-	if([_currentlyBeingSaved isEqualToFileSystemItem:self.profilingTarget.containerContents])
-	{
-		fileName = self.profilingTarget.appName;
-	}
 	
 	NSSavePanel* savePanel;
 	
@@ -204,19 +221,11 @@
 	[self increaseProgressIndicatorCounterAndDisplayRightAway:YES];
 }
 
-- (void)deleteItemAtRow:(NSInteger)row
+- (void)deleteItem:(DTXFileSystemItem*)fsItem
 {
-	if(row == -1)
-	{
-		NSBeep();
-		return;
-	}
-	
-	_currentlyBeingSaved = [_outlineView itemAtRow:row];
-	
 	NSAlert* alert = [NSAlert new];
 	alert.alertStyle = NSAlertStyleWarning;
-	alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete “%@”?", @""), _currentlyBeingSaved.name];
+	alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete “%@”?", @""), fsItem.name];
 	alert.informativeText = NSLocalizedString(@"This item will be deleted immediately. You can’t undo this action.", @"");
 	[alert addButtonWithTitle:NSLocalizedString(@"Delete", @"")];
 	[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
@@ -227,7 +236,12 @@
 			return;
 		}
 		
-		[self.profilingTarget deleteContainerItemAtURL:_currentlyBeingSaved.URL];
+		if(_outlineView.selectedRow == [_outlineView rowForItem:fsItem])
+		{
+			[_outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_outlineView rowForItem:fsItem.parent]] byExtendingSelection:NO];
+		}
+		
+		[self.profilingTarget deleteContainerItemAtURL:fsItem.URL];
 		[self.profilingTarget loadContainerContents];
 		[self increaseProgressIndicatorCounterAndDisplayRightAway:NO];
 	}];
@@ -235,7 +249,7 @@
 
 - (IBAction)delete:(id)sender
 {
-	[self deleteItemAtRow:_outlineView.clickedRow != -1 ? _outlineView.clickedRow : _outlineView.selectedRow];
+	[self deleteItem:self.selectedOrClicked];
 }
 
 - (void)increaseProgressIndicatorCounterAndDisplayRightAway:(BOOL)rightAway
@@ -281,6 +295,68 @@
 	}
 }
 
+- (void)_uploadFilesFromPasteboard:(NSPasteboard*)pasteboard fileSystemItem:(DTXFileSystemItem*)fsItem
+{
+	NSArray<NSURL*>* draggedFileURLs = [pasteboard readObjectsForClasses:@[[NSURL class]] options:nil];
+	
+	NSAlert* alert = [NSAlert new];
+	alert.alertStyle = NSAlertStyleWarning;
+	if(draggedFileURLs.count == 1)
+	{
+		alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"Send “%@” to “%@”?", @""), draggedFileURLs.firstObject.lastPathComponent, [self _prettyNameForFileSystemItem:fsItem]];
+		alert.informativeText = NSLocalizedString(@"Existing item with the same name will be overwritten.", @"");
+	}
+	else
+	{
+		alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"Send %lu items to “%@”?", @""), draggedFileURLs.count, [self _prettyNameForFileSystemItem:fsItem]];
+		alert.informativeText = NSLocalizedString(@"Existing items with the same name will be overwritten.", @"");
+	}
+	[alert addButtonWithTitle:NSLocalizedString(@"Send", @"")];
+	[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
+	
+	[alert beginSheetModalForWindow:_outlineView.window completionHandler:^(NSModalResponse returnCode) {
+		if(returnCode == NSAlertSecondButtonReturn)
+		{
+			return;
+		}
+		
+		dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+			NSURL* targetURL = fsItem.URL;
+			
+			NSNumber* isFirstItemDirectory;
+			[draggedFileURLs.firstObject getResourceValue:&isFirstItemDirectory forKey:NSURLIsDirectoryKey error:nil];
+			if(draggedFileURLs.count == 1 && isFirstItemDirectory.boolValue == NO)
+			{
+				targetURL = [targetURL URLByAppendingPathComponent:draggedFileURLs.firstObject.lastPathComponent];
+				[self.profilingTarget putContainerItemAtURL:targetURL data:[NSData dataWithContentsOfURL:draggedFileURLs.firstObject] wasZipped:NO];
+			}
+			else
+			{
+				NSURL* tempFileURL = DTXTempZipURL();
+				BOOL zipWasSuccessful = DTXWriteZipFileWithURLArray(tempFileURL, draggedFileURLs);
+				if(zipWasSuccessful)
+				{
+					NSData* data = [NSData dataWithContentsOfURL:tempFileURL options:NSDataReadingMappedAlways error:NULL];
+					[[NSFileManager defaultManager] removeItemAtURL:tempFileURL error:NULL];
+					
+					[self.profilingTarget putContainerItemAtURL:targetURL data:data wasZipped:YES];
+				}
+			}
+			
+			[self.profilingTarget loadContainerContents];
+		});
+		
+		[self increaseProgressIndicatorCounterAndDisplayRightAway:YES];
+	}];
+}
+
+- (IBAction)paste:(id)sender
+{
+	DTXFileSystemItem* item = self.selectedOrClicked ?: self.profilingTarget.containerContents;
+	
+	[self _uploadFilesFromPasteboard:NSPasteboard.generalPasteboard fileSystemItem:item];
+}
+
 #pragma mark NSOutlineViewDataSource
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item
@@ -319,11 +395,7 @@
 	
 	DTXTwoLabelsCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXFileItemCellView" owner:nil];
 	
-	NSString* itemName = fsItem.name;
-	if([fsItem isEqualToFileSystemItem:self.profilingTarget.containerContents])
-	{
-		itemName = self.profilingTarget.appName;
-	}
+	NSString* itemName = [self _prettyNameForFileSystemItem:fsItem];
 	
 	cellView.textField.stringValue = itemName;
 	cellView.detailTextField.stringValue = [_sizeFormatter stringFromByteCount:fsItem.size.unsignedLongLongValue];
@@ -374,57 +446,7 @@
 {
 	DTXFileSystemItem* fsItem = item;
 	
-	NSArray<NSURL*>* draggedFileURLs = [[info draggingPasteboard] readObjectsForClasses:@[[NSURL class]] options:nil];
-	
-	NSAlert* alert = [NSAlert new];
-	alert.alertStyle = NSAlertStyleWarning;
-	if(draggedFileURLs.count == 1)
-	{
-		alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"Send “%@” to “%@”?", @""), draggedFileURLs.firstObject.lastPathComponent, fsItem.name];
-		alert.informativeText = NSLocalizedString(@"Existing item with the same name will be overwritten.", @"");
-	}
-	else
-	{
-		alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"Send %lu items to “%@”?", @""), draggedFileURLs.count, fsItem.name];
-		alert.informativeText = NSLocalizedString(@"Existing items with the same name will be overwritten.", @"");
-	}
-	[alert addButtonWithTitle:NSLocalizedString(@"Send", @"")];
-	[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
-	
-	[alert beginSheetModalForWindow:_outlineView.window completionHandler:^(NSModalResponse returnCode) {
-		if(returnCode == NSAlertSecondButtonReturn)
-		{
-			return;
-		}
-		
-		dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-			NSURL* targetURL = fsItem.URL;
-			
-			NSNumber* isFirstItemDirectory;
-			[draggedFileURLs.firstObject getResourceValue:&isFirstItemDirectory forKey:NSURLIsDirectoryKey error:nil];
-			if(draggedFileURLs.count == 1 && isFirstItemDirectory.boolValue == NO)
-			{
-				targetURL = [targetURL URLByAppendingPathComponent:draggedFileURLs.firstObject.lastPathComponent];
-				[self.profilingTarget putContainerItemAtURL:targetURL data:[NSData dataWithContentsOfURL:draggedFileURLs.firstObject] wasZipped:NO];
-			}
-			else
-			{
-				NSURL* tempFileURL = DTXTempZipURL();
-				BOOL zipWasSuccessful = DTXWriteZipFileWithURLArray(tempFileURL, draggedFileURLs);
-				if(zipWasSuccessful)
-				{
-					NSData* data = [NSData dataWithContentsOfURL:tempFileURL options:NSDataReadingMappedAlways error:NULL];
-					[[NSFileManager defaultManager] removeItemAtURL:tempFileURL error:NULL];
-					
-					[self.profilingTarget putContainerItemAtURL:targetURL data:data wasZipped:YES];
-				}
-			}
-			
-			[self.profilingTarget loadContainerContents];
-		});
-		
-		[self increaseProgressIndicatorCounterAndDisplayRightAway:YES];
-	}];
+	[self _uploadFilesFromPasteboard:[info draggingPasteboard] fileSystemItem:fsItem];
 	
 	return YES;
 }

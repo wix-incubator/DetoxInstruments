@@ -14,6 +14,7 @@
 @protected
 	NSTimeInterval _samplingInterval;
 	NSUInteger _numberOfSamplesBeforeFlushToDisk;
+	BOOL _collectOpenFileNames;
 	BOOL _recordNetwork;
 	BOOL _recordLocalhostNetwork;
 	BOOL _recordThreadInformation;
@@ -37,7 +38,8 @@
 
 + (instancetype)defaultProfilingConfiguration
 {
-	DTXProfilingConfiguration* rv = [self new];;
+	DTXProfilingConfiguration* rv = [self new];
+	rv->_collectOpenFileNames = NO;
 	rv->_recordNetwork = YES;
 	rv->_recordThreadInformation = YES;
 	rv->_recordLogOutput = YES;
@@ -147,6 +149,12 @@
 - (void)setRecordNetwork:(BOOL)recordNetwork
 {
 	_recordNetwork = recordNetwork;
+}
+
+@dynamic collectOpenFileNames;
+- (void)setCollectOpenFileNames:(BOOL)collectOpenFileNames
+{
+	_collectOpenFileNames = collectOpenFileNames;
 }
 
 @dynamic recordLocalhostNetwork;

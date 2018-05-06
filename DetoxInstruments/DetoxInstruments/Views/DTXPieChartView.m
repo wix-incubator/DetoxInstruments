@@ -50,6 +50,7 @@
 	lineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.textColor.CGColor];
 	
 	_chart.borderLineStyle = lineStyle;
+	_chart.backgroundColor = NSColor.windowBackgroundColor.CGColor;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect

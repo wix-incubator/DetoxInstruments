@@ -10,4 +10,6 @@
 
 @interface DTXPerformanceSample (UIExtensions)
 
+@property (nonatomic, copy, readonly) NSArray<NSString*>* dtx_sanitizedOpenFiles;
+
 @end

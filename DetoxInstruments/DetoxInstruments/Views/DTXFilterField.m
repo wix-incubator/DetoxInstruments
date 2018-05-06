@@ -25,6 +25,7 @@
 	
 	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	self.canDrawSubviewsIntoLayer = YES;
 	
 	[((NSSearchFieldCell*)self.cell).searchButtonCell setTransparent:YES];
 	[((NSSearchFieldCell*)self.cell).searchButtonCell setEnabled:NO];

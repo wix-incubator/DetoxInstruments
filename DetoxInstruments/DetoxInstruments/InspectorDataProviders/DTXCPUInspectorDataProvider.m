@@ -191,7 +191,7 @@
 		[NSLayoutConstraint activateConstraints:@[[pieChartView.widthAnchor constraintEqualToConstant:300], [pieChartView.heightAnchor constraintEqualToConstant:200]]];
 		
 		DTXInspectorContent* pieChartContent = [DTXInspectorContent new];
-		pieChartContent.title = NSLocalizedString(@"Thread Breakdown", @"");
+		pieChartContent.title = NSLocalizedString(@"Threads Breakdown", @"");
 		pieChartContent.customView = pieChartView;
 		
 		[contentArray addObject:pieChartContent];

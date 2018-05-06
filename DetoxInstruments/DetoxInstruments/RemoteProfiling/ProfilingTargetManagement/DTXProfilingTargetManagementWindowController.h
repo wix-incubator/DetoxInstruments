@@ -11,10 +11,12 @@
 
 @interface DTXProfilingTargetManagementWindowController : CCNPreferencesWindowController
 
-- (void)setProfilingTarget:(DTXRemoteProfilingTarget *)profilingTarget;
+@property (nonatomic, strong) DTXRemoteProfilingTarget* profilingTarget;
+
 - (void)noteProfilingTargetDidLoadContainerContents;
 - (void)noteProfilingTargetDidLoadUserDefaults;
 - (void)noteProfilingTargetDidLoadCookies;
+- (void)noteProfilingTargetDidLoadPasteboardContents;
 
 - (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped;
 

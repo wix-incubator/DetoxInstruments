@@ -368,6 +368,8 @@ DTX_CREATE_LOG(Profiler);
 	
 	NSArray* stackTrace = performanceSampler.callStackSymbols;
 	
+	NSArray* openFiles = performanceSampler.openFiles;
+	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
@@ -389,6 +391,11 @@ DTX_CREATE_LOG(Profiler);
 		perfSample.diskReadsDelta = diskReadsDelta;
 		perfSample.diskWrites = diskWrites;
 		perfSample.diskWritesDelta = diskWritesDelta;
+		
+		if(_currentProfilingConfiguration.collectOpenFileNames)
+		{
+			perfSample.openFiles = openFiles;
+		}
 		
 		if(_currentProfilingConfiguration.recordThreadInformation)
 		{

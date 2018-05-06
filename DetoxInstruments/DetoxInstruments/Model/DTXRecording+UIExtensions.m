@@ -25,12 +25,12 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 	
 	DTXProfilingConfiguration* obj = objc_getAssociatedObject(self, _cmd);
 	
-		if(obj == nil)
-		{
-			obj = [[DTXProfilingConfiguration alloc] initWithCoder:(id)self.profilingConfiguration];
-			objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN);
-		}
-				   
+	if(obj == nil)
+	{
+		obj = [[DTXProfilingConfiguration alloc] initWithCoder:(id)self.profilingConfiguration];
+		objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN);
+	}
+	
 	return obj;
 }
 

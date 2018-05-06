@@ -70,12 +70,19 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	_hideMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Hide %@", @""), actualName];
 	_quitMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Quit %@", @""), actualName];
 	
-	_aboutWindowController = [[NSStoryboard storyboardWithName:@"Main" bundle:NSBundle.mainBundle] instantiateControllerWithIdentifier:@"AboutWindowController"];
+	_aboutWindowController = [NSStoryboard storyboardWithName:@"About" bundle:NSBundle.mainBundle].instantiateInitialController;
 }
 
 - (IBAction)showAboutWindow:(id)sender
 {
+	if(_aboutWindowController.window.isVisible)
+	{
+		[_aboutWindowController.window orderFrontRegardless];
+		return;
+	}
+	
 	[_aboutWindowController showWindow:nil];
+	[_aboutWindowController.window center];
 }
 
 - (void)verifyLldbInitIsNotBroken

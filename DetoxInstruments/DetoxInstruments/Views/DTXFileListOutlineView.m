@@ -33,8 +33,6 @@
 	
 	[self sizeLastColumnToFit];
 	[self tile];
-	[self setNeedsLayout:YES];
-	[self layoutSubtreeIfNeeded];
 }
 
 @end

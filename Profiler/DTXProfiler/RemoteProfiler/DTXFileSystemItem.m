@@ -49,6 +49,7 @@
 			
 			[childURLs enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 				DTXFileSystemItem* child = [[DTXFileSystemItem alloc] initWithFileURL:obj];
+				child.parent = self;
 				size += child.size.unsignedLongLongValue;
 				[children addObject:child];
 			}];
@@ -76,6 +77,10 @@
 		self.size = [aDecoder decodeObjectForKey:@"size"];
 		self.URL = [aDecoder decodeObjectForKey:@"URL"];
 		self.children = [aDecoder decodeObjectForKey:@"children"];
+		
+		[self.children enumerateObjectsUsingBlock:^(DTXFileSystemItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			obj.parent = self;
+		}];
 	}
 	
 	return self;

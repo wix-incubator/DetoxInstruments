@@ -40,6 +40,7 @@
 @property (nonatomic, readonly) uint64_t currentDiskReadsDelta;
 @property (nonatomic, readonly) uint64_t currentDiskWrites;
 @property (nonatomic, readonly) uint64_t currentDiskWritesDelta;
+@property (nonatomic, readonly) NSArray<NSString*>* openFiles;
 
 - (void)simulateMemoryWarning;
 

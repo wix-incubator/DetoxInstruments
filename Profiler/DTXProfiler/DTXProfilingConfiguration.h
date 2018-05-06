@@ -46,6 +46,13 @@ NS_ASSUME_NONNULL_BEGIN
 //Recording Configuration
 
 /**
+ *  Collect the names of open files for each sample.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL collectOpenFileNames;
+
+/**
  *  Record network requests during profiling.
  *
  *  The default value is @c true.
@@ -174,6 +181,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) NSUInteger numberOfSamplesBeforeFlushToDisk;
 
 //Recording Configuration
+
+/**
+ *  Collect the names of open files for each sample.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readwrite) BOOL collectOpenFileNames;
 
 /**
  *  Record network requests during profiling.

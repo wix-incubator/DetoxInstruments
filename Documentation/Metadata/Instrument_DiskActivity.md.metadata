@@ -1,3 +1,3 @@
 <meta name="AppleTitle" content="Disk Activity Instrument" />
 <title>Disk Activity Instrument</title>
-<meta name="description" content="The Disk Activity instrument captures information about your app's disk reads and writes." />
+<meta name="description" content="The Disk Activity instrument captures information about your app's disk reads and writes and open files." />
