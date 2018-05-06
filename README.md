@@ -17,7 +17,7 @@ Detox Instruments supports profiling the following metrics:
 		* Automatic Runtime Symbolication of Stack Traces
 	* Memory Usage
 	* User Interface FPS (Frames per Second)
-	* Disk Activity (Reads and Writes)
+	* Disk Activity (Reads and Writes, Open File Names)
 * Network Activity
 	* Full Request and Response Header and Data Collection and Inspection
 * Log Output Recording

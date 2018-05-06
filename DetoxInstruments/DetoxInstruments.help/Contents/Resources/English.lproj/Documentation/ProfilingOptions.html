@@ -27,6 +27,9 @@ ul { padding-left: 1.3em; }
 <p>The <strong>Sampling frequency</strong> option configures how many samples should be collected every second. The more samples collected, the more accurate the profiling, at some expense of performance.</p>
 <p>It is recommended to start with the default value and only increase sampling frequency if necessary.</p>
 <h3>
+<a name="user-content-disk-usage" class="anchor" href="#disk-usage"><span class="octicon octicon-link"></span></a>Disk Usage</h3>
+<p>The <strong>Collect open file names</strong> option enables the collection of names of files open in the application at the time of sampling. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.</p>
+<h3>
 <a name="user-content-network" class="anchor" href="#network"><span class="octicon octicon-link"></span></a>Network</h3>
 <p>The <strong>Record network</strong> option controls whether any network traffic is recorded, including headers and data. Depending on your app's activity, this can take a small-to-moderate toll on performance. If network recording is not necessary, you can turn this option off to save performance.</p>
 <p>The <strong>Record localhost network</strong> option extends the network recording to localhost connections as well. Depending on your app's activity, this may introduce a lot of unwanted noise. Enable if you need to profile or debug localhost connections.</p>

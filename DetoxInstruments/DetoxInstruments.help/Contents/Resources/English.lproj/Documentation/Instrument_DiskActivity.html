@@ -3,7 +3,7 @@
 <head>
 <meta name="AppleTitle" content="Disk Activity Instrument" />
 <title>Disk Activity Instrument</title>
-<meta name="description" content="The Disk Activity instrument captures information about your app's disk reads and writes." />
+<meta name="description" content="The Disk Activity instrument captures information about your app's disk reads and writes and open files." />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
 </style>
 <style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
@@ -16,7 +16,7 @@ ul { padding-left: 1.3em; }
 <title>Detox Instruments Help</title></head><body>
 <h1>
 <a name="user-content-disk-activity-instrument" class="anchor" href="#disk-activity-instrument"><span class="octicon octicon-link"></span></a>Disk Activity Instrument</h1>
-<p>The Disk Activity instrument captures information about your app's disk reads and writes.</p>
+<p>The Disk Activity instrument captures information about your app's disk reads and writes and open files.</p>
 <p><a href="Resources/Instrument_DiskActivity.png" target="_blank"><img src="Resources/Instrument_DiskActivity.png" alt="Disk Activity" title="Disk Activity" style="max-width:100%;" /></a></p>
 <h3>
 <a name="user-content-discussion" class="anchor" href="#discussion"><span class="octicon octicon-link"></span></a>Discussion</h3>
@@ -25,4 +25,9 @@ ul { padding-left: 1.3em; }
 <a name="user-content-detail-pane" class="anchor" href="#detail-pane"><span class="octicon octicon-link"></span></a>Detail Pane</h3>
 <p>The detail pane includes your app's disk activity at the time of the sample; reads and writes are displayed in columns of delta as well as total.</p>
 <p><a href="Resources/Instrument_DiskActivity_DetailPane.png" target="_blank"><img src="Resources/Instrument_DiskActivity_DetailPane.png" alt="Disk Activity Detail Pane" title="Disk Activity Detail Pane" style="max-width:100%;" /></a></p>
+<h3>
+<a name="user-content-inspector-pane" class="anchor" href="#inspector-pane"><span class="octicon octicon-link"></span></a>Inspector Pane</h3>
+<p>For each sample, the inspector pane shows the delta size of read and written data, as well as the total data read and written up to that sample. If the <strong>Collect open file names</strong> profiling option was enabled during recording, the inspector pane will display the open files at the time of the sample.</p>
+<p><a href="Resources/Instrument_DiskActivity_InspectorPane.png" target="_blank"><img src="Resources/Instrument_DiskActivity_InspectorPane.png" alt="Disk Acitivy Inspector Pane" title="Disk Acitivy Inspector Pane" style="max-width:100%;" /></a></p>
+<p>You can select the one or more file names and copy them for further investigation.</p>
 </body></html>
