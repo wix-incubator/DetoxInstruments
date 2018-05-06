@@ -28,7 +28,7 @@ For an in-depth look at the FPS instrument, see [FPS Instrument](Instrument_FPS.
 
 ### Disk Activity
 
-The Disk Activity instrument captures information about your app's disk reads and writes.
+The Disk Activity instrument captures information about your app's disk reads and writes and open files.
 
 ![Disk Activity](Resources/Instrument_DiskActivity.png "Disk Activity")
 

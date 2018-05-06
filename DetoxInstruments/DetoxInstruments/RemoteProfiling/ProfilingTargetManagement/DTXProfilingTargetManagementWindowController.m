@@ -10,6 +10,7 @@
 #import "DTXContainerContentsViewController.h"
 #import "DTXUserDefaultsViewController.h"
 #import "DTXCookiesViewController.h"
+#import "DTXPasteboardViewController.h"
 
 @interface DTXProfilingTargetManagementWindowController ()
 {
@@ -17,6 +18,7 @@
 	DTXContainerContentsViewController* _containerContentsOutlineViewController;
 	DTXUserDefaultsViewController* _userDefaultsViewController;
 	DTXCookiesViewController* _cookiesViewController;
+	DTXPasteboardViewController* _pasteboardViewController;
 	
 	NSArray<id<DTXProfilingTargetManagement>>* _controllers;
 }
@@ -31,7 +33,7 @@
 	
 	if(self)
 	{
-		_storyboard = [NSStoryboard storyboardWithName:@"Main" bundle:NSBundle.mainBundle];
+		_storyboard = [NSStoryboard storyboardWithName:@"TargetManagement" bundle:NSBundle.mainBundle];
 		
 		_containerContentsOutlineViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXContainerContentsViewController"];
 		[_containerContentsOutlineViewController view];
@@ -42,7 +44,10 @@
 		_cookiesViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXCookiesViewController"];
 		[_cookiesViewController view];
 		
-		_controllers = @[_containerContentsOutlineViewController, _userDefaultsViewController, _cookiesViewController];
+		_pasteboardViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXPasteboardViewController"];
+		[_pasteboardViewController view];
+		
+		_controllers = @[_containerContentsOutlineViewController, _pasteboardViewController, _userDefaultsViewController, _cookiesViewController];
 		
 		self.allowsVibrancy = NO;
 		self.centerToolbarItems = YES;
@@ -53,6 +58,8 @@
 
 - (void)setProfilingTarget:(DTXRemoteProfilingTarget *)profilingTarget
 {
+	_profilingTarget = profilingTarget;
+	
 	self.titleOverride = [NSString stringWithFormat:@"%@ — %@", profilingTarget.appName, profilingTarget.deviceName];
 	
 	[_controllers enumerateObjectsUsingBlock:^(id<DTXProfilingTargetManagement>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -75,8 +82,19 @@
 	[_cookiesViewController noteProfilingTargetDidLoadServiceData];
 }
 
+- (void)noteProfilingTargetDidLoadPasteboardContents
+{
+	[_pasteboardViewController noteProfilingTargetDidLoadServiceData];
+}
+
 - (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped
 {
+	if(self.window.isVisible == NO)
+	{
+		//Window is hidden—do not display the save dialog.
+		return;
+	}
+	
 	[_containerContentsOutlineViewController showSaveDialogForSavingData:data dataWasZipped:wasZipped];
 }
 

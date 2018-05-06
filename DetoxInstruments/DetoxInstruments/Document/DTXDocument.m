@@ -224,7 +224,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 {
 	if(self.documentState == DTXDocumentStateNew)
 	{
-		DTXRecordingTargetPickerViewController* vc = [self.windowControllers.firstObject.storyboard instantiateControllerWithIdentifier:@"DTXRecordingTargetChooser"];
+		DTXRecordingTargetPickerViewController* vc = [[NSStoryboard storyboardWithName:@"RemoteProfiling" bundle:NSBundle.mainBundle] instantiateControllerWithIdentifier:@"DTXRecordingTargetChooser"];
 		vc.delegate = self;
 		[self.windowControllers.firstObject.window.contentViewController presentViewControllerAsSheet:vc];
 		_recordingTargetPicker = vc;

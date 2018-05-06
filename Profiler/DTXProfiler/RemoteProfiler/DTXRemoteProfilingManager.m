@@ -17,6 +17,7 @@
 #import "AutoCoding.h"
 #import "DTXZipper.h"
 #import "SSZipArchive.h"
+#import "DTXPasteboardParser.h"
 
 DTX_CREATE_LOG(RemoteProfilingManager);
 
@@ -217,7 +218,6 @@ static DTXRemoteProfilingManager* __sharedManager;
 				[self _sendUserDefaults];
 				
 			}	break;
-				
 			case DTXRemoteProfilingCommandTypeChangeUserDefaultsItem:
 			{
 				NSString* key = cmd[@"key"];
@@ -227,6 +227,8 @@ static DTXRemoteProfilingManager* __sharedManager;
 				
 				[self _changeUserDefaultsItemWithKey:key changeType:type value:value previousKey:previousKey];
 			}	break;
+				
+				
 			case DTXRemoteProfilingCommandTypeGetCookies:
 			{
 				[self _sendCookies];
@@ -235,6 +237,11 @@ static DTXRemoteProfilingManager* __sharedManager;
 			{
 				[self _setCookies:cmd[@"cookies"]];
 			}	break;
+				
+			case DTXRemoteProfilingCommandTypeGetPasteboard:
+			{
+				[self _sendPasteboard];
+			}break;
 		}
 		
 		[self _nextCommand];
@@ -406,14 +413,24 @@ static DTXRemoteProfilingManager* __sharedManager;
 	}];
 }
 
+#pragma mark Pasteboard
+
+- (void)_sendPasteboard
+{
+	NSMutableDictionary* cmd = [NSMutableDictionary new];
+	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetPasteboard);
+	
+	cmd[@"pasteboardContents"] = [DTXPasteboardParser dataFromGeneralPasteboard];
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
 #pragma mark Remote Profiling
 
 - (void)_sendRecordingDidStop
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStopProfiling)} completionHandler:nil];
 }
-
-
 
 #pragma mark NSNetServiceDelegate
 

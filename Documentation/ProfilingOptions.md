@@ -14,6 +14,10 @@ The **Sampling frequency** option configures how many samples should be collecte
 
 It is recommended to start with the default value and only increase sampling frequency if necessary.
 
+### Disk Usage
+
+The **Collect open file names** option enables the collection of names of files open in the application at the time of sampling. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.
+
 ### Network
 
 The **Record network** option controls whether any network traffic is recorded, including headers and data. Depending on your app's activity, this can take a small-to-moderate toll on performance. If network recording is not necessary, you can turn this option off to save performance.

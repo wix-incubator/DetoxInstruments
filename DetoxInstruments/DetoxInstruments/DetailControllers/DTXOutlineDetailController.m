@@ -8,17 +8,6 @@
 
 #import "DTXOutlineDetailController.h"
 
-@interface AAA : NSTableCellView @end
-
-@implementation AAA
-
-- (void)viewWillMoveToWindow:(NSWindow *)newWindow
-{
-	[super viewWillMoveToWindow:newWindow];
-}
-
-@end
-
 @implementation DTXOutlineDetailController
 {
 	IBOutlet NSOutlineView* _outlineView;

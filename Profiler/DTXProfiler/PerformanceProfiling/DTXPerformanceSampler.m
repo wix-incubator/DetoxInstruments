@@ -12,13 +12,12 @@
 #import "DTXMachUtilities.h"
 #import "DTXFPSCalculator.h"
 
+#import "dtx_libproc.h"
+
 @implementation DTXThreadMeasurement @end
 @implementation DTXCPUMeasurement @end
 
 static void* __symbols[2048];
-
-typedef void *rusage_info_t;
-extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0);
 
 @interface DTXPerformanceSampler ()
 
@@ -31,6 +30,7 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 @property (nonatomic, assign) uint64_t currentDiskReadsDelta;
 @property (nonatomic, assign) uint64_t currentDiskWrites;
 @property (nonatomic, assign) uint64_t currentDiskWritesDelta;
+@property (nonatomic, strong) NSArray<NSString*>* openFiles;
 
 @end
 
@@ -38,6 +38,7 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 {
 	BOOL _collectStackTraces;
 	BOOL _collectThreadInfo;
+	BOOL _collectOpenFiles;
 }
 
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration
@@ -48,6 +49,7 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 	{
 		_collectStackTraces = configuration.collectStackTraces;
 		_collectThreadInfo = configuration.recordThreadInformation;
+		_collectOpenFiles = configuration.collectOpenFileNames;
 		
 		self.fpsCalculator = [DTXFPSCalculator new];
 	}
@@ -74,6 +76,31 @@ extern int proc_pid_rusage(int pid, int flavor, rusage_info_t *buffer) __OSX_AVA
 	uint64_t dw = self.diskWrites;
 	self.currentDiskWritesDelta = dw - _currentDiskWrites;
 	self.currentDiskWrites = dw;
+	
+	if(_collectOpenFiles)
+	{
+		pid_t pid = getpid();
+		struct proc_fdinfo procFDInfo[1024];
+		int bufferSize = proc_pidinfo(pid, PROC_PIDLISTFDS, 0, procFDInfo, 1024);
+		int numberOfProcFDs = bufferSize / PROC_PIDLISTFD_SIZE;
+		
+		NSMutableArray* openFiles = [NSMutableArray new];
+		
+		for(int i = 0; i < numberOfProcFDs; i++)
+		{
+			if(procFDInfo[i].proc_fdtype == PROX_FDTYPE_VNODE) {
+				struct vnode_fdinfowithpath vnodeInfo;
+				proc_pidfdinfo(pid, procFDInfo[i].proc_fd, PROC_PIDFDVNODEPATHINFO, &vnodeInfo, PROC_PIDFDVNODEPATHINFO_SIZE);
+				[openFiles addObject:[NSString stringWithUTF8String:vnodeInfo.pvip.vip_path]];
+			}
+		}
+		
+		self.openFiles = openFiles;
+	}
+	else
+	{
+		self.openFiles = nil;
+	}
 	
 	if(_collectStackTraces)
 	{

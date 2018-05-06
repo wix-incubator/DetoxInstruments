@@ -62,23 +62,23 @@ typedef struct DTXStackFrameEntry
 
 static const uint64_t __DTXMaxFrames = 2048;
 
-static bool __DTXFillThreadStateIntoMachineContext(thread_t thread, _STRUCT_MCONTEXT *machineContext)
+inline static bool __DTXFillThreadStateIntoMachineContext(thread_t thread, _STRUCT_MCONTEXT *machineContext)
 {
 	mach_msg_type_number_t state_count = DTX_THREAD_STATE_COUNT;
 	return thread_get_state(thread, DTX_THREAD_STATE, (thread_state_t)&machineContext->__ss, &state_count) == KERN_SUCCESS;
 }
 
-static uintptr_t __DTXReadFramePointerRegister(mcontext_t const machineContext)
+inline static uintptr_t __DTXReadFramePointerRegister(mcontext_t const machineContext)
 {
 	return machineContext->__ss.DTX_FRAME_POINTER_REGISTER;
 }
 
-static uintptr_t __DTXReadInstructionAddressRegister(mcontext_t const machineContext)
+inline static uintptr_t __DTXReadInstructionAddressRegister(mcontext_t const machineContext)
 {
 	return machineContext->__ss.DTX_INSTRUCTION_ADDRESS_REGISTER;
 }
 
-static uintptr_t __DTXReadLinkRegister(mcontext_t const machineContext)
+inline static uintptr_t __DTXReadLinkRegister(mcontext_t const machineContext)
 {
 #if defined(__i386__) || defined(__x86_64__)
 	return 0;
@@ -87,7 +87,7 @@ static uintptr_t __DTXReadLinkRegister(mcontext_t const machineContext)
 #endif
 }
 
-static kern_return_t __DTXReadMemorySafely(const void *const src, void *const dst, const size_t numBytes)
+inline static kern_return_t __DTXReadMemorySafely(const void *const src, void *const dst, const size_t numBytes)
 {
 	vm_size_t bytesCopied = 0;
 	return vm_read_overwrite(mach_task_self(), (vm_address_t)src, (vm_size_t)numBytes, (vm_address_t)dst, &bytesCopied);

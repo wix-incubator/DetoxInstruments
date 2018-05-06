@@ -14,8 +14,10 @@
 @property (nonatomic) BOOL isDirectoryForUI;
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic, copy) NSNumber* size;
-@property (nonatomic, copy) NSArray* children;
+@property (nonatomic, copy) NSArray<DTXFileSystemItem*>* children;
 @property (nonatomic, copy) NSURL* URL;
+
+@property (nonatomic, weak) DTXFileSystemItem* parent;
 
 - (instancetype)initWithFileURL:(NSURL*)fileURL;
 

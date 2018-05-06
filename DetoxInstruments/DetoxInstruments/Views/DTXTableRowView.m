@@ -27,6 +27,7 @@
 	{
 		self.wantsLayer = YES;
 		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+//		self.canDrawSubviewsIntoLayer = YES;
 	}
 	
 	return self;

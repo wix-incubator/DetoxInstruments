@@ -30,7 +30,13 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
 	
-	[self _updateLightDrak];
+	[self _updateLightDrak];	
+	
+	[[UIPasteboard generalPasteboard] setItems:@[@{UIPasteboardTypeAutomatic: [[NSAttributedString alloc] initWithString:@"Hello Bold World" attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:20]}]}, @{UIPasteboardTypeAutomatic: [[NSAttributedString alloc] initWithString:@"Hello Bold World 2" attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:20]}]}, @{UIPasteboardTypeAutomatic: [[NSAttributedString alloc] initWithString:@"Hello Bold World 3" attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:20]}]}]];
+	
+//	[[UIPasteboard generalPasteboard] setData: forPasteboardType:UIPasteboardTypeAutomatic];
+	
+//	[[UIPasteboard generalPasteboard] setImages:@[[UIImage imageNamed:@"image1"], [UIImage imageNamed:@"image2"], [UIImage imageNamed:@"image3"]]];
 }
 
 - (void)userDefaultsDidChange:(NSNotification*)note

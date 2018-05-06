@@ -413,4 +413,16 @@ static BOOL __uglyHackTODOFixThisShit()
 	[self.delegate managedPlotControllerGroup:self didSelectPlotController:plotController];
 }
 
+- (void)outlineViewItemDidExpand:(NSNotification *)notification
+{
+	//Tell the system to precache the whole outline area.
+	_hostingOutlineView.preparedContentRect = _hostingOutlineView.bounds;
+}
+
+- (void)outlineViewItemDidCollapse:(NSNotification *)notification
+{
+	//Tell the system to precache the whole outline area.
+	_hostingOutlineView.preparedContentRect = _hostingOutlineView.bounds;
+}
+
 @end

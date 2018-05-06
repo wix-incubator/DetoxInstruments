@@ -25,7 +25,6 @@
 	_DTXTargetsOutlineViewContoller* _outlineController;
 	NSOutlineView* _outlineView;
 	
-	DTXRemoteProfilingTarget* _inspectedTarget;
 	_DTXProfilingConfigurationViewController* _profilingConfigurationController;
 	NSViewController<_DTXActionButtonProvider>* _activeController;
 	
@@ -38,7 +37,7 @@
 	
 	dispatch_queue_t _workQueue;
 	
-	DTXProfilingTargetManagementWindowController* _deviceManagementWindowController;
+	NSMapTable<DTXRemoteProfilingTarget*, DTXProfilingTargetManagementWindowController*>* _targetManagementControllers;
 }
 
 @end
@@ -49,8 +48,8 @@
 {
 	[NSLayoutConstraint activateConstraints:@[[view.topAnchor constraintEqualToAnchor:view2.topAnchor],
 											  [view.bottomAnchor constraintEqualToAnchor:view2.bottomAnchor],
-											  [view.leftAnchor constraintEqualToAnchor:view2.leftAnchor],
-											  [view.rightAnchor constraintEqualToAnchor:view2.rightAnchor]]];
+											  [view.leadingAnchor constraintEqualToAnchor:view2.leadingAnchor],
+											  [view.trailingAnchor constraintEqualToAnchor:view2.trailingAnchor]]];
 }
 
 - (void)viewDidLoad
@@ -80,7 +79,22 @@
 	_activeController = _outlineController;
 	[self _validateSelectButton];
 	
-	_deviceManagementWindowController = [DTXProfilingTargetManagementWindowController new];
+	_targets = [NSMutableArray new];
+	_serviceToTargetMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
+	_targetToServiceMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
+	
+	self.view.wantsLayer = YES;
+	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	_containerView.wantsLayer = YES;
+	_containerView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	
+	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_DEFAULT, 0);
+	_workQueue = dispatch_queue_create("com.wix.DTXRemoteProfiler", qosAttribute);
+	
+	_browser = [NSNetServiceBrowser new];
+	_browser.delegate = self;
+	
+	_targetManagementControllers = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 }
 
 - (void)viewDidAppear
@@ -89,30 +103,7 @@
 	
 	self.view.window.preventsApplicationTerminationWhenModal = NO;
 	
-	self.view.wantsLayer = YES;
-	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	self.view.canDrawSubviewsIntoLayer = YES;
-	_containerView.wantsLayer = YES;
-	_containerView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	
-	_targets = [NSMutableArray new];
-	_serviceToTargetMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
-	_targetToServiceMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
-	
-	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_DEFAULT, 0);
-	_workQueue = dispatch_queue_create("com.wix.DTXRemoteProfiler", qosAttribute);
-	
-	_browser = [NSNetServiceBrowser new];
-	_browser.delegate = self;
-	
 	[_browser searchForServicesOfType:@"_detoxprofiling._tcp" inDomain:@""];
-}
-
-- (void)viewWillDisappear
-{
-	[super viewWillDisappear];
-	
-	[_deviceManagementWindowController dismissPreferencesWindow];
 }
 
 - (IBAction)selectProfilingTarget:(id)sender
@@ -177,7 +168,6 @@
 	{
 		transitionOptions = NSViewControllerTransitionSlideBackward;
 		_cancelButton.title = NSLocalizedString(@"Cancel", @"");
-		_inspectedTarget = nil;
 	}
 	else
 	{
@@ -222,15 +212,11 @@
 	{
 		[_outlineView reloadData];
 		
-		[self _transitionToController:_outlineController];
-		
 		return;
 	}
 	
-	if(target == _inspectedTarget)
-	{
-		[_deviceManagementWindowController dismissPreferencesWindow];
-	}
+	[[_targetManagementControllers objectForKey:target] dismissPreferencesWindow];
+	[_targetManagementControllers removeObjectForKey:target];
 	
 	NSInteger index = [_targets indexOfObject:target];
 	
@@ -264,11 +250,16 @@
 	}
 	
 	id target = _targets[row];
+	
+	DTXProfilingTargetManagementWindowController* targetManagement = [_targetManagementControllers objectForKey:target];
+	if(targetManagement == nil)
+	{
+		targetManagement = [DTXProfilingTargetManagementWindowController new];
+		[targetManagement setProfilingTarget:target];
+		[_targetManagementControllers setObject:targetManagement forKey:target];
+	}
 
-	_inspectedTarget = target;
-	[_deviceManagementWindowController setProfilingTarget:target];
-
-	[_deviceManagementWindowController showPreferencesWindow];
+	[targetManagement showPreferencesWindow];
 }
 
 - (IBAction)_doubleClicked:(id)sender
@@ -288,6 +279,16 @@
 	DTXProfilingConfiguration* config = [DTXProfilingConfiguration profilingConfigurationForRemoteProfilingFromDefaults];
 	
 	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:_targets[_outlineView.selectedRow] profilingConfiguration:config];
+}
+
+- (void)dealloc
+{
+	for(DTXProfilingTargetManagementWindowController* targetManager in _targetManagementControllers.objectEnumerator)
+	{
+		[targetManager dismissPreferencesWindow];
+	}
+	
+	[_targetManagementControllers removeAllObjects];
 }
 
 #pragma mark NSNetServiceBrowserDelegate
@@ -434,7 +435,7 @@
 - (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget *)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[_deviceManagementWindowController noteProfilingTargetDidLoadContainerContents];
+		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadContainerContents];
 	});
 }
 
@@ -447,26 +448,28 @@
 	}
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
-		if(target != _inspectedTarget)
-		{
-			return;
-		}
-		
-		[_deviceManagementWindowController showSaveDialogForSavingData:containerContents dataWasZipped:wasZipped];
+		[[_targetManagementControllers objectForKey:target] showSaveDialogForSavingData:containerContents dataWasZipped:wasZipped];
 	});
 }
 
 - (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadUserDefaults:(NSDictionary *)userDefaults
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[_deviceManagementWindowController noteProfilingTargetDidLoadUserDefaults];
+		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadUserDefaults];
 	});
 }
 
 - (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadCookies:(NSArray<NSDictionary<NSString *,id> *> *)cookies
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[_deviceManagementWindowController noteProfilingTargetDidLoadCookies];
+		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadCookies];
+	});
+}
+
+- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadPasteboardContents:(NSArray<NSDictionary<NSString *,id> *> *)pasteboardContents
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadPasteboardContents];
 	});
 }
 

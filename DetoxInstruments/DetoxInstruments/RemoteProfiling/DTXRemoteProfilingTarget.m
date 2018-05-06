@@ -11,7 +11,7 @@
 #import "DTXProfilingConfiguration.h"
 #import "AutoCoding.h"
 
-//@import AppKit;
+@import AppKit;
 
 @interface DTXRemoteProfilingTarget () <DTXSocketConnectionDelegate>
 {
@@ -173,6 +173,9 @@
 			case DTXRemoteProfilingCommandTypeGetCookies:
 				[weakSelf _handleCookies:cmd];
 				break;
+			case DTXRemoteProfilingCommandTypeGetPasteboard:
+				[weakSelf _handlePasteboard:cmd];
+				break;
 			case DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration:
 			case DTXRemoteProfilingCommandTypeAddTag:
 			case DTXRemoteProfilingCommandTypePushGroup:
@@ -311,6 +314,25 @@
 - (void)setCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeSetCookies), @"cookies": cookies} completionHandler:nil];
+}
+
+#pragma mark Pasteboard
+
+- (void)loadPasteboardContents
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetPasteboard)} completionHandler:nil];
+}
+
+- (void)_handlePasteboard:(NSDictionary*)pasteboard
+{
+	[NSKeyedUnarchiver setClass:[NSImage class] forClassName:@"UIImage"];
+	
+	_pasteboardContents = [NSKeyedUnarchiver unarchiveObjectWithData:pasteboard[@"pasteboardContents"]];
+	
+	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadPasteboardContents:)])
+	{
+		[self.delegate profilingTarget:self didLoadPasteboardContents:_pasteboardContents];
+	}
 }
 
 #pragma mark Remote Profiling

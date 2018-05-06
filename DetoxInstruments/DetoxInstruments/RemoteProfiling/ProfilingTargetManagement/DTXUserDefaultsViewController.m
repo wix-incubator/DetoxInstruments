@@ -71,7 +71,7 @@
 
 - (NSImage *)preferenceIcon
 {
-	NSImage* image = [NSImage imageNamed:@"NSToolbarCustomizeToolbarItemImage"];
+	NSImage* image = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kToolbarCustomizeIcon)];;
 	image.size = NSMakeSize(32, 32);
 	
 	return image;

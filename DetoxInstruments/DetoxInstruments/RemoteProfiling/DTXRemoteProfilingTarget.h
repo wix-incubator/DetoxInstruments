@@ -37,6 +37,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 
 - (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies;
 
+- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadPasteboardContents:(NSArray<NSDictionary<NSString*, id>*>*)pasteboardContents;
+
 @end
 
 @interface DTXRemoteProfilingTarget : NSObject
@@ -74,5 +76,9 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 @property (nonatomic, strong, readonly) NSArray<NSDictionary<NSString*, id>*>* cookies;
 - (void)loadCookies;
 - (void)setCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies;
+
+@property (nonatomic,copy) NSArray<NSDictionary<NSString*, id>*>* pasteboardContents;
+- (void)loadPasteboardContents;
+
 
 @end

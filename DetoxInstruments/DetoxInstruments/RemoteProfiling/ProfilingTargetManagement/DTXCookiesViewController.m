@@ -193,7 +193,7 @@ static NSArray<NSString*>* __DTXCookiesBlacklistedAttributes;
 
 - (BOOL)propertyListEditor:(LNPropertyListEditor *)editor canPasteNode:(LNPropertyListNode *)pastedNode inNode:(LNPropertyListNode *)node
 {
-	return node.type == LNPropertyListNodeTypeDictionary && [node childNodeForKey:@"Name"] && [node childNodeForKey:@"Domain"] && [node childNodeForKey:@"Path"];
+	return pastedNode.type == LNPropertyListNodeTypeDictionary && [pastedNode childNodeForKey:@"Name"] && [pastedNode childNodeForKey:@"Domain"] && [pastedNode childNodeForKey:@"Path"];
 }
 
 - (id)propertyListEditor:(LNPropertyListEditor *)editor defaultPropertyListForAddingInNode:(LNPropertyListNode *)node
