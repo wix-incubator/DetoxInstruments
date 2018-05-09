@@ -53,6 +53,8 @@
 		394516B71EEF442B0093E503 /* LNInterpolation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394516B11EEF44090093E503 /* LNInterpolation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3947158920A2899800A7068A /* DTXInstrumentsWindowController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947158820A2899800A7068A /* DTXInstrumentsWindowController+DocumentationGeneration.m */; };
 		3947158C20A2FB0E00A7068A /* NSView+Snapshotting.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947158B20A2FB0E00A7068A /* NSView+Snapshotting.m */; };
+		3947158F20A32EDF00A7068A /* NSWindow+Snapshotting.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947158E20A32EDF00A7068A /* NSWindow+Snapshotting.m */; };
+		3947159220A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947159120A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m */; };
 		39487CBB1F435F380063E66D /* Scripts in Copy Shared Support Items */ = {isa = PBXBuildFile; fileRef = 39487CB91F435F2A0063E66D /* Scripts */; };
 		394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B42BB1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m */; };
 		394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */; };
@@ -491,6 +493,10 @@
 		3947158820A2899800A7068A /* DTXInstrumentsWindowController+DocumentationGeneration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXInstrumentsWindowController+DocumentationGeneration.m"; sourceTree = "<group>"; };
 		3947158A20A2FB0E00A7068A /* NSView+Snapshotting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSView+Snapshotting.h"; sourceTree = "<group>"; };
 		3947158B20A2FB0E00A7068A /* NSView+Snapshotting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSView+Snapshotting.m"; sourceTree = "<group>"; };
+		3947158D20A32EDF00A7068A /* NSWindow+Snapshotting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Snapshotting.h"; sourceTree = "<group>"; };
+		3947158E20A32EDF00A7068A /* NSWindow+Snapshotting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Snapshotting.m"; sourceTree = "<group>"; };
+		3947159020A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"; sourceTree = "<group>"; };
+		3947159120A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXRecordingTargetPickerViewController+DocumentationGeneration.m"; sourceTree = "<group>"; };
 		39487CB91F435F2A0063E66D /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
 		394B42BA1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXTargetsOutlineViewContoller.h; sourceTree = "<group>"; };
 		394B42BB1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DTXTargetsOutlineViewContoller.m; sourceTree = "<group>"; };
@@ -821,6 +827,8 @@
 				391958DD20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.m */,
 				3947158720A2899800A7068A /* DTXInstrumentsWindowController+DocumentationGeneration.h */,
 				3947158820A2899800A7068A /* DTXInstrumentsWindowController+DocumentationGeneration.m */,
+				3947159020A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.h */,
+				3947159120A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m */,
 			);
 			path = DocumentationGeneration;
 			sourceTree = "<group>";
@@ -1130,6 +1138,8 @@
 				395A43E92081A2FB00DDF995 /* NSImage+UIAdditions.m */,
 				3947158A20A2FB0E00A7068A /* NSView+Snapshotting.h */,
 				3947158B20A2FB0E00A7068A /* NSView+Snapshotting.m */,
+				3947158D20A32EDF00A7068A /* NSWindow+Snapshotting.h */,
+				3947158E20A32EDF00A7068A /* NSWindow+Snapshotting.m */,
 				399E73532091CA96006EAD6E /* NSAppearance+UIAdditions.h */,
 				399E73542091CA96006EAD6E /* NSAppearance+UIAdditions.m */,
 				39F6F6CC1F0E400300C7F411 /* NSDictionary+FakeDecoder.h */,
@@ -1778,7 +1788,9 @@
 				3903F377208F29D300B73E5D /* DTXDetailController.m in Sources */,
 				3958043A206D36BD00E99909 /* DTXFileSystemItem.m in Sources */,
 				399E0EE61F0EC8000047CF92 /* DTXFPSInspectorDataProvider.m in Sources */,
+				3947158F20A32EDF00A7068A /* NSWindow+Snapshotting.m in Sources */,
 				396755DA20844CC00023D562 /* DTXTwoLabelsCellView.m in Sources */,
+				3947159220A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m in Sources */,
 				39C51E0C208ED729007AA717 /* DTXThreadInfo+UIExtensions.m in Sources */,
 				39782CDB1FC590DB0034D70A /* DTXInstruments.xcdatamodeld in Sources */,
 				397FE8DB1EEE7ED8002200B7 /* DTXCPUDataProvider.m in Sources */,

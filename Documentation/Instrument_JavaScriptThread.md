@@ -16,7 +16,7 @@ For an in-depth look at profiling options, see [Profiling Options](ProfilingOpti
 
 The detail pane includes your app's JavaScript thread CPU usage at the time of the sample.
 
-![JavaScript Thread Detail Pane](Resources/Instrument_JavaScriptThread_DetailPane.png "JavaScript Thread Detail Pane")
+![JavaScript Thread Detail Pane](Resources/Instrument_RNJavaScriptThread_DetailPane.png "JavaScript Thread Detail Pane")
 
 Samples will be highlighted in red (warning 3) when:
 
@@ -34,6 +34,6 @@ Samples will be highlighted in yellow (warning 1) when:
 
 For each sample, the inspector pane shows the time of the sample and the CPU usage. If the **Collect JavaScript stack traces** profiling option was enabled during recording, the inspector pane will display the JavaScript thread's stack trace.
 
-![JavaScript Thread Inspector Pane](Resources/Instrument_JavaScriptThread_InspectorPane.png "JavaScript Thread Inspector Pane")
+![JavaScript Thread Inspector Pane](Resources/Instrument_RNJavaScriptThread_InspectorPane.png "JavaScript Thread Inspector Pane")
 
 You can select the one or more stack trace symbols and copy them in a debugging-friendly format for further investigation.
