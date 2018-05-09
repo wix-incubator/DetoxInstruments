@@ -12,14 +12,23 @@
 #import "DTXMainContentController.h"
 #import "DTXManagedPlotControllerGroup.h"
 #import "NSView+Snapshotting.h"
+#import "NSWindow+Snapshotting.h"
 #import "DTXSamplePlotController.h"
+#import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
+#import "DTXRightInspectorController.h"
+
+@interface NSObject ()
+
+- (IBAction)options:(id)sender;
+
+@end
 
 @implementation DTXInstrumentsWindowController (DocumentationGeneration)
 
 - (void)_drainLayout
 {
 	[self.window.contentView layoutSubtreeIfNeeded];
-	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
 }
 
 - (void)_setWindowSizeToScreenPercentage:(CGPoint)percentage
@@ -28,7 +37,7 @@
 	[self.window center];
 }
 
-- (void)_deselectAllPlotControllers
+- (void)_deselectAnyPlotControllers
 {
 	NSOutlineView* hostingOutline = [self valueForKeyPath:@"mainContentController.tableView"];
 	hostingOutline.allowsEmptySelection = YES;
@@ -65,6 +74,14 @@
 	NSOutlineView* hostingOutline = [self valueForKeyPath:@"mainContentController.tableView"];
 	
 	return [[hostingOutline rowViewAtRow:[hostingOutline rowForItem:plotController] makeIfNecessary:NO] snapshotForCachingDisplay];
+}
+
+- (NSImage*)_snapshotForTimeline;
+{
+	[self _drainLayout];
+	NSOutlineView* hostingOutline = [self valueForKeyPath:@"mainContentController.tableView"];
+	
+	return hostingOutline.snapshotForCachingDisplay;
 }
 
 - (void)_setBottomSplitAtPercentage:(CGFloat)percentage
@@ -113,6 +130,53 @@
 {
 	[self _drainLayout];
 	return [[self valueForKey:@"inspectorContentController"] view].snapshotForCachingDisplay;
+}
+
+- (NSImage*)_snapshotForRecordingSettings
+{
+	[self _drainLayout];
+	[self _drainLayout];
+	DTXRecordingTargetPickerViewController* targetPicker = (id)self.window.sheets.firstObject.contentViewController;
+	[targetPicker options:nil];
+	[self _drainLayout];
+	[self _drainLayout];
+	
+	NSWindow* window = self.window.sheets.firstObject;
+	return [window snapshotForCachingDisplay];
+}
+
+- (NSImage*)_snapshotForTargetSelection
+{
+	[self _drainLayout];
+	[self _drainLayout];
+	DTXRecordingTargetPickerViewController* targetPicker = (id)self.window.sheets.firstObject.contentViewController;
+	[targetPicker _addFakeTarget];
+	[self _drainLayout];
+	[self _drainLayout];
+	
+	NSWindow* window = self.window.sheets.firstObject;
+	return [window snapshotForCachingDisplay];
+}
+
+- (void)_triggerDetailMenu;
+{
+	NSView* topView = [self valueForKeyPath:@"bottomContentController.topView"];
+	NSRect frame = [self.window.contentView convertRect:topView.bounds fromView:topView];
+	NSPoint pointOfTopView = NSMakePoint(frame.origin.x + 30, NSMidY(frame));
+	
+	NSEvent* event = [NSEvent mouseEventWithType:NSEventTypeLeftMouseDown location:pointOfTopView modifierFlags:0 timestamp:0 windowNumber:self.window.windowNumber context:nil eventNumber:0 clickCount:1 pressure:1.0];
+
+	[NSApp sendEvent:event];
+}
+
+- (void)_selectExtendedDetailInspector
+{
+	[[self valueForKeyPath:@"inspectorContentController"] selectExtendedDetail];
+}
+
+- (void)_selectProfilingInfoInspector
+{
+	[[self valueForKeyPath:@"inspectorContentController"] selectProfilingInfo];
 }
 
 @end

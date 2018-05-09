@@ -346,7 +346,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (NSString *)defaultDraftName
 {
-	return NSLocalizedString(@"Untitled Recording", @"");
+	return NSLocalizedString(@"New Recording", @"");
 }
 
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
