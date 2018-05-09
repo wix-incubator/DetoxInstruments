@@ -75,6 +75,8 @@ DTX_CREATE_LOG(Profiler);
 	
 	_pendingSamples = [NSMutableArray new];
 	
+	NSError* err;
+	[[NSFileManager defaultManager] removeItemAtURL:_currentProfilingConfiguration.recordingFileURL error:&err];
 	[[NSFileManager defaultManager] createDirectoryAtURL:configuration.recordingFileURL withIntermediateDirectories:YES attributes:nil error:NULL];
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[configuration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];

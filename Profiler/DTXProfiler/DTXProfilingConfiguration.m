@@ -228,14 +228,16 @@
 	NSNumber* isDirectory;
 	[recordingFileURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
 	
-	if(isDirectory.boolValue)
+	if(isDirectory.boolValue && [recordingFileURL.lastPathComponent hasSuffix:@"dtxprof"] == NO)
 	{
 		recordingFileURL = [recordingFileURL URLByAppendingPathComponent:[DTXProfilingConfiguration _fileNameForNewRecording] isDirectory:YES];
 	}
 	else
 	{
+		NSString* fileName = [recordingFileURL.lastPathComponent hasSuffix:@"dtxprof"] ? recordingFileURL.lastPathComponent : [NSString stringWithFormat:@"%@.dtxprof", recordingFileURL.lastPathComponent];
+		
 		//Recordings are always directories. If the user provided a file URL, use the file name provided to contruct a directory.
-		recordingFileURL = [recordingFileURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.dtxprof", recordingFileURL.lastPathComponent] isDirectory:YES];
+		recordingFileURL = [recordingFileURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:fileName isDirectory:YES];
 	}
 	
 	[self _setRecordingFileURL:recordingFileURL];
@@ -244,7 +246,7 @@
 + (instancetype)defaultProfilingConfiguration
 {
 	DTXMutableProfilingConfiguration* rv = [super defaultProfilingConfiguration];
-	rv->_nonkvc_recordingFileURL = nil;
+	rv->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];;
 	
 	return rv;
 }
