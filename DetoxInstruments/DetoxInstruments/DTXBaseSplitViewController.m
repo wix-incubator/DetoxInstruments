@@ -9,13 +9,16 @@
 #import "DTXBaseSplitViewController.h"
 
 IB_DESIGNABLE
-@interface DTXBorderedView : NSView @end
+@interface DTXBorderedView : NSBox @end
 
 @implementation DTXBorderedView
 
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
+	self.boxType = NSBoxCustom;
+	self.cornerRadius = 0.0;
+	self.fillColor = NSColor.windowBackgroundColor;
 	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }

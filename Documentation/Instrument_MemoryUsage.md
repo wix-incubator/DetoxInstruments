@@ -2,7 +2,7 @@
 
 The Memory Usage instrument captures information about your app's memory usage.
 
-![Memory Usage](Resources/Instrument_MemUsage.png "Memory Usage")
+![Memory Usage](Resources/Instrument_MemoryUsage.png "Memory Usage")
 
 ### Discussion
 

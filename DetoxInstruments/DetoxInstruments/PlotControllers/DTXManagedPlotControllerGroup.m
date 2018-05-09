@@ -51,9 +51,9 @@
 		
 		_timelineView = [DTXTimelineIndicatorView new];
 		_timelineView.translatesAutoresizingMaskIntoConstraints = NO;
-		
+
 		[_hostingOutlineView.enclosingScrollView.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingOutlineView.superview.superview];
-		
+
 		[NSLayoutConstraint activateConstraints:@[
 												  [_hostingOutlineView.enclosingScrollView.topAnchor constraintEqualToAnchor:_timelineView.topAnchor],
 												  [_hostingOutlineView.enclosingScrollView.leadingAnchor constraintEqualToAnchor:_timelineView.leadingAnchor],
@@ -409,6 +409,11 @@ static BOOL __uglyHackTODOFixThisShit()
 	
 	id<DTXPlotController> plotController = [_hostingOutlineView itemAtRow:_hostingOutlineView.selectedRow];
 	_currentlySelectedPlotController = plotController;
+	
+	if(plotController == nil)
+	{
+		return;
+	}
 	
 	[self.delegate managedPlotControllerGroup:self didSelectPlotController:plotController];
 }

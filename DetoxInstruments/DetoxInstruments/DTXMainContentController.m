@@ -7,21 +7,21 @@
 //
 
 #import "DTXMainContentController.h"
-#import "DTXAxisHeaderPlotController.h"
+#import "DTXPlotTableView.h"
 #import "DTXManagedPlotControllerGroup.h"
 
+#import "DTXAxisHeaderPlotController.h"
 #import "DTXCPUUsagePlotController.h"
 #import "DTXThreadCPUUsagePlotController.h"
 #import "DTXMemoryUsagePlotController.h"
 #import "DTXFPSPlotController.h"
 #import "DTXDiskReadWritesPlotController.h"
 #import "DTXCompactNetworkRequestsPlotController.h"
-#import "DTXPlotTableView.h"
-
-#import "DTXRecording+UIExtensions.h"
 #import "DTXRNCPUUsagePlotController.h"
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
+
+#import "DTXRecording+UIExtensions.h"
 
 #import "DTXLayerView.h"
 

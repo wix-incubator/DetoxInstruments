@@ -96,6 +96,30 @@
 		
 		[contentArray addObject:response];
 		
+		NSImage* image;
+		if(self._hasImage && networkSample.responseData.data)
+		{
+			image = [[NSImage alloc] initWithData:networkSample.responseData.data];
+		}
+		else
+		{
+			if(networkSample.responseMIMEType && networkSample.responseData.data)
+			{
+				NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)networkSample.responseMIMEType, NULL));
+				image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];
+			}
+		}
+		
+		if(image)
+		{
+			DTXInspectorContent* responsePreview = [DTXInspectorContent new];
+			responsePreview.title = NSLocalizedString(@"Preview", @"");
+			responsePreview.image = image;
+			responsePreview.setupForWindowWideCopy = YES;
+			
+			[contentArray addObject:responsePreview];
+		}
+		
 		DTXInspectorContent* responseHeaders = [DTXInspectorContent new];
 		responseHeaders.title = NSLocalizedString(@"Response Headers", @"");
 		
@@ -108,30 +132,6 @@
 		responseHeaders.content = content;
 		
 		[contentArray addObject:responseHeaders];
-	}
-	
-	NSImage* image;
-	if(self._hasImage && networkSample.responseData.data)
-	{
-		image = [[NSImage alloc] initWithData:networkSample.responseData.data];		
-	}
-	else
-	{
-		if(networkSample.responseMIMEType && networkSample.responseData.data)
-		{
-			NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)networkSample.responseMIMEType, NULL));
-			image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];
-		}
-	}
-	
-	if(image)
-	{
-		DTXInspectorContent* responsePreview = [DTXInspectorContent new];
-		responsePreview.title = NSLocalizedString(@"Preview", @"");
-		responsePreview.image = image;
-		responsePreview.setupForWindowWideCopy = YES;
-		
-		[contentArray addObject:responsePreview];
 	}
 	
 	[contentArray addObject:request];
