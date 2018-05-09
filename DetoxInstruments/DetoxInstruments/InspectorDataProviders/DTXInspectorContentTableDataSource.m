@@ -217,6 +217,11 @@
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
+	if(row >= _contentArray.count)
+	{
+		return 1;
+	}
+	
 	DTXInspectorContent* content = _contentArray[row];
 	
 	CGFloat top = 3 + 14 + 10;

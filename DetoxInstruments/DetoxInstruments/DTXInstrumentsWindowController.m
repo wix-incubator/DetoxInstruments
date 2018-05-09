@@ -72,8 +72,6 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	self.window.titleVisibility = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowTitleVisibility];
 	
-	[self.window center];
-	
 	_bottomSplitViewController = (id)self.window.contentViewController;
 	_rightSplitViewController = (id)self.window.contentViewController.childViewControllers.lastObject;
 	

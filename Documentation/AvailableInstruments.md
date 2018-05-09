@@ -14,7 +14,7 @@ For an in-depth look at the CPU Usage instrument, see [CPU Usage Instrument](Ins
 
 The Memory Usage instrument captures information about your app's memory usage.
 
-![Memory Usage](Resources/Instrument_MemUsage.png "Memory Usage")
+![Memory Usage](Resources/Instrument_MemoryUsage.png "Memory Usage")
 
 For an in-depth look at the Memory Usage instrument, see [Memory Usage Instrument](Instrument_MemoryUsage.md).
 

@@ -83,6 +83,11 @@
 	return _mergedSamples;
 }
 
+- (NSArray *)samplesForPlotIndex:(NSUInteger)index
+{
+	return [_frc fetchedObjects];
+}
+
 - (void)_prepareMergedSamples
 {
 	_mergedSamples = [NSMutableArray new];

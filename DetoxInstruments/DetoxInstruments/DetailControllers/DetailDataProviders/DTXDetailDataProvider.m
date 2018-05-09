@@ -330,6 +330,11 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	
 	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
 	
+	if(item == nil)
+	{
+		return;
+	}
+	
 	if([item isMemberOfClass:[DTXTag class]])
 	{
 		[_plotController removeHighlight];
@@ -352,6 +357,16 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 			[_plotController highlightRange:groupRange];
 		}
 	}
+	
+	//These are to fix a scrolling bug in the outline view.
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[_managedOutlineView scrollRowToVisible:_managedOutlineView.selectedRow];
+	});
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[_managedOutlineView scrollRowToVisible:_managedOutlineView.selectedRow];
+	});
 }
 
 #pragma mark DTXDetailDataProvider
