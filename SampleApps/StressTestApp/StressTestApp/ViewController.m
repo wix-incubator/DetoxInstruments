@@ -8,6 +8,9 @@
 
 #import "ViewController.h"
 #import "AppURLProtocol.h"
+#import "AppDelegate.h"
+
+#import <DTXProfiler/DTXProfiler.h>
 
 @interface ViewController ()
 
@@ -30,13 +33,13 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
 	
-	[self _updateLightDrak];	
+	[self _updateLightDrak];
 	
-	[[UIPasteboard generalPasteboard] setItems:@[@{UIPasteboardTypeAutomatic: [[NSAttributedString alloc] initWithString:@"Hello Bold World" attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:20]}]}, @{UIPasteboardTypeAutomatic: [[NSAttributedString alloc] initWithString:@"Hello Bold World 2" attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:20]}]}, @{UIPasteboardTypeAutomatic: [[NSAttributedString alloc] initWithString:@"Hello Bold World 3" attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:20]}]}]];
+	//	[[UIPasteboard generalPasteboard] setItems:@[@{UIPasteboardTypeAutomatic: [[NSAttributedString alloc] initWithString:@"Hello Bold World" attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:20]}]}, @{UIPasteboardTypeAutomatic: [[NSAttributedString alloc] initWithString:@"Hello Bold World 2" attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:20]}]}, @{UIPasteboardTypeAutomatic: [[NSAttributedString alloc] initWithString:@"Hello Bold World 3" attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:20]}]}]];
 	
-//	[[UIPasteboard generalPasteboard] setData: forPasteboardType:UIPasteboardTypeAutomatic];
+	//	[[UIPasteboard generalPasteboard] setData: forPasteboardType:UIPasteboardTypeAutomatic];
 	
-//	[[UIPasteboard generalPasteboard] setImages:@[[UIImage imageNamed:@"image1"], [UIImage imageNamed:@"image2"], [UIImage imageNamed:@"image3"]]];
+	//	[[UIPasteboard generalPasteboard] setImages:@[[UIImage imageNamed:@"image1"], [UIImage imageNamed:@"image2"], [UIImage imageNamed:@"image3"]]];
 }
 
 - (void)userDefaultsDidChange:(NSNotification*)note
@@ -183,51 +186,177 @@
 {
 	[sender setEnabled:NO];
 	
+	[[NSURLCache sharedURLCache] removeAllCachedResponses];
+	[[NSURLCache sharedURLCache] setDiskCapacity:0];
+	[[NSURLCache sharedURLCache] setMemoryCapacity:0];
+	
+	DTXProfiler* __ = [NSClassFromString(@"DTXProfiler") new];
+	DTXMutableProfilingConfiguration* conf = [DTXMutableProfilingConfiguration defaultProfilingConfiguration];
+	conf.samplingInterval = 0.25;
+	conf.recordThreadInformation = YES;
+	conf.collectStackTraces = YES;
+	conf.symbolicateStackTraces = YES;
+	conf.recordLogOutput = YES;
+	conf.collectOpenFileNames = YES;
+	conf.recordNetwork = YES;
+#if TARGET_OS_SIMULATOR
+	conf.recordingFileURL = [[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSRCROOT"]] URLByAppendingPathComponent:@"../../Documentation/Example Recording/example.dtxprof"].URLByStandardizingPath;
+#endif
+	
+	[__ startProfilingWithConfiguration:conf];
+	
+	
 	[self _peform:^{
 		[self _slowMyBackgroundTapped:nil];
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		NSTimeInterval timeline = 0;
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[self _slowMyBackgroundTapped:nil];
-			
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				[self _slowMyBackgroundTapped:nil];
-			});
-			
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				[self _slowMyBackgroundTapped:nil];
-				
-				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					[self performSegueWithIdentifier:@"LNOpenWebView" sender:nil];
-					
-					dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-						[[(UINavigationController*)self.presentedViewController topViewController] performSegueWithIdentifier:@"LNUnwindToMain" sender:nil];
-						
-						dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-							[self _writeToDisk:nil];
-							[self _writeToDisk:nil];
-							[self _writeToDisk:nil];
-							[self _writeToDisk:nil];
-							[self _writeToDisk:nil];
-							
-							dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-								[self _writeToDisk:nil];
-								[self _writeToDisk:nil];
-								
-								dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-									[self startNetworkRequestsTapped:nil];
-									
-									dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-										[self.startDemoButton setTitle:@"Start Demo" forState:UIControlStateNormal];
-										[self.startDemoButton setEnabled:YES];
-									});
-								});
-							});
-						});
-					});
-				});
-			});
+			[self _slowMyBackgroundTapped:nil];
+			[self _slowMyBackgroundTapped:nil];
+			[self _slowMyBackgroundTapped:nil];
+			[self _slowMyBackgroundTapped:nil];
+			[self _slowMyBackgroundTapped:nil];
+			[self _slowMyBackgroundTapped:nil];
 		});
-	} after:10];
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 4) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self _slowMyDeviceTapped:nil];
+		});
+			
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 9.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[self performSegueWithIdentifier:@"LNOpenWebView" sender:nil];
+		});
+		
+		AppDelegate* ad = (id)UIApplication.sharedApplication.delegate;
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.google.com/search?tbm=isch&source=hp&biw=1445&bih=966&q=labrador+puppy&oq=doberman+puppy&gs_l=img.12...0.0.1.179.0.0.0.0.0.0.0.0..0.0....0...1..64.img..0.0.0.kg6uB2QOnS0"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0]];
+		});
+		
+		const NSTimeInterval scrollDelta = 1.0;
+		CGFloat scrollModifier = 2.0;
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 1.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://nytimes.com"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[[(UINavigationController*)self.presentedViewController topViewController] performSegueWithIdentifier:@"LNUnwindToMain" sender:nil];
+		});
+						
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self _writeToDisk:nil];
+			[self _writeToDisk:nil];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self _writeToDisk:nil];
+			[self _writeToDisk:nil];
+		});
+								
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self _writeToDisk:nil];
+			[self _writeToDisk:nil];
+			[self _writeToDisk:nil];
+		});
+									
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self _writeToDisk:nil];
+		});
+										
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self startNetworkRequestsTapped:nil];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self _slowMyDeviceTapped:nil];
+		});
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 10.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[self.startDemoButton setTitle:@"Start Demo" forState:UIControlStateNormal];
+			[self.startDemoButton setEnabled:YES];
+			
+			[__ stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
+				NSLog(@"%@", conf.recordingFileURL);
+#if TARGET_OS_SIMULATOR
+				NSError* err;
+				[NSFileManager.defaultManager removeItemAtURL:[[conf.recordingFileURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"example.dtxprof.zip"] error:&err];
+#endif
+			}];
+		});
+	} after:1.0];
 }
 
 @end
