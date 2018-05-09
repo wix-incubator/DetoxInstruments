@@ -106,6 +106,7 @@
 {
 	NSOutlineView* outline = [self valueForKeyPath:@"bottomContentController.activeDetailController.outlineView"];
 	NSScrollView* scrollView = outline.enclosingScrollView;
+	scrollView.hasVerticalScroller = NO;
 	
 	[scrollView.contentView scrollPoint:NSMakePoint(0, outline.bounds.size.height * percentage)];
 }
