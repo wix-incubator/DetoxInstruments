@@ -23,6 +23,12 @@
 
 @end
 
+@interface DTXInstrumentsWindowController ()
+
+- (void)_fixUpTitle;
+
+@end
+
 @implementation DTXInstrumentsWindowController (DocumentationGeneration)
 
 - (void)_drainLayout
@@ -168,6 +174,24 @@
 	NSEvent* event = [NSEvent mouseEventWithType:NSEventTypeLeftMouseDown location:pointOfTopView modifierFlags:0 timestamp:0 windowNumber:self.window.windowNumber context:nil eventNumber:0 clickCount:1 pressure:1.0];
 
 	[NSApp sendEvent:event];
+}
+
+- (void)_setRecordingButtonsVisible:(BOOL)recordingButtonsVisible
+{
+	[[self valueForKey:@"stopRecordingButton"] setEnabled:recordingButtonsVisible];
+	[[self valueForKey:@"stopRecordingButton"] setHidden:!recordingButtonsVisible];
+	
+	[[self valueForKey:@"flagButton"] setEnabled:recordingButtonsVisible];
+	[[self valueForKey:@"flagButton"] setHidden:!recordingButtonsVisible];
+	
+	if(recordingButtonsVisible)
+	{
+		[[self valueForKey:@"_titleTextField"] setStringValue:[NSString stringWithFormat:@"%@ | %@", @"Example App", @"Recording..."]];
+	}
+	else
+	{
+		[self _fixUpTitle];
+	}
 }
 
 - (void)_selectExtendedDetailInspector

@@ -30,6 +30,8 @@
 
 - (void)_triggerDetailMenu;
 
+- (void)_setRecordingButtonsVisible:(BOOL)recordingButtonsVisible;
+
 - (void)_selectExtendedDetailInspector;
 - (void)_selectProfilingInfoInspector;
 
