@@ -37,9 +37,9 @@
 	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
 }
 
-- (void)_setWindowSizeToScreenPercentage:(CGPoint)percentage
+- (void)_setWindowSize:(NSSize)size
 {
-	[self.window setFrame:(CGRect){0, 0, CGSizeApplyAffineTransform(self.window.screen.frame.size, CGAffineTransformMakeScale(percentage.x , percentage.y))} display:YES];
+	[self.window setFrame:(CGRect){0, 0, size} display:YES];
 	[self.window center];
 }
 
@@ -112,9 +112,15 @@
 {
 	NSOutlineView* outline = [self valueForKeyPath:@"bottomContentController.activeDetailController.outlineView"];
 	NSScrollView* scrollView = outline.enclosingScrollView;
-	scrollView.hasVerticalScroller = NO;
+	[self _removeDetailVerticalScroller];
 	
 	[scrollView.contentView scrollPoint:NSMakePoint(0, outline.bounds.size.height * percentage)];
+}
+
+- (void)_removeDetailVerticalScroller
+{
+	NSOutlineView* outline = [self valueForKeyPath:@"bottomContentController.activeDetailController.outlineView"];
+	outline.enclosingScrollView.hasVerticalScroller = NO;
 }
 
 - (void)_selectSampleAtIndex:(NSInteger)index forPlotControllerClass:(Class)cls

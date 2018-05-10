@@ -13,7 +13,7 @@
 @interface DTXInstrumentsWindowController (DocumentationGeneration)
 
 - (void)_drainLayout;
-- (void)_setWindowSizeToScreenPercentage:(CGPoint)percentage;
+- (void)_setWindowSize:(NSSize)size;
 - (void)_deselectAnyPlotControllers;
 - (void)_selectPlotControllerOfClass:(Class)cls;
 - (NSImage*)_snapshotForPlotControllerOfClass:(Class)cls;
@@ -29,6 +29,8 @@
 - (NSImage*)_snapshotForRecordingSettings;
 
 - (void)_triggerDetailMenu;
+
+- (void)_removeDetailVerticalScroller;
 
 - (void)_setRecordingButtonsVisible:(BOOL)recordingButtonsVisible;
 
