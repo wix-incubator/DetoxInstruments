@@ -37,7 +37,12 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		NSMenu* helpMenu = NSApp.mainMenu.itemArray.lastObject.submenu;
 		
 		[helpMenu addItem:[NSMenuItem separatorItem]];
-		[helpMenu addItemWithTitle:@"Generate Documentation Screenshots" action:@selector(_generateDocScreenshots:) keyEquivalent:@""];
+		
+		NSMenuItem* item = [NSMenuItem new];
+		item.attributedTitle = [[NSAttributedString alloc] initWithString:@"Generate Documentation Screenshots" attributes:@{NSForegroundColorAttributeName: NSColor.systemRedColor}];
+		item.action = @selector(_generateDocScreenshots:);
+		
+		[helpMenu addItem:item];
 		
 		__classToNameMapping = @{
 								 NSStringFromClass(DTXCPUUsagePlotController.class): @{@"name": @"CPUUsage", @"inspectorSample": @166, @"includeInRecordingDocumentInspectorPane": @0},
@@ -59,6 +64,29 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 
 - (IBAction)_generateDocScreenshots:(id)sender
 {
+	__block NSScreen* retinaScreen = nil;
+	
+	[NSScreen.screens enumerateObjectsUsingBlock:^(NSScreen * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if(obj.backingScaleFactor >= 2)
+		{
+			*stop = YES;
+			retinaScreen = obj;
+		}
+	}];
+	
+	if(retinaScreen == nil)
+	{
+		NSBeep();
+		
+		NSAlert *errorAlert = [[NSAlert alloc] init];
+		errorAlert.alertStyle = NSAlertStyleCritical;
+		errorAlert.messageText = @"No retina screen found";
+		errorAlert.informativeText = @"Screenshots must be generated on a retina screen.";
+		[errorAlert runModal];
+		
+		return;
+	}
+	
 	[NSApp.orderedDocuments enumerateObjectsUsingBlock:^(NSDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[obj close];
 	}];
@@ -66,7 +94,10 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	NSDocument* newDocument = [NSDocumentController.sharedDocumentController openUntitledDocumentAndDisplay:YES error:NULL];
 	DTXInstrumentsWindowController* windowController = newDocument.windowControllers.firstObject;
 	
-	[windowController _setWindowSizeToScreenPercentage:CGPointMake(0.8, 0.9)];
+	[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen];
+	[windowController.window makeKeyAndOrderFront:nil];
+	[windowController _setWindowSize:NSMakeSize(1344, 945)];
+	[windowController _setBottomSplitAtPercentage:0.53];
 	[windowController _drainLayout];
 	
 	NSBitmapImageRep* rep = (NSBitmapImageRep*)[windowController _snapshotForTargetSelection].representations.firstObject;
@@ -84,18 +115,25 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		
 		DTXInstrumentsWindowController* windowController = document.windowControllers.firstObject;
 		
-		[windowController _setWindowSizeToScreenPercentage:CGPointMake(0.8, 0.9)];
-		
+		[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen];
+		[windowController.window makeKeyAndOrderFront:nil];
+		[windowController _setWindowSize:NSMakeSize(1344, 945)];
+		[windowController _setBottomSplitAtPercentage:0.53];
+		[windowController _removeDetailVerticalScroller];
 		[windowController _drainLayout];
 		
 		[windowController _selectSampleAtIndex:__defaultSample.integerValue forPlotControllerClass:DTXCPUUsagePlotController.class];
 		
 		[windowController _drainLayout];
 		
+		NSBitmapImageRep* repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
+		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
+		
+		[windowController _setWindowSize:NSMakeSize(1176, 945)];
 		[windowController _setRecordingButtonsVisible:YES];
 		[windowController _drainLayout];
 		
-		NSBitmapImageRep* repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
+		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 		
 		NSBitmapImageRep* rep = (NSBitmapImageRep*)[self _exampleImageWithExistingRep:repIntro].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Example.png"].path atomically:YES];
@@ -106,12 +144,6 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Toolbar.png"].path atomically:YES];
 		
 		[windowController _setRecordingButtonsVisible:NO];
-		[windowController _drainLayout];
-		
-		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
-		
-		[windowController _setWindowSizeToScreenPercentage:CGPointMake(0.7, 0.9)];
 		[windowController _drainLayout];
 		
 		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, 511)];
@@ -212,10 +244,10 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	NSMutableParagraphStyle* pStyle = [NSParagraphStyle defaultParagraphStyle].mutableCopy;
 	pStyle.alignment = NSTextAlignmentCenter;
 	
-	NSImage* exampleImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width + exampleImageWidthPadding * 2, rep.size.height + exampleImageHeightPadding * 2)];
+	NSImage* exampleImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width + exampleImageWidthPadding * 2, rep.size.height + exampleImageHeightPadding)];
 	[exampleImage lockFocus];
 	
-	[rep drawAtPoint:NSMakePoint(exampleImage.size.width / 2 - rep.size.width / 2, exampleImage.size.height / 2 - rep.size.height / 2 - exampleImageHeightPadding / 1.5)];
+	[rep drawAtPoint:NSMakePoint(exampleImage.size.width / 2 - rep.size.width / 2, exampleImage.size.height / 2 - rep.size.height / 2 - exampleImageHeightPadding)];
 	
 	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:@"Toolbar" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
 	[attr drawAtPoint:NSMakePoint(toolbarTitleXOffset, exampleImage.size.height - 44 - attr.size.height)];
@@ -227,7 +259,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[path moveToPoint:NSMakePoint(toolbarTitleXOffset + attr.size.width / 2, exampleImage.size.height - 44 - attr.size.height - 10)];
 	[path lineToPoint:NSMakePoint(toolbarTitleXOffset + attr.size.width / 2, exampleImage.size.height - 44 - attr.size.height - 10 - lineLength)];
 	
-	const CGFloat timelineTitleYOffset = exampleImage.size.height - 710;
+	const CGFloat timelineTitleYOffset = exampleImage.size.height - 700;
 	
 	attr = [[NSAttributedString alloc] initWithString:@"Timeline" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
 	[attr drawInRect:(NSRect){570 - lineLength - 20 - attr.size.width, timelineTitleYOffset - attr.size.height / 2 + 20, attr.size}];
@@ -246,7 +278,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	const CGFloat inspectorTitleYOffset = exampleImage.size.height - 1890;
 	
 	attr = [[NSAttributedString alloc] initWithString:@"Inspector\nPane" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
-	[attr drawInRect:(NSRect){3220 + lineLength + 20, inspectorTitleYOffset - attr.size.height / 2 + 20, attr.size}];
+	[attr drawInRect:(NSRect){exampleImage.size.width - 572 + lineLength + 20, inspectorTitleYOffset - attr.size.height / 2 + 20, attr.size}];
 	
 	[path moveToPoint:NSMakePoint(exampleImage.size.width - 572, inspectorTitleYOffset)];
 	[path lineToPoint:NSMakePoint(exampleImage.size.width - 572 + lineLength, inspectorTitleYOffset)];
