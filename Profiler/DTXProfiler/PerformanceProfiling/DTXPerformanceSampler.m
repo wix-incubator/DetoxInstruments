@@ -104,34 +104,35 @@ static void* __symbols[2048];
 	
 	if(_collectStackTraces)
 	{
-		NSArray* symbolsArray;
+		NSMutableArray* mutableSymbolsArray = [NSMutableArray new];
+		int symbolCount = 0;
+		
 		if(self.currentCPU.heaviestThread.machThread != mach_thread_self())
 		{
-			if(thread_suspend(self.currentCPU.heaviestThread.machThread) == KERN_SUCCESS)
+			thread_act_t heaviestThread = self.currentCPU.heaviestThread.machThread;
+			
+			if(thread_suspend(heaviestThread) == KERN_SUCCESS)
 			{
-				symbolsArray = DTXCallStackSymbolsForMachThread(self.currentCPU.heaviestThread.machThread);
-				thread_resume(self.currentCPU.heaviestThread.machThread);
+				symbolCount = DTXCallStackSymbolsForMachThread(heaviestThread, __symbols);
+				thread_resume(heaviestThread);
 			}
 			else
 			{
 				//Thread is already invalid, no stack trace.
-				symbolsArray = @[];
+				symbolCount = 0;
 			}
 		}
 		else
 		{
-			NSMutableArray* mutableSymbolsArray = [NSMutableArray new];
-			int symbolCount = backtrace(__symbols, 2048);
-			
-			for(uint32_t idx = 0; idx < symbolCount; idx++)
-			{
-				[mutableSymbolsArray addObject:@((uintptr_t)__symbols[idx])];
-			}
-			
-			symbolsArray = mutableSymbolsArray;
+			symbolCount = backtrace(__symbols, 2048);
 		}
 		
-		_callStackSymbols = symbolsArray;
+		for(int idx = 0; idx < symbolCount; idx++)
+		{
+			[mutableSymbolsArray addObject:@((uintptr_t)__symbols[idx])];
+		}
+		
+		_callStackSymbols = mutableSymbolsArray;
 	}
 }
 

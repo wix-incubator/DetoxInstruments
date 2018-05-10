@@ -8,4 +8,4 @@
 
 @import Darwin;
 
-extern NSArray<NSNumber*>* DTXCallStackSymbolsForMachThread(thread_act_t thread);
+int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** symbols);

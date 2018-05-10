@@ -102,6 +102,11 @@
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+	if(row >= _frc.fetchedObjects.count)
+	{
+		return nil;
+	}
+	
 	DTXTextViewCellView* cell = [tableView makeViewWithIdentifier:@"DTXLogEntryCell" owner:nil];
 	cell.contentTextField.font = self.class.fontForObjectDisplay;
 	cell.contentTextField.stringValue = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
@@ -153,8 +158,20 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
+	if(_updatesExperiencedErrors == YES)
+	{
+		return;
+	}
+	
 	if(type != NSFetchedResultsChangeInsert)
 	{
+		return;
+	}
+
+	if(newIndexPath.item == 0)
+	{
+		//Table view bug
+		_updatesExperiencedErrors = YES;
 		return;
 	}
 	
@@ -210,7 +227,7 @@
 
 - (DTXInspectorDataProvider *)currentlySelectedInspectorItem
 {
-	if(_managedTableView.selectedRowIndexes.count != 1)
+	if(_managedTableView.selectedRowIndexes.count != 1 || _managedTableView.selectedRow >= _frc.fetchedObjects.count)
 	{
 		return nil;
 	}
