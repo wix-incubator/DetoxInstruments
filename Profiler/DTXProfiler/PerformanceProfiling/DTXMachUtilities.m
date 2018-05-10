@@ -68,17 +68,17 @@ inline static bool __DTXFillThreadStateIntoMachineContext(thread_t thread, _STRU
 	return thread_get_state(thread, DTX_THREAD_STATE, (thread_state_t)&machineContext->__ss, &state_count) == KERN_SUCCESS;
 }
 
-inline static uintptr_t __DTXReadFramePointerRegister(mcontext_t const machineContext)
+inline static void* __DTXReadFramePointerRegister(mcontext_t const machineContext)
 {
-	return machineContext->__ss.DTX_FRAME_POINTER_REGISTER;
+	return (void*)machineContext->__ss.DTX_FRAME_POINTER_REGISTER;
 }
 
-inline static uintptr_t __DTXReadInstructionAddressRegister(mcontext_t const machineContext)
+inline static void* __DTXReadInstructionAddressRegister(mcontext_t const machineContext)
 {
-	return machineContext->__ss.DTX_INSTRUCTION_ADDRESS_REGISTER;
+	return (void*)machineContext->__ss.DTX_INSTRUCTION_ADDRESS_REGISTER;
 }
 
-inline static uintptr_t __DTXReadLinkRegister(mcontext_t const machineContext)
+inline static void* __DTXReadLinkRegister(mcontext_t const machineContext)
 {
 #if defined(__i386__) || defined(__x86_64__)
 	return 0;
@@ -93,47 +93,47 @@ inline static kern_return_t __DTXReadMemorySafely(const void *const src, void *c
 	return vm_read_overwrite(mach_task_self(), (vm_address_t)src, (vm_size_t)numBytes, (vm_address_t)dst, &bytesCopied);
 }
 
-NSArray<NSNumber*>* DTXCallStackSymbolsForMachThread(thread_act_t thread)
+int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** symbols)
 {
-	NSMutableArray* rv = [NSMutableArray new];
+	int count = 0;
 	
 	_STRUCT_MCONTEXT machineContext;
 	if(!__DTXFillThreadStateIntoMachineContext(thread, &machineContext))
 	{
-		return nil;
+		return count;
 	}
 	
-	const uintptr_t instructionAddress = __DTXReadInstructionAddressRegister(&machineContext);
-	[rv addObject:@(instructionAddress)];
+	void* instructionAddress = __DTXReadInstructionAddressRegister(&machineContext);
+	symbols[count++] = instructionAddress;
 	
-	uintptr_t linkRegister = __DTXReadLinkRegister(&machineContext);
+	void* linkRegister = __DTXReadLinkRegister(&machineContext);
 	if (linkRegister)
 	{
-		[rv addObject:@(linkRegister)];
+		symbols[count++] = linkRegister;
 	}
 	
 	DTXStackFrameEntry frame = {0};
-	const uintptr_t framePtr = __DTXReadFramePointerRegister(&machineContext);
+	const void* framePtr = __DTXReadFramePointerRegister(&machineContext);
 	if(framePtr == 0 || __DTXReadMemorySafely((void *)framePtr, &frame, sizeof(frame)) != KERN_SUCCESS)
 	{
-		return nil;
+		return 0;
 	}
 	
-	while(rv.count < __DTXMaxFrames)
+	while(count < __DTXMaxFrames)
 	{
-		uintptr_t addr = frame.return_address;
+		void* addr = (void*)frame.return_address;
 		if(frame.return_address == 0 || frame.previous == 0 || __DTXReadMemorySafely(frame.previous, &frame, sizeof(frame)) != KERN_SUCCESS)
 		{
 			break;
 		}
 		
-		[rv addObject:@(DTX_INSTRUCTION_FROM_RETURN_ADDRESS(addr))];
+		symbols[count++] = DTX_INSTRUCTION_FROM_RETURN_ADDRESS(addr);
 	}
 	
 	if(instructionAddress == 0)
 	{
-		return nil;
+		return 0;
 	}
 	
-	return rv;
+	return count;
 }

@@ -19,10 +19,11 @@ class ReactNativeTesterApp extends Component {
   }
 
   _startSlowJSTimer() {
+		console.log("Slowing CPU!");
     this._performTask();
     this.slowJSTimer = setTimeout(() => {
       this._startSlowJSTimer();
-    }, 2000);
+    }, 3500);
   }
 
   _startBusyBridgeTimer() {
