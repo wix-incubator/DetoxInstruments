@@ -92,34 +92,50 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		
 		[windowController _drainLayout];
 		
-		NSBitmapImageRep* rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
+		[windowController _setRecordingButtonsVisible:YES];
+		[windowController _drainLayout];
+		
+		NSBitmapImageRep* repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
+		
+		NSBitmapImageRep* rep = (NSBitmapImageRep*)[self _exampleImageWithExistingRep:repIntro].representations.firstObject;
+		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Example.png"].path atomically:YES];
+		
+		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
+		
+		rep = (NSBitmapImageRep*)[self _toolbarImageWithExistingRep:repIntro].representations.firstObject;
+		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Toolbar.png"].path atomically:YES];
+		
+		[windowController _setRecordingButtonsVisible:NO];
+		[windowController _drainLayout];
+		
+		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
+		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
 		
 		[windowController _setWindowSizeToScreenPercentage:CGPointMake(0.7, 0.9)];
 		[windowController _drainLayout];
 		
 		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, 511)];
-		
+
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 			[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage];
 		}];
-		
+
 		[inspectorPaneOverviewImage lockFocus];
 		rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, inspectorPaneOverviewImage.size}];
 		[inspectorPaneOverviewImage unlockFocus];
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_InspectorPane.png"].path atomically:YES];
-		
+
 		[windowController _deselectAnyPlotControllers];
 		[windowController _selectSampleAtIndex:175 forPlotControllerClass:DTXMemoryUsagePlotController.class];
-		
+
 		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
-		
+
 		[windowController _selectPlotControllerOfClass:DTXCompactNetworkRequestsPlotController.class];
 		[windowController _deselectAnyDetail];
 		[windowController _setBottomSplitAtPercentage:0.6];
 		[windowController _scrollBottomPaneToPercentage:0.8];
-		
+
 		rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_DetailPane.png"].path atomically:YES];
 		
@@ -185,6 +201,80 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	}
 }
 
+- (NSImage*)_exampleImageWithExistingRep:(NSBitmapImageRep*)rep
+{
+	const CGFloat exampleImageWidthPadding = 440;
+	const CGFloat exampleImageHeightPadding = 120;
+	const CGFloat exampleFontSize = 80;
+	const CGFloat toolbarTitleXOffset = 1160;
+	const CGFloat lineLength = 172;
+	
+	NSMutableParagraphStyle* pStyle = [NSParagraphStyle defaultParagraphStyle].mutableCopy;
+	pStyle.alignment = NSTextAlignmentCenter;
+	
+	NSImage* exampleImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width + exampleImageWidthPadding * 2, rep.size.height + exampleImageHeightPadding * 2)];
+	[exampleImage lockFocus];
+	
+	[rep drawAtPoint:NSMakePoint(exampleImage.size.width / 2 - rep.size.width / 2, exampleImage.size.height / 2 - rep.size.height / 2 - exampleImageHeightPadding / 1.5)];
+	
+	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:@"Toolbar" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
+	[attr drawAtPoint:NSMakePoint(toolbarTitleXOffset, exampleImage.size.height - 44 - attr.size.height)];
+	
+	NSBezierPath* path = [NSBezierPath bezierPath];
+	
+	path.lineWidth = 6;
+	
+	[path moveToPoint:NSMakePoint(toolbarTitleXOffset + attr.size.width / 2, exampleImage.size.height - 44 - attr.size.height - 10)];
+	[path lineToPoint:NSMakePoint(toolbarTitleXOffset + attr.size.width / 2, exampleImage.size.height - 44 - attr.size.height - 10 - lineLength)];
+	
+	const CGFloat timelineTitleYOffset = exampleImage.size.height - 710;
+	
+	attr = [[NSAttributedString alloc] initWithString:@"Timeline" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
+	[attr drawInRect:(NSRect){570 - lineLength - 20 - attr.size.width, timelineTitleYOffset - attr.size.height / 2 + 20, attr.size}];
+	
+	[path moveToPoint:NSMakePoint(570, timelineTitleYOffset)];
+	[path lineToPoint:NSMakePoint(570 - lineLength, timelineTitleYOffset)];
+	
+	const CGFloat detailTitleYOffset = exampleImage.size.height - 1600;
+	
+	attr = [[NSAttributedString alloc] initWithString:@"Detail\nPane" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
+	[attr drawInRect:(NSRect){570 - lineLength - 20 - attr.size.width, detailTitleYOffset - attr.size.height / 2 + 20, attr.size}];
+	
+	[path moveToPoint:NSMakePoint(570, detailTitleYOffset)];
+	[path lineToPoint:NSMakePoint(570 - lineLength, detailTitleYOffset)];
+	
+	const CGFloat inspectorTitleYOffset = exampleImage.size.height - 1890;
+	
+	attr = [[NSAttributedString alloc] initWithString:@"Inspector\nPane" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
+	[attr drawInRect:(NSRect){3220 + lineLength + 20, inspectorTitleYOffset - attr.size.height / 2 + 20, attr.size}];
+	
+	[path moveToPoint:NSMakePoint(exampleImage.size.width - 572, inspectorTitleYOffset)];
+	[path lineToPoint:NSMakePoint(exampleImage.size.width - 572 + lineLength, inspectorTitleYOffset)];
+	
+	[path stroke];
+	
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, exampleImage.size}];
+	[exampleImage unlockFocus];
+	[exampleImage removeRepresentation:exampleImage.representations.firstObject];
+	[exampleImage addRepresentation:rep];
+	
+	return exampleImage;
+}
+
+- (NSImage*)_toolbarImageWithExistingRep:(NSBitmapImageRep*)rep
+{
+	NSImage* toolbarImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, 174)];
+	[toolbarImage lockFocus];
+	
+	[rep drawAtPoint:NSMakePoint(0, toolbarImage.size.height - rep.size.height)];
+	
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, toolbarImage.size}];
+	[toolbarImage unlockFocus];
+	[toolbarImage removeRepresentation:toolbarImage.representations.firstObject];
+	[toolbarImage addRepresentation:rep];
+	
+	return toolbarImage;
+}
 
 @end
 
