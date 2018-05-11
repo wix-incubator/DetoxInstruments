@@ -7,6 +7,7 @@
 //
 
 #import "DTXMachUtilities.h"
+#import <execinfo.h>
 
 //More info here:
 //	https://stackoverflow.com/questions/33143102/howto-get-the-correct-frame-pointer-of-an-arbitrary-thread-in-ios
@@ -60,8 +61,6 @@ typedef struct DTXStackFrameEntry
 	const uintptr_t return_address;
 } DTXStackFrameEntry;
 
-static const uint64_t __DTXMaxFrames = 2048;
-
 inline static bool __DTXFillThreadStateIntoMachineContext(thread_t thread, _STRUCT_MCONTEXT *machineContext)
 {
 	mach_msg_type_number_t state_count = DTX_THREAD_STATE_COUNT;
@@ -93,7 +92,7 @@ inline static kern_return_t __DTXReadMemorySafely(const void *const src, void *c
 	return vm_read_overwrite(mach_task_self(), (vm_address_t)src, (vm_size_t)numBytes, (vm_address_t)dst, &bytesCopied);
 }
 
-int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** symbols)
+int __DTXCallStackSymbolsForMacThreadInternal(thread_act_t thread, void** symbols)
 {
 	int count = 0;
 	
@@ -119,7 +118,7 @@ int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** symbols)
 		return 0;
 	}
 	
-	while(count < __DTXMaxFrames)
+	while(count < DTXMaxFrames)
 	{
 		void* addr = (void*)frame.return_address;
 		if(frame.return_address == 0 || frame.previous == 0 || __DTXReadMemorySafely(frame.previous, &frame, sizeof(frame)) != KERN_SUCCESS)
@@ -136,4 +135,24 @@ int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** symbols)
 	}
 	
 	return count;
+}
+
+int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** symbols)
+{
+	int symbolCount = 0;
+	if(thread != mach_thread_self())
+	{
+		if(thread_suspend(thread) == KERN_SUCCESS)
+		{
+			symbolCount = __DTXCallStackSymbolsForMacThreadInternal(thread, symbols);
+			thread_resume(thread);
+			return symbolCount;
+		}
+	}
+	else
+	{
+		symbolCount = backtrace(symbols, DTXMaxFrames);
+	}
+	
+	return symbolCount;
 }
