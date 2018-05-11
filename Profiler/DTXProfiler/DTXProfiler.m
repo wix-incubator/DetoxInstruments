@@ -370,7 +370,7 @@ DTX_CREATE_LOG(Profiler);
 	
 	NSArray* stackTrace = performanceSampler.callStackSymbols;
 	
-	NSArray* openFiles = performanceSampler.openFiles;
+	NSArray* openFiles = performanceSampler.currentOpenFiles;
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
