@@ -63,6 +63,21 @@ DTX_CREATE_LOG(Profiler);
 	return _currentProfilingConfiguration;
 }
 
+- (NSPersistentContainer*)_persistentStoreForProfiling
+{
+	NSError* err;
+	[[NSFileManager defaultManager] removeItemAtURL:_currentProfilingConfiguration.recordingFileURL error:&err];
+	[[NSFileManager defaultManager] createDirectoryAtURL:_currentProfilingConfiguration.recordingFileURL withIntermediateDirectories:YES attributes:nil error:NULL];
+	
+	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];
+	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXProfiler class]]]];
+	
+	NSPersistentContainer* rv = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
+	rv.persistentStoreDescriptions = @[description];
+	
+	return rv;
+}
+
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
 	DTX_ASSERT_NOT_RECORDING
@@ -75,17 +90,9 @@ DTX_CREATE_LOG(Profiler);
 	
 	_pendingSamples = [NSMutableArray new];
 	
-	NSError* err;
-	[[NSFileManager defaultManager] removeItemAtURL:_currentProfilingConfiguration.recordingFileURL error:&err];
-	[[NSFileManager defaultManager] createDirectoryAtURL:configuration.recordingFileURL withIntermediateDirectories:YES attributes:nil error:NULL];
-	
-	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[configuration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];
-	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXProfiler class]]]];
-	
-	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
-	_container.persistentStoreDescriptions = @[description];
-	
 	_threads = [NSMutableDictionary new];
+	
+	_container = [self _persistentStoreForProfiling];
 	
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
 		_backgroundContext = _container.newBackgroundContext;
@@ -114,7 +121,6 @@ DTX_CREATE_LOG(Profiler);
 			[_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:configuration] handler:^(DTXPerformanceSampler* pollable) {
 				[weakSelf performanceSamplerDidPoll:pollable];
 			}];
-			[_pollingManager resume];
 			
 			if(configuration.recordNetwork == YES)
 			{
@@ -136,6 +142,8 @@ DTX_CREATE_LOG(Profiler);
 					}];
 				}
 			}
+			
+			[_pollingManager resume];
 			
 			dtx_log_info(@"Started profiling");
 		} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -227,6 +235,8 @@ DTX_CREATE_LOG(Profiler);
 		[_backgroundContext save:NULL];
 		
 		[self _closeContainerInternal];
+		
+		_container = nil;
 		
 		_currentProfilingConfiguration = nil;
 		self.recording = NO;
@@ -352,8 +362,6 @@ DTX_CREATE_LOG(Profiler);
 	}];
 	
 	DTXWriteZipFileWithDirectoryURL([_currentProfilingConfiguration.recordingFileURL URLByAppendingPathExtension:@"zip"], _currentProfilingConfiguration.recordingFileURL);
-	
-	_container = nil;
 }
 
 - (void)performanceSamplerDidPoll:(DTXPerformanceSampler*)performanceSampler
@@ -372,7 +380,7 @@ DTX_CREATE_LOG(Profiler);
 	
 	NSArray* openFiles = performanceSampler.currentOpenFiles;
 	
-	[_backgroundContext performBlock:^{
+	[_backgroundContext performBlockAndWait:^{
 		DTX_IGNORE_NOT_RECORDING
 		
 		__kindof DTXPerformanceSample* perfSample;
@@ -452,7 +460,7 @@ DTX_CREATE_LOG(Profiler);
 	NSArray* stackTrace = [rnSampler.currentStackTrace componentsSeparatedByString:@"\n"];
 	BOOL isSymbolicated = rnSampler.currentStackTraceSymbolicated;
 	
-	[_backgroundContext performBlock:^{
+	[_backgroundContext performBlockAndWait:^{
 		DTX_IGNORE_NOT_RECORDING
 		
 		DTXReactNativePeroformanceSample* rnPerfSample = [[DTXReactNativePeroformanceSample alloc] initWithContext:_backgroundContext];

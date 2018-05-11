@@ -62,6 +62,33 @@ DTX_CREATE_LOG(RemoteProfiler);
 	return self;
 }
 
+- (NSPersistentContainer*)_persistentStoreForProfiling
+{
+	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[NSURL URLWithString:@""]];
+	description.type = NSInMemoryStoreType;
+	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXProfiler class]]]];
+	
+	NSPersistentContainer* rv = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
+	rv.persistentStoreDescriptions = @[description];
+	
+	return rv;
+}
+
+- (void)_closeContainerInternal
+{
+	
+}
+
+- (void)_addPendingSampleInternal:(DTXSample*)pendingSample
+{
+	
+}
+
+- (void)_flushPendingSamplesInternal
+{
+	
+}
+
 - (void)_serializeCommandWithSelector:(SEL)selector managedObject:(NSManagedObject*)obj additionalParams:(NSArray*)additionalParams
 {
 	[self _serializeCommandWithSelector:selector entityName:obj.entity.name dict:obj.dictionaryRepresentationForPropertyList additionalParams:additionalParams];
@@ -101,6 +128,9 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)addLogSample:(DTXLogSample *)logSample
 {
 	[self _serializeCommandWithSelector:_cmd managedObject:logSample additionalParams:nil];
+	
+	[logSample.managedObjectContext deleteObject:logSample];
+	[logSample.managedObjectContext save:NULL];
 }
 
 - (void)addPerformanceSample:(__kindof DTXPerformanceSample *)performanceSample
@@ -111,6 +141,9 @@ DTX_CREATE_LOG(RemoteProfiler);
 	}
 	
 	[self _serializeCommandWithSelector:_cmd managedObject:performanceSample additionalParams:nil];
+	
+	[performanceSample.managedObjectContext deleteObject:performanceSample];
+	[performanceSample.managedObjectContext save:NULL];
 }
 
 - (void)addRNPerformanceSample:(DTXReactNativePeroformanceSample *)rnPerformanceSample
@@ -118,6 +151,9 @@ DTX_CREATE_LOG(RemoteProfiler);
 	//Instead of symbolicating here, send source maps data to Detox Instruments for remote symbolication.
 	
 	[self _serializeCommandWithSelector:_cmd managedObject:rnPerformanceSample additionalParams:nil];
+	
+	[rnPerformanceSample.managedObjectContext deleteObject:rnPerformanceSample];
+	[rnPerformanceSample.managedObjectContext save:NULL];
 }
 
 - (void)createRecording:(DTXRecording *)recording
@@ -136,11 +172,17 @@ DTX_CREATE_LOG(RemoteProfiler);
 	dict[@"sampleIdentifier"] = networkSample.sampleIdentifier;
 	
 	[self _serializeCommandWithSelector:_cmd entityName:networkSample.entity.name dict:dict additionalParams:nil];
+	
+	[networkSample.managedObjectContext deleteObject:networkSample];
+	[networkSample.managedObjectContext save:NULL];
 }
 
 - (void)popSampleGroup:(DTXSampleGroup *)sampleGroup
 {
 	[self _serializeCommandWithSelector:_cmd managedObject:sampleGroup additionalParams:nil];
+	
+	[sampleGroup.managedObjectContext deleteObject:sampleGroup];
+	[sampleGroup.managedObjectContext save:NULL];
 }
 
 - (void)pushSampleGroup:(DTXSampleGroup *)sampleGroup isRootGroup:(BOOL)isRootGroup
@@ -166,6 +208,9 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)addTagSample:(DTXTag*)tag
 {
 	[self _serializeCommandWithSelector:_cmd managedObject:tag additionalParams:nil];
+	
+	[tag.managedObjectContext deleteObject:tag];
+	[tag.managedObjectContext save:NULL];
 }
 
 @end

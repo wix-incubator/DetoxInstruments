@@ -9,6 +9,12 @@
 #import "DTXCustomJSCSupport.h"
 #import "fishhook.h"
 
+#if __has_include("DTXLogging.h")
+#import "DTXLogging.h"
+DTX_CREATE_LOG(DTXCustomJSCSupport)
+#define NSLog dtx_log_error
+#endif
+
 @import ObjectiveC;
 
 static CFBundleRef __DTXGetCustomJSCBundle()

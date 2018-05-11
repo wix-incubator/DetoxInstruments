@@ -9,6 +9,12 @@
 #import "DTXZipper.h"
 #import "SSZipArchive.h"
 
+#if __has_include("DTXLogging.h")
+#import "DTXLogging.h"
+DTX_CREATE_LOG(DTXZipper)
+#define NSLog dtx_log_error
+#endif
+
 NSURL* DTXTempZipURL(void)
 {
 	return [[NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES] URLByAppendingPathComponent:@".containerContents.zip"];

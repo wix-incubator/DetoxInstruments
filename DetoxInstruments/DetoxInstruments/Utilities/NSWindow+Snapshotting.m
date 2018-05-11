@@ -35,8 +35,6 @@
 		}];
 	}
 	
-//	NSLog(@"%@", CGWindowListCreateDescriptionFromArray(windowIDs));
-	
 	CGImageRef windowImage = CGWindowListCreateImageFromArray(CGRectNull, windowIDs, kCGWindowImageDefault);
 	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCGImage:windowImage];
 	CGImageRelease(windowImage);
