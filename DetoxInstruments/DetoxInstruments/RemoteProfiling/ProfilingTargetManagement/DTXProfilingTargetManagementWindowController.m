@@ -35,20 +35,6 @@
 	{
 		_storyboard = [NSStoryboard storyboardWithName:@"TargetManagement" bundle:NSBundle.mainBundle];
 		
-		_containerContentsOutlineViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXContainerContentsViewController"];
-		[_containerContentsOutlineViewController view];
-		
-		_userDefaultsViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXUserDefaultsViewController"];
-		[_userDefaultsViewController view];
-		
-		_cookiesViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXCookiesViewController"];
-		[_cookiesViewController view];
-		
-		_pasteboardViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXPasteboardViewController"];
-		[_pasteboardViewController view];
-		
-		_controllers = @[_containerContentsOutlineViewController, _pasteboardViewController, _userDefaultsViewController, _cookiesViewController];
-		
 		self.allowsVibrancy = NO;
 		self.centerToolbarItems = YES;
 	}
@@ -106,6 +92,29 @@
 		
 		return;
 	}
+	
+	if(self.window == nil)
+	{
+		[self loadWindow];
+	}
+	
+	_containerContentsOutlineViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXContainerContentsViewController"];
+	[_containerContentsOutlineViewController view];
+	
+	_userDefaultsViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXUserDefaultsViewController"];
+	[_userDefaultsViewController view];
+	
+	_cookiesViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXCookiesViewController"];
+	[_cookiesViewController view];
+	
+	_pasteboardViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXPasteboardViewController"];
+	[_pasteboardViewController view];
+	
+	_controllers = @[_containerContentsOutlineViewController, _pasteboardViewController, _userDefaultsViewController, _cookiesViewController];
+	
+	[_controllers enumerateObjectsUsingBlock:^(id<DTXProfilingTargetManagement>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj setProfilingTarget:self.profilingTarget];
+	}];
 	
 	[self setPreferencesViewControllers:_controllers];
 	

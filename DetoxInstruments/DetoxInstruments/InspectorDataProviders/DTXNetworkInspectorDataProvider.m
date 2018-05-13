@@ -107,6 +107,7 @@
 			{
 				NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)networkSample.responseMIMEType, NULL));
 				image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];
+				image.size = NSMakeSize(128, 128);
 			}
 		}
 		

@@ -29,7 +29,11 @@
 
 + (NSData*)_dataForNetworkCommand:(NSDictionary*)cmd
 {
-	return [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
+	NSData* plist = [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
+	
+	NSAssert(plist != nil, @"Unable to encode data to property list.");
+	
+	return plist;
 }
 
 + (NSDictionary*)_responseFromNetworkData:(NSData*)data
@@ -183,7 +187,8 @@
 			case DTXRemoteProfilingCommandTypeDeleteContainerIten:
 			case DTXRemoteProfilingCommandTypePutContainerItem:
 			case DTXRemoteProfilingCommandTypeChangeUserDefaultsItem:
-				case DTXRemoteProfilingCommandTypeSetCookies:
+			case DTXRemoteProfilingCommandTypeSetCookies:
+			case DTXRemoteProfilingCommandTypeSetPasteboard:
 				break;
 		}
 		
@@ -313,6 +318,7 @@
 
 - (void)setCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies
 {
+	_cookies = [cookies copy];
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeSetCookies), @"cookies": cookies} completionHandler:nil];
 }
 
@@ -333,6 +339,12 @@
 	{
 		[self.delegate profilingTarget:self didLoadPasteboardContents:_pasteboardContents];
 	}
+}
+
+- (void)setPasteboardContents:(NSArray<DTXPasteboardItem *> *)pasteboardContents
+{
+	_pasteboardContents = [pasteboardContents copy];
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeSetPasteboard), @"pasteboardContents": [NSKeyedArchiver archivedDataWithRootObject:pasteboardContents]} completionHandler:nil];
 }
 
 #pragma mark Remote Profiling

@@ -17,7 +17,7 @@
 #import "AutoCoding.h"
 #import "DTXZipper.h"
 #import "SSZipArchive.h"
-#import "DTXPasteboardParser.h"
+#import "DTXUIPasteboardParser.h"
 
 DTX_CREATE_LOG(RemoteProfilingManager);
 
@@ -110,7 +110,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 
 - (void)_resumePublishing
 {
-	if(_remoteProfiler != nil)
+	if(_remoteProfiler != nil || _connection != nil)
 	{
 		return;
 	}
@@ -241,7 +241,13 @@ static DTXRemoteProfilingManager* __sharedManager;
 			case DTXRemoteProfilingCommandTypeGetPasteboard:
 			{
 				[self _sendPasteboard];
-			}break;
+			}	break;
+			case DTXRemoteProfilingCommandTypeSetPasteboard:
+			{
+				NSArray<DTXPasteboardItem*>* pasteboard = [NSKeyedUnarchiver unarchiveObjectWithData:cmd[@"pasteboardContents"]];
+				[self _setPasteboard:pasteboard];
+				
+			}	break;
 		}
 		
 		[self _nextCommand];
@@ -420,9 +426,14 @@ static DTXRemoteProfilingManager* __sharedManager;
 	NSMutableDictionary* cmd = [NSMutableDictionary new];
 	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetPasteboard);
 	
-	cmd[@"pasteboardContents"] = [DTXPasteboardParser dataFromGeneralPasteboard];
+	cmd[@"pasteboardContents"] = [NSKeyedArchiver archivedDataWithRootObject:[DTXUIPasteboardParser pasteboardItemsFromGeneralPasteboard]];
 	
 	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)_setPasteboard:(NSArray<DTXPasteboardItem*>*)pasteboard
+{
+	[DTXUIPasteboardParser setGeneralPasteboardItems:pasteboard];
 }
 
 #pragma mark Remote Profiling
@@ -523,6 +534,8 @@ static DTXRemoteProfilingManager* __sharedManager;
 	
 	dtx_log_info(@"Socket connection closed for reading");
 
+	_connection = nil;
+	
 	[self _errorOutWithError:nil];
 }
 
@@ -531,6 +544,8 @@ static DTXRemoteProfilingManager* __sharedManager;
 	[socketConnection closeRead];
 	
 	dtx_log_info(@"Socket connection closed for writing");
+	
+	_connection = nil;
 	
 	[self _errorOutWithError:nil];
 }

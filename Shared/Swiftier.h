@@ -25,6 +25,9 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 #pragma clang diagnostic pop
 
 #ifdef __OBJC__
+#define NS(x) ((__bridge id)x)
+#define CF(x) ((__bridge CFTypeRef)x)
+
 #ifdef __cplusplus
 #import <Foundation/Foundation.h>
 #else

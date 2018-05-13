@@ -50,6 +50,12 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+	if(menuItem.action == @selector(showInFinder:))
+	{
+		BOOL isSim = [self.profilingTarget.deviceName hasPrefix:@"iPhone Simulator"];
+		return !(menuItem.hidden = !isSim);
+	}
+	
 	if(menuItem.action == @selector(paste:))
 	{
 		return [NSPasteboard.generalPasteboard canReadItemWithDataConformingToTypes:@[(__bridge id)kUTTypeFileURL]];
@@ -250,6 +256,12 @@
 - (IBAction)delete:(id)sender
 {
 	[self deleteItem:self.selectedOrClicked];
+}
+
+- (IBAction)showInFinder:(id)sender
+{
+	DTXFileSystemItem* item = self.selectedOrClicked ?: self.profilingTarget.containerContents;
+	[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[item.URL]];
 }
 
 - (void)increaseProgressIndicatorCounterAndDisplayRightAway:(BOOL)rightAway
