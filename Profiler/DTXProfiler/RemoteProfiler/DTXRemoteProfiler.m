@@ -100,6 +100,9 @@ DTX_CREATE_LOG(RemoteProfiler);
 	cmd[@"additionalParams"] = additionalParams;
 	
 	NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
+	
+	NSAssert(plistData != nil, @"Unable to encode data to property list.");
+	
 	[_socketConnection writeData:plistData completionHandler:^(NSError * _Nullable error) {
 		if(error)
 		{

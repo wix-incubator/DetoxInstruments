@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DTXRemoteProfilingBasics.h"
 #import "DTXFileSystemItem.h"
+#import "DTXPasteboardItem.h"
 @import CoreData;
 
 @class DTXRemoteProfilingTarget, DTXProfilingConfiguration;
@@ -37,7 +38,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 
 - (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies;
 
-- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadPasteboardContents:(NSArray<NSDictionary<NSString*, id>*>*)pasteboardContents;
+- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadPasteboardContents:(NSArray<DTXPasteboardItem*>*)pasteboardContents;
 
 @end
 
@@ -73,11 +74,10 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 - (void)loadUserDefaults;
 - (void)changeUserDefaultsItemWithKey:(NSString*)key changeType:(DTXUserDefaultsChangeType)changeType value:(id)value previousKey:(NSString*)previousKey;
 
-@property (nonatomic, strong, readonly) NSArray<NSDictionary<NSString*, id>*>* cookies;
+@property (nonatomic, strong) NSArray<NSDictionary<NSString*, id>*>* cookies;
 - (void)loadCookies;
-- (void)setCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies;
 
-@property (nonatomic,copy) NSArray<NSDictionary<NSString*, id>*>* pasteboardContents;
+@property (nonatomic, copy) NSArray<DTXPasteboardItem*>* pasteboardContents;
 - (void)loadPasteboardContents;
 
 

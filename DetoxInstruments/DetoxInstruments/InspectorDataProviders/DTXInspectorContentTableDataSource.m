@@ -13,6 +13,20 @@
 #import "DTXObjectsCellView.h"
 @import QuartzCore;
 
+@interface DTXTextAttachment : NSTextAttachment @end
+
+@implementation DTXTextAttachment
+
+- (NSRect)attachmentBoundsForTextContainer:(nullable NSTextContainer *)textContainer proposedLineFragment:(NSRect)lineFrag glyphPosition:(CGPoint)position characterIndex:(NSUInteger)charIndex
+{
+	CGFloat width = MIN(lineFrag.size.width, self.image.size.width);
+	CGFloat height = (self.image.size.height / self.image.size.width) * width;
+	
+	return NSMakeRect(0, 0, width, height);
+}
+
+@end
+
 @implementation DTXInspectorContentRow
 
 @synthesize description=_description;
@@ -51,9 +65,80 @@
 	return [self.title isEqualToString:@"\n"] && [self.description isEqualToString:@"\n"];
 }
 
+- (BOOL)isEqual:(DTXInspectorContentRow*)object
+{
+	__block BOOL equal = YES;
+	
+	equal &= (self.title == object.title || [self.title isEqualToString:object.title]);
+	equal &= (self.description == object.description || [self.description isEqualToString:object.description]);
+
+	if([self.attributedDescription containsAttachmentsInRange:NSMakeRange(0, self.attributedDescription.length)])
+	{
+		equal &= (self.attributedDescription.length == object.attributedDescription.length);
+		
+		NSMutableArray<NSTextAttachment*>* selfAttachments = [NSMutableArray new];
+		[self.attributedDescription enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.attributedDescription.length) options:0 usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
+			if(value)
+			{
+				[selfAttachments addObject:value];
+			}
+		}];
+		
+		NSMutableArray<NSTextAttachment*>* objectAttachments = [NSMutableArray new];
+		[object.attributedDescription enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, object.attributedDescription.length) options:0 usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
+			if(value)
+			{
+				[objectAttachments addObject:value];
+			}
+		}];
+		
+		equal &= (selfAttachments.count == objectAttachments.count);
+		if(equal)
+		{
+			[selfAttachments enumerateObjectsUsingBlock:^(NSTextAttachment * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				if(obj.image)
+				{
+					equal &= [obj.image.TIFFRepresentation isEqualToData:objectAttachments[idx].image.TIFFRepresentation];
+				}
+				else
+				{
+					NSFileWrapper* objWrapper = obj.fileWrapper;
+					NSFileWrapper* otherWrapper = objectAttachments[idx].fileWrapper;
+					equal &= (objWrapper == otherWrapper || [objWrapper.regularFileContents isEqualToData:otherWrapper.regularFileContents]);
+				}
+			}];
+		}
+	}
+	else
+	{
+		equal &= (self.attributedDescription == object.attributedDescription || [self.attributedDescription isEqualToAttributedString:object.attributedDescription]);
+	}
+	equal &= (self.color == object.color || [self.color isEqual:object.color]);
+	
+	return equal;
+}
+
 @end
 
-@implementation DTXInspectorContent @end
+@implementation DTXInspectorContent
+
+- (BOOL)isEqual:(DTXInspectorContent*)object
+{
+	BOOL equal = YES;
+	
+	equal &= (self.title == object.title || [self.title isEqualToString:object.title]);
+	equal &= (self.isGroup == object.isGroup);
+	equal &= (self.content == object.content ||  [self.content isEqualToArray:object.content]);
+	equal &= (self.setupForWindowWideCopy == object.setupForWindowWideCopy);
+	equal &= (self.image == object.image || [self.image.TIFFRepresentation isEqualToData:object.image.TIFFRepresentation]);
+	equal &= (self.customView == object.customView || [self.customView isEqual:object.customView]);
+	equal &= (self.stackFrames == object.stackFrames || [self.stackFrames isEqualToArray:object.stackFrames]);
+	equal &= (self.objects == object.objects || [self.objects isEqualToArray:object.objects]);
+	
+	return equal;
+}
+
+@end
 
 @interface DTXInspectorContentTableDataSource () <NSTableViewDataSource, NSTableViewDelegate>
 {
@@ -72,6 +157,7 @@
 	[_managedTableView reloadData];
 	
 	_managedTableView = managedTableView;
+	[self _prepareAttributedStrings];
 	
 	_managedTableView.usesAutomaticRowHeights = YES;
 	
@@ -79,54 +165,146 @@
 	_managedTableView.delegate = self;
 }
 
+- (void)setContentArray:(NSArray<DTXInspectorContent *> *)contentArray animateTransition:(BOOL)animate
+{
+	if([_contentArray isEqualToArray:contentArray])
+	{
+		return;
+	}
+	
+	[_managedTableView layoutSubtreeIfNeeded];
+	
+	if(animate == NO)
+	{
+		_contentArray = [contentArray copy];
+		[self _prepareAttributedStrings];
+		[_managedTableView reloadData];
+	}
+	
+	[NSAnimationContext beginGrouping];
+	NSAnimationContext.currentContext.duration = 0.3;
+	NSAnimationContext.currentContext.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+	
+	[_managedTableView beginUpdates];
+	
+	[_managedTableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self numberOfRowsInTableView:_managedTableView])] withAnimation:NSTableViewAnimationEffectFade];
+	
+	_contentArray = @[];
+	[self _prepareAttributedStrings];
+	
+	if(animate)
+	{
+		[_managedTableView endUpdates];
+		[NSAnimationContext endGrouping];
+	}
+	
+	//Without this, NSTableView bugged out and produced broken cell layout from time to time.
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[NSAnimationContext beginGrouping];
+		NSAnimationContext.currentContext.duration = 0.3;
+		NSAnimationContext.currentContext.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+
+		[_managedTableView beginUpdates];
+		
+		_contentArray = [contentArray copy];
+		[self _prepareAttributedStrings];
+		
+		[_managedTableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self numberOfRowsInTableView:_managedTableView])] withAnimation:NSTableViewAnimationEffectFade | NSTableViewAnimationSlideUp];
+		
+		[_managedTableView endUpdates];
+		[NSAnimationContext endGrouping];
+	});
+}
+
 - (void)setContentArray:(NSArray<DTXInspectorContent *> *)contentArray
 {
-	_contentArray = [contentArray copy];
-	[self _prepareAttributedStrings];
-	[_managedTableView reloadData];
+	[self setContentArray:contentArray animateTransition:NO];
 }
 
 - (void)_prepareAttributedStrings
 {
+	if(_managedTableView == nil)
+	{
+		return;
+	}
+	
 	_attributedStrings = [NSMutableArray new];
+	
+	NSTextField* textField = [[_managedTableView makeViewWithIdentifier:@"DTXTextViewCellView" owner:nil] contentTextField];
+	NSFont* fontFromTableView = textField.font;
 	
 	[_contentArray enumerateObjectsUsingBlock:^(DTXInspectorContent * _Nonnull content, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSMutableAttributedString* mas = [NSMutableAttributedString new];
-		[content.content enumerateObjectsUsingBlock:^(DTXInspectorContentRow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			if(obj.isNewLine)
-			{
-				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightRegular]}]];
-				return;
-			}
+		if(content.image)
+		{
+			DTXTextAttachment* ta = [DTXTextAttachment new];
+			ta.image = content.image;
+			[ta.image setValue:@YES forKey:@"flipped"];
 			
-			if(obj.description == nil && obj.attributedDescription == nil)
-			{
-				return;
-			}
-			
-			if(obj.title)
-			{
-				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.title attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightSemibold], NSForegroundColorAttributeName: NSColor.textColor}]];
-				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@": " attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightSemibold], NSForegroundColorAttributeName: NSColor.textColor}]];
-			}
-			
-			if(obj.attributedDescription)
-			{
-				[mas appendAttributedString:obj.attributedDescription];
-			}
-			else
-			{
-				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.description attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightRegular], NSForegroundColorAttributeName: obj.color}]];
-			}
-			
-			if(idx < content.content.count - 1)
-			{
-				[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:10 weight:NSFontWeightRegular]}]];
-			}
-		}];
+			[mas appendAttributedString:[NSAttributedString attributedStringWithAttachment:ta]];
+		}
+		else
+		{
+			[content.content enumerateObjectsUsingBlock:^(DTXInspectorContentRow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				if(obj.isNewLine)
+				{
+					[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:fontFromTableView.pointSize weight:NSFontWeightRegular]}]];
+					return;
+				}
+				
+				if(obj.description == nil && obj.attributedDescription == nil)
+				{
+					return;
+				}
+				
+				if(obj.title)
+				{
+					[mas appendAttributedString:[[NSAttributedString alloc] initWithString:obj.title attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:fontFromTableView.pointSize weight:NSFontWeightSemibold], NSForegroundColorAttributeName: textField.textColor}]];
+					[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@": " attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:fontFromTableView.pointSize weight:NSFontWeightSemibold], NSForegroundColorAttributeName: textField.textColor}]];
+				}
+				
+				if(obj.attributedDescription)
+				{
+					NSMutableAttributedString* attrDesc = obj.attributedDescription.mutableCopy;
+					
+					[attrDesc beginEditing];
+					
+					[attrDesc addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:fontFromTableView.pointSize weight:NSFontWeightRegular] range:NSMakeRange(0, attrDesc.length)];
+					
+					[obj.attributedDescription enumerateAttribute:NSFontAttributeName inRange:NSMakeRange(0, attrDesc.length) options:0 usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
+						if(value)
+						{
+							[attrDesc addAttribute:NSFontAttributeName value:value range:range];
+						}
+					}];
+					
+					[attrDesc endEditing];
+					
+					[mas appendAttributedString:attrDesc];
+				}
+				else
+				{
+					id attrDesc = [[NSAttributedString alloc] initWithString:obj.description attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:fontFromTableView.pointSize weight:NSFontWeightRegular], NSForegroundColorAttributeName: obj.color}];
+					[mas appendAttributedString:attrDesc];
+				}
+				
+				if(idx < content.content.count - 1)
+				{
+					[mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:fontFromTableView.pointSize weight:NSFontWeightRegular]}]];
+				}
+			}];
+		}
 		
 		NSMutableParagraphStyle* par = NSParagraphStyle.defaultParagraphStyle.mutableCopy;
-		par.lineSpacing = 2.0;
+		if(content.image)
+		{
+			par.alignment = NSTextAlignmentCenter;
+		}
+		else
+		{
+			par.lineSpacing = 2.0;
+		}
+		
 		[mas addAttribute:NSParagraphStyleAttributeName value:par range:NSMakeRange(0, mas.length)];
 		
 		[_attributedStrings addObject:mas];
@@ -142,7 +320,15 @@
 {
 	DTXInspectorContent* content = _contentArray[row];
 	
-	__kindof NSTableCellView* cell = [tableView makeViewWithIdentifier:content.stackFrames ? @"DTXStackTraceCellView" : content.objects ? @"DTXObjectsCellView" : content.customView ? @"DTXViewCellView" : content.image ? @"DTXImageViewCellView" : @"DTXTextViewCellView" owner:nil];
+	if(content.isGroup)
+	{
+		NSTableCellView* groupCell = [tableView makeViewWithIdentifier:@"DTXGroupTextViewCellView" owner:nil];
+		groupCell.textField.stringValue = content.title;
+		groupCell.imageView.image = content.titleImage;
+		return groupCell;
+	}
+	
+	__kindof NSTableCellView* cell = [tableView makeViewWithIdentifier:content.stackFrames ? @"DTXStackTraceCellView" : content.objects ? @"DTXObjectsCellView" : content.customView ? @"DTXViewCellView" : @"DTXTextViewCellView" owner:nil];
 	
 	NSView* targetForWindowWideCopy = cell.imageView;
 	
@@ -164,10 +350,20 @@
 		[cell contentTextField].allowsEditingTextAttributes = YES;
 		[cell contentTextField].selectable = YES;
 		targetForWindowWideCopy = [cell contentTextField];
+		
+		[cell textField].hidden = content.title.length == 0;
+		[cell titleContentConstraint].active = content.title.length != 0;
 	}
 	
 	cell.textField.stringValue = content.title ?: @"Title";
-	cell.imageView.image = content.image;
+	cell.imageView.image = content.titleImage;
+	
+	if(content.image)
+	{
+		[cell contentTextField].attributedStringValue = _attributedStrings[row];
+		[cell contentTextField].selectable = NO;
+		targetForWindowWideCopy = [cell contentTextField];
+	}
 	
 	if(content.customView)
 	{
@@ -191,6 +387,11 @@
 	return cell;
 }
 
+//- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+//{
+//	return _contentArray[row].isGroup;
+//}
+
 - (CGFloat)_displayHeightForString:(NSAttributedString*)string width:(CGFloat)width
 {
 	return [string boundingRectWithSize:NSMakeSize(width, DBL_MAX) options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading].size.height;
@@ -213,52 +414,6 @@
 		}
 	}
 	return counter;
-}
-
-- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
-{
-	if(row >= _contentArray.count)
-	{
-		return 1;
-	}
-	
-	DTXInspectorContent* content = _contentArray[row];
-	
-	CGFloat top = 3 + 14 + 10;
-	CGFloat bottom = 3 + 10;
-	CGFloat leading = 15;
-	CGFloat trailing = 3;
-	
-	if(content.stackFrames)
-	{
-		return top + DTXStackTraceCellView.heightForStackFrame * content.stackFrames.count + bottom;
-	}
-	
-	if(content.objects)
-	{
-		NSUInteger objectsCount = [self _depthOfObjects:content.objects];
-		return top + DTXStackTraceCellView.heightForStackFrame * objectsCount + bottom;
-	}
-	
-	if(content.customView)
-	{
-		CGFloat h = top + content.customView.fittingSize.height + bottom;
-		return h;
-	}
-	
-	if(content.image)
-	{
-		CGFloat availableWidth = tableView.bounds.size.width - leading - trailing;
-		CGFloat scale = 1.0;
-		if(availableWidth < content.image.size.width)
-		{
-			scale = availableWidth / content.image.size.width;
-		}
-		
-		return top + MAX(content.image.size.height, 80) * scale + bottom;
-	}
-	
-	return top + [self _displayHeightForString:_attributedStrings[row] width:tableView.bounds.size.width - leading - trailing] + bottom;
 }
 
 @end

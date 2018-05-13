@@ -12,14 +12,15 @@
 @interface DTXTextViewCellView ()
 
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* contentTextField;
+@property (nonatomic, strong, readwrite) IBOutlet NSLayoutConstraint* titleContentConstraint;
 
 @end
 
 @implementation DTXTextViewCellView
 
-- (NSView *)hitTest:(NSPoint)aPoint
-{
-	return self.contentTextField.selectable ? [super hitTest:aPoint] : nil;
-}
+//- (NSView *)hitTest:(NSPoint)aPoint
+//{
+//	return self.contentTextField.selectable ? [super hitTest:aPoint] : nil;
+//}
 
 @end

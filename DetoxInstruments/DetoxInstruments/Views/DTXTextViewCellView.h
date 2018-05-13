@@ -11,5 +11,6 @@
 @interface DTXTextViewCellView : NSTableCellView
 
 @property (nonatomic, strong, readonly) NSTextField* contentTextField;
+@property (nonatomic, strong, readonly) NSLayoutConstraint* titleContentConstraint;
 
 @end

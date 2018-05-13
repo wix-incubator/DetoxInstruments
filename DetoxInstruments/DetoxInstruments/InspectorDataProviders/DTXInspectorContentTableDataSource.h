@@ -29,6 +29,9 @@
 @interface DTXInspectorContent : NSObject
 
 @property (nonatomic, copy) NSString* title;
+@property (nonatomic, copy) NSImage* titleImage;
+
+@property (nonatomic) BOOL isGroup;
 
 @property (nonatomic, copy) NSArray<DTXInspectorContentRow*>* content;
 
@@ -45,5 +48,6 @@
 
 @property (nonatomic, weak) NSTableView* managedTableView;
 @property (nonatomic, copy) NSArray<DTXInspectorContent*>* contentArray;
+- (void)setContentArray:(NSArray<DTXInspectorContent *> *)contentArray animateTransition:(BOOL)animate;
 
 @end
