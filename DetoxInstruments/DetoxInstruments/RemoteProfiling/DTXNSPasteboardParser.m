@@ -177,4 +177,63 @@
 	return items;
 }
 
++ (void)setGeneralPasteboardItems:(NSArray<DTXPasteboardItem*>*)pasteboardItems
+{
+	[NSPasteboard.generalPasteboard clearContents];
+	NSMutableArray<NSPasteboardItem*>* pbItems = [NSMutableArray new];
+	
+	[pasteboardItems enumerateObjectsUsingBlock:^(DTXPasteboardItem * _Nonnull pasteboardItem, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSPasteboardItem* pbItem = [NSPasteboardItem new];
+		
+		[pasteboardItem.types enumerateObjectsUsingBlock:^(NSString * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+			if(UTTypeConformsTo(CF(type), kUTTypeImage))
+			{
+				NSImage* image = [[NSImage alloc] initWithData:[pasteboardItem dataForType:type]];
+				[pbItem setData:image.TIFFRepresentation forType:NSPasteboardTypeTIFF];
+				
+				return;
+			}
+			
+			if(UTTypeConformsTo(CF(type), kUTTypeRTF))
+			{
+				[pbItem setPropertyList:[pasteboardItem dataForType:type] forType:NSPasteboardTypeRTF];
+				
+				return;
+			}
+			
+			if(UTTypeConformsTo(CF(type), kUTTypeRTFD))
+			{
+				[pbItem setPropertyList:[pasteboardItem dataForType:type] forType:NSPasteboardTypeRTFD];
+				
+				return;
+			}
+			
+			if(UTTypeConformsTo(CF(type), kUTTypeURL))
+			{
+				[pbItem setString:[[pasteboardItem valueForType:type] absoluteString] forType:NSPasteboardTypeURL];
+				
+				return;
+			}
+			
+			if(UTTypeConformsTo(CF(type), kUTTypeText))
+			{
+				[pbItem setString:[pasteboardItem valueForType:type] forType:NSPasteboardTypeString];
+				
+				return;
+			}
+			
+			if([type isEqualToString:DTXColorPasteboardType])
+			{
+				[pbItem setPropertyList:[[pasteboardItem valueForType:type] pasteboardPropertyListForType:NSPasteboardTypeColor] forType:NSPasteboardTypeColor];
+				
+				return;
+			}
+		}];
+		
+		[pbItems addObject:pbItem];
+	}];
+	
+	[NSPasteboard.generalPasteboard writeObjects:pbItems];
+}
+
 @end

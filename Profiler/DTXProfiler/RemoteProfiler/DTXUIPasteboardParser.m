@@ -160,9 +160,10 @@
 			{
 				pbItem[NS(kUTTypeURL)] = [pasteboardItem valueForType:type];
 				
+				return;
 			}
 			
-			if(UTTypeConformsTo(CF(type), kUTTypeText) || UTTypeConformsTo(CF(type), kUTTypeURL))
+			if(UTTypeConformsTo(CF(type), kUTTypeText))
 			{
 				pbItem[NS(kUTTypeText)] = [pasteboardItem valueForType:type];
 				

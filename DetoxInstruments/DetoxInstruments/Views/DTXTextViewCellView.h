@@ -12,5 +12,6 @@
 
 @property (nonatomic, strong, readonly) NSTextField* contentTextField;
 @property (nonatomic, strong, readonly) NSLayoutConstraint* titleContentConstraint;
+@property (nonatomic, strong, readonly) NSBox* titleContainer;
 
 @end

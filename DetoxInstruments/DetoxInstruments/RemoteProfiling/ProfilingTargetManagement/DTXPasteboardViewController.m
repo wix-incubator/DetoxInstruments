@@ -18,6 +18,8 @@
 	
 	IBOutlet NSTableView* _tableView;
 	DTXInspectorContentTableDataSource* _tableDataSource;
+	
+	NSUndoManager* _undoManager;
 }
 
 @end
@@ -47,6 +49,8 @@
 	
 	_tableView.wantsLayer = YES;
 	_tableView.enclosingScrollView.wantsLayer = YES;
+	
+	_undoManager = [NSUndoManager new];
 }
 
 - (void)viewDidAppear
@@ -63,6 +67,21 @@
 		return menuItem.menu.supermenu != nil;
 	}
 	
+	if(menuItem.action == @selector(copy:) || menuItem.action == @selector(cut:))
+	{
+		return self.profilingTarget.pasteboardContents.count > 0;
+	}
+	
+	if(menuItem.action == @selector(undo:))
+	{
+		return _undoManager.canUndo;
+	}
+	
+	if(menuItem.action == @selector(redo:))
+	{
+		return _undoManager.canRedo;
+	}
+	
 	return NO;
 }
 
@@ -77,18 +96,21 @@
 		{
 			pbContent.title = [NSLocalizedString(@"Image", @"") self];
 			pbContent.image = [[NSImage alloc] initWithData:[item dataForType:type]];
-			pbContent.titleImage = [NSImage imageNamed:@"pasteboard-image"];
+			pbContent.titleImage = [NSImage imageNamed:@"NSColorPickerUser"];
+			pbContent.titleColor = [NSColor colorWithSRGBRed:0.45 green:0.73 blue:1.00 alpha:1.0];
 		}
 		else if([type isEqualToString:DTXColorPasteboardType])
 		{
 			pbContent.title = [NSLocalizedString(@"Color", @"") self];
 			pbContent.image = [NSImage imageWithColor:[item valueForType:type] size:NSMakeSize(150, 150)];
 			pbContent.titleImage = [NSImage imageNamed:@"NSColorPickerWheel"];
+			pbContent.titleColor = [NSColor colorWithSRGBRed:0.64 green:0.61 blue:1.00 alpha:1.0];
 		}
 		else if(UTTypeConformsTo(CF(type), kUTTypeRTFD) || UTTypeConformsTo(CF(type), kUTTypeRTF))
 		{
 			pbContent.title = [NSLocalizedString(@"Rich Text", @"") self];
 			pbContent.titleImage = [NSImage imageNamed:@"pasteboard-rich-text"];
+			pbContent.titleColor = [NSColor colorWithSRGBRed:0.00 green:0.72 blue:0.58 alpha:1.0];
 			
 			NSAttributedString* attr = [[NSAttributedString alloc] initWithRTF:[item dataForType:type] documentAttributes:nil];
 			
@@ -105,6 +127,7 @@
 		{
 			pbContent.title = [NSLocalizedString(@"Rich Text", @"") self];
 			pbContent.titleImage = [NSImage imageNamed:@"pasteboard-rich-text"];
+			pbContent.titleColor = [NSColor colorWithSRGBRed:0.00 green:0.72 blue:0.58 alpha:1.0];
 			
 			NSAttributedString* attr = [[NSAttributedString alloc] initWithRTFD:[item dataForType:type] documentAttributes:nil];
 			
@@ -121,6 +144,7 @@
 		{
 			pbContent.title = [NSLocalizedString(@"Text", @"") self];
 			pbContent.titleImage = [NSImage imageNamed:@"pasteboard-text"];
+			pbContent.titleColor = [NSColor colorWithSRGBRed:0.73 green:0.86 blue:0.35 alpha:1.0];
 			
 			[contentRows addObject:[DTXInspectorContentRow contentRowWithTitle:nil description:(id)[item valueForType:type]]];
 		}
@@ -128,6 +152,7 @@
 		{
 			pbContent.title = [NSLocalizedString(@"Link", @"") self];
 			pbContent.titleImage = [NSImage imageNamed:@"pasteboard-url"];
+			pbContent.titleColor = [NSColor colorWithSRGBRed:0.56 green:0.55 blue:0.85 alpha:1.0];
 			
 			NSURL* URL = [item valueForType:type];
 			NSAttributedString* attr = [[NSAttributedString alloc] initWithString:URL.absoluteString attributes:@{NSLinkAttributeName: URL.absoluteString, NSCursorAttributeName: NSCursor.pointingHandCursor}];
@@ -212,17 +237,29 @@
 	}
 	
 	[self.profilingTarget loadPasteboardContents];
+	[_undoManager removeAllActions];
 }
 
 - (IBAction)clear:(id)sender
 {
-	self.profilingTarget.pasteboardContents = @[];
-	[self noteProfilingTargetDidLoadServiceData];
+	[self _replacePasteboardContents:@[]];
 }
 
 - (IBAction)refresh:(id)sender
 {
 	[self.profilingTarget loadPasteboardContents];
+	[_undoManager removeAllActions];
+}
+
+- (IBAction)copy:(id)sender
+{
+	[DTXNSPasteboardParser setGeneralPasteboardItems:self.profilingTarget.pasteboardContents];
+}
+
+- (IBAction)cut:(id)sender
+{
+	[self copy:sender];
+	[self _replacePasteboardContents:@[]];
 }
 
 - (IBAction)paste:(id)sender
@@ -238,8 +275,27 @@
 //												   [NSURL URLWithString:@"http://www.ynet.co.il/"],
 //												   ]];
 	
-	self.profilingTarget.pasteboardContents = [DTXNSPasteboardParser pasteboardItemsFromGeneralPasteboard];
+	[self _replacePasteboardContents:[DTXNSPasteboardParser pasteboardItemsFromGeneralPasteboard]];
+}
+
+- (void)_replacePasteboardContents:(NSArray<DTXPasteboardItem*>*)newPasteboardItems
+{
+	NSArray<DTXPasteboardItem*>* oldPasteboardItems = self.profilingTarget.pasteboardContents;
+	
+	self.profilingTarget.pasteboardContents = newPasteboardItems;
 	[self noteProfilingTargetDidLoadServiceData];
+	
+	[[_undoManager prepareWithInvocationTarget:self] _replacePasteboardContents:oldPasteboardItems];
+}
+
+- (IBAction)undo:(id)sender
+{
+	[_undoManager undo];
+}
+
+- (IBAction)redo:(id)sender
+{
+	[_undoManager redo];
 }
 
 @end

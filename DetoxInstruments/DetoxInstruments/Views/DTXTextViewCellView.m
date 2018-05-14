@@ -12,6 +12,7 @@
 @interface DTXTextViewCellView ()
 
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* contentTextField;
+@property (nonatomic, strong, readwrite) IBOutlet NSBox* titleContainer;
 @property (nonatomic, strong, readwrite) IBOutlet NSLayoutConstraint* titleContentConstraint;
 
 @end

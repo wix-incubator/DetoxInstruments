@@ -30,6 +30,7 @@
 
 @property (nonatomic, copy) NSString* title;
 @property (nonatomic, copy) NSImage* titleImage;
+@property (nonatomic, copy) NSColor* titleColor;
 
 @property (nonatomic) BOOL isGroup;
 

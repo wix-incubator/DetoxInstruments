@@ -125,7 +125,11 @@
                                                 <action selector="undo:" target="Ady-hI-5gd" id="tsu-4p-dtK"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Redo" keyEquivalent="Z" id="las-nG-35d"/>
+                                        <menuItem title="Redo" keyEquivalent="Z" id="las-nG-35d">
+                                            <connections>
+                                                <action selector="redo:" target="Ady-hI-5gd" id="Lun-Pt-JsN"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zip-7d-pop"/>
                                         <menuItem title="Cut" keyEquivalent="x" id="MiR-RO-Qfi">
                                             <connections>
@@ -431,7 +435,7 @@ CA
                                                 <action selector="helpIntegrationGuidePage:" target="Voe-Tx-rLC" id="jMZ-wc-S8W"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Reveal Profile Framework In Finder" id="QuA-wE-t51">
+                                        <menuItem title="Show Profile Framework In Finder" id="QuA-wE-t51">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="revealProfilerFramework:" target="Voe-Tx-rLC" id="gke-lA-nt1"/>
