@@ -19,9 +19,14 @@
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	if(aSelector == @selector(paste:))
+	if(aSelector == @selector(paste:) || aSelector == NSSelectorFromString(@"undo:") || aSelector == NSSelectorFromString(@"redo:") || aSelector == @selector(cut:))
 	{
 		return NO;
+	}
+	
+	if(aSelector == @selector(copy:))
+	{
+		return self.selectedRange.length > 0;
 	}
 	
 	return [super respondsToSelector:aSelector];

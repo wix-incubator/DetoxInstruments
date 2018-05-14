@@ -12,5 +12,6 @@
 @interface DTXNSPasteboardParser : NSObject
 
 + (NSArray<DTXPasteboardItem*>*)pasteboardItemsFromGeneralPasteboard;
++ (void)setGeneralPasteboardItems:(NSArray<DTXPasteboardItem*>*)pasteboardItems;
 
 @end

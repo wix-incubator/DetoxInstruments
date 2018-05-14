@@ -357,6 +357,7 @@
 	
 	cell.textField.stringValue = content.title ?: @"Title";
 	cell.imageView.image = content.titleImage;
+	[cell titleContainer].fillColor = content.titleColor;
 	
 	if(content.image)
 	{

@@ -468,7 +468,7 @@
                                                                                             <rect key="frame" x="28" y="5" width="39" height="17"/>
                                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="TITLE" usesSingleLineMode="YES" id="buu-OV-Jo7">
                                                                                                 <font key="font" metaFont="system"/>
-                                                                                                <color key="textColor" name="highlightColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                             </textFieldCell>
                                                                                         </textField>
@@ -483,7 +483,7 @@
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="25" id="BYS-05-f6A"/>
                                                                                 </constraints>
-                                                                                <color key="fillColor" name="alternateSelectedControlColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="fillColor" name="selectedTextBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                             </box>
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="kgt-os-n4n">
                                                                                 <rect key="frame" x="14" y="8" width="479" height="17"/>
@@ -518,6 +518,7 @@
                                                                 <outlet property="contentTextField" destination="kgt-os-n4n" id="CeC-Vw-g2n"/>
                                                                 <outlet property="imageView" destination="iyE-J8-xcO" id="AkV-ui-M4D"/>
                                                                 <outlet property="textField" destination="sHd-Ue-A5j" id="PB8-2U-Vlz"/>
+                                                                <outlet property="titleContainer" destination="C1s-6D-f9g" id="fjE-b1-eku"/>
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
@@ -793,7 +794,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="NSColorPickerUser" width="128" height="128"/>
+        <image name="NSColorPickerUser" width="24" height="24"/>
         <image name="NSFolder" width="32" height="32"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
     </resources>
