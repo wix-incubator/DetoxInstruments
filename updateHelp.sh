@@ -56,5 +56,5 @@ for MD_FILE in Documentation/*.md; do
   render_markdown "$MD_FILE" "$HTMLDIR"/Documentation/"$NAME".html Documentation/Metadata
 done
 
-hiutil -C -a -g -v -f DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex DetoxInstruments/DetoxInstruments.help -v
-hiutil -F -vvv -f DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex
+hiutil -C --anchors -g -vvv -f DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex DetoxInstruments/DetoxInstruments.help -v
+hiutil -F -A -vvv -f DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex

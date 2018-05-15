@@ -35,15 +35,19 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 + (void)load
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		NSMenu* helpMenu = NSApp.mainMenu.itemArray.lastObject.submenu;
-		
-		[helpMenu addItem:[NSMenuItem separatorItem]];
+//		NSMenu* helpMenu = NSApp.mainMenu.itemArray.lastObject.submenu;
+		NSMenu* debugMenu = [[NSMenu alloc] initWithTitle:@"Debug"];
 		
 		NSMenuItem* item = [NSMenuItem new];
-		item.attributedTitle = [[NSAttributedString alloc] initWithString:@"Generate Documentation Screenshots" attributes:@{NSForegroundColorAttributeName: NSColor.systemRedColor}];
+		item.title = @"Generate Documentation Screenshots";
 		item.action = @selector(_generateDocScreenshots:);
 		
-		[helpMenu addItem:item];
+		[debugMenu addItem:item];
+		
+		NSMenuItem* debugMenuItem = [NSMenuItem new];
+		debugMenuItem.submenu = debugMenu;
+		
+		[NSApp.mainMenu addItem:debugMenuItem];
 		
 		__classToNameMapping = @{
 								 NSStringFromClass(DTXCPUUsagePlotController.class): @{@"name": @"CPUUsage", @"inspectorSample": @166, @"includeInRecordingDocumentInspectorPane": @0},
@@ -119,11 +123,13 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	
 	[managementWindowController _activateControllerAtIndex:1];
 	[managementWindowController _drainLayout];
-	rep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
-	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_Pasteboard.png"].path atomically:YES];
+	NSBitmapImageRep* manageRep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[manageRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_Pasteboard.png"].path atomically:YES];
 	
 	[managementWindowController _activateControllerAtIndex:2];
 	[managementWindowController _expandDefaults];
+	[managementWindowController _drainLayout];
+	[managementWindowController _selectSomethingInDefaults];
 	[managementWindowController _drainLayout];
 	rep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_UserDefaults.png"].path atomically:YES];
@@ -151,8 +157,9 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/example.dtxprof"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
 		
 		DTXInstrumentsWindowController* windowController = document.windowControllers.firstObject;
-		
-		[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen];
+		[document setValue:@"Example App" forKeyPath:@"recording.appName"];
+		[windowController _setRecordingButtonsVisible:NO];
+		[windowController.window setFrame:[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen] display:YES];
 		[windowController.window makeKeyAndOrderFront:nil];
 		[windowController _setWindowSize:NSMakeSize(1344, 945)];
 		[windowController _setBottomSplitAtPercentage:0.53];
@@ -164,6 +171,9 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _drainLayout];
 		
 		NSBitmapImageRep* repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
+		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Document.png"].path atomically:YES];
+		
+		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:manageRep].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
 		
 		[windowController _setWindowSize:NSMakeSize(1176, 945)];
@@ -171,18 +181,18 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _drainLayout];
 		
 		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-		
+
 		NSBitmapImageRep* rep = (NSBitmapImageRep*)[self _exampleImageWithExistingRep:repIntro].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Example.png"].path atomically:YES];
-		
+
 		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-		
+
 		rep = (NSBitmapImageRep*)[self _toolbarImageWithExistingRep:repIntro].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Toolbar.png"].path atomically:YES];
-		
+
 		[windowController _setRecordingButtonsVisible:NO];
 		[windowController _drainLayout];
-		
+
 		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, 511)];
 
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
@@ -343,6 +353,22 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[toolbarImage addRepresentation:rep];
 	
 	return toolbarImage;
+}
+
+- (NSImage*)_introImageWithRecordingWindowRep:(NSBitmapImageRep*)recWinRep managementWindowRep:(NSBitmapImageRep*)manageRep
+{
+	NSImage* introImage = [[NSImage alloc] initWithSize:NSMakeSize(recWinRep.size.width + manageRep.size.width / 4, recWinRep.size.height + manageRep.size.height / 5)];
+	[introImage lockFocus];
+	
+	[recWinRep drawAtPoint:NSMakePoint(0, introImage.size.height - recWinRep.size.height)];
+	[manageRep drawInRect:(NSRect){NSMakePoint(introImage.size.width - manageRep.size.width, 0), manageRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	recWinRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, introImage.size}];
+	[introImage unlockFocus];
+	[introImage removeRepresentation:introImage.representations.firstObject];
+	[introImage addRepresentation:recWinRep];
+	
+	return introImage;
 }
 
 @end

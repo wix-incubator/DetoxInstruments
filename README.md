@@ -2,7 +2,7 @@
 
 ## About
 
-Detox Instruments is a performance–analysis and testing framework, designed to help developers profile their mobile apps in order to better understand and optimize their behavior and performance.
+Detox Instruments is a performance–analysis and testing framework, designed to help developers profile their mobile apps in order to better understand and optimize their behavior and performance. In addition, Detox Instruments includes utilities for managing your app's resources, such user defaults, pasteboard, cookies, etc.
 
 ![Detox Instruments](Documentation/Resources/Readme_Intro.png "Detox Instruments")
 
@@ -31,6 +31,19 @@ Detox Instruments supports profiling the following metrics:
 
 For a list of available instruments and their description, see [Available Instruments](Documentation/AvailableInstruments.md).
 
+Detox Instruments includes the following app management utilities:
+
+- Container Files
+  - Download and upload files and folders to your app's container
+- Pasteboard
+  - Copy and paste items between your Mac and your device
+- User Defaults
+  - Modify user defaults in real time
+- Cookies
+  - Create and modify the app's HTTP cookies
+
+For a list of available app management utilities and their description, see [App Management](Documentation/AppManagement.md).
+
 ## Installation
 
 The Detox Instruments application requires macOS 10.13 and higher. The Profiler framework supports iOS 10 and higher.
@@ -58,13 +71,17 @@ After launching Detox Instruments or selecting **File** ➔ **New Recording...**
 
 ![App Discovered](Documentation/Resources/Readme_Discovered.png "App Discovered")
 
-To start profiling, select your app and click on the Profile button. To configure profiling options, such as sampling frequency and recording features, click on the Options button. For an in-depth look at profiling options, see [Profiling Options](Documentation/ProfilingOptions.md).
+To start profiling, select your app and click on the Profile button. 
+
+To configure profiling options, such as sampling frequency and recording features, click on the Options button. For an in-depth look at profiling options, see [Profiling Options](Documentation/ProfilingOptions.md).
+
+To manage your app, click on the gear (![Gear Button](Documentation/Resources/gear.png)) button. You can manage multiple apps at the same time. For an in-depth look at app management, see [App Management](Documentation/AppManagement.md).
 
 #### The Recording Document
 
 A recording document is used to initiate new profiling and view and analyze the results of profiling. You create a new recording document by selecting **File** ➔ **New Recording...** and choosing an app to profile.
 
-![Detox Instruments](Documentation/Resources/Readme_Intro.png "Detox Instruments")
+![Detox Instruments](Documentation/Resources/Readme_Document.png "Detox Instruments")
 
 You can also save and reopen recording documents in which you’ve collected data previously. A recording document can contain a lot of extremely detailed information, and this information is presented to you through a number of panes and areas.
 

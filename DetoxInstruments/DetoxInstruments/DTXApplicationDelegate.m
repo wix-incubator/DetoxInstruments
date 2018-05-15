@@ -21,28 +21,28 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	{
 		pagePath = [NSString stringWithFormat:@"Documentation/%@.html", pagePath];
 	}
-	
+
 	CFBundleRef myApplicationBundle = NULL;
 	CFStringRef myBookName = NULL;
-	
+
 	myApplicationBundle = CFBundleGetMainBundle();
 	if (myApplicationBundle == NULL)
 	{
 		return fnfErr;
 	}
-	
+
 	myBookName = CFBundleGetValueForInfoDictionaryKey(myApplicationBundle, CFSTR("CFBundleHelpBookName"));
 	if (myBookName == NULL)
 	{
 		return fnfErr;
 	}
-	
+
 	if (CFGetTypeID(myBookName) != CFStringGetTypeID())
 	{
 		return paramErr;
 	}
-	
-	return AHGotoPage(myBookName, (__bridge CFStringRef)pagePath, NULL);
+
+	return AHGotoPage(myBookName, CF(pagePath), NULL);
 }
 
 @interface DTXApplicationDelegate () <SUUpdaterDelegate>
@@ -99,7 +99,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		[DTXProfilingConfiguration.defaultProfilingConfigurationForRemoteProfiling setAsDefaultRemoteProfilingConfiguration];
 	}
 	
-	AHRegisterHelpBookWithURL((__bridge CFURLRef)NSBundle.mainBundle.bundleURL);
+	NSLog(@"%@", @([NSHelpManager.sharedHelpManager registerBooksInBundle:NSBundle.mainBundle]));
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
@@ -125,6 +125,11 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 - (IBAction)helpProfilingOptions:(id)sender
 {
 	DTXGoToHelpPage(@"ProfilingOptions");
+}
+
+- (IBAction)helpAppManagement:(id)sender
+{
+	DTXGoToHelpPage(@"AppManagement");
 }
 
 - (IBAction)revealProfilerFramework:(id)sender
