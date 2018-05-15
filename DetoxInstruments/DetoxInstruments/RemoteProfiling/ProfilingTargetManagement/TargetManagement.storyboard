@@ -193,7 +193,7 @@
                                 </buttonCell>
                             </button>
                             <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IOP-K7-PU1">
-                                <rect key="frame" x="20" y="20" width="165" height="21"/>
+                                <rect key="frame" x="20" y="20" width="75" height="21"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4h3-Ds-ecQ">
                                         <rect key="frame" x="-6" y="-7" width="87" height="32"/>
@@ -205,23 +205,11 @@
                                             <action selector="refresh:" target="qkM-MF-7aI" id="hRQ-dc-rgB"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Iz-Ts-Oci">
-                                        <rect key="frame" x="84" y="-7" width="87" height="32"/>
-                                        <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bVG-8R-9Lf">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="save:" target="qkM-MF-7aI" id="6ya-zy-s1p"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
-                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
