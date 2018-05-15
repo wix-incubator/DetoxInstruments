@@ -118,21 +118,21 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[managementWindowController _activateControllerAtIndex:0];
 	[managementWindowController _expandFolders];
 	[managementWindowController _drainLayout];
-	rep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
-	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_ContainerFiles.png"].path atomically:YES];
+	NSBitmapImageRep* containerRep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[containerRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_ContainerFiles.png"].path atomically:YES];
 	
 	[managementWindowController _activateControllerAtIndex:1];
 	[managementWindowController _drainLayout];
-	NSBitmapImageRep* manageRep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
-	[[manageRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_Pasteboard.png"].path atomically:YES];
+	NSBitmapImageRep* pasteboardRep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[pasteboardRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_Pasteboard.png"].path atomically:YES];
 	
 	[managementWindowController _activateControllerAtIndex:2];
 	[managementWindowController _expandDefaults];
 	[managementWindowController _drainLayout];
 	[managementWindowController _selectSomethingInDefaults];
 	[managementWindowController _drainLayout];
-	rep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
-	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_UserDefaults.png"].path atomically:YES];
+	NSBitmapImageRep* defaultsRep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[defaultsRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_UserDefaults.png"].path atomically:YES];
 	
 	[managementWindowController _activateControllerAtIndex:3];
 	[managementWindowController _expandCookies];
@@ -141,8 +141,10 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[managementWindowController _drainLayout];
 	[managementWindowController _drainLayout];
 	[managementWindowController _drainLayout];
-	rep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
-	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_Cookies.png"].path atomically:YES];
+	NSBitmapImageRep* cookiesRep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[cookiesRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_Cookies.png"].path atomically:YES];
+	
+	[[(NSBitmapImageRep*)[self _combineManagementImages:containerRep :cookiesRep :defaultsRep :pasteboardRep].representations.firstObject representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_All.png"].path atomically:YES];
 	
 	[managementWindowController.window close];
 	
@@ -173,7 +175,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		NSBitmapImageRep* repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Document.png"].path atomically:YES];
 		
-		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:manageRep].representations.firstObject;
+		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:pasteboardRep].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
 		
 		[windowController _setWindowSize:NSMakeSize(1176, 945)];
@@ -297,14 +299,14 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[rep drawAtPoint:NSMakePoint(exampleImage.size.width / 2 - rep.size.width / 2, exampleImage.size.height / 2 - rep.size.height / 2 - exampleImageHeightPadding)];
 	
 	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:@"Toolbar" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
-	[attr drawAtPoint:NSMakePoint(toolbarTitleXOffset, exampleImage.size.height - 44 - attr.size.height)];
+	[attr drawAtPoint:NSMakePoint(toolbarTitleXOffset, exampleImage.size.height - 10 - attr.size.height)];
 	
 	NSBezierPath* path = [NSBezierPath bezierPath];
 	
 	path.lineWidth = 6;
 	
-	[path moveToPoint:NSMakePoint(toolbarTitleXOffset + attr.size.width / 2, exampleImage.size.height - 44 - attr.size.height - 10)];
-	[path lineToPoint:NSMakePoint(toolbarTitleXOffset + attr.size.width / 2, exampleImage.size.height - 44 - attr.size.height - 10 - lineLength)];
+	[path moveToPoint:NSMakePoint(toolbarTitleXOffset + attr.size.width / 2, exampleImage.size.height - 10 - attr.size.height - 10)];
+	[path lineToPoint:NSMakePoint(toolbarTitleXOffset + attr.size.width / 2, exampleImage.size.height - 10 - attr.size.height - 10 - lineLength)];
 	
 	const CGFloat timelineTitleYOffset = exampleImage.size.height - 700;
 	
@@ -369,6 +371,28 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[introImage addRepresentation:recWinRep];
 	
 	return introImage;
+}
+
+- (NSImage*)_combineManagementImages:(NSBitmapImageRep*)first :(NSBitmapImageRep*)second :(NSBitmapImageRep*)third :(NSBitmapImageRep*)fourth
+{
+	CGFloat mergedWidth = MAX(first.size.width + second.size.width, third.size.width + fourth.size.width);
+	CGFloat mergedHeight = MAX(first.size.height, second.size.height) + MAX(third.size.height, fourth.size.height);
+	
+	NSImage* mergedImage = [[NSImage alloc] initWithSize:NSMakeSize(mergedWidth, mergedHeight)];
+	[mergedImage lockFocus];
+	
+	[first drawAtPoint:NSMakePoint(0, mergedHeight - (MAX(first.size.height, second.size.height) / 2 + first.size.height / 2))];
+	[second drawAtPoint:NSMakePoint(first.size.width, mergedHeight - second.size.height)];
+	
+	[third drawAtPoint:NSMakePoint(0, mergedHeight - MAX(first.size.height, second.size.height) - third.size.height)];
+	[fourth drawAtPoint:NSMakePoint(third.size.width, mergedHeight - MAX(first.size.height, second.size.height) - fourth.size.height)];
+	
+	first = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, mergedImage.size}];
+	[mergedImage unlockFocus];
+	[mergedImage removeRepresentation:mergedImage.representations.firstObject];
+	[mergedImage addRepresentation:first];
+	
+	return mergedImage;
 }
 
 @end
