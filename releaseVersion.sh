@@ -22,8 +22,6 @@ if [ ! -z "$DRY_RUN" ]; then
   printf >&2 "\033[1;31mPerforming a dry run.\033[0m\n"
 fi
 
-exit 0
-
 if  [[ -n $(git status --porcelain) ]]; then
 	printf >&2 "\033[1;31mCannot release version because there are unstaged changes, aborting.\nChanges:\033[0m\n"
 	git status --short
