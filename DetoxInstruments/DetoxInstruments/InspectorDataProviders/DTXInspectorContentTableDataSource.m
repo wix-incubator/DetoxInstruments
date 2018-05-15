@@ -179,6 +179,7 @@
 		_contentArray = [contentArray copy];
 		[self _prepareAttributedStrings];
 		[_managedTableView reloadData];
+		return;
 	}
 	
 	[NSAnimationContext beginGrouping];
@@ -192,18 +193,15 @@
 	_contentArray = @[];
 	[self _prepareAttributedStrings];
 	
-	if(animate)
-	{
-		[_managedTableView endUpdates];
-		[NSAnimationContext endGrouping];
-	}
+	[_managedTableView endUpdates];
+	[NSAnimationContext endGrouping];
 	
 	//Without this, NSTableView bugged out and produced broken cell layout from time to time.
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[NSAnimationContext beginGrouping];
 		NSAnimationContext.currentContext.duration = 0.3;
 		NSAnimationContext.currentContext.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-
+		
 		[_managedTableView beginUpdates];
 		
 		_contentArray = [contentArray copy];
@@ -357,7 +355,10 @@
 	
 	cell.textField.stringValue = content.title ?: @"Title";
 	cell.imageView.image = content.titleImage;
-	[cell titleContainer].fillColor = content.titleColor;
+	if([cell respondsToSelector:@selector(titleContainer)])
+	{
+		[cell titleContainer].fillColor = content.titleColor;
+	}
 	
 	if(content.image)
 	{

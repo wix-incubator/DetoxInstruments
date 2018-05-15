@@ -16,7 +16,7 @@ It is recommended to start with the default value and only increase sampling fre
 
 ### Disk Usage
 
-The **Collect open file names** option enables the collection of names of files open in the application at the time of sampling. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.
+The **Collect open file names** option enables the collection of names of files open in the app at the time of sampling. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.
 
 ### Network
 

@@ -9,6 +9,7 @@
 #ifdef DEBUG
 
 #import "DTXInstrumentsWindowController.h"
+#import "DTXProfilingTargetManagementWindowController.h"
 
 @interface DTXInstrumentsWindowController (DocumentationGeneration)
 
@@ -36,6 +37,8 @@
 
 - (void)_selectExtendedDetailInspector;
 - (void)_selectProfilingInfoInspector;
+
+- (DTXProfilingTargetManagementWindowController*)_openManagementWindowController;
 
 @end
 

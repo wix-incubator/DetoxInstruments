@@ -70,11 +70,11 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 - (void)deleteContainerItemAtURL:(NSURL*)URL;
 - (void)putContainerItemAtURL:(NSURL *)URL data:(NSData *)data wasZipped:(BOOL)wasZipped;
 
-@property (nonatomic, strong, readonly) id userDefaults;
+@property (nonatomic, copy, readonly) NSDictionary<NSString*, id>* userDefaults;
 - (void)loadUserDefaults;
 - (void)changeUserDefaultsItemWithKey:(NSString*)key changeType:(DTXUserDefaultsChangeType)changeType value:(id)value previousKey:(NSString*)previousKey;
 
-@property (nonatomic, strong) NSArray<NSDictionary<NSString*, id>*>* cookies;
+@property (nonatomic, copy) NSArray<NSDictionary<NSString*, id>*>* cookies;
 - (void)loadCookies;
 
 @property (nonatomic, copy) NSArray<DTXPasteboardItem*>* pasteboardContents;
