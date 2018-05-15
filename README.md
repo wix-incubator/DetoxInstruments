@@ -75,7 +75,11 @@ To start profiling, select your app and click on the Profile button.
 
 To configure profiling options, such as sampling frequency and recording features, click on the Options button. For an in-depth look at profiling options, see [Profiling Options](Documentation/ProfilingOptions.md).
 
-To manage your app, click on the gear (![Gear Button](Documentation/Resources/gear.png)) button. You can manage multiple apps at the same time. For an in-depth look at app management, see [App Management](Documentation/AppManagement.md).
+#### App Management
+
+![App Management](Documentation/Resources/Management_All.png "App Management")
+
+To manage your app, click on the gear (![Gear Button](Documentation/Resources/gear.png)) button in the app selection dialog. You can manage multiple apps at the same time. For an in-depth look at app management, see [App Management](Documentation/AppManagement.md).
 
 #### The Recording Document
 
