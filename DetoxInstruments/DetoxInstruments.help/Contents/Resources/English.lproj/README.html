@@ -17,7 +17,7 @@ ul { padding-left: 1.3em; }
 <a name="user-content-detox-instruments" class="anchor" href="#detox-instruments"><span class="octicon octicon-link"></span></a>Detox Instruments</h1>
 <h2>
 <a name="user-content-about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
-<p>Detox Instruments is a performance–analysis and testing framework, designed to help developers profile their mobile apps in order to better understand and optimize their behavior and performance.</p>
+<p>Detox Instruments is a performance–analysis and testing framework, designed to help developers profile their mobile apps in order to better understand and optimize their behavior and performance. In addition, Detox Instruments includes utilities for managing your app's resources, such user defaults, pasteboard, cookies, etc.</p>
 <p><a href="Documentation/Resources/Readme_Intro.png" target="_blank"><img src="Documentation/Resources/Readme_Intro.png" alt="Detox Instruments" title="Detox Instruments" style="max-width:100%;" /></a></p>
 <p>Incorporating Detox Instruments into the development workflow from the beginning of the app development process can save time later by helping find issues early in the development cycle. Detox Instruments has first–class support for React Native, allowing seamless analysis of the entire app lifecycle in one place.</p>
 <p>Detox Instruments supports profiling the following metrics:</p>
@@ -63,6 +63,30 @@ ul { padding-left: 1.3em; }
 </li>
 </ul>
 <p>For a list of available instruments and their description, see <a href="Documentation/AvailableInstruments.html">Available Instruments</a>.</p>
+<p>Detox Instruments includes the following app management utilities:</p>
+<ul>
+<li>Container Files
+<ul>
+<li>Download and upload files and folders to your app's container</li>
+</ul>
+</li>
+<li>Pasteboard
+<ul>
+<li>Copy and paste items between your Mac and your device</li>
+</ul>
+</li>
+<li>User Defaults
+<ul>
+<li>Modify user defaults in real time</li>
+</ul>
+</li>
+<li>Cookies
+<ul>
+<li>Create and modify the app's HTTP cookies</li>
+</ul>
+</li>
+</ul>
+<p>For a list of available app management utilities and their description, see <a href="Documentation/AppManagement.html">App Management</a>.</p>
 <h2>
 <a name="user-content-installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 <p>The Detox Instruments application requires macOS 10.13 and higher. The Profiler framework supports iOS 10 and higher.</p>
@@ -80,11 +104,13 @@ brew cask install detox-instruments</pre></div>
 <a name="user-content-the-app-selection-dialog" class="anchor" href="#the-app-selection-dialog"><span class="octicon octicon-link"></span></a>The App Selection Dialog</h4>
 <p>After launching Detox Instruments or selecting <strong>File</strong> ➔ <strong>New Recording...</strong>, you will be presented with an app selection dialog, displaying a list of available apps to profile. Launch your app on your mobile device or simulator and your app will appear in the list.</p>
 <p><a href="Documentation/Resources/Readme_Discovered.png" target="_blank"><img src="Documentation/Resources/Readme_Discovered.png" alt="App Discovered" title="App Discovered" style="max-width:100%;" /></a></p>
-<p>To start profiling, select your app and click on the Profile button. To configure profiling options, such as sampling frequency and recording features, click on the Options button. For an in-depth look at profiling options, see <a href="Documentation/ProfilingOptions.html">Profiling Options</a>.</p>
+<p>To start profiling, select your app and click on the Profile button.</p>
+<p>To configure profiling options, such as sampling frequency and recording features, click on the Options button. For an in-depth look at profiling options, see <a href="Documentation/ProfilingOptions.html">Profiling Options</a>.</p>
+<p>To manage your app, click on the gear (<a href="Documentation/Resources/gear.png" target="_blank"><img src="Documentation/Resources/gear.png" alt="Gear Button" style="max-width:100%;" /></a>) button. You can manage multiple apps at the same time. For an in-depth look at app management, see <a href="Documentation/AppManagement.html">App Management</a>.</p>
 <h4>
 <a name="user-content-the-recording-document" class="anchor" href="#the-recording-document"><span class="octicon octicon-link"></span></a>The Recording Document</h4>
 <p>A recording document is used to initiate new profiling and view and analyze the results of profiling. You create a new recording document by selecting <strong>File</strong> ➔ <strong>New Recording...</strong> and choosing an app to profile.</p>
-<p><a href="Documentation/Resources/Readme_Intro.png" target="_blank"><img src="Documentation/Resources/Readme_Intro.png" alt="Detox Instruments" title="Detox Instruments" style="max-width:100%;" /></a></p>
+<p><a href="Documentation/Resources/Readme_Document.png" target="_blank"><img src="Documentation/Resources/Readme_Document.png" alt="Detox Instruments" title="Detox Instruments" style="max-width:100%;" /></a></p>
 <p>You can also save and reopen recording documents in which you’ve collected data previously. A recording document can contain a lot of extremely detailed information, and this information is presented to you through a number of panes and areas.</p>
 <p>For detailed information on the recording document, see <a href="Documentation/RecordingDocument.html">The Recording Document</a>.</p>
 <h4>

@@ -17,5 +17,6 @@
 - (void)_expandDefaults;
 - (void)_expandCookies;
 - (void)_selectDateInCookies;
+- (void)_selectSomethingInDefaults;
 
 @end

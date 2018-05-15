@@ -64,4 +64,15 @@
 	[datePicker.window makeFirstResponder:datePicker];
 }
 
+- (void)_selectSomethingInDefaults
+{
+	id controller = [[self valueForKey:@"viewControllers"] objectAtIndex:2];
+	NSOutlineView* outline = [controller valueForKeyPath:@"plistEditor.outlineView"];
+	id node = [[controller valueForKeyPath:@"plistEditor.rootPropertyListNode.children"] objectAtIndex:2];
+	NSInteger row = [outline rowForItem:node];
+	[outline selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+	NSControl* textField = [[outline viewAtColumn:2 row:row makeIfNecessary:NO] valueForKeyPath:@"textField"];
+	[textField.window makeFirstResponder:textField];
+}
+
 @end
