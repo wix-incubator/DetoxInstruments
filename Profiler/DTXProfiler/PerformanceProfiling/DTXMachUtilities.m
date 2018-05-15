@@ -82,7 +82,7 @@ inline static void* __DTXReadLinkRegister(mcontext_t const machineContext)
 #if defined(__i386__) || defined(__x86_64__)
 	return 0;
 #else
-	return machineContext->__ss.__lr;
+	return (void*)machineContext->__ss.__lr;
 #endif
 }
 
@@ -126,7 +126,7 @@ int __DTXCallStackSymbolsForMacThreadInternal(thread_act_t thread, void** symbol
 			break;
 		}
 		
-		symbols[count++] = DTX_INSTRUCTION_FROM_RETURN_ADDRESS(addr);
+		symbols[count++] = (void*)DTX_INSTRUCTION_FROM_RETURN_ADDRESS((uintptr_t)addr);
 	}
 	
 	if(instructionAddress == 0)
