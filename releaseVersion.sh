@@ -31,7 +31,7 @@ fi
 if [[ -n $(git log --branches --not --remotes) ]]; then
 	echo -e "\033[1;34mPushing pending commits to git\033[0m"
   if [ -z "$DRY_RUN" ]; then
-	  git push &> /dev/null
+	  git push
   fi
 fi
 
@@ -64,8 +64,8 @@ EXPORT_DIR=Distribution/Export
 rm -fr "${ARCHIVE}"
 rm -fr "${EXPORT_DIR}"
 
-xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" archive -archivePath "${ARCHIVE}" | xcpretty >/dev/null 2>/dev/null
-xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -exportArchive -archivePath "${ARCHIVE}" -exportOptionsPlist Distribution/exportOptions.plist -exportPath "${EXPORT_DIR}" | xcpretty >/dev/null 2>/dev/null
+xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" archive -archivePath "${ARCHIVE}" | xcpretty
+xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -exportArchive -archivePath "${ARCHIVE}" -exportOptionsPlist Distribution/exportOptions.plist -exportPath "${EXPORT_DIR}" | xcpretty
 
 SHORT_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "${EXPORT_DIR}"/*.app/Contents/Info.plist)
 BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${EXPORT_DIR}"/*.app/Contents/Info.plist)
@@ -73,17 +73,20 @@ BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${EXPORT_DIR}
 VERSION="${SHORT_VERSION}"."${BUILD_NUMBER}"
 ZIP_FILE=Distribution/DetoxInstruments-v"${SHORT_VERSION}".b"${BUILD_NUMBER}".zip
 
+echo -e "\033[1;34mVersion is: $VERSION\033[0m"
+
 echo -e "\033[1;34mUpdating cask with latest release\033[0m"
 
 if [ -z "$DRY_RUN" ]; then
 pushd . &> /dev/null
 cd Distribution/homebrew-brew/Casks/
-git fetch &> /dev/null
-git checkout master &> /dev/null
+git fetch
+git pull --rebase
+git checkout master
 sed -i '' -e 's/url .*/url '"'https:\/\/github.com\/wix\/DetoxInstruments\/releases\/download\/${VERSION}\/$(basename ${ZIP_FILE})'"'/g' detox-instruments.rb
-git add -A &> /dev/null
+git add -A
 git commit -m "Detox Instruments ${VERSION}" &> /dev/null
-git push &> /dev/null
+git push
 popd &> /dev/null
 fi
 
@@ -92,7 +95,7 @@ echo -e "\033[1;34mPushing updated versions\033[0m"
 if [ -z "$DRY_RUN" ]; then
 git add -A &> /dev/null
 git commit -m "${VERSION}" &> /dev/null
-git push &> /dev/null
+git push
 fi
 
 echo -e "\033[1;34mCreating ZIP file\033[0m"
