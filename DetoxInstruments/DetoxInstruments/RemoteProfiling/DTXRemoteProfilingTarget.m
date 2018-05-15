@@ -251,6 +251,8 @@
 {
 	_containerContents = [NSKeyedUnarchiver unarchiveObjectWithData:containerContents[@"containerContents"]];
 	
+//	[[NSKeyedArchiver archivedDataWithRootObject:_containerContents] writeToFile:[[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"] stringByAppendingPathComponent:@"../Documentation/Example Recording/Example Management Data/ContainerContents.dat"] atomically:YES];
+	
 	if([self.delegate respondsToSelector:@selector(profilingTargetdidLoadContainerContents:)])
 	{
 		[self.delegate profilingTargetdidLoadContainerContents:self];
@@ -293,6 +295,8 @@
 {
 	_userDefaults = userDefaults[@"userDefaults"];
 	
+//	[[NSKeyedArchiver archivedDataWithRootObject:_userDefaults] writeToFile:[[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"] stringByAppendingPathComponent:@"../Documentation/Example Recording/Example Management Data/UserDefaults.dat"] atomically:YES];
+	
 	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadUserDefaults:)])
 	{
 		[self.delegate profilingTarget:self didLoadUserDefaults:self.userDefaults];
@@ -309,6 +313,8 @@
 - (void)_handleCookies:(NSDictionary*)cookies
 {
 	_cookies = cookies[@"cookies"];
+	
+//	[[NSKeyedArchiver archivedDataWithRootObject:_cookies] writeToFile:[[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"] stringByAppendingPathComponent:@"../Documentation/Example Recording/Example Management Data/Cookies.dat"] atomically:YES];
 	
 	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadCookies:)])
 	{
@@ -331,9 +337,9 @@
 
 - (void)_handlePasteboard:(NSDictionary*)pasteboard
 {
-	[NSKeyedUnarchiver setClass:[NSImage class] forClassName:@"UIImage"];
-	
 	_pasteboardContents = [NSKeyedUnarchiver unarchiveObjectWithData:pasteboard[@"pasteboardContents"]];
+	
+//	[[NSKeyedArchiver archivedDataWithRootObject:_pasteboardContents] writeToFile:[[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"] stringByAppendingPathComponent:@"../Documentation/Example Recording/Example Management Data/Pasteboard.dat"] atomically:YES];
 	
 	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadPasteboardContents:)])
 	{

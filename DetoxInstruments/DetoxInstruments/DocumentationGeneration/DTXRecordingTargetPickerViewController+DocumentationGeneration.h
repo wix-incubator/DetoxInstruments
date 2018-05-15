@@ -7,9 +7,11 @@
 //
 
 #import "DTXRecordingTargetPickerViewController.h"
+#import "DTXProfilingTargetManagementWindowController.h"
 
 @interface DTXRecordingTargetPickerViewController (DocumentationGeneration)
 
 - (void)_addFakeTarget;
+- (DTXProfilingTargetManagementWindowController*)_openManagementWindowController;
 
 @end

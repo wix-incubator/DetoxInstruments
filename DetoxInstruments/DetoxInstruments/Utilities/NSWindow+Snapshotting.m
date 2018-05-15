@@ -18,22 +18,19 @@
 - (NSImage*)snapshotForCachingDisplay
 {
 	CFMutableArrayRef windowIDs = CFArrayCreateMutable(CFAllocatorGetDefault(), 0, NULL);
+	NSArray<NSNumber*>* windowNumbers = [NSWindow windowNumbersWithOptions:0];
+	NSUInteger indexOfMe = [windowNumbers indexOfObject:@(self.windowNumber)];
 	
-	if(self.isSheet)
-	{
-		CFArrayAppendValue(windowIDs, (void*)self.windowNumber);
-	}
-	else
-	{
-		[[NSWindow windowNumbersWithOptions:0] enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			if(idx == 0)
-			{
-				return;
-			}
-			
-			CFArrayAppendValue(windowIDs, (void*)obj.unsignedIntegerValue);
-		}];
-	}
+	[windowNumbers enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if(idx > indexOfMe || [NSApp windowWithWindowNumber:obj.integerValue] == nil)
+		{
+			return;
+		}
+		
+		CFArrayAppendValue(windowIDs, (void*)obj.unsignedIntegerValue);
+	}];
+	
+	NSLog(@"%@", CGWindowListCreateDescriptionFromArray(windowIDs));
 	
 	CGImageRef windowImage = CGWindowListCreateImageFromArray(CGRectNull, windowIDs, kCGWindowImageDefault);
 	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCGImage:windowImage];

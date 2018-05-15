@@ -33,7 +33,7 @@
 
 - (void)_drainLayout
 {
-	[self.window.contentView layoutSubtreeIfNeeded];
+	[self.window layoutIfNeeded];
 	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
 }
 
@@ -208,6 +208,13 @@
 - (void)_selectProfilingInfoInspector
 {
 	[[self valueForKeyPath:@"inspectorContentController"] selectProfilingInfo];
+}
+
+- (DTXProfilingTargetManagementWindowController*)_openManagementWindowController
+{
+	[self _drainLayout];
+	DTXRecordingTargetPickerViewController* targetPicker = (id)self.window.sheets.firstObject.contentViewController;
+	return [targetPicker _openManagementWindowController];
 }
 
 @end

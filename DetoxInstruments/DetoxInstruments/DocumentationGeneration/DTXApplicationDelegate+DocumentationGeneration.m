@@ -10,6 +10,7 @@
 
 #import "DTXApplicationDelegate+DocumentationGeneration.h"
 #import "DTXInstrumentsWindowController+DocumentationGeneration.h"
+#import "DTXProfilingTargetManagementWindowController+DocumentationGeneration.h"
 #import "NSWindow+Snapshotting.h"
 
 #import "DTXAxisHeaderPlotController.h"
@@ -105,6 +106,42 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	
 	rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Integration_Discovered.png"].path atomically:YES];
+	
+	DTXProfilingTargetManagementWindowController* managementWindowController = [windowController _openManagementWindowController];
+	
+	[managementWindowController _drainLayout];
+	
+	[managementWindowController _activateControllerAtIndex:0];
+	[managementWindowController _expandFolders];
+	[managementWindowController _drainLayout];
+	rep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_ContainerFiles.png"].path atomically:YES];
+	
+	[managementWindowController _activateControllerAtIndex:1];
+	[managementWindowController _drainLayout];
+	rep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_Pasteboard.png"].path atomically:YES];
+	
+	[managementWindowController _activateControllerAtIndex:2];
+	[managementWindowController _expandDefaults];
+	[managementWindowController _drainLayout];
+	rep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_UserDefaults.png"].path atomically:YES];
+	
+	[managementWindowController _activateControllerAtIndex:3];
+	[managementWindowController _expandCookies];
+	[managementWindowController _drainLayout];
+	[managementWindowController _selectDateInCookies];
+	[managementWindowController _drainLayout];
+	[managementWindowController _drainLayout];
+	[managementWindowController _drainLayout];
+	rep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_Cookies.png"].path atomically:YES];
+	
+	[managementWindowController.window close];
+	
+	[managementWindowController _drainLayout];
+	[windowController _drainLayout];
 	
 	rep = (NSBitmapImageRep*)[windowController _snapshotForRecordingSettings].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"ProfilingOptions_ProfilingOptions.png"].path atomically:YES];

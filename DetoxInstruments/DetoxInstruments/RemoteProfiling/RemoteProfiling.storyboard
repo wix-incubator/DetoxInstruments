@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14112" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14112"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
@@ -79,11 +79,11 @@
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="PKA-IK-BF6">
-                                                                    <rect key="frame" x="470" y="29" width="18" height="32"/>
-                                                                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSTouchBarGetInfoTemplate" imagePosition="only" alignment="center" inset="2" id="2gW-ll-lF8">
+                                                                <button toolTip="Manage this app" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="PKA-IK-BF6">
+                                                                    <rect key="frame" x="471" y="36" width="17" height="18"/>
+                                                                    <buttonCell key="cell" type="inline" bezelStyle="inline" image="NSActionTemplate" imagePosition="only" alignment="center" inset="2" id="2gW-ll-lF8">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="system"/>
+                                                                        <font key="font" metaFont="smallSystemBold"/>
                                                                     </buttonCell>
                                                                     <connections>
                                                                         <action selector="_manageProfilingTarget:" target="Jrb-X6-yjY" id="J9o-sf-yRM"/>
@@ -109,7 +109,7 @@
                                                                 <constraint firstItem="h8g-4z-MlV" firstAttribute="leading" secondItem="xEi-6o-1U5" secondAttribute="leading" id="yAG-eU-i2R"/>
                                                             </constraints>
                                                             <connections>
-                                                                <outlet property="_filesButton" destination="PKA-IK-BF6" id="RKv-Gi-UNB"/>
+                                                                <outlet property="_manageButton" destination="PKA-IK-BF6" id="RKv-Gi-UNB"/>
                                                                 <outlet property="deviceImageView" destination="d5C-40-8qS" id="hSK-HD-n4E"/>
                                                                 <outlet property="progressIndicator" destination="7Jo-60-0Qv" id="3wy-xE-3sM"/>
                                                                 <outlet property="title1Field" destination="h8g-4z-MlV" id="pHv-Ss-OEp"/>
@@ -504,7 +504,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                     <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateJavaScriptStackTraces" id="jcS-I5-HSL"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hPy-GK-AbS">
+                            <button toolTip="Collect names of files open in the app at the time of sampling." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hPy-GK-AbS">
                                 <rect key="frame" x="193" y="263" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Collect open file names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="vuo-m4-XeE">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -674,6 +674,6 @@ Gw
         </scene>
     </scenes>
     <resources>
-        <image name="NSTouchBarGetInfoTemplate" width="18" height="30"/>
+        <image name="NSActionTemplate" width="14" height="14"/>
     </resources>
 </document>

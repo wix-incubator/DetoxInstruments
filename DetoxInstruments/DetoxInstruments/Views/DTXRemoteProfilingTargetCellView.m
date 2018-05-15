@@ -23,7 +23,7 @@
 
 @implementation DTXRemoteProfilingTargetCellView
 {
-	IBOutlet NSButton* _filesButton;
+	IBOutlet NSButton* _manageButton;
 }
 
 - (void)awakeFromNib
@@ -52,11 +52,11 @@
 
 	if([profilerVersion compare:@"0.9.1" options:(NSNumericSearch)] == NSOrderedAscending)
 	{
-		_filesButton.hidden = !(_filesButton.enabled = NO);
+		_manageButton.hidden = !(_manageButton.enabled = NO);
 	}
 	else
 	{
-		_filesButton.hidden = !(_filesButton.enabled = YES);
+		_manageButton.hidden = !(_manageButton.enabled = YES);
 	}
 }
 
