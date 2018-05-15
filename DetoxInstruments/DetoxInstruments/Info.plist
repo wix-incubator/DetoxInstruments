@@ -50,7 +50,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.9.1</string>
 	<key>CFBundleVersion</key>
-	<string>6025</string>
+	<string>6026</string>
+	<key>DTXBuildDate</key>
+	<date>2018-05-15T23:22:07Z</date>
 	<key>DTXSourceRoot</key>
 	<string>$(DTXSRCROOT)</string>
 	<key>LSMinimumSystemVersion</key>
@@ -69,7 +71,5 @@
 	<true/>
 	<key>SUFeedURL</key>
 	<string>https://wix.github.io/DetoxInstruments/appcast.txt</string>
-	<key>DTXBuildDate</key>
-	<date>2018-05-15T19:50:23Z</date>
 </dict>
 </plist>
