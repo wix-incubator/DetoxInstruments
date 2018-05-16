@@ -11,5 +11,6 @@
 @interface NSWindow (Snapshotting)
 
 - (NSImage*)snapshotForCachingDisplay;
+- (void)transitionToAppearance:(NSAppearance *)appearance;
 
 @end
