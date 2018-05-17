@@ -27,6 +27,7 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 #ifdef __OBJC__
 #define NS(x) ((__bridge id)x)
 #define CF(x) ((__bridge CFTypeRef)x)
+#define PTR(x) ((__bridge void*)x)
 
 #ifdef __cplusplus
 #import <Foundation/Foundation.h>
