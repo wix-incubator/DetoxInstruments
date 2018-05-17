@@ -58,6 +58,8 @@
 		396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */ = {isa = PBXBuildFile; fileRef = 396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */; };
 		3966E1341F1017F900EE76A2 /* DTXAddressInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */; };
 		3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */; };
+		396EE2C120ADB223006C4C55 /* DTXViewHierarchySnapshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = 396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */; };
+		396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */; };
 		398741AA20A60A98003AB4BD /* DTXPasteboardItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 398741A820A60A98003AB4BD /* DTXPasteboardItem.h */; };
 		398741AB20A60A98003AB4BD /* DTXPasteboardItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 398741A920A60A98003AB4BD /* DTXPasteboardItem.m */; };
 		399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */; };
@@ -196,6 +198,8 @@
 		396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.pch; sourceTree = "<group>"; };
 		3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAddressInfo.h; sourceTree = "<group>"; };
 		3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DTXAddressInfo.mm; sourceTree = "<group>"; };
+		396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXViewHierarchySnapshotter.h; sourceTree = "<group>"; };
+		396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
 		397A01901FA648DF00ABCB87 /* DTX_JSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTX_JSC.framework; path = JSC/DTX_JSC.framework; sourceTree = "<group>"; };
 		398741A820A60A98003AB4BD /* DTXPasteboardItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPasteboardItem.h; sourceTree = "<group>"; };
 		398741A920A60A98003AB4BD /* DTXPasteboardItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPasteboardItem.m; sourceTree = "<group>"; };
@@ -393,6 +397,15 @@
 			name = DTXSourceMaps;
 			sourceTree = "<group>";
 		};
+		396EE2BE20ADAD32006C4C55 /* ViewHierarchy */ = {
+			isa = PBXGroup;
+			children = (
+				396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */,
+				396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */,
+			);
+			path = ViewHierarchy;
+			sourceTree = "<group>";
+		};
 		397A017D1FA63DAD00ABCB87 /* JSC */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +582,7 @@
 				39C7133C1EFFD6AD00C827EB /* NetworkRecording */,
 				39D2054D1F03054000830A0D /* LogRecording */,
 				39557CD51F1F7E1300FF3187 /* RemoteProfiler */,
+				396EE2BE20ADAD32006C4C55 /* ViewHierarchy */,
 				39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */,
 				39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */,
 				39D40C161ED5B43F00157C04 /* DTXProfiler.h */,
@@ -650,6 +664,7 @@
 				39BEE1AC207A4778003AF93E /* brg_endian.h in Headers */,
 				39BEE1AE207A4778003AF93E /* aes.h in Headers */,
 				39D40C121ED5B43700157C04 /* DTXSample+Additions.h in Headers */,
+				396EE2C120ADB223006C4C55 /* DTXViewHierarchySnapshotter.h in Headers */,
 				39BEE198207A4778003AF93E /* crypt.h in Headers */,
 				398741AA20A60A98003AB4BD /* DTXPasteboardItem.h in Headers */,
 				39BEE1B4207A4778003AF93E /* SSZipCommon.h in Headers */,
@@ -797,6 +812,7 @@
 				39281E831ED70A77002CE905 /* DTXZipper.m in Sources */,
 				39BEE1AF207A4778003AF93E /* pwd2key.c in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
+				396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */,
 				39BEE1B0207A4778003AF93E /* aestab.c in Sources */,
 				39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
 				395B26A12067B12C00FD7368 /* DTXFPSCalculator.m in Sources */,
