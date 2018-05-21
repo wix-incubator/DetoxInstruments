@@ -10,7 +10,7 @@
 
 @implementation DTXInspectorDataProvider
 
-- (instancetype)initWithSample:(__kindof DTXSample *)sample document:(DTXDocument *)document
+- (instancetype)initWithSample:(__kindof DTXSample *)sample document:(DTXRecordingDocument *)document
 {
 	self = [super init];
 	

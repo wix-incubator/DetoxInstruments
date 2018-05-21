@@ -471,7 +471,7 @@ CA
                         <outlet property="_quitMenuItem" destination="4sb-4s-VLi" id="U48-Mz-MbY"/>
                     </connections>
                 </customObject>
-                <customObject id="Lcf-oR-wGg" customClass="DTXDocumentController"/>
+                <customObject id="Lcf-oR-wGg" customClass="DTXRecordingDocumentController"/>
                 <customObject id="Ajg-Dd-84l" customClass="SUUpdater">
                     <connections>
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="9bF-cU-sJs"/>
@@ -1318,7 +1318,7 @@ CA
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="fet-qm-M01" customClass="DTXAutomaticallyDeselectingTableView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="317" height="14"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="317" height="19"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -1422,7 +1422,7 @@ CA
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="luK-3M-vK4" userLabel="Outline View" customClass="DTXAutomaticallyDeselectingOutlineView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="312" height="14"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="312" height="19"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>

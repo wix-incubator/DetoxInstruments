@@ -46,7 +46,7 @@
 	return font;
 }
 
-- (instancetype)initWithDocument:(DTXDocument*)document managedTableView:(NSTableView*)tableView
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document managedTableView:(NSTableView*)tableView
 {
 	self = [super init];
 	
@@ -58,7 +58,7 @@
 		tableView.usesAutomaticRowHeights = YES;
 		_hasAutomaticRowHeights = YES;
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:self.document];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
 		
 		if(_document.recording != nil)
 		{

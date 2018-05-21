@@ -10,7 +10,7 @@
 
 @interface DTXThreadCPUUsagePlotController : DTXCPUUsagePlotController
 
-- (instancetype)initWithDocument:(DTXDocument*)document NS_UNAVAILABLE;
-- (instancetype)initWithDocument:(DTXDocument*)document threadInfo:(DTXThreadInfo*)threadInfo;
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document NS_UNAVAILABLE;
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document threadInfo:(DTXThreadInfo*)threadInfo;
 
 @end

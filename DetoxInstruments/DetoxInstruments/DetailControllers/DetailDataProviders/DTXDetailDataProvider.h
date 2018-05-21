@@ -9,7 +9,7 @@
 @import Foundation;
 @import AppKit;
 
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "NSColor+UIAdditions.h"
 #import "DTXInstrumentsModel.h"
@@ -56,11 +56,11 @@
 
 + (Class)inspectorDataProviderClass;
 
-- (instancetype)initWithDocument:(DTXDocument*)document plotController:(id<DTXPlotController>)plotController;
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document plotController:(id<DTXPlotController>)plotController;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-@property (nonatomic, strong, readonly) DTXDocument* document;
+@property (nonatomic, strong, readonly) DTXRecordingDocument* document;
 @property (nonatomic, weak, readonly) id<DTXPlotController> plotController;
 @property (nonatomic, weak) NSOutlineView* managedOutlineView;
 

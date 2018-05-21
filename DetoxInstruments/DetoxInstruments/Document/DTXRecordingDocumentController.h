@@ -1,5 +1,5 @@
 //
-//  DTXDocumentController.h
+//  DTXRecordingDocumentController.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 20/07/2017.
@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DTXDocumentController : NSDocumentController
+@interface DTXRecordingDocumentController : NSDocumentController
 
 @end

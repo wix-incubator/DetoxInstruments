@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DTXPlotHostConstructor.h"
 #import <CorePlot/CorePlot.h>
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 #import "DTXPlotController.h"
 
 @interface DTXSamplePlotController : DTXPlotHostConstructor <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>

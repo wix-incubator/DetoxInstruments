@@ -66,14 +66,14 @@
 	return nil;
 }
 
-- (instancetype)initWithDocument:(DTXDocument*)document
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document
 {
 	self = [super init];
 
 	if(self)
 	{
 		_document = document;
-		_scene = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+		_scene = [NSStoryboard storyboardWithName:@"Profiler" bundle:nil];
 		
 		_samplingInterval = [_document.recording.profilingConfiguration[@"samplingInterval"] doubleValue];
 		

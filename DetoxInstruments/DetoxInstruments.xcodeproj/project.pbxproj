@@ -105,7 +105,7 @@
 		399B3FBC1F248C3C00335109 /* DTXRemoteProfilingTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B3FBB1F248C3C00335109 /* DTXRemoteProfilingTarget.m */; };
 		399B4DC81ED574410098D2AC /* DTXProfilerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DC71ED574410098D2AC /* DTXProfilerWindowController.m */; };
 		399B4DCB1ED574AE0098D2AC /* DTXBaseSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DCA1ED574AE0098D2AC /* DTXBaseSplitViewController.m */; };
-		399B4DCD1ED574E70098D2AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 399B4DCC1ED574E70098D2AC /* Main.storyboard */; };
+		399B4DCD1ED574E70098D2AC /* Profiler.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 399B4DCC1ED574E70098D2AC /* Profiler.storyboard */; };
 		399B4DD41ED575780098D2AC /* DTXPlotDetailSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DD21ED575780098D2AC /* DTXPlotDetailSplitViewController.m */; };
 		399B4DD81ED575BD0098D2AC /* DTXDetailInspectorSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DD71ED575BD0098D2AC /* DTXDetailInspectorSplitViewController.m */; };
 		399DFD991F543E410013B804 /* DTXFilteredDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 399DFD981F543E410013B804 /* DTXFilteredDataProvider.m */; };
@@ -166,9 +166,9 @@
 		39EA8CD21F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA8CD11F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m */; };
 		39EBDFBD1ED36D45005D8AB1 /* DTXApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDFBC1ED36D45005D8AB1 /* DTXApplicationDelegate.m */; };
 		39EBDFC01ED36D45005D8AB1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDFBF1ED36D45005D8AB1 /* main.m */; };
-		39EBDFC61ED36D45005D8AB1 /* DTXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDFC51ED36D45005D8AB1 /* DTXDocument.m */; };
+		39EBDFC61ED36D45005D8AB1 /* DTXRecordingDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDFC51ED36D45005D8AB1 /* DTXRecordingDocument.m */; };
 		39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */; };
-		39EC15B31F20A243007EBE22 /* DTXDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EC15B21F20A243007EBE22 /* DTXDocumentController.m */; };
+		39EC15B31F20A243007EBE22 /* DTXRecordingDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EC15B21F20A243007EBE22 /* DTXRecordingDocumentController.m */; };
 		39EE1F501F3E2AF8002CB6C1 /* DTXSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EE1F4F1F3E2AF8002CB6C1 /* DTXSegmentedControl.m */; };
 		39EE1F551F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EE1F541F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.m */; };
 		39EE1F581F3E4411002CB6C1 /* DTXRNBridgeCallsDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EE1F571F3E4411002CB6C1 /* DTXRNBridgeCallsDataProvider.m */; };
@@ -593,7 +593,7 @@
 		399B4DC71ED574410098D2AC /* DTXProfilerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXProfilerWindowController.m; sourceTree = "<group>"; };
 		399B4DC91ED574AE0098D2AC /* DTXBaseSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXBaseSplitViewController.h; sourceTree = "<group>"; };
 		399B4DCA1ED574AE0098D2AC /* DTXBaseSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXBaseSplitViewController.m; sourceTree = "<group>"; };
-		399B4DCC1ED574E70098D2AC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		399B4DCC1ED574E70098D2AC /* Profiler.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profiler.storyboard; sourceTree = "<group>"; };
 		399B4DD11ED575780098D2AC /* DTXPlotDetailSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXPlotDetailSplitViewController.h; sourceTree = "<group>"; };
 		399B4DD21ED575780098D2AC /* DTXPlotDetailSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXPlotDetailSplitViewController.m; sourceTree = "<group>"; };
 		399B4DD61ED575BD0098D2AC /* DTXDetailInspectorSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXDetailInspectorSplitViewController.h; sourceTree = "<group>"; };
@@ -721,12 +721,12 @@
 		39EBDFBB1ED36D45005D8AB1 /* DTXApplicationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXApplicationDelegate.h; sourceTree = "<group>"; };
 		39EBDFBC1ED36D45005D8AB1 /* DTXApplicationDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXApplicationDelegate.m; sourceTree = "<group>"; };
 		39EBDFBF1ED36D45005D8AB1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		39EBDFC41ED36D45005D8AB1 /* DTXDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDocument.h; sourceTree = "<group>"; };
-		39EBDFC51ED36D45005D8AB1 /* DTXDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDocument.m; sourceTree = "<group>"; };
+		39EBDFC41ED36D45005D8AB1 /* DTXRecordingDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocument.h; sourceTree = "<group>"; };
+		39EBDFC51ED36D45005D8AB1 /* DTXRecordingDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingDocument.m; sourceTree = "<group>"; };
 		39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		39EBDFCC1ED36D45005D8AB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		39EC15B11F20A243007EBE22 /* DTXDocumentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDocumentController.h; sourceTree = "<group>"; };
-		39EC15B21F20A243007EBE22 /* DTXDocumentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDocumentController.m; sourceTree = "<group>"; };
+		39EC15B11F20A243007EBE22 /* DTXRecordingDocumentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocumentController.h; sourceTree = "<group>"; };
+		39EC15B21F20A243007EBE22 /* DTXRecordingDocumentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingDocumentController.m; sourceTree = "<group>"; };
 		39EE1F4E1F3E2AF8002CB6C1 /* DTXSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSegmentedControl.h; sourceTree = "<group>"; };
 		39EE1F4F1F3E2AF8002CB6C1 /* DTXSegmentedControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSegmentedControl.m; sourceTree = "<group>"; };
 		39EE1F531F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeCallsInspectorDataProvider.h; sourceTree = "<group>"; };
@@ -888,10 +888,10 @@
 		39281E871ED71760002CE905 /* Document */ = {
 			isa = PBXGroup;
 			children = (
-				39EBDFC41ED36D45005D8AB1 /* DTXDocument.h */,
-				39EBDFC51ED36D45005D8AB1 /* DTXDocument.m */,
-				39EC15B11F20A243007EBE22 /* DTXDocumentController.h */,
-				39EC15B21F20A243007EBE22 /* DTXDocumentController.m */,
+				39EBDFC41ED36D45005D8AB1 /* DTXRecordingDocument.h */,
+				39EBDFC51ED36D45005D8AB1 /* DTXRecordingDocument.m */,
+				39EC15B11F20A243007EBE22 /* DTXRecordingDocumentController.h */,
+				39EC15B21F20A243007EBE22 /* DTXRecordingDocumentController.m */,
 			);
 			path = Document;
 			sourceTree = "<group>";
@@ -1415,7 +1415,7 @@
 				396202451EF0313900D04E96 /* Views */,
 				3905F4BE1EF83FD4003E08C1 /* Layers */,
 				399A6A9620B2CB13006E711B /* Controllers */,
-				399B4DCC1ED574E70098D2AC /* Main.storyboard */,
+				399B4DCC1ED574E70098D2AC /* Profiler.storyboard */,
 				39EBDFBF1ED36D45005D8AB1 /* main.m */,
 				3904E1531EFABE7600FF2707 /* DTXInstrumentsApplication.h */,
 				3904E1541EFABE7600FF2707 /* DTXInstrumentsApplication.m */,
@@ -1701,7 +1701,7 @@
 				39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */,
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
 				3972E67920694E6800F099DE /* Acknowledgements.html in Resources */,
-				399B4DCD1ED574E70098D2AC /* Main.storyboard in Resources */,
+				399B4DCD1ED574E70098D2AC /* Profiler.storyboard in Resources */,
 				39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1750,7 +1750,7 @@
 				398EC454207BCA1100C55809 /* DTXZipper.m in Sources */,
 				3902F3571EF503DD000CB397 /* DTXInspectorDataProvider.m in Sources */,
 				39B706A31F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m in Sources */,
-				39EBDFC61ED36D45005D8AB1 /* DTXDocument.m in Sources */,
+				39EBDFC61ED36D45005D8AB1 /* DTXRecordingDocument.m in Sources */,
 				3988D2C31EEED5AF0090088E /* DTXMemoryDataProvider.m in Sources */,
 				396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */,
 				39F6F6CB1F0E3D5200C7F411 /* AutoCoding.m in Sources */,
@@ -1856,7 +1856,7 @@
 				397C3F3E1F35555B00BA9159 /* DTXStackedPlotGroup.m in Sources */,
 				3940940E20AB130300667765 /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m in Sources */,
 				398D6EA91EE061FE00AA9C11 /* DTXPlotAreaContentController.m in Sources */,
-				39EC15B31F20A243007EBE22 /* DTXDocumentController.m in Sources */,
+				39EC15B31F20A243007EBE22 /* DTXRecordingDocumentController.m in Sources */,
 				39BEE1ED207A47B3003AF93E /* pwd2key.c in Sources */,
 				393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */,
 				3922AE131F2BA72C0034B1FE /* DTXSocketConnection.m in Sources */,

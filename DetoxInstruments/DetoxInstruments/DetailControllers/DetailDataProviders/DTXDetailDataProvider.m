@@ -39,7 +39,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 @implementation DTXDetailDataProvider
 {
-	DTXDocument* _document;
+	DTXRecordingDocument* _document;
 	DTXSampleGroupProxy* _rootGroupProxy;
 	NSArray<DTXColumnInformation*>* _columns;
 	
@@ -55,7 +55,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	return nil;
 }
 
-- (instancetype)initWithDocument:(DTXDocument*)document plotController:(id<DTXPlotController>)plotController
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document plotController:(id<DTXPlotController>)plotController
 {
 	self = [super init];
 	
@@ -123,9 +123,9 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		}
 	}];
 
-	_managedOutlineView.tableColumns[[_managedOutlineView columnWithIdentifier:@"DTXTimestampColumn"]].title = _document.documentState > DTXDocumentStateNew ? NSLocalizedString(@"Time", @"") : @"";
+	_managedOutlineView.tableColumns[[_managedOutlineView columnWithIdentifier:@"DTXTimestampColumn"]].title = _document.documentState > DTXRecordingDocumentStateNew ? NSLocalizedString(@"Time", @"") : @"";
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:self.document];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
 	
 	[self _setupProxiesForGroups];
 }
@@ -142,7 +142,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (void)_setupProxiesForGroups
 {
-	if(_document.documentState < DTXDocumentStateLiveRecording)
+	if(_document.documentState < DTXRecordingDocumentStateLiveRecording)
 	{
 		return;
 	}
@@ -163,7 +163,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (BOOL)showsHeaderView
 {
-	return YES && _document.documentState > DTXDocumentStateNew;
+	return YES && _document.documentState > DTXRecordingDocumentStateNew;
 }
 
 - (NSArray<NSNumber* /*DTXSampleType*/>* )sampleTypes

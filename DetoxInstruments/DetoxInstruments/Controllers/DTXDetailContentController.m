@@ -7,7 +7,7 @@
 //
 
 #import "DTXDetailContentController.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 #import "DTXSampleGroup+UIExtensions.h"
 #import "DTXInstrumentsModelUIExtensions.h"
 #import "DTXLogDetailController.h"

@@ -180,18 +180,18 @@
 }
 #endif
 
-- (void)setDocument:(DTXDocument *)document
+- (void)setDocument:(DTXRecordingDocument *)document
 {
 	if(_document)
 	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:DTXDocumentStateDidChangeNotification object:_document];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:DTXRecordingDocumentStateDidChangeNotification object:_document];
 	}
 	
 	_document = document;
 	
 	[self _reloadPlotGroupIfNeeded];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:_document];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:_document];
 }
 
 - (void)_documentStateDidChangeNotification:(NSNotification*)note
@@ -208,9 +208,9 @@
 
 - (void)_reloadPlotGroupIfNeeded
 {
-	_headerView.hidden = self.document.documentState == DTXDocumentStateNew;
+	_headerView.hidden = self.document.documentState == DTXRecordingDocumentStateNew;
 	
-	if(self.document.documentState == DTXDocumentStateNew)
+	if(self.document.documentState == DTXRecordingDocumentStateNew)
 	{
 		return;
 	}
@@ -223,9 +223,9 @@
 	_plotGroup = [[DTXManagedPlotControllerGroup alloc] initWithHostingOutlineView:_tableView];
 	_plotGroup.delegate = self;
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentDefactoEndTimestampDidChange:) name:DTXDocumentDefactoEndTimestampDidChangeNotification object:self.document];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentDefactoEndTimestampDidChange:) name:DTXRecordingDocumentDefactoEndTimestampDidChangeNotification object:self.document];
 	
-	if(self.document.documentState < DTXDocumentStateLiveRecordingFinished)
+	if(self.document.documentState < DTXRecordingDocumentStateLiveRecordingFinished)
 	{
 		[_plotGroup setGlobalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:[NSDate distantFuture]];
 		[_plotGroup setLocalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:[self.document.recording.defactoStartTimestamp dateByAddingTimeInterval:120]];
@@ -301,7 +301,7 @@
 
 - (void)_documentDefactoEndTimestampDidChange:(NSNotification*)note
 {
-	if(self.document.documentState < DTXDocumentStateLiveRecordingFinished)
+	if(self.document.documentState < DTXRecordingDocumentStateLiveRecordingFinished)
 	{
 		return;
 	}

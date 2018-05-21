@@ -1,15 +1,15 @@
 //
-//  DTXDocumentController.m
+//  DTXRecordingDocumentController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 20/07/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXDocumentController.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocumentController.h"
+#import "DTXRecordingDocument.h"
 
-@implementation DTXDocumentController
+@implementation DTXRecordingDocumentController
 
 - (instancetype)init
 {
@@ -23,12 +23,12 @@
 
 - (NSArray<NSString *> *)documentClassNames
 {
-	return @[@"DTXDocument"];
+	return @[@"DTXRecordingDocument"];
 }
 
 - (nullable Class)documentClassForType:(NSString *)typeName
 {
-	return [DTXDocument class];
+	return [DTXRecordingDocument class];
 }
 
 @end

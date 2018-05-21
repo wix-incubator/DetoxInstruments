@@ -8,7 +8,7 @@
 
 @import WebKit;
 #import "DTXInspectorContentController.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 #import "DTXInspectorContentTableDataSource.h"
 #import "DTXSegmentedView.h"
 #import "DTXRecording+UIExtensions.h"
@@ -43,16 +43,16 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	_tabSwitcher.delegate = self;
 }
 
-- (void)setDocument:(DTXDocument *)document
+- (void)setDocument:(DTXRecordingDocument *)document
 {
 	if(_document)
 	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:DTXDocumentStateDidChangeNotification object:_document];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:DTXRecordingDocumentStateDidChangeNotification object:_document];
 	}
 	
 	_document = document;
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChange:) name:DTXDocumentStateDidChangeNotification object:_document];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChange:) name:DTXRecordingDocumentStateDidChangeNotification object:_document];
 	
 	[self _prepareRecordingDescriptionIfNeeded];
 }
@@ -100,7 +100,7 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 		return;
 	}
 	
-	if(self.document.documentState <= DTXDocumentStateLiveRecording)
+	if(self.document.documentState <= DTXRecordingDocumentStateLiveRecording)
 	{
 		return;
 	}

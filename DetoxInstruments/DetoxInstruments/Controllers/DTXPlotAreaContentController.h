@@ -24,7 +24,7 @@
 - (void)zoomOut;
 - (void)fitAllData;
 
-@property (nonatomic, strong) DTXDocument* document;
+@property (nonatomic, strong) DTXRecordingDocument* document;
 @property (nonatomic, weak) id<DTXPlotAreaContentControllerDelegate> delegate;
 
 @end

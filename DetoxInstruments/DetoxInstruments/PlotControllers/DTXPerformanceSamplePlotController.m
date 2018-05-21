@@ -22,7 +22,7 @@
 
 @implementation DTXPerformanceSamplePlotController
 
-- (instancetype)initWithDocument:(DTXDocument*)document
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document
 {
 	self = [super initWithDocument:document];
 	

@@ -8,7 +8,7 @@
 
 #import "DTXApplicationDelegate.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 #import "DTXAboutWindowController.h"
 //#import "CCNPreferencesWindowController.h"
 
@@ -144,10 +144,10 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-	NSMutableArray<DTXDocument*>* recordingDocuments = [NSMutableArray new];
+	NSMutableArray<DTXRecordingDocument*>* recordingDocuments = [NSMutableArray new];
 	
 	[[NSDocumentController sharedDocumentController].documents enumerateObjectsUsingBlock:^(__kindof NSDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if([obj documentState] == DTXDocumentStateLiveRecording)
+		if([obj documentState] == DTXRecordingDocumentStateLiveRecording)
 		{
 			[recordingDocuments addObject:obj];
 		}
@@ -155,7 +155,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	
 	if(recordingDocuments.count > 0)
 	{
-		[recordingDocuments enumerateObjectsUsingBlock:^(DTXDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[recordingDocuments enumerateObjectsUsingBlock:^(DTXRecordingDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			[obj stopLiveRecording];
 		}];
 		

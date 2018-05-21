@@ -34,7 +34,7 @@
 	return 0;
 }
 
-- (instancetype)initWithDocument:(DTXDocument*)document
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document
 {
 	self = [super init];
 	
