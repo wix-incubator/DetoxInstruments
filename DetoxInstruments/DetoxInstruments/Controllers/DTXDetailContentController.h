@@ -21,7 +21,7 @@
 
 @interface DTXDetailContentController : NSViewController
 
-@property (nonatomic, strong) DTXDocument* document;
+@property (nonatomic, strong) DTXRecordingDocument* document;
 @property (nonatomic, weak) id<DTXDetailContentControllerDelegate> delegate;
 @property (nonatomic, weak) id<DTXPlotController> managingPlotController;
 

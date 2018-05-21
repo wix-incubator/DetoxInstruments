@@ -7,11 +7,11 @@
 //
 
 #import "DTXDetailController.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 
 @interface DTXLogDetailController : DTXDetailController
 
-- (void)loadProviderWithDocument:(DTXDocument*)document;
+- (void)loadProviderWithDocument:(DTXRecordingDocument*)document;
 - (void)scrollToTimestamp:(NSDate*)timestamp;
 
 @end

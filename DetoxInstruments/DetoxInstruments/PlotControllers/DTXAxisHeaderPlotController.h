@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DTXPlotHostConstructor.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 #import "DTXPlotController.h"
 
 @interface DTXAxisHeaderPlotController : DTXPlotHostConstructor <DTXPlotController>

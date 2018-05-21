@@ -7,16 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 #import "DTXInstrumentsModel.h"
 
 @interface DTXFilteredDataProvider : NSObject <NSOutlineViewDataSource>
 
-- (instancetype)initWithDocument:(DTXDocument*)document managedOutlineView:(NSOutlineView*)managedOutlineView sampleTypes:(NSArray<NSNumber* /* DTXSampleType */>*)sampleTypes filteredAttributes:(NSArray<NSString*>*)filteredAttributes;
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document managedOutlineView:(NSOutlineView*)managedOutlineView sampleTypes:(NSArray<NSNumber* /* DTXSampleType */>*)sampleTypes filteredAttributes:(NSArray<NSString*>*)filteredAttributes;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-@property (nonatomic, strong, readonly) DTXDocument* document;
+@property (nonatomic, strong, readonly) DTXRecordingDocument* document;
 @property (nonatomic, weak, readonly) NSOutlineView* managedOutlineView;
 @property (nonatomic, strong, readonly) NSArray<NSNumber* /* DTXSampleType */>* sampleTypes;
 @property (nonatomic, strong, readonly) NSArray<NSString*>* filteredAttributes;

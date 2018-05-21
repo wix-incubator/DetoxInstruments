@@ -8,7 +8,7 @@
 
 @import Cocoa;
 #import <CorePlot/CorePlot.h>
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 
 @class DTXDetailController;
 
@@ -31,7 +31,7 @@
 
 @protocol DTXPlotController <NSObject>
 
-@property (nonatomic, strong, readonly) DTXDocument* document;
+@property (nonatomic, strong, readonly) DTXRecordingDocument* document;
 @property (nonatomic, weak) id<DTXPlotControllerDelegate> delegate;
 
 @property (nonatomic, strong, readonly) NSString* displayName;
@@ -47,7 +47,7 @@
 
 @property (nonatomic, copy, readonly) NSArray<DTXDetailController*>* dataProviderControllers;
 
-- (instancetype)initWithDocument:(DTXDocument*)document;
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 

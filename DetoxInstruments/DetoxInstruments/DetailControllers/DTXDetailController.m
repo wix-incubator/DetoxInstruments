@@ -54,7 +54,7 @@
 	[self.detailDataProvider filterSamplesWithFilter:filter];
 }
 
-- (void)loadProviderWithDocument:(DTXDocument*)document detailDataProviderClass:(Class)detailDataProviderClass
+- (void)loadProviderWithDocument:(DTXRecordingDocument*)document detailDataProviderClass:(Class)detailDataProviderClass
 {
 	
 }

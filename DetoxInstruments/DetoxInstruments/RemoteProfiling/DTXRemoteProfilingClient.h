@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DTXRemoteProfilingTarget.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 
 @class DTXRemoteProfilingClient;
 

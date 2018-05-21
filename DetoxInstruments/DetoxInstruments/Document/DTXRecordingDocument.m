@@ -1,12 +1,12 @@
 //
-//  DTXDocument.m
+//  DTXRecordingDocument.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 22/05/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 #import "DTXRecording+UIExtensions.h"
 #ifndef CLI
 #import "DTXRecordingTargetPickerViewController.h"
@@ -16,13 +16,13 @@
 #import "AutoCoding.h"
 @import ObjectiveC;
 
-NSString * const DTXDocumentDidLoadNotification = @"DTXDocumentDidLoadNotification";
-NSString * const DTXDocumentDefactoEndTimestampDidChangeNotification = @"DTXDocumentDefactoEndTimestampDidChangeNotification";
-NSString* const DTXDocumentStateDidChangeNotification = @"DTXDocumentStateDidChangeNotification";
+NSString * const DTXRecordingDocumentDidLoadNotification = @"DTXRecordingDocumentDidLoadNotification";
+NSString * const DTXRecordingDocumentDefactoEndTimestampDidChangeNotification = @"DTXRecordingDocumentDefactoEndTimestampDidChangeNotification";
+NSString* const DTXRecordingDocumentStateDidChangeNotification = @"DTXRecordingDocumentStateDidChangeNotification";
 
 static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
-@interface DTXDocument ()
+@interface DTXRecordingDocument ()
 #ifndef CLI
 <DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate, DTXRemoteProfilingTargetDelegate>
 #endif
@@ -39,19 +39,19 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 @end
 
-@implementation DTXDocument
+@implementation DTXRecordingDocument
 
 #ifndef CLI
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
 	if(item.action == @selector(saveDocument:))
 	{
-		return self.documentState == DTXDocumentStateLiveRecordingFinished || self.autosavedContentsFileURL != nil;
+		return self.documentState == DTXRecordingDocumentStateLiveRecordingFinished || self.autosavedContentsFileURL != nil;
 	}
 	
 	if(item.action == @selector(duplicateDocument:) || item.action == @selector(moveDocument:) || item.action == @selector(renameDocument:) || item.action == @selector(lockDocument:))
 	{
-		return self.documentState >= DTXDocumentStateLiveRecordingFinished;
+		return self.documentState >= DTXRecordingDocumentStateLiveRecordingFinished;
 	}
 	
 	return [super validateUserInterfaceItem:item];
@@ -79,7 +79,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	
 	if(self)
 	{
-		self.documentState = DTXDocumentStateNew;
+		self.documentState = DTXRecordingDocumentStateNew;
 	}
 	
 	return self;
@@ -127,7 +127,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)makeWindowControllers
 {
-	[self addWindowController:[[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"InstrumentsWindowController"]];
+	[self addWindowController:[[NSStoryboard storyboardWithName:@"Profiler" bundle:nil] instantiateControllerWithIdentifier:@"InstrumentsWindowController"]];
 }
 #endif
 
@@ -136,11 +136,11 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	return [url URLByAppendingPathComponent:@"_dtx_recording.sqlite"];
 }
 
-- (void)setDocumentState:(DTXDocumentState)documentState
+- (void)setDocumentState:(DTXRecordingDocumentState)documentState
 {
 	_documentState = documentState;
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:DTXDocumentStateDidChangeNotification object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDocumentStateDidChangeNotification object:self];
 }
 
 - (BOOL)_preparePersistenceContainerFromURL:(NSURL*)url allowCreation:(BOOL)allowCreation error:(NSError **)outError
@@ -154,7 +154,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:storeURL];
 	description.type = url ? NSSQLiteStoreType : NSInMemoryStoreType;
-	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXDocument class]]]];
+	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXRecordingDocument class]]]];
 	
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
 	_container.persistentStoreDescriptions = @[description];
@@ -172,7 +172,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		
 		DTXRecording* recording = [_container.viewContext executeFetchRequest:[DTXRecording fetchRequest] error:NULL].firstObject;
 		
-		self.documentState = url != nil && recording != nil ? DTXDocumentStateSavedToDisk : DTXDocumentStateNew;
+		self.documentState = url != nil && recording != nil ? DTXRecordingDocumentStateSavedToDisk : DTXRecordingDocumentStateNew;
 		
 		if(recording == nil)
 		{
@@ -181,7 +181,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		
 		_recording = recording;
 		
-		[[NSNotificationCenter defaultCenter] postNotificationName:DTXDocumentDidLoadNotification object:self.windowControllers.firstObject];
+		[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDocumentDidLoadNotification object:self.windowControllers.firstObject];
 		
 		//The recording might not have been properly closed by the profiler for several reasons. If no close date, use the last sample as the close date.
 		if(_recording.endTimestamp == nil)
@@ -216,13 +216,13 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)_recordingDefactoEndTimestampDidChange:(NSNotification*)note
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:DTXDocumentDefactoEndTimestampDidChangeNotification object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDocumentDefactoEndTimestampDidChangeNotification object:self];
 }
 
 #ifndef CLI
 - (void)readyForRecordingIfNeeded
 {
-	if(self.documentState == DTXDocumentStateNew)
+	if(self.documentState == DTXRecordingDocumentStateNew)
 	{
 		DTXRecordingTargetPickerViewController* vc = [[NSStoryboard storyboardWithName:@"RemoteProfiling" bundle:NSBundle.mainBundle] instantiateControllerWithIdentifier:@"DTXRecordingTargetChooser"];
 		vc.delegate = self;
@@ -352,7 +352,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
 {
 #ifndef CLI
-	if(self.documentState < DTXDocumentStateLiveRecordingFinished)
+	if(self.documentState < DTXRecordingDocumentStateLiveRecordingFinished)
 	{
 		[self stopLiveRecording];
 	}
@@ -413,7 +413,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	
 	[self _prepareForLiveRecording:_recording];
 	
-	self.documentState = DTXDocumentStateLiveRecording;
+	self.documentState = DTXRecordingDocumentStateLiveRecording;
 	self.displayName = _recording.dtx_profilingConfiguration.recordingFileURL.lastPathComponent.stringByDeletingPathExtension;
 	[self.windowControllers.firstObject synchronizeWindowTitleWithDocumentName];
 }
@@ -431,7 +431,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		_recording.endTimestamp = [NSDate date];
 	}
 	
-	self.documentState = DTXDocumentStateLiveRecordingFinished;
+	self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
 	
 	[self updateChangeCount:NSChangeDone];
 }

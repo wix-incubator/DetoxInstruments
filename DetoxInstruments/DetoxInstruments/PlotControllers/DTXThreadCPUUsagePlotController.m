@@ -13,7 +13,7 @@
 	DTXThreadInfo* _threadInfo;
 }
 
-- (instancetype)initWithDocument:(DTXDocument*)document threadInfo:(DTXThreadInfo*)threadInfo
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document threadInfo:(DTXThreadInfo*)threadInfo
 {
 	self = [super initWithDocument:document];
 	

@@ -12,7 +12,7 @@
 #import "DTXPlotAreaContentController.h"
 #import "DTXDetailContentController.h"
 #import "DTXInspectorContentController.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 #import <CoreServices/CoreServices.h>
 #import "DTXRecording+UIExtensions.h"
 
@@ -112,16 +112,16 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	[[NSUserDefaults standardUserDefaults] setBool:_rightCollapsed forKey:__DTXRightInspectorCollapsed];
 }
 
-- (void)setDocument:(DTXDocument*)document
+- (void)setDocument:(DTXRecordingDocument*)document
 {
 	if(self.document != nil)
 	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:DTXDocumentStateDidChangeNotification object:self.document];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
 	}
 	
 	[super setDocument:document];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXDocumentStateDidChangeNotification object:self.document];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
 	
 	[self _fixUpRecordingButtons];
 	
@@ -152,7 +152,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	[self _fixUpTitle];
 	
-	self.window.restorable = [(DTXDocument*)self.document documentState] >= DTXDocumentStateLiveRecordingFinished;
+	self.window.restorable = [(DTXRecordingDocument*)self.document documentState] >= DTXRecordingDocumentStateLiveRecordingFinished;
 }
 
 - (void)_documentStateDidChangeNotification:(NSNotification*)note
@@ -160,7 +160,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	[self _fixUpRecordingButtons];
 	[self _fixUpTitle];
 	
-	self.window.restorable = [(DTXDocument*)self.document documentState] >= DTXDocumentStateLiveRecordingFinished;
+	self.window.restorable = [(DTXRecordingDocument*)self.document documentState] >= DTXRecordingDocumentStateLiveRecordingFinished;
 }
 
 - (void)_fixUpTitle
@@ -170,13 +170,13 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		NSDateComponentsFormatter* ivFormatter = [NSDateComponentsFormatter new];
 		ivFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
 		
-		DTXDocument* document = (DTXDocument*)self.document;
+		DTXRecordingDocument* document = (DTXRecordingDocument*)self.document;
 		
-		if(document.documentState >= DTXDocumentStateLiveRecordingFinished && document.recording.startTimestamp && document.recording.endTimestamp)
+		if(document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished && document.recording.startTimestamp && document.recording.endTimestamp)
 		{
 			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, [ivFormatter stringFromDate:document.recording.startTimestamp toDate:document.recording.endTimestamp]];
 		}
-		else if(document.documentState == DTXDocumentStateLiveRecording)
+		else if(document.documentState == DTXRecordingDocumentStateLiveRecording)
 		{
 			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, NSLocalizedString(@"Recording...", @"")];
 		}
@@ -193,37 +193,37 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (void)_fixUpRecordingButtons
 {
-	_stopRecordingButton.enabled = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_stopRecordingButton.enabled = [(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
 	_stopRecordingButton.hidden = !_stopRecordingButton.enabled;
 	
-	_flagButton.enabled = [(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_flagButton.enabled = [(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
 	_flagButton.hidden = !_flagButton.enabled;
 	
-	_pushGroupButton.enabled = 0.0; //[(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_pushGroupButton.enabled = 0.0; //[(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
 	_pushGroupButton.hidden = !_pushGroupButton.enabled;
 	
-	_popGroupButton.enabled = _popGroupButton.hidden = 0.0; //[(DTXDocument*)self.document documentState] == DTXDocumentStateLiveRecording;
+	_popGroupButton.enabled = _popGroupButton.hidden = 0.0; //[(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
 	_popGroupButton.hidden = !_popGroupButton.enabled;
 }
 
 - (IBAction)_stopRecordingButtonPressed:(id)sender
 {
-	[(DTXDocument*)self.document stopLiveRecording];
+	[(DTXRecordingDocument*)self.document stopLiveRecording];
 }
 
 - (IBAction)_flagButtonPressed:(id)sender
 {
-	[(DTXDocument*)self.document addTag];
+	[(DTXRecordingDocument*)self.document addTag];
 }
 
 - (IBAction)_pushGroupButtonPressed:(id)sender
 {
-	[(DTXDocument*)self.document pushGroup];
+	[(DTXRecordingDocument*)self.document pushGroup];
 }
 
 - (IBAction)_popGroupButtonPressed:(id)sender
 {
-	[(DTXDocument*)self.document popGroup];
+	[(DTXRecordingDocument*)self.document popGroup];
 }
 
 - (void)_fixUpSegments
@@ -340,7 +340,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	if(menuItem.action == @selector(_export:))
 	{
-		return ((DTXDocument*)self.document).documentState >= DTXDocumentStateSavedToDisk;
+		return ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateSavedToDisk;
 	}
 	
 	if(menuItem.action == @selector(copy:))
@@ -350,7 +350,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	if(menuItem.action == @selector(_export:))
 	{
-		return ((DTXDocument*)self.document).documentState >= DTXDocumentStateSavedToDisk;
+		return ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateSavedToDisk;
 	}
 	
 	return menuItem.action == @selector(toggleBottom:) || menuItem.action == @selector(selectExtendedDetail:) || menuItem.action == @selector(selectProfilingInfo:);
@@ -391,7 +391,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-	if([self.document documentState] == DTXDocumentStateNew)
+	if([self.document documentState] == DTXRecordingDocumentStateNew)
 	{
 		return;
 	}
@@ -445,11 +445,11 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		
 		if(_formatPopupButton.selectedTag == 0)
 		{
-			data = [NSPropertyListSerialization dataWithPropertyList:[((DTXDocument*)self.document).recording dictionaryRepresentationForPropertyList] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
+			data = [NSPropertyListSerialization dataWithPropertyList:[((DTXRecordingDocument*)self.document).recording dictionaryRepresentationForPropertyList] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
 		}
 		else
 		{
-			data = [NSJSONSerialization dataWithJSONObject:[((DTXDocument*)self.document).recording dictionaryRepresentationForJSON] options:NSJSONWritingPrettyPrinted error:&error];
+			data = [NSJSONSerialization dataWithJSONObject:[((DTXRecordingDocument*)self.document).recording dictionaryRepresentationForJSON] options:NSJSONWritingPrettyPrinted error:&error];
 		}
 		
 		if(data != nil)

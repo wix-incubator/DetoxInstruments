@@ -11,7 +11,7 @@
 
 @interface DTXInspectorContentController : NSViewController
 
-@property (nonatomic, strong) DTXDocument* document;
+@property (nonatomic, strong) DTXRecordingDocument* document;
 @property (nonatomic, strong) DTXInspectorDataProvider* moreInfoDataProvider;
 
 - (void)selectExtendedDetail;

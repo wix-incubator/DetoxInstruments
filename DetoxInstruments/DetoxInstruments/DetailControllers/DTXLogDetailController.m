@@ -30,7 +30,7 @@
 	return YES;
 }
 
-- (void)loadProviderWithDocument:(DTXDocument*)document
+- (void)loadProviderWithDocument:(DTXRecordingDocument*)document
 {
 	[self view];
 	

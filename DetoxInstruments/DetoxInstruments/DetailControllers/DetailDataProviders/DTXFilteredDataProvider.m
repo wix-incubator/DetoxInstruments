@@ -20,7 +20,7 @@
 	BOOL _updatesExperiencedErrors;
 }
 
-- (instancetype)initWithDocument:(DTXDocument*)document managedOutlineView:(NSOutlineView*)managedOutlineView sampleTypes:(NSArray<NSNumber *> *)sampleTypes filteredAttributes:(NSArray<NSString *> *)filteredAttributes
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document managedOutlineView:(NSOutlineView*)managedOutlineView sampleTypes:(NSArray<NSNumber *> *)sampleTypes filteredAttributes:(NSArray<NSString *> *)filteredAttributes
 {
 	self = [super init];
 	

@@ -7,7 +7,7 @@
 //
 
 #import "DTXInstrumentsApplication.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocument.h"
 
 @implementation DTXInstrumentsApplication
 
