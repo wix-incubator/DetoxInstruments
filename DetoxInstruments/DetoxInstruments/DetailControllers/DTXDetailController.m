@@ -28,7 +28,7 @@
 	
 	if(self.canCopy)
 	{
-		DTXInstrumentsWindowController* controller = self.view.window.windowController;
+		DTXProfilerWindowController* controller = self.view.window.windowController;
 		controller.targetForCopy = self.viewForCopy;
 		controller.handlerForCopy = (id)self.detailDataProvider;
 	}

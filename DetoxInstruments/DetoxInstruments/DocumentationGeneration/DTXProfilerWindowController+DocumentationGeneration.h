@@ -1,5 +1,5 @@
 //
-//  DTXInstrumentsWindowController+DocumentationGeneration.h
+//  DTXProfilerWindowController+DocumentationGeneration.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 5/9/18.
@@ -8,10 +8,10 @@
 
 #ifdef DEBUG
 
-#import "DTXInstrumentsWindowController.h"
+#import "DTXProfilerWindowController.h"
 #import "DTXProfilingTargetManagementWindowController.h"
 
-@interface DTXInstrumentsWindowController (DocumentationGeneration)
+@interface DTXProfilerWindowController (DocumentationGeneration)
 
 - (void)_drainLayout;
 - (void)_setWindowSize:(NSSize)size;

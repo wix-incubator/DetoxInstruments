@@ -7,7 +7,7 @@
 //
 
 @import AppKit;
-#import "DTXInstrumentsWindowController.h"
+#import "DTXProfilerWindowController.h"
 #import "DTXStackTraceFrame.h"
 
 @interface DTXInspectorContentRow : NSObject

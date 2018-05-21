@@ -484,7 +484,7 @@ CA
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController storyboardIdentifier="InstrumentsWindowController" id="B8D-0N-5wS" customClass="DTXInstrumentsWindowController" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="InstrumentsWindowController" id="B8D-0N-5wS" customClass="DTXProfilerWindowController" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="preferred" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <rect key="contentRect" x="196" y="239" width="1280" height="800"/>
@@ -670,10 +670,10 @@ CA
             </objects>
             <point key="canvasLocation" x="-575" y="-1030"/>
         </scene>
-        <!--Bottom Inspector Split View Controller-->
+        <!--Detail Inspector Split View Controller-->
         <scene sceneID="zJf-PO-hby">
             <objects>
-                <splitViewController id="GJ1-Mo-aZo" customClass="DTXBottomInspectorSplitViewController" sceneMemberID="viewController">
+                <splitViewController id="GJ1-Mo-aZo" customClass="DTXDetailInspectorSplitViewController" sceneMemberID="viewController">
                     <splitViewItems>
                         <splitViewItem id="Pwh-Qf-mLt"/>
                         <splitViewItem id="Z4e-yk-Nwc"/>
@@ -695,10 +695,10 @@ CA
             </objects>
             <point key="canvasLocation" x="871" y="-68"/>
         </scene>
-        <!--Main Bottom Pane Split View Controller-->
+        <!--Plot Detail Split View Controller-->
         <scene sceneID="C5j-rK-DpM">
             <objects>
-                <splitViewController id="f3X-2z-0cS" customClass="DTXMainBottomPaneSplitViewController" sceneMemberID="viewController">
+                <splitViewController id="f3X-2z-0cS" customClass="DTXPlotDetailSplitViewController" sceneMemberID="viewController">
                     <splitViewItems>
                         <splitViewItem id="vtU-Tg-Eio"/>
                         <splitViewItem id="yYn-5h-RFR"/>
@@ -720,10 +720,10 @@ CA
             </objects>
             <point key="canvasLocation" x="871" y="-950"/>
         </scene>
-        <!--Main Content Controller-->
+        <!--Plot Area Content Controller-->
         <scene sceneID="foy-z4-ujV">
             <objects>
-                <viewController id="8bb-Hj-q9Z" customClass="DTXMainContentController" sceneMemberID="viewController">
+                <viewController id="8bb-Hj-q9Z" customClass="DTXPlotAreaContentController" sceneMemberID="viewController">
                     <view key="view" id="DF5-WI-UBi" customClass="DTXLayerView">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="800"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -880,11 +880,11 @@ CA
             </objects>
             <point key="canvasLocation" x="1972" y="-950"/>
         </scene>
-        <!--Bottom Content Controller-->
+        <!--Detail Content Controller-->
         <scene sceneID="GNr-8R-oRe">
             <objects>
                 <customObject id="bet-VM-njA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController id="dY0-LA-k4i" customClass="DTXBottomContentController" sceneMemberID="viewController">
+                <viewController id="dY0-LA-k4i" customClass="DTXDetailContentController" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="6ab-O0-jz6">
                         <rect key="frame" x="0.0" y="0.0" width="680" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1184,10 +1184,10 @@ CA
             </objects>
             <point key="canvasLocation" x="1080" y="878"/>
         </scene>
-        <!--Right Inspector Controller-->
+        <!--Inspector Content Controller-->
         <scene sceneID="Qym-FJ-b5S">
             <objects>
-                <viewController id="WQC-Xf-VdA" customClass="DTXRightInspectorController" sceneMemberID="viewController">
+                <viewController id="WQC-Xf-VdA" customClass="DTXInspectorContentController" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="Q9p-CM-vQf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1318,7 +1318,7 @@ CA
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="fet-qm-M01" customClass="DTXAutomaticallyDeselectingTableView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="317" height="19"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="317" height="14"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -1422,7 +1422,7 @@ CA
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="luK-3M-vK4" userLabel="Outline View" customClass="DTXAutomaticallyDeselectingOutlineView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="312" height="19"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="312" height="14"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>

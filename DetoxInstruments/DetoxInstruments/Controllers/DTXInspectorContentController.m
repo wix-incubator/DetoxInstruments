@@ -1,5 +1,5 @@
 //
-//  DTXRightInspectorController.m
+//  DTXInspectorContentController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 28/05/2017.
@@ -7,7 +7,7 @@
 //
 
 @import WebKit;
-#import "DTXRightInspectorController.h"
+#import "DTXInspectorContentController.h"
 #import "DTXDocument.h"
 #import "DTXInspectorContentTableDataSource.h"
 #import "DTXSegmentedView.h"
@@ -15,7 +15,7 @@
 
 static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 
-@interface DTXRightInspectorController () <DTXSegmentedViewDelegate>
+@interface DTXInspectorContentController () <DTXSegmentedViewDelegate>
 {
 	IBOutlet NSTableView* _recordingInfoTableView;
 	IBOutlet DTXSegmentedView* _tabSwitcher;
@@ -27,7 +27,7 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 
 @end
 
-@implementation DTXRightInspectorController
+@implementation DTXInspectorContentController
 
 - (void)viewDidLoad
 {
@@ -73,7 +73,7 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 {
 	_moreInfoDataProvider = moreInfoDataProvider;
 	
-	DTXInstrumentsWindowController* controller = self.view.window.windowController;
+	DTXProfilerWindowController* controller = self.view.window.windowController;
 	if(_moreInfoDataProvider.canCopy)
 	{
 		controller.handlerForCopy = _moreInfoDataProvider;
@@ -234,7 +234,7 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 
 - (IBAction)copyFromContext:(id)sender
 {
-	DTXInstrumentsWindowController* controller = self.view.window.windowController;
+	DTXProfilerWindowController* controller = self.view.window.windowController;
 	[_moreInfoDataProvider copy:sender targetView:controller.targetForCopy];
 }
 

@@ -1,12 +1,12 @@
 //
-//  DTXBottomContentController.m
+//  DTXDetailContentController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 25/05/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXBottomContentController.h"
+#import "DTXDetailContentController.h"
 #import "DTXDocument.h"
 #import "DTXSampleGroup+UIExtensions.h"
 #import "DTXInstrumentsModelUIExtensions.h"
@@ -14,7 +14,7 @@
 #import "DTXMenuPathControl.h"
 #import "DTXFilterField.h"
 
-@interface DTXBottomContentController () <DTXMenuPathControlDelegate, DTXDetailControllerDelegate, DTXFilterFieldDelegate, DTXPlotControllerSampleClickHandlingDelegate>
+@interface DTXDetailContentController () <DTXMenuPathControlDelegate, DTXDetailControllerDelegate, DTXFilterFieldDelegate, DTXPlotControllerSampleClickHandlingDelegate>
 {
 	__weak IBOutlet NSView* _topView;
 	__weak IBOutlet NSPathControl* _pathControl;
@@ -31,7 +31,7 @@
 
 @end
 
-@implementation DTXBottomContentController
+@implementation DTXDetailContentController
 
 - (void)viewDidLoad
 {

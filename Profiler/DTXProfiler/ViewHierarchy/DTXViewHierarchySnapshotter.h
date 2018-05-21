@@ -67,7 +67,7 @@
 
 @interface DTXViewHierarchySnapshotter : NSObject
 
-+ (void)createViewHierarchySnapshotWithCompletionHandler:(void(^)(DTXAppSnapshot* snapshot))completionHandler;
++ (void)captureViewHierarchySnapshotWithCompletionHandler:(void(^)(DTXAppSnapshot* snapshot))completionHandler;
 
 @end
 

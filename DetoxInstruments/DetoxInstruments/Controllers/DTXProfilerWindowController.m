@@ -1,17 +1,17 @@
 //
-//  DTXInstrumentsWindowController.m
+//  DTXProfilerWindowController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 22/05/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXInstrumentsWindowController.h"
-#import "DTXMainBottomPaneSplitViewController.h"
-#import "DTXBottomInspectorSplitViewController.h"
-#import "DTXMainContentController.h"
-#import "DTXBottomContentController.h"
-#import "DTXRightInspectorController.h"
+#import "DTXProfilerWindowController.h"
+#import "DTXPlotDetailSplitViewController.h"
+#import "DTXDetailInspectorSplitViewController.h"
+#import "DTXPlotAreaContentController.h"
+#import "DTXDetailContentController.h"
+#import "DTXInspectorContentController.h"
 #import "DTXDocument.h"
 #import <CoreServices/CoreServices.h>
 #import "DTXRecording+UIExtensions.h"
@@ -22,7 +22,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
 static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollapsed";
 
-@interface DTXInstrumentsWindowController () <DTXMainContentControllerDelegate, DTXBottomContentControllerDelegate>
+@interface DTXProfilerWindowController () <DTXPlotAreaContentControllerDelegate, DTXDetailContentControllerDelegate>
 {
 	__weak IBOutlet NSSegmentedControl* _layoutSegmentControl;
 	
@@ -34,12 +34,12 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	__weak IBOutlet NSButton* _pushGroupButton;
 	__weak IBOutlet NSButton* _popGroupButton;
 	
-	DTXMainBottomPaneSplitViewController* _bottomSplitViewController;
-	DTXBottomInspectorSplitViewController* _rightSplitViewController;
+	DTXPlotDetailSplitViewController* _bottomSplitViewController;
+	DTXDetailInspectorSplitViewController* _rightSplitViewController;
 	
-	DTXMainContentController* _mainContentController;
-	DTXBottomContentController* _bottomContentController;
-	DTXRightInspectorController* _inspectorContentController;
+	DTXPlotAreaContentController* _mainContentController;
+	DTXDetailContentController* _bottomContentController;
+	DTXInspectorContentController* _inspectorContentController;
 	
 	BOOL _bottomCollapsed;
 	BOOL _rightCollapsed;
@@ -51,7 +51,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 @end
 
-@implementation DTXInstrumentsWindowController
+@implementation DTXProfilerWindowController
 
 - (void)dealloc
 {
@@ -313,13 +313,13 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	}
 }
 
-- (void)contentController:(DTXMainContentController*)cc updatePlotController:(id<DTXPlotController>)plotController
+- (void)contentController:(DTXPlotAreaContentController*)cc updatePlotController:(id<DTXPlotController>)plotController
 {
 	_bottomContentController.managingPlotController = plotController;
 	_inspectorContentController.moreInfoDataProvider = nil;
 }
 
-- (void)bottomController:(DTXBottomContentController*)bc updateWithInspectorProvider:(DTXInspectorDataProvider*)inspectorProvider
+- (void)bottomController:(DTXDetailContentController*)bc updateWithInspectorProvider:(DTXInspectorDataProvider*)inspectorProvider
 {
 	_inspectorContentController.moreInfoDataProvider = inspectorProvider;
 }
