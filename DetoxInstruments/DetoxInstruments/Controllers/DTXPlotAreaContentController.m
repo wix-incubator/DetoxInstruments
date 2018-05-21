@@ -1,12 +1,12 @@
 //
-//  DTXMainContentController.m
+//  DTXPlotAreaContentController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 01/06/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXMainContentController.h"
+#import "DTXPlotAreaContentController.h"
 #import "DTXPlotTableView.h"
 #import "DTXManagedPlotControllerGroup.h"
 
@@ -27,7 +27,7 @@
 
 //#define DTX_LIVE_RESIZE_SNAPSHOTTING
 
-@interface DTXMainContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate>
+@interface DTXPlotAreaContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate>
 {
 	IBOutlet DTXPlotTableView *_tableView;
 	DTXManagedPlotControllerGroup* _plotGroup;
@@ -46,7 +46,7 @@
 
 @end
 
-@implementation DTXMainContentController
+@implementation DTXPlotAreaContentController
 
 - (void)viewDidLoad
 {

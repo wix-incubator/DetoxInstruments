@@ -1,5 +1,5 @@
 //
-//  DTXBottomContentController.h
+//  DTXDetailContentController.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 25/05/2017.
@@ -11,18 +11,18 @@
 #import "DTXDetailDataProvider.h"
 #import "DTXPlotController.h"
 
-@class DTXBottomContentController;
+@class DTXDetailContentController;
 
-@protocol DTXBottomContentControllerDelegate
+@protocol DTXDetailContentControllerDelegate
 
-- (void)bottomController:(DTXBottomContentController*)bc updateWithInspectorProvider:(DTXInspectorDataProvider*)inspectorProvider;
+- (void)bottomController:(DTXDetailContentController*)bc updateWithInspectorProvider:(DTXInspectorDataProvider*)inspectorProvider;
 
 @end
 
-@interface DTXBottomContentController : NSViewController
+@interface DTXDetailContentController : NSViewController
 
 @property (nonatomic, strong) DTXDocument* document;
-@property (nonatomic, weak) id<DTXBottomContentControllerDelegate> delegate;
+@property (nonatomic, weak) id<DTXDetailContentControllerDelegate> delegate;
 @property (nonatomic, weak) id<DTXPlotController> managingPlotController;
 
 @end

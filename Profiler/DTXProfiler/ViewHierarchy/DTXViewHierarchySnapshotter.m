@@ -137,8 +137,10 @@ static void __DTXRenderLayerAndSubLayers(CALayer* layer, BOOL sublayers, CGConte
 	return viewSnapshot;
 }
 
-+ (void)createViewHierarchySnapshotWithCompletionHandler:(void (^)(DTXAppSnapshot *))completionHandler
++ (void)captureViewHierarchySnapshotWithCompletionHandler:(void (^)(DTXAppSnapshot *))completionHandler
 {
+	NSParameterAssert(completionHandler != nil);
+	
 	void (^snapshotter)(void) = ^ {
 		NSAssert(NSThread.isMainThread, @"Must execute on main thread");
 		

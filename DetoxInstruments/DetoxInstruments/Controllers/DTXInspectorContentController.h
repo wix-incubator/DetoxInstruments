@@ -1,5 +1,5 @@
 //
-//  DTXRightInspectorController.h
+//  DTXInspectorContentController.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 28/05/2017.
@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "DTXInspectorDataProvider.h"
 
-@interface DTXRightInspectorController : NSViewController
+@interface DTXInspectorContentController : NSViewController
 
 @property (nonatomic, strong) DTXDocument* document;
 @property (nonatomic, strong) DTXInspectorDataProvider* moreInfoDataProvider;

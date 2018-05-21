@@ -9,7 +9,7 @@
 #ifdef DEBUG
 
 #import "DTXApplicationDelegate+DocumentationGeneration.h"
-#import "DTXInstrumentsWindowController+DocumentationGeneration.h"
+#import "DTXProfilerWindowController+DocumentationGeneration.h"
 #import "DTXProfilingTargetManagementWindowController+DocumentationGeneration.h"
 #import "NSWindow+Snapshotting.h"
 
@@ -97,7 +97,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	}];
 	
 	NSDocument* newDocument = [NSDocumentController.sharedDocumentController openUntitledDocumentAndDisplay:YES error:NULL];
-	DTXInstrumentsWindowController* windowController = newDocument.windowControllers.firstObject;
+	DTXProfilerWindowController* windowController = newDocument.windowControllers.firstObject;
 	
 	[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen];
 	[windowController.window makeKeyAndOrderFront:nil];
@@ -158,7 +158,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	
 	[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/example.dtxprof"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
 		
-		DTXInstrumentsWindowController* windowController = document.windowControllers.firstObject;
+		DTXProfilerWindowController* windowController = document.windowControllers.firstObject;
 		[document setValue:@"Example App" forKeyPath:@"recording.appName"];
 		[windowController _setRecordingButtonsVisible:NO];
 		[windowController.window setFrame:[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen] display:YES];
@@ -230,7 +230,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	}];
 }
 
-- (void)_createInstrumentScreenshotForPlotControllerClass:(Class)cls windowController:(DTXInstrumentsWindowController*)windowController inspectorPaneOverviewImage:(NSImage*)inspectorPaneOverviewImage;
+- (void)_createInstrumentScreenshotForPlotControllerClass:(Class)cls windowController:(DTXProfilerWindowController*)windowController inspectorPaneOverviewImage:(NSImage*)inspectorPaneOverviewImage;
 {
 	NSDictionary* info = __classToNameMapping[NSStringFromClass(cls) ?: @"NULL"];
 	NSBitmapImageRep* rep;

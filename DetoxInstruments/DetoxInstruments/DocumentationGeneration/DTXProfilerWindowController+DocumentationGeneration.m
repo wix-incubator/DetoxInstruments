@@ -1,5 +1,5 @@
 //
-//  DTXInstrumentsWindowController+DocumentationGeneration.m
+//  DTXProfilerWindowController+DocumentationGeneration.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 5/9/18.
@@ -8,14 +8,14 @@
 
 #ifdef DEBUG
 
-#import "DTXInstrumentsWindowController+DocumentationGeneration.h"
-#import "DTXMainContentController.h"
+#import "DTXProfilerWindowController+DocumentationGeneration.h"
+#import "DTXPlotAreaContentController.h"
 #import "DTXManagedPlotControllerGroup.h"
 #import "NSView+Snapshotting.h"
 #import "NSWindow+Snapshotting.h"
 #import "DTXSamplePlotController.h"
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
-#import "DTXRightInspectorController.h"
+#import "DTXInspectorContentController.h"
 
 @interface NSObject ()
 
@@ -23,13 +23,13 @@
 
 @end
 
-@interface DTXInstrumentsWindowController ()
+@interface DTXProfilerWindowController ()
 
 - (void)_fixUpTitle;
 
 @end
 
-@implementation DTXInstrumentsWindowController (DocumentationGeneration)
+@implementation DTXProfilerWindowController (DocumentationGeneration)
 
 - (void)_drainLayout
 {

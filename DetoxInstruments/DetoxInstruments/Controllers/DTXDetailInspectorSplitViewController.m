@@ -1,22 +1,21 @@
 //
-//  DTXMainBottomPaneSplitViewController.m
+//  DTXDetailInspectorSplitViewController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 24/05/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXMainBottomPaneSplitViewController.h"
+#import "DTXDetailInspectorSplitViewController.h"
 
-@interface DTXMainBottomPaneSplitViewController ()
+@interface DTXDetailInspectorSplitViewController ()
 
 @end
 
-@implementation DTXMainBottomPaneSplitViewController
+@implementation DTXDetailInspectorSplitViewController
 
-- (void)viewDidLoad
-{
-	[super viewDidLoad];
+- (void)viewDidLoad {
+    [super viewDidLoad];
 	
 	self.splitViewItems.lastObject.automaticMaximumThickness = 320;
 }
@@ -28,7 +27,8 @@
 
 - (CGFloat)lastSplitItemMinThickness
 {
-	return self.view.window == nil ? 320 : 88;
+	return 320;
 }
 
 @end
+

@@ -1,5 +1,5 @@
 //
-//  DTXBottomInspectorSplitViewController.h
+//  DTXPlotDetailSplitViewController.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 24/05/2017.
@@ -8,6 +8,6 @@
 
 #import "DTXBaseSplitViewController.h"
 
-@interface DTXBottomInspectorSplitViewController : DTXBaseSplitViewController
+@interface DTXPlotDetailSplitViewController : DTXBaseSplitViewController
 
 @end
