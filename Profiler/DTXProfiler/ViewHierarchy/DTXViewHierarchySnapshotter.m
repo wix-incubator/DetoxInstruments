@@ -8,6 +8,7 @@
 
 #import "DTXViewHierarchySnapshotter.h"
 #import "AutoCoding.h"
+@import ObjectiveC;
 
 @interface CALayer ()
 
@@ -17,6 +18,9 @@
 - (void)_renderForegroundInContext:(struct CGContext *)arg1;
 
 @end
+
+#define ENCODE_STRUCT_FIELD(st, fld, name) [aCoder encodeDouble:st.fld forKey:[NSString stringWithFormat:@"%@_%s", name, #fld]]
+#define DECODE_STRUCT_FIELD(st, fld, name) st.fld = [aDecoder decodeDoubleForKey:[NSString stringWithFormat:@"%@_%s", name, #fld]]
 
 @implementation DTXViewSnapshot
 
@@ -35,6 +39,49 @@
 	{
 		[self.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop)
 		{
+			Method m = class_getInstanceMethod(self.class, NSSelectorFromString(key));
+			char* returnType = method_copyReturnType(m);
+			dtx_defer {
+				free(returnType);
+			};
+			
+			if(obj == DTXSnapshotImage.class)
+			{
+				NSData* data = [aDecoder decodeObjectForKey:key];
+				DTXSnapshotImage* image;
+#if TARGET_OS_IPHONE
+				image = [UIImage imageWithData:data];
+#else
+				image = [[NSImage alloc] initWithData:data];
+#endif
+				[self setValue:image forKey:key];
+				
+				return;
+			}
+			else if(obj == NSValue.class && strcmp(returnType, @encode(CATransform3D)) == 0)
+			{
+				CATransform3D ct3d;
+				DECODE_STRUCT_FIELD(ct3d, m11, key);
+				DECODE_STRUCT_FIELD(ct3d, m12, key);
+				DECODE_STRUCT_FIELD(ct3d, m13, key);
+				DECODE_STRUCT_FIELD(ct3d, m14, key);
+				DECODE_STRUCT_FIELD(ct3d, m21, key);
+				DECODE_STRUCT_FIELD(ct3d, m22, key);
+				DECODE_STRUCT_FIELD(ct3d, m23, key);
+				DECODE_STRUCT_FIELD(ct3d, m24, key);
+				DECODE_STRUCT_FIELD(ct3d, m31, key);
+				DECODE_STRUCT_FIELD(ct3d, m32, key);
+				DECODE_STRUCT_FIELD(ct3d, m33, key);
+				DECODE_STRUCT_FIELD(ct3d, m34, key);
+				DECODE_STRUCT_FIELD(ct3d, m41, key);
+				DECODE_STRUCT_FIELD(ct3d, m42, key);
+				DECODE_STRUCT_FIELD(ct3d, m43, key);
+				DECODE_STRUCT_FIELD(ct3d, m44, key);
+				[self setValue:[NSValue valueWithCATransform3D:ct3d] forKey:key];
+				
+				return;
+			}
+			
 			[self setValue:[aDecoder decodeObjectOfClass:obj forKey:key] forKey:key];
 		}];
 	}
@@ -45,6 +92,49 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
 	[self.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop) {
+		id value = [self valueForKey:key];
+		if(obj == DTXSnapshotImage.class)
+		{
+			NSData* data;
+#if TARGET_OS_IPHONE
+			data = UIImagePNGRepresentation([self valueForKey:key]);
+#else
+			NSImage* image = value;
+			
+			CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
+			NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
+			newRep.size = image.size;
+			data = [newRep representationUsingType:NSPNGFileType properties:@{}];
+			
+#endif
+			[aCoder encodeObject:data forKey:key];
+			
+			return;
+		}
+		else if(obj == NSValue.class && strcmp(((NSValue*)value).objCType, @encode(CATransform3D)) == 0)
+		{
+			CATransform3D ct3d = [[self valueForKey:key] CATransform3DValue];
+			
+			ENCODE_STRUCT_FIELD(ct3d, m11, key);
+			ENCODE_STRUCT_FIELD(ct3d, m12, key);
+			ENCODE_STRUCT_FIELD(ct3d, m13, key);
+			ENCODE_STRUCT_FIELD(ct3d, m14, key);
+			ENCODE_STRUCT_FIELD(ct3d, m21, key);
+			ENCODE_STRUCT_FIELD(ct3d, m22, key);
+			ENCODE_STRUCT_FIELD(ct3d, m23, key);
+			ENCODE_STRUCT_FIELD(ct3d, m24, key);
+			ENCODE_STRUCT_FIELD(ct3d, m31, key);
+			ENCODE_STRUCT_FIELD(ct3d, m32, key);
+			ENCODE_STRUCT_FIELD(ct3d, m33, key);
+			ENCODE_STRUCT_FIELD(ct3d, m34, key);
+			ENCODE_STRUCT_FIELD(ct3d, m41, key);
+			ENCODE_STRUCT_FIELD(ct3d, m42, key);
+			ENCODE_STRUCT_FIELD(ct3d, m43, key);
+			ENCODE_STRUCT_FIELD(ct3d, m44, key);
+			
+			return;
+		}
+		
 		[aCoder encodeObject:[self valueForKey:key] forKey:key];
 	}];
 }
@@ -85,13 +175,19 @@
 
 static void __DTXRenderLayerAndSubLayers(CALayer* layer, BOOL sublayers, CGContextRef ctx)
 {
-	[layer _renderBackgroundInContext:ctx];
-	[layer _renderBorderInContext:ctx];
 	if(sublayers)
 	{
-		[layer _renderSublayersInContext:ctx];
+		
 	}
-	[layer _renderForegroundInContext:ctx];
+	else
+	{
+		[layer _renderBackgroundInContext:ctx];
+		[layer _renderBorderInContext:ctx];
+		
+		//		[layer _renderSublayersInContext:ctx];
+		
+		[layer _renderForegroundInContext:ctx];
+	}
 }
 
 @implementation DTXViewHierarchySnapshotter
@@ -123,7 +219,8 @@ static void __DTXRenderLayerAndSubLayers(CALayer* layer, BOOL sublayers, CGConte
 	
 	UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, windowForScreen.screen.scale);
 	ctx = UIGraphicsGetCurrentContext();
-	__DTXRenderLayerAndSubLayers(view.layer, YES, ctx);
+	[view drawViewHierarchyInRect:view.bounds afterScreenUpdates:NO];
+//	__DTXRenderLayerAndSubLayers(view.layer, YES, ctx);
 	viewSnapshot.snapshotIncludingSubviews = UIGraphicsGetImageFromCurrentImageContext();
 //	[UIImagePNGRepresentation(viewSnapshot.snapshotIncludingSubviews) writeToFile:[NSString stringWithFormat:@"/Users/lnatan/Desktop/Snapshots/%p_%@_full.png", view, NSStringFromClass(view.class)] atomically:YES];
 	UIGraphicsEndImageContext();

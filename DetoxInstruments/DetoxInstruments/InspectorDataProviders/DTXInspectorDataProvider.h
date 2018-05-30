@@ -11,7 +11,7 @@
 #import "DTXRecordingDocument.h"
 #import "DTXInspectorContentTableDataSource.h"
 #import "NSFormatter+PlotFormatters.h"
-#import "DTXProfilerWindowController.h"
+#import "DTXWindowController.h"
 
 @interface DTXInspectorDataProvider : NSObject <DTXWindowWideCopyHanler>
 

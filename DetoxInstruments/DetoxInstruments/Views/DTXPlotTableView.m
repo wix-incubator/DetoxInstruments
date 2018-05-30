@@ -141,4 +141,9 @@ IB_DESIGNABLE
 	return YES;
 }
 
+- (BOOL)isOpaque
+{
+	return YES;
+}
+
 @end

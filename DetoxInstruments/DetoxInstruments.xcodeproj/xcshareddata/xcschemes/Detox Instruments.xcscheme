@@ -94,11 +94,11 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-NSTrackMenuValidation"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "YES"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

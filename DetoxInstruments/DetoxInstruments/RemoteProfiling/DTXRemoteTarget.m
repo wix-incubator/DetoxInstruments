@@ -1,19 +1,20 @@
 //
-//  DTXRemoteProfilingTarget.m
+//  DTXRemoteTarget.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 23/07/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXRemoteProfilingTarget-Private.h"
+#import "DTXRemoteTarget-Private.h"
 #import "DTXRemoteProfilingBasics.h"
 #import "DTXProfilingConfiguration.h"
 #import "AutoCoding.h"
+#import "DTXViewHierarchySnapshotter.h"
 
 @import AppKit;
 
-@interface DTXRemoteProfilingTarget () <DTXSocketConnectionDelegate>
+@interface DTXRemoteTarget () <DTXSocketConnectionDelegate>
 {
 	dispatch_source_t _pingTimer;
 	NSDate* _lastPingDate;
@@ -23,7 +24,7 @@
 
 @end
 
-@implementation DTXRemoteProfilingTarget
+@implementation DTXRemoteTarget
 
 #pragma mark Connection and Commands
 
@@ -47,7 +48,7 @@
 	
 	__weak __auto_type weakSelf = self;
 	
-	[self.connection writeData:[DTXRemoteProfilingTarget _dataForNetworkCommand:cmd] completionHandler:^(NSError * _Nullable error) {
+	[self.connection writeData:[DTXRemoteTarget _dataForNetworkCommand:cmd] completionHandler:^(NSError * _Nullable error) {
 		if(error) {
 			[weakSelf _errorOutWithError:error];
 			return;
@@ -70,7 +71,7 @@
 			return;
 		}
 		
-		NSDictionary* dict = [DTXRemoteProfilingTarget _responseFromNetworkData:data];
+		NSDictionary* dict = [DTXRemoteTarget _responseFromNetworkData:data];
 		
 		completionHandler(dict);
 	}];
@@ -82,7 +83,7 @@
 	_port = port;
 	_workQueue = workQueue;
 	
-	_state = DTXRemoteProfilingTargetStateResolved;
+	_state = DTXRemoteTargetStateResolved;
 	
 	self.connection = [[DTXSocketConnection alloc] initWithHostName:hostName port:port queue:_workQueue];
 	self.connection.delegate = self;
@@ -180,6 +181,9 @@
 			case DTXRemoteProfilingCommandTypeGetPasteboard:
 				[weakSelf _handlePasteboard:cmd];
 				break;
+			case DTXRemoteProfilingCommandTypeCaptureViewHierarchy:
+				[weakSelf _handleViewHierarchy:cmd];
+				break;
 			case DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration:
 			case DTXRemoteProfilingCommandTypeAddTag:
 			case DTXRemoteProfilingCommandTypePushGroup:
@@ -211,7 +215,7 @@
 	//	self.deviceSnapshot = [[NSImage alloc] initWithData:deviceInfo[@"snapshot"]];
 	self.deviceInfo = deviceInfo;
 	
-	_state = DTXRemoteProfilingTargetStateDeviceInfoLoaded;
+	_state = DTXRemoteTargetStateDeviceInfoLoaded;
 	
 	if([self.delegate respondsToSelector:@selector(profilingTargetDidLoadDeviceInfo:)])
 	{
@@ -353,6 +357,20 @@
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeSetPasteboard), @"pasteboardContents": [NSKeyedArchiver archivedDataWithRootObject:pasteboardContents]} completionHandler:nil];
 }
 
+#pragma mark View Hierarchy
+
+- (void)captureViewHierarchy
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeCaptureViewHierarchy)} completionHandler:nil];
+}
+
+- (void)_handleViewHierarchy:(NSDictionary*)viewHierarchy;
+{
+	DTXAppSnapshot* appSnapshot = [NSKeyedUnarchiver unarchiveObjectWithData:viewHierarchy[@"appSnapshot"]];
+	
+	NSLog(@"");
+}
+
 #pragma mark Remote Profiling
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
@@ -382,7 +400,7 @@
 
 - (void)_handleProfilerStoryEvent:(NSDictionary*)storyEvent
 {
-	dispatch_async(dispatch_get_main_queue(), ^{
+	[self.storyDecoder performBlock:^{
 		[self.storyDecoder willDecodeStoryEvent];
 		
 		BOOL extended = NO;
@@ -423,7 +441,7 @@
 		}
 		
 		[self.storyDecoder didDecodeStoryEvent];
-	});
+	}];
 }
 
 - (void)_handleRecordingDidStop:(NSDictionary*)storyEvent

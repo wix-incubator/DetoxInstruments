@@ -7,7 +7,7 @@
 //
 
 #import "NSWindow+Snapshotting.h"
-#import "NSView+Snapshotting.h"
+#import "NSView+UIAdditions.h"
 @import ObjectiveC;
 @import QuartzCore;
 

@@ -1,5 +1,5 @@
 //
-//  DTXRemoteProfilingTarget.h
+//  DTXRemoteTarget.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 23/07/2017.
@@ -12,37 +12,37 @@
 #import "DTXPasteboardItem.h"
 @import CoreData;
 
-@class DTXRemoteProfilingTarget, DTXProfilingConfiguration;
+@class DTXRemoteTarget, DTXProfilingConfiguration;
 @protocol DTXProfilerStoryDecoder;
 
-typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
-	DTXRemoteProfilingTargetStateDiscovered,
-	DTXRemoteProfilingTargetStateResolved,
-	DTXRemoteProfilingTargetStateDeviceInfoLoaded,
-	DTXRemoteProfilingTargetStateRecording,
-	DTXRemoteProfilingTargetStateStopped,
+typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
+	DTXRemoteTargetStateDiscovered,
+	DTXRemoteTargetStateResolved,
+	DTXRemoteTargetStateDeviceInfoLoaded,
+	DTXRemoteTargetStateRecording,
+	DTXRemoteTargetStateStopped,
 };
 
-@protocol DTXRemoteProfilingTargetDelegate <NSObject>
+@protocol DTXRemoteTargetDelegate <NSObject>
 
 @optional
 
-- (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget*)target;
+- (void)connectionDidCloseForProfilingTarget:(DTXRemoteTarget*)target;
 
-- (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteProfilingTarget*)target;
+- (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteTarget*)target;
 
-- (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget*)target;
-- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didDownloadContainerContents:(NSData*)containerContents wasZipped:(BOOL)wasZipped;
+- (void)profilingTargetdidLoadContainerContents:(DTXRemoteTarget*)target;
+- (void)profilingTarget:(DTXRemoteTarget*)target didDownloadContainerContents:(NSData*)containerContents wasZipped:(BOOL)wasZipped;
 
-- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadUserDefaults:(NSDictionary*)userDefaults;
+- (void)profilingTarget:(DTXRemoteTarget*)target didLoadUserDefaults:(NSDictionary*)userDefaults;
 
-- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies;
+- (void)profilingTarget:(DTXRemoteTarget*)target didLoadCookies:(NSArray<NSDictionary<NSString*, id>*>*)cookies;
 
-- (void)profilingTarget:(DTXRemoteProfilingTarget*)target didLoadPasteboardContents:(NSArray<DTXPasteboardItem*>*)pasteboardContents;
+- (void)profilingTarget:(DTXRemoteTarget*)target didLoadPasteboardContents:(NSArray<DTXPasteboardItem*>*)pasteboardContents;
 
 @end
 
-@interface DTXRemoteProfilingTarget : NSObject
+@interface DTXRemoteTarget : NSObject
 
 @property (nonatomic, assign, readonly) NSUInteger deviceOSType;
 @property (nonatomic, copy, readonly) NSString* appName;
@@ -51,11 +51,11 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 @property (nonatomic, copy, readonly) NSImage* deviceSnapshot;
 @property (nonatomic, copy, readonly) NSDictionary* deviceInfo;
 
-@property (nonatomic, assign, readonly) DTXRemoteProfilingTargetState state;
+@property (nonatomic, assign, readonly) DTXRemoteTargetState state;
 
 @property (nonatomic, strong) NSManagedObjectContext* managedObjectContext;
 @property (nonatomic, weak) id<DTXProfilerStoryDecoder> storyDecoder;
-@property (nonatomic, weak) id<DTXRemoteProfilingTargetDelegate> delegate;
+@property (nonatomic, weak) id<DTXRemoteTargetDelegate> delegate;
 
 - (void)loadDeviceInfo;
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
@@ -79,6 +79,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingTargetState) {
 
 @property (nonatomic, copy) NSArray<DTXPasteboardItem*>* pasteboardContents;
 - (void)loadPasteboardContents;
+
+- (void)captureViewHierarchy;
 
 
 @end

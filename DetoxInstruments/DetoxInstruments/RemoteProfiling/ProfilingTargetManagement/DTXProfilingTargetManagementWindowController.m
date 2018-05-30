@@ -42,7 +42,7 @@
 	return self;
 }
 
-- (void)setProfilingTarget:(DTXRemoteProfilingTarget *)profilingTarget
+- (void)setProfilingTarget:(DTXRemoteTarget *)profilingTarget
 {
 	_profilingTarget = profilingTarget;
 	
