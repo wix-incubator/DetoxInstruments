@@ -54,6 +54,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	__weak IBOutlet NSMenuItem *_hideMenuItem;
 	__weak IBOutlet NSMenuItem *_quitMenuItem;
 	
+	__strong IBOutlet SUUpdater* _updater;
+	
 	DTXAboutWindowController* _aboutWindowController;
 }
 
@@ -183,6 +185,11 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 //	}
 	
 	return NSTerminateNow;
+}
+
+- (IBAction)checkForUpdates:(id)sender
+{
+	[_updater checkForUpdates:sender];
 }
 
 @end

@@ -609,6 +609,7 @@ CA
                         <outlet property="_appMenu" destination="uQy-DD-JDr" id="gkp-UD-jgp"/>
                         <outlet property="_hideMenuItem" destination="Olw-nP-bQN" id="2Uh-Cn-MhG"/>
                         <outlet property="_quitMenuItem" destination="4sb-4s-VLi" id="U48-Mz-MbY"/>
+                        <outlet property="_updater" destination="Ajg-Dd-84l" id="noo-IG-u0Y"/>
                     </connections>
                 </customObject>
                 <customObject id="Lcf-oR-wGg" customClass="DTXRecordingDocumentController"/>
