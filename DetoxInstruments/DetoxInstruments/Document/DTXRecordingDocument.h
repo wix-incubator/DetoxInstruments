@@ -30,6 +30,8 @@ typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 @property (nonatomic, strong, readonly) DTXRecording* recording;
 
 #ifndef CLI
++ (void)clearLastOpenedVersionAndReopenDocumentAtURL:(NSURL*)URL;
+
 - (void)readyForRecordingIfNeeded;
 - (void)addTag;
 - (void)pushGroup;

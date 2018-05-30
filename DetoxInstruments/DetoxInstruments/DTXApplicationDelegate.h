@@ -10,6 +10,5 @@
 
 @interface DTXApplicationDelegate : NSObject <NSApplicationDelegate>
 
-
 @end
 
