@@ -63,7 +63,8 @@ BOOL DTXLoadJSCWrapper(DTXJSCWrapper* output)
 	CFBundleRef bundle = __DTXGetCustomJSCBundle();
 	if(bundle == NULL)
 	{
-		return NO;
+		//Use the system JSC bundle if no custom bundle exists.
+		bundle = CFBundleCreate(kCFAllocatorDefault, (__bridge CFURLRef)[NSBundle bundleForClass:[JSContext class]].bundleURL);
 	}
 	
 	CFErrorRef error = NULL;
