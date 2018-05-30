@@ -10,6 +10,11 @@
 
 @implementation DTXPlotHostingTableCellView
 
+- (void)awakeFromNib
+{
+	self.wantsLayer = YES;
+}
+
 - (void)prepareForReuse
 {
 	[self.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -19,6 +24,11 @@
 	self.plotController = nil;
 	
 	[super prepareForReuse];
+}
+
+- (BOOL)isOpaque
+{
+	return YES;
 }
 
 - (void)setPlotController:(id<DTXPlotController>)plotController

@@ -35,7 +35,7 @@
 	[_plistEditor.window makeFirstResponder:[_plistEditor valueForKey:@"outlineView"]];
 }
 
-- (void)setProfilingTarget:(DTXRemoteProfilingTarget *)profilingTarget
+- (void)setProfilingTarget:(DTXRemoteTarget *)profilingTarget
 {
 	_profilingTarget = profilingTarget;
 	

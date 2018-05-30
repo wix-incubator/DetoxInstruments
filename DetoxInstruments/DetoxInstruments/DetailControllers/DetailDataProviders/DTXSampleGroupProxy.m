@@ -8,6 +8,7 @@
 
 #import "DTXSampleGroupProxy.h"
 #import "DTXSampleGroup+UIExtensions.h"
+#import "NSView+UIAdditions.h"
 
 @interface DTXSampleGroupProxy () <NSFetchedResultsControllerDelegate>
 
@@ -67,7 +68,15 @@
 		_sampleTypes = sampleTypes;
 		_isRoot = isRoot;
 		
-		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:[sampleGroup fetchRequestForSamplesWithTypes:sampleTypes includingGroups:YES] managedObjectContext:sampleGroup.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+		NSFetchRequest* fr = [sampleGroup fetchRequestForSamplesWithTypes:sampleTypes includingGroups:YES];
+		NSManagedObjectContext* ctx = sampleGroup.managedObjectContext;
+		
+		if(fr == nil || ctx == nil)
+		{
+			return nil;
+		}
+		
+		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:ctx sectionNameKeyPath:nil cacheName:nil];
 		_frc.delegate = self;
 		[_frc performFetch:NULL];
 	}
@@ -99,6 +108,11 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
+	NSRect documentVisibleRect = _outlineView.enclosingScrollView.contentView.documentVisibleRect;
+	CGFloat scrollPoint = NSMaxY(documentVisibleRect);
+	
+	BOOL shouldScroll = /*_document.documentState = DTXRecordingDocumentStateLiveRecording &&*/ scrollPoint >= NSHeight(_outlineView.bounds);
+	
 	NSMutableArray* toExpand = [NSMutableArray new];
 	
 	@try
@@ -135,6 +149,11 @@
 	if(_updatesExperiencedErrors)
 	{
 		[_outlineView reloadItem:_isRoot ? nil : self reloadChildren:YES];
+	}
+	
+	if(shouldScroll)
+	{
+		[_outlineView scrollToBottom];
 	}
 }
 

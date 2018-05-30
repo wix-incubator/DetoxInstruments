@@ -6,22 +6,20 @@
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
-#if __has_include(<UIKit/UIKit.h>)
+#if TARGET_OS_IPHONE
 #define DTX_HAS_SNAPSHOTTER 1
 #import <UIKit/UIKit.h>
 #define DTXSnapshotImage UIImage
 #define DTXSnapshotEdgeInsets UIEdgeInsets
 #define DTXSnapshotColor UIColor
 #define dtx_snapshot_property_modifier readwrite
-#elif __has_include(<AppKit/AppKit.h>)
+#else
 #define DTX_HAS_SNAPSHOTTER 0
 #import <AppKit/AppKit.h>
 #define DTXSnapshotImage NSImage
 #define DTXSnapshotEdgeInsets NSEdgeInsets
 #define DTXSnapshotColor NSColor
 #define dtx_snapshot_property_modifier readonly
-#else
-#error Unknown platform
 #endif
 
 @interface DTXViewSnapshot : NSObject <NSSecureCoding>
@@ -34,8 +32,8 @@
 @property (nonatomic, assign, dtx_snapshot_property_modifier) uintptr_t ptr;
 @property (nonatomic, strong, dtx_snapshot_property_modifier) NSString* objectClass;
 @property (nonatomic, strong, dtx_snapshot_property_modifier) NSString* layerClass;
-@property (nonatomic, copy, dtx_snapshot_property_modifier) NSString* description;
-@property (nonatomic, copy, dtx_snapshot_property_modifier) NSString* recursiveDescription;
+@property (nonatomic, copy,   dtx_snapshot_property_modifier) NSString* description;
+@property (nonatomic, copy,   dtx_snapshot_property_modifier) NSString* recursiveDescription;
 
 @property (nonatomic, assign, dtx_snapshot_property_modifier) NSInteger tag;
 @property (nonatomic, assign, dtx_snapshot_property_modifier) BOOL userInteractionEnabled;
@@ -44,22 +42,22 @@
 @property (nonatomic, assign, dtx_snapshot_property_modifier) CGPoint center;
 @property (nonatomic, assign, dtx_snapshot_property_modifier) DTXSnapshotEdgeInsets layoutMargins;
 @property (nonatomic, assign, dtx_snapshot_property_modifier) DTXSnapshotEdgeInsets safeAreaInsets;
-@property (nonatomic, copy, dtx_snapshot_property_modifier) DTXSnapshotColor* backgroundColor;
+@property (nonatomic, copy,   dtx_snapshot_property_modifier) DTXSnapshotColor* backgroundColor;
 @property (nonatomic, assign, dtx_snapshot_property_modifier) CGFloat alpha;
 @property (nonatomic, assign, dtx_snapshot_property_modifier) BOOL hidden;
-@property (nonatomic, copy, dtx_snapshot_property_modifier) DTXSnapshotColor* tintColor;
+@property (nonatomic, copy,   dtx_snapshot_property_modifier) DTXSnapshotColor* tintColor;
 @property (nonatomic, assign, dtx_snapshot_property_modifier) CGAffineTransform transform;
 @property (nonatomic, assign, dtx_snapshot_property_modifier) CATransform3D layerTransform;
 
 @property (nonatomic, strong, dtx_snapshot_property_modifier) DTXSnapshotImage* snapshot;
 @property (nonatomic, strong, dtx_snapshot_property_modifier) DTXSnapshotImage* snapshotIncludingSubviews;
-@property (nonatomic, copy, dtx_snapshot_property_modifier) NSArray<DTXViewSnapshot*>* subviews;
+@property (nonatomic, copy,   dtx_snapshot_property_modifier) NSArray<DTXViewSnapshot*>* subviews;
 
 @end
 
 @interface DTXAppSnapshot : NSObject <NSSecureCoding>
 
-@property (nonatomic, copy, dtx_snapshot_property_modifier) NSArray<DTXViewSnapshot*>* windows;
+@property (nonatomic, copy,   dtx_snapshot_property_modifier) NSArray<DTXViewSnapshot*>* windows;
 
 @end
 

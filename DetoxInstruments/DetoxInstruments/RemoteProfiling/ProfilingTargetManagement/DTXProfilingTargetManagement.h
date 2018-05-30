@@ -7,12 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "DTXRemoteProfilingTarget.h"
+#import "DTXRemoteTarget.h"
 #import "CCNPreferencesWindowControllerProtocol.h"
 
 @protocol DTXProfilingTargetManagement <NSObject, CCNPreferencesWindowControllerProtocol>
 
-@property (nonatomic, strong) DTXRemoteProfilingTarget* profilingTarget;
+@property (nonatomic, strong) DTXRemoteTarget* profilingTarget;
 
 - (void)noteProfilingTargetDidLoadServiceData;
 

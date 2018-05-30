@@ -1,5 +1,5 @@
 //
-//  NSView+Snapshotting.h
+//  NSView+UIAdditions.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 5/9/18.
@@ -8,8 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NSView (Snapshotting)
+@interface NSView (UIAdditions)
 
 - (NSImage*)snapshotForCachingDisplay;
+- (void)scrollToBottom;
 
 @end

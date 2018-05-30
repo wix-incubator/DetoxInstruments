@@ -73,7 +73,7 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 {
 	_moreInfoDataProvider = moreInfoDataProvider;
 	
-	DTXProfilerWindowController* controller = self.view.window.windowController;
+	DTXWindowController* controller = self.view.window.windowController;
 	if(_moreInfoDataProvider.canCopy)
 	{
 		controller.handlerForCopy = _moreInfoDataProvider;
@@ -234,7 +234,7 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 
 - (IBAction)copyFromContext:(id)sender
 {
-	DTXProfilerWindowController* controller = self.view.window.windowController;
+	DTXWindowController* controller = self.view.window.windowController;
 	[_moreInfoDataProvider copy:sender targetView:controller.targetForCopy];
 }
 

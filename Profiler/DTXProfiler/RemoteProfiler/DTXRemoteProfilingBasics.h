@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	
 	DTXRemoteProfilingCommandTypeGetPasteboard,
 	DTXRemoteProfilingCommandTypeSetPasteboard,
+	
+	DTXRemoteProfilingCommandTypeCaptureViewHierarchy
 };
 
 typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
@@ -60,6 +62,9 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 @end
 
 @protocol DTXProfilerStoryDecoder <NSObject>
+
+- (void)performBlock:(void(^)(void))block;
+- (void)performBlockAndWait:(void(^)(void))block;
 
 - (void)willDecodeStoryEvent;
 - (void)didDecodeStoryEvent;

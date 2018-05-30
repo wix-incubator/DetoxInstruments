@@ -11,12 +11,13 @@
 #import "DTXTextViewCellView.h"
 @import ObjectiveC;
 #import "DTXLogLineInspectorDataProvider.h"
+#import "NSView+UIAdditions.h"
 
 @interface DTXLogDataProvider() <NSTableViewDataSource, NSTableViewDelegate, NSFetchedResultsControllerDelegate>
 {
 	NSFetchedResultsController<DTXLogSample*>* _frc;
 	BOOL _updatesExperiencedErrors;
-	BOOL _hasAutomaticRowHeights;
+	BOOL _shouldScrollToBottom;
 }
 
 @end
@@ -46,27 +47,43 @@
 	return font;
 }
 
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document managedTableView:(NSTableView*)tableView
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document
 {
 	self = [super init];
 	
 	if(self)
 	{
 		_document = document;
-		_managedTableView = tableView;
-		
-		tableView.usesAutomaticRowHeights = YES;
-		_hasAutomaticRowHeights = YES;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
-		
-		if(_document.recording != nil)
-		{
-			[self _prepareLogData];
-		}
 	}
 	
 	return self;
+}
+
+- (void)setManagedTableView:(NSTableView *)managedTableView
+{
+	_managedTableView = managedTableView;
+	
+	if(_document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
+	{
+		_managedTableView.usesAutomaticRowHeights = YES;
+	}
+	
+	[_managedTableView layoutSubtreeIfNeeded];
+	
+	if(_document.recording != nil)
+	{
+		[self _prepareLogData];
+	}
+	
+	if(_document.documentState == DTXRecordingDocumentStateLiveRecording)
+	{
+		[_managedTableView scrollToBottom];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[_managedTableView scrollToBottom];
+		});
+	}
 }
 
 - (void)_documentStateDidChangeNotification:(NSNotification*)note
@@ -74,6 +91,11 @@
 	if(_document.recording != nil)
 	{
 		[self _prepareLogData];
+	}
+	
+	if(_document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
+	{
+		_managedTableView.usesAutomaticRowHeights = YES;
 	}
 }
 
@@ -152,6 +174,11 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
+	NSRect documentVisibleRect = _managedTableView.enclosingScrollView.contentView.documentVisibleRect;
+	CGFloat scrollPoint = NSMaxY(documentVisibleRect);
+	
+	_shouldScrollToBottom = _document.documentState == DTXRecordingDocumentStateLiveRecording && scrollPoint >= NSHeight(_managedTableView.bounds);
+	
 	_updatesExperiencedErrors = NO;
 	[_managedTableView beginUpdates];
 }
@@ -165,13 +192,6 @@
 	
 	if(type != NSFetchedResultsChangeInsert)
 	{
-		return;
-	}
-
-	if(newIndexPath.item == 0)
-	{
-		//Table view bug
-		_updatesExperiencedErrors = YES;
 		return;
 	}
 	
@@ -199,6 +219,11 @@
 	if(_updatesExperiencedErrors)
 	{
 		[_managedTableView reloadData];
+	}
+	
+	if(_shouldScrollToBottom)
+	{
+		[_managedTableView scrollToBottom];
 	}
 }
 

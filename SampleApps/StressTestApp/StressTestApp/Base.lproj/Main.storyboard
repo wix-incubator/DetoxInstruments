@@ -50,13 +50,13 @@
                                 </connections>
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cUI-1f-jo0">
-                                <rect key="frame" x="162.5" y="204" width="51" height="31"/>
+                                <rect key="frame" x="162.5" y="192" width="51" height="31"/>
                                 <connections>
                                     <action selector="protocolEnableSwitchDidChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="Rbx-LB-7fM"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Use App Protocol:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHS-Vn-pjo">
-                                <rect key="frame" x="29.5" y="211" width="125" height="18"/>
+                                <rect key="frame" x="29.5" y="199" width="125" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -84,7 +84,7 @@
                                     <action selector="_clearCookies:" destination="dkx-z0-nzr" eventType="touchUpInside" id="w2S-0k-aOE"/>
                                 </connections>
                             </button>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Sd7-Z7-cl4">
+                            <datePicker hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Sd7-Z7-cl4">
                                 <rect key="frame" x="0.0" y="505" width="375" height="162"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="162" id="Pdu-Tf-zhs"/>
@@ -109,7 +109,7 @@
                             <constraint firstItem="9RO-Jy-FIS" firstAttribute="centerX" secondItem="id4-Y6-Fd9" secondAttribute="centerX" id="UjY-3t-IHm"/>
                             <constraint firstItem="id4-Y6-Fd9" firstAttribute="baseline" secondItem="h5x-cd-byP" secondAttribute="baseline" id="afz-Vm-krl"/>
                             <constraint firstItem="MBo-BC-Srv" firstAttribute="centerX" secondItem="KLq-A5-AQQ" secondAttribute="centerX" id="ca3-Tc-Gwy"/>
-                            <constraint firstItem="9RO-Jy-FIS" firstAttribute="top" secondItem="cUI-1f-jo0" secondAttribute="bottom" constant="8" id="cdH-bl-UFd"/>
+                            <constraint firstItem="9RO-Jy-FIS" firstAttribute="top" secondItem="cUI-1f-jo0" secondAttribute="bottom" constant="20" id="cdH-bl-UFd"/>
                             <constraint firstItem="KLq-A5-AQQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gol-FN-n7c"/>
                             <constraint firstAttribute="trailing" secondItem="Sd7-Z7-cl4" secondAttribute="trailing" id="ijF-EK-g2S"/>
                             <constraint firstItem="GiA-rM-g8i" firstAttribute="top" secondItem="MBo-BC-Srv" secondAttribute="bottom" constant="8" id="lvn-nB-IYS"/>
