@@ -16,15 +16,15 @@
 #import "AutoCoding.h"
 @import ObjectiveC;
 
-NSString * const DTXRecordingDocumentDidLoadNotification = @"DTXRecordingDocumentDidLoadNotification";
-NSString * const DTXRecordingDocumentDefactoEndTimestampDidChangeNotification = @"DTXRecordingDocumentDefactoEndTimestampDidChangeNotification";
+NSString* const DTXRecordingDocumentDidLoadNotification = @"DTXRecordingDocumentDidLoadNotification";
+NSString* const DTXRecordingDocumentDefactoEndTimestampDidChangeNotification = @"DTXRecordingDocumentDefactoEndTimestampDidChangeNotification";
 NSString* const DTXRecordingDocumentStateDidChangeNotification = @"DTXRecordingDocumentStateDidChangeNotification";
 
 static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 @interface DTXRecordingDocument ()
 #ifndef CLI
-<DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate, DTXRemoteProfilingTargetDelegate>
+<DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate, DTXRemoteTargetDelegate>
 #endif
 {
 	NSPersistentContainer* _container;
@@ -117,17 +117,22 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_recordingDefactoEndTimestampDidChange:) name:DTXRecordingDidInvalidateDefactoEndTimestamp object:recording];
 }
 
-- (void)_prepareForRemoteProfilingRecordingWithTarget:(DTXRemoteProfilingTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration
+- (void)_prepareForRemoteProfilingRecordingWithTarget:(DTXRemoteTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration
 {
 	[self _preparePersistenceContainerFromURL:nil allowCreation:YES error:NULL];
-	_remoteProfilingClient = [[DTXRemoteProfilingClient alloc] initWithProfilingTarget:target managedObjectContext:_container.viewContext];
+	NSManagedObjectContext* bgCtx = [_container newBackgroundContext];
+	bgCtx.name = @"com.wix.RemoteProfiling";
+	_remoteProfilingClient = [[DTXRemoteProfilingClient alloc] initWithProfilingTarget:target managedObjectContext:bgCtx];
 	_remoteProfilingClient.delegate = self;
 	[_remoteProfilingClient startProfilingWithConfiguration:configuration];
 }
 
 - (void)makeWindowControllers
 {
-	[self addWindowController:[[NSStoryboard storyboardWithName:@"Profiler" bundle:nil] instantiateControllerWithIdentifier:@"InstrumentsWindowController"]];
+	NSWindowController* wc = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"InstrumentsWindowController"];
+	wc.contentViewController = [[NSStoryboard storyboardWithName:@"Profiler" bundle:nil] instantiateInitialController];
+	
+	[self addWindowController:wc];
 }
 #endif
 
@@ -138,6 +143,11 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)setDocumentState:(DTXRecordingDocumentState)documentState
 {
+	if(documentState == _documentState)
+	{
+		return;
+	}
+	
 	_documentState = documentState;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDocumentStateDidChangeNotification object:self];
@@ -158,6 +168,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
 	_container.persistentStoreDescriptions = @[description];
+	_container.viewContext.automaticallyMergesChangesFromParent = YES;
 	
 	__block NSError* outerError;
 	
@@ -395,11 +406,12 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
 	
 	[_remoteProfilingClient.target stopProfiling];
+	[_remoteProfilingClient stopWithCompletionHandler:nil];
 }
 
-#pragma mark DTXRemoteProfilingTargetDelegate
+#pragma mark DTXRemoteTargetDelegate
 
-- (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget *)target {
+- (void)connectionDidCloseForProfilingTarget:(DTXRemoteTarget *)target {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
 	});
@@ -409,36 +421,44 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)remoteProfilingClient:(DTXRemoteProfilingClient *)client didCreateRecording:(DTXRecording *)recording
 {
-	_recording = recording;
+	NSManagedObjectID* recordingID = recording.objectID;
 	
-	[self _prepareForLiveRecording:_recording];
-	
-	self.documentState = DTXRecordingDocumentStateLiveRecording;
-	self.displayName = _recording.dtx_profilingConfiguration.recordingFileURL.lastPathComponent.stringByDeletingPathExtension;
-	[self.windowControllers.firstObject synchronizeWindowTitleWithDocumentName];
+	[_container.viewContext performBlock:^{
+		_recording = [_container.viewContext existingObjectWithID:recordingID error:NULL];
+		
+		[self _prepareForLiveRecording:_recording];
+		
+		self.documentState = DTXRecordingDocumentStateLiveRecording;
+		self.displayName = _recording.dtx_profilingConfiguration.recordingFileURL.lastPathComponent.stringByDeletingPathExtension;
+		[self.windowControllers.firstObject synchronizeWindowTitleWithDocumentName];
+	}];
 }
 
 - (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient *)client
 {
-	if(_recording == nil)
-	{
-		[self close];
-		return;
-	}
-	
-	if(_recording.endTimestamp == nil)
-	{
-		_recording.endTimestamp = [NSDate date];
-	}
-	
-	self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
-	
-	[self updateChangeCount:NSChangeDone];
+	[_container.viewContext performBlock:^{
+		if(_recording == nil)
+		{
+			[self close];
+			return;
+		}
+		
+		if(_recording.endTimestamp == nil)
+		{
+			_recording.endTimestamp = [NSDate date];
+		}
+		
+		self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
+		
+		[self updateChangeCount:NSChangeDone];
+	}];
 }
 
 - (void)remoteProfilingClientDidChangeDatabase:(DTXRemoteProfilingClient *)client
 {
-	[_recording invalidateDefactoEndTimestamp];
+	[_container.viewContext performBlock:^{
+		[_recording invalidateDefactoEndTimestamp];
+	}];
 }
 
 #pragma mark Network Recording Simulation
@@ -452,7 +472,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[self close];
 }
 
-- (void)recordingTargetPicker:(DTXRecordingTargetPickerViewController*)picker didSelectRemoteProfilingTarget:(DTXRemoteProfilingTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration
+- (void)recordingTargetPicker:(DTXRecordingTargetPickerViewController*)picker didSelectRemoteProfilingTarget:(DTXRemoteTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration
 {
 	[self.windowControllers.firstObject.window.contentViewController dismissViewController:picker];
 	

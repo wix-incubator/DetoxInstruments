@@ -279,9 +279,9 @@
 	//This fixes an issue where the main content table does not size correctly.
 	NSRect rect = self.view.window.frame;
 	rect.size.width += 1;
-	[self.view.window setFrame:rect display:NO];
+	[self.view.window setFrame:rect display:YES];
 	rect.size.width -= 1;
-	[self.view.window setFrame:rect display:NO];
+	[self.view.window setFrame:rect display:YES];
 }
 
 - (void)zoomIn

@@ -1,5 +1,5 @@
 //
-//  DTXProfilerWindowController+DocumentationGeneration.m
+//  DTXWindowController+DocumentationGeneration.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 5/9/18.
@@ -8,10 +8,10 @@
 
 #ifdef DEBUG
 
-#import "DTXProfilerWindowController+DocumentationGeneration.h"
+#import "DTXWindowController+DocumentationGeneration.h"
 #import "DTXPlotAreaContentController.h"
 #import "DTXManagedPlotControllerGroup.h"
-#import "NSView+Snapshotting.h"
+#import "NSView+UIAdditions.h"
 #import "NSWindow+Snapshotting.h"
 #import "DTXSamplePlotController.h"
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
@@ -23,13 +23,13 @@
 
 @end
 
-@interface DTXProfilerWindowController ()
+@interface DTXWindowController ()
 
 - (void)_fixUpTitle;
 
 @end
 
-@implementation DTXProfilerWindowController (DocumentationGeneration)
+@implementation DTXWindowController (DocumentationGeneration)
 
 - (void)_drainLayout
 {
@@ -45,14 +45,14 @@
 
 - (void)_deselectAnyPlotControllers
 {
-	NSOutlineView* hostingOutline = [self valueForKeyPath:@"mainContentController.tableView"];
+	NSOutlineView* hostingOutline = [self valueForKeyPath:@"plotContentController.tableView"];
 	hostingOutline.allowsEmptySelection = YES;
 	[hostingOutline deselectAll:nil];
 }
 
 - (id<DTXPlotController>)_plotControllerForClass:(Class)cls
 {
-	DTXManagedPlotControllerGroup* group = [self valueForKeyPath:@"mainContentController.plotGroup"];
+	DTXManagedPlotControllerGroup* group = [self valueForKeyPath:@"plotContentController.plotGroup"];
 	
 	__block id<DTXPlotController> plotController;
 	[group.plotControllers enumerateObjectsUsingBlock:^(id<DTXPlotController>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -69,7 +69,7 @@
 - (void)_selectPlotControllerOfClass:(Class)cls
 {
 	id plotController = [self _plotControllerForClass:cls];
-	NSOutlineView* hostingOutline = [self valueForKeyPath:@"mainContentController.tableView"];
+	NSOutlineView* hostingOutline = [self valueForKeyPath:@"plotContentController.tableView"];
 	[hostingOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:[hostingOutline rowForItem:plotController]] byExtendingSelection:NO];
 }
 
@@ -77,7 +77,7 @@
 {
 	[self _drainLayout];
 	id plotController = [self _plotControllerForClass:cls];
-	NSOutlineView* hostingOutline = [self valueForKeyPath:@"mainContentController.tableView"];
+	NSOutlineView* hostingOutline = [self valueForKeyPath:@"plotContentController.tableView"];
 	
 	return [[hostingOutline rowViewAtRow:[hostingOutline rowForItem:plotController] makeIfNecessary:NO] snapshotForCachingDisplay];
 }
@@ -85,32 +85,32 @@
 - (NSImage*)_snapshotForTimeline;
 {
 	[self _drainLayout];
-	NSOutlineView* hostingOutline = [self valueForKeyPath:@"mainContentController.tableView"];
+	NSOutlineView* hostingOutline = [self valueForKeyPath:@"plotContentController.tableView"];
 	
 	return hostingOutline.snapshotForCachingDisplay;
 }
 
 - (void)_setBottomSplitAtPercentage:(CGFloat)percentage
 {
-	NSSplitView* splitView = [self valueForKeyPath:@"bottomSplitViewController.splitView"];
+	NSSplitView* splitView = [self valueForKeyPath:@"plotDetailsSplitViewController.splitView"];
 	[splitView setPosition:self.window.frame.size.height * (1.0 - percentage) ofDividerAtIndex:0];
 }
 
 - (void)_deselectAnyDetail
 {
-	NSOutlineView* outline = [self valueForKeyPath:@"bottomContentController.activeDetailController.outlineView"];
+	NSOutlineView* outline = [self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"];
 	[outline deselectAll:nil];
 }
 
 - (NSImage*)_snapshotForDetailPane
 {
 	[self _drainLayout];
-	return [[self valueForKey:@"bottomContentController"] view].snapshotForCachingDisplay;
+	return [[self valueForKey:@"detailContentController"] view].snapshotForCachingDisplay;
 }
 
 - (void)_scrollBottomPaneToPercentage:(CGFloat)percentage
 {
-	NSOutlineView* outline = [self valueForKeyPath:@"bottomContentController.activeDetailController.outlineView"];
+	NSOutlineView* outline = [self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"];
 	NSScrollView* scrollView = outline.enclosingScrollView;
 	[self _removeDetailVerticalScroller];
 	
@@ -119,7 +119,7 @@
 
 - (void)_removeDetailVerticalScroller
 {
-	NSOutlineView* outline = [self valueForKeyPath:@"bottomContentController.activeDetailController.outlineView"];
+	NSOutlineView* outline = [self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"];
 	outline.enclosingScrollView.hasVerticalScroller = NO;
 }
 
@@ -134,7 +134,7 @@
 		index = samples.count / 2;
 	}
 	
-	[(NSOutlineView*)[self valueForKeyPath:@"bottomContentController.activeDetailController.outlineView"] selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+	[(NSOutlineView*)[self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"] selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 	
 	[plotController highlightSample:samples[index]];
 }
@@ -173,7 +173,7 @@
 
 - (void)_triggerDetailMenu;
 {
-	NSView* topView = [self valueForKeyPath:@"bottomContentController.topView"];
+	NSView* topView = [self valueForKeyPath:@"detailContentController.topView"];
 	NSRect frame = [self.window.contentView convertRect:topView.bounds fromView:topView];
 	NSPoint pointOfTopView = NSMakePoint(frame.origin.x + 30, NSMidY(frame));
 	

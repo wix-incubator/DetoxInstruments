@@ -1,15 +1,15 @@
 //
-//  DTXRemoteProfilingTargetCellView.m
+//  DTXRemoteTargetCellView.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 23/07/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXRemoteProfilingTargetCellView.h"
+#import "DTXRemoteTargetCellView.h"
 #import "NSColor+UIAdditions.h"
 
-@interface DTXRemoteProfilingTargetCellView ()
+@interface DTXRemoteTargetCellView ()
 
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* title1Field;
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* title2Field;
@@ -21,9 +21,11 @@
 
 @end
 
-@implementation DTXRemoteProfilingTargetCellView
+@implementation DTXRemoteTargetCellView
 {
+	IBOutlet NSStackView* _buttonsStack;
 	IBOutlet NSButton* _manageButton;
+	IBOutlet NSButton* _viewHierarchy;
 }
 
 - (void)awakeFromNib
@@ -41,6 +43,10 @@
 	self.title1Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
 	self.title2Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor textColor];
 	self.title3Field.textColor = backgroundStyle == NSBackgroundStyleDark ? [NSColor selectedTextColor] : [NSColor controlTextColor];
+	
+	[_buttonsStack.subviews enumerateObjectsUsingBlock:^(__kindof NSButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		obj.cell.backgroundStyle = backgroundStyle;
+	}];
 }
 
 - (void)updateFeatureSetWithProfilerVersion:(NSString*)profilerVersion
@@ -58,6 +64,8 @@
 	{
 		_manageButton.hidden = !(_manageButton.enabled = YES);
 	}
+	
+	_viewHierarchy.hidden = YES;
 }
 
 @end

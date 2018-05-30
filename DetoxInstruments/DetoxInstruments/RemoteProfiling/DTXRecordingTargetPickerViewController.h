@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "DTXRemoteProfilingTarget.h"
+#import "DTXRemoteTarget.h"
 
 @class DTXRecordingTargetPickerViewController;
 @class DTXProfilingConfiguration;
@@ -15,7 +15,7 @@
 @protocol DTXRecordingTargetPickerViewControllerDelegate <NSObject>
 
 - (void)recordingTargetPickerDidCancel:(DTXRecordingTargetPickerViewController*)picker;
-- (void)recordingTargetPicker:(DTXRecordingTargetPickerViewController*)picker didSelectRemoteProfilingTarget:(DTXRemoteProfilingTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration;
+- (void)recordingTargetPicker:(DTXRecordingTargetPickerViewController*)picker didSelectRemoteProfilingTarget:(DTXRemoteTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration;
 
 
 @end

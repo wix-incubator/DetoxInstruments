@@ -34,7 +34,21 @@
 {
 	[self view];
 	
-	self.detailDataProvider = (id)[[DTXLogDataProvider alloc] initWithDocument:document managedTableView:_tableView];
+	self.detailDataProvider = (id)[[DTXLogDataProvider alloc] initWithDocument:document];
+}
+
+- (void)viewWillAppear
+{
+	[super viewWillAppear];
+	
+	[(DTXLogDataProvider*)self.detailDataProvider setManagedTableView:_tableView];
+}
+
+- (void)viewWillDisappear
+{
+	[super viewWillDisappear];
+	
+	[(DTXLogDataProvider*)self.detailDataProvider setManagedTableView:nil];
 }
 
 - (void)updateViewWithInsets:(NSEdgeInsets)insets

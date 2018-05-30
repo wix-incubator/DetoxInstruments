@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DTXRemoteProfilingTarget.h"
+#import "DTXRemoteTarget.h"
 #import "DTXRecordingDocument.h"
 
 @class DTXRemoteProfilingClient;
@@ -20,14 +20,14 @@
 
 @end
 
-@interface DTXRemoteProfilingClient : NSObject
+@interface DTXRemoteProfilingClient : NSObject <DTXProfilerStoryDecoder>
 
-@property (nonatomic, strong, readonly) DTXRemoteProfilingTarget* target;
+@property (nonatomic, strong, readonly) DTXRemoteTarget* target;
 @property (nonatomic, strong, readonly) NSManagedObjectContext* managedObjectContext;
 
 @property (nonatomic, weak) id<DTXRemoteProfilingClientDelegate> delegate;
 
-- (instancetype)initWithProfilingTarget:(DTXRemoteProfilingTarget*)target managedObjectContext:(NSManagedObjectContext*)ctx;
+- (instancetype)initWithProfilingTarget:(DTXRemoteTarget*)target managedObjectContext:(NSManagedObjectContext*)ctx;
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
 - (void)stopWithCompletionHandler:(void (^)(void))completionHandler;

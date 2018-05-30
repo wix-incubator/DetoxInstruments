@@ -8,7 +8,7 @@
 
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
 
-@interface __FAKE_DTXRemoteProfilingTarget : NSObject
+@interface __FAKE_DTXRemoteTarget : NSObject
 
 @property (nonatomic, assign) NSUInteger deviceOSType;
 @property (nonatomic, copy) NSString* appName;
@@ -22,13 +22,13 @@
 @property (nonatomic, strong) NSArray<NSDictionary<NSString*, id>*>* cookies;
 @property (nonatomic, copy) NSArray<DTXPasteboardItem*>* pasteboardContents;
 
-@property (nonatomic, weak) id<DTXRemoteProfilingTargetDelegate> delegate;
+@property (nonatomic, weak) id<DTXRemoteTargetDelegate> delegate;
 
-@property (nonatomic, assign) DTXRemoteProfilingTargetState state;
+@property (nonatomic, assign) DTXRemoteTargetState state;
 
 @end
 
-@implementation __FAKE_DTXRemoteProfilingTarget
+@implementation __FAKE_DTXRemoteTarget
 
 - (void)loadContainerContents
 {
@@ -67,36 +67,36 @@
 
 @interface DTXRecordingTargetPickerViewController ()
 
-- (void)_addTarget:(DTXRemoteProfilingTarget*)target forService:(NSNetService*)service;
+- (void)_addTarget:(DTXRemoteTarget*)target forService:(NSNetService*)service;
 - (IBAction)_manageProfilingTarget:(NSButton*)sender;
 
 @end
 
 @implementation DTXRecordingTargetPickerViewController (DocumentationGeneration)
 
-static __FAKE_DTXRemoteProfilingTarget* fakeTarget;
+static __FAKE_DTXRemoteTarget* fakeTarget;
 
 - (void)_addFakeTarget
 {
-	fakeTarget = [__FAKE_DTXRemoteProfilingTarget new];
+	fakeTarget = [__FAKE_DTXRemoteTarget new];
 	fakeTarget.deviceOS = 0;
 	fakeTarget.appName = @"Example App";
 	fakeTarget.deviceName = @"iPhone X";
 	fakeTarget.deviceOS = @"Version 11.4 (Build 15F5037c)";
 	fakeTarget.deviceInfo = @{@"profilerVersion": @"0.9.1"};
-	fakeTarget.state = DTXRemoteProfilingTargetStateDeviceInfoLoaded;
+	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	
 	fakeTarget.delegate = (id)self;
 	
 	[self _addTarget:(id)fakeTarget forService:(id)[NSObject new]];
 	
-	__FAKE_DTXRemoteProfilingTarget* fakeTarget = [__FAKE_DTXRemoteProfilingTarget new];
+	__FAKE_DTXRemoteTarget* fakeTarget = [__FAKE_DTXRemoteTarget new];
 	fakeTarget.deviceOS = 0;
 	fakeTarget.appName = @"Another App";
 	fakeTarget.deviceName = @"Cool iPad";
 	fakeTarget.deviceOS = @"Version 11.4 (Build 15F5037c)";
 	fakeTarget.deviceInfo = @{@"profilerVersion": @"0.9.1", @"machineName": @"ipad5.3", @"deviceEnclosureColor": @2};
-	fakeTarget.state = DTXRemoteProfilingTargetStateDeviceInfoLoaded;
+	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	
 	fakeTarget.delegate = (id)self;
 	

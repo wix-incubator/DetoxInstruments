@@ -16,6 +16,7 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXPlotController.h"
 #import "DTXFilteredDataProvider.h"
+#import "NSView+UIAdditions.h"
 
 const CGFloat DTXAutomaticColumnWidth = -1.0;
 
@@ -128,6 +129,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
 	
 	[self _setupProxiesForGroups];
+	
+	if(_document.documentState == DTXRecordingDocumentStateLiveRecording)
+	{
+		[_managedOutlineView scrollToBottom];
+	}
 }
 
 - (void)_documentStateDidChangeNotification:(NSNotification*)note

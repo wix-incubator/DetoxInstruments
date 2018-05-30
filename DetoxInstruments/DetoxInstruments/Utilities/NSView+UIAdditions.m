@@ -1,14 +1,14 @@
 //
-//  NSView+Snapshotting.m
+//  NSView+UIAdditions.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 5/9/18.
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
-#import "NSView+Snapshotting.h"
+#import "NSView+UIAdditions.h"
 
-@implementation NSView (Snapshotting)
+@implementation NSView (UIAdditions)
 
 - (NSImage*)snapshotForCachingDisplay
 {
@@ -19,6 +19,11 @@
 	[image addRepresentation:rep];
 	
 	return image;
+}
+
+- (void)scrollToBottom
+{
+	[self scrollPoint:NSMakePoint(0, NSHeight(self.bounds))];
 }
 
 @end

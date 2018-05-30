@@ -1,15 +1,15 @@
 //
-//  DTXRemoteProfilingTarget-Private.h
+//  DTXRemoteTarget-Private.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 23/07/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXRemoteProfilingTarget.h"
+#import "DTXRemoteTarget.h"
 #import "DTXSocketConnection.h"
 
-@interface DTXRemoteProfilingTarget ()
+@interface DTXRemoteTarget ()
 
 @property (nonatomic, assign, readwrite) NSUInteger deviceOSType;
 @property (nonatomic, copy, readwrite) NSString* appName;

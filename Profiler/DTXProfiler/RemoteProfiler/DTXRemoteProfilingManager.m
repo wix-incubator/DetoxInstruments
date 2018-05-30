@@ -18,6 +18,7 @@
 #import "DTXZipper.h"
 #import "SSZipArchive.h"
 #import "DTXUIPasteboardParser.h"
+#import "DTXViewHierarchySnapshotter.h"
 
 DTX_CREATE_LOG(RemoteProfilingManager);
 
@@ -248,6 +249,10 @@ static DTXRemoteProfilingManager* __sharedManager;
 				[self _setPasteboard:pasteboard];
 				
 			}	break;
+			case DTXRemoteProfilingCommandTypeCaptureViewHierarchy:
+			{
+				[self _sendViewHierarchy];
+			}	break;
 		}
 		
 		[self _nextCommand];
@@ -391,6 +396,15 @@ static DTXRemoteProfilingManager* __sharedManager;
 	[DTXUIPasteboardParser setGeneralPasteboardItems:pasteboard];
 }
 
+#pragma mark View Hierarchy
+
+- (void)_sendViewHierarchy
+{
+	[DTXViewHierarchySnapshotter captureViewHierarchySnapshotWithCompletionHandler:^(DTXAppSnapshot *snapshot) {
+		[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeCaptureViewHierarchy), @"appSnapshot": [NSKeyedArchiver archivedDataWithRootObject:snapshot]} completionHandler:nil];
+	}];
+}
+
 #pragma mark Remote Profiling
 
 - (void)_sendRecordingDidStop
@@ -446,7 +460,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 		[strongSelf _sendPing];
 	});
 	
-	dispatch_resume(_pingCheckerTimer);
+//	dispatch_resume(_pingCheckerTimer);
 	
 	[self _nextCommand];
 	

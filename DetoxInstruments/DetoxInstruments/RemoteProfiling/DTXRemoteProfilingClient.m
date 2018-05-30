@@ -13,20 +13,25 @@
 #import "DTXRNJSCSourceMapsSupport.h"
 #import <DTXSourceMaps/DTXSourceMaps.h>
 
-@interface DTXRemoteProfilingClient () <DTXProfilerStoryDecoder>
+@interface DTXRemoteProfilingClient ()
 {
 	DTXRecording* _recording;
 	DTXSampleGroup* _currentSampleGroup;
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
 	
 	DTXSourceMapsParser* _sourceMapsParser;
+	
+	NSMutableArray<NSDictionary*>* _logSampleCache;
+	dispatch_queue_t _logSampleCacheQueue;
+	
+	dispatch_source_t _logSampleCacheConsumerSource;
 }
 
 @end
 
 @implementation DTXRemoteProfilingClient
 
-- (instancetype)initWithProfilingTarget:(DTXRemoteProfilingTarget*)target managedObjectContext:(NSManagedObjectContext*)ctx
+- (instancetype)initWithProfilingTarget:(DTXRemoteTarget*)target managedObjectContext:(NSManagedObjectContext*)ctx
 {
 	NSParameterAssert(ctx != nil);
 	NSParameterAssert(target != nil);
@@ -40,6 +45,9 @@
 		
 		_target.managedObjectContext = ctx;
 		_target.storyDecoder = self;
+		
+		_logSampleCacheQueue = dispatch_queue_create(NULL, 0);
+		_logSampleCache = [NSMutableArray new];
 	}
 	
 	return self;
@@ -49,11 +57,41 @@
 {
 	_threads = [NSMutableDictionary new];
 	[_target startProfilingWithConfiguration:configuration];
+	
+	_logSampleCacheConsumerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _logSampleCacheQueue);
+	
+	uint64_t interval = configuration.samplingInterval * NSEC_PER_SEC;
+	dispatch_source_set_timer(_logSampleCacheConsumerSource, dispatch_walltime(NULL, 0), interval, interval / 10);
+	
+	dispatch_source_set_event_handler(_logSampleCacheConsumerSource, ^{
+		[_managedObjectContext performBlockAndWait:^{
+			for (NSDictionary* entry in _logSampleCache) {
+				NSDictionary* logSample = entry[@"sample"];
+				NSEntityDescription* entityDescription = entry[@"description"];
+				
+				[self _addSample:logSample entityDescription:entityDescription];
+			}
+			
+			if(_logSampleCache.count > 0)
+			{
+				[_managedObjectContext save:NULL];
+			}
+			
+			[_logSampleCache removeAllObjects];
+		}];
+	});
+	
+	dispatch_resume(_logSampleCacheConsumerSource);
 }
 
 - (void)stopWithCompletionHandler:(void (^)(void))completionHandler
 {
+	dispatch_cancel(_logSampleCacheConsumerSource);
 	
+	if(completionHandler)
+	{
+		completionHandler();
+	}
 }
 
 - (void)_addSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
@@ -117,7 +155,7 @@
 		[self.delegate remoteProfilingClientDidChangeDatabase:self];
 	}
 	
-	[_recording.managedObjectContext save:NULL];
+	[_managedObjectContext save:NULL];
 }
 
 - (void)setSourceMapsData:(NSDictionary*)sourceMapsData;
@@ -135,7 +173,11 @@
 
 - (void)addLogSample:(NSDictionary *)logSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:logSample entityDescription:entityDescription];
+	dispatch_async(_logSampleCacheQueue, ^{
+		[_logSampleCache addObject:@{@"sample": logSample, @"description": entityDescription}];
+	});
+	
+//	[self _addSample:logSample entityDescription:entityDescription];
 }
 
 - (void)addPerformanceSample:(NSDictionary *)perfrmanceSample entityDescription:(NSEntityDescription *)entityDescription
@@ -215,5 +257,17 @@
 		[self.delegate remoteProfilingClientDidStopRecording:self];
 	}
 }
+
+- (void)performBlock:(void (^)(void))block
+{
+	[_managedObjectContext performBlock:block];
+}
+
+
+- (void)performBlockAndWait:(void (^)(void))block
+{
+	[_managedObjectContext performBlockAndWait:block];
+}
+
 
 @end

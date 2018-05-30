@@ -7,8 +7,8 @@
 //
 
 #import "DTXRecordingTargetPickerViewController.h"
-#import "DTXRemoteProfilingTarget-Private.h"
-#import "DTXRemoteProfilingTargetCellView.h"
+#import "DTXRemoteTarget-Private.h"
+#import "DTXRemoteTargetCellView.h"
 #import "DTXRemoteProfilingBasics.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import "_DTXTargetsOutlineViewContoller.h"
@@ -17,7 +17,7 @@
 
 @import QuartzCore;
 
-@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteProfilingTargetDelegate>
+@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteTargetDelegate>
 {
 	IBOutlet NSView* _containerView;
 	IBOutlet NSStackView* _actionButtonStackView;
@@ -31,13 +31,13 @@
 	IBOutlet NSButton* _cancelButton;
 	
 	NSNetServiceBrowser* _browser;
-	NSMutableArray<DTXRemoteProfilingTarget*>* _targets;
-	NSMapTable<NSNetService*, DTXRemoteProfilingTarget*>* _serviceToTargetMapping;
-	NSMapTable<DTXRemoteProfilingTarget*, NSNetService*>* _targetToServiceMapping;
+	NSMutableArray<DTXRemoteTarget*>* _targets;
+	NSMapTable<NSNetService*, DTXRemoteTarget*>* _serviceToTargetMapping;
+	NSMapTable<DTXRemoteTarget*, NSNetService*>* _targetToServiceMapping;
 	
 	dispatch_queue_t _workQueue;
 	
-	NSMapTable<DTXRemoteProfilingTarget*, DTXProfilingTargetManagementWindowController*>* _targetManagementControllers;
+	NSMapTable<DTXRemoteTarget*, DTXProfilingTargetManagementWindowController*>* _targetManagementControllers;
 }
 
 @end
@@ -113,9 +113,9 @@
 		return;
 	}
 	
-	DTXRemoteProfilingTarget* target = _targets[_outlineView.selectedRow];
+	DTXRemoteTarget* target = _targets[_outlineView.selectedRow];
 	
-	if(target.state != DTXRemoteProfilingTargetStateDeviceInfoLoaded)
+	if(target.state != DTXRemoteTargetStateDeviceInfoLoaded)
 	{
 		return;
 	}
@@ -189,7 +189,7 @@
 	[self _validateSelectButton];
 }
 
-- (void)_addTarget:(DTXRemoteProfilingTarget*)target forService:(NSNetService*)service
+- (void)_addTarget:(DTXRemoteTarget*)target forService:(NSNetService*)service
 {
 	[_serviceToTargetMapping setObject:target forKey:service];
 	[_targetToServiceMapping setObject:service forKey:target];
@@ -207,7 +207,7 @@
 
 - (void)_removeTargetForService:(NSNetService*)service
 {
-	DTXRemoteProfilingTarget* target = [_serviceToTargetMapping objectForKey:service];
+	DTXRemoteTarget* target = [_serviceToTargetMapping objectForKey:service];
 	if(target == nil)
 	{
 		[_outlineView reloadData];
@@ -236,7 +236,7 @@
 	[_outlineView endUpdates];
 }
 
-- (void)_updateTarget:(DTXRemoteProfilingTarget*)target
+- (void)_updateTarget:(DTXRemoteTarget*)target
 {
 	[_outlineView reloadItem:target];
 }
@@ -262,6 +262,19 @@
 	[targetManagement showPreferencesWindow];
 }
 
+- (IBAction)_captureViewHierarchy:(id)sender
+{
+	NSInteger row = [_outlineView rowForView:sender];
+	if(row == -1)
+	{
+		return;
+	}
+	
+	DTXRemoteTarget* target = _targets[row];
+	
+	[target captureViewHierarchy];
+}
+
 - (IBAction)_doubleClicked:(id)sender
 {
 	if(_outlineView.clickedRow == -1)
@@ -269,9 +282,9 @@
 		return;
 	}
 	
-	DTXRemoteProfilingTarget* target = _targets[_outlineView.clickedRow];
+	DTXRemoteTarget* target = _targets[_outlineView.clickedRow];
 	
-	if(target.state != DTXRemoteProfilingTargetStateDeviceInfoLoaded)
+	if(target.state != DTXRemoteTargetStateDeviceInfoLoaded)
 	{
 		return;
 	}
@@ -297,7 +310,7 @@
 {
 	service.delegate = self;
 	
-	DTXRemoteProfilingTarget* target = [DTXRemoteProfilingTarget new];
+	DTXRemoteTarget* target = [DTXRemoteTarget new];
 	[self _addTarget:target forService:service];
 	
 	[service resolveWithTimeout:10];
@@ -305,7 +318,7 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing
 {
-	DTXRemoteProfilingTarget* target = [_serviceToTargetMapping objectForKey:service];
+	DTXRemoteTarget* target = [_serviceToTargetMapping objectForKey:service];
 	if(target.state < 1)
 	{
 		[self _removeTargetForService:service];
@@ -338,24 +351,24 @@
 
 - (nullable NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(nullable NSTableColumn *)tableColumn item:(id)item
 {
-	DTXRemoteProfilingTarget* target = item;
+	DTXRemoteTarget* target = item;
 	
-	DTXRemoteProfilingTargetCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXRemoteProfilingTargetCellView" owner:nil];
+	DTXRemoteTargetCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXRemoteTargetCellView" owner:nil];
 	cellView.progressIndicator.usesThreadedAnimation = YES;
 	[cellView updateFeatureSetWithProfilerVersion:target.deviceInfo[@"profilerVersion"]];
 	
 	switch(target.state)
 	{
-		case DTXRemoteProfilingTargetStateDiscovered:
-		case DTXRemoteProfilingTargetStateResolved:
+		case DTXRemoteTargetStateDiscovered:
+		case DTXRemoteTargetStateResolved:
 			cellView.title1Field.stringValue = @"";
-			cellView.title2Field.stringValue = target.state == DTXRemoteProfilingTargetStateDiscovered ? NSLocalizedString(@"Resolving...", @"") : NSLocalizedString(@"Loading...", @"");
+			cellView.title2Field.stringValue = target.state == DTXRemoteTargetStateDiscovered ? NSLocalizedString(@"Resolving...", @"") : NSLocalizedString(@"Loading...", @"");
 			cellView.title3Field.stringValue = @"";
 			cellView.deviceImageView.hidden = YES;
 			[cellView.progressIndicator startAnimation:nil];
 			cellView.progressIndicator.hidden = NO;
 			break;
-		case DTXRemoteProfilingTargetStateDeviceInfoLoaded:
+		case DTXRemoteTargetStateDeviceInfoLoaded:
 		{
 			cellView.title1Field.stringValue = target.appName;
 			cellView.title2Field.stringValue = target.deviceName;
@@ -401,7 +414,7 @@
 
 - (void)netServiceDidResolveAddress:(NSNetService *)sender
 {
-	DTXRemoteProfilingTarget* target = [_serviceToTargetMapping objectForKey:sender];
+	DTXRemoteTarget* target = [_serviceToTargetMapping objectForKey:sender];
 	target.delegate = self;
 	
 	[target _connectWithHostName:sender.hostName port:sender.port workQueue:_workQueue];
@@ -416,30 +429,30 @@
 	[self _removeTargetForService:sender];
 }
 
-#pragma mark DTXRemoteProfilingTargetDelegate
+#pragma mark DTXRemoteTargetDelegate
 
-- (void)connectionDidCloseForProfilingTarget:(DTXRemoteProfilingTarget*)target
+- (void)connectionDidCloseForProfilingTarget:(DTXRemoteTarget*)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^ {
 		[self _removeTargetForService:[_targetToServiceMapping objectForKey:target]];
 	});
 }
 
-- (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteProfilingTarget *)target
+- (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteTarget *)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self _updateTarget:target];
 	});
 }
 
-- (void)profilingTargetdidLoadContainerContents:(DTXRemoteProfilingTarget *)target
+- (void)profilingTargetdidLoadContainerContents:(DTXRemoteTarget *)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadContainerContents];
 	});
 }
 
-- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didDownloadContainerContents:(NSData *)containerContents wasZipped:(BOOL)wasZipped
+- (void)profilingTarget:(DTXRemoteTarget *)target didDownloadContainerContents:(NSData *)containerContents wasZipped:(BOOL)wasZipped
 {
 	if(containerContents.length == 0)
 	{
@@ -452,21 +465,21 @@
 	});
 }
 
-- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadUserDefaults:(NSDictionary *)userDefaults
+- (void)profilingTarget:(DTXRemoteTarget *)target didLoadUserDefaults:(NSDictionary *)userDefaults
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadUserDefaults];
 	});
 }
 
-- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadCookies:(NSArray<NSDictionary<NSString *,id> *> *)cookies
+- (void)profilingTarget:(DTXRemoteTarget *)target didLoadCookies:(NSArray<NSDictionary<NSString *,id> *> *)cookies
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadCookies];
 	});
 }
 
-- (void)profilingTarget:(DTXRemoteProfilingTarget *)target didLoadPasteboardContents:(NSArray<NSDictionary<NSString *,id> *> *)pasteboardContents
+- (void)profilingTarget:(DTXRemoteTarget *)target didLoadPasteboardContents:(NSArray<NSDictionary<NSString *,id> *> *)pasteboardContents
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadPasteboardContents];

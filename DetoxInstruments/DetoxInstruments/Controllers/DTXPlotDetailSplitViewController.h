@@ -7,7 +7,10 @@
 //
 
 #import "DTXBaseSplitViewController.h"
+#import "DTXRecordingDocument.h"
 
 @interface DTXPlotDetailSplitViewController : DTXBaseSplitViewController
+
+@property (nullable, assign) DTXRecordingDocument* document;
 
 @end
