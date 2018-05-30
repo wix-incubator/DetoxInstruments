@@ -27,10 +27,15 @@ class ReactNativeTesterApp extends Component {
   }
 
   _startBusyBridgeTimer() {
+		if(this.state.counter == 200) {
+			this.clearBusyBridgeTimeout();
+			return;
+		}
+		
     this.setState({counter: this.state.counter + 1}, () => {
       this.slowBridgeTimer = setTimeout(() => {
         this._startBusyBridgeTimer();
-      }, 100);
+      }, 30);
     });
   }
 
@@ -43,12 +48,18 @@ class ReactNativeTesterApp extends Component {
     }
   }
 
+	clearBusyBridgeTimeout() {
+		clearTimeout(this.slowBridgeTimer);
+		this.slowBridgeTimer = null;
+	}
+	
   onBusyBridge() {
     if(this.slowBridgeTimer) {
-      clearTimeout(this.slowBridgeTimer);
-      this.slowBridgeTimer = null;
+			this.clearBusyBridgeTimeout();
     } else {
-      this._startBusyBridgeTimer();
+			this.setState({counter: 0}, () => {
+											this._startBusyBridgeTimer();
+										});
     }
   }
 
@@ -86,3 +97,11 @@ const styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('ReactNativeTesterApp', () => ReactNativeTesterApp);
+
+import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue.js';
+
+const spyFunction = (msg) => {
+	global.nativeLoggingHook(JSON.stringify(msg));
+};
+
+MessageQueue.spy(spyFunction);

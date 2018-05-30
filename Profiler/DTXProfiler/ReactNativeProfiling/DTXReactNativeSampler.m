@@ -137,35 +137,36 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 		NSString* str = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, name);
 		
 		objcCtx[str] = ^ {
-			
+
 			atomic_fetch_add(&__bridgeJSToNCallCount, 1);
-			
+
 			JSValueRef* arguments = malloc(sizeof(JSValueRef) * [__jscWrapper.JSContext currentArguments].count);
-			
+
 			[[__jscWrapper.JSContext currentArguments] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 				atomic_fetch_add(&__bridgeJSToNDataSize, DTXJSValueJsonStringLengh(ctx, [obj JSValueRef]));
-				
+
 				arguments[idx] = [obj JSValueRef];
 			}];
-			
+
 			JSValueRef exception = NULL;
-			
-			JSValueRef rvRef = callAsFunction(ctx, JSValueToObject(ctx, [__jscWrapper.JSContext currentCallee].JSValueRef, NULL), JSValueToObject(ctx, [__jscWrapper.JSContext currentThis].JSValueRef, NULL), [__jscWrapper.JSContext currentArguments].count, arguments, &exception);
-			
+
+			JSValueRef rvRef = callAsFunction(ctx, __jscWrapper.JSValueToObject(ctx, [__jscWrapper.JSContext currentCallee].JSValueRef, NULL), __jscWrapper.JSValueToObject(ctx, [__jscWrapper.JSContext currentThis].JSValueRef, NULL), [__jscWrapper.JSContext currentArguments].count, arguments, &exception);
+
 			if(exception)
 			{
 				JSValue* exceptionValue = [__jscWrapper.JSValue valueWithJSValueRef:exception inContext:[__jscWrapper.JSContext currentContext]];
 				[__jscWrapper.JSContext currentContext].exception = exceptionValue;
 			}
-			
+
 			free(arguments);
-			
+
 			JSValue *rv = [__jscWrapper.JSValue valueWithJSValueRef:rvRef inContext:[__jscWrapper.JSContext currentContext]];
 			return rv;
 		};
-		
-		JSObjectRef rv = JSValueToObject(ctx, JSObjectGetProperty(ctx, JSContextGetGlobalObject(ctx), name, NULL), NULL);
+
+		JSObjectRef rv = __jscWrapper.JSValueToObject(ctx, __jscWrapper.JSObjectGetProperty(ctx, __jscWrapper.JSContextGetGlobalObject(ctx), name, NULL), NULL);
 		return rv;
+//		return __orig_JSObjectMakeFunctionWithCallback(ctx, name, callAsFunction);
 	}
 	
 	return __orig_JSObjectMakeFunctionWithCallback(ctx, name, callAsFunction);
@@ -202,9 +203,9 @@ static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origB
 		JSValueRef exn = NULL;
 		
 		JSValue *jsVal = [__jscWrapper.JSValue valueWithObject:origBlock inContext:context];
-		JSObjectRef jsObjRef = JSValueToObject(context.JSGlobalContextRef, jsVal.JSValueRef, &exn);
-		JSObjectRef thisJsObjRef = JSValueToObject(context.JSGlobalContextRef, [__jscWrapper.JSContext currentThis].JSValueRef, &exn);
-		JSValueRef jsValRef = JSObjectCallAsFunction(context.JSGlobalContextRef, jsObjRef, thisJsObjRef, [__jscWrapper.JSContext currentArguments].count, arguments, &exn);
+		JSObjectRef jsObjRef = __jscWrapper.JSValueToObject(context.JSGlobalContextRef, jsVal.JSValueRef, &exn);
+		JSObjectRef thisJsObjRef = __jscWrapper.JSValueToObject(context.JSGlobalContextRef, [__jscWrapper.JSContext currentThis].JSValueRef, &exn);
+		JSValueRef jsValRef = __jscWrapper.JSObjectCallAsFunction(context.JSGlobalContextRef, jsObjRef, thisJsObjRef, [__jscWrapper.JSContext currentArguments].count, arguments, &exn);
 		JSValue *rv = [__jscWrapper.JSValue valueWithJSValueRef:jsValRef inContext:context];
 		free(arguments);
 		
@@ -314,14 +315,20 @@ static void __DTXInitializeRNSampler()
 
 @implementation DTXReactNativeSampler
 {
+	uint64_t _initialBridgeNToJSDataSize;
+	uint64_t _initialBridgeJSToNDataSize;
+	uint64_t _initialBridgeNToJSCallCount;
+	uint64_t _initialBridgeJSToNCallCount;
+	
 	uint64_t _prevBridgeNToJSDataSize;
 	uint64_t _prevBridgeJSToNDataSize;
-	
 	uint64_t _prevBridgeNToJSCallCount;
 	uint64_t _prevBridgeJSToNCallCount;
 	
 	BOOL _shouldSampleThread;
 	BOOL _shouldSymbolicate;
+	
+	
 }
 
 + (BOOL)reactNativeInstalled
@@ -331,6 +338,16 @@ static void __DTXInitializeRNSampler()
 
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
+	uint64_t bridgeNToJSDataSize = atomic_load(&__bridgeNToJSDataSize);
+	uint64_t bridgeJSToNDataSize = atomic_load(&__bridgeJSToNDataSize);
+	uint64_t bridgeNToJSCallCount = atomic_load(&__bridgeNToJSCallCount);
+	uint64_t bridgeJSToNCallCount = atomic_load(&__bridgeJSToNCallCount);
+	
+	_initialBridgeNToJSCallCount = bridgeNToJSCallCount;
+	_initialBridgeJSToNCallCount = bridgeJSToNCallCount;
+	_initialBridgeNToJSDataSize = bridgeNToJSDataSize;
+	_initialBridgeJSToNDataSize = bridgeJSToNDataSize;
+	
 	BOOL didLoadCustomJSCWrapper = DTXLoadJSCWrapper(NULL);
 	
 	self = [super init];
@@ -367,10 +384,10 @@ static void __DTXInitializeRNSampler()
 
 - (void)pollWithTimePassed:(NSTimeInterval)interval
 {
-	uint64_t bridgeNToJSDataSize = atomic_load(&__bridgeNToJSDataSize);
-	uint64_t bridgeJSToNDataSize = atomic_load(&__bridgeJSToNDataSize);
-	uint64_t bridgeNToJSCallCount = atomic_load(&__bridgeNToJSCallCount);
-	uint64_t bridgeJSToNCallCount = atomic_load(&__bridgeJSToNCallCount);
+	uint64_t bridgeNToJSDataSize = atomic_load(&__bridgeNToJSDataSize) - _initialBridgeNToJSDataSize;
+	uint64_t bridgeJSToNDataSize = atomic_load(&__bridgeJSToNDataSize) - _initialBridgeJSToNDataSize;
+	uint64_t bridgeNToJSCallCount = atomic_load(&__bridgeNToJSCallCount) - _initialBridgeNToJSCallCount;
+	uint64_t bridgeJSToNCallCount = atomic_load(&__bridgeJSToNCallCount) - _initialBridgeJSToNCallCount;
 	
 	_bridgeNToJSCallCount = bridgeNToJSCallCount;
 	_bridgeJSToNCallCount = bridgeJSToNCallCount;
