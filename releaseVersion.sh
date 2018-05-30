@@ -40,12 +40,12 @@ echo -e "\033[1;34mCreating release notes\033[0m"
 if [ -z "$DRY_RUN" ]; then
 RELEASE_NOTES_FILE=Distribution/_tmp_release_notes.md
 
-rm -f "${RELEASE_NOTES_FILE}"
+# rm -f "${RELEASE_NOTES_FILE}"
 touch "${RELEASE_NOTES_FILE}"
 open -Wn "${RELEASE_NOTES_FILE}"
 
 if ! [ -s "${RELEASE_NOTES_FILE}" ]; then
-  echo >&2 "\033[1;31mNo release notes provided, aborting.\033[0m"
+  echo -e >&2 "\033[1;31mNo release notes provided, aborting.\033[0m"
   rm -f "${RELEASE_NOTES_FILE}"
   exit -1
 fi
@@ -64,7 +64,7 @@ EXPORT_DIR=Distribution/Export
 rm -fr "${ARCHIVE}"
 rm -fr "${EXPORT_DIR}"
 
-xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" archive -archivePath "${ARCHIVE}" | xcpretty
+export CODE_SIGNING_REQUIRED=NO && xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" archive -archivePath "${ARCHIVE}" | xcpretty
 xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -exportArchive -archivePath "${ARCHIVE}" -exportOptionsPlist Distribution/exportOptions.plist -exportPath "${EXPORT_DIR}" | xcpretty
 
 SHORT_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "${EXPORT_DIR}"/*.app/Contents/Info.plist)
@@ -80,9 +80,9 @@ echo -e "\033[1;34mUpdating cask with latest release\033[0m"
 if [ -z "$DRY_RUN" ]; then
 pushd . &> /dev/null
 cd Distribution/homebrew-brew/Casks/
+git checkout master
 git fetch
 git pull --rebase
-git checkout master
 sed -i '' -e 's/url .*/url '"'https:\/\/github.com\/wix\/DetoxInstruments\/releases\/download\/${VERSION}\/$(basename ${ZIP_FILE})'"'/g' detox-instruments.rb
 git add -A
 git commit -m "Detox Instruments ${VERSION}" &> /dev/null
