@@ -676,8 +676,6 @@
 		39C141601F3C55B3008CF5B9 /* DTXTintedImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTintedImageView.h; sourceTree = "<group>"; };
 		39C141611F3C55B3008CF5B9 /* DTXTintedImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTintedImageView.m; sourceTree = "<group>"; };
 		39C48BF220BEF2BA00E6AFC0 /* DTXInstruments.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DTXInstruments.xcdatamodel; sourceTree = "<group>"; };
-		39C48BF320BEF2BA00E6AFC0 /* 0.9.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = 0.9.1.xcdatamodel; sourceTree = "<group>"; };
-		39C48BF420BEF2BA00E6AFC0 /* 0.9.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = 0.9.2.xcdatamodel; sourceTree = "<group>"; };
 		39C51E0A208ED729007AA717 /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39C51E0B208ED729007AA717 /* DTXThreadInfo+UIExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXThreadInfo+UIExtensions.m"; sourceTree = "<group>"; };
 		39C646551F249CA100DF0C77 /* DTXRemoteTargetCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteTargetCellView.h; sourceTree = "<group>"; };
@@ -2144,11 +2142,9 @@
 		39C48BF120BEF2BA00E6AFC0 /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				39C48BF420BEF2BA00E6AFC0 /* 0.9.2.xcdatamodel */,
-				39C48BF320BEF2BA00E6AFC0 /* 0.9.1.xcdatamodel */,
 				39C48BF220BEF2BA00E6AFC0 /* DTXInstruments.xcdatamodel */,
 			);
-			currentVersion = 39C48BF320BEF2BA00E6AFC0 /* 0.9.1.xcdatamodel */;
+			currentVersion = 39C48BF220BEF2BA00E6AFC0 /* DTXInstruments.xcdatamodel */;
 			name = DTXInstruments.xcdatamodeld;
 			path = ../../../Profiler/DTXProfiler/Model/DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
