@@ -48,6 +48,13 @@
 	self.detailDataProvider.managedOutlineView = _outlineView;
 }
 
+- (void)viewWillDisappear
+{
+	[super viewWillDisappear];
+	
+	self.detailDataProvider.managedOutlineView = nil;
+}
+
 - (void)viewDidLayout
 {
 	[super viewDidLayout];

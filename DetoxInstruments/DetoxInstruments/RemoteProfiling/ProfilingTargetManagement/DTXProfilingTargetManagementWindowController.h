@@ -11,7 +11,7 @@
 
 @interface DTXProfilingTargetManagementWindowController : CCNPreferencesWindowController
 
-@property (nonatomic, strong) DTXRemoteProfilingTarget* profilingTarget;
+@property (nonatomic, strong) DTXRemoteTarget* profilingTarget;
 
 - (void)noteProfilingTargetDidLoadContainerContents;
 - (void)noteProfilingTargetDidLoadUserDefaults;

@@ -10,7 +10,7 @@
 #import "DTXInstrumentsModel.h"
 
 #ifndef CLI
-#import "DTXRemoteProfilingTarget.h"
+#import "DTXRemoteTarget.h"
 #endif
 
 extern NSString* const DTXRecordingDocumentDidLoadNotification;

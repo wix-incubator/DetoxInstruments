@@ -1,12 +1,12 @@
 //
-//  DTXProfilerWindowController.m
+//  DTXWindowController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 22/05/2017.
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXProfilerWindowController.h"
+#import "DTXWindowController.h"
 #import "DTXPlotDetailSplitViewController.h"
 #import "DTXDetailInspectorSplitViewController.h"
 #import "DTXPlotAreaContentController.h"
@@ -19,10 +19,8 @@
 @import QuartzCore;
 
 static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility";
-static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
-static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollapsed";
 
-@interface DTXProfilerWindowController () <DTXPlotAreaContentControllerDelegate, DTXDetailContentControllerDelegate>
+@interface DTXWindowController () <DTXPlotAreaContentControllerDelegate, DTXDetailContentControllerDelegate>
 {
 	__weak IBOutlet NSSegmentedControl* _layoutSegmentControl;
 	
@@ -34,37 +32,17 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	__weak IBOutlet NSButton* _pushGroupButton;
 	__weak IBOutlet NSButton* _popGroupButton;
 	
-	DTXPlotDetailSplitViewController* _bottomSplitViewController;
-	DTXDetailInspectorSplitViewController* _rightSplitViewController;
+	DTXPlotDetailSplitViewController* _plotDetailsSplitViewController;
+	DTXDetailInspectorSplitViewController* _detailInspectorSplitViewController;
 	
-	DTXPlotAreaContentController* _mainContentController;
-	DTXDetailContentController* _bottomContentController;
+	DTXPlotAreaContentController* _plotContentController;
+	DTXDetailContentController* _detailContentController;
 	DTXInspectorContentController* _inspectorContentController;
-	
-	BOOL _bottomCollapsed;
-	BOOL _rightCollapsed;
-	
-	NSSavePanel* _exportPanel;
-	IBOutlet NSView* _exportPanelOptions;
-	IBOutlet NSPopUpButton* _formatPopupButton;
 }
 
 @end
 
-@implementation DTXProfilerWindowController
-
-- (void)dealloc
-{
-	[_bottomSplitViewController.splitViewItems.lastObject removeObserver:self forKeyPath:@"collapsed"];
-	[_rightSplitViewController.splitViewItems.lastObject removeObserver:self forKeyPath:@"collapsed"];
-}
-
-- (void)awakeFromNib
-{
-	[super awakeFromNib];
-	
-	[_exportPanelOptions.heightAnchor constraintEqualToConstant:65].active = YES;
-}
+@implementation DTXWindowController
 
 - (void)windowDidLoad
 {
@@ -72,44 +50,28 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	self.window.titleVisibility = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowTitleVisibility];
 	
-	_bottomSplitViewController = (id)self.window.contentViewController;
-	_rightSplitViewController = (id)self.window.contentViewController.childViewControllers.lastObject;
+//	self.window.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
+}
+
+- (void)setContentViewController:(NSViewController *)contentViewController
+{
+	[super setContentViewController:contentViewController];
 	
-	_bottomCollapsed = [[NSUserDefaults standardUserDefaults] boolForKey:__DTXBottomPaneCollapsed];
-	_rightCollapsed = [[NSUserDefaults standardUserDefaults] boolForKey:__DTXRightInspectorCollapsed];
+	_plotDetailsSplitViewController = (id)self.window.contentViewController;
+	_detailInspectorSplitViewController = (id)self.window.contentViewController.childViewControllers.lastObject;
 	
-	_mainContentController = (id)_bottomSplitViewController.splitViewItems.firstObject.viewController;
-	_bottomContentController = (id)_rightSplitViewController.splitViewItems.firstObject.viewController;
-	_inspectorContentController = (id)_rightSplitViewController.splitViewItems.lastObject.viewController;
+	_plotContentController = (id)_plotDetailsSplitViewController.splitViewItems.firstObject.viewController;
+	_detailContentController = (id)_detailInspectorSplitViewController.splitViewItems.firstObject.viewController;
+	_inspectorContentController = (id)_detailInspectorSplitViewController.splitViewItems.lastObject.viewController;
 	
-	[_bottomSplitViewController.splitViewItems.lastObject addObserver:self forKeyPath:@"collapsed" options:NSKeyValueObservingOptionNew context:NULL];
-	[_rightSplitViewController.splitViewItems.lastObject addObserver:self forKeyPath:@"collapsed" options:NSKeyValueObservingOptionNew context:NULL];
-	
-	_mainContentController.delegate = self;
-	_bottomContentController.delegate = self;
-	
-	[self _fixUpSegments];
-	[self _fixUpSplitViewsAnimated:NO];
+	_plotContentController.delegate = self;
+	_detailContentController.delegate = self;
 	
 	self.window.contentView.wantsLayer = YES;
 	self.window.contentView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	[self.window setFrame:(CGRect){0, 0, CGSizeApplyAffineTransform(self.window.screen.frame.size, CGAffineTransformMakeScale(0.85 , 0.85))} display:YES];
 	[self.window center];
-	
-//	self.window.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
-{
-	_bottomCollapsed = _bottomSplitViewController.splitViewItems.lastObject.isCollapsed;
-	_rightCollapsed = _rightSplitViewController.splitViewItems.lastObject.isCollapsed;
-	
-	[self _fixUpSegments];
-	[self _fixUpSplitViewsAnimated:NO];
-	
-	[[NSUserDefaults standardUserDefaults] setBool:_bottomCollapsed forKey:__DTXBottomPaneCollapsed];
-	[[NSUserDefaults standardUserDefaults] setBool:_rightCollapsed forKey:__DTXRightInspectorCollapsed];
 }
 
 - (void)setDocument:(DTXRecordingDocument*)document
@@ -125,8 +87,9 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	[self _fixUpRecordingButtons];
 	
-	_mainContentController.document = self.document;
-	_bottomContentController.document = self.document;
+	_plotDetailsSplitViewController.document = self.document;
+	_plotContentController.document = self.document;
+	_detailContentController.document = self.document;
 	_inspectorContentController.document = self.document;
 	
 	if(_titleTextField == nil)
@@ -226,96 +189,24 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	[(DTXRecordingDocument*)self.document popGroup];
 }
 
-- (void)_fixUpSegments
-{
-	[_layoutSegmentControl setSelected:!_bottomCollapsed forSegment:0];
-	[_layoutSegmentControl setSelected:_bottomCollapsed ? NO : !_rightCollapsed forSegment:1];
-}
-
-- (void)_fixUpSplitViewsAnimated:(BOOL)animated
-{
-	NSSplitViewItem* bottomSplitViewItem = _bottomSplitViewController.splitViewItems.lastObject;
-	NSSplitViewItem* rightSplitViewItem = _rightSplitViewController.splitViewItems.lastObject;
-	
-	if(animated)
-	{
-		[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-			context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-			context.allowsImplicitAnimation = YES;
-			context.duration = animated ? 1.0 : 0;
-			
-			bottomSplitViewItem.animator.collapsed = _bottomCollapsed;
-			rightSplitViewItem.animator.collapsed = _rightCollapsed;
-			
-			[_bottomSplitViewController.view.animator layoutSubtreeIfNeeded];
-			[_rightSplitViewController.view.animator layoutSubtreeIfNeeded];
-		} completionHandler:nil];
-	}
-	else
-	{
-		bottomSplitViewItem.collapsed = _bottomCollapsed;
-		rightSplitViewItem.collapsed = _rightCollapsed;
-	}
-}
-
-- (IBAction)toggleRight:(id)sender
-{
-	if(_bottomCollapsed)
-	{
-		_rightCollapsed = NO;
-		[self _fixUpSplitViewsAnimated:NO];
-		_bottomCollapsed = NO;
-	}
-	else
-	{
-		_rightCollapsed = !_rightCollapsed;
-	}
-	
-	[self _fixUpSegments];
-	[self _fixUpSplitViewsAnimated:YES];
-}
-
-- (IBAction)toggleBottom:(id)sender
-{
-	_bottomCollapsed = !_bottomCollapsed;
-	
-	[self _fixUpSegments];
-	[self _fixUpSplitViewsAnimated:YES];
-}
-
 - (IBAction)zoomIn:(id)sender
 {
-	[_mainContentController zoomIn];
+	[_plotContentController zoomIn];
 }
 
 - (IBAction)zoomOut:(id)sender
 {
-	[_mainContentController zoomOut];
+	[_plotContentController zoomOut];
 }
 
 - (IBAction)fitAllData:(id)sender
 {
-	[_mainContentController fitAllData];
-}
-
-- (IBAction)segmentCellAction:(NSSegmentedCell*)sender
-{
-	NSInteger selectedSegment = [sender selectedSegment];
-	
-	switch(selectedSegment)
-	{
-		case 0:
-			[self toggleBottom:nil];
-			break;
-		case 1:
-			[self toggleRight:nil];
-			break;
-	}
+	[_plotContentController fitAllData];
 }
 
 - (void)contentController:(DTXPlotAreaContentController*)cc updatePlotController:(id<DTXPlotController>)plotController
 {
-	_bottomContentController.managingPlotController = plotController;
+	_detailContentController.managingPlotController = plotController;
 	_inspectorContentController.moreInfoDataProvider = nil;
 }
 
@@ -338,22 +229,12 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		return YES;
 	}
 	
-	if(menuItem.action == @selector(_export:))
-	{
-		return ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateSavedToDisk;
-	}
-	
 	if(menuItem.action == @selector(copy:))
 	{
 		return self.targetForCopy && self.handlerForCopy != nil && self.handlerForCopy.canCopy;
 	}
 	
-	if(menuItem.action == @selector(_export:))
-	{
-		return ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateSavedToDisk;
-	}
-	
-	return menuItem.action == @selector(toggleBottom:) || menuItem.action == @selector(selectExtendedDetail:) || menuItem.action == @selector(selectProfilingInfo:);
+	return NO;
 }
 
 - (void)_resetWindowTitles
@@ -402,67 +283,6 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 - (void)setHandlerForCopy:(id<DTXWindowWideCopyHanler>)handlerForCopy
 {
 	_handlerForCopy = handlerForCopy;
-}
-
-- (IBAction)selectExtendedDetail:(id)sender
-{
-	[_inspectorContentController selectExtendedDetail];
-}
-
-- (IBAction)selectProfilingInfo:(id)sender
-{
-	[_inspectorContentController selectProfilingInfo];
-}
-
-- (IBAction)_exportFormatChanged:(NSPopUpButton*)sender
-{
-	_exportPanel.allowedFileTypes = @[sender.selectedTag == 0 ? (__bridge NSString*)kUTTypePropertyList : (__bridge NSString*)kUTTypeJSON];
-}
-
-- (IBAction)_export:(id)sender
-{
-	_exportPanel = [NSSavePanel new];
-	_exportPanel.allowedFileTypes = @[_formatPopupButton.selectedTag == 0 ? (__bridge NSString*)kUTTypePropertyList : (__bridge NSString*)kUTTypeJSON];
-	_exportPanel.allowsOtherFileTypes = NO;
-	_exportPanel.canCreateDirectories = YES;
-	_exportPanel.treatsFilePackagesAsDirectories = NO;
-	_exportPanel.nameFieldLabel = NSLocalizedString(@"Export Data As", @"");
-	_exportPanel.nameFieldStringValue = [self.document displayName].lastPathComponent.stringByDeletingPathExtension;
-	
-	_exportPanel.accessoryView = _exportPanelOptions;
-	
-	[_exportPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse result) {
-		[_exportPanel orderOut:nil];
-		
-		if(result != NSModalResponseOK)
-		{
-			_exportPanel = nil;
-			return;
-		}
-		
-		NSData* data = nil;
-		NSError* error = nil;
-		
-		if(_formatPopupButton.selectedTag == 0)
-		{
-			data = [NSPropertyListSerialization dataWithPropertyList:[((DTXRecordingDocument*)self.document).recording dictionaryRepresentationForPropertyList] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
-		}
-		else
-		{
-			data = [NSJSONSerialization dataWithJSONObject:[((DTXRecordingDocument*)self.document).recording dictionaryRepresentationForJSON] options:NSJSONWritingPrettyPrinted error:&error];
-		}
-		
-		if(data != nil)
-		{
-			[data writeToURL:_exportPanel.URL atomically:YES];
-		}
-		else if(error != nil)
-		{
-			[self presentError:error modalForWindow:self.window delegate:nil didPresentSelector:nil contextInfo:nil];
-		}
-		
-		_exportPanel = nil;
-	}];
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName

@@ -1,5 +1,5 @@
 //
-//  DTXRemoteProfilingTargetCellView.h
+//  DTXRemoteTargetCellView.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 23/07/2017.
@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DTXRemoteProfilingTargetCellView : NSTableCellView
+@interface DTXRemoteTargetCellView : NSTableCellView
 
 @property (nonatomic, strong, readonly) NSTextField* title1Field;
 @property (nonatomic, strong, readonly) NSTextField* title2Field;
