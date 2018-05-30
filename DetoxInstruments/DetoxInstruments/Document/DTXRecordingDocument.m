@@ -213,16 +213,62 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	return outerError == nil;
 }
 
+- (NSString*)_versionForFlag
+{
+	return [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+}
+
++ (void)clearLastOpenedVersionAndReopenDocumentAtURL:(NSURL*)URL
+{
+	NSURL* versionFlagURL = [URL URLByAppendingPathComponent:@"lastOpenedVersion.txt"];
+	[NSFileManager.defaultManager removeItemAtURL:versionFlagURL error:NULL];
+	
+	[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:URL display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
+		if(error)
+		{
+			[NSDocumentController.sharedDocumentController presentError:error];
+		}
+	}];
+}
+
 - (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError
 {
 	if(url == nil)
 	{
 		return NO;
 	}
-
-	[self _preparePersistenceContainerFromURL:url allowCreation:NO error:outError];
 	
-	return *outError == nil;
+	NSString* currentVersion = self._versionForFlag;
+	
+	NSURL* versionFlagURL = [url URLByAppendingPathComponent:@"lastOpenedVersion.txt"];
+	
+	if([versionFlagURL checkResourceIsReachableAndReturnError:NULL])
+	{
+		NSString* lastOpenedVersion = [NSString stringWithContentsOfURL:versionFlagURL encoding:NSUTF8StringEncoding error:NULL];
+		
+		if([currentVersion compare:lastOpenedVersion options:NSNumericSearch] == NSOrderedAscending)
+		{
+			*outError = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
+											code:-9
+										userInfo:@{
+												   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The document can only be opened safely in a newer version of Detox Instruments.\n\nIf you continue, recording data may be lost", @""),
+												   NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Open Anyway", nil), NSLocalizedString(@"Cancel", nil)],
+												   NSRecoveryAttempterErrorKey: self,
+												   NSURLErrorKey: url
+												   }];
+			
+			return NO;
+		}
+	}
+
+	BOOL rv = [self _preparePersistenceContainerFromURL:url allowCreation:NO error:outError];
+	
+	if(rv)
+	{
+		[currentVersion writeToURL:versionFlagURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+	}
+	
+	return rv;
 }
 
 - (void)_recordingDefactoEndTimestampDidChange:(NSNotification*)note
@@ -480,5 +526,27 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[self _prepareForRemoteProfilingRecordingWithTarget:target profilingConfiguration:configuration];
 }
 #endif
+
+#pragma mark NSErrorRecoveryAttempting
+
+- (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
+{
+	if([error.domain isEqualToString:@"DTXRecordingDocumentErrorDomain"] == NO)
+	{
+		return NO;
+	}
+	
+	switch(recoveryOptionIndex)
+	{
+		case 0:
+			[NSApp sendAction:NSSelectorFromString(@"checkForUpdates:") to:nil from:nil];
+			break;
+		case 1:
+			[self.class clearLastOpenedVersionAndReopenDocumentAtURL:error.userInfo[NSURLErrorKey]];
+			break;
+	}
+	
+	return NO;
+}
 
 @end
