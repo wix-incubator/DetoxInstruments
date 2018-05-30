@@ -1,10 +1,31 @@
 #!/bin/bash -e
 
+pushd .
+cd Documentation/Resources
+for PNG in *.png ;
+do
+pngcrush -reduce -m 123 -ow "$PNG"
+done ;
+popd
+
 HTMLDIR=DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj
 
 rm -fr "${HTMLDIR}"/Documentation
 mkdir -p "${HTMLDIR}"/Documentation
 cp -R Documentation/Resources "${HTMLDIR}"/Documentation/
+
+pushd .
+cd "${HTMLDIR}"/Documentation/Resources/
+for PNG in *.png ;
+do
+  # convert "$PNG" -flatten -alpha off -resize 50% "$PNG"
+  # pngcrush -reduce -m 123 -ow "$PNG"
+  
+  convert "$PNG" -flatten -alpha off -resize 50% -quality 90 "$PNG".jpg
+  mv -f "$PNG".jpg "$PNG"
+done ;
+popd
+
 cp DetoxInstruments/DetoxInstruments/Assets.xcassets/AppIcon.appiconset/1024.png "${HTMLDIR}"/Documentation/Resources/icon_512x512@2x.png
 
 function render_markdown {
@@ -27,11 +48,11 @@ function render_markdown {
   echo 'ul { padding-left: 1.3em; }'  >> "${TARGET_FILE}"
   echo '</style>' >> "${TARGET_FILE}"
   echo '<title>Detox Instruments Help</title></head><body>' >> "${TARGET_FILE}"
-  
+
   CONTENTS=$(printf '%s' "$(<$SOURCE_FILE)" | php -r 'echo json_encode(file_get_contents("php://stdin"));')
   API_JSON=$(printf '{"text": %s}' "$CONTENTS")
   curl -s --data "$API_JSON" "https://api.github.com/markdown?access_token=${GITHUB_RELEASES_TOKEN}" >> "${TARGET_FILE}"
-  
+
   echo '</body></html>' >> "${TARGET_FILE}"
 
   #remove "aria" attributes; sed doesn't support non-greedy lookup
@@ -45,7 +66,7 @@ function render_markdown {
   if [ $SOURCE_FILE = "README.md" ]; then
     sed -E -i '' -e 's/\<h1\>/\<h1\>\<img src\=\"Documentation\/Resources\/icon_512x512\@2x\.png\" \alt\=\"Detox Instruments\" title\=\"Detox Instruments\" style\=\"max\-width\:120px\; padding\-bottom\:10px\" \/\>\<br \/\>/' "${TARGET_FILE}"
   fi
-  
+
   sed -i '' 's/\.md/\.html/' "${TARGET_FILE}"
 }
 
