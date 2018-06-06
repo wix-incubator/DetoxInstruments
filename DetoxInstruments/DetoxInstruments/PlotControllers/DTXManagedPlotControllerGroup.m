@@ -371,8 +371,8 @@ static BOOL __uglyHackTODOFixThisShit()
 		if(controller.legendTitles.count > 1)
 		{
 			cell.topLegendTextField.hidden = cell.bottomLegendTextField.hidden = NO;
-			cell.topLegendTextField.attributedStringValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", controller.legendTitles.firstObject ?: @""] attributes:@{NSForegroundColorAttributeName: controller.legendColors.firstObject.darkerColor ?: NSColor.textColor}];
-			cell.bottomLegendTextField.attributedStringValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", controller.legendTitles.lastObject ?: @""] attributes:@{NSForegroundColorAttributeName: controller.legendColors.lastObject.darkerColor ?: NSColor.textColor}];
+			cell.topLegendTextField.attributedStringValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", controller.legendTitles.firstObject ?: @""] attributes:@{NSForegroundColorAttributeName: controller.legendColors.firstObject.darkerColor ?: NSColor.labelColor}];
+			cell.bottomLegendTextField.attributedStringValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", controller.legendTitles.lastObject ?: @""] attributes:@{NSForegroundColorAttributeName: controller.legendColors.lastObject.darkerColor ?: NSColor.labelColor}];
 		}
 		else
 		{

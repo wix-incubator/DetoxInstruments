@@ -102,7 +102,7 @@
 
 - (NSArray<NSString *> *)filteredAttributes
 {
-	return @[@"url", @"responseStatusCodeString", @"responseStatusCode"]; //, @"requestHeadersFlat", @"responseHeadersFlat", @"requestHTTPMethod"];
+	return @[@"url", @"responseStatusCodeString"]; //, @"requestHeadersFlat", @"responseHeadersFlat", @"requestHTTPMethod"];
 }
 
 @end

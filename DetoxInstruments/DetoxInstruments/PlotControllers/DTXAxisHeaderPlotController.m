@@ -12,7 +12,6 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXCPTXYAxis.h"
-#import "NSAppearance+UIAdditions.h"
 
 @interface DTXAxisHeaderPlotController ()
 
@@ -72,6 +71,8 @@
 	
 	__weak auto weakSelf = self;
 	
+	self.graph.backgroundColor = NSColor.clearColor.CGColor;
+	
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
 		CPTMutableLineStyle* axisLineStyle = [CPTMutableLineStyle lineStyle];
 		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.gridColor.CGColor];
@@ -79,7 +80,7 @@
 		axisLineStyle.lineCap   = kCGLineCapRound;
 		
 		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
-		labelStyle.color = [CPTColor colorWithCGColor:(view.effectiveAppearance.isAppearanceDark ? NSColor.textColor : NSColor.disabledControlTextColor).CGColor];
+		labelStyle.color = [CPTColor colorWithCGColor:NSColor.tertiaryLabelColor.CGColor];
 		labelStyle.fontName = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
 		labelStyle.fontSize = 11;
 		

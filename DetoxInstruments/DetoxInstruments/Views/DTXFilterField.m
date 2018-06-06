@@ -55,6 +55,9 @@
 {
 	[self setSearchIconWithHighlight:NO];
 	_cancelButton.hidden = YES;
+	
+	//Ensure UI updates after search ends
+	[self.filterDelegate filterFieldTextDidChange:self];
 }
 
 - (void)controlTextDidChange:(NSNotification *)obj
@@ -67,12 +70,6 @@
 	[super setFrame:frame];
 	
 	[self setNeedsDisplay];
-}
-
-//This somehow makes the image image be drawn.
-- (void)drawRect:(NSRect)dirtyRect
-{
-	[super drawRect:dirtyRect];
 }
 
 - (IBAction)clearFilter:(id)sender

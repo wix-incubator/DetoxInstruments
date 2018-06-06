@@ -73,8 +73,6 @@
 		3967739320B594B200851154 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3967739220B594B200851154 /* Main.storyboard */; };
 		396828EB1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396828EA1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m */; };
 		396829361F1265C10012CAFB /* DTXMenuPathControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 396829351F1265C10012CAFB /* DTXMenuPathControl.m */; };
-		3968DE6B2056F56D0089609A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3968DE5C2056F55F0089609A /* Sparkle.framework */; };
-		3968DE6C2056F56D0089609A /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3968DE5C2056F55F0089609A /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		396A6B381F4ECA7700768536 /* DTXObjectsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B371F4ECA7700768536 /* DTXObjectsCellView.m */; };
 		396A6B481F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B471F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m */; };
 		396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */; };
@@ -143,6 +141,8 @@
 		39BEE1EF207A47B3003AF93E /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1DC207A47B3003AF93E /* SSZipArchive.m */; };
 		39C1415F1F3C47F7008CF5B9 /* DTXStackTraceFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */; };
 		39C141621F3C55B3008CF5B9 /* DTXTintedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C141611F3C55B3008CF5B9 /* DTXTintedImageView.m */; };
+		39C3972820C73B990069F63A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3968DE5C2056F55F0089609A /* Sparkle.framework */; };
+		39C3972920C73B990069F63A /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3968DE5C2056F55F0089609A /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39C48BF520BEF2BB00E6AFC0 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39C48BF120BEF2BA00E6AFC0 /* DTXInstruments.xcdatamodeld */; };
 		39C51E0C208ED729007AA717 /* DTXThreadInfo+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C51E0B208ED729007AA717 /* DTXThreadInfo+UIExtensions.m */; };
 		39C646571F249CA100DF0C77 /* DTXRemoteTargetCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C646561F249CA100DF0C77 /* DTXRemoteTargetCellView.m */; };
@@ -285,13 +285,6 @@
 			remoteGlobalIDString = 5AE13FB31E0D9E07000D2C2C;
 			remoteInfo = generate_appcast;
 		};
-		3968DE6D2056F56D0089609A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = Sparkle;
-		};
 		397A01781FA6355600ABCB87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
@@ -355,6 +348,13 @@
 			remoteGlobalIDString = C37EA6B71BC83F2D0091C8F7;
 			remoteInfo = "UnitTests tvOS";
 		};
+		39C3972A20C73B990069F63A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
 		39D76E9F2086B83B0033BDE2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39D76E9B2086B83B0033BDE2 /* LNPropertyListEditor.xcodeproj */;
@@ -401,8 +401,8 @@
 			files = (
 				392D52C11FAA008000A28938 /* DTXSourceMaps.framework in Embed Frameworks */,
 				398D6E761EE03E9B00AA9C11 /* CorePlot.framework in Embed Frameworks */,
+				39C3972920C73B990069F63A /* Sparkle.framework in Embed Frameworks */,
 				394516B71EEF442B0093E503 /* LNInterpolation.framework in Embed Frameworks */,
-				3968DE6C2056F56D0089609A /* Sparkle.framework in Embed Frameworks */,
 				39D76EA22086B8470033BDE2 /* LNPropertyListEditor.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -767,8 +767,8 @@
 			files = (
 				392D52C01FAA008000A28938 /* DTXSourceMaps.framework in Frameworks */,
 				398D6E751EE03E9B00AA9C11 /* CorePlot.framework in Frameworks */,
+				39C3972820C73B990069F63A /* Sparkle.framework in Frameworks */,
 				394516B61EEF442B0093E503 /* LNInterpolation.framework in Frameworks */,
-				3968DE6B2056F56D0089609A /* Sparkle.framework in Frameworks */,
 				39D76EA12086B8470033BDE2 /* LNPropertyListEditor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1493,8 +1493,8 @@
 				397A01791FA6355600ABCB87 /* PBXTargetDependency */,
 				394516B31EEF44190093E503 /* PBXTargetDependency */,
 				392D52C31FAA008000A28938 /* PBXTargetDependency */,
-				3968DE6E2056F56D0089609A /* PBXTargetDependency */,
 				39D76EA42086B8470033BDE2 /* PBXTargetDependency */,
+				39C3972B20C73B990069F63A /* PBXTargetDependency */,
 			);
 			name = DetoxInstruments;
 			productName = "Detox Instruments";
@@ -1942,15 +1942,15 @@
 			name = "CorePlot Mac";
 			targetProxy = 394516B21EEF44190093E503 /* PBXContainerItemProxy */;
 		};
-		3968DE6E2056F56D0089609A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Sparkle;
-			targetProxy = 3968DE6D2056F56D0089609A /* PBXContainerItemProxy */;
-		};
 		397A01791FA6355600ABCB87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = LNInterpolation;
 			targetProxy = 397A01781FA6355600ABCB87 /* PBXContainerItemProxy */;
+		};
+		39C3972B20C73B990069F63A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Sparkle;
+			targetProxy = 39C3972A20C73B990069F63A /* PBXContainerItemProxy */;
 		};
 		39D76EA42086B8470033BDE2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

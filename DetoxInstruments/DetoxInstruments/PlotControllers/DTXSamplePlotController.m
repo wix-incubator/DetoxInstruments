@@ -283,14 +283,10 @@
 		_pendingXPlotRange = nil;
 	}
 	
-	__weak auto weakSelf = self;
-	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
-		weakSelf.graph.backgroundColor = NSColor.controlColor.CGColor;
-		
-		[weakSelf.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			obj.backgroundColor = NSColor.textBackgroundColor.CGColor;
-		}];
-	};
+	self.graph.backgroundColor = NSColor.clearColor.CGColor;
+	[self.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		obj.backgroundColor = NSColor.clearColor.CGColor;
+	}];
 }
 
 - (NSArray<__kindof CPTPlot *> *)plots

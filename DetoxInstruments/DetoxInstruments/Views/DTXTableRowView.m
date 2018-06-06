@@ -8,7 +8,6 @@
 
 #import "DTXTableRowView.h"
 #import "NSColor+UIAdditions.h"
-#import "NSAppearance+UIAdditions.h"
 
 @interface NSTableRowView ()
 
@@ -41,7 +40,7 @@
 	}
 	
 	
-	return NSAppearance.currentAppearance.isAppearanceDark ? NSColor.lightGrayColor : self.secondarySelectedControlColor;
+	return self.secondarySelectedControlColor;
 }
 
 - (void)drawSelectionInRect:(NSRect)dirtyRect
