@@ -72,6 +72,9 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	
 	[self.window setFrame:(CGRect){0, 0, CGSizeApplyAffineTransform(self.window.screen.frame.size, CGAffineTransformMakeScale(0.85 , 0.85))} display:YES];
 	[self.window center];
+	
+//	(origin = (x = 516, y = 85), size = (width = 1065, height = 893))
+//	[self.window setFrame:NSMakeRect(516, 85, 1065, 893) display:YES];
 }
 
 - (void)setDocument:(DTXRecordingDocument*)document

@@ -930,6 +930,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.ReactNativeDemo;
 				PRODUCT_NAME = ReactNativeTesterApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -947,6 +948,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.ReactNativeDemo;
 				PRODUCT_NAME = ReactNativeTesterApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

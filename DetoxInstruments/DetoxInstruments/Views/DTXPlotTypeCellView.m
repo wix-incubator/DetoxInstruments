@@ -25,4 +25,11 @@
 	self.bottomLegendTextField.highlighted = self.topLegendTextField.highlighted = backgroundStyle == NSBackgroundStyleDark;
 }
 
+- (void)setFrameSize:(NSSize)newSize
+{
+	newSize.height = NSHeight(self.superview.frame) - 1;
+	
+	[super setFrameSize:newSize];
+}
+
 @end

@@ -65,7 +65,7 @@
 {
 	_managedTableView = managedTableView;
 	
-	if(_document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
+//	if(_document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
 	{
 		_managedTableView.usesAutomaticRowHeights = YES;
 	}
@@ -93,7 +93,7 @@
 		[self _prepareLogData];
 	}
 	
-	if(_document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
+//	if(_document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
 	{
 		_managedTableView.usesAutomaticRowHeights = YES;
 	}

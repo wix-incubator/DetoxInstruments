@@ -135,6 +135,11 @@ IB_DESIGNABLE
 	_ignoresEvents = NO;
 }
 
++ (BOOL)isCompatibleWithResponsiveScrolling
+{
+	return YES;
+}
+
 - (BOOL)validateProposedFirstResponder:(NSResponder *)responder forEvent:(NSEvent *)event
 {
 	// This allows the user to click on controls within a cell withough first having to select the cell row

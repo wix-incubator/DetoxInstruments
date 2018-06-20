@@ -366,9 +366,9 @@
 
 - (void)_handleViewHierarchy:(NSDictionary*)viewHierarchy;
 {
-	DTXAppSnapshot* appSnapshot = [NSKeyedUnarchiver unarchiveObjectWithData:viewHierarchy[@"appSnapshot"]];
-	
-	NSLog(@"");
+//	DTXAppSnapshot* appSnapshot = [NSKeyedUnarchiver unarchiveObjectWithData:viewHierarchy[@"appSnapshot"]];
+//	
+//	NSLog(@"");
 }
 
 #pragma mark Remote Profiling

@@ -77,6 +77,14 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
+            argument = "-NSScrollViewShowResponsiveScrollingStatus YES"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-NSScrollViewResponsiveScrollingOptInLogToConsole YES"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"
             isEnabled = "NO">
          </CommandLineArgument>

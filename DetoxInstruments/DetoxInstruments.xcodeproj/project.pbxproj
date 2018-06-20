@@ -113,7 +113,6 @@
 		399E0EE91F0EC8960047CF92 /* DTXDiskInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E0EE81F0EC8960047CF92 /* DTXDiskInspectorDataProvider.m */; };
 		399E733420919A52006EAD6E /* DTXPlotRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E733320919A52006EAD6E /* DTXPlotRowView.m */; };
 		399E73512091BF5E006EAD6E /* DTXLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E73502091BF5E006EAD6E /* DTXLayerView.m */; };
-		399E73552091CA96006EAD6E /* NSAppearance+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E73542091CA96006EAD6E /* NSAppearance+UIAdditions.m */; };
 		399E73582091D1B0006EAD6E /* DTXPlotHostConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E73572091D1B0006EAD6E /* DTXPlotHostConstructor.m */; };
 		39A6A2E21F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A6A2E11F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m */; };
 		39A876B71EED3DEE00AE62F8 /* DTXCompactNetworkRequestsPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A876A91EED3D2E00AE62F8 /* DTXCompactNetworkRequestsPlotController.m */; };
@@ -614,8 +613,6 @@
 		399E733320919A52006EAD6E /* DTXPlotRowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotRowView.m; sourceTree = "<group>"; };
 		399E734F2091BF5E006EAD6E /* DTXLayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLayerView.h; sourceTree = "<group>"; };
 		399E73502091BF5E006EAD6E /* DTXLayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLayerView.m; sourceTree = "<group>"; };
-		399E73532091CA96006EAD6E /* NSAppearance+UIAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAppearance+UIAdditions.h"; sourceTree = "<group>"; };
-		399E73542091CA96006EAD6E /* NSAppearance+UIAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAppearance+UIAdditions.m"; sourceTree = "<group>"; };
 		399E73562091D1B0006EAD6E /* DTXPlotHostConstructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotHostConstructor.h; sourceTree = "<group>"; };
 		399E73572091D1B0006EAD6E /* DTXPlotHostConstructor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotHostConstructor.m; sourceTree = "<group>"; };
 		39A6A2E01F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLogLineInspectorDataProvider.h; sourceTree = "<group>"; };
@@ -1170,8 +1167,6 @@
 				3947158B20A2FB0E00A7068A /* NSView+UIAdditions.m */,
 				3947158D20A32EDF00A7068A /* NSWindow+Snapshotting.h */,
 				3947158E20A32EDF00A7068A /* NSWindow+Snapshotting.m */,
-				399E73532091CA96006EAD6E /* NSAppearance+UIAdditions.h */,
-				399E73542091CA96006EAD6E /* NSAppearance+UIAdditions.m */,
 				39F6F6CC1F0E400300C7F411 /* NSDictionary+FakeDecoder.h */,
 				39F6F6CD1F0E400300C7F411 /* NSDictionary+FakeDecoder.m */,
 				39B4CA3C1F15C4AD009BD2D2 /* NSString+FileNames.h */,
@@ -1881,7 +1876,6 @@
 				393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */,
 				3922AE131F2BA72C0034B1FE /* DTXSocketConnection.m in Sources */,
 				399B4DD41ED575780098D2AC /* DTXPlotDetailSplitViewController.m in Sources */,
-				399E73552091CA96006EAD6E /* NSAppearance+UIAdditions.m in Sources */,
 				39C6A9341EE3BCCD000E2EE1 /* DTXHighlightingCellView.m in Sources */,
 				3944E3591F4DBA9C001911E8 /* DTXCPTXYAxis.m in Sources */,
 				393973C01EDB02DF0064D4C8 /* DTXInspectorContentController.m in Sources */,

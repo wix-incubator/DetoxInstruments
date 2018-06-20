@@ -142,11 +142,25 @@
                         <outlet property="_pushGroupButton" destination="sUK-hu-r2c" id="e9Z-qL-nsw"/>
                         <outlet property="_stopRecordingButton" destination="aub-nx-8CB" id="pf7-9g-1Ji"/>
                         <outlet property="_titleLabelContainer" destination="T7S-3q-2aZ" id="4Xt-Wt-O9d"/>
+                        <segue destination="U0P-Vs-3Mc" kind="relationship" relationship="window.shadowedContentViewController" id="otc-m8-0Xa"/>
                     </connections>
                 </windowController>
                 <customObject id="qp4-hX-WKE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-577" y="-1075"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="d07-vh-RcC">
+            <objects>
+                <viewController id="U0P-Vs-3Mc" sceneMemberID="viewController">
+                    <view key="view" id="Ova-Kq-PZz">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="WbU-d2-9Iu" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="447" y="-1145"/>
         </scene>
         <!--Instruments Application-->
         <scene sceneID="JPo-4y-FX3">
