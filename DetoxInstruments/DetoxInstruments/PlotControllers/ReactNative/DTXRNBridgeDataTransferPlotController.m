@@ -16,7 +16,7 @@
 	return [DTXRNBridgeDataDataProvider class];
 }
 
-- (Class)classForPerformanceSamples
++ (Class)classForPerformanceSamples
 {
 	return [DTXReactNativePeroformanceSample class];
 }
