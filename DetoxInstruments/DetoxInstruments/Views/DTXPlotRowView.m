@@ -23,9 +23,4 @@
 	self.canDrawSubviewsIntoLayer = YES;
 }
 
-- (BOOL)isOpaque
-{
-	return YES;
-}
-
 @end

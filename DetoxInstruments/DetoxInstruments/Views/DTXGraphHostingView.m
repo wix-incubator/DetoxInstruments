@@ -26,11 +26,6 @@
 	return self;
 }
 
-- (BOOL)isOpaque
-{
-	return YES;
-}
-
 -(void)viewDidChangeBackingProperties
 {
 	CGFloat scale = self.window ? self.window.backingScaleFactor : 1.0;

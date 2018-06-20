@@ -6,8 +6,8 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXSamplePlotController.h"
+#import "DTXIntervalSamplePlotController.h"
 
-@interface DTXCompactNetworkRequestsPlotController : DTXSamplePlotController
+@interface DTXCompactNetworkRequestsPlotController : DTXIntervalSamplePlotController
 
 @end

@@ -16,7 +16,7 @@
 	return [DTXRNCPUDataProvider class];
 }
 
-- (Class)classForPerformanceSamples
++ (Class)classForPerformanceSamples
 {
 	return [DTXReactNativePeroformanceSample class];
 }

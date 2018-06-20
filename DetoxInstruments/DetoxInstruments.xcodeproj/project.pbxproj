@@ -165,6 +165,7 @@
 		39DF54B120A71431007A30B0 /* DTXNSPasteboardParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF54B020A71431007A30B0 /* DTXNSPasteboardParser.m */; };
 		39E20F5B1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E20F5A1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m */; };
 		39E3B7112097A7B6006F9D43 /* DTXPasteboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E3B7102097A7B6006F9D43 /* DTXPasteboardViewController.m */; };
+		39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */; };
 		39EA8CD21F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA8CD11F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m */; };
 		39EBDFBD1ED36D45005D8AB1 /* DTXApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDFBC1ED36D45005D8AB1 /* DTXApplicationDelegate.m */; };
 		39EBDFC01ED36D45005D8AB1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDFBF1ED36D45005D8AB1 /* main.m */; };
@@ -720,6 +721,8 @@
 		39E20F5A1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSampleGroupProxy.m; sourceTree = "<group>"; };
 		39E3B70F2097A7B6006F9D43 /* DTXPasteboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPasteboardViewController.h; sourceTree = "<group>"; };
 		39E3B7102097A7B6006F9D43 /* DTXPasteboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPasteboardViewController.m; sourceTree = "<group>"; };
+		39E578E820DA66AD0034560C /* DTXIntervalSamplePlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXIntervalSamplePlotController.h; sourceTree = "<group>"; };
+		39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXIntervalSamplePlotController.m; sourceTree = "<group>"; };
 		39EA8CD01F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilingConfiguration+RemoteProfilingSupport.h"; sourceTree = "<group>"; };
 		39EA8CD11F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXProfilingConfiguration+RemoteProfilingSupport.m"; sourceTree = "<group>"; };
 		39EBDFB81ED36D45005D8AB1 /* Detox Instruments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Detox Instruments.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1232,6 +1235,8 @@
 				39C6A9171EE3ADDC000E2EE1 /* DTXFPSPlotController.m */,
 				39C6A91E1EE3B8EB000E2EE1 /* DTXDiskReadWritesPlotController.h */,
 				39C6A91F1EE3B8EB000E2EE1 /* DTXDiskReadWritesPlotController.m */,
+				39E578E820DA66AD0034560C /* DTXIntervalSamplePlotController.h */,
+				39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */,
 				39A876A81EED3D2E00AE62F8 /* DTXCompactNetworkRequestsPlotController.h */,
 				39A876A91EED3D2E00AE62F8 /* DTXCompactNetworkRequestsPlotController.m */,
 				39C6A8E31EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.h */,
@@ -1813,6 +1818,7 @@
 				39C6A9121EE3A2BC000E2EE1 /* DTXPerformanceSamplePlotController.m in Sources */,
 				39C141621F3C55B3008CF5B9 /* DTXTintedImageView.m in Sources */,
 				39DE8E7A2091EDFD00ED16B4 /* DTXCookiesViewController.m in Sources */,
+				39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */,
 				39BEE1EE207A47B3003AF93E /* aestab.c in Sources */,
 				D8243F941F5401530005CF4B /* DTXFilterField.m in Sources */,
 				39EBDFBD1ED36D45005D8AB1 /* DTXApplicationDelegate.m in Sources */,
