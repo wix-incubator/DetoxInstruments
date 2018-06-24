@@ -47,7 +47,7 @@
 {
 	CPTMutableLineStyle* lineStyle = [CPTMutableLineStyle lineStyle];
 	lineStyle.lineWidth = 0.5;
-	lineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.textColor.CGColor];
+	lineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.labelColor.CGColor];
 	
 	_chart.borderLineStyle = lineStyle;
 	_chart.backgroundColor = NSColor.windowBackgroundColor.CGColor;

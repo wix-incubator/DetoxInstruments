@@ -7,6 +7,7 @@
 //
 
 #import "DTXLineLayer.h"
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXLineLayer
 
@@ -41,7 +42,7 @@
 	[self.dataPoints enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		CGFloat _dataPoint = obj.doubleValue;
 		
-		CGContextSetFillColorWithColor(context, _pointColors[idx].CGColor);
+		CGContextSetFillColorWithColor(context, [_pointColors[idx] shallowerColorWithAppearance:NSApplication.sharedApplication.effectiveAppearance modifier:0.15].CGColor);
 		
 		CGRect ellipseRect = CGRectMake(-3 + self.bounds.size.width / 2.0, -3 + _dataPoint, 6, 6);
 		CGContextFillEllipseInRect(context, ellipseRect);

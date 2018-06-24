@@ -14,6 +14,7 @@
 #import "DTXRecording+UIExtensions.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "NSColor+UIAdditions.h"
+#import "NSAppearance+UIAdditions.h"
 
 @interface DTXIntervalSamplePlotController () <CPTRangePlotDataSource, NSFetchedResultsControllerDelegate>
 {
@@ -61,11 +62,28 @@
 - (void)prepareSamples
 {
 	NSFetchRequest* fr = [self.class.classForIntervalSamples fetchRequest];
-	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+	fr.sortDescriptors = self.sortDescriptors ?: @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 	
 	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 	_frc.delegate = self;
 	[_frc performFetch:NULL];
+}
+
+- (void)updateLayerHandler
+{
+	[self _updateShadowLineColor];
+}
+
+- (void)_updateShadowLineColor
+{
+	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
+	{
+		_shadowLineLayer.lineColor = NSColor.whiteColor;
+	}
+	else
+	{
+		_shadowLineLayer.lineColor = [([self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15]) colorWithAlphaComponent:0.5];
+	}
 }
 
 - (NSMutableArray<NSMutableArray<DTXSample*>*>*)_mergedSamples
@@ -104,7 +122,7 @@
 		__block NSMutableArray* _insertionGroup = nil;
 		
 		[_mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<DTXSample *> * _Nonnull possibleSampleGroup, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSDate* lastResponseTimestamp = [[self endTimestampForSample:possibleSampleGroup.lastObject] dateByAddingTimeInterval:.35];
+			NSDate* lastResponseTimestamp = [self endTimestampForSample:possibleSampleGroup.lastObject];
 			
 			if([timestamp compare:lastResponseTimestamp] == NSOrderedDescending)
 			{
@@ -138,8 +156,6 @@
 		CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
 		lineStyle.lineWidth = 5.0;
 		lineStyle.lineCap = kCGLineCapRound;
-		lineStyle.lineJoin = kCGLineJoinRound;
-		lineStyle.lineColor = [CPTColor colorWithCGColor:self.plotColors.firstObject.CGColor];
 		_plot.barLineStyle = lineStyle;
 		
 		// Bar properties
@@ -224,7 +240,7 @@
 	
 	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-	_shadowLineLayer.lineColor = [self.plotColors.firstObject colorWithAlphaComponent:0.25];
+	[self _updateShadowLineColor];
 	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
 	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
@@ -250,9 +266,12 @@
 	
 	if(_selectedIndex != NSNotFound)
 	{
+		NSUInteger prevSelectedIndex = _selectedIndex;
 		_selectedIndex = NSNotFound;
 		
-		[self.graph.allPlots.firstObject reloadData];
+		[_plot reloadDataInIndexRange:NSMakeRange(prevSelectedIndex, 1)];
+		
+//		[self.graph.allPlots.firstObject reloadData];
 	}
 }
 
@@ -264,21 +283,6 @@
 	}
 }
 
-- (NSString *)displayName
-{
-	return NSLocalizedString(@"Network Activity", @"");
-}
-
-- (NSString *)toolTip
-{
-	return NSLocalizedString(@"The Network Activity instrument captures information about the profiled app's network activity.", @"");
-}
-
-- (NSImage*)displayIcon
-{
-	return [NSImage imageNamed:@"NetworkActivity"];
-}
-
 - (CGFloat)requiredHeight
 {
 	NSEdgeInsets rangeInsets = self.rangeInsets;
@@ -286,26 +290,6 @@
 	CGFloat f = self._mergedSamples.count * 9 + rangeInsets.top + rangeInsets.bottom;
 	
 	return MAX(f, super.requiredHeight);
-}
-
-- (NSArray<NSString*>*)sampleKeys
-{
-	return @[@"totalDataLength"];
-}
-
-- (NSArray<NSString*>*)plotTitles
-{
-	return @[NSLocalizedString(@"URL", @"")];
-}
-
-- (NSArray<NSColor*>*)plotColors
-{
-	return @[[NSColor colorWithRed:68.0/255.0 green:190.0/255.0 blue:30.0/255.0 alpha:1.0]];
-}
-
-+ (NSFormatter*)formatterForDataPresentation
-{
-	return [NSFormatter dtx_memoryFormatter];
 }
 
 - (BOOL)isStepped
@@ -383,6 +367,11 @@
 }
 
 - (NSColor*)colorForSample:(DTXSample*)sample
+{
+	return nil;
+}
+
+- (NSArray<NSSortDescriptor *> *)sortDescriptors
 {
 	return nil;
 }

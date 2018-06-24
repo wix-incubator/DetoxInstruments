@@ -99,6 +99,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	_managedOutlineView = outlineView;
 	
+	if(_managedOutlineView == nil)
+	{
+		return;
+	}
+	
 	_columns = self.columns;
 	
 	[_columns enumerateObjectsUsingBlock:^(DTXColumnInformation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -210,7 +215,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSColor*)textColorForItem:(id)item
 {
-	return NSColor.textColor;
+	return NSColor.labelColor;
 }
 
 - (NSColor*)backgroundRowColorForItem:(id)item;
@@ -252,7 +257,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 							 
 		cellView.textField.stringValue = [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:NO];
-		cellView.textField.textColor = [item isKindOfClass:[DTXSampleGroupProxy class]] ? NSColor.textColor : [self textColorForItem:item];
+		cellView.textField.textColor = [item isKindOfClass:[DTXSampleGroupProxy class]] ? NSColor.labelColor : [self textColorForItem:item];
 		
 		if([item isKindOfClass:[DTXSampleGroupProxy class]])
 		{
@@ -279,12 +284,12 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	if([item isKindOfClass:[DTXSampleGroupProxy class]])
 	{
 		cellView.textField.stringValue = ((DTXSampleGroupProxy*)item).name;
-		cellView.textField.textColor = NSColor.textColor;
+		cellView.textField.textColor = NSColor.labelColor;
 	}
 	else if([item isMemberOfClass:[DTXTag class]])
 	{
 		cellView.textField.stringValue = ((DTXTag*)item).name;
-		cellView.textField.textColor = NSColor.textColor;
+		cellView.textField.textColor = NSColor.labelColor;
 	}
 	else
 	{

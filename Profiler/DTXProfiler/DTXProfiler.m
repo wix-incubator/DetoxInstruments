@@ -20,6 +20,7 @@
 #import "DTXRNJSCSourceMapsSupport.h"
 #import "DTXAddressInfo.h"
 #import "DTXDeviceInfo.h"
+#import "DTXSignpostSample+CoreDataClass.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
@@ -314,6 +315,58 @@ DTX_CREATE_LOG(Profiler);
 		log.objects = objects;
 		[self->_profilerStoryListener addLogSample:log];
 		[self _addPendingSampleInternal:log];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (NSString *)markEventIntervalBeginWithName:(NSString *)name additionalInfo:(NSString *)additionalInfo
+{
+	NSString* identifier = NSUUID.UUID.UUIDString;
+	
+	[self->_backgroundContext performBlock:^{
+		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
+		signpostSample.uniqueIdentifier = identifier;
+		signpostSample.name = [name copy];
+		signpostSample.additionalInfoStart = [additionalInfo copy];
+		signpostSample.parentGroup = self->_currentSampleGroup;
+		
+		[self->_profilerStoryListener markEventIntervalBegin:signpostSample];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+	
+	return identifier;
+}
+
+- (void)markEventIntervalEndWithIdentifier:(NSString *)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString *)additionalInfo
+{
+	[self->_backgroundContext performBlock:^{
+		NSFetchRequest* fr = [DTXSignpostSample fetchRequest];
+		fr.predicate = [NSPredicate predicateWithFormat:@"uniqueIdentifier == %@", identifier];
+		DTXSignpostSample* signpostSample = [self->_backgroundContext executeFetchRequest:fr error:NULL].firstObject;
+		if(signpostSample == nil)
+		{
+			return;
+		}
+
+		signpostSample.endTimestamp = [NSDate date];
+		signpostSample.eventStatus = eventStatus;
+		signpostSample.additionalInfoEnd = [additionalInfo copy];
+		
+		[self->_profilerStoryListener markEventIntervalEnd:signpostSample];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)markEventWithWithName:(NSString *)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString *)additionalInfo
+{
+	[self->_backgroundContext performBlock:^{
+		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
+		signpostSample.parentGroup = self->_currentSampleGroup;
+		signpostSample.uniqueIdentifier = NSUUID.UUID.UUIDString;
+		signpostSample.name = [name copy];
+		signpostSample.additionalInfoStart = [additionalInfo copy];
+		signpostSample.eventStatus = eventStatus;
+		signpostSample.endTimestamp = signpostSample.timestamp;
+		signpostSample.isEvent = YES;
+		
+		[self->_profilerStoryListener markEvent:signpostSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 

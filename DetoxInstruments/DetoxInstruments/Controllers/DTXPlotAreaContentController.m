@@ -9,7 +9,6 @@
 #import "DTXPlotAreaContentController.h"
 #import "DTXPlotTableView.h"
 #import "DTXManagedPlotControllerGroup.h"
-
 #import "DTXAxisHeaderPlotController.h"
 #import "DTXCPUUsagePlotController.h"
 #import "DTXThreadCPUUsagePlotController.h"
@@ -20,8 +19,9 @@
 #import "DTXRNCPUUsagePlotController.h"
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
-
+#import "DTXSignpostPlotController.h"
 #import "DTXRecording+UIExtensions.h"
+#import "DTXSignpostSample+UIExtensions.h"
 
 #import "DTXLayerView.h"
 
@@ -267,6 +267,11 @@
 	if((self.document.recording.dtx_profilingConfiguration == nil || self.document.recording.dtx_profilingConfiguration.recordNetwork == YES))
 	{
 		[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.document]];
+	}
+	
+	if([DTXSignpostSample hasSignpostSamplesForManagedObjectContext:self.document.recording.managedObjectContext])
+	{
+		[_plotGroup addPlotController:[[DTXSignpostPlotController alloc] initWithDocument:self.document]];
 	}
 	
 	if(self.document.recording.hasReactNative && self.document.recording.dtx_profilingConfiguration.profileReactNative)

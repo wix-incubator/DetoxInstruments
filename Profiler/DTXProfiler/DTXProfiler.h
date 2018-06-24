@@ -9,6 +9,29 @@
 #import <Foundation/Foundation.h>
 #import "DTXProfilingConfiguration.h"
 
+#ifndef DTX_EVENT_STATUS_ENUM
+#define DTX_EVENT_STATUS_ENUM
+
+typedef enum : NSUInteger {
+	DTXEventStatusCompleted,
+	DTXEventStatusError,
+	
+	DTXEventStatusCategory1,
+	DTXEventStatusCategory2,
+	DTXEventStatusCategory3,
+	DTXEventStatusCategory4,
+	DTXEventStatusCategory5,
+	DTXEventStatusCategory6,
+	DTXEventStatusCategory7,
+	DTXEventStatusCategory8,
+	DTXEventStatusCategory9,
+	DTXEventStatusCategory10,
+	DTXEventStatusCategory11,
+	DTXEventStatusCategory12,
+} DTXEventStatus;
+
+#endif
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -26,9 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (atomic, assign, readonly, getter=isRecording) BOOL recording;
 
 /**
- * The profiling configuration provided to @c startProfilingWithConfiguration:.
+ * The profiling configuration provided to @c startProfilingWithConfiguration:. Will be null before calling that method.
  */
-@property (atomic, copy, readonly) DTXProfilingConfiguration* profilingConfiguration;
+@property (atomic, copy, readonly, nullable) DTXProfilingConfiguration* profilingConfiguration;
 
 /**
  *  Starts a profiling recording with the provided configuration.
@@ -97,6 +120,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param objects The objects to add.
  */
 - (void)addLogLine:(NSString *)line objects:(nullable NSArray *)objects;
+
+
+- (NSString*)markEventIntervalBeginWithName:(NSString*)name additionalInfo:(nullable NSString*)additionalInfo;
+- (void)markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo;
+- (void)markEventWithWithName:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo;
 
 @end
 

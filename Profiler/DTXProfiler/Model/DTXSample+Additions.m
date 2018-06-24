@@ -27,6 +27,7 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 							   NSStringFromClass([DTXTag class]): @(DTXSampleTypeTag),
 							   NSStringFromClass([DTXLogSample class]): @(DTXSampleTypeLog),
                                NSStringFromClass([DTXReactNativePeroformanceSample class]): @(DTXSampleTypeReactNativePerformanceType),
+							   NSStringFromClass([DTXSignpostSample class]): @(DTXSampleTypeSignpost),
 							   };
 		__typeClassMapping = @{@(DTXSampleTypePerformance): ([DTXPerformanceSample class]),
 							   @(DTXSampleTypeAdvancedPerformance): ([DTXAdvancedPerformanceSample class]),
@@ -36,6 +37,7 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 							   @(DTXSampleTypeTag): ([DTXTag class]),
 							   @(DTXSampleTypeLog): ([DTXLogSample class]),
 							   @(DTXSampleTypeReactNativePerformanceType): ([DTXReactNativePeroformanceSample class]),
+							   @(DTXSampleTypeSignpost): ([DTXSignpostSample class]),
 							   };
 	});
 }

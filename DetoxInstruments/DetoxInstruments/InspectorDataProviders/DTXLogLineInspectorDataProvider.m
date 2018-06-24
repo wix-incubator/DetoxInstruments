@@ -37,7 +37,7 @@
 	NSMutableParagraphStyle* par = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	par.hyphenationFactor = 1.0;
 	par.tighteningFactorForTruncation = 0.0;
-	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:logSample.line attributes:@{NSFontAttributeName: [DTXStackTraceCopyDataProvider fontForStackTraceDisplay], NSForegroundColorAttributeName: NSColor.textColor, NSParagraphStyleAttributeName: par}];
+	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:logSample.line attributes:@{NSFontAttributeName: [DTXStackTraceCopyDataProvider fontForStackTraceDisplay], NSForegroundColorAttributeName: NSColor.labelColor, NSParagraphStyleAttributeName: par}];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Line", @"") attributedDescription:attr]];
 	
 	logLineInfo.content = content;

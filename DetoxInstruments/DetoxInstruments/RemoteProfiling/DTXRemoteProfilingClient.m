@@ -144,6 +144,17 @@
 	return networkSamples.firstObject;
 }
 
+- (DTXSignpostSample*)_signpostSampleWithIdentifier:(NSString*)sampleIdentifier
+{
+	NSFetchRequest* fr = [DTXSignpostSample fetchRequest];
+	fr.entity = [NSEntityDescription entityForName:@"SignpostSample" inManagedObjectContext:_managedObjectContext];
+	fr.predicate = [NSPredicate predicateWithFormat:@"sampleIdentifier == %@", sampleIdentifier];
+	NSArray* signpostSamples = [_managedObjectContext executeFetchRequest:fr error:NULL];
+	NSAssert(signpostSamples.count <= 1, @"More than one signpost sample with identifier '%@' found", sampleIdentifier);
+	
+	return signpostSamples.firstObject;
+}
+
 #pragma mark DTXProfilerStoryDecoder
 
 - (void)willDecodeStoryEvent {}
@@ -258,6 +269,22 @@
 	}
 }
 
+- (void)markEvent:(NSDictionary *)signpostSample entityDescription:(NSEntityDescription *)entityDescription
+{
+	[self _addSample:signpostSample entityDescription:entityDescription];
+}
+
+- (void)markEventIntervalBegin:(NSDictionary *)signpostSample entityDescription:(NSEntityDescription *)entityDescription
+{
+	[self _addSample:signpostSample entityDescription:entityDescription];
+}
+
+- (void)markEventIntervalEnd:(NSDictionary *)signpostSample entityDescription:(NSEntityDescription *)entityDescription
+{
+	DTXSignpostSample* signpostSampleObj = [self _signpostSampleWithIdentifier:signpostSample[@"sampleIdentifier"]];
+	[signpostSampleObj updateWithPropertyListDictionaryRepresentation:signpostSample];
+}
+
 - (void)performBlock:(void (^)(void))block
 {
 	[_managedObjectContext performBlock:block];
@@ -268,6 +295,5 @@
 {
 	[_managedObjectContext performBlockAndWait:block];
 }
-
 
 @end

@@ -10,11 +10,11 @@
 
 @implementation DTXPlotRowView
 
-//- (void)drawSelectionInRect:(NSRect)dirtyRect
-//{
-//	[self.selectionColor setFill];
-//	[[NSBezierPath bezierPathWithRect:NSMakeRect(dirtyRect.origin.x, dirtyRect.origin.y, 209.5, dirtyRect.size.height)] fill];
-//}
+- (void)drawSelectionInRect:(NSRect)dirtyRect
+{
+	[self.selectionColor setFill];
+	[[NSBezierPath bezierPathWithRect:NSMakeRect(dirtyRect.origin.x, dirtyRect.origin.y, 209.5, dirtyRect.size.height)] fill];
+}
 
 - (void)awakeFromNib
 {

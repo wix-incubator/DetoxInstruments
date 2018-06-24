@@ -8,47 +8,56 @@
 
 #import "NSColor+UIAdditions.h"
 #import <LNInterpolation/LNInterpolation.h>
+#import "NSAppearance+UIAdditions.h"
+
+#define DTX_NAMED_COLOR_IMPL(NAME)	\
++ (NSColor*)NAME	\
+{	\
+	return [NSColor colorNamed:NSStringFromSelector(_cmd)];	\
+}
+
+@implementation NSColor (NamedColors)
+
+DTX_NAMED_COLOR_IMPL(cpuUsagePlotControllerColor)
+DTX_NAMED_COLOR_IMPL(memoryUsagePlotControllerColor)
+DTX_NAMED_COLOR_IMPL(fpsPlotControllerColor)
+DTX_NAMED_COLOR_IMPL(diskReadPlotControllerColor)
+DTX_NAMED_COLOR_IMPL(diskWritePlotControllerColor)
+DTX_NAMED_COLOR_IMPL(networkRequestsPlotControllerColor)
+DTX_NAMED_COLOR_IMPL(signpostPlotControllerColor)
+DTX_NAMED_COLOR_IMPL(warningColor)
+DTX_NAMED_COLOR_IMPL(warning2Color)
+DTX_NAMED_COLOR_IMPL(warning3Color)
+
++ (NSColor*)signpostPlotControllerColorForCategory:(DTXEventStatus)eventStatus
+{
+	switch (eventStatus) {
+		case DTXEventStatusCompleted:
+			return NSColor.signpostPlotControllerColor;
+			break;
+		case DTXEventStatusError:
+			return NSColor.warning3Color;
+			break;
+		default:
+			return [NSColor colorNamed:[NSString stringWithFormat:@"signpostPlotControllerColor_%@", @(eventStatus)]];
+			break;
+	}
+}
+
+@end
 
 @implementation NSColor (UIAdditions)
 
-+ (NSColor *)warningColor
+- (NSColor*)deeperColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier
 {
-	static NSColor* warningColor;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		warningColor = NSColor.systemYellowColor;
-	});
-	return warningColor;
+	NSColor* modifierColor = appearance.isDarkAppearance ? NSColor.whiteColor : NSColor.blackColor;
+	return [self interpolateToValue:modifierColor progress:modifier];
 }
 
-+ (NSColor *)warning2Color
+- (NSColor*)shallowerColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier
 {
-	static NSColor* warning2Color;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		warning2Color = NSColor.systemOrangeColor;
-	});
-	return warning2Color;
-}
-
-+ (NSColor *)warning3Color
-{
-	static NSColor* warning3Color;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		warning3Color = NSColor.systemRedColor;
-	});
-	return warning3Color;
-}
-
-- (NSColor *)darkerColor
-{
-	return [self interpolateToValue:NSColor.blackColor progress:0.3];
-}
-
-- (NSColor *)lighterColor
-{
-	return [self interpolateToValue:NSColor.whiteColor progress:0.15];
+	NSColor* modifierColor = appearance.isDarkAppearance ? NSColor.blackColor : NSColor.whiteColor;
+	return [self interpolateToValue:modifierColor progress:modifier];
 }
 
 + (NSColor*)randomColorWithSeed:(NSString*)seed;

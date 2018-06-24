@@ -23,6 +23,41 @@
 	return [DTXNetworkSample class];
 }
 
+- (NSString *)displayName
+{
+	return NSLocalizedString(@"Network Activity", @"");
+}
+
+- (NSString *)toolTip
+{
+	return NSLocalizedString(@"The Network Activity instrument captures information about the profiled app's network activity.", @"");
+}
+
+- (NSImage*)displayIcon
+{
+	return [NSImage imageNamed:@"NetworkActivity"];
+}
+
+- (NSArray<NSString*>*)sampleKeys
+{
+	return @[@"totalDataLength"];
+}
+
+- (NSArray<NSString*>*)plotTitles
+{
+	return @[NSLocalizedString(@"URL", @"")];
+}
+
+- (NSArray<NSColor*>*)plotColors
+{
+	return @[NSColor.networkRequestsPlotControllerColor];
+}
+
++ (NSFormatter*)formatterForDataPresentation
+{
+	return [NSFormatter dtx_memoryFormatter];
+}
+
 - (NSDate*)endTimestampForSample:(DTXNetworkSample*)sample
 {
 	return sample.responseTimestamp ?: self.document.recording.endTimestamp;
