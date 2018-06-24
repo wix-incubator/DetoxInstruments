@@ -17,6 +17,7 @@
 #import "DTXStackedPlotGroup.h"
 #import "DTXCPTScatterPlot.h"
 #import "DTXDetailController.h"
+#import "NSAppearance+UIAdditions.h"
 
 @interface DTXSamplePlotController () <CPTScatterPlotDelegate>
 
@@ -223,6 +224,95 @@
 	return yRange;
 }
 
+- (void)updateLayerHandler
+{
+	NSArray<NSColor*>* plotColors = self.plotColors;
+	
+	[self.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		// style plots
+		CPTMutableLineStyle *lineStyle = [((CPTScatterPlot*)obj).dataLineStyle mutableCopy];
+		lineStyle.lineWidth = 1.0;
+		
+		BOOL isDark = self.wrapperView.effectiveAppearance.isDarkAppearance;
+		
+		NSColor* lineColor;
+		
+		if(isDark)
+		{
+			lineColor = [plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.7];
+		}
+		else
+		{
+			lineColor = [plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
+		}
+		
+		lineStyle.lineColor = [CPTColor colorWithCGColor:lineColor.CGColor];
+		((CPTScatterPlot*)obj).dataLineStyle = lineStyle;
+		
+		NSColor* startColor;
+		NSColor* endColor;
+		
+		if(isDark)
+		{
+			endColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.1];//[plotColors[idx] colorWithAlphaComponent:0.5];
+			startColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] colorWithAlphaComponent:0.85];
+		}
+		else
+		{
+			startColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.5];
+			endColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.7];
+		}
+		
+		CPTGradient* gradient = [CPTGradient gradientWithBeginningColor:[CPTColor colorWithCGColor:startColor.CGColor] endingColor:[CPTColor colorWithCGColor:endColor.CGColor]];
+		gradient.gradientType = CPTGradientTypeAxial;
+		gradient.angle = 90;
+		
+		((CPTScatterPlot*)obj).areaFill = [CPTFill fillWithGradient:gradient];
+	}];
+	
+	[self _updateShadowLineColor];
+	[self _updateLineColor];
+	if(_rangeHighlightBand)
+	{
+		CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
+		[plot removeAreaFillBand:_rangeHighlightBand];
+
+		_rangeHighlightBand = [self _limitBandForRange:_rangeHighlightBand.range];
+
+		[plot addAreaFillBand:_rangeHighlightBand];
+	}
+	[_lineLayer setNeedsDisplay];
+}
+
+- (void)_updateShadowLineColor
+{
+	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
+	{
+		_shadowLineLayer.lineColor = NSColor.whiteColor;
+	}
+	else
+	{
+		_shadowLineLayer.lineColor = [([self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15]) colorWithAlphaComponent:0.5];
+	}
+}
+
+- (void)_updateLineColor
+{
+	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
+	{
+		_lineLayer.lineColor = NSColor.whiteColor;
+	}
+	else
+	{
+		_lineLayer.lineColor = self.plotColors.count > 1 ? NSColor.labelColor : [self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
+	}
+}
+
+- (CPTLimitBand*)_limitBandForRange:(CPTPlotRange *)newRange
+{
+	return [CPTLimitBand limitBandWithRange:newRange fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:[self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15].CGColor]]];
+}
+
 - (void)setupPlotsForGraph
 {
 	[self prepareSamples];
@@ -287,8 +377,11 @@
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
 		weakSelf.graph.backgroundColor = NSColor.controlColor.CGColor;
 		
+		[weakSelf updateLayerHandler];
+		
 		[weakSelf.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			obj.backgroundColor = NSColor.textBackgroundColor.CGColor;
+			[obj reloadData];
 		}];
 	};
 }
@@ -300,8 +393,6 @@
 		return _plots;
 	}
 	
-	NSArray<NSColor*>* plotColors = self.plotColors;
-	
 	NSMutableArray* rv = [NSMutableArray new];
 	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		// Create the plot
@@ -311,20 +402,6 @@
 		// set interpolation types
 		scatterPlot.interpolation = self.isStepped ? CPTScatterPlotInterpolationStepped : CPTScatterPlotInterpolationLinear;
 		
-		// style plots
-		CPTMutableLineStyle *lineStyle = [scatterPlot.dataLineStyle mutableCopy];
-		lineStyle.lineWidth = 1.0;
-		lineStyle.lineColor = [CPTColor colorWithCGColor:plotColors[idx].darkerColor.CGColor];
-		scatterPlot.dataLineStyle = lineStyle;
-
-		
-		NSColor* startColor = plotColors[idx].lighterColor.lighterColor.lighterColor;
-		NSColor* endColor = [startColor colorWithAlphaComponent:0.75];
-		CPTGradient* gradient = [CPTGradient gradientWithBeginningColor:[CPTColor colorWithCGColor:startColor.CGColor] endingColor:[CPTColor colorWithCGColor:endColor.CGColor]];
-		gradient.gradientType = CPTGradientTypeAxial;
-		gradient.angle = 90;
-
-		scatterPlot.areaFill = [CPTFill fillWithGradient:gradient];
 		if(self.sampleKeys.count == 2 && idx == 1)
 		{
 			scatterPlot.transform = CATransform3DMakeScale(1.0, -1.0, 1.0);
@@ -447,7 +524,7 @@
 	
 	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-	_shadowLineLayer.lineColor = [(self.plotColors.lastObject.darkerColor) colorWithAlphaComponent:0.25];
+	[self _updateShadowLineColor];
 	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
 	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
@@ -486,7 +563,7 @@
 	
 	_highlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 	_lineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-	_lineLayer.lineColor =  self.plotColors.count > 1 ? NSColor.blackColor : self.plotColors.firstObject.darkerColor.darkerColor;
+	[self _updateLineColor];
 	_highlightAnnotation.contentLayer = _lineLayer;
 	_highlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 	_highlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
@@ -538,7 +615,7 @@
 	
 	_highlightedRange = range;
 	
-	_rangeHighlightBand = [CPTLimitBand limitBandWithRange:range fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:self.plotColors.firstObject.darkerColor.CGColor]]];
+	_rangeHighlightBand = [self _limitBandForRange:range];
 	
 	[plot addAreaFillBand:_rangeHighlightBand];
 }

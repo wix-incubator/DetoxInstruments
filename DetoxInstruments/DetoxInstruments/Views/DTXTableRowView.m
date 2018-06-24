@@ -41,7 +41,7 @@
 	}
 	
 	
-	return NSAppearance.currentAppearance.isAppearanceDark ? NSColor.lightGrayColor : self.secondarySelectedControlColor;
+	return NSAppearance.currentAppearance.isDarkAppearance ? NSColor.lightGrayColor : self.secondarySelectedControlColor;
 }
 
 - (void)drawSelectionInRect:(NSRect)dirtyRect

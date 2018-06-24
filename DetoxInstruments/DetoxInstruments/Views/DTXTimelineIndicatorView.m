@@ -97,7 +97,7 @@
 	bp.lineWidth = 1.0;
 	[bp setLineDash:(CGFloat[]){3.,6.} count:2 phase:-1];
 	
-	[NSColor.textColor set];
+	[NSColor.labelColor set];
 	
 	[bp stroke];
 }

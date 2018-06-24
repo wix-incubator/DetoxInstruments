@@ -10,6 +10,6 @@
 
 @interface NSAppearance (UIAdditions)
 
-@property (nonatomic, readonly, getter=isAppearanceDark) BOOL appearanceDark;
+@property (nonatomic, readonly, getter=isDarkAppearance) BOOL darkAppearance;
 
 @end

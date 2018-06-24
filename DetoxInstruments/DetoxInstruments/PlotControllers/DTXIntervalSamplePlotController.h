@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate*)endTimestampForSample:(DTXSample*)sample;
 - (NSColor*)colorForSample:(DTXSample*)sample;
 + (Class)classForIntervalSamples;
+- (NSArray<NSSortDescriptor*>*)sortDescriptors;
 
 @end
 

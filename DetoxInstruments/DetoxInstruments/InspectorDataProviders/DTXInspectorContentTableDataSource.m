@@ -33,7 +33,7 @@
 
 + (instancetype)contentRowWithTitle:(NSString *)title description:(NSString *)description
 {
-	return [self contentRowWithTitle:title description:description color:NSColor.textColor];
+	return [self contentRowWithTitle:title description:description color:NSColor.labelColor];
 }
 
 + (instancetype)contentRowWithTitle:(NSString*)title description:(NSString*)description color:(NSColor*)color

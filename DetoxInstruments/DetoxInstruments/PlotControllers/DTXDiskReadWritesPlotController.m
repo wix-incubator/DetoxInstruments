@@ -39,7 +39,7 @@
 
 - (NSArray<NSColor*>*)plotColors
 {
-	return @[[NSColor.systemGreenColor colorWithAlphaComponent:1.0], [NSColor.systemRedColor colorWithAlphaComponent:1.0]];
+	return @[NSColor.diskReadPlotControllerColor, NSColor.diskWritePlotControllerColor];
 }
 
 - (NSArray<NSString*>*)plotTitles

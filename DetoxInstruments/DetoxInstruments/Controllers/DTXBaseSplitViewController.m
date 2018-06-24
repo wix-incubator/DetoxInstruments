@@ -46,11 +46,11 @@ IB_DESIGNABLE
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
-- (NSColor *)dividerColor
-{
-	const CGFloat grey = 188.0 / 255.0;
-	return [NSColor colorWithSRGBRed:grey green:grey blue:grey alpha:1.0];
-}
+//- (NSColor *)dividerColor
+//{
+//	const CGFloat grey = 188.0 / 255.0;
+//	return [NSColor colorWithSRGBRed:grey green:grey blue:grey alpha:1.0];
+//}
 
 @end
 
