@@ -184,7 +184,7 @@
 	[[NSURLCache sharedURLCache] setDiskCapacity:0];
 	[[NSURLCache sharedURLCache] setMemoryCapacity:0];
 	
-	DTXProfiler* __ = [NSClassFromString(@"DTXProfiler") new];
+	DTXProfiler* profiler = [NSClassFromString(@"DTXProfiler") new];
 	DTXMutableProfilingConfiguration* conf = [DTXMutableProfilingConfiguration defaultProfilingConfiguration];
 	conf.samplingInterval = 0.25;
 	conf.recordThreadInformation = YES;
@@ -197,15 +197,17 @@
 	conf.recordingFileURL = [[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSRCROOT"]] URLByAppendingPathComponent:@"../../Documentation/Example Recording/example.dtxprof"].URLByStandardizingPath;
 #endif
 	
-	[__ startProfilingWithConfiguration:conf];
-	
+	[profiler startProfilingWithConfiguration:conf];
 	
 	[self _peform:^{
+		NSString* startingTest = [profiler markEventIntervalBeginWithName:@"Starting Test" additionalInfo:nil];
+		
 		[self _slowMyBackgroundTapped:nil];
 		
 		NSTimeInterval timeline = 0;
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			NSString* slowBackground = [profiler markEventIntervalBeginWithName:@"Slow Background" additionalInfo:nil];
 			[self _slowMyBackgroundTapped:nil];
 			[self _slowMyBackgroundTapped:nil];
 			[self _slowMyBackgroundTapped:nil];
@@ -213,136 +215,177 @@
 			[self _slowMyBackgroundTapped:nil];
 			[self _slowMyBackgroundTapped:nil];
 			[self _slowMyBackgroundTapped:nil];
+			[profiler markEventIntervalEndWithIdentifier:slowBackground eventStatus:DTXEventStatusCategory1 additionalInfo:nil];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 4) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			NSString* slowForeground = [profiler markEventIntervalBeginWithName:@"Slow Foreground" additionalInfo:nil];
 			[self _slowMyDeviceTapped:nil];
+			[profiler markEventIntervalEndWithIdentifier:slowForeground eventStatus:DTXEventStatusCategory2 additionalInfo:nil];
 		});
 			
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 9.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				[self performSegueWithIdentifier:@"LNOpenWebView" sender:nil];
+			[profiler markEventWithWithName:@"Open Web View" eventStatus:DTXEventStatusCategory3 additionalInfo:nil];
+			[self performSegueWithIdentifier:@"LNOpenWebView" sender:nil];
 		});
 		
 		AppDelegate* ad = (id)UIApplication.sharedApplication.delegate;
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Load Google Images" eventStatus:DTXEventStatusCategory4 additionalInfo:nil];
 			[ad.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.google.com/search?tbm=isch&source=hp&biw=1445&bih=966&q=labrador+puppy&oq=doberman+puppy&gs_l=img.12...0.0.1.179.0.0.0.0.0.0.0.0..0.0....0...1..64.img..0.0.0.kg6uB2QOnS0"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0]];
 		});
 		
 		const NSTimeInterval scrollDelta = 1.0;
 		CGFloat scrollModifier = 2.0;
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 1.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Load NYTimes" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://nytimes.com"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Scroll Web" eventStatus:DTXEventStatusCategory5 additionalInfo:nil];
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventWithWithName:@"Close Web View" eventStatus:DTXEventStatusCategory3 additionalInfo:nil];
 			[[(UINavigationController*)self.presentedViewController topViewController] performSegueWithIdentifier:@"LNUnwindToMain" sender:nil];
 		});
 						
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			NSString* writeToDisk = [profiler markEventIntervalBeginWithName:@"Write to Disk" additionalInfo:nil];
 			[self _writeToDisk:nil];
 			[self _writeToDisk:nil];
+			[profiler markEventIntervalEndWithIdentifier:writeToDisk eventStatus:DTXEventStatusCategory4 additionalInfo:nil];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			NSString* writeToDisk = [profiler markEventIntervalBeginWithName:@"Write to Disk" additionalInfo:nil];
 			[self _writeToDisk:nil];
 			[self _writeToDisk:nil];
+			[profiler markEventIntervalEndWithIdentifier:writeToDisk eventStatus:DTXEventStatusCategory4 additionalInfo:nil];
 		});
 								
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			NSString* writeToDisk = [profiler markEventIntervalBeginWithName:@"Write to Disk" additionalInfo:nil];
 			[self _writeToDisk:nil];
 			[self _writeToDisk:nil];
 			[self _writeToDisk:nil];
+			[profiler markEventIntervalEndWithIdentifier:writeToDisk eventStatus:DTXEventStatusCategory4 additionalInfo:nil];
 		});
 									
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			NSString* writeToDisk = [profiler markEventIntervalBeginWithName:@"Write to Disk" additionalInfo:nil];
 			[self _writeToDisk:nil];
+			[profiler markEventIntervalEndWithIdentifier:writeToDisk eventStatus:DTXEventStatusCategory4 additionalInfo:nil];
 		});
-										
+		
+		__block NSString* networkRequests;
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			networkRequests = [profiler markEventIntervalBeginWithName:@"Network Requests" additionalInfo:nil];
 			[self startNetworkRequestsTapped:nil];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[profiler markEventIntervalEndWithIdentifier:networkRequests eventStatus:DTXEventStatusError additionalInfo:nil];
+			NSString* slowForeground = [profiler markEventIntervalBeginWithName:@"Slow Foreground" additionalInfo:nil];
 			[self _slowMyDeviceTapped:nil];
+			[profiler markEventIntervalEndWithIdentifier:slowForeground eventStatus:DTXEventStatusCategory2 additionalInfo:nil];
 		});
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 10.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			
 			[self.startDemoButton setTitle:@"Start Demo" forState:UIControlStateNormal];
 			[self.startDemoButton setEnabled:YES];
 			
-			[__ stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
+			[profiler markEventIntervalEndWithIdentifier:startingTest eventStatus:DTXEventStatusCompleted additionalInfo:nil];
+			
+			[profiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
 				NSLog(@"%@", conf.recordingFileURL);
 #if TARGET_OS_SIMULATOR
 				NSError* err;

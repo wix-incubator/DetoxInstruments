@@ -9,7 +9,6 @@
 #import "DTXPlotAreaContentController.h"
 #import "DTXPlotTableView.h"
 #import "DTXManagedPlotControllerGroup.h"
-
 #import "DTXAxisHeaderPlotController.h"
 #import "DTXCPUUsagePlotController.h"
 #import "DTXThreadCPUUsagePlotController.h"
@@ -20,12 +19,11 @@
 #import "DTXRNCPUUsagePlotController.h"
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
-
+#import "DTXSignpostPlotController.h"
 #import "DTXRecording+UIExtensions.h"
+#import "DTXSignpostSample+UIExtensions.h"
 
 #import "DTXLayerView.h"
-
-//#define DTX_LIVE_RESIZE_SNAPSHOTTING
 
 @interface DTXPlotAreaContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -36,12 +34,6 @@
 	DTXCPUUsagePlotController* _cpuPlotController;
 	NSMutableArray<DTXThreadInfo*>* _insertedCPUThreads;
 	NSFetchedResultsController* _threadsObserver;
-
-#ifdef DTX_LIVE_RESIZE_SNAPSHOTTING
-	BOOL _wasTableFirstResponder;
-//	NSImageView* _headerViewSnapshot;
-	NSView* _tableViewSnapshotWrapper;
-#endif
 }
 
 @end
@@ -69,116 +61,7 @@
 	});
 	
 	[_tableView.window makeFirstResponder:_tableView];
-	
-#ifdef DTX_LIVE_RESIZE_SNAPSHOTTING
-	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_windowWillStartLiveResize) name:NSWindowWillStartLiveResizeNotification object:self.view.window];
-	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_windowDidEndLiveResize) name:NSWindowDidEndLiveResizeNotification object:self.view.window];
-#endif
 }
-
-- (void)viewWillDisappear
-{
-	[super viewWillDisappear];
-	
-#ifdef DTX_LIVE_RESIZE_SNAPSHOTTING
-	[NSNotificationCenter.defaultCenter removeObserver:self name:NSWindowWillStartLiveResizeNotification object:self.view.window];
-	[NSNotificationCenter.defaultCenter removeObserver:self name:NSWindowDidEndLiveResizeNotification object:self.view.window];
-#endif
-}
-
-
-#ifdef DTX_LIVE_RESIZE_SNAPSHOTTING
-- (void)_windowWillStartLiveResize
-{
-	_wasTableFirstResponder = self.view.window.firstResponder == _tableView;
-	
-//	NSBitmapImageRep* headerRep = [_headerView bitmapImageRepForCachingDisplayInRect:_headerView.visibleRect];
-//	[_headerView cacheDisplayInRect:_headerView.visibleRect toBitmapImageRep:headerRep];
-//
-//	NSImage* headerImage = [[NSImage alloc] initWithSize:_headerView.bounds.size];
-//	headerImage.capInsets = NSEdgeInsetsMake(0, 209.5, 0, 0);
-//	[headerImage addRepresentation:headerRep];
-//
-//	_headerViewSnapshot = [[NSImageView alloc] initWithFrame:_headerView.frame];
-//	_headerViewSnapshot.translatesAutoresizingMaskIntoConstraints = NO;
-//	_headerViewSnapshot.imageScaling = NSImageScaleAxesIndependently;
-//	_headerViewSnapshot.image = headerImage;
-//	[_headerViewSnapshot setContentHuggingPriority:1 forOrientation:NSLayoutConstraintOrientationHorizontal];
-//	[_headerViewSnapshot setContentCompressionResistancePriority:1 forOrientation:NSLayoutConstraintOrientationHorizontal];
-	
-	NSBitmapImageRep* tableRep = [_tableView bitmapImageRepForCachingDisplayInRect:_tableView.bounds];
-	[_tableView cacheDisplayInRect:_tableView.bounds toBitmapImageRep:tableRep];
-	
-	NSImage* tableImage = [[NSImage alloc] initWithSize:_tableView.bounds.size];
-	tableImage.capInsets = NSEdgeInsetsMake(0, 209.5, 0, 0);
-	[tableImage addRepresentation:tableRep];
-	
-	NSImageView* tableViewSnapshot = [[NSImageView alloc] initWithFrame:_tableView.bounds];
-	tableViewSnapshot.translatesAutoresizingMaskIntoConstraints = NO;
-	tableViewSnapshot.imageScaling = NSImageScaleAxesIndependently;
-	tableViewSnapshot.image = tableImage;
-	[tableViewSnapshot setContentHuggingPriority:1 forOrientation:NSLayoutConstraintOrientationHorizontal];
-	[tableViewSnapshot setContentCompressionResistancePriority:1 forOrientation:NSLayoutConstraintOrientationHorizontal];
-	[tableViewSnapshot setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
-	[tableViewSnapshot setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
-	
-	_tableViewSnapshotWrapper = [NSView new];
-	_tableViewSnapshotWrapper.translatesAutoresizingMaskIntoConstraints = NO;
-	[_tableViewSnapshotWrapper addSubview:tableViewSnapshot];
-	
-//	[_headerView removeFromSuperview];
-	[_tableView.enclosingScrollView removeFromSuperview];
-	
-//	[self.view addSubview:_headerViewSnapshot];
-	[self.view addSubview:_tableViewSnapshotWrapper];
-	
-	[NSLayoutConstraint activateConstraints:@[
-//											  [_headerViewSnapshot.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-//											  [_headerViewSnapshot.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-//											  [_headerViewSnapshot.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-//											  [_headerViewSnapshot.heightAnchor constraintEqualToConstant:_headerView.bounds.size.height],
-											  
-											  [_tableViewSnapshotWrapper.topAnchor constraintEqualToAnchor:tableViewSnapshot.topAnchor constant:_tableView.enclosingScrollView.contentView.bounds.origin.y],
-											  [_tableViewSnapshotWrapper.leadingAnchor constraintEqualToAnchor:tableViewSnapshot.leadingAnchor],
-											  [_tableViewSnapshotWrapper.trailingAnchor constraintEqualToAnchor:tableViewSnapshot.trailingAnchor],
-
-											  [_tableViewSnapshotWrapper.topAnchor constraintEqualToAnchor:_headerView.bottomAnchor],
-											  [_tableViewSnapshotWrapper.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-											  [_tableViewSnapshotWrapper.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-											  [_tableViewSnapshotWrapper.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
-											  ]];
-}
-
-- (void)_windowDidEndLiveResize
-{
-//	[_headerViewSnapshot removeFromSuperview];
-//	_headerViewSnapshot = nil;
-	
-	[_tableViewSnapshotWrapper removeFromSuperview];
-	_tableViewSnapshotWrapper = nil;
-	
-	[self.view addSubview:_headerView];
-	[self.view addSubview:_tableView.enclosingScrollView];
-	
-	[NSLayoutConstraint activateConstraints:@[
-											  [_headerView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-											  [_headerView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-											  [_headerView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-											  
-											  [_tableView.enclosingScrollView.topAnchor constraintEqualToAnchor:_headerView.bottomAnchor],
-											  [_tableView.enclosingScrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-											  [_tableView.enclosingScrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-											  [_tableView.enclosingScrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
-											  ]];
-	
-	[_tableView setNeedsDisplay];
-	
-	if(_wasTableFirstResponder)
-	{
-		[self.view.window makeFirstResponder:_tableView];
-	}
-}
-#endif
 
 - (void)setDocument:(DTXRecordingDocument *)document
 {
@@ -239,7 +122,29 @@
 	_tableView.intercellSpacing = NSMakeSize(0, 1);
 	
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document];
-	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 209.5, 0, 0)];
+	
+	if (@available(macOS 10.14, *))
+	{
+		NSVisualEffectView* box = [NSVisualEffectView new];
+		box.translatesAutoresizingMaskIntoConstraints = NO;
+		box.material = NSVisualEffectMaterialContentBackground;
+
+		[_headerView addSubview:box];
+
+		[NSLayoutConstraint activateConstraints:@[
+												  [_headerView.topAnchor constraintEqualToAnchor:box.topAnchor],
+												  [_headerView.bottomAnchor constraintEqualToAnchor:box.bottomAnchor constant:1],
+												  [_headerView.leftAnchor constraintEqualToAnchor:box.leftAnchor],
+												  [_headerView.rightAnchor constraintEqualToAnchor:box.rightAnchor],
+												  ]];
+
+		[headerPlotController setUpWithView:box insets:NSEdgeInsetsMake(0, 209.5, 0, 0)];
+	}
+	else
+	{
+		[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 209.5, 0, 0)];
+	}
+	
 	[_plotGroup addHeaderPlotController:headerPlotController];
 	
 	_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document];
@@ -267,6 +172,11 @@
 	if((self.document.recording.dtx_profilingConfiguration == nil || self.document.recording.dtx_profilingConfiguration.recordNetwork == YES))
 	{
 		[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.document]];
+	}
+	
+	if([DTXSignpostSample hasSignpostSamplesForManagedObjectContext:self.document.recording.managedObjectContext])
+	{
+		[_plotGroup addPlotController:[[DTXSignpostPlotController alloc] initWithDocument:self.document]];
 	}
 	
 	if(self.document.recording.hasReactNative && self.document.recording.dtx_profilingConfiguration.profileReactNative)

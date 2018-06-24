@@ -99,6 +99,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	_managedOutlineView = outlineView;
 	
+	if(_managedOutlineView == nil)
+	{
+		return;
+	}
+	
 	_columns = self.columns;
 	
 	[_columns enumerateObjectsUsingBlock:^(DTXColumnInformation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

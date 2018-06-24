@@ -216,4 +216,29 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[tag.managedObjectContext save:NULL];
 }
 
+- (void)markEventIntervalBegin:(DTXSignpostSample *)signpostSample
+{
+	[self _serializeCommandWithSelector:_cmd managedObject:signpostSample additionalParams:nil];
+}
+
+- (void)markEventIntervalEnd:(DTXSignpostSample *)signpostSample
+{
+	NSMutableDictionary* dict = [signpostSample.dictionaryRepresentationOfChangedValuesForPropertyList mutableCopy];
+	dict[@"sampleIdentifier"] = signpostSample.sampleIdentifier;
+	
+	[self _serializeCommandWithSelector:_cmd entityName:signpostSample.entity.name dict:dict additionalParams:nil];
+	
+	[signpostSample.managedObjectContext deleteObject:signpostSample];
+	[signpostSample.managedObjectContext save:NULL];
+}
+
+- (void)markEvent:(DTXSignpostSample *)signpostSample
+{
+	[self _serializeCommandWithSelector:_cmd managedObject:signpostSample additionalParams:nil];
+	
+	[signpostSample.managedObjectContext deleteObject:signpostSample];
+	[signpostSample.managedObjectContext save:NULL];
+}
+
 @end
+

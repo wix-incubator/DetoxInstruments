@@ -715,7 +715,7 @@
 		39D40BF01ED5ABD200157C04 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
 					3922F8231F4484DA00F10055 = {
@@ -781,7 +781,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "shortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\n\necho \"@\\\"${shortVersion}\\\"\" > DTXProfiler/Version.h\n\nif [ \"${CONFIGURATION}\" = \"Release_External\" ]; then\nexit 0\nfi\n\n#Xcode calls this script twice for each SDK (iphoneos & iphonesimulatoros)\nif [ \"${SDK_NAME}\" = \"iphoneos11.2\" ]; then\nexit 0\nfi\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"";
+			shellScript = "shortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\n\necho \"@\\\"${shortVersion}\\\"\" > DTXProfiler/Version.h\n\nif [ \"${CONFIGURATION}\" = \"Release_External\" ]; then\nexit 0\nfi\n\n#Xcode calls this script twice for each SDK (iphoneos & iphonesimulatoros)\nif [ \"${SDK_NAME}\" = \"iphoneos11.2\" ]; then\nexit 0\nfi\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -889,6 +889,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -976,6 +977,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1035,6 +1037,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

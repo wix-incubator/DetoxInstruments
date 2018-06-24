@@ -55,7 +55,7 @@
 	return [NSPredicate predicateWithFormat:@"threadInfo == %@", _threadInfo];
 }
 
-- (Class)classForPerformanceSamples
++ (Class)classForPerformanceSamples
 {
 	return [DTXThreadPerformanceSample class];
 }

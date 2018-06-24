@@ -8,6 +8,29 @@
 
 @class NSEntityDescription;
 
+#ifndef DTX_EVENT_STATUS_ENUM
+#define DTX_EVENT_STATUS_ENUM
+
+typedef enum : NSUInteger {
+	DTXEventStatusCompleted,
+	DTXEventStatusError,
+	
+	DTXEventStatusCategory1,
+	DTXEventStatusCategory2,
+	DTXEventStatusCategory3,
+	DTXEventStatusCategory4,
+	DTXEventStatusCategory5,
+	DTXEventStatusCategory6,
+	DTXEventStatusCategory7,
+	DTXEventStatusCategory8,
+	DTXEventStatusCategory9,
+	DTXEventStatusCategory10,
+	DTXEventStatusCategory11,
+	DTXEventStatusCategory12,
+} DTXEventStatus;
+
+#endif
+
 typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypePing,
 	DTXRemoteProfilingCommandTypeGetDeviceInfo,
@@ -44,6 +67,7 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 
 @class DTXRecording, DTXSampleGroup, DTXPerformanceSample, DTXAdvancedPerformanceSample;
 @class DTXThreadInfo, DTXReactNativePeroformanceSample, DTXNetworkSample, DTXLogSample, DTXTag;
+@class DTXSignpostSample;
 
 @protocol DTXProfilerStoryListener <NSObject>
 
@@ -58,6 +82,9 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 - (void)finishWithResponseForNetworkSample:(DTXNetworkSample*)networkSample;
 - (void)addLogSample:(DTXLogSample*)logSample;
 - (void)addTagSample:(DTXTag*)tag;
+- (void)markEventIntervalBegin:(DTXSignpostSample*)signpostSample;
+- (void)markEventIntervalEnd:(DTXSignpostSample*)signpostSample;
+- (void)markEvent:(DTXSignpostSample*)signpostSample;
 
 @end
 
@@ -82,5 +109,9 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 - (void)finishWithResponseForNetworkSample:(NSDictionary*)networkSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)addLogSample:(NSDictionary*)logSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)addTagSample:(NSDictionary*)tag entityDescription:(NSEntityDescription*)entityDescription;
+- (void)markEventIntervalBegin:(NSDictionary*)signpostSample entityDescription:(NSEntityDescription*)entityDescription;
+- (void)markEventIntervalEnd:(NSDictionary*)signpostSample entityDescription:(NSEntityDescription*)entityDescription;
+- (void)markEvent:(NSDictionary*)signpostSample entityDescription:(NSEntityDescription*)entityDescription;
+
 
 @end

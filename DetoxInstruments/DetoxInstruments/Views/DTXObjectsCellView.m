@@ -77,10 +77,10 @@ static id __keyForObject(id obj)
 	
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		numberColor = [NSColor colorWithRed:0.00 green:0.00 blue:0.80 alpha:1.0];
-		keyColor = [NSColor colorWithRed:0.60 green:0.00 blue:0.60 alpha:1.0];
-		stringColor = [NSColor colorWithRed:0.60 green:0.00 blue:0.00 alpha:1.0];
-		typeColor = [NSColor textColor];
+		numberColor = [NSColor labelColor];
+		keyColor = [NSColor labelColor];
+		stringColor = [NSColor labelColor];
+		typeColor = [NSColor labelColor];
 	});
 	
 	NSMutableAttributedString* attrTitle = [NSMutableAttributedString new];
