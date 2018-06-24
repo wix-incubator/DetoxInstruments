@@ -375,12 +375,12 @@
 	
 	__weak auto weakSelf = self;
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
-		weakSelf.graph.backgroundColor = NSColor.controlColor.CGColor;
+		weakSelf.graph.backgroundColor = NSColor.clearColor.CGColor;
 		
 		[weakSelf updateLayerHandler];
 		
 		[weakSelf.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			obj.backgroundColor = NSColor.textBackgroundColor.CGColor;
+			obj.backgroundColor = NSColor.clearColor.CGColor;
 			[obj reloadData];
 		}];
 	};
