@@ -15,6 +15,7 @@
 #import "DTXInstrumentsModel.h"
 #import "DTXInspectorDataProvider.h"
 #import "DTXPlotController.h"
+#import "DTXSampleContainerProxy.h"
 
 @protocol DTXPlotController;
 
@@ -71,10 +72,12 @@
 @property (nonatomic, strong, readonly) NSArray<NSString*>* filteredAttributes;
 @property (nonatomic, readonly) BOOL showsHeaderView;
 @property (nonatomic, strong, readonly) NSArray<DTXColumnInformation*>* columns;
+@property (nonatomic, readonly) BOOL showsTimestampColumn;
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 - (NSColor*)textColorForItem:(id)item;
 - (NSColor*)backgroundRowColorForItem:(id)item;
+- (DTXSampleContainerProxy*)rootSampleContainerProxy;
 
 - (void)selectSample:(DTXSample*)sample;
 

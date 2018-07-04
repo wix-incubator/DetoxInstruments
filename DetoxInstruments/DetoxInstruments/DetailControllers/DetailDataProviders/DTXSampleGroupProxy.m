@@ -8,27 +8,17 @@
 
 #import "DTXSampleGroupProxy.h"
 #import "DTXSampleGroup+UIExtensions.h"
-#import "NSView+UIAdditions.h"
 
-@interface DTXSampleGroupProxy () <NSFetchedResultsControllerDelegate>
+@interface DTXSampleGroupProxy ()
+{
+	NSMapTable<DTXSampleGroup*, DTXSampleGroupProxy*>* _groupToProxyMapping;
+}
 
 @end
 
 @implementation DTXSampleGroupProxy
-{
-	NSFetchedResultsController* _frc;
-	__weak NSOutlineView* _outlineView;
-	NSArray<NSNumber*>* _sampleTypes;
-	BOOL _isRoot;
-	
-	BOOL _updatesExperiencedErrors;
-	
-	NSMapTable<DTXSampleGroup*, DTXSampleGroupProxy*>* _groupToProxyMapping;
-	NSMutableArray* _updates;
-	NSMutableArray* _inserts;
-}
 
-- (id)_objForObj:(id)sample sampleTypes:(NSArray<NSNumber*>*)sampleTypes outlineView:(NSOutlineView*)outlineView
+- (id)objectForSample:(id)sample
 {
 	if([sample isKindOfClass:[DTXSampleGroup class]])
 	{
@@ -38,7 +28,7 @@
 		
 		if(groupProxy == nil)
 		{
-			groupProxy = [[DTXSampleGroupProxy alloc] initWithSampleGroup:sampleGroup sampleTypes:sampleTypes isRoot:NO outlineView:outlineView];
+			groupProxy = [[DTXSampleGroupProxy alloc] initWithSampleGroup:sampleGroup sampleTypes:self.sampleTypes isRoot:NO outlineView:self.outlineView];
 			groupProxy.name = sampleGroup.name;
 			groupProxy.timestamp = sampleGroup.timestamp;
 			groupProxy.closeTimestamp = sampleGroup.closeTimestamp;
@@ -60,118 +50,32 @@
 
 - (instancetype)initWithSampleGroup:(DTXSampleGroup*)sampleGroup sampleTypes:(NSArray<NSNumber*>*)sampleTypes isRoot:(BOOL)isRoot outlineView:(NSOutlineView*)outlineView;
 {
-	self = [super init];
+	self = [super initWithOutlineView:outlineView isRoot:isRoot managedObjectContext:sampleGroup.managedObjectContext];
 	if(self)
 	{
-		_groupToProxyMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
-		_outlineView = outlineView;
 		_sampleTypes = sampleTypes;
-		_isRoot = isRoot;
-		
-		NSFetchRequest* fr = [sampleGroup fetchRequestForSamplesWithTypes:sampleTypes includingGroups:YES];
-		NSManagedObjectContext* ctx = sampleGroup.managedObjectContext;
-		
-		if(fr == nil || ctx == nil)
-		{
-			return nil;
-		}
-		
-		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:ctx sectionNameKeyPath:nil cacheName:nil];
-		_frc.delegate = self;
-		[_frc performFetch:NULL];
+		_sampleGroup = sampleGroup;
+		_groupToProxyMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 	}
 	return self;
 }
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+- (NSFetchRequest *)fetchRequest
 {
-	_updates = [NSMutableArray new];
-	_inserts = [NSMutableArray new];
+	NSFetchRequest* fr = [_sampleGroup fetchRequestForSamplesWithTypes:_sampleTypes includingGroups:YES];
+	NSManagedObjectContext* ctx = _sampleGroup.managedObjectContext;
 	
-	_updatesExperiencedErrors = NO;
-	
-	[_outlineView beginUpdates];
+	return fr;
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+- (BOOL)isObjectIgnoredForUpdates:(id)object
 {
-	if(type == NSFetchedResultsChangeUpdate && [anObject isKindOfClass:[DTXSampleGroup class]] == NO)
-	{
-		[_updates addObject:@{@"anObject": anObject, @"indexPath": indexPath}];
-	}
-	
-	if(type == NSFetchedResultsChangeInsert)
-	{
-		[_inserts addObject:@{@"anObject": anObject, @"indexPath": newIndexPath}];
-	}
+	return [object isKindOfClass:[DTXSampleGroup class]];
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+- (BOOL)wantsStandardGroupDisplay
 {
-	NSRect documentVisibleRect = _outlineView.enclosingScrollView.contentView.documentVisibleRect;
-	CGFloat scrollPoint = NSMaxY(documentVisibleRect);
-	
-	BOOL shouldScroll = /*_document.documentState = DTXRecordingDocumentStateLiveRecording &&*/ scrollPoint >= NSHeight(_outlineView.bounds);
-	
-	NSMutableArray* toExpand = [NSMutableArray new];
-	
-	@try
-	{
-		[_inserts sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"indexPath" ascending:YES]]];
-		
-		[_inserts enumerateObjectsUsingBlock:^(NSDictionary* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			id anObject = obj[@"anObject"];
-			NSIndexPath* newIndexPath = obj[@"indexPath"];
-			
-			[_outlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:newIndexPath.item] inParent:_isRoot ? nil : self withAnimation:NSTableViewAnimationEffectNone];
-			
-			if([anObject isKindOfClass:[DTXSampleGroup class]])
-			{
-				[toExpand addObject:anObject];
-			}
-		}];
-		
-		[_updates enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSIndexPath* indexPath = obj[@"indexPath"];
-			
-			[_outlineView reloadItem:[self sampleAtIndex:indexPath.item]];
-		}];
-		
-		[_outlineView endUpdates];
-		
-		[_outlineView expandItem:self expandChildren:NO];
-	}
-	@catch(NSException* e)
-	{
-		_updatesExperiencedErrors = YES;
-	}
-	
-	if(_updatesExperiencedErrors)
-	{
-		[_outlineView reloadItem:_isRoot ? nil : self reloadChildren:YES];
-	}
-	
-	if(shouldScroll)
-	{
-		[_outlineView scrollToBottom];
-	}
-}
-
-- (NSUInteger)samplesCount
-{
-	return _frc.fetchedObjects.count;
-}
-
-- (id)sampleAtIndex:(NSUInteger)index
-{
-	if(index >= _frc.fetchedObjects.count)
-	{
-		return nil;
-	}
-	
-	id obj = [_frc objectAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
-	
-	return [self _objForObj:obj sampleTypes:_sampleTypes outlineView:_outlineView];
+	return YES;
 }
 
 @end

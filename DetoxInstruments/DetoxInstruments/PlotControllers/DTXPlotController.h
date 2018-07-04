@@ -20,6 +20,7 @@
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc;
 - (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc;
 - (void)plotController:(id<DTXPlotController>)pc didHighlightAtSampleTime:(NSTimeInterval)sampleTime;
+- (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(CPTPlotRange*)highlightRange;
 
 @end
 
@@ -67,6 +68,7 @@
 - (void)highlightSample:(id)sample;
 - (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime;
 - (void)highlightRange:(CPTPlotRange*)range;
+- (void)shadowHighlightRange:(CPTPlotRange*)range;
 - (void)removeHighlight;
 
 @property (nonatomic, assign, readonly) BOOL canReceiveFocus;

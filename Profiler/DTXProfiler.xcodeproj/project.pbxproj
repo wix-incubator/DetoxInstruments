@@ -110,6 +110,9 @@
 		39C713411EFFD6FF00C827EB /* DTXReactNativeSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C7133F1EFFD6FF00C827EB /* DTXReactNativeSampler.m */; };
 		39C713451EFFDB2500C827EB /* DTXPollingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713431EFFDB2500C827EB /* DTXPollingManager.h */; };
 		39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713441EFFDB2500C827EB /* DTXPollingManager.m */; };
+		39D10D3320E38ED200320742 /* DTXEventStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D10D3220E38E5D00320742 /* DTXEventStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		39D10D7520E3A67A00320742 /* DTXReactNativeEventsRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D10D7320E3A67A00320742 /* DTXReactNativeEventsRecorder.h */; };
+		39D10D7620E3A67A00320742 /* DTXReactNativeEventsRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D10D7420E3A67A00320742 /* DTXReactNativeEventsRecorder.m */; };
 		39D205501F03057200830A0D /* DTXLoggingRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D2054E1F03057200830A0D /* DTXLoggingRecorder.h */; };
 		39D205511F03057200830A0D /* DTXLoggingRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D2054F1F03057200830A0D /* DTXLoggingRecorder.m */; };
 		39D40C0E1ED5B43700157C04 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C051ED5B43700157C04 /* DTXInstruments.xcdatamodeld */; };
@@ -254,6 +257,9 @@
 		39C713431EFFDB2500C827EB /* DTXPollingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPollingManager.h; sourceTree = "<group>"; };
 		39C713441EFFDB2500C827EB /* DTXPollingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPollingManager.m; sourceTree = "<group>"; };
 		39C713471EFFDBC000C827EB /* DTXPollable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPollable.h; sourceTree = "<group>"; };
+		39D10D3220E38E5D00320742 /* DTXEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventStatus.h; sourceTree = "<group>"; };
+		39D10D7320E3A67A00320742 /* DTXReactNativeEventsRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXReactNativeEventsRecorder.h; sourceTree = "<group>"; };
+		39D10D7420E3A67A00320742 /* DTXReactNativeEventsRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXReactNativeEventsRecorder.m; sourceTree = "<group>"; };
 		39D2054E1F03057200830A0D /* DTXLoggingRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLoggingRecorder.h; sourceTree = "<group>"; };
 		39D2054F1F03057200830A0D /* DTXLoggingRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLoggingRecorder.m; sourceTree = "<group>"; };
 		39D40BF91ED5ABD200157C04 /* DTXProfiler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DTXProfiler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -528,6 +534,8 @@
 				39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */,
 				39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */,
 				39C7133F1EFFD6FF00C827EB /* DTXReactNativeSampler.m */,
+				39D10D7320E3A67A00320742 /* DTXReactNativeEventsRecorder.h */,
+				39D10D7420E3A67A00320742 /* DTXReactNativeEventsRecorder.m */,
 			);
 			path = ReactNativeProfiling;
 			sourceTree = "<group>";
@@ -583,6 +591,7 @@
 				39D2054D1F03054000830A0D /* LogRecording */,
 				39557CD51F1F7E1300FF3187 /* RemoteProfiler */,
 				396EE2BE20ADAD32006C4C55 /* ViewHierarchy */,
+				39D10D3220E38E5D00320742 /* DTXEventStatus.h */,
 				39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */,
 				39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */,
 				39D40C161ED5B43F00157C04 /* DTXProfiler.h */,
@@ -628,6 +637,7 @@
 			files = (
 				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
 				39BEE196207A4778003AF93E /* ioapi_mem.h in Headers */,
+				39D10D3320E38ED200320742 /* DTXEventStatus.h in Headers */,
 				393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */,
 				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
 				399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */,
@@ -659,6 +669,7 @@
 				39281E821ED70A77002CE905 /* DTXZipper.h in Headers */,
 				39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */,
 				394A09651F012F8D0030BDB4 /* fishhook.h in Headers */,
+				39D10D7520E3A67A00320742 /* DTXReactNativeEventsRecorder.h in Headers */,
 				39BEE19F207A4778003AF93E /* prng.h in Headers */,
 				396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */,
 				39BEE1AC207A4778003AF93E /* brg_endian.h in Headers */,
@@ -800,6 +811,7 @@
 				3922AE041F2B9B9B0034B1FE /* _DTXBasicSourceMapsConsumer.m in Sources */,
 				39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */,
 				39BEE19B207A4778003AF93E /* ioapi_mem.c in Sources */,
+				39D10D7620E3A67A00320742 /* DTXReactNativeEventsRecorder.m in Sources */,
 				39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */,
 				396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */,
 				39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */,

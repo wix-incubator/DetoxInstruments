@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import <DTXProfiler/DTXProfiler.h>
 
+DTXProfiler* __profiler;
+
 @interface AppDelegate ()
 {
 	dispatch_source_t _consoleLogDemoTimerSource;

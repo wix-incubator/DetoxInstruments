@@ -16,4 +16,29 @@
 	return [managedObjectContext countForFetchRequest:fr error:NULL] > 0;
 }
 
+- (NSUInteger)count
+{
+	return 1;
+}
+
+- (NSTimeInterval)minDuration
+{
+	return self.duration;
+}
+
+- (NSTimeInterval)avgDuration
+{
+	return self.duration;
+}
+
+- (NSTimeInterval)maxDuration
+{
+	return self.duration;
+}
+
+- (NSTimeInterval)stddevDuration
+{
+	return self.duration;
+}
+
 @end

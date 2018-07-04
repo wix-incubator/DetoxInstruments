@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 @import WebKit;
+#import <os/signpost.h>
+
+@class DTXProfiler;
+
+extern DTXProfiler* __profiler;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
