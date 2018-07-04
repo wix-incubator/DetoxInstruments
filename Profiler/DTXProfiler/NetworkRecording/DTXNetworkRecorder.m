@@ -15,9 +15,8 @@
 
 @end
 
-static NSMutableArray<id<DTXNetworkListener>>* __networkListeners;
+static NSMutableArray<id<DTXNetworkProfilingListener>>* __networkListeners;
 static dispatch_queue_t __networkListenersQueue;
-
 
 
 @implementation DTXNetworkRecorder
@@ -43,7 +42,7 @@ static dispatch_queue_t __networkListenersQueue;
 	return rv;
 }
 
-+ (void)addNetworkListener:(id<DTXNetworkListener>)listener
++ (void)addNetworkListener:(id<DTXNetworkProfilingListener>)listener
 {
 	dispatch_sync(__networkListenersQueue, ^{
 		[__networkListeners addObject:listener];
@@ -56,7 +55,7 @@ static dispatch_queue_t __networkListenersQueue;
 	});
 }
 
-+ (void)removeNetworkListener:(id<DTXNetworkListener>)listener
++ (void)removeNetworkListener:(id<DTXNetworkProfilingListener>)listener
 {
 	dispatch_sync(__networkListenersQueue, ^{
 		[__networkListeners removeObject:listener];
@@ -73,8 +72,8 @@ static dispatch_queue_t __networkListenersQueue;
 
 + (void)urlProtocol:(NSURLProtocol*)protocol didStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier
 {
-	dispatch_sync(__networkListenersQueue, ^{
-		[__networkListeners enumerateObjectsUsingBlock:^(id<DTXNetworkListener>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	dispatch_async(__networkListenersQueue, ^{
+		[__networkListeners enumerateObjectsUsingBlock:^(id<DTXNetworkProfilingListener>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			[obj networkRecorderDidStartRequest:request uniqueIdentifier:uniqueIdentifier];
 		}];
 	});
@@ -82,8 +81,8 @@ static dispatch_queue_t __networkListenersQueue;
 
 + (void)urlProtocol:(NSURLProtocol*)protocol didFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier
 {
-	dispatch_sync(__networkListenersQueue, ^{
-		[__networkListeners enumerateObjectsUsingBlock:^(id<DTXNetworkListener>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	dispatch_async(__networkListenersQueue, ^{
+		[__networkListeners enumerateObjectsUsingBlock:^(id<DTXNetworkProfilingListener>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			[obj netwrokRecorderDidFinishWithResponse:response data:data error:error forRequestWithUniqueIdentifier:uniqueIdentifier];
 		}];
 	});

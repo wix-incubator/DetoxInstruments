@@ -251,23 +251,27 @@
 		
 		NSColor* startColor;
 		NSColor* endColor;
+		CPTFill* fill;
 		
 		if(isDark)
 		{
-			endColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.1];//[plotColors[idx] colorWithAlphaComponent:0.5];
-			startColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] colorWithAlphaComponent:0.85];
+			endColor = [self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.1];//[plotColors[idx] colorWithAlphaComponent:0.5];
+			startColor = [self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] colorWithAlphaComponent:0.85];
+			fill = [CPTFill fillWithColor:[CPTColor colorWithCGColor:startColor.CGColor]];
 		}
 		else
 		{
 			startColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.5];
 			endColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.7];
+			
+			CPTGradient* gradient = [CPTGradient gradientWithBeginningColor:[CPTColor colorWithCGColor:startColor.CGColor] endingColor:[CPTColor colorWithCGColor:endColor.CGColor]];
+			gradient.gradientType = CPTGradientTypeAxial;
+			gradient.angle = 90;
+			
+			fill = [CPTFill fillWithGradient:gradient];
 		}
 		
-		CPTGradient* gradient = [CPTGradient gradientWithBeginningColor:[CPTColor colorWithCGColor:startColor.CGColor] endingColor:[CPTColor colorWithCGColor:endColor.CGColor]];
-		gradient.gradientType = CPTGradientTypeAxial;
-		gradient.angle = 90;
-		
-		((CPTScatterPlot*)obj).areaFill = [CPTFill fillWithGradient:gradient];
+		((CPTScatterPlot*)obj).areaFill = fill;
 	}];
 	
 	[self _updateShadowLineColor];
@@ -277,7 +281,7 @@
 		CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
 		[plot removeAreaFillBand:_rangeHighlightBand];
 
-		_rangeHighlightBand = [self _limitBandForRange:_rangeHighlightBand.range];
+		_rangeHighlightBand = [self _highlightBandForRange:_rangeHighlightBand.range];
 
 		[plot addAreaFillBand:_rangeHighlightBand];
 	}
@@ -308,9 +312,9 @@
 	}
 }
 
-- (CPTLimitBand*)_limitBandForRange:(CPTPlotRange *)newRange
+- (CPTLimitBand*)_highlightBandForRange:(CPTPlotRange *)newRange
 {
-	return [CPTLimitBand limitBandWithRange:newRange fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:[self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15].CGColor]]];
+	return [CPTLimitBand limitBandWithRange:newRange fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:[self.plotColors.lastObject shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.35].CGColor]]];
 }
 
 - (void)setupPlotsForGraph
@@ -546,7 +550,7 @@
 	
 	[self _highlightSampleIndex:sampleIdx nextSampleIndex:nextSampleIdx sampleTime:sampleTime percect:percent makeVisible:YES];
 	
-	if(notify == YES && [self.delegate respondsToSelector:@selector(plotController:didHighlightAtSampleTime:)])
+	if(notify == YES)
 	{
 		[self.delegate plotController:self didHighlightAtSampleTime:sampleTime];
 	}
@@ -609,15 +613,30 @@
 
 - (void)highlightRange:(CPTPlotRange*)range
 {
+	[self _highlightRange:range nofityDelegate:YES];
+}
+
+- (void)shadowHighlightRange:(CPTPlotRange*)range
+{
+	[self _highlightRange:range nofityDelegate:NO];
+}
+
+- (void)_highlightRange:(CPTPlotRange*)range nofityDelegate:(BOOL)notifyDelegate
+{
 	CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
 	
 	[self removeHighlight];
 	
 	_highlightedRange = range;
 	
-	_rangeHighlightBand = [self _limitBandForRange:range];
+	_rangeHighlightBand = [self _highlightBandForRange:range];
 	
 	[plot addAreaFillBand:_rangeHighlightBand];
+	
+	if(notifyDelegate)
+	{
+		[self.delegate plotController:self didHighlightRange:range];
+	}
 }
 
 - (void)didFinishDrawing:(CPTPlot *)plot

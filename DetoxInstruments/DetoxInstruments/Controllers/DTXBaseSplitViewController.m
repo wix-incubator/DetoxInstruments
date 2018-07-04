@@ -7,6 +7,7 @@
 //
 
 #import "DTXBaseSplitViewController.h"
+#import "NSAppearance+UIAdditions.h"
 
 IB_DESIGNABLE
 @interface DTXBorderedView : NSBox @end
@@ -27,8 +28,21 @@ IB_DESIGNABLE
 {
 	[super drawRect:rect];
 	
-	[NSColor.controlShadowColor set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(0, 0) toPoint:NSMakePoint(self.bounds.size.width, 0)];
+	if(self.effectiveAppearance.isDarkAppearance)
+	{
+		[NSColor.blackColor set];
+	}
+	else
+	{
+		[NSColor.quaternaryLabelColor set];
+	}
+	
+	NSBezierPath* path = [NSBezierPath new];
+	[path moveToPoint:NSMakePoint(0, 0)];
+	[path lineToPoint:NSMakePoint(self.bounds.size.width, 0)];
+	path.lineWidth = 2.0;
+	
+	[path stroke];
 }
 
 @end

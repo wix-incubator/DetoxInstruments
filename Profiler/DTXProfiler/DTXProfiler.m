@@ -21,6 +21,7 @@
 #import "DTXAddressInfo.h"
 #import "DTXDeviceInfo.h"
 #import "DTXSignpostSample+CoreDataClass.h"
+#import "DTXReactNativeEventsRecorder.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
@@ -28,7 +29,7 @@
 
 DTX_CREATE_LOG(Profiler);
 
-@interface DTXProfiler () <DTXNetworkListener, DTXLoggingListener>
+@interface DTXProfiler () <DTXNetworkProfilingListener, DTXLoggingListener, DTXReactNativeEventsListener>
 
 @property (atomic, assign, readwrite, getter=isRecording) BOOL recording;
 
@@ -142,6 +143,8 @@ DTX_CREATE_LOG(Profiler);
 						[weakSelf reactNativeSamplerDidPoll:pollable];
 					}];
 				}
+				
+				[DTXReactNativeEventsRecorder addReactNativeEventsListener:self];
 			}
 			
 			[self->_pollingManager resume];
@@ -233,6 +236,12 @@ DTX_CREATE_LOG(Profiler);
 			[DTXLoggingRecorder removeLoggingListener:self];
 		}
 		
+		if(self->_currentRecording.hasReactNative
+		   && self->_currentProfilingConfiguration.profileReactNative == YES)
+		{
+			[DTXReactNativeEventsRecorder removeReactNativeEventsListener:self];
+		}
+		
 		[self->_backgroundContext save:NULL];
 		
 		[self _closeContainerInternal];
@@ -318,13 +327,14 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (NSString *)markEventIntervalBeginWithName:(NSString *)name additionalInfo:(NSString *)additionalInfo
+- (NSString*)markEventIntervalBeginWithCategory:(NSString*)category name:(NSString*)name additionalInfo:(nullable NSString*)additionalInfo;
 {
 	NSString* identifier = NSUUID.UUID.UUIDString;
 	
 	[self->_backgroundContext performBlock:^{
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
 		signpostSample.uniqueIdentifier = identifier;
+		signpostSample.category = category;
 		signpostSample.name = [name copy];
 		signpostSample.additionalInfoStart = [additionalInfo copy];
 		signpostSample.parentGroup = self->_currentSampleGroup;
@@ -335,7 +345,7 @@ DTX_CREATE_LOG(Profiler);
 	return identifier;
 }
 
-- (void)markEventIntervalEndWithIdentifier:(NSString *)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString *)additionalInfo
+- (void)markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo;
 {
 	[self->_backgroundContext performBlock:^{
 		NSFetchRequest* fr = [DTXSignpostSample fetchRequest];
@@ -347,6 +357,7 @@ DTX_CREATE_LOG(Profiler);
 		}
 
 		signpostSample.endTimestamp = [NSDate date];
+		signpostSample.duration = [signpostSample.endTimestamp timeIntervalSinceDate:signpostSample.timestamp];
 		signpostSample.eventStatus = eventStatus;
 		signpostSample.additionalInfoEnd = [additionalInfo copy];
 		
@@ -354,12 +365,13 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)markEventWithWithName:(NSString *)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString *)additionalInfo
+- (void)markEventWithCategory:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo;
 {
 	[self->_backgroundContext performBlock:^{
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
 		signpostSample.parentGroup = self->_currentSampleGroup;
 		signpostSample.uniqueIdentifier = NSUUID.UUID.UUIDString;
+		signpostSample.category = category;
 		signpostSample.name = [name copy];
 		signpostSample.additionalInfoStart = [additionalInfo copy];
 		signpostSample.eventStatus = eventStatus;
@@ -548,7 +560,7 @@ DTX_CREATE_LOG(Profiler);
 	}
 }
 
-#pragma mark DTXNetworkListener
+#pragma mark DTXNetworkProfilingListener
 
 - (void)networkRecorderDidStartRequest:(NSURLRequest *)request uniqueIdentifier:(NSString *)uniqueIdentifier
 {

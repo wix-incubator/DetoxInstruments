@@ -8,7 +8,11 @@
 
 #import "NSFormatter+PlotFormatters.h"
 
-@interface DTXDurationFormatter : NSDateComponentsFormatter @end
+@interface DTXDurationFormatter : NSDateComponentsFormatter
+
+@property (nonatomic, assign) BOOL highPrecision;
+
+@end
 @implementation DTXDurationFormatter
 {
 	NSNumberFormatter* _numberFormatter;
@@ -20,23 +24,46 @@
 	if(self)
 	{
 		_numberFormatter = [NSNumberFormatter new];
-		_numberFormatter.minimumIntegerDigits = 0;
-		_numberFormatter.maximumIntegerDigits = 0;
-		_numberFormatter.maximumFractionDigits = 3;
-		_numberFormatter.decimalSeparator = @"";
+//		_numberFormatter.minimumIntegerDigits = 0;
+//		_numberFormatter.maximumIntegerDigits = 0;
+		_numberFormatter.maximumFractionDigits = 2;
+//		_numberFormatter.decimalSeparator = @"";
 	}
 	
 	return self;
 }
 
-- (NSString *)stringFromDate:(NSDate *)startDate toDate:(NSDate *)endDate
+- (NSString*)_msStringFromTimeInterval:(NSTimeInterval)ti
 {
-	if(endDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate < 1.0)
+	return [NSString stringWithFormat:@"%@ms", [_numberFormatter stringFromNumber:@(ti * 1000)]];
+}
+
+- (NSString*)stringFromTimeInterval:(NSTimeInterval)ti
+{
+	if(ti < 1.0)
 	{
-		return [NSString stringWithFormat:@"%@ms", [_numberFormatter stringFromNumber:@(endDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate)]];
+		return [self _msStringFromTimeInterval:ti];
 	}
 	
-	return [super stringFromDate:startDate toDate:endDate];
+	NSString* rv = [super stringFromTimeInterval:ti];
+	
+	if(_highPrecision == NO)
+	{
+		return rv;
+	}
+	
+	NSTimeInterval ms = ti - floor(ti);
+	if(ms == 0)
+	{
+		return rv;
+	}
+	
+	return [NSString stringWithFormat:@"%@ %@", rv, [self _msStringFromTimeInterval:ms]];
+}
+
+- (NSString*)stringFromDate:(NSDate *)startDate toDate:(NSDate *)endDate
+{
+	return [self stringFromTimeInterval:endDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate];
 }
 
 @end
@@ -179,5 +206,21 @@
 	
 	return durationFormatter;
 }
+
++ (NSDateComponentsFormatter *)dtx_highPrecisionDurationFormatter
+{
+	static DTXDurationFormatter* durationFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		durationFormatter = [DTXDurationFormatter new];
+		durationFormatter.highPrecision = YES;
+		durationFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
+		durationFormatter.allowedUnits = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+		durationFormatter.allowsFractionalUnits = YES;
+	});
+	
+	return durationFormatter;
+}
+
 
 @end

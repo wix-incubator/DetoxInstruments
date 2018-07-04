@@ -122,7 +122,7 @@
 		__block NSMutableArray* _insertionGroup = nil;
 		
 		[_mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<DTXSample *> * _Nonnull possibleSampleGroup, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSDate* lastResponseTimestamp = [self endTimestampForSample:possibleSampleGroup.lastObject];
+			NSDate* lastResponseTimestamp = [self endTimestampForSampleForSorting:possibleSampleGroup.lastObject];
 			
 			if([timestamp compare:lastResponseTimestamp] == NSOrderedDescending)
 			{
@@ -220,11 +220,25 @@
 		[_plot reloadData];
 	}
 	
-	if([self.delegate respondsToSelector:@selector(plotController:didHighlightAtSampleTime:)])
+	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
+	
+	[self.delegate plotController:self didHighlightAtSampleTime:sampleTime];
+	
+	_shadowHighlightedSampleTime = sampleTime;
+	
+	if(self.graph == nil)
 	{
-		NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
-		[self.delegate plotController:self didHighlightAtSampleTime:sampleTime];
+		return;
 	}
+	
+	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
+	[self _updateShadowLineColor];
+	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
+	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
+	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
+	
+	[self.graph addAnnotation:_shadowHighlightAnnotation];
 }
 
 - (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime
@@ -249,6 +263,13 @@
 }
 
 - (void)highlightRange:(CPTPlotRange *)range
+{
+	[self removeHighlight];
+	
+	[self.delegate plotController:self didHighlightRange:range];
+}
+
+- (void)shadowHighlightRange:(CPTPlotRange*)range
 {
 	[self removeHighlight];
 }
@@ -359,6 +380,11 @@
 	lineStyle.lineColor = [CPTColor colorWithCGColor:lineColor.CGColor];
 	
 	return lineStyle;
+}
+
+- (NSDate*)endTimestampForSampleForSorting:(DTXSample*)sample
+{
+	return [self endTimestampForSample:sample];
 }
 
 - (NSDate*)endTimestampForSample:(DTXSample*)sample

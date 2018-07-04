@@ -13,7 +13,21 @@
 - (void)drawSelectionInRect:(NSRect)dirtyRect
 {
 	[self.selectionColor setFill];
-	[[NSBezierPath bezierPathWithRect:NSMakeRect(dirtyRect.origin.x, dirtyRect.origin.y, 209.5, dirtyRect.size.height)] fill];
+	[[NSBezierPath bezierPathWithRect:NSMakeRect(dirtyRect.origin.x, dirtyRect.origin.y, 210.5, dirtyRect.size.height - 1)] fill];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+	[super drawRect:dirtyRect];
+	
+	NSBezierPath* line = [NSBezierPath bezierPath];
+	
+	[line moveToPoint:NSMakePoint(210.5, 0)];
+	[line lineToPoint:NSMakePoint(210.5, self.bounds.size.height)];
+	
+	line.lineWidth = 1.0;
+	[NSColor.gridColor set];
+	[line stroke];
 }
 
 - (void)awakeFromNib

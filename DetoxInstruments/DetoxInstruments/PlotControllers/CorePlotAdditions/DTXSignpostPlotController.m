@@ -65,7 +65,12 @@
 
 - (NSDate*)endTimestampForSample:(DTXSignpostSample*)sample
 {
-	return sample.isEvent ? sample.timestamp : sample.endTimestamp ?: self.document.recording.endTimestamp;
+	return sample.isEvent ? sample.timestamp : sample.endTimestamp ?: NSDate.distantFuture;
+}
+
+- (NSDate*)endTimestampForSampleForSorting:(DTXSignpostSample*)sample
+{
+	return sample.isEvent ? /*[*/ sample.timestamp /*dateByAddingTimeInterval:1]*/ : sample.endTimestamp ?: NSDate.distantFuture;
 }
 
 - (NSColor*)colorForSample:(DTXSignpostSample*)sample

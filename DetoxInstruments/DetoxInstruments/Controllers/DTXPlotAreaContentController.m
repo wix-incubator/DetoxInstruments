@@ -119,32 +119,12 @@
 		[_plotGroup setLocalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:self.document.recording.defactoEndTimestamp];
 	}
 	
-	_tableView.intercellSpacing = NSMakeSize(0, 1);
+	_tableView.intercellSpacing = NSMakeSize(1, 0);
 	
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document];
 	
-	if (@available(macOS 10.14, *))
-	{
-		NSVisualEffectView* box = [NSVisualEffectView new];
-		box.translatesAutoresizingMaskIntoConstraints = NO;
-		box.material = NSVisualEffectMaterialContentBackground;
-		
-		[_headerView addSubview:box];
-		
-		[NSLayoutConstraint activateConstraints:@[
-												  [_headerView.topAnchor constraintEqualToAnchor:box.topAnchor],
-												  [_headerView.bottomAnchor constraintEqualToAnchor:box.bottomAnchor constant:1],
-												  [_headerView.leftAnchor constraintEqualToAnchor:box.leftAnchor],
-												  [_headerView.rightAnchor constraintEqualToAnchor:box.rightAnchor],
-												  ]];
-		
-		[headerPlotController setUpWithView:box insets:NSEdgeInsetsMake(0, 209.5, 0, 0)];
-	}
-	else
-	{
-		[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 209.5, 0, 0)];
-	}
-	
+	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 210.5, 0, 0)];
+
 	[_plotGroup addHeaderPlotController:headerPlotController];
 	
 	_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document];
@@ -174,10 +154,10 @@
 		[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.document]];
 	}
 	
-	if([DTXSignpostSample hasSignpostSamplesForManagedObjectContext:self.document.recording.managedObjectContext])
-	{
+//	if([DTXSignpostSample hasSignpostSamplesForManagedObjectContext:self.document.recording.managedObjectContext])
+//	{
 		[_plotGroup addPlotController:[[DTXSignpostPlotController alloc] initWithDocument:self.document]];
-	}
+//	}
 	
 	if(self.document.recording.hasReactNative && self.document.recording.dtx_profilingConfiguration.profileReactNative)
 	{
