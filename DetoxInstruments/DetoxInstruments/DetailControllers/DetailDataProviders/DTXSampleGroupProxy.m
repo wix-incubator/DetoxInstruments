@@ -63,7 +63,7 @@
 - (NSFetchRequest *)fetchRequest
 {
 	NSFetchRequest* fr = [_sampleGroup fetchRequestForSamplesWithTypes:_sampleTypes includingGroups:YES];
-	NSManagedObjectContext* ctx = _sampleGroup.managedObjectContext;
+//	NSManagedObjectContext* ctx = _sampleGroup.managedObjectContext;
 	
 	return fr;
 }
