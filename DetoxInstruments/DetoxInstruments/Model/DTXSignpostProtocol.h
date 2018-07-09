@@ -20,6 +20,9 @@
 @property (nonatomic, readonly) NSTimeInterval stddevDuration;
 @property (nonatomic, readonly) NSTimeInterval maxDuration;
 
+@property (nonatomic, readonly) BOOL isGroup;
+@property (nonatomic, readonly) BOOL isEvent;
+
 @end
 
 #endif /* DTXSignpostProtocol_h */

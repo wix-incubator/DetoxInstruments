@@ -39,7 +39,7 @@
 {
 	DTXColumnInformation* name = [DTXColumnInformation new];
 	name.title = NSLocalizedString(@"Category / Name", @"");
-	name.minWidth = 450;
+	name.minWidth = 320;
 	
 	const CGFloat durationMinWidth = 75;
 	
@@ -119,13 +119,14 @@
 - (NSString*)_formattedStringValueAtRestForItem:(id)item column:(NSUInteger)column
 {
 	id<DTXSignpost> signpostSample = item;
+	DTXSignpostSample* realSignpostSample = (id)signpostSample;
 	
-	if([signpostSample isKindOfClass:DTXSampleContainerProxy.class] == NO && column != 0 && column != 2 && column != 3 && column != 7)
+	if(signpostSample.isGroup == NO && column != 0 && column != 2 && column != 3 && column != 7)
 	{
 		return @"—";
 	}
 	
-	if([signpostSample isKindOfClass:DTXSampleContainerProxy.class] == YES && (column == 2 || column == 7))
+	if(signpostSample.isGroup == YES && column == 7)
 	{
 		return @"—";
 	}
@@ -142,6 +143,10 @@
 			return [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		}
 		case 3:
+			if(signpostSample.isGroup == NO && realSignpostSample.isEvent)
+			{
+				return @"—";
+			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.duration];
 		case 4:
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.minDuration];
@@ -150,10 +155,7 @@
 		case 6:
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.maxDuration];
 		case 7:
-		{
-			DTXSignpostSample* realSignpostSample = (id)signpostSample;
 			return realSignpostSample.eventStatusString;
-		}
 		default:
 			return nil;
 	}
