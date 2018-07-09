@@ -83,4 +83,11 @@
 	return self.fetchedResultsController.fetchedObjects.count;
 }
 
+- (NSDate *)closeTimestamp
+{
+	DTXSignpostSample* sample = self.fetchedResultsController.fetchedObjects.lastObject;
+	
+	return sample.endTimestamp;
+}
+
 @end

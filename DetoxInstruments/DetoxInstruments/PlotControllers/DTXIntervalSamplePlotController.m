@@ -15,6 +15,7 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "NSColor+UIAdditions.h"
 #import "NSAppearance+UIAdditions.h"
+#import <LNInterpolation/Color+Interpolation.h>
 
 @interface DTXIntervalSamplePlotController () <CPTRangePlotDataSource, NSFetchedResultsControllerDelegate>
 {
@@ -29,6 +30,11 @@
 	CPTPlotSpaceAnnotation* _shadowHighlightAnnotation;
 	DTXLineLayer* _shadowLineLayer;
 	NSTimeInterval _shadowHighlightedSampleTime;
+	
+	CPTPlotSpaceAnnotation* _secondShadowHighlightAnnotation;
+	DTXLineLayer* _secondShadowLineLayer;
+	
+	CPTPlotRange* _highlightedRange;
 }
 @end
 
@@ -74,15 +80,20 @@
 	[self _updateShadowLineColor];
 }
 
+- (CPTLimitBand*)_highlightBandForRange:(CPTPlotRange *)newRange
+{
+	return [CPTLimitBand limitBandWithRange:newRange fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:[self.plotColors.lastObject shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.35].CGColor]]];
+}
+
 - (void)_updateShadowLineColor
 {
 	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
 	{
-		_shadowLineLayer.lineColor = NSColor.whiteColor;
+		_secondShadowLineLayer.lineColor = _shadowLineLayer.lineColor = NSColor.whiteColor;
 	}
 	else
 	{
-		_shadowLineLayer.lineColor = [([self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15]) colorWithAlphaComponent:0.5];
+		_secondShadowLineLayer.lineColor = _shadowLineLayer.lineColor = [([self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15]) colorWithAlphaComponent:0.5];
 	}
 }
 
@@ -207,9 +218,9 @@
 	NSUInteger prevSelectedIndex = _selectedIndex;
 	_selectedIndex = indexOfIndexPath;
 	
-	if(indexOfIndexPath != NSNotFound)
+	if(_selectedIndex != NSNotFound)
 	{
-		[_plot reloadDataInIndexRange:NSMakeRange(indexOfIndexPath, 1)];
+		[_plot reloadDataInIndexRange:NSMakeRange(_selectedIndex, 1)];
 		if(prevSelectedIndex != NSNotFound)
 		{
 			[_plot reloadDataInIndexRange:NSMakeRange(prevSelectedIndex, 1)];
@@ -222,7 +233,12 @@
 	
 	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
 	
-	[self.delegate plotController:self didHighlightAtSampleTime:sampleTime];
+	NSTimeInterval timestamp =  sample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval responseTimestamp = [self endTimestampForSample:sample].timeIntervalSinceReferenceDate  - self.document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
+	CPTPlotRange* range = [CPTPlotRange plotRangeWithLocation:@(timestamp) length:@(responseTimestamp - timestamp)];
+	[self.delegate plotController:self didHighlightRange:range];
+	
+//	[self.delegate plotController:self didHighlightAtSampleTime:sampleTime];
 	
 	_shadowHighlightedSampleTime = sampleTime;
 	
@@ -231,14 +247,16 @@
 		return;
 	}
 	
-	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
-	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-	[self _updateShadowLineColor];
-	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
-	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
-	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
+//	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+//	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
+//	[self _updateShadowLineColor];
+//	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
+//	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
+//	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
+//
+//	[self.graph addAnnotation:_shadowHighlightAnnotation];
 	
-	[self.graph addAnnotation:_shadowHighlightAnnotation];
+	[self _highlightRange:range nofityDelegate:NO removePreviousHighlight:NO];
 }
 
 - (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime
@@ -262,17 +280,52 @@
 	[self.graph addAnnotation:_shadowHighlightAnnotation];
 }
 
-- (void)highlightRange:(CPTPlotRange *)range
+- (void)highlightRange:(CPTPlotRange*)range
 {
-	[self removeHighlight];
-	
-	[self.delegate plotController:self didHighlightRange:range];
+	[self _highlightRange:range nofityDelegate:YES removePreviousHighlight:YES];
 }
 
 - (void)shadowHighlightRange:(CPTPlotRange*)range
 {
-	[self removeHighlight];
+	[self _highlightRange:range nofityDelegate:NO removePreviousHighlight:YES];
 }
+
+- (void)_highlightRange:(CPTPlotRange*)range nofityDelegate:(BOOL)notifyDelegate removePreviousHighlight:(BOOL)removePreviousHighlight
+{
+	if(removePreviousHighlight)
+	{
+		[self removeHighlight];
+	}
+	
+	_highlightedRange = range;
+	
+	if(self.graph)
+	{
+		_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+		_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
+		_shadowLineLayer.opacity = 0.3;
+		_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
+		_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
+		_shadowHighlightAnnotation.anchorPlotPoint = @[range.location, @(- self.rangeInsets.top)];
+		
+		_secondShadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+		_secondShadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
+		_secondShadowLineLayer.opacity = 0.3;
+		_secondShadowHighlightAnnotation.contentLayer = _secondShadowLineLayer;
+		_secondShadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
+		_secondShadowHighlightAnnotation.anchorPlotPoint = @[@(range.locationDouble + range.lengthDouble), @(- self.rangeInsets.top)];
+		
+		[self _updateShadowLineColor];
+		[self.graph addAnnotation:_shadowHighlightAnnotation];
+		[self.graph addAnnotation:_secondShadowHighlightAnnotation];
+	}
+	
+	if(notifyDelegate)
+	{
+		[self.delegate plotController:self didHighlightRange:range];
+	}
+}
+
 
 - (void)removeHighlight
 {
@@ -283,6 +336,15 @@
 	
 	_shadowLineLayer = nil;
 	_shadowHighlightAnnotation = nil;
+	
+	if(_secondShadowHighlightAnnotation && _secondShadowHighlightAnnotation.annotationHostLayer != nil)
+	{
+		[self.graph removeAnnotation:_secondShadowHighlightAnnotation];
+	}
+	
+	_secondShadowLineLayer = nil;
+	_secondShadowHighlightAnnotation = nil;
+	
 	_shadowHighlightedSampleTime = 0.0;
 	
 	if(_selectedIndex != NSNotFound)
@@ -294,6 +356,8 @@
 		
 //		[self.graph.allPlots.firstObject reloadData];
 	}
+
+	_highlightedRange = nil;
 }
 
 - (void)reloadHighlight
@@ -301,6 +365,10 @@
 	if(_shadowHighlightedSampleTime != 0.0)
 	{
 		[self shadowHighlightAtSampleTime:_shadowHighlightedSampleTime];
+	}
+	else if(_highlightedRange)
+	{
+		[self highlightRange:_highlightedRange];
 	}
 }
 
@@ -339,8 +407,8 @@
 	
 	DTXSample* sample = self._mergedSamples[indexPath.section][indexPath.item];
 	
-	NSTimeInterval timestamp = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
-	NSTimeInterval responseTimestamp = [[self endTimestampForSample:sample] timeIntervalSinceReferenceDate]  - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval timestamp = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval responseTimestamp = [[self endTimestampForSample:sample] timeIntervalSinceReferenceDate]  - [self.document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate];
 	NSTimeInterval range = responseTimestamp - timestamp;
 	NSTimeInterval avg = (timestamp + responseTimestamp) / 2;
 	
@@ -374,9 +442,9 @@
 	
 	if(_selectedIndex == idx)
 	{
-		lineColor = [lineColor blendedColorWithFraction:0.35 ofColor:NSColor.blackColor];
+		lineColor = [lineColor interpolateToValue:NSColor.blackColor progress:0.35];
 	}
-	
+
 	lineStyle.lineColor = [CPTColor colorWithCGColor:lineColor.CGColor];
 	
 	return lineStyle;
