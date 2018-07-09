@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14269.14" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="f3X-2z-0cS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14295.6" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="f3X-2z-0cS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14269.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14295.6"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -108,12 +108,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="800"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="hrj-Un-Alg" customClass="DTXHeaderView">
+                            <box boxType="custom" borderType="none" borderWidth="0.0" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="ltp-T1-IO8">
                                 <rect key="frame" x="0.0" y="780" width="1000" height="20"/>
+                                <view key="contentView" id="bS3-tN-xvU">
+                                    <rect key="frame" x="0.0" y="0.0" width="1000" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="hrj-Un-Alg" customClass="DTXHeaderView">
+                                            <rect key="frame" x="0.0" y="0.0" width="1000" height="20"/>
+                                        </customView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="hrj-Un-Alg" secondAttribute="bottom" id="A6b-gl-KcU"/>
+                                        <constraint firstItem="hrj-Un-Alg" firstAttribute="leading" secondItem="bS3-tN-xvU" secondAttribute="leading" id="IxR-gO-ESu"/>
+                                        <constraint firstAttribute="trailing" secondItem="hrj-Un-Alg" secondAttribute="trailing" id="MJm-pG-Zbr"/>
+                                        <constraint firstItem="hrj-Un-Alg" firstAttribute="top" secondItem="bS3-tN-xvU" secondAttribute="top" id="ewA-Z6-A1g"/>
+                                    </constraints>
+                                </view>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="KUc-7G-Wbv"/>
+                                    <constraint firstAttribute="height" constant="20" id="9na-zT-0CW"/>
                                 </constraints>
-                            </customView>
+                                <color key="fillColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </box>
                             <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="82" horizontalPageScroll="10" verticalLineScroll="82" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Dyq-gr-DLO" customClass="DTXScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="780"/>
                                 <clipView key="contentView" wantsLayer="YES" copiesOnScroll="NO" id="3Ki-wJ-UtA">
@@ -125,7 +141,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
+                                            <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
                                                 <tableColumn identifier="DTXTitleColumnt" editable="NO" width="210" maxWidth="10000000" id="kUz-rk-XSq">
@@ -242,13 +258,13 @@
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Dyq-gr-DLO" firstAttribute="top" secondItem="hrj-Un-Alg" secondAttribute="bottom" id="1D9-AG-AHP"/>
-                            <constraint firstItem="hrj-Un-Alg" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="4QW-TC-6Ez"/>
                             <constraint firstAttribute="trailing" secondItem="Dyq-gr-DLO" secondAttribute="trailing" id="Fw5-7t-STH"/>
+                            <constraint firstItem="ltp-T1-IO8" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="OXw-7p-zIN"/>
                             <constraint firstItem="Dyq-gr-DLO" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="T74-2Z-hjY"/>
-                            <constraint firstAttribute="trailing" secondItem="hrj-Un-Alg" secondAttribute="trailing" id="cRO-4L-b3t"/>
+                            <constraint firstAttribute="trailing" secondItem="ltp-T1-IO8" secondAttribute="trailing" id="W0E-U2-KET"/>
+                            <constraint firstItem="Dyq-gr-DLO" firstAttribute="top" secondItem="ltp-T1-IO8" secondAttribute="bottom" id="cxj-Gv-K0L"/>
+                            <constraint firstItem="ltp-T1-IO8" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="gCK-Fk-LUb"/>
                             <constraint firstAttribute="bottom" secondItem="Dyq-gr-DLO" secondAttribute="bottom" id="kE7-Vo-Vv8"/>
-                            <constraint firstItem="hrj-Un-Alg" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="lMz-RC-nEF"/>
                         </constraints>
                     </view>
                     <connections>
@@ -270,12 +286,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="CTK-Sj-Sng">
-                                <rect key="frame" x="0.0" y="0.0" width="680" height="272"/>
+                                <rect key="frame" x="0.0" y="0.0" width="680" height="273"/>
                                 <subviews>
                                     <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-G4-gpu" customClass="DTXBorderedView">
                                         <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
                                         <subviews>
-                                            <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="bQ6-qJ-AWR">
+                                            <visualEffectView hidden="YES" wantsLayer="YES" blendingMode="withinWindow" material="menu" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="bQ6-qJ-AWR">
                                                 <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
                                             </visualEffectView>
                                             <searchField wantsLayer="YES" canDrawConcurrently="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
@@ -283,7 +299,7 @@
                                                 <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Filter" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="59k-uH-dUn">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </searchFieldCell>
                                                 <connections>
                                                     <outlet property="_cancelButton" destination="xcM-IJ-Efz" id="gqV-6N-SJY"/>
@@ -358,7 +374,7 @@
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="CTK-Sj-Sng" firstAttribute="top" secondItem="qC8-Mm-qyE" secondAttribute="bottom" constant="-0.5" id="3gU-mG-QIi"/>
+                            <constraint firstItem="CTK-Sj-Sng" firstAttribute="top" secondItem="qC8-Mm-qyE" secondAttribute="bottom" constant="-1.5" id="3gU-mG-QIi"/>
                             <constraint firstItem="CTK-Sj-Sng" firstAttribute="width" secondItem="6ab-O0-jz6" secondAttribute="width" id="GCd-Ju-KwB"/>
                             <constraint firstAttribute="bottom" secondItem="CTK-Sj-Sng" secondAttribute="bottom" id="IB3-18-s8m"/>
                             <constraint firstItem="qC8-Mm-qyE" firstAttribute="top" secondItem="6ab-O0-jz6" secondAttribute="top" id="Pb1-Rc-Ah5"/>
@@ -469,7 +485,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="b6M-83-qhy" viewBased="YES" indentationPerLevel="16" indentationMarkerFollowsCell="NO" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG" customClass="DTXDetailOutlineView">
+                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="b6M-83-qhy" viewBased="YES" indentationPerLevel="16" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG" customClass="DTXDetailOutlineView">
                                     <rect key="frame" x="0.0" y="0.0" width="450" height="277"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="2" height="3"/>

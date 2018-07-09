@@ -20,7 +20,7 @@
 {
 	DTXColumnInformation* duration = [DTXColumnInformation new];
 	duration.title = NSLocalizedString(@"Duration", @"");
-	duration.minWidth = 42;
+	duration.minWidth = 65;
 	
 	DTXColumnInformation* size = [DTXColumnInformation new];
 	size.title = NSLocalizedString(@"Transferred", @"");
@@ -52,19 +52,19 @@
 		case 0:
 			if(networkSample.responseTimestamp == nil)
 			{
-				return @"--";
+				return @"—";
 			}
 			return [[NSFormatter dtx_durationFormatter] stringFromDate:networkSample.timestamp toDate:networkSample.responseTimestamp];
 		case 1:
 			if(networkSample.responseTimestamp == nil)
 			{
-				return @"--";
+				return @"—";
 			}
 			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@(networkSample.totalDataLength)];
 		case 2:
 			if(networkSample.responseTimestamp == nil)
 			{
-				return @"--";
+				return @"—";
 			}
 			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@(networkSample.responseStatusCode)];
 		case 3:

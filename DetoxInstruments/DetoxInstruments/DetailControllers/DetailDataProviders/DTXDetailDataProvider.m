@@ -17,6 +17,7 @@
 #import "DTXPlotController.h"
 #import "DTXFilteredDataProvider.h"
 #import "NSView+UIAdditions.h"
+#import "DTXSampleAggregatorProxy.h"
 
 const CGFloat DTXAutomaticColumnWidth = -1.0;
 
@@ -41,7 +42,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 @implementation DTXDetailDataProvider
 {
 	DTXRecordingDocument* _document;
-	DTXSampleGroupProxy* _rootGroupProxy;
+	DTXSampleContainerProxy* _rootGroupProxy;
 	NSArray<DTXColumnInformation*>* _columns;
 	
 	BOOL _ignoresSelections;
@@ -81,28 +82,15 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (void)setManagedOutlineView:(NSOutlineView *)outlineView
 {
-	_managedOutlineView.delegate = nil;
-	_managedOutlineView.dataSource = nil;
-	
-	[_managedOutlineView setOutlineTableColumn:[_managedOutlineView tableColumnWithIdentifier:@"DTXTimestampColumn"]];
-	
-	[_managedOutlineView.tableColumns.copy enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if(idx < 1)
-		{
-			return;
-		}
-		
-		[_managedOutlineView removeTableColumn:obj];
-	}];
-	
-	[_managedOutlineView reloadData];
-	
 	_managedOutlineView = outlineView;
 	
 	if(_managedOutlineView == nil)
 	{
 		return;
 	}
+	
+	NSTableColumn* timestampColumn = [_managedOutlineView tableColumnWithIdentifier:@"DTXTimestampColumn"];
+	timestampColumn.hidden = self.showsTimestampColumn == NO;
 	
 	_columns = self.columns;
 	
@@ -129,11 +117,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		}
 	}];
 
-	_managedOutlineView.tableColumns[[_managedOutlineView columnWithIdentifier:@"DTXTimestampColumn"]].title = _document.documentState > DTXRecordingDocumentStateNew ? NSLocalizedString(@"Time", @"") : @"";
+	timestampColumn.title = _document.documentState > DTXRecordingDocumentStateNew ? NSLocalizedString(@"Time", @"") : @"";
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
 	
-	[self _setupProxiesForGroups];
+	[self setupContainerProxies];
 	
 	if(_document.documentState == DTXRecordingDocumentStateLiveRecording)
 	{
@@ -148,17 +136,18 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		return;
 	}
 	
-	[self _setupProxiesForGroups];
+	[self setupContainerProxies];
 }
 
-- (void)_setupProxiesForGroups
+- (void)setupContainerProxies
 {
 	if(_document.documentState < DTXRecordingDocumentStateLiveRecording)
 	{
 		return;
 	}
 	
-	_rootGroupProxy = [[DTXSampleGroupProxy alloc] initWithSampleGroup:_document.recording.rootSampleGroup sampleTypes:self.sampleTypes outlineView:_managedOutlineView];
+	_rootGroupProxy = self.rootSampleContainerProxy;
+	[_rootGroupProxy reloadData];
 	
 	_managedOutlineView.intercellSpacing = NSMakeSize(15, 1);
 	
@@ -167,14 +156,24 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	_managedOutlineView.delegate = self;
 	_managedOutlineView.dataSource = self;
 	
-	[_managedOutlineView expandItem:nil expandChildren:YES];
+//	[_managedOutlineView expandItem:nil expandChildren:YES];
 	
 	[_managedOutlineView scrollRowToVisible:0];
+}
+
+- (DTXSampleContainerProxy*)rootSampleContainerProxy
+{
+	return [[DTXSampleGroupProxy alloc] initWithSampleGroup:_document.recording.rootSampleGroup sampleTypes:self.sampleTypes outlineView:_managedOutlineView];
 }
 
 - (BOOL)showsHeaderView
 {
 	return YES && _document.documentState > DTXRecordingDocumentStateNew;
+}
+
+- (BOOL)showsTimestampColumn
+{
+	return YES;
 }
 
 - (NSArray<NSNumber* /*DTXSampleType*/>* )sampleTypes
@@ -199,13 +198,13 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item
 {
-	DTXSampleGroupProxy* currentGroup = _rootGroupProxy;
-	if([item isKindOfClass:[DTXSampleGroupProxy class]])
+	DTXSampleContainerProxy* proxy = _rootGroupProxy;
+	if([item isKindOfClass:[DTXSampleContainerProxy class]])
 	{
-		currentGroup = item;
+		proxy = item;
 	}
 
-	return [currentGroup samplesCount];
+	return [proxy samplesCount];
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
@@ -231,18 +230,44 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(nullable id)item
 {
-	DTXSampleGroupProxy* currentGroup = _rootGroupProxy;
-	if([item isKindOfClass:[DTXSampleGroupProxy class]])
+	DTXSampleContainerProxy* currentGroup = _rootGroupProxy;
+	if([item isKindOfClass:[DTXSampleContainerProxy class]])
 	{
 		currentGroup = item;
 	}
 	
-	return [currentGroup sampleAtIndex:index];
+	id child = [currentGroup sampleAtIndex:index];
+	if([child isKindOfClass:DTXSampleContainerProxy.class])
+	{
+		[child reloadData];
+	}
+	
+	return child;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-	return [item isKindOfClass:[DTXSampleGroupProxy class]];
+	return [item isKindOfClass:[DTXSampleContainerProxy class]];
+}
+
+- (void)_updateRowView:(DTXTableRowView*)rowView withItem:(id)item
+{
+	if([item isKindOfClass:[DTXSampleContainerProxy class]])
+	{
+		rowView.backgroundColor = NSColor.controlBackgroundColor;
+	}
+	else
+	{
+		rowView.backgroundColor = [self backgroundRowColorForItem:item];
+		
+		BOOL hasParentGroup = [item respondsToSelector:@selector(parentGroup)];
+		if([rowView.backgroundColor isEqualTo:NSColor.controlBackgroundColor] && hasParentGroup && [item parentGroup] != _document.recording.rootSampleGroup)
+		{
+			CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(item, _document.recording.rootSampleGroup) / 30.0), 0.3);
+			
+			rowView.backgroundColor = [NSColor.controlBackgroundColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
+		}
+	}
 }
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
@@ -257,33 +282,29 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 							 
 		cellView.textField.stringValue = [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:NO];
-		cellView.textField.textColor = [item isKindOfClass:[DTXSampleGroupProxy class]] ? NSColor.labelColor : [self textColorForItem:item];
+		cellView.textField.textColor = [item isKindOfClass:[DTXSampleContainerProxy class]] ? NSColor.labelColor : [self textColorForItem:item];
 		
-		if([item isKindOfClass:[DTXSampleGroupProxy class]])
-		{
-			rowView.backgroundColor = NSColor.controlBackgroundColor;
-		}
-		else
-		{
-			rowView.backgroundColor = [self backgroundRowColorForItem:item];
-			
-			BOOL hasParentGroup = [item respondsToSelector:@selector(parentGroup)];
-			if([rowView.backgroundColor isEqualTo:NSColor.controlBackgroundColor] && hasParentGroup && [item parentGroup] != _document.recording.rootSampleGroup)
-			{
-				CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(item, _document.recording.rootSampleGroup) / 30.0), 0.3);
-				
-				rowView.backgroundColor = [NSColor.controlBackgroundColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
-			}
-		}
+		[self _updateRowView:rowView withItem:item];
 		
 		return cellView;
 	}
 	
+	if(self.showsTimestampColumn == NO)
+	{
+		[self _updateRowView:rowView withItem:item];
+	}
+	
 	NSTableCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXTextCell" owner:nil];
 	
-	if([item isKindOfClass:[DTXSampleGroupProxy class]])
+	BOOL wantsStandardGroup = NO;
+	if([item isKindOfClass:DTXSampleContainerProxy.class])
 	{
-		cellView.textField.stringValue = ((DTXSampleGroupProxy*)item).name;
+		wantsStandardGroup = [item wantsStandardGroupDisplay];
+	}
+	
+	if(wantsStandardGroup && [item isKindOfClass:DTXSampleContainerProxy.class])
+	{
+		cellView.textField.stringValue = ((DTXSampleContainerProxy*)item).name;
 		cellView.textField.textColor = NSColor.labelColor;
 	}
 	else if([item isMemberOfClass:[DTXTag class]])
@@ -293,11 +314,18 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	}
 	else
 	{
-		cellView.textField.stringValue = [self formattedStringValueForItem:item column:[tableColumn.identifier integerValue]];
+		NSString* str = [self formattedStringValueForItem:item column:[tableColumn.identifier integerValue]];
+		
+		if(str == nil)
+		{
+			return nil;
+		}
+		
+		cellView.textField.stringValue = str;
 		cellView.textField.textColor = [self textColorForItem:item];
 	}
 	
-	cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:([item isKindOfClass:[DTXSampleGroupProxy class]] || [item isMemberOfClass:[DTXTag class]])];
+	cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:(wantsStandardGroup || [item isMemberOfClass:DTXTag.class])];
 	
 	return cellView;
 }
@@ -320,10 +348,10 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	return MIN(1 + DTXDepthOfSample(sample.parentGroup, rootSampleGroup), 20);
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
-{
-	return [item isKindOfClass:[DTXSampleGroupProxy class]] || [item isMemberOfClass:[DTXTag class]];
-}
+//- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
+//{
+//	return [item isKindOfClass:[DTXSampleContainerProxy class]] || [item isMemberOfClass:[DTXTag class]];
+//}
 
 - (void)selectSample:(DTXSample*)sample
 {
@@ -354,13 +382,13 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	
 	if(_ignoresSelections == NO)
 	{
-		if([item isKindOfClass:[DTXSampleGroupProxy class]] == NO)
+		if([item isKindOfClass:[DTXSampleContainerProxy class]] == NO)
 		{
 			[_plotController highlightSample:item];
 		}
 		else
 		{
-			DTXSampleGroupProxy* groupProxy = item;
+			DTXSampleContainerProxy* groupProxy = item;
 			
 			NSDate* groupCloseTimestamp = groupProxy.closeTimestamp ?: _document.recording.endTimestamp;
 			
@@ -392,7 +420,7 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	}
 	
 	DTXInspectorDataProvider* idp = nil;
-	if([item isKindOfClass:[DTXSampleGroupProxy class]])
+	if([item isKindOfClass:[DTXSampleContainerProxy class]])
 	{
 		idp = [[DTXGroupInspectorDataProvider alloc] initWithSample:item document:_document];
 	}
@@ -431,7 +459,8 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	if(filter.length == 0)
 	{
 		_filteredDataProvider = nil;
-		[self _setupProxiesForGroups];
+		[self setupContainerProxies];
+		[_managedOutlineView scrollRowToVisible:0];
 		return;
 	}
 	

@@ -104,12 +104,14 @@
 		39BEE1B3207A4778003AF93E /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE18D207A4777003AF93E /* SSZipArchive.m */; };
 		39BEE1B4207A4778003AF93E /* SSZipCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BEE18E207A4777003AF93E /* SSZipCommon.h */; };
 		39BEE1B5207A4778003AF93E /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BEE18F207A4778003AF93E /* ZipArchive.h */; };
+		39C44C3320F3A24900279955 /* DTXProfiler-API.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C44C3220F3A24900279955 /* DTXProfiler-API.m */; };
 		39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713381EFFCB4000C827EB /* AutoCoding.m */; };
 		39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713391EFFCB4000C827EB /* AutoCoding.h */; };
 		39C713401EFFD6FF00C827EB /* DTXReactNativeSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */; };
 		39C713411EFFD6FF00C827EB /* DTXReactNativeSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C7133F1EFFD6FF00C827EB /* DTXReactNativeSampler.m */; };
 		39C713451EFFDB2500C827EB /* DTXPollingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713431EFFDB2500C827EB /* DTXPollingManager.h */; };
 		39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713441EFFDB2500C827EB /* DTXPollingManager.m */; };
+		39D10D3320E38ED200320742 /* DTXEventStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D10D3220E38E5D00320742 /* DTXEventStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D205501F03057200830A0D /* DTXLoggingRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D2054E1F03057200830A0D /* DTXLoggingRecorder.h */; };
 		39D205511F03057200830A0D /* DTXLoggingRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D2054F1F03057200830A0D /* DTXLoggingRecorder.m */; };
 		39D40C0E1ED5B43700157C04 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C051ED5B43700157C04 /* DTXInstruments.xcdatamodeld */; };
@@ -247,6 +249,7 @@
 		39BEE18D207A4777003AF93E /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = ../../../Shared/ZipArchive/SSZipArchive/SSZipArchive.m; sourceTree = "<group>"; };
 		39BEE18E207A4777003AF93E /* SSZipCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipCommon.h; path = ../../../Shared/ZipArchive/SSZipArchive/SSZipCommon.h; sourceTree = "<group>"; };
 		39BEE18F207A4778003AF93E /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZipArchive.h; path = ../../../Shared/ZipArchive/SSZipArchive/ZipArchive.h; sourceTree = "<group>"; };
+		39C44C3220F3A24900279955 /* DTXProfiler-API.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXProfiler-API.m"; sourceTree = "<group>"; };
 		39C713381EFFCB4000C827EB /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoCoding.m; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.m; sourceTree = "<group>"; };
 		39C713391EFFCB4000C827EB /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoCoding.h; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.h; sourceTree = "<group>"; };
 		39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXReactNativeSampler.h; sourceTree = "<group>"; };
@@ -254,6 +257,7 @@
 		39C713431EFFDB2500C827EB /* DTXPollingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPollingManager.h; sourceTree = "<group>"; };
 		39C713441EFFDB2500C827EB /* DTXPollingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPollingManager.m; sourceTree = "<group>"; };
 		39C713471EFFDBC000C827EB /* DTXPollable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPollable.h; sourceTree = "<group>"; };
+		39D10D3220E38E5D00320742 /* DTXEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventStatus.h; sourceTree = "<group>"; };
 		39D2054E1F03057200830A0D /* DTXLoggingRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLoggingRecorder.h; sourceTree = "<group>"; };
 		39D2054F1F03057200830A0D /* DTXLoggingRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLoggingRecorder.m; sourceTree = "<group>"; };
 		39D40BF91ED5ABD200157C04 /* DTXProfiler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DTXProfiler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -583,11 +587,13 @@
 				39D2054D1F03054000830A0D /* LogRecording */,
 				39557CD51F1F7E1300FF3187 /* RemoteProfiler */,
 				396EE2BE20ADAD32006C4C55 /* ViewHierarchy */,
+				39D10D3220E38E5D00320742 /* DTXEventStatus.h */,
 				39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */,
 				39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */,
 				39D40C161ED5B43F00157C04 /* DTXProfiler.h */,
 				39557CD71F1F7E5500FF3187 /* DTXProfiler-Private.h */,
 				39D40C171ED5B43F00157C04 /* DTXProfiler.m */,
+				39C44C3220F3A24900279955 /* DTXProfiler-API.m */,
 				39D40BFD1ED5ABD200157C04 /* Info.plist */,
 				393E66DD1FC59B730092EE89 /* Swiftier.h */,
 				396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */,
@@ -628,6 +634,7 @@
 			files = (
 				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
 				39BEE196207A4778003AF93E /* ioapi_mem.h in Headers */,
+				39D10D3320E38ED200320742 /* DTXEventStatus.h in Headers */,
 				393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */,
 				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
 				399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */,
@@ -809,6 +816,7 @@
 				391E4C7A1F5575BF0057039E /* DTXAuthenticationChallengeProxy.m in Sources */,
 				39432AEA1F55BE6C00468DB7 /* DTXExternalProtocolStorage.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
+				39C44C3320F3A24900279955 /* DTXProfiler-API.m in Sources */,
 				39281E831ED70A77002CE905 /* DTXZipper.m in Sources */,
 				39BEE1AF207A4778003AF93E /* pwd2key.c in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,

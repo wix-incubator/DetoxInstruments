@@ -28,7 +28,7 @@
 
 DTX_CREATE_LOG(Profiler);
 
-@interface DTXProfiler () <DTXNetworkListener, DTXLoggingListener>
+@interface DTXProfiler ()
 
 @property (atomic, assign, readwrite, getter=isRecording) BOOL recording;
 
@@ -123,16 +123,6 @@ DTX_CREATE_LOG(Profiler);
 				[weakSelf performanceSamplerDidPoll:pollable];
 			}];
 			
-			if(configuration.recordNetwork == YES)
-			{
-				[DTXNetworkRecorder addNetworkListener:self];
-			}
-			
-			if(configuration.recordLogOutput == YES)
-			{
-				[DTXLoggingRecorder addLoggingListener:self];
-			}
-			
 			if(self->_currentRecording.hasReactNative == YES && self->_currentProfilingConfiguration.profileReactNative == YES)
 			{
 				DTXReactNativeSampler* rnSampler = [[DTXReactNativeSampler alloc] initWithConfiguration:configuration];
@@ -144,6 +134,8 @@ DTX_CREATE_LOG(Profiler);
 				}
 			}
 			
+			__DTXProfilerAddActiveProfiler(self);
+			
 			[self->_pollingManager resume];
 			
 			dtx_log_info(@"Started profiling");
@@ -151,7 +143,7 @@ DTX_CREATE_LOG(Profiler);
 	}];
 }
 
-- (void)_symbolicateStackTracesInternal
+- (void)_symbolicateRemainingStackTracesInternal
 {
 	NSPredicate* unsymbolicated = [NSPredicate predicateWithFormat:@"stackTraceIsSymbolicated == NO"];
 	NSFetchRequest* fr = [DTXAdvancedPerformanceSample fetchRequest];
@@ -176,7 +168,7 @@ DTX_CREATE_LOG(Profiler);
 	unsymbolicatedSample.stackTraceIsSymbolicated = YES;
 }
 
-- (void)_symbolicateJavaScriptStackTracesInternal
+- (void)_symbolicateRemainingJavaScriptStackTracesInternal
 {
 	NSPredicate* unsymbolicated = [NSPredicate predicateWithFormat:@"stackTraceIsSymbolicated == NO"];
 	NSFetchRequest* fr = [DTXReactNativePeroformanceSample fetchRequest];
@@ -203,6 +195,8 @@ DTX_CREATE_LOG(Profiler);
 	dtx_log_info(@"Stopping profiling");
 	
 	[self _flushPendingSamplesWithInternalCompletionHandler:^{
+		__DTXProfilerRemoveActiveProfiler(self);
+		
 		self->_currentRecording.endTimestamp = [NSDate date];
 		
 		[self->_profilerStoryListener updateRecording:self->_currentRecording stopRecording:YES];
@@ -212,7 +206,7 @@ DTX_CREATE_LOG(Profiler);
 		if(self->_currentProfilingConfiguration.collectStackTraces == YES
 		   && self->_currentProfilingConfiguration.symbolicateStackTraces == YES)
 		{
-			[self _symbolicateStackTracesInternal];
+			[self _symbolicateRemainingStackTracesInternal];
 		}
 		
 		if(self->_currentRecording.hasReactNative
@@ -220,17 +214,7 @@ DTX_CREATE_LOG(Profiler);
 		   && self->_currentProfilingConfiguration.collectJavaScriptStackTraces == YES
 		   && self->_currentProfilingConfiguration.symbolicateJavaScriptStackTraces == YES)
 		{
-			[self _symbolicateJavaScriptStackTracesInternal];
-		}
-		
-		if(self->_currentProfilingConfiguration.recordNetwork == YES)
-		{
-			[DTXNetworkRecorder removeNetworkListener:self];
-		}
-		
-		if(self->_currentProfilingConfiguration.recordLogOutput == YES)
-		{
-			[DTXLoggingRecorder removeLoggingListener:self];
+			[self _symbolicateRemainingJavaScriptStackTracesInternal];
 		}
 		
 		[self->_backgroundContext save:NULL];
@@ -251,13 +235,14 @@ DTX_CREATE_LOG(Profiler);
 	}];
 }
 
-- (void)pushSampleGroupWithName:(NSString*)name
+- (void)_pushSampleGroupWithName:(NSString*)name timestamp:(NSDate*)timestamp
 {
 	DTX_ASSERT_RECORDING
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		DTXSampleGroup* newGroup = [[DTXSampleGroup alloc] initWithContext:self->_backgroundContext];
+		newGroup.timestamp = timestamp;
 		newGroup.name = name;
 		newGroup.parentGroup = self->_currentSampleGroup;
 		[self->_profilerStoryListener pushSampleGroup:newGroup isRootGroup:NO];
@@ -265,7 +250,7 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)popSampleGroup
+- (void)_popSampleGroupWithTimestamp:(NSDate *)timestamp
 {
 	DTX_ASSERT_RECORDING
 	
@@ -274,13 +259,13 @@ DTX_CREATE_LOG(Profiler);
 		
 		NSAssert(self->_currentSampleGroup.parentGroup != nil, @"Cannot pop the root sample group");
 		
-		self->_currentSampleGroup.closeTimestamp = [NSDate date];
+		self->_currentSampleGroup.closeTimestamp = timestamp;
 		[self->_profilerStoryListener popSampleGroup:self->_currentSampleGroup];
 		self->_currentSampleGroup = self->_currentSampleGroup.parentGroup;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)addTag:(NSString*)_tag
+- (void)_addTag:(NSString*)_tag timestamp:(NSDate*)timestamp
 {
 	DTX_ASSERT_RECORDING
 	
@@ -288,6 +273,7 @@ DTX_CREATE_LOG(Profiler);
 		DTX_IGNORE_NOT_RECORDING
 		
 		DTXTag* tag = [[DTXTag alloc] initWithContext:self->_backgroundContext];
+		tag.timestamp = timestamp;
 		tag.parentGroup = self->_currentSampleGroup;
 		tag.name = _tag;
 		
@@ -297,12 +283,12 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)addLogLine:(NSString *)line
+- (void)_addLogLine:(NSString *)line timestamp:(NSDate*)timestamp
 {
-	[self addLogLine:line objects:nil];
+	[self _addLogLine:line objects:nil timestamp:timestamp];
 }
 
-- (void)addLogLine:(NSString *)line objects:(NSArray *)objects
+- (void)_addLogLine:(NSString *)line objects:(NSArray *)objects timestamp:(NSDate*)timestamp
 {
 	DTX_ASSERT_RECORDING
 	
@@ -310,6 +296,7 @@ DTX_CREATE_LOG(Profiler);
 		DTX_IGNORE_NOT_RECORDING
 		
 		DTXLogSample* log = [[DTXLogSample alloc] initWithContext:self->_backgroundContext];
+		log.timestamp = timestamp;
 		log.parentGroup = self->_currentSampleGroup;
 		log.line = line;
 		log.objects = objects;
@@ -318,24 +305,22 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (NSString *)markEventIntervalBeginWithName:(NSString *)name additionalInfo:(NSString *)additionalInfo
+- (void)_markEventIntervalBeginWithIdentifier:(NSString *)identifier category:(NSString *)category name:(NSString *)name additionalInfo:(NSString *)additionalInfo timestamp:(NSDate*)timestamp
 {
-	NSString* identifier = NSUUID.UUID.UUIDString;
-	
 	[self->_backgroundContext performBlock:^{
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
+		signpostSample.timestamp = timestamp;
 		signpostSample.uniqueIdentifier = identifier;
+		signpostSample.category = category;
 		signpostSample.name = [name copy];
 		signpostSample.additionalInfoStart = [additionalInfo copy];
 		signpostSample.parentGroup = self->_currentSampleGroup;
 		
 		[self->_profilerStoryListener markEventIntervalBegin:signpostSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
-	
-	return identifier;
 }
 
-- (void)markEventIntervalEndWithIdentifier:(NSString *)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString *)additionalInfo
+- (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo timestamp:(NSDate*)timestamp
 {
 	[self->_backgroundContext performBlock:^{
 		NSFetchRequest* fr = [DTXSignpostSample fetchRequest];
@@ -346,7 +331,8 @@ DTX_CREATE_LOG(Profiler);
 			return;
 		}
 
-		signpostSample.endTimestamp = [NSDate date];
+		signpostSample.endTimestamp = timestamp;
+		signpostSample.duration = [signpostSample.endTimestamp timeIntervalSinceDate:signpostSample.timestamp];
 		signpostSample.eventStatus = eventStatus;
 		signpostSample.additionalInfoEnd = [additionalInfo copy];
 		
@@ -354,12 +340,14 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)markEventWithWithName:(NSString *)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString *)additionalInfo
+- (void)_markEventWithCategory:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo timestamp:(NSDate*)timestamp
 {
 	[self->_backgroundContext performBlock:^{
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
+		signpostSample.timestamp = timestamp;
 		signpostSample.parentGroup = self->_currentSampleGroup;
 		signpostSample.uniqueIdentifier = NSUUID.UUID.UUIDString;
+		signpostSample.category = category;
 		signpostSample.name = [name copy];
 		signpostSample.additionalInfoStart = [additionalInfo copy];
 		signpostSample.eventStatus = eventStatus;
@@ -373,9 +361,10 @@ DTX_CREATE_LOG(Profiler);
 - (void)_flushPendingSamplesInternal
 {
 	[_backgroundContext save:NULL];
-	[_pendingSamples enumerateObjectsUsingBlock:^(DTXSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	
+	for (DTXSample* obj in _pendingSamples) {
 		[self->_backgroundContext refreshObject:obj mergeChanges:YES];
-	}];
+	}
 	
 	[_backgroundContext refreshObject:_currentSampleGroup mergeChanges:YES];
 	
@@ -433,7 +422,9 @@ DTX_CREATE_LOG(Profiler);
 	
 	NSArray* openFiles = performanceSampler.currentOpenFiles;
 	
-	[_backgroundContext performBlockAndWait:^{
+	NSDate* timestamp = NSDate.date;
+	
+	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
 		__kindof DTXPerformanceSample* perfSample;
@@ -447,6 +438,7 @@ DTX_CREATE_LOG(Profiler);
 			perfSample = [[DTXPerformanceSample alloc] initWithContext:self->_backgroundContext];
 		}
 		
+		perfSample.timestamp = timestamp;
 		perfSample.cpuUsage = cpu.totalCPU;
 		perfSample.memoryUsage = memory;
 		perfSample.fps = fps;
@@ -462,7 +454,7 @@ DTX_CREATE_LOG(Profiler);
 		
 		if(self->_currentProfilingConfiguration.recordThreadInformation)
 		{
-			[cpu.threads enumerateObjectsUsingBlock:^(DTXThreadMeasurement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			for (DTXThreadMeasurement* obj in cpu.threads) {
 				DTXThreadInfo* threadInfo = self->_threads[@(obj.identifier)];
 				if(threadInfo == nil)
 				{
@@ -479,7 +471,7 @@ DTX_CREATE_LOG(Profiler);
 				threadSample.cpuUsage = obj.cpu;
 				threadSample.threadInfo = threadInfo;
 				threadSample.advancedPerformanceSample = (DTXAdvancedPerformanceSample*)perfSample;
-			}];
+			}
 			
 			if(self->_currentProfilingConfiguration.collectStackTraces)
 			{
@@ -513,10 +505,13 @@ DTX_CREATE_LOG(Profiler);
 	NSArray* stackTrace = [rnSampler.currentStackTrace componentsSeparatedByString:@"\n"];
 	BOOL isSymbolicated = rnSampler.currentStackTraceSymbolicated;
 	
+	NSDate* timestamp = NSDate.date;
+	
 	[_backgroundContext performBlockAndWait:^{
 		DTX_IGNORE_NOT_RECORDING
 		
 		DTXReactNativePeroformanceSample* rnPerfSample = [[DTXReactNativePeroformanceSample alloc] initWithContext:self->_backgroundContext];
+		rnPerfSample.timestamp = timestamp;
 		rnPerfSample.cpuUsage = cpu;
 		rnPerfSample.bridgeNToJSCallCount = bridgeNToJSCallCount;
 		rnPerfSample.bridgeNToJSCallCountDelta = bridgeNToJSCallCountDelta;
@@ -548,9 +543,7 @@ DTX_CREATE_LOG(Profiler);
 	}
 }
 
-#pragma mark DTXNetworkListener
-
-- (void)networkRecorderDidStartRequest:(NSURLRequest *)request uniqueIdentifier:(NSString *)uniqueIdentifier
+- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
@@ -563,6 +556,7 @@ DTX_CREATE_LOG(Profiler);
 		DTX_IGNORE_NOT_RECORDING
 		
 		DTXNetworkSample* networkSample = [[DTXNetworkSample alloc] initWithContext:self->_backgroundContext];
+		networkSample.timestamp = timestamp;
 		networkSample.uniqueIdentifier = uniqueIdentifier;
 		networkSample.url = request.URL.absoluteString;
 		networkSample.requestTimeoutInterval = request.timeoutInterval;
@@ -581,7 +575,7 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)netwrokRecorderDidFinishWithResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *)error forRequestWithUniqueIdentifier:(NSString *)uniqueIdentifier
+- (void)_networkRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
 	if(_currentProfilingConfiguration.recordLocalhostNetwork == NO && ([response.URL.host isEqualToString:@"localhost"] || [response.URL.host isEqualToString:@"127.0.0.1"]))
 	{
@@ -597,7 +591,7 @@ DTX_CREATE_LOG(Profiler);
 			return;
 		}
 		
-		networkSample.responseTimestamp = [NSDate date];
+		networkSample.responseTimestamp = timestamp;
 		
 		networkSample.responseError = error.localizedDescription;
 		networkSample.responseMIMEType = response.MIMEType;
@@ -622,13 +616,6 @@ DTX_CREATE_LOG(Profiler);
 		
 		[self _addPendingSampleInternal:networkSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
-}
-
-#pragma DTXLoggingListener
-
-- (void)loggingRecorderDidAddLogLine:(NSString *)logLine objects:(NSArray*)objects
-{
-	[self addLogLine:logLine objects:objects];
 }
 
 @end

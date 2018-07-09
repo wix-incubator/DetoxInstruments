@@ -367,7 +367,6 @@
 - (void)_handleViewHierarchy:(NSDictionary*)viewHierarchy;
 {
 //	DTXAppSnapshot* appSnapshot = [NSKeyedUnarchiver unarchiveObjectWithData:viewHierarchy[@"appSnapshot"]];
-//	
 //	NSLog(@"");
 }
 

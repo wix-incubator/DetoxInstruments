@@ -102,7 +102,7 @@
 
 - (NSString*)description
 {
-	return [NSString stringWithFormat:@"<%@: %p [%@] name: %@, size: %@>", self.class, self, self.isDirectory ? @"D" : @"F", self.name, self.size == nil ? @"--" : [NSByteCountFormatter stringFromByteCount:self.size.unsignedIntegerValue countStyle:NSByteCountFormatterCountStyleFile]];
+	return [NSString stringWithFormat:@"<%@: %p [%@] name: %@, size: %@>", self.class, self, self.isDirectory ? @"D" : @"F", self.name, self.size == nil ? @"—" : [NSByteCountFormatter stringFromByteCount:self.size.unsignedIntegerValue countStyle:NSByteCountFormatterCountStyleFile]];
 }
 
 - (NSData*)contents

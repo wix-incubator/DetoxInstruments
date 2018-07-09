@@ -8,12 +8,14 @@
 
 #import "DTXSignpostSample+CoreDataClass.h"
 @import CoreData;
+#import "DTXSignpostProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DTXSignpostSample (UIExtensions)
+@interface DTXSignpostSample (UIExtensions) <DTXSignpost>
 
 + (BOOL)hasSignpostSamplesForManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
+- (NSString*)eventStatusString;
 
 @end
 

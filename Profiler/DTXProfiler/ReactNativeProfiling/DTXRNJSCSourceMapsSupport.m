@@ -102,17 +102,17 @@ NSArray* DTXRNSymbolicateJSCBacktrace(DTXSourceMapsParser* parser, NSArray<NSStr
 	
 	NSMutableArray* symbolicatedLines = [NSMutableArray new];
 	
-	[backtrace enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	for (NSString* obj in backtrace) {
 		NSTextCheckingResult* match = [expr matchesInString:obj options:0 range:NSMakeRange(0, obj.length)].firstObject;
 		
 		if(match.numberOfRanges != 6)
 		{
 			//Unsupported format - add line as is.
 			[symbolicatedLines addObject:obj];
-			return;
+			break;
 		}
 		
-//		NSString* stackFrameNumber = [obj substringWithRange:[match rangeAtIndex:1]];
+		//		NSString* stackFrameNumber = [obj substringWithRange:[match rangeAtIndex:1]];
 		NSString* funcName = [obj substringWithRange:[match rangeAtIndex:2]];
 		NSString* codeURLString = [obj substringWithRange:[match rangeAtIndex:3]];
 		DTXSourcePosition* pos = [DTXSourcePosition new];
@@ -140,9 +140,9 @@ NSArray* DTXRNSymbolicateJSCBacktrace(DTXSourceMapsParser* parser, NSArray<NSStr
 			symbolicated.symbolName = funcName;
 		}
 		
-//		NSString* frame = [NSString stringWithFormat:@"#%@ %@() at %@:%@", stackFrameNumber, symbolicated.symbolName ?: funcName, symbolicated.sourceFileName, symbolicated.line];
+		//		NSString* frame = [NSString stringWithFormat:@"#%@ %@() at %@:%@", stackFrameNumber, symbolicated.symbolName ?: funcName, symbolicated.sourceFileName, symbolicated.line];
 		[symbolicatedLines addObject:[symbolicated dictionaryRepresentation]];
-	}];
+	}
 	
 	*currentStackTraceSymbolicated = YES;
 	return symbolicatedLines;

@@ -10,4 +10,6 @@
 
 @interface DTXDetailOutlineView : NSOutlineView
 
+@property (nonatomic, assign) BOOL respectsOutlineCellFraming;
+
 @end
