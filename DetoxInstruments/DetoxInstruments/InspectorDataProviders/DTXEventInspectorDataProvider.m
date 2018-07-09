@@ -39,8 +39,6 @@
 	
 	if(eventSample.isEvent == NO)
 	{
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Type", @"") description:NSLocalizedString(@"Interval", @"")]];
-		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
 		
 		ti = eventSample.endTimestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
