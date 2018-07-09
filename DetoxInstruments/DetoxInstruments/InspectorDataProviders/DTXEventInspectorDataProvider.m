@@ -47,30 +47,47 @@
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
 		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Duration", @"") description:[NSFormatter.dtx_durationFormatter stringFromTimeInterval:eventSample.duration]]];
-		
-		if(eventSample.additionalInfoStart != nil)
-		{
-			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Additional Info (Start)", @"") description:eventSample.additionalInfoStart]];
-		}
-		
-		if(eventSample.additionalInfoEnd != nil)
-		{
-			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Additional Info (End)", @"") description:eventSample.additionalInfoEnd]];
-		}
 	}
 	else
 	{
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
-		
-		if(eventSample.additionalInfoStart != nil)
-		{
-			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Additional Info", @"") description:eventSample.additionalInfoStart]];
-		}
 	}
 	
 	timing.content = content;
 	
-	rv.contentArray = @[general, timing];
+	DTXInspectorContent* additionalInfo = [DTXInspectorContent new];
+	additionalInfo.title = NSLocalizedString(@"Additional Info", @"");
+	content = [NSMutableArray new];
+	
+	if(eventSample.isEvent == NO)
+	{
+		if(eventSample.additionalInfoStart != nil)
+		{
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:eventSample.additionalInfoStart]];
+		}
+		
+		if(eventSample.additionalInfoEnd != nil)
+		{
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:eventSample.additionalInfoEnd]];
+		}
+	}
+	else
+	{
+		if(eventSample.additionalInfoStart != nil)
+		{
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Info", @"") description:eventSample.additionalInfoStart]];
+		}
+	}
+	
+	additionalInfo.content = content;
+	
+	NSMutableArray* contentArray = @[general, timing].mutableCopy;
+	if(additionalInfo.content.count > 0)
+	{
+		[contentArray addObject:additionalInfo];
+	}
+	
+	rv.contentArray = contentArray;
 	
 	return rv;
 }
