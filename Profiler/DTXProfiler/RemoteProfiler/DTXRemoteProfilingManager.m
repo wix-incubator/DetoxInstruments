@@ -167,16 +167,16 @@ static DTXRemoteProfilingManager* __sharedManager;
 			case DTXRemoteProfilingCommandTypeAddTag:
 			{
 				NSString* name = cmd[@"name"];
-				[self->_remoteProfiler addTag:name];
+				[self->_remoteProfiler _addTag:name timestamp:NSDate.date];
 			}	break;
 			case DTXRemoteProfilingCommandTypePushGroup:
 			{
 				NSString* name = cmd[@"name"];
-				[self->_remoteProfiler pushSampleGroupWithName:name];
+				[self->_remoteProfiler _pushSampleGroupWithName:name timestamp:NSDate.date];
 			}	break;
 			case DTXRemoteProfilingCommandTypePopGroup:
 			{
-				[self->_remoteProfiler popSampleGroup];
+				[self->_remoteProfiler _popSampleGroupWithTimestamp:NSDate.date];
 			}	break;
 			case DTXRemoteProfilingCommandTypeStopProfiling:
 			{
@@ -435,7 +435,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 	
 	dtx_log_info(@"Accepted connection");
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
-	_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dispatch_queue_create("com.wix.DTXRemoteProfiler", qosAttribute)];
+	_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dispatch_queue_create("com.wix.DTXRemoteProfiler-Networking", qosAttribute)];
 	_connection.delegate = self;
 	
 	[_connection open];

@@ -121,7 +121,8 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 {
 	[self _preparePersistenceContainerFromURL:nil allowCreation:YES error:NULL];
 	NSManagedObjectContext* bgCtx = [_container newBackgroundContext];
-	bgCtx.name = @"com.wix.RemoteProfiling";
+	bgCtx.name = @"com.wix.RemoteProfiling-ManagedObjectContext";
+
 	_remoteProfilingClient = [[DTXRemoteProfilingClient alloc] initWithProfilingTarget:target managedObjectContext:bgCtx];
 	_remoteProfilingClient.delegate = self;
 	[_remoteProfilingClient startProfilingWithConfiguration:configuration];
@@ -164,7 +165,11 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:storeURL];
 	description.type = url ? NSSQLiteStoreType : NSInMemoryStoreType;
-	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXRecordingDocument class]]]];
+	static NSManagedObjectModel* model;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXRecordingDocument class]]]];
+	});
 	
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
 	_container.persistentStoreDescriptions = @[description];
@@ -494,9 +499,12 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			_recording.endTimestamp = [NSDate date];
 		}
 		
-		self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
-		
 		[self updateChangeCount:NSChangeDone];
+		
+		//Autosave here so that the Core Data container moves to SQL type and only then update document state.
+		[self autosaveWithImplicitCancellability:self.autosavingIsImplicitlyCancellable completionHandler:^(NSError * _Nullable errorOrNil) {
+			self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
+		}];
 	}];
 }
 
