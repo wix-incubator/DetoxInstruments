@@ -42,11 +42,6 @@ static __weak id<DTXURLProtocolDelegate> __protocolDelelgate;
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-	if([DTXNetworkRecorder hasNetworkListeners] == NO)
-	{
-		return NO;
-	}
-	
 	//TODO: More logic needed
 	
 	if ([[self propertyForKey:DTXURLProtocolHandledKey inRequest:request] boolValue])

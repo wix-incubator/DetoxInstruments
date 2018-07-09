@@ -97,13 +97,19 @@ os_log_t __log_general;
 {
 	os_signpost_id_t slowFg = os_signpost_id_generate(__log_cpu_stress);
 	os_signpost_interval_begin(__log_cpu_stress, slowFg, "Slow Foreground");
-	NSString* slowForeground = [__profiler markEventIntervalBeginWithCategory:@"CPU Stress" name:@"Slow Foreground" additionalInfo:nil];
+	NSString* slowForeground = DTXProfilerMarkEventIntervalBegin(@"CPU Stress", @"Slow Foreground", nil);
 	
 	NSDate* before = [NSDate date];
 	
-	while([before timeIntervalSinceNow] > -5);
+	while([before timeIntervalSinceNow] > -5)
+	{
+		//These are a torture test for Detox Instruments performance profiling.
+		
+//		os_signpost_event_emit(__log_cpu_stress, OS_SIGNPOST_ID_EXCLUSIVE, "Slow Foreground Inside While");
+//		DTXProfilerMarkEvent(@"CPU Stress", @"Slow Foreground Inside While", DTXEventStatusCategory1, nil);
+	}
 	
-	[__profiler markEventIntervalEndWithIdentifier:slowForeground eventStatus:DTXEventStatusCategory1 additionalInfo:nil];
+	DTXProfilerMarkEventIntervalEnd(slowForeground, DTXEventStatusCategory1, nil);
 	os_signpost_interval_end(__log_cpu_stress, slowFg, "Slow Foreground");
 }
 
@@ -111,14 +117,21 @@ os_log_t __log_general;
 {
 	os_signpost_id_t slowBg = os_signpost_id_generate(__log_cpu_stress);
 	os_signpost_interval_begin(__log_cpu_stress, slowBg, "Slow Background");
-	NSString* slowBackground = [__profiler markEventIntervalBeginWithCategory:@"CPU Stress" name:@"Slow Background" additionalInfo:nil];
+	
+	NSString* slowBackground = DTXProfilerMarkEventIntervalBegin(@"CPU Stress", @"Slow Background", nil);
 	
 	NSDate* before = [NSDate date];
 	
 	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-		while([before timeIntervalSinceNow] > -10);
+		while([before timeIntervalSinceNow] > -10)
+		{
+			//These are a torture test for Detox Instruments performance profiling.
+			
+//			os_signpost_event_emit(__log_cpu_stress, OS_SIGNPOST_ID_EXCLUSIVE, "Slow Background Inside While");
+//			DTXProfilerMarkEvent(@"CPU Stress", @"Slow Background Inside While", DTXEventStatusCategory1, nil);
+		}
 		
-		[__profiler markEventIntervalEndWithIdentifier:slowBackground eventStatus:DTXEventStatusCategory1 additionalInfo:nil];
+		DTXProfilerMarkEventIntervalEnd(slowBackground, DTXEventStatusCategory1, nil);
 		os_signpost_interval_end(__log_cpu_stress, slowBg, "Slow Background");
 	});
 }
@@ -145,17 +158,17 @@ os_log_t __log_general;
 	
 	os_signpost_id_t nwIndex = os_signpost_id_generate(__log_network);
 	os_signpost_interval_begin(__log_network, nwIndex, "Requesting Index");
-	NSString* indexEvent = [__profiler markEventIntervalBeginWithCategory:@"Network" name:@"Requesting Index" additionalInfo:nil];
+	NSString* indexEvent = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Index", nil);
 	
 	[[session dataTaskWithURL:[NSURL URLWithString:@"https://jsonplaceholder.typicode.com/photos"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		if(error)
 		{
-			[__profiler markEventIntervalEndWithIdentifier:indexEvent eventStatus:DTXEventStatusError additionalInfo:error.localizedDescription];
+			DTXProfilerMarkEventIntervalEnd(indexEvent, DTXEventStatusError, error.localizedDescription);
 			os_signpost_interval_end(__log_network, nwIndex, "Requesting Index");
 			return;
 		}
 		
-		[__profiler markEventIntervalEndWithIdentifier:indexEvent eventStatus:DTXEventStatusCategory7 additionalInfo:error.localizedDescription];
+		DTXProfilerMarkEventIntervalEnd(indexEvent, DTXEventStatusCategory7, nil);
 		os_signpost_interval_end(__log_network, nwIndex, "Requesting Index");
 		
 		NSArray* arr = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
@@ -170,17 +183,17 @@ os_log_t __log_general;
 			
 			os_signpost_id_t nwItem = os_signpost_id_generate(__log_network);
 			os_signpost_interval_begin(__log_network, nwItem, "Requesting Item");
-			NSString* itemRequest = [__profiler markEventIntervalBeginWithCategory:@"Network" name:@"Requesting Item" additionalInfo:obj[@"thumbnailUrl"]];
+			NSString* itemRequest = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Item", obj[@"thumbnailUrl"]);
 			
 			[[session dataTaskWithURL:[NSURL URLWithString:obj[@"thumbnailUrl"]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 				if(error)
 				{
-					[__profiler markEventIntervalEndWithIdentifier:itemRequest eventStatus:DTXEventStatusError additionalInfo:error.localizedDescription];
+					DTXProfilerMarkEventIntervalEnd(itemRequest, DTXEventStatusError, error.localizedDescription);
 					os_signpost_interval_end(__log_network, nwItem, "Requesting Item");
 					return;
 				}
 				
-				[__profiler markEventIntervalEndWithIdentifier:itemRequest eventStatus:DTXEventStatusCategory7 additionalInfo:error.localizedDescription];
+				DTXProfilerMarkEventIntervalEnd(itemRequest, DTXEventStatusCategory7, nil);
 				os_signpost_interval_end(__log_network, nwItem, "Requesting Item");
 				NSLog(@"Got data with length: %@", @(data.length));
 			}] resume];
@@ -192,13 +205,13 @@ os_log_t __log_general;
 {
 	os_signpost_id_t disk = os_signpost_id_generate(__log_disk);
 	os_signpost_interval_begin(__log_disk, disk, "Write to Disk");
-	NSString* writeToDisk = [__profiler markEventIntervalBeginWithCategory:@"Disk" name:@"Write to Disk" additionalInfo:nil];
+	NSString* writeToDisk = DTXProfilerMarkEventIntervalBegin(@"Disk", @"Write to Disk", nil);
 	
 	NSData* data = [[NSMutableData alloc] initWithLength:20 * 1024 * 1024];
 	
 	[data writeToURL:[[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"largeFile.dat"] atomically:YES];
 	
-	[__profiler markEventIntervalEndWithIdentifier:writeToDisk eventStatus:DTXEventStatusCategory4 additionalInfo:nil];
+	DTXProfilerMarkEventIntervalEnd(writeToDisk, DTXEventStatusCategory4, nil);
 	os_signpost_interval_end(__log_disk, disk, "Write to Disk");
 }
 
@@ -263,7 +276,7 @@ os_log_t __log_general;
 	[self _peform:^{
 		os_signpost_id_t test = os_signpost_id_generate(__log_general);
 		os_signpost_interval_begin(__log_general, test, "Starting Test");
-		NSString* startingTest = [__profiler markEventIntervalBeginWithCategory:@"Stress Test" name:@"Starting Test" additionalInfo:nil];
+		NSString* startingTest = DTXProfilerMarkEventIntervalBegin(@"Stress Test", @"Starting Test", nil);
 		
 		[self _slowMyBackgroundTapped:nil];
 		
@@ -409,7 +422,7 @@ os_log_t __log_general;
 			[self.startDemoButton setTitle:@"Start Demo" forState:UIControlStateNormal];
 			[self.startDemoButton setEnabled:YES];
 			
-			[__profiler markEventIntervalEndWithIdentifier:startingTest eventStatus:DTXEventStatusCompleted additionalInfo:nil];
+			DTXProfilerMarkEventIntervalEnd(startingTest, DTXEventStatusCompleted, nil);
 			os_signpost_interval_end(__log_general, test, "Starting Test");
 			
 			[__profiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {

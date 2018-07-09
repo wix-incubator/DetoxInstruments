@@ -13,7 +13,6 @@
 #import "DTXLoggingRecorder.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "DTXCustomJSCSupport.h"
-#import "DTXReactNativeEventsRecorder.h"
 @import ObjectiveC;
 @import Darwin;
 @import UIKit;
@@ -67,22 +66,23 @@ static void installDTXNativeLoggingHook(JSContext* ctx)
 				[objects addObject:object];
 			}
 		}
-		[DTXLoggingRecorder addLogLine:[logLine stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", "]] objects:objects];
+		
+		DTXProfilerAddLogLineWithObjects([logLine stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", "]], objects);
 	};
 }
 
 static void installDTXSignpostHook(JSContext* ctx)
 {
-	ctx[@"dtxMarkEventIntervalBegin"] = (id) ^ (NSString* category, NSString* name, NSString* additionalInfoStart) {
-		return [DTXReactNativeEventsRecorder markEventIntervalBeginWithCategory:category name:name additionalInfo:additionalInfoStart];
+	ctx[@"dtxMarkEventIntervalBegin"] = ^ (NSDate* timestamp, NSString* identifier, NSString* category, NSString* name, NSString* additionalInfoStart) {
+//		return [DTXReactNativeEventsRecorder markEventIntervalBeginWithCategory:category name:name additionalInfo:additionalInfoStart];
 	};
 	
-	ctx[@"dtxMarkEventIntervalEnd"] = (NSString*) ^ (id identifier, NSInteger eventStatus, NSString* additionalInfoEnd) {
-		[DTXReactNativeEventsRecorder markEventIntervalEndWithIdentifiersData:identifier eventStatus:eventStatus additionalInfo:additionalInfoEnd];
+	ctx[@"dtxMarkEventIntervalEnd"] = ^ (NSDate* timestamp, id identifier, NSInteger eventStatus, NSString* additionalInfoEnd) {
+//		[DTXReactNativeEventsRecorder markEventIntervalEndWithIdentifiersData:identifier eventStatus:eventStatus additionalInfo:additionalInfoEnd];
 	};
 	
 	ctx[@"dtxMarkEvent"] = (NSString*) ^ (NSString* category, NSString* name, NSInteger eventStatus, NSString* additionalInfoStart) {
-		[DTXReactNativeEventsRecorder markEventWithCategory:category name:name eventStatus:eventStatus additionalInfo:additionalInfoStart];
+//		[DTXReactNativeEventsRecorder markEventWithCategory:category name:name eventStatus:eventStatus additionalInfo:additionalInfoStart];
 	};
 }
 
@@ -207,11 +207,14 @@ static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origB
 		
 		JSValueRef* arguments = malloc(sizeof(JSValueRef) * [__jscWrapper.JSContext currentArguments].count);
 		
-		[[__jscWrapper.JSContext currentArguments] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSUInteger idx = 0;
+		for (id obj in [__jscWrapper.JSContext currentArguments]) {
 			atomic_fetch_add(&__bridgeJSToNDataSize, DTXJSValueJsonStringLength(context.JSGlobalContextRef, [obj JSValueRef]));
 			
 			arguments[idx] = [obj JSValueRef];
-		}];
+			
+			idx += 1;
+		}
 		
 		JSValueRef exn = NULL;
 		

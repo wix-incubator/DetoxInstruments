@@ -51,6 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stopProfilingWithCompletionHandler:(void(^ __nullable)(NSError* __nullable error))completionHandler;
 
+@end
+
 /**
  *  Push a sample group.
  *
@@ -58,14 +60,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param name The name of the sample group to push.
  */
-- (void)pushSampleGroupWithName:(NSString*)name;
+void DTXProfilerPushSampleGroup(NSString* name);
 
 /**
  *  Pop a sample group.
  *
  *  Subsequent samples will be pushed into the parent group.
  */
-- (void)popSampleGroup;
+void DTXProfilerPopSampleGroup(void);
 
 /**
  *  Adds a tag.
@@ -74,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param tag The tag name to push.
  */
-- (void)addTag:(NSString*)tag;
+void DTXProfilerAddTag(NSString* tag);
 
 /**
  *  Adds a log line.
@@ -85,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param line The line to add.
  */
-- (void)addLogLine:(NSString*)line;
+void DTXProfilerAddLogLine(NSString* line);
 
 /**
  *  Adds a log line and an array of object.
@@ -97,13 +99,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param line The line to add.
  *  @param objects The objects to add.
  */
-- (void)addLogLine:(NSString *)line objects:(nullable NSArray *)objects;
+void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects);
 
-
-- (NSString*)markEventIntervalBeginWithCategory:(NSString*)category name:(NSString*)name additionalInfo:(nullable NSString*)additionalInfo;
-- (void)markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo;
-- (void)markEventWithCategory:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo;
-
-@end
+NSString* DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable additionalInfo);
+void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable additionalInfo);
+void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable additionInfo);
 
 NS_ASSUME_NONNULL_END
