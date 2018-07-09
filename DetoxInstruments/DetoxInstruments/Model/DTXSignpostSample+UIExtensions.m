@@ -7,6 +7,7 @@
 //
 
 #import "DTXSignpostSample+UIExtensions.h"
+#import "DTXEventStatus.h"
 
 @implementation DTXSignpostSample (UIExtensions)
 
@@ -39,6 +40,22 @@
 - (NSTimeInterval)stddevDuration
 {
 	return self.duration;
+}
+
+- (NSString *)eventStatusString
+{
+	if(self.eventStatus == DTXEventStatusError)
+	{
+		return NSLocalizedString(@"Error", @"");
+	}
+	
+	NSMutableString* completed = [NSLocalizedString(@"Completed", @"") mutableCopy];
+	if(self.eventStatus > DTXEventStatusError)
+	{
+		[completed appendString:[NSString stringWithFormat:@" (Category %@)", @(self.eventStatus - DTXEventStatusError)]];
+	}
+	
+	return completed;
 }
 
 @end

@@ -97,4 +97,11 @@
 	_maxDuration = results[@"max"].doubleValue;
 }
 
+- (NSDate *)closeTimestamp
+{
+	DTXSignpostSample* sample = self.fetchedResultsController.fetchedObjects.lastObject;
+	
+	return sample.endTimestamp;
+}
+
 @end

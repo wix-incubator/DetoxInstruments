@@ -35,6 +35,10 @@
 	
 	CPTPlotSpaceAnnotation* _highlightAnnotation;
 	DTXLineLayer* _lineLayer;
+	
+	CPTPlotSpaceAnnotation* _secondHighlightAnnotation;
+	DTXLineLayer* _secondLineLayer;
+	
 	NSUInteger _highlightedSampleIndex;
 	NSUInteger _highlightedNextSampleIndex;
 	NSTimeInterval _highlightedSampleTime;
@@ -45,6 +49,10 @@
 	
 	CPTPlotSpaceAnnotation* _shadowHighlightAnnotation;
 	DTXLineLayer* _shadowLineLayer;
+	
+	CPTPlotSpaceAnnotation* _secondShadowHighlightAnnotation;
+	DTXLineLayer* _secondShadowLineLayer;
+	
 	NSTimeInterval _shadowHighlightedSampleTime;
 	
 	NSArray* _plots;
@@ -286,17 +294,18 @@
 		[plot addAreaFillBand:_rangeHighlightBand];
 	}
 	[_lineLayer setNeedsDisplay];
+	[_secondLineLayer setNeedsDisplay];
 }
 
 - (void)_updateShadowLineColor
 {
 	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
 	{
-		_shadowLineLayer.lineColor = NSColor.whiteColor;
+		_secondShadowLineLayer.lineColor = _shadowLineLayer.lineColor = NSColor.whiteColor;
 	}
 	else
 	{
-		_shadowLineLayer.lineColor = [([self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15]) colorWithAlphaComponent:0.5];
+		_secondShadowLineLayer.lineColor = _shadowLineLayer.lineColor = [([self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15]) colorWithAlphaComponent:0.5];
 	}
 }
 
@@ -304,11 +313,11 @@
 {
 	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
 	{
-		_lineLayer.lineColor = NSColor.whiteColor;
+		_secondLineLayer.lineColor = _lineLayer.lineColor = NSColor.whiteColor;
 	}
 	else
 	{
-		_lineLayer.lineColor = self.plotColors.count > 1 ? NSColor.labelColor : [self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
+		_secondLineLayer.lineColor = _lineLayer.lineColor = self.plotColors.count > 1 ? NSColor.labelColor : [self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
 	}
 }
 
@@ -633,6 +642,27 @@
 	
 	[plot addAreaFillBand:_rangeHighlightBand];
 	
+	if(self.graph)
+	{
+		_highlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+		_lineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
+		_lineLayer.opacity = 0.3;
+		_highlightAnnotation.contentLayer = _lineLayer;
+		_highlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
+		_highlightAnnotation.anchorPlotPoint = @[range.location, @(- self.rangeInsets.top)];
+		
+		_secondHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
+		_secondLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
+		_secondLineLayer.opacity = 0.3;
+		_secondHighlightAnnotation.contentLayer = _secondLineLayer;
+		_secondHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
+		_secondHighlightAnnotation.anchorPlotPoint = @[@(range.locationDouble + range.lengthDouble), @(- self.rangeInsets.top)];
+		
+		[self _updateLineColor];
+		[self.graph addAnnotation:_highlightAnnotation];
+		[self.graph addAnnotation:_secondHighlightAnnotation];
+	}
+	
 	if(notifyDelegate)
 	{
 		[self.delegate plotController:self didHighlightRange:range];
@@ -666,15 +696,6 @@
 
 - (void)removeHighlight
 {
-	CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
-	
-	if(_rangeHighlightBand)
-	{
-		[plot removeAreaFillBand:_rangeHighlightBand];
-	}
-	
-	_rangeHighlightBand = nil;
-	
 	if(_shadowHighlightAnnotation && _shadowHighlightAnnotation.annotationHostLayer != nil)
 	{
 		[self.graph removeAnnotation:_shadowHighlightAnnotation];
@@ -682,6 +703,14 @@
 	
 	_shadowLineLayer = nil;
 	_shadowHighlightAnnotation = nil;
+	
+	if(_secondShadowHighlightAnnotation && _secondShadowHighlightAnnotation.annotationHostLayer != nil)
+	{
+		[self.graph removeAnnotation:_secondShadowHighlightAnnotation];
+	}
+	
+	_secondShadowLineLayer = nil;
+	_secondShadowHighlightAnnotation = nil;
 	
 	if(_highlightAnnotation && _highlightAnnotation.annotationHostLayer != nil)
 	{
@@ -691,11 +720,27 @@
 	_lineLayer = nil;
 	_highlightAnnotation = nil;
 	
+	if(_secondHighlightAnnotation && _secondHighlightAnnotation.annotationHostLayer != nil)
+	{
+		[self.graph removeAnnotation:_secondHighlightAnnotation];
+	}
+	
+	_secondLineLayer = nil;
+	_secondHighlightAnnotation = nil;
+	
 	_highlightedSampleIndex = NSNotFound;
 	_highlightedNextSampleIndex = NSNotFound;
 	_highlightedSampleTime = 0.0;
 	_highlightedPercent = 0.0;
+	
+	CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
+	if(_rangeHighlightBand)
+	{
+		[plot removeAreaFillBand:_rangeHighlightBand];
+	}
 	_highlightedRange = nil;
+	_rangeHighlightBand = nil;
+	_rangeHighlightBand = nil;
 	
 	_shadowHighlightedSampleTime = 0.0;
 }
