@@ -105,7 +105,7 @@
 		[self.outlineView beginUpdates];
 		
 		[inserts enumerateObjectsUsingBlock:^(NSDictionary* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			id anObject = obj[@"anObject"];
+//			id anObject = obj[@"anObject"];
 			NSIndexPath* newIndexPath = obj[@"indexPath"];
 			
 			[self.outlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:newIndexPath.item] inParent:_root ? nil : self withAnimation:NSTableViewAnimationEffectNone];
