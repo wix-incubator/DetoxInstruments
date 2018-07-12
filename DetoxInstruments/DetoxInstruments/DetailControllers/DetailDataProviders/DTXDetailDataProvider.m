@@ -82,6 +82,22 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (void)setManagedOutlineView:(NSOutlineView *)outlineView
 {
+	_managedOutlineView.delegate = nil;
+	_managedOutlineView.dataSource = nil;
+	
+	[_managedOutlineView setOutlineTableColumn:[_managedOutlineView tableColumnWithIdentifier:@"DTXTimestampColumn"]];
+	
+	[_managedOutlineView.tableColumns.copy enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if(idx < 1)
+		{
+			return;
+		}
+		
+		[_managedOutlineView removeTableColumn:obj];
+	}];
+	
+	[_managedOutlineView reloadData];
+	
 	_managedOutlineView = outlineView;
 	
 	if(_managedOutlineView == nil)
