@@ -12,6 +12,7 @@
 
 @interface NSColor (NamedColors)
 
+@property (class, nonatomic, strong, readonly) NSColor* successColor;
 @property (class, nonatomic, strong, readonly) NSColor* warningColor;
 @property (class, nonatomic, strong, readonly) NSColor* warning2Color;
 @property (class, nonatomic, strong, readonly) NSColor* warning3Color;
