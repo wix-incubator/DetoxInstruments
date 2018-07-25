@@ -74,7 +74,7 @@ void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable object
 	__DTXProfilerAddLogLineWithObjects(NSDate.date, line, objects);
 }
 
-NSString* DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable additionalInfo)
+DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable additionalInfo)
 {
 	return __DTXProfilerMarkEventIntervalBegin(NSDate.date, category, name, additionalInfo);
 }

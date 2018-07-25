@@ -340,13 +340,13 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventWithCategory:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo timestamp:(NSDate*)timestamp
+- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp
 {
 	[self->_backgroundContext performBlock:^{
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
 		signpostSample.timestamp = timestamp;
 		signpostSample.parentGroup = self->_currentSampleGroup;
-		signpostSample.uniqueIdentifier = NSUUID.UUID.UUIDString;
+		signpostSample.uniqueIdentifier = identifier;
 		signpostSample.category = category;
 		signpostSample.name = [name copy];
 		signpostSample.additionalInfoStart = [additionalInfo copy];
