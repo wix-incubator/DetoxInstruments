@@ -6,10 +6,12 @@
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
+@import Foundation;
+
 #ifndef DTX_EVENT_STATUS_ENUM
 #define DTX_EVENT_STATUS_ENUM
 
-typedef enum : NSUInteger {
+typedef NS_ENUM(NSUInteger, DTXEventStatus) {
 	DTXEventStatusCompleted,
 	DTXEventStatusError,
 	
@@ -25,6 +27,6 @@ typedef enum : NSUInteger {
 	DTXEventStatusCategory10,
 	DTXEventStatusCategory11,
 	DTXEventStatusCategory12,
-} DTXEventStatus;
+};
 
 #endif /* DTX_EVENT_STATUS_ENUM */
