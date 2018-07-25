@@ -320,7 +320,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 - (NSImage*)_exampleImageWithExistingRep:(NSBitmapImageRep*)rep
 {
 	const CGFloat exampleImageWidthPadding = 440;
-	const CGFloat exampleImageHeightPadding = 120;
+	const CGFloat exampleImageHeightPadding = 100;
 	const CGFloat exampleFontSize = 80;
 	const CGFloat toolbarTitleXOffset = 1160;
 	const CGFloat lineLength = 172;
@@ -328,7 +328,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	NSMutableParagraphStyle* pStyle = [NSParagraphStyle defaultParagraphStyle].mutableCopy;
 	pStyle.alignment = NSTextAlignmentCenter;
 	
-	NSImage* exampleImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width + exampleImageWidthPadding * 2, rep.size.height + exampleImageHeightPadding)];
+	NSImage* exampleImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width + exampleImageWidthPadding * 2, rep.size.height + 1.5 * exampleImageHeightPadding)];
 	[exampleImage lockFocus];
 	
 	[rep drawAtPoint:NSMakePoint(exampleImage.size.width / 2 - rep.size.width / 2, exampleImage.size.height / 2 - rep.size.height / 2 - exampleImageHeightPadding)];
