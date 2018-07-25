@@ -80,7 +80,7 @@
                             </connections>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="3Ov-Tw-qaT">
-                            <rect key="frame" x="33" y="25" width="51" height="17"/>
+                            <rect key="frame" x="33" y="23" width="51" height="18"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="8bZ-eX-Z9S">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -738,7 +738,7 @@
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
                                                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCj-0r-N1a">
-                                                                                                                <rect key="frame" x="24" y="0.0" width="284" height="17"/>
+                                                                                                                <rect key="frame" x="24" y="0.0" width="284" height="18"/>
                                                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Table View Cell" allowsEditingTextAttributes="YES" id="jML-Ih-R7D">
                                                                                                                     <font key="font" metaFont="system"/>
                                                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -837,12 +837,12 @@
                                                                                                 </textFieldCell>
                                                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                 <prototypeCellViews>
-                                                                                                    <tableCellView identifier="ObjectCell" id="qi7-35-uyo" customClass="DTXHighlightingTableCellView">
+                                                                                                    <tableCellView identifier="ObjectCell" misplaced="YES" id="qi7-35-uyo" customClass="DTXHighlightingTableCellView">
                                                                                                         <rect key="frame" x="1" y="1" width="309" height="17"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
                                                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wBr-ud-Pex" customClass="DTXHighlightingAttributedTextField">
-                                                                                                                <rect key="frame" x="3" y="0.0" width="308" height="17"/>
+                                                                                                                <rect key="frame" x="3" y="0.0" width="308" height="18"/>
                                                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Table View Cell" allowsEditingTextAttributes="YES" usesSingleLineMode="YES" id="Nzp-Qx-W3c">
                                                                                                                     <font key="font" metaFont="system"/>
                                                                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>

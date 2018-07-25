@@ -64,13 +64,16 @@
 	
 	dispatch_source_set_event_handler(_aggregationCollectionSource, ^{
 		[_managedObjectContext performBlockAndWait:^{
-			NSLog(@"Saving");
-			[_managedObjectContext save:NULL];
-			
-			if(_recording.managedObjectContext.insertedObjects > 0)
+			@try
 			{
-				[self.delegate remoteProfilingClientDidChangeDatabase:self];
+				[_managedObjectContext save:NULL];
+				
+				if(_recording.managedObjectContext.insertedObjects > 0)
+				{
+					[self.delegate remoteProfilingClientDidChangeDatabase:self];
+				}
 			}
+			@catch(NSException* ex) {}
 		}];
 	});
 	

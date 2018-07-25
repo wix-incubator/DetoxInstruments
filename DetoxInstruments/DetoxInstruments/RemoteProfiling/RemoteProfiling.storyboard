@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14295.6" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14295.6"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14306.4"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,17 +11,17 @@
             <objects>
                 <viewController storyboardIdentifier="_DTXTargetsOutlineViewContoller" id="oEP-Mf-Ucg" customClass="_DTXTargetsOutlineViewContoller" sceneMemberID="viewController">
                     <view key="view" id="YYg-w9-p9Z">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="374"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="318"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" autohidesScrollers="YES" horizontalLineScroll="93" horizontalPageScroll="10" verticalLineScroll="93" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQU-Bz-tCA">
-                                <rect key="frame" x="20" y="0.0" width="500" height="339"/>
+                                <rect key="frame" x="20" y="1" width="500" height="281"/>
                                 <clipView key="contentView" drawsBackground="NO" id="qgV-SM-Kze">
-                                    <rect key="frame" x="1" y="1" width="498" height="337"/>
+                                    <rect key="frame" x="1" y="1" width="498" height="279"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="90" viewBased="YES" outlineTableColumn="c7g-oF-BMF" id="65u-RA-Spb">
-                                            <rect key="frame" x="0.0" y="0.0" width="498" height="337"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="498" height="279"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -64,7 +64,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xEi-6o-1U5">
-                                                                    <rect key="frame" x="79" y="39" width="121" height="17"/>
+                                                                    <rect key="frame" x="79" y="38" width="121" height="18"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Leo Natan's iPhone" usesSingleLineMode="YES" id="FUC-RN-WDX">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -72,7 +72,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gXk-g3-2wI">
-                                                                    <rect key="frame" x="79" y="21" width="164" height="14"/>
+                                                                    <rect key="frame" x="79" y="19" width="164" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="iPhone 7 Plus, iOS 11 (a1234b)" usesSingleLineMode="YES" id="HXx-sM-JoD">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -150,7 +150,7 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="339" id="RuX-fD-Yee"/>
+                                    <constraint firstAttribute="height" constant="281" id="RuX-fD-Yee"/>
                                     <constraint firstAttribute="width" constant="500" id="eTf-bY-xJ8"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="rgI-oP-LZc">
@@ -163,7 +163,7 @@
                                 </scroller>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Ed4-VH-IKz">
-                                <rect key="frame" x="18" y="347" width="149" height="17"/>
+                                <rect key="frame" x="18" y="290" width="149" height="18"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select an app to profile:" id="zCb-U1-8nK">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -177,7 +177,7 @@
                             <constraint firstItem="Ed4-VH-IKz" firstAttribute="leading" secondItem="YYg-w9-p9Z" secondAttribute="leading" constant="20" id="QKf-dk-Cmk"/>
                             <constraint firstAttribute="trailing" secondItem="JQU-Bz-tCA" secondAttribute="trailing" constant="20" id="RQZ-BD-Cvf"/>
                             <constraint firstItem="JQU-Bz-tCA" firstAttribute="top" secondItem="Ed4-VH-IKz" secondAttribute="bottom" constant="8" id="aj8-We-msZ"/>
-                            <constraint firstAttribute="bottom" secondItem="JQU-Bz-tCA" secondAttribute="bottom" id="hDF-DE-cUa"/>
+                            <constraint firstAttribute="bottom" secondItem="JQU-Bz-tCA" secondAttribute="bottom" constant="1" id="hDF-DE-cUa"/>
                         </constraints>
                     </view>
                     <connections>
@@ -221,11 +221,11 @@ DQ
             <objects>
                 <viewController storyboardIdentifier="_DTXProfilingConfigurationViewController" id="zDv-Kn-gnL" customClass="_DTXProfilingConfigurationViewController" sceneMemberID="viewController">
                     <view key="view" id="FEz-7a-uxl">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="374"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="318"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="s4B-us-kgy">
-                                <rect key="frame" x="33" y="339" width="156" height="17"/>
+                                <rect key="frame" x="33" y="282" width="156" height="18"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Configuration:" id="Kgg-Uk-WEI">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -233,7 +233,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lgs-to-Nln">
-                                <rect key="frame" x="193" y="338" width="314" height="18"/>
+                                <rect key="frame" x="193" y="282" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Use default profiling configuration" bezelStyle="regularSquare" imagePosition="left" inset="2" id="XPN-4i-Vdy">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -244,7 +244,7 @@ DQ
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5ra-8J-JPb">
-                                <rect key="frame" x="33" y="302" width="156" height="17"/>
+                                <rect key="frame" x="33" y="244" width="156" height="18"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Sampling frequency:" id="5ao-u9-aKE">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -252,7 +252,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="9sB-tV-o8Z">
-                                <rect key="frame" x="193" y="296" width="315" height="26"/>
+                                <rect key="frame" x="193" y="240" width="315" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="310" id="0dJ-Qg-jtI"/>
                                 </constraints>
@@ -283,7 +283,7 @@ DQ
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="VS0-3c-1X7">
-                                <rect key="frame" x="34" y="230" width="156" height="17"/>
+                                <rect key="frame" x="34" y="173" width="156" height="18"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Network:" id="gW5-XS-nVp">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -291,7 +291,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Record network requests during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ij9-mT-5jU">
-                                <rect key="frame" x="193" y="229" width="314" height="18"/>
+                                <rect key="frame" x="193" y="173" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Record network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="GFx-rl-rlb">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -307,7 +307,7 @@ DQ
                                 </connections>
                             </button>
                             <button toolTip="Record localhost network requests during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lLO-40-J7L">
-                                <rect key="frame" x="193" y="207" width="314" height="18"/>
+                                <rect key="frame" x="193" y="151" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Record localhost network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iLs-F6-q9u">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -323,7 +323,7 @@ DQ
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="gvZ-Vg-zOa">
-                                <rect key="frame" x="34" y="174" width="156" height="17"/>
+                                <rect key="frame" x="34" y="117" width="156" height="18"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Threads:" id="LGH-hy-c8V">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -331,7 +331,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Record thread information during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Vrg-ng-Sx1">
-                                <rect key="frame" x="193" y="173" width="314" height="18"/>
+                                <rect key="frame" x="193" y="117" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Record thread information" bezelStyle="regularSquare" imagePosition="left" inset="2" id="6EE-kR-rsy">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -347,7 +347,7 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="kOy-lY-zlb">
-                                <rect key="frame" x="193" y="151" width="314" height="18"/>
+                                <rect key="frame" x="193" y="95" width="314" height="18"/>
                                 <string key="toolTip">Collect stack trace information where appropriate.
 
 Collecting stack traces may introduce some performance hit.</string>
@@ -366,7 +366,7 @@ Collecting stack traces may introduce some performance hit.</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="4Ry-X3-hwt">
-                                <rect key="frame" x="193" y="129" width="314" height="18"/>
+                                <rect key="frame" x="193" y="73" width="314" height="18"/>
                                 <string key="toolTip">Symbolicate stack traces at runtime.
 
 Symbolicating stack traces may introduce some performance hit.</string>
@@ -393,7 +393,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="XPX-AY-wTx">
-                                <rect key="frame" x="34" y="96" width="156" height="17"/>
+                                <rect key="frame" x="34" y="39" width="156" height="18"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Log:" id="0oZ-HP-AW2">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -401,7 +401,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Record log output during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="MM1-pz-cM7">
-                                <rect key="frame" x="193" y="95" width="314" height="18"/>
+                                <rect key="frame" x="193" y="39" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Record log output" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gkU-xo-dnt">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -417,7 +417,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="fAs-nv-Tc8">
-                                <rect key="frame" x="34" y="62" width="156" height="17"/>
+                                <rect key="frame" x="34" y="5" width="156" height="18"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="React Native:" id="uw5-4a-ayF">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -425,7 +425,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="T8I-gU-SLV">
-                                <rect key="frame" x="193" y="61" width="314" height="18"/>
+                                <rect key="frame" x="193" y="5" width="314" height="18"/>
                                 <string key="toolTip">Profile React Native application.
 
 Currently, only one active React Native bridge is supported.</string>
@@ -443,94 +443,8 @@ Currently, only one active React Native bridge is supported.</string>
                                     <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="wpd-aw-egH"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="yJY-DQ-oMc">
-                                <rect key="frame" x="34" y="28" width="156" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="JavaScript:" id="6nx-wS-Dpq">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8X5-5v-Ezk">
-                                <rect key="frame" x="193" y="27" width="314" height="18"/>
-                                <string key="toolTip">Collect JavaScript stack trace information where appropriate.
-
-Collecting JavaScript stack traces may introduce some performance hit.</string>
-                                <buttonCell key="cell" type="check" title="Collect JavaScript stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="fho-GJ-ynk">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="cZB-yu-VZN" name="enabled3" keyPath="values.DTXProfilingConfigurationForceDisableJSCFeatures" previousBinding="H32-Lw-dpc" id="7PD-uJ-dL8">
-                                        <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
-                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="UR1-Lb-mdG">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                        </dictionary>
-                                    </binding>
-                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectJavaScriptStackTraces" id="1d4-O9-C51"/>
-                                    <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="UR1-Lb-mdG" id="H32-Lw-dpc">
-                                        <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                        </dictionary>
-                                    </binding>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ECP-cl-IVG">
-                                <rect key="frame" x="193" y="5" width="314" height="18"/>
-                                <string key="toolTip">Symbolicate JavaScript stack traces at runtime using source maps (if available).
-
-Symbolicating JavaScript stack traces may introduce some performance hit.</string>
-                                <buttonCell key="cell" type="check" title="Symbolicate JavaScript stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="srK-tN-coB">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="cZB-yu-VZN" name="enabled4" keyPath="values.DTXProfilingConfigurationForceDisableJSCFeatures" previousBinding="NCH-Fz-yHD" id="dvz-AM-wkf">
-                                        <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
-                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="kWj-z7-crO">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                        </dictionary>
-                                    </binding>
-                                    <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_collectJavaScriptStackTraces" previousBinding="kWj-z7-crO" id="p1O-rH-8QE">
-                                        <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
-                                    <binding destination="cZB-yu-VZN" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="p1O-rH-8QE" id="NCH-Fz-yHD">
-                                        <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                        </dictionary>
-                                    </binding>
-                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateJavaScriptStackTraces" id="jcS-I5-HSL"/>
-                                </connections>
-                            </button>
                             <button toolTip="Collect names of files open in the app at the time of sampling." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hPy-GK-AbS">
-                                <rect key="frame" x="193" y="263" width="314" height="18"/>
+                                <rect key="frame" x="193" y="207" width="314" height="18"/>
                                 <buttonCell key="cell" type="check" title="Collect open file names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="vuo-m4-XeE">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -546,7 +460,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6VV-ob-TAT">
-                                <rect key="frame" x="112" y="264" width="77" height="17"/>
+                                <rect key="frame" x="112" y="207" width="77" height="18"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Disk Usage:" id="1O2-bu-Bcb">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -563,21 +477,16 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                             <constraint firstItem="XPX-AY-wTx" firstAttribute="baseline" secondItem="MM1-pz-cM7" secondAttribute="baseline" id="6NO-sn-ufR"/>
                             <constraint firstItem="lgs-to-Nln" firstAttribute="top" secondItem="FEz-7a-uxl" secondAttribute="top" constant="20" id="6dx-l9-ZfL"/>
                             <constraint firstItem="lgs-to-Nln" firstAttribute="centerX" secondItem="FEz-7a-uxl" secondAttribute="centerX" constant="80" id="6sG-4P-VKn"/>
-                            <constraint firstItem="8X5-5v-Ezk" firstAttribute="top" secondItem="T8I-gU-SLV" secondAttribute="bottom" constant="20" id="6tV-uG-xN4"/>
                             <constraint firstItem="fAs-nv-Tc8" firstAttribute="width" secondItem="XPX-AY-wTx" secondAttribute="width" id="74j-e5-ozM"/>
                             <constraint firstItem="T8I-gU-SLV" firstAttribute="top" secondItem="MM1-pz-cM7" secondAttribute="bottom" constant="20" id="7hx-AG-LXr"/>
                             <constraint firstItem="ij9-mT-5jU" firstAttribute="leading" secondItem="9sB-tV-o8Z" secondAttribute="leading" id="Ad1-XW-WMe"/>
                             <constraint firstItem="ij9-mT-5jU" firstAttribute="top" secondItem="hPy-GK-AbS" secondAttribute="bottom" constant="20" id="CGd-ne-ltQ"/>
                             <constraint firstItem="9sB-tV-o8Z" firstAttribute="leading" secondItem="5ra-8J-JPb" secondAttribute="trailing" constant="8" id="D90-WP-lkI"/>
                             <constraint firstItem="6VV-ob-TAT" firstAttribute="trailing" secondItem="5ra-8J-JPb" secondAttribute="trailing" id="E5T-PF-P0K"/>
-                            <constraint firstItem="yJY-DQ-oMc" firstAttribute="baseline" secondItem="8X5-5v-Ezk" secondAttribute="baseline" id="F3P-bo-R16"/>
-                            <constraint firstItem="ECP-cl-IVG" firstAttribute="top" secondItem="8X5-5v-Ezk" secondAttribute="bottom" constant="8" id="Fjm-kt-Isb"/>
                             <constraint firstItem="MM1-pz-cM7" firstAttribute="leading" secondItem="4Ry-X3-hwt" secondAttribute="leading" id="FlS-QW-5ev"/>
                             <constraint firstItem="5ra-8J-JPb" firstAttribute="leading" secondItem="FEz-7a-uxl" secondAttribute="leading" constant="35" id="Fq7-GU-c5p"/>
                             <constraint firstItem="hPy-GK-AbS" firstAttribute="leading" secondItem="ij9-mT-5jU" secondAttribute="leading" id="Lz0-w9-zGs"/>
-                            <constraint firstItem="yJY-DQ-oMc" firstAttribute="width" secondItem="fAs-nv-Tc8" secondAttribute="width" id="PaX-ky-kpo"/>
                             <constraint firstItem="5ra-8J-JPb" firstAttribute="baseline" secondItem="9sB-tV-o8Z" secondAttribute="baseline" id="QrL-hs-tbF"/>
-                            <constraint firstItem="8X5-5v-Ezk" firstAttribute="leading" secondItem="T8I-gU-SLV" secondAttribute="leading" id="RYk-Us-8gj"/>
                             <constraint firstItem="lgs-to-Nln" firstAttribute="leading" secondItem="s4B-us-kgy" secondAttribute="trailing" constant="8" id="SN3-xn-Nxr"/>
                             <constraint firstItem="VS0-3c-1X7" firstAttribute="width" secondItem="gvZ-Vg-zOa" secondAttribute="width" id="Vjf-3v-5pq"/>
                             <constraint firstItem="kOy-lY-zlb" firstAttribute="top" secondItem="Vrg-ng-Sx1" secondAttribute="bottom" constant="8" id="Vpr-iT-DwC"/>
@@ -585,7 +494,6 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                             <constraint firstItem="lLO-40-J7L" firstAttribute="top" secondItem="ij9-mT-5jU" secondAttribute="bottom" constant="8" id="XaP-bL-ray"/>
                             <constraint firstItem="hPy-GK-AbS" firstAttribute="width" secondItem="lLO-40-J7L" secondAttribute="width" id="Xno-o6-ExB"/>
                             <constraint firstItem="4Ry-X3-hwt" firstAttribute="leading" secondItem="kOy-lY-zlb" secondAttribute="leading" id="YmW-3q-k9h"/>
-                            <constraint firstItem="ECP-cl-IVG" firstAttribute="width" secondItem="8X5-5v-Ezk" secondAttribute="width" id="Ymy-iC-OYP"/>
                             <constraint firstItem="lLO-40-J7L" firstAttribute="width" secondItem="ij9-mT-5jU" secondAttribute="width" id="aH1-gr-tr0"/>
                             <constraint firstItem="T8I-gU-SLV" firstAttribute="width" secondItem="MM1-pz-cM7" secondAttribute="width" id="bv5-P4-7A4"/>
                             <constraint firstItem="4Ry-X3-hwt" firstAttribute="top" secondItem="kOy-lY-zlb" secondAttribute="bottom" constant="8" id="cRi-Yf-Gfs"/>
@@ -593,17 +501,14 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                             <constraint firstItem="s4B-us-kgy" firstAttribute="width" secondItem="5ra-8J-JPb" secondAttribute="width" id="chn-X5-xi9"/>
                             <constraint firstItem="hPy-GK-AbS" firstAttribute="top" secondItem="9sB-tV-o8Z" secondAttribute="bottom" constant="20" id="d2V-kS-CQS"/>
                             <constraint firstItem="VS0-3c-1X7" firstAttribute="baseline" secondItem="ij9-mT-5jU" secondAttribute="baseline" id="dhq-Ow-hQk"/>
-                            <constraint firstItem="8X5-5v-Ezk" firstAttribute="width" secondItem="T8I-gU-SLV" secondAttribute="width" id="e0J-Fb-eWE"/>
                             <constraint firstItem="Vrg-ng-Sx1" firstAttribute="leading" secondItem="gvZ-Vg-zOa" secondAttribute="trailing" constant="7" id="eWJ-9D-3wB"/>
                             <constraint firstItem="lLO-40-J7L" firstAttribute="leading" secondItem="ij9-mT-5jU" secondAttribute="leading" id="eyx-yb-Emn"/>
                             <constraint firstItem="MM1-pz-cM7" firstAttribute="top" secondItem="4Ry-X3-hwt" secondAttribute="bottom" constant="20" id="gbx-jS-hJ3"/>
                             <constraint firstItem="MM1-pz-cM7" firstAttribute="width" secondItem="4Ry-X3-hwt" secondAttribute="width" id="h5z-Kb-q8k"/>
-                            <constraint firstItem="8X5-5v-Ezk" firstAttribute="leading" secondItem="yJY-DQ-oMc" secondAttribute="trailing" constant="7" id="iMe-b3-EOJ"/>
                             <constraint firstItem="fAs-nv-Tc8" firstAttribute="baseline" secondItem="T8I-gU-SLV" secondAttribute="baseline" id="l5y-WS-R90"/>
                             <constraint firstItem="Vrg-ng-Sx1" firstAttribute="leading" secondItem="lLO-40-J7L" secondAttribute="leading" id="lGp-Kr-GWk"/>
                             <constraint firstItem="T8I-gU-SLV" firstAttribute="leading" secondItem="fAs-nv-Tc8" secondAttribute="trailing" constant="7" id="lwZ-ha-haR"/>
                             <constraint firstItem="MM1-pz-cM7" firstAttribute="leading" secondItem="XPX-AY-wTx" secondAttribute="trailing" constant="7" id="ngM-iv-at9"/>
-                            <constraint firstItem="ECP-cl-IVG" firstAttribute="leading" secondItem="8X5-5v-Ezk" secondAttribute="leading" id="o8g-4D-6tz"/>
                             <constraint firstItem="ij9-mT-5jU" firstAttribute="width" secondItem="9sB-tV-o8Z" secondAttribute="width" id="oCW-uQ-rMt"/>
                             <constraint firstItem="9sB-tV-o8Z" firstAttribute="leading" secondItem="lgs-to-Nln" secondAttribute="leading" id="oaK-E5-nGO"/>
                             <constraint firstAttribute="trailing" secondItem="lgs-to-Nln" secondAttribute="trailing" constant="35" id="pkV-rI-i86"/>
@@ -612,7 +517,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
                             <constraint firstItem="T8I-gU-SLV" firstAttribute="leading" secondItem="MM1-pz-cM7" secondAttribute="leading" id="uML-in-k5O"/>
                             <constraint firstItem="kOy-lY-zlb" firstAttribute="leading" secondItem="Vrg-ng-Sx1" secondAttribute="leading" id="uYT-AW-AKu"/>
                             <constraint firstItem="9sB-tV-o8Z" firstAttribute="top" secondItem="lgs-to-Nln" secondAttribute="bottom" constant="20" id="un3-Ag-9iO"/>
-                            <constraint firstAttribute="bottom" secondItem="ECP-cl-IVG" secondAttribute="bottom" constant="7" id="vOC-xL-h1o"/>
+                            <constraint firstAttribute="bottom" secondItem="T8I-gU-SLV" secondAttribute="bottom" constant="7" id="wNy-Vt-rmP"/>
                             <constraint firstItem="ij9-mT-5jU" firstAttribute="leading" secondItem="VS0-3c-1X7" secondAttribute="trailing" constant="7" id="yWP-yV-qTF"/>
                             <constraint firstItem="4Ry-X3-hwt" firstAttribute="width" secondItem="kOy-lY-zlb" secondAttribute="width" id="zI8-F6-geD"/>
                         </constraints>
@@ -642,7 +547,7 @@ Symbolicating JavaScript stack traces may introduce some performance hit.</strin
             <objects>
                 <viewController storyboardIdentifier="DTXRecordingTargetChooser" id="6UR-n3-F3i" customClass="DTXRecordingTargetPickerViewController" sceneMemberID="viewController">
                     <view key="view" id="hzm-lQ-Nhr">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="435"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="379"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tRv-QD-HaW">
@@ -662,10 +567,10 @@ Gw
                                 </connections>
                             </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="7GZ-nF-iEl">
-                                <rect key="frame" x="0.0" y="61" width="540" height="374"/>
+                                <rect key="frame" x="0.0" y="61" width="540" height="318"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="540" id="9mE-dr-09C"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="374" id="Xtl-7O-uRN"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="318" id="Xtl-7O-uRN"/>
                                 </constraints>
                             </customView>
                             <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A1s-lp-6k3">

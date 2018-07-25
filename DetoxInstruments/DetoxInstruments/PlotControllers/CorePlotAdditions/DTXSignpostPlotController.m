@@ -35,7 +35,7 @@
 
 - (NSString *)toolTip
 {
-	return NSLocalizedString(@"The Events instrument captures information about events marked by the app.", @"");
+	return NSLocalizedString(@"The Events instrument captures information about events marked by the profiled app.", @"");
 }
 
 - (NSImage*)displayIcon
