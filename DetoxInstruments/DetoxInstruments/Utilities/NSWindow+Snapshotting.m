@@ -33,8 +33,6 @@
 		CFArrayAppendValue(windowIDs, (void*)obj.unsignedIntegerValue);
 	}];
 	
-	NSLog(@"%@", CGWindowListCreateDescriptionFromArray(windowIDs));
-	
 	CGImageRef windowImage = CGWindowListCreateImageFromArray(CGRectNull, windowIDs, kCGWindowImageDefault);
 	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCGImage:windowImage];
 	CGImageRelease(windowImage);

@@ -14,3 +14,4 @@
 - (instancetype)initWithDocument:(DTXRecordingDocument*)document threadInfo:(DTXThreadInfo*)threadInfo;
 
 @end
+	

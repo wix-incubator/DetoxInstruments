@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14269.14" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14269.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14306.4"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -53,7 +53,7 @@
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSFolder" id="gD8-Hy-UVf"/>
                                                                 </imageView>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="exG-fM-DHg">
-                                                                    <rect key="frame" x="25" y="0.0" width="96" height="17"/>
+                                                                    <rect key="frame" x="25" y="0.0" width="96" height="18"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="Table View Cell" id="iUF-Li-bcU">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -61,7 +61,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="zaF-Pp-wLb">
-                                                                    <rect key="frame" x="467" y="0.0" width="37" height="17"/>
+                                                                    <rect key="frame" x="467" y="0.0" width="37" height="18"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="ghS-5m-Xvc">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
@@ -255,7 +255,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5ZI-dc-fTZ">
-                                            <rect key="frame" x="157" y="29" width="176" height="17"/>
+                                            <rect key="frame" x="157" y="28" width="176" height="18"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Loading application data..." id="HxN-1B-LAd">
                                                 <font key="font" metaFont="systemBold"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -415,12 +415,12 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="DTXGroupTextViewCellView" id="4As-xn-eTX">
+                                                        <tableCellView identifier="DTXGroupTextViewCellView" misplaced="YES" id="4As-xn-eTX">
                                                             <rect key="frame" x="1" y="1" width="547" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1Yw-xa-M99">
-                                                                    <rect key="frame" x="0.0" y="2" width="547" height="19"/>
+                                                                    <rect key="frame" x="0.0" y="2" width="547" height="20"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="S2E-j0-Lss">
                                                                         <font key="font" size="15" name=".AppleSystemUIFont"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -438,18 +438,18 @@
                                                                 <outlet property="textField" destination="1Yw-xa-M99" id="cVG-Pg-JmY"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DTXTextViewCellView" wantsLayer="YES" id="qUX-v7-zU7" customClass="DTXTextViewCellView">
+                                                        <tableCellView identifier="DTXTextViewCellView" wantsLayer="YES" misplaced="YES" id="qUX-v7-zU7" customClass="DTXTextViewCellView">
                                                             <rect key="frame" x="1" y="28" width="547" height="66"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <box boxType="custom" borderType="line" borderWidth="0.0" cornerRadius="8" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="KOq-fL-sB2">
-                                                                    <rect key="frame" x="20" y="8" width="507" height="58"/>
+                                                                    <rect key="frame" x="20" y="8" width="507" height="59"/>
                                                                     <view key="contentView" id="Jui-Bw-vgy">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="507" height="58"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="507" height="59"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <box boxType="custom" borderType="none" borderWidth="0.0" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="C1s-6D-f9g">
-                                                                                <rect key="frame" x="0.0" y="33" width="507" height="25"/>
+                                                                                <rect key="frame" x="0.0" y="34" width="507" height="25"/>
                                                                                 <view key="contentView" id="kpg-qY-p36">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="507" height="25"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -463,7 +463,7 @@
                                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSColorPickerUser" id="F0Z-9c-6EX"/>
                                                                                         </imageView>
                                                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sHd-Ue-A5j">
-                                                                                            <rect key="frame" x="28" y="5" width="39" height="17"/>
+                                                                                            <rect key="frame" x="28" y="4" width="39" height="18"/>
                                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="TITLE" usesSingleLineMode="YES" id="buu-OV-Jo7">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -484,7 +484,7 @@
                                                                                 <color key="fillColor" name="selectedTextBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                             </box>
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="kgt-os-n4n">
-                                                                                <rect key="frame" x="14" y="8" width="479" height="17"/>
+                                                                                <rect key="frame" x="14" y="8" width="479" height="18"/>
                                                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Label" id="mIy-1D-zpN" customClass="DTXPasteForwardingFieldEditorTextFieldCell">
                                                                                     <font key="font" metaFont="system"/>
                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -592,7 +592,7 @@
     </scenes>
     <resources>
         <image name="NSColorPickerUser" width="24" height="24"/>
-        <image name="NSFolder" width="32" height="32"/>
+        <image name="NSFolder" width="128" height="128"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
     </resources>
 </document>

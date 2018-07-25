@@ -30,7 +30,7 @@
 
 - (NSImage *)preferenceIcon
 {
-	return [NSImage imageNamed:@"NSMediaBrowserIcon"];
+	return [NSImage imageNamed:@"NSColorPickerUser"];
 }
 
 - (NSString *)preferenceIdentifier
