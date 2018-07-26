@@ -8,8 +8,8 @@
 
 typedef NSString * DTXEventIdentifier;
 
-#import <DTXProfiler/DTXEventStatus.h>
-#import <DTXProfiler/DTXBase.h>
+#import "DTXEventStatus.h"
+#import "DTXBase.h"
 
 NS_ASSUME_NONNULL_BEGIN
 __BEGIN_DECLS

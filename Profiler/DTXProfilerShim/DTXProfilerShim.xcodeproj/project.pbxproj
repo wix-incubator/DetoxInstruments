@@ -8,24 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		39377AFB2107ADFF000A7D82 /* Impl.m in Sources */ = {isa = PBXBuildFile; fileRef = 39377AFA2107ADFF000A7D82 /* Impl.m */; };
-		39377B072107B11B000A7D82 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B022107B11B000A7D82 /* DTXProfiler.h */; };
-		39377B082107B11B000A7D82 /* DTXProfilingConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B032107B11B000A7D82 /* DTXProfilingConfiguration.h */; };
-		39377B092107B11B000A7D82 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B042107B11B000A7D82 /* DTXBase.h */; };
-		39377B0A2107B11B000A7D82 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B052107B11B000A7D82 /* DTXEvents.h */; };
-		39377B0B2107B11B000A7D82 /* DTXEventStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B062107B11B000A7D82 /* DTXEventStatus.h */; };
-		39377B0D2107B135000A7D82 /* DTXProfilerShim.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B0C2107B135000A7D82 /* DTXProfilerShim.h */; };
+		39377B0D2107B135000A7D82 /* DTXProfilerShim.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B0C2107B135000A7D82 /* DTXProfilerShim.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		39A7BC79210A8F27003E9170 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39A7BC78210A8F27003E9170 /* DTXEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		39A7BC7A210A8F9B003E9170 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215585210A8EF9002AF802 /* DTXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		39A7BC7B210A8F9B003E9170 /* DTXEventStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215584210A8EF8002AF802 /* DTXEventStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		39A7BC7C210A8F9B003E9170 /* DTXProfilingConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215586210A8EF9002AF802 /* DTXProfilingConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		39A7BC7D210A8F9B003E9170 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215583210A8EF8002AF802 /* DTXProfiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		39215583210A8EF8002AF802 /* DTXProfiler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.h; sourceTree = "<group>"; };
+		39215584210A8EF8002AF802 /* DTXEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventStatus.h; sourceTree = "<group>"; };
+		39215585210A8EF9002AF802 /* DTXBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXBase.h; sourceTree = "<group>"; };
+		39215586210A8EF9002AF802 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilingConfiguration.h; sourceTree = "<group>"; };
 		3929507B2107A87300F7E3E1 /* DTXProfilerShim.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DTXProfilerShim.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3929507F2107A87300F7E3E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39377AFA2107ADFF000A7D82 /* Impl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Impl.m; sourceTree = "<group>"; };
-		39377B022107B11B000A7D82 /* DTXProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXProfiler.h; path = ../../DTXProfiler/DTXProfiler.h; sourceTree = "<group>"; };
-		39377B032107B11B000A7D82 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXProfilingConfiguration.h; path = ../../DTXProfiler/DTXProfilingConfiguration.h; sourceTree = "<group>"; };
-		39377B042107B11B000A7D82 /* DTXBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXBase.h; path = ../../DTXProfiler/DTXBase.h; sourceTree = "<group>"; };
-		39377B052107B11B000A7D82 /* DTXEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXEvents.h; path = ../../DTXProfiler/DTXEvents.h; sourceTree = "<group>"; };
-		39377B062107B11B000A7D82 /* DTXEventStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXEventStatus.h; path = ../../DTXProfiler/DTXEventStatus.h; sourceTree = "<group>"; };
 		39377B0C2107B135000A7D82 /* DTXProfilerShim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfilerShim.h; sourceTree = "<group>"; };
+		39A7BC78210A8F27003E9170 /* DTXEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXEvents.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,11 +58,11 @@
 		3929507D2107A87300F7E3E1 /* DTXProfilerShim */ = {
 			isa = PBXGroup;
 			children = (
-				39377B042107B11B000A7D82 /* DTXBase.h */,
-				39377B062107B11B000A7D82 /* DTXEventStatus.h */,
-				39377B052107B11B000A7D82 /* DTXEvents.h */,
-				39377B032107B11B000A7D82 /* DTXProfilingConfiguration.h */,
-				39377B022107B11B000A7D82 /* DTXProfiler.h */,
+				39215585210A8EF9002AF802 /* DTXBase.h */,
+				39215584210A8EF8002AF802 /* DTXEventStatus.h */,
+				39A7BC78210A8F27003E9170 /* DTXEvents.h */,
+				39215586210A8EF9002AF802 /* DTXProfilingConfiguration.h */,
+				39215583210A8EF8002AF802 /* DTXProfiler.h */,
 				39377B0C2107B135000A7D82 /* DTXProfilerShim.h */,
 				3929507F2107A87300F7E3E1 /* Info.plist */,
 				39377AFA2107ADFF000A7D82 /* Impl.m */,
@@ -77,11 +77,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39377B092107B11B000A7D82 /* DTXBase.h in Headers */,
-				39377B072107B11B000A7D82 /* DTXProfiler.h in Headers */,
-				39377B0B2107B11B000A7D82 /* DTXEventStatus.h in Headers */,
-				39377B0A2107B11B000A7D82 /* DTXEvents.h in Headers */,
-				39377B082107B11B000A7D82 /* DTXProfilingConfiguration.h in Headers */,
+				39A7BC79210A8F27003E9170 /* DTXEvents.h in Headers */,
+				39A7BC7A210A8F9B003E9170 /* DTXBase.h in Headers */,
+				39A7BC7B210A8F9B003E9170 /* DTXEventStatus.h in Headers */,
+				39A7BC7C210A8F9B003E9170 /* DTXProfilingConfiguration.h in Headers */,
+				39A7BC7D210A8F9B003E9170 /* DTXProfiler.h in Headers */,
 				39377B0D2107B135000A7D82 /* DTXProfilerShim.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,7 +93,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 392950832107A87300F7E3E1 /* Build configuration list for PBXNativeTarget "DTXProfilerShim" */;
 			buildPhases = (
-				392950932107AD7400F7E3E1 /* Copy Parent Headers */,
 				392950762107A87300F7E3E1 /* Headers */,
 				392950772107A87300F7E3E1 /* Sources */,
 				392950782107A87300F7E3E1 /* Frameworks */,
@@ -148,27 +147,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		392950932107AD7400F7E3E1 /* Copy Parent Headers */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Parent Headers";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		392950772107A87300F7E3E1 /* Sources */ = {
