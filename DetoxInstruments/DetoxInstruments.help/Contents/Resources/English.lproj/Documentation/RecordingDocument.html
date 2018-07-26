@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="AppleTitle" content="The Recording Document" />
+<title>The Recording Document</title>
+<meta name="description" content="A recording document is used to initiate new profiling and view and analyze the results of profiling. You create a new recording document by selecting **File** ➔ **New Recording...** and choosing an app-device pair to profile. You can also save and reopen recording documents in which you’ve collected data previously. A recording document can contain a lot of extremely detailed information, and this information is presented to you through a number of panes and areas." /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
+</style>
+<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+h1 { text-align: center; margin-left: -16px; margin-right: -16px; padding-bottom: 20px; background: linear-gradient(to bottom, #ffffff 0%,#f3f2f3 100%); }
+img { max-width: 100%; height: auto; }
+pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
+blockquote { border-left-color: rgb(245, 242, 240); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+ul { padding-left: 1.3em; }
+</style>
+<title>Detox Instruments Help</title></head><body>
+<h1>
+<a name="user-content-the-recording-document" class="anchor" href="#the-recording-document"><span class="octicon octicon-link"></span></a>The Recording Document</h1>
+<p>A recording document is used to initiate new profiling and view and analyze the results of profiling. You create a new recording document by selecting <strong>File</strong> ➔ <strong>New Recording...</strong> and choosing an app-device pair to profile. You can also save and reopen recording documents in which you’ve collected data previously. A recording document can contain a lot of extremely detailed information, and this information is presented to you through a number of panes and areas.</p>
+<p><a href="Resources/RecordingDocument_Example.png" target="_blank"><img src="Resources/RecordingDocument_Example.png" alt="The Recording Document" title="The Recording Document" style="max-width:100%;" /></a></p>
+<h3>
+<a name="user-content-toolbar" class="anchor" href="#toolbar"><span class="octicon octicon-link"></span></a>Toolbar</h3>
+<p>The toolbar allows you to stop data profiling, add flags to the recording, display information about the current recording, hide and show panes, and more.</p>
+<p><a href="Resources/RecordingDocument_Toolbar.png" target="_blank"><img src="Resources/RecordingDocument_Toolbar.png" alt="Toolbar" title="Toolbar" style="max-width:100%;" /></a></p>
+<p>It includes the following main elements:</p>
+<ul>
+<li>
+<strong>Profiling controls:</strong> Allow you to stop data collection and add a flag</li>
+<li>
+<strong>Activity viewer:</strong> Shows information about the current recording document</li>
+<li>
+<strong>View buttons:</strong> Hide or show the detail pane and inspector.</li>
+</ul>
+<h3>
+<a name="user-content-timeline-pane" class="anchor" href="#timeline-pane"><span class="octicon octicon-link"></span></a>Timeline Pane</h3>
+<p>The timeline pane displays a graphical summary of the data recorded for a given recording. In this pane, each instrument has its own “track,” which provides a graphical chart of the data collected.</p>
+<p>The most prominent portion of a trace document is the timeline pane, which presents a time-based view of the data gathered by each instrument. This pane makes it easy to spot trends and potential problem areas in your app at a glance. For example, a sharp rise in the Memory Usage instrument graph may indicate a that your app created more objects or memory buffers than you anticipated. The Network Activity instrument graph displays a timeline of network requests made. If too many requests are created concurrently, this may indicate that your app has scheduling problems.</p>
+<p>You can scroll through data using your trackpad, mouse or simply dragging the timeline view. You can zoom in and out by pinching your trackpad or pressing <strong>⌘+</strong> / <strong>⌘−</strong>. Select <strong>View</strong> ➔ <strong>Fit All Recorded Data</strong> or press <strong>⌃⌘Z</strong> to fit all recorded data in the timeline.</p>
+<p>Clicking on any point in the timeline will select the closest recorded data sample. The same sample will be selected in the detail pane and additional information will be displayed in the inspector pane under <strong>Extended Detail</strong>.</p>
+<p><a href="Resources/RecordingDocument_TimelinePane.png" target="_blank"><img src="Resources/RecordingDocument_TimelinePane.png" alt="Timeline Pane" title="Timeline Pane" style="max-width:100%;" /></a></p>
+<h3>
+<a name="user-content-detail-pane" class="anchor" href="#detail-pane"><span class="octicon octicon-link"></span></a>Detail Pane</h3>
+<p>The detail pane displays the data associated with the current recording for the selected instrument. Detox Instruments displays only one instrument at a time in the detail pane, so you must select different instruments to see different sets of details.</p>
+<p><a href="Resources/RecordingDocument_DetailPane.png" target="_blank"><img src="Resources/RecordingDocument_DetailPane.png" alt="Detail Pane" title="Detail Pane" style="max-width:100%;" /></a></p>
+<p>The navigation bar at the top of the detail pane displays the icon of the currently selected instrument and the detail type list. You can switch between the instrument data and the console output by clicking the icon view and selecting <strong>Console</strong>.</p>
+<p><a href="Resources/RecordingDocument_DetailPane_Console.png" target="_blank"><img src="Resources/RecordingDocument_DetailPane_Console.png" alt="Timeline Pane" title="Timeline Pane" style="max-width:100%;" /></a></p>
+<p>The collected data area shows you all of the data for the selected instrument, typically in tabular format. The content displayed here varies significantly from instrument to instrument. For example, the CPU instrument displays usage and thread information while the network instrument displays network requests.</p>
+<p>Some select instruments, as well as the console view, display a filter field at the bottom, allowing you to filter collected data for a specific term.</p>
+<h3>
+<a name="user-content-inspector-pane" class="anchor" href="#inspector-pane"><span class="octicon octicon-link"></span></a>Inspector Pane</h3>
+<p>This pane contains instrument-specific additional information that may be useful when browsing through data in the detail pane, as well as additional information about the recording document.</p>
+<p><a href="Resources/RecordingDocument_InspectorPane.png" target="_blank"><img src="Resources/RecordingDocument_InspectorPane.png" alt="Inspector Pane" title="Inspector Pane" style="max-width:100%;" /></a></p>
+<h5>
+<a name="user-content-extended-detail" class="anchor" href="#extended-detail"><span class="octicon octicon-link"></span></a>Extended Detail</h5>
+<p>For some instruments, the extended detail area in the inspector pane shows additional information about the sample currently selected in the detail pane. This extended detail information can include a description, the time when the information was recorded, a stack trace for a sample from the CPU instrument or response and request data for a Network Activity sample.</p>
+<h5>
+<a name="user-content-recording-info" class="anchor" href="#recording-info"><span class="octicon octicon-link"></span></a>Recording Info</h5>
+<p>The recording info area includes information about the recording and the profiling options which were used for the recording.</p>
+<h3>
+<a name="user-content-saving-a-recording-document" class="anchor" href="#saving-a-recording-document"><span class="octicon octicon-link"></span></a>Saving a Recording Document</h3>
+<p>Once you’ve profiles your app and created a recording document, you can save it for later reference. Detox Instruments saves recording documents as Detox Instruments recording files with the .dtxprof extension.</p>
+<p>Choose <strong>File</strong> ➔ <strong>Save</strong>. Or, choose <strong>File</strong> ➔ <strong>Duplicate</strong> if you want to save a previously saved recording document as a new file. Name the file and click on the <strong>Save</strong> button.</p>
+</body></html>
