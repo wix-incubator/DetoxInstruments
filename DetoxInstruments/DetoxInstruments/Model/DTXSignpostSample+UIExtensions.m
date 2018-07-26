@@ -58,4 +58,9 @@
 	return completed;
 }
 
+- (BOOL)isGroup
+{
+	return NO;
+}
+
 @end

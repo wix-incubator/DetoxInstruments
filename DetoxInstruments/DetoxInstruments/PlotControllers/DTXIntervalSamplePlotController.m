@@ -89,11 +89,11 @@
 {
 	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
 	{
-		_secondShadowLineLayer.lineColor = _shadowLineLayer.lineColor = NSColor.whiteColor;
+		_secondShadowLineLayer.lineColors = _shadowLineLayer.lineColors = @[NSColor.whiteColor];
 	}
 	else
 	{
-		_secondShadowLineLayer.lineColor = _shadowLineLayer.lineColor = [([self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15]) colorWithAlphaComponent:0.5];
+		_secondShadowLineLayer.lineColors = _shadowLineLayer.lineColors = self.plotColors;
 	}
 }
 

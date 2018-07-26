@@ -161,10 +161,10 @@
 	
 	NSMutableArray<DTXInspectorContent*>* contentArray = @[request].mutableCopy;
 	
-	if(perfSample.recording.dtx_profilingConfiguration.recordThreadInformation)
+	DTXAdvancedPerformanceSample* sample = (id)perfSample;
+	
+	if(perfSample.recording.dtx_profilingConfiguration.recordThreadInformation && sample.threadSamples.count > 0)
 	{
-		DTXAdvancedPerformanceSample* sample = (id)perfSample;
-		
 		DTXPieChartView* pieChartView = [[DTXPieChartView alloc] initWithFrame:NSMakeRect(0, 0, 300, 100)];
 		NSMutableArray<DTXPieChartEntry*>* entries = NSMutableArray.new;
 		

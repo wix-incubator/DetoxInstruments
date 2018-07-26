@@ -237,17 +237,16 @@
 	NSArray<NSColor*>* plotColors = self.plotColors;
 	
 	[self.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		// style plots
+		BOOL isDark = self.wrapperView.effectiveAppearance.isDarkAppearance;
+		
 		CPTMutableLineStyle *lineStyle = [((CPTScatterPlot*)obj).dataLineStyle mutableCopy];
 		lineStyle.lineWidth = 1.0;
-		
-		BOOL isDark = self.wrapperView.effectiveAppearance.isDarkAppearance;
 		
 		NSColor* lineColor;
 		
 		if(isDark)
 		{
-			lineColor = [plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.7];
+			lineColor = NSColor.whiteColor;//[plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:1.0];
 		}
 		else
 		{
@@ -263,8 +262,9 @@
 		
 		if(isDark)
 		{
-			endColor = [self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.1];//[plotColors[idx] colorWithAlphaComponent:0.5];
-			startColor = [self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] colorWithAlphaComponent:0.85];
+			endColor = [self.plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.25];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.1];//[plotColors[idx] colorWithAlphaComponent:0.5];
+			startColor = [self.plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.25];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] colorWithAlphaComponent:0.85];
+			startColor = [startColor colorWithAlphaComponent:0.9];
 			fill = [CPTFill fillWithColor:[CPTColor colorWithCGColor:startColor.CGColor]];
 		}
 		else
@@ -295,17 +295,24 @@
 	}
 	[_lineLayer setNeedsDisplay];
 	[_secondLineLayer setNeedsDisplay];
+	[_shadowLineLayer setNeedsDisplay];
 }
 
 - (void)_updateShadowLineColor
 {
 	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
 	{
-		_secondShadowLineLayer.lineColor = _shadowLineLayer.lineColor = NSColor.whiteColor;
+		_secondShadowLineLayer.lineColors = _shadowLineLayer.lineColors = @[NSColor.whiteColor];
 	}
 	else
 	{
-		_secondShadowLineLayer.lineColor = _shadowLineLayer.lineColor = [([self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15]) colorWithAlphaComponent:0.5];
+		NSMutableArray<NSColor*>* colors = [NSMutableArray new];
+		for(NSColor* color in self.plotColors)
+		{
+			[colors addObject:[[color deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15] colorWithAlphaComponent:0.5]];
+		}
+		
+		_secondShadowLineLayer.lineColors = _shadowLineLayer.lineColors = colors;
 	}
 }
 
@@ -313,11 +320,17 @@
 {
 	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
 	{
-		_secondLineLayer.lineColor = _lineLayer.lineColor = NSColor.whiteColor;
+		_secondLineLayer.lineColors = _lineLayer.lineColors = @[NSColor.whiteColor];
 	}
 	else
 	{
-		_secondLineLayer.lineColor = _lineLayer.lineColor = self.plotColors.count > 1 ? NSColor.labelColor : [self.plotColors.lastObject deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
+		NSMutableArray<NSColor*>* colors = [NSMutableArray new];
+		for(NSColor* color in self.plotColors)
+		{
+			[colors addObject:[color deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3]];
+		}
+		
+		_secondLineLayer.lineColors = _lineLayer.lineColors = colors;
 	}
 }
 

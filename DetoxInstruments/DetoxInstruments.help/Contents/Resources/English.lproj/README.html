@@ -44,14 +44,7 @@ ul { padding-left: 1.3em; }
 <li>Log Output Recording</li>
 <li>React Native Profiling
 <ul>
-<li>JavaScript Thread CPU Load
-<ul>
-<li>JavaScript Stack Trace Sampling <strong>(Coming Soon)</strong>
-</li>
-<li>Automatic Runtime Symbolication of Stack Traces Using Source Maps <strong>(Coming Soon)</strong>
-</li>
-</ul>
-</li>
+<li>JavaScript Thread CPU Load</li>
 <li>Bridge Call Counters</li>
 <li>Bridge Data Counters
 <ul>
@@ -95,8 +88,12 @@ ul { padding-left: 1.3em; }
 brew cask install detox-instruments</pre></div>
 <p>This will install Detox Instruments under <code>/Applications</code>.</p>
 <h2>
-<a name="user-content-integration-with-mobile-app" class="anchor" href="#integration-with-mobile-app"><span class="octicon octicon-link"></span></a>Integration with Mobile App</h2>
+<a name="user-content-integration-with-your-apps-project" class="anchor" href="#integration-with-your-apps-project"><span class="octicon octicon-link"></span></a>Integration with Your App's Project</h2>
 <p>In order to begin profiling your app, you need to integrate the Profiler framework in your app's project. See <a href="Documentation/XcodeIntegrationGuide.html">Profiler Framework Integration Guide</a> for more information.</p>
+<h4>
+<a name="user-content-developer-api-reference" class="anchor" href="#developer-api-reference"><span class="octicon octicon-link"></span></a>Developer API Reference</h4>
+<p>By integrating Detox Instruments in your app, many of the included instruments can automatically collect data. Some instruments require you to explicitly call the provided APIs so that specific data can be collected.</p>
+<p>See the <a href="Documentation/DeveloperAPIReferenceIntro.html">Developer API Reference</a> for more information.</p>
 <h2>
 <a name="user-content-profiling-an-app" class="anchor" href="#profiling-an-app"><span class="octicon octicon-link"></span></a>Profiling an App</h2>
 <p>Once you've installed Detox Instruments and integrated the Profiler framework with your app's project, you can start profiling your app.</p>

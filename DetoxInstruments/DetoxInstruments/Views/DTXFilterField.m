@@ -38,6 +38,11 @@
 - (void)setSearchIconWithHighlight:(BOOL)highlighted
 {
 	_filterImageView.image = [NSImage imageNamed:[NSString stringWithFormat:@"SearchFilter%@", highlighted ? @"On" : @"Off"]];
+	
+	if (@available(macOS 10.14, *))
+	{
+		_filterImageView.contentTintColor = highlighted ? NSColor.controlAccentColor : nil;
+	}
 }
 
 - (NSRect)rectForSearchTextWhenCentered:(BOOL)isCentered

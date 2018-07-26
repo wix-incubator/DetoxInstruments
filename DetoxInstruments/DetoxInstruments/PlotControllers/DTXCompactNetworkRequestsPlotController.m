@@ -70,7 +70,7 @@
 
 - (NSColor*)colorForSample:(DTXNetworkSample*)sample
 {
-	NSColor* lineColor = self.plotColors.firstObject;
+	NSColor* lineColor = NSColor.successColor;
 	
 	if(sample.responseStatusCode == 0)
 	{

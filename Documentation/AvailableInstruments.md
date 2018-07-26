@@ -42,6 +42,14 @@ The Network Activity instrument captures information about your app's network ac
 
 For an in-depth look at the Network Activity instrument, see [Network Activity Instrument](Instrument_NetworkActivity.md).
 
+### Events
+
+The Network Activity instrument captures information about your app's network activity. It can record localhost information when the **Record localhost network** profiling option is enabled.
+
+![Events](/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Resources/Instrument_Events.png "Events")
+
+For an in-depth look at the Events instrument, see [Events Instrument](Instrument_Events.md).
+
 ### JavaScript Thread
 
 The JavaScript Thread instrument captures information about the CPU load of your app's JavaScript thread.

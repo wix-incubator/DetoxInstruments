@@ -13,6 +13,7 @@
 #import "DTXLoggingRecorder.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "DTXCustomJSCSupport.h"
+#import "DTXProfiler-Private.h"
 @import ObjectiveC;
 @import Darwin;
 @import UIKit;
@@ -30,6 +31,8 @@ static JSContextRef __rnCtx;
 
 static dispatch_semaphore_t __rnBacktraceSem;
 static NSString* __rnLastBacktrace;
+
+static dispatch_queue_t __eventDispatchQueue;
 
 static void resetAtomicVars()
 {
@@ -73,16 +76,31 @@ static void installDTXNativeLoggingHook(JSContext* ctx)
 
 static void installDTXSignpostHook(JSContext* ctx)
 {
-	ctx[@"dtxMarkEventIntervalBegin"] = ^ (NSDate* timestamp, NSString* identifier, NSString* category, NSString* name, NSString* additionalInfoStart) {
-//		return [DTXReactNativeEventsRecorder markEventIntervalBeginWithCategory:category name:name additionalInfo:additionalInfoStart];
-	};
-	
-	ctx[@"dtxMarkEventIntervalEnd"] = ^ (NSDate* timestamp, id identifier, NSInteger eventStatus, NSString* additionalInfoEnd) {
-//		[DTXReactNativeEventsRecorder markEventIntervalEndWithIdentifiersData:identifier eventStatus:eventStatus additionalInfo:additionalInfoEnd];
-	};
-	
-	ctx[@"dtxMarkEvent"] = (NSString*) ^ (NSString* category, NSString* name, NSInteger eventStatus, NSString* additionalInfoStart) {
-//		[DTXReactNativeEventsRecorder markEventWithCategory:category name:name eventStatus:eventStatus additionalInfo:additionalInfoStart];
+	ctx[@"__dtx_markEventBatch_v1"] = ^ (NSArray<NSDictionary<NSString*, id>*>* samples)
+	{
+		dispatch_async(__eventDispatchQueue, ^{
+			for(NSDictionary<NSString*, id>* sample in samples)
+			{
+				NSString* identifier = sample[@"identifier"];
+				NSUInteger type = [sample[@"type"] unsignedIntegerValue];
+				NSDate* timestamp = [NSDate dateWithTimeIntervalSince1970:[sample[@"timestamp"] doubleValue] / 1000];
+				NSDictionary<NSString*, id>* params = sample[@"params"];
+				
+				switch (type) {
+					case 0:
+						__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], params[@"2"]);
+						break;
+					case 1:
+						__DTXProfilerMarkEventIntervalEnd(timestamp, identifier, [params[@"0"] unsignedIntegerValue], params[@"1"]);
+						break;
+					case 10:
+						__DTXProfilerMarkEventIdentifier(identifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] unsignedIntegerValue], params[@"3"]);
+						break;
+					default:
+						break;
+				}
+			}
+		});
 	};
 }
 
@@ -246,7 +264,7 @@ static double __rnCPUUsage(thread_t safeRNThread)
 }
 
 static int (*__orig_UIApplicationMain)(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName);
-static int __dtx_rn_UIApplicationMain(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName)
+static int __dtxinst_rn_UIApplicationMain(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName)
 {
 	Class cls = NSClassFromString(@"RCTJSCExecutor");
 	Method m = NULL;
@@ -317,7 +335,7 @@ static void __DTXInitializeRNSampler()
 			NULL
 		},
 		{"UIApplicationMain",
-			__dtx_rn_UIApplicationMain,
+			__dtxinst_rn_UIApplicationMain,
 			NULL
 		},
 	}, 2);
@@ -327,6 +345,9 @@ static void __DTXInitializeRNSampler()
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = DTXJSCStackTraceSignalHandler;
 	sigaction(SIGCHLD, &sa, NULL);
+	
+	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
+	__eventDispatchQueue = dispatch_queue_create("com.wix.DTXRNSampler-Events", qosAttribute);
 }
 
 @implementation DTXReactNativeSampler

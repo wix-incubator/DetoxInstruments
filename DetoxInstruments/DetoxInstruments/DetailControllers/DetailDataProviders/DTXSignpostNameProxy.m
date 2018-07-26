@@ -90,4 +90,14 @@
 	return sample.endTimestamp;
 }
 
+- (BOOL)isGroup
+{
+	return YES;
+}
+
+- (BOOL)isEvent
+{
+	return NO;
+}
+
 @end

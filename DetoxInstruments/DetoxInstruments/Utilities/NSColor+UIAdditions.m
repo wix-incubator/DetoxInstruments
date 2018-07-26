@@ -25,6 +25,7 @@ DTX_NAMED_COLOR_IMPL(diskReadPlotControllerColor)
 DTX_NAMED_COLOR_IMPL(diskWritePlotControllerColor)
 DTX_NAMED_COLOR_IMPL(networkRequestsPlotControllerColor)
 DTX_NAMED_COLOR_IMPL(signpostPlotControllerColor)
+DTX_NAMED_COLOR_IMPL(successColor)
 DTX_NAMED_COLOR_IMPL(warningColor)
 DTX_NAMED_COLOR_IMPL(warning2Color)
 DTX_NAMED_COLOR_IMPL(warning3Color)
@@ -33,7 +34,7 @@ DTX_NAMED_COLOR_IMPL(warning3Color)
 {
 	switch (eventStatus) {
 		case DTXEventStatusCompleted:
-			return NSColor.signpostPlotControllerColor;
+			return NSColor.successColor;
 			break;
 		case DTXEventStatusError:
 			return NSColor.warning3Color;

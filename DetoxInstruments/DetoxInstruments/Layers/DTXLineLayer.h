@@ -10,7 +10,7 @@
 
 @interface DTXLineLayer : CPTLayer
 
-@property (nonatomic) NSColor* lineColor;
+@property (nonatomic) NSArray<NSColor*>* lineColors;
 
 @property (nonatomic) NSArray<NSNumber*>* dataPoints;
 @property (nonatomic) NSArray<NSColor*>* pointColors;

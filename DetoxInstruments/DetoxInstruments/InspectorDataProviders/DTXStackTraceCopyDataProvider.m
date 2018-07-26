@@ -80,16 +80,17 @@
 	NSArray* arrayForStackTrace = self.arrayForStackTrace;
 	if(arrayForStackTrace.count == 0)
 	{
-		arrayForStackTrace = @[@""];
+		arrayForStackTrace = @[@"<No Stack Trace>"];
 	}
 	
-	[arrayForStackTrace enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	for (id obj in arrayForStackTrace)
+	{
 		NSString* stackTraceFrame = [self stackTraceFrameStringForObject:obj includeFullFormat:NO];
 		
 		if(stackTraceFrame == nil)
 		{
 			//Ignore unknown frame format.
-			return;
+			continue;
 		}
 		
 		DTXStackTraceFrame* frame = [DTXStackTraceFrame new];
@@ -98,7 +99,7 @@
 		frame.stackFrameIcon = [self imageForObject:obj];
 		
 		[stackFrames addObject:frame];
-	}];
+	}
 	
 	stackTrace.stackFrames = stackFrames;
 	stackTrace.setupForWindowWideCopy = YES;

@@ -457,7 +457,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
 	
 	[_remoteProfilingClient.target stopProfiling];
-	[_remoteProfilingClient stopWithCompletionHandler:nil];
 }
 
 #pragma mark DTXRemoteTargetDelegate
@@ -487,6 +486,10 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient *)client
 {
+	[self updateChangeCount:NSChangeDone];
+	
+	[_remoteProfilingClient stopWithCompletionHandler:nil];
+	
 	[_container.viewContext performBlock:^{
 		if(_recording == nil)
 		{
@@ -498,8 +501,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		{
 			_recording.endTimestamp = [NSDate date];
 		}
-		
-		[self updateChangeCount:NSChangeDone];
 		
 		//Autosave here so that the Core Data container moves to SQL type and only then update document state.
 		[self autosaveWithImplicitCancellability:self.autosavingIsImplicitlyCancellable completionHandler:^(NSError * _Nullable errorOrNil) {

@@ -41,6 +41,12 @@
 {
 	[self.window setFrame:(CGRect){0, 0, size} display:YES];
 	[self.window center];
+	NSOutlineView* timelineView = (NSOutlineView*)[self valueForKeyPath:@"_plotContentController._tableView"];
+	[timelineView.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj setNeedsDisplay:YES];
+		[obj displayIfNeeded];
+	}];
+	[self _drainLayout];
 }
 
 - (void)_deselectAnyPlotControllers
@@ -137,6 +143,37 @@
 	[(NSOutlineView*)[self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"] selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 	
 	[plotController highlightSample:samples[index]];
+}
+
+- (void)_followOutlineBreadcrumbs:(NSArray*)breadcrumbs forPlotControllerClass:(Class)cls selectLastBreadcrumb:(BOOL)selectLastBreadcrumb
+{
+	NSParameterAssert(breadcrumbs.count > 0);
+	
+	[self _drainLayout];
+	__kindof id<DTXPlotController> plotController = [self _plotControllerForClass:cls];
+	
+	NSOutlineView* ov = [self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"];
+	[ov collapseItem:nil collapseChildren:YES];
+	
+	__block NSUInteger offset = 0;
+	
+	[breadcrumbs enumerateObjectsUsingBlock:^(NSNumber*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSUInteger row = obj.unsignedIntegerValue;
+		
+		if(idx == breadcrumbs.count - 1)
+		{
+			if(selectLastBreadcrumb)
+			{
+				[ov selectRowIndexes:[NSIndexSet indexSetWithIndex:row + offset] byExtendingSelection:NO];
+			}
+			
+			return;
+		}
+		
+		id item = [ov itemAtRow:row + offset];
+		[ov expandItem:item];
+		offset += (row + 1);
+	}];
 }
 
 - (NSImage*)_snapshotForInspectorPane

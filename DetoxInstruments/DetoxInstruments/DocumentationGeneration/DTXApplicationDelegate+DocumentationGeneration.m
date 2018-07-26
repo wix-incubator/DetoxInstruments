@@ -23,8 +23,24 @@
 #import "DTXRNCPUUsagePlotController.h"
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
+#import "DTXSignpostPlotController.h"
+#import "NSAppearance+UIAdditions.h"
 
 #import "DTXManagedPlotControllerGroup.h"
+
+static NSBitmapImageRep* __DTXThemeBackgroundRep(NSBitmapImageRep* rep)
+{
+	NSImage* rvImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, rep.size.height)];
+	[rvImage lockFocus];
+	[(NSApp.effectiveAppearance.isDarkAppearance ? [NSColor colorWithRed:0.118 green:0.122 blue:0.133 alpha:1.0] : NSColor.whiteColor) setFill];
+	NSRect rect = (NSRect){0, 0, rvImage.size};
+	NSRectFill(rect);
+	[rep drawInRect:rect fromRect:rect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
+	[rvImage unlockFocus];
+	
+	return rep;
+}
 
 static NSDictionary<NSString*, NSDictionary<NSString*, id>*>* __classToNameMapping;
 static NSNumber* __defaultSample;
@@ -55,6 +71,8 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 								 NSStringFromClass(DTXFPSPlotController.class): @{@"name": @"FPS"},
 								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @175},
 								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"displaySample": @175, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1},
+								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
+								 NSStringFromClass(DTXSignpostPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@4, @0, @3]},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
 								 };
 		
@@ -91,6 +109,8 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		
 		return;
 	}
+	
+	NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
 	
 	[NSApp.orderedDocuments enumerateObjectsUsingBlock:^(NSDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[obj close];
@@ -178,7 +198,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:pasteboardRep].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
 		
-		[windowController _setWindowSize:NSMakeSize(1176, 945)];
+		[windowController _setWindowSize:NSMakeSize(1344, 945)];
 		[windowController _setRecordingButtonsVisible:YES];
 		[windowController _drainLayout];
 		
@@ -195,6 +215,12 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _setRecordingButtonsVisible:NO];
 		[windowController _drainLayout];
 
+		[windowController _deselectAnyPlotControllers];
+		[windowController _selectSampleAtIndex:175 forPlotControllerClass:DTXMemoryUsagePlotController.class];
+		
+		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
+		[[__DTXThemeBackgroundRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
+		
 		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, 511)];
 
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
@@ -205,12 +231,6 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, inspectorPaneOverviewImage.size}];
 		[inspectorPaneOverviewImage unlockFocus];
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_InspectorPane.png"].path atomically:YES];
-
-		[windowController _deselectAnyPlotControllers];
-		[windowController _selectSampleAtIndex:175 forPlotControllerClass:DTXMemoryUsagePlotController.class];
-
-		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
-		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
 
 		[windowController _selectPlotControllerOfClass:DTXCompactNetworkRequestsPlotController.class];
 		[windowController _deselectAnyDetail];
@@ -237,6 +257,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	if(cls != nil)
 	{
 		NSString* name = info[@"name"];
+		NSArray* outlineBreadcrumbs = info[@"outlineBreadcrumbs"];
 		NSInteger displaySample = [info[@"displaySample"] ?: __defaultSample integerValue];
 		NSInteger inspectorSample = [info[@"inspectorSample"] ?: __defaultSample integerValue];
 		CGFloat scrollPercentage = [info[@"scrollPercentage"] ?: @0.5 doubleValue];
@@ -245,18 +266,32 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _selectSampleAtIndex:displaySample forPlotControllerClass:cls];
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForPlotControllerOfClass:cls].representations.firstObject;
-		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@.png", name]].path atomically:YES];
+		
+		[[__DTXThemeBackgroundRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@.png", name]].path atomically:YES];
 		
 		[windowController _selectPlotControllerOfClass:cls];
 		
 		[windowController _deselectAnyDetail];
-		[windowController _setBottomSplitAtPercentage:0.35];
+		
+		if(outlineBreadcrumbs)
+		{
+			[windowController _followOutlineBreadcrumbs:outlineBreadcrumbs forPlotControllerClass:cls selectLastBreadcrumb:NO];
+		}
+		
+		[windowController _setBottomSplitAtPercentage:0.5];
 		[windowController _scrollBottomPaneToPercentage:scrollPercentage];
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_DetailPane.png", name]].path atomically:YES];
 		
-		[windowController _selectSampleAtIndex:inspectorSample forPlotControllerClass:cls];
+		if(outlineBreadcrumbs)
+		{
+			[windowController _followOutlineBreadcrumbs:outlineBreadcrumbs forPlotControllerClass:cls selectLastBreadcrumb:YES];
+		}
+		else
+		{
+			[windowController _selectSampleAtIndex:inspectorSample forPlotControllerClass:cls];
+		}
 		[windowController _setBottomSplitAtPercentage:0.6];
 		[windowController _selectExtendedDetailInspector];
 		
@@ -285,7 +320,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 - (NSImage*)_exampleImageWithExistingRep:(NSBitmapImageRep*)rep
 {
 	const CGFloat exampleImageWidthPadding = 440;
-	const CGFloat exampleImageHeightPadding = 120;
+	const CGFloat exampleImageHeightPadding = 100;
 	const CGFloat exampleFontSize = 80;
 	const CGFloat toolbarTitleXOffset = 1160;
 	const CGFloat lineLength = 172;
@@ -293,7 +328,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	NSMutableParagraphStyle* pStyle = [NSParagraphStyle defaultParagraphStyle].mutableCopy;
 	pStyle.alignment = NSTextAlignmentCenter;
 	
-	NSImage* exampleImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width + exampleImageWidthPadding * 2, rep.size.height + exampleImageHeightPadding)];
+	NSImage* exampleImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width + exampleImageWidthPadding * 2, rep.size.height + 1.5 * exampleImageHeightPadding)];
 	[exampleImage lockFocus];
 	
 	[rep drawAtPoint:NSMakePoint(exampleImage.size.width / 2 - rep.size.width / 2, exampleImage.size.height / 2 - rep.size.height / 2 - exampleImageHeightPadding)];
@@ -344,7 +379,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 
 - (NSImage*)_toolbarImageWithExistingRep:(NSBitmapImageRep*)rep
 {
-	NSImage* toolbarImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, 174)];
+	NSImage* toolbarImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, 190)];
 	[toolbarImage lockFocus];
 	
 	[rep drawAtPoint:NSMakePoint(0, toolbarImage.size.height - rep.size.height)];

@@ -9,8 +9,6 @@
 #import "AppDelegate.h"
 #import <DTXProfiler/DTXProfiler.h>
 
-DTXProfiler* __profiler;
-
 @interface AppDelegate ()
 {
 	dispatch_source_t _consoleLogDemoTimerSource;
@@ -21,7 +19,7 @@ DTXProfiler* __profiler;
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+{	
 	NSArray<NSString*>* exampleLogOutputs = @[ @"[CLIoHidInterface] Refreshing service refs",
 											   @"Fetching effective device orientation with temporary manager: faceUp (5)",
 											   @"Updating device orientation from CoreMotion to: faceUp (5)",

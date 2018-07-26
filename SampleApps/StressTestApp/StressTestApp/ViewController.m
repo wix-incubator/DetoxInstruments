@@ -97,7 +97,7 @@ os_log_t __log_general;
 {
 	os_signpost_id_t slowFg = os_signpost_id_generate(__log_cpu_stress);
 	os_signpost_interval_begin(__log_cpu_stress, slowFg, "Slow Foreground");
-	NSString* slowForeground = DTXProfilerMarkEventIntervalBegin(@"CPU Stress", @"Slow Foreground", nil);
+	DTXEventIdentifier slowForeground = DTXProfilerMarkEventIntervalBegin(@"CPU Stress", @"Slow Foreground", nil);
 	
 	NSDate* before = [NSDate date];
 	
@@ -118,7 +118,7 @@ os_log_t __log_general;
 	os_signpost_id_t slowBg = os_signpost_id_generate(__log_cpu_stress);
 	os_signpost_interval_begin(__log_cpu_stress, slowBg, "Slow Background");
 	
-	NSString* slowBackground = DTXProfilerMarkEventIntervalBegin(@"CPU Stress", @"Slow Background", nil);
+	DTXEventIdentifier slowBackground = DTXProfilerMarkEventIntervalBegin(@"CPU Stress", @"Slow Background", nil);
 	
 	NSDate* before = [NSDate date];
 	
@@ -158,7 +158,7 @@ os_log_t __log_general;
 	
 	os_signpost_id_t nwIndex = os_signpost_id_generate(__log_network);
 	os_signpost_interval_begin(__log_network, nwIndex, "Requesting Index");
-	NSString* indexEvent = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Index", nil);
+	DTXEventIdentifier indexEvent = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Index", nil);
 	
 	[[session dataTaskWithURL:[NSURL URLWithString:@"https://jsonplaceholder.typicode.com/photos"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		if(error)
@@ -183,7 +183,7 @@ os_log_t __log_general;
 			
 			os_signpost_id_t nwItem = os_signpost_id_generate(__log_network);
 			os_signpost_interval_begin(__log_network, nwItem, "Requesting Item");
-			NSString* itemRequest = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Item", obj[@"thumbnailUrl"]);
+			DTXEventIdentifier itemRequest = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Item", obj[@"thumbnailUrl"]);
 			
 			[[session dataTaskWithURL:[NSURL URLWithString:obj[@"thumbnailUrl"]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 				if(error)
@@ -205,7 +205,7 @@ os_log_t __log_general;
 {
 	os_signpost_id_t disk = os_signpost_id_generate(__log_disk);
 	os_signpost_interval_begin(__log_disk, disk, "Write to Disk");
-	NSString* writeToDisk = DTXProfilerMarkEventIntervalBegin(@"Disk", @"Write to Disk", nil);
+	DTXEventIdentifier writeToDisk = DTXProfilerMarkEventIntervalBegin(@"Disk", @"Write to Disk", nil);
 	
 	NSData* data = [[NSMutableData alloc] initWithLength:20 * 1024 * 1024];
 	
@@ -258,7 +258,7 @@ os_log_t __log_general;
 	[[NSURLCache sharedURLCache] setDiskCapacity:0];
 	[[NSURLCache sharedURLCache] setMemoryCapacity:0];
 	
-	__profiler = [DTXProfiler new];
+	__block DTXProfiler* __profiler = [DTXProfiler new];
 	DTXMutableProfilingConfiguration* conf = [DTXMutableProfilingConfiguration defaultProfilingConfiguration];
 	conf.samplingInterval = 0.25;
 	conf.recordThreadInformation = YES;
@@ -276,7 +276,7 @@ os_log_t __log_general;
 	[self _peform:^{
 		os_signpost_id_t test = os_signpost_id_generate(__log_general);
 		os_signpost_interval_begin(__log_general, test, "Starting Test");
-		NSString* startingTest = DTXProfilerMarkEventIntervalBegin(@"Stress Test", @"Starting Test", nil);
+		DTXEventIdentifier startingTest = DTXProfilerMarkEventIntervalBegin(@"Stress Test", @"Starting Test", nil);
 		
 		[self _slowMyBackgroundTapped:nil];
 		

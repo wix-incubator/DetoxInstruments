@@ -88,7 +88,7 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	}
 }
 
-static NSString* __DTXStringFromBoolean(BOOL b)
+inline static NSString* __DTXStringFromBoolean(BOOL b)
 {
 	return b ? NSLocalizedString(@"Yes", @"") : NSLocalizedString(@"No", @"");
 }

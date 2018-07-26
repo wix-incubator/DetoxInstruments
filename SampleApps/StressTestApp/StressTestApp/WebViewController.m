@@ -7,14 +7,17 @@
 //
 
 #import "WebViewController.h"
-#import <DTXProfiler/DTXProfiler.h>
+#import <DTXProfiler/DTXEvents.h>
 #import "AppDelegate.h"
 
 os_log_t __log_web_view;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @interface LNWebView : UIWebView
 
 @end
+#pragma clang diagnostic pop
 
 @implementation LNWebView
 
@@ -47,7 +50,10 @@ os_log_t __log_web_view;
 
 @implementation WebViewController
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	IBOutlet UIWebView* _webView;
+#pragma clang diagnostic pop
 }
 
 - (void)viewDidLoad

@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <DTXProfiler/DTXBase.h>
 #import <DTXProfiler/DTXProfilingConfiguration.h>
-#import <DTXProfiler/DTXEventStatus.h>
+#import <DTXProfiler/DTXEvents.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+#ifdef __OBJC__
 
 /**
  *  Profiler objects are used to record profiling sessions.
@@ -19,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DTXProfiler : NSObject
 
-+ (NSString*)version;
+@property (class, nonatomic, readonly, copy) NSString* version;
 
 /**
  *  A Boolean value indicating whether there is currently a recording in progress.
@@ -53,6 +56,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#endif
+
+__BEGIN_DECLS
+
 /**
  *  Push a sample group.
  *
@@ -60,14 +67,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param name The name of the sample group to push.
  */
-void DTXProfilerPushSampleGroup(NSString* name);
+DTX_NOTHROW
+extern void DTXProfilerPushSampleGroup(NSString* name);
 
 /**
  *  Pop a sample group.
  *
  *  Subsequent samples will be pushed into the parent group.
  */
-void DTXProfilerPopSampleGroup(void);
+DTX_NOTHROW
+extern void DTXProfilerPopSampleGroup(void);
 
 /**
  *  Adds a tag.
@@ -76,7 +85,8 @@ void DTXProfilerPopSampleGroup(void);
  *
  *  @param tag The tag name to push.
  */
-void DTXProfilerAddTag(NSString* tag);
+DTX_NOTHROW
+extern void DTXProfilerAddTag(NSString* tag);
 
 /**
  *  Adds a log line.
@@ -87,7 +97,8 @@ void DTXProfilerAddTag(NSString* tag);
  *
  *  @param line The line to add.
  */
-void DTXProfilerAddLogLine(NSString* line);
+DTX_NOTHROW
+extern void DTXProfilerAddLogLine(NSString* line);
 
 /**
  *  Adds a log line and an array of object.
@@ -99,10 +110,8 @@ void DTXProfilerAddLogLine(NSString* line);
  *  @param line The line to add.
  *  @param objects The objects to add.
  */
-void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects);
+DTX_NOTHROW
+extern void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects);
 
-NSString* DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable additionalInfo);
-void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable additionalInfo);
-void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable additionInfo);
-
+__END_DECLS
 NS_ASSUME_NONNULL_END
