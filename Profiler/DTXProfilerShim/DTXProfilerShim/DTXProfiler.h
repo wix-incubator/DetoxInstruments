@@ -7,13 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <DTXProfiler/DTXBase.h>
-#import <DTXProfiler/DTXProfilingConfiguration.h>
-#import <DTXProfiler/DTXEvents.h>
+#import "DTXProfilingConfiguration.h"
+#import "DTXEvents.h"
+#import "DTXBase.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-#ifdef __OBJC__
 
 /**
  *  Profiler objects are used to record profiling sessions.
@@ -55,8 +53,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stopProfilingWithCompletionHandler:(void(^ __nullable)(NSError* __nullable error))completionHandler;
 
 @end
-
-#endif
 
 __BEGIN_DECLS
 
