@@ -42,6 +42,28 @@ static NSBitmapImageRep* __DTXThemeBackgroundRep(NSBitmapImageRep* rep)
 	return rep;
 }
 
+static NSBitmapImageRep* __DTXThemeBorderedLineRep(NSBitmapImageRep* rep)
+{
+	NSImage* rvImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, rep.size.height)];
+	[rvImage lockFocus];
+	NSRect rect = (NSRect){0, 0, rvImage.size};
+	[rep drawInRect:rect fromRect:rect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	NSBezierPath* path = [NSBezierPath new];
+	path.lineWidth = 1.0;
+	
+	[path moveToPoint:NSMakePoint(0, rep.size.height - 29)];
+	[path lineToPoint:NSMakePoint(rep.size.width, rep.size.height - 29)];
+	
+	[(NSApp.effectiveAppearance.isDarkAppearance ? NSColor.blackColor : NSColor.quaternaryLabelColor) set];
+	[path stroke];
+	
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
+	[rvImage unlockFocus];
+	
+	return rep;
+}
+
 static NSDictionary<NSString*, NSDictionary<NSString*, id>*>* __classToNameMapping;
 static NSNumber* __defaultSample;
 static const CGFloat __inspectorPaneOverviewImagePadding = 35;
@@ -70,7 +92,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 								 NSStringFromClass(DTXDiskReadWritesPlotController.class): @{@"name": @"DiskActivity", @"displaySample": @199},
 								 NSStringFromClass(DTXFPSPlotController.class): @{@"name": @"FPS"},
 								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @175},
-								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"displaySample": @175, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1},
+								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"inspectorSample": @24, @"displaySample": @175, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
 								 NSStringFromClass(DTXSignpostPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@4, @0, @3]},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
@@ -282,7 +304,8 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _scrollBottomPaneToPercentage:scrollPercentage];
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
-		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_DetailPane.png", name]].path atomically:YES];
+		
+		[[__DTXThemeBorderedLineRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_DetailPane.png", name]].path atomically:YES];
 		
 		if(outlineBreadcrumbs)
 		{
@@ -296,7 +319,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _selectExtendedDetailInspector];
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForInspectorPane].representations.firstObject;
-		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_InspectorPane.png", name]].path atomically:YES];
+		[[__DTXThemeBorderedLineRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_InspectorPane.png", name]].path atomically:YES];
 	}
 	else
 	{
@@ -379,7 +402,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 
 - (NSImage*)_toolbarImageWithExistingRep:(NSBitmapImageRep*)rep
 {
-	NSImage* toolbarImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, 190)];
+	NSImage* toolbarImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, 184)];
 	[toolbarImage lockFocus];
 	
 	[rep drawAtPoint:NSMakePoint(0, toolbarImage.size.height - rep.size.height)];
