@@ -8,8 +8,24 @@
 
 #import "DTXEventInspectorDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
+#import "DTXRNStackTraceParser.h"
+#import "DTXEventStatusPrivate.h"
 
 @implementation DTXEventInspectorDataProvider
+
+- (NSArray *)arrayForStackTrace
+{
+	DTXSignpostSample* eventSample = self.sample;
+	
+//	DTXRNSymbolicateJSCBacktrace
+	
+	return eventSample.stackTrace;
+}
+
+- (NSString*)stackTraceFrameStringForObject:(id)obj includeFullFormat:(BOOL)fullFormat
+{
+	return [DTXRNStackTraceParser stackTraceFrameStringForObject:obj includeFullFormat:fullFormat];
+}
 
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource
 {
@@ -41,10 +57,22 @@
 	{
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
 		
-		ti = eventSample.endTimestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
+		NSString* endString, *durationString;
 		
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Duration", @"") description:[NSFormatter.dtx_durationFormatter stringFromTimeInterval:eventSample.duration]]];
+		if(eventSample.endTimestamp)
+		{
+			ti = eventSample.endTimestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
+			endString = [NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)];
+			durationString = [NSFormatter.dtx_durationFormatter stringFromTimeInterval:eventSample.duration];
+		}
+		else
+		{
+			endString = @"—";
+			durationString = @"—";
+		}
+		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:endString]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Duration", @"") description:durationString]];
 	}
 	else
 	{
@@ -83,6 +111,13 @@
 	if(additionalInfo.content.count > 0)
 	{
 		[contentArray addObject:additionalInfo];
+	}
+	
+	if(eventSample.isTimer == YES && eventSample.stackTrace != nil)
+	{
+		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
+		stackTrace.title = NSLocalizedString(@"Stack Trace", @"");
+		[contentArray addObject:stackTrace];
 	}
 	
 	rv.contentArray = contentArray;

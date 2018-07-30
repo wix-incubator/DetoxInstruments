@@ -47,7 +47,7 @@
 
 - (NSPredicate *)predicateForAggregator
 {
-	return [NSPredicate predicateWithFormat:@"category == %@", _category];
+	return [NSPredicate predicateWithFormat:@"category == %@ && endTimestamp != nil", _category];
 }
 
 - (NSUInteger)count

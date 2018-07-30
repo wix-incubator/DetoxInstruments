@@ -10,6 +10,7 @@
 #import "NSColor+UIAdditions.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXSignpostDataProvider.h"
+#import "DTXSignpostSample+UIExtensions.h"
 
 @implementation DTXSignpostPlotController
 
@@ -75,7 +76,7 @@
 
 - (NSColor*)colorForSample:(DTXSignpostSample*)sample
 {
-	return [NSColor signpostPlotControllerColorForCategory:sample.eventStatus];
+	return sample.plotControllerColor;
 }
 
 @end

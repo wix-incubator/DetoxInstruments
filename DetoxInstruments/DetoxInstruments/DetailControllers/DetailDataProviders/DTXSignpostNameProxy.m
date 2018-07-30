@@ -46,7 +46,8 @@
 - (void)_reloadDurations
 {
 	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
-	fr.predicate = _fetchRequest.predicate;
+	
+	fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[[NSPredicate predicateWithFormat:@"endTimestamp != nil"], _fetchRequest.predicate]];
 	fr.resultType = NSDictionaryResultType;
 	
 	NSExpressionDescription* min = [NSExpressionDescription new];

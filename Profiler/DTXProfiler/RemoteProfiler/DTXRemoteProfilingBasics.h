@@ -8,10 +8,8 @@
 
 @class NSEntityDescription;
 
-#if __has_include(<DTXProfiler/DTXEventStatus.h>)
-#import <DTXProfiler/DTXEventStatus.h>
-#else
-#import "DTXEventStatus.h"
+#if __has_include("DTXEventStatusPrivate.h")
+	#import "DTXEventStatusPrivate.h"
 #endif
 
 typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {

@@ -143,7 +143,7 @@
 			return [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		}
 		case 3:
-			if(signpostSample.isGroup == NO && realSignpostSample.isEvent)
+			if(signpostSample.isGroup == NO && (realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil))
 			{
 				return @"—";
 			}
@@ -203,9 +203,14 @@
 {
 	DTXSignpostSample* sample = item;
 	
-	if(sample.eventStatus == DTXEventStatusError)
+	if(sample.eventStatus == DTXEventStatusPrivateError)
 	{
 		return NSColor.warning3Color;
+	}
+	
+	if(sample.isGroup == NO && sample.endTimestamp == nil)
+	{
+		return NSColor.warningColor;
 	}
 	
 	return NSColor.controlBackgroundColor;

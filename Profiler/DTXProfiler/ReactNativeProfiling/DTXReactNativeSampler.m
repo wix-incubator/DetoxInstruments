@@ -76,6 +76,10 @@ static void installDTXNativeLoggingHook(JSContext* ctx)
 
 static void installDTXSignpostHook(JSContext* ctx)
 {
+	ctx[@"__dtx_getEventsSettings_v1"] = ^ NSDictionary* () {
+		return @{@"captureTimers": @YES};
+	};
+	
 	ctx[@"__dtx_markEventBatch_v1"] = ^ (NSArray<NSDictionary<NSString*, id>*>* samples)
 	{
 		dispatch_async(__eventDispatchQueue, ^{
@@ -88,7 +92,7 @@ static void installDTXSignpostHook(JSContext* ctx)
 				
 				switch (type) {
 					case 0:
-						__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], params[@"2"]);
+						__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], params[@"2"], [params[@"3"] boolValue], [params[@"4"] componentsSeparatedByString:@"\n"]);
 						break;
 					case 1:
 						__DTXProfilerMarkEventIntervalEnd(timestamp, identifier, [params[@"0"] unsignedIntegerValue], params[@"1"]);

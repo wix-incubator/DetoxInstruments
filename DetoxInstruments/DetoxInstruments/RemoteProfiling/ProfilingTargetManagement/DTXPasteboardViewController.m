@@ -19,6 +19,8 @@
 	IBOutlet NSTableView* _tableView;
 	DTXInspectorContentTableDataSource* _tableDataSource;
 	
+	IBOutlet NSTextField* _emptyPasteboardLabel;
+	
 	NSUndoManager* _undoManager;
 }
 
@@ -224,6 +226,15 @@
 	else
 	{
 		[self _fillMultipleItemsIntoDataSource:_tableDataSource];
+	}
+	
+	if(self.profilingTarget.pasteboardContents.count == 0)
+	{
+		_emptyPasteboardLabel.animator.alphaValue = 1.0;
+	}
+	else
+	{
+		_emptyPasteboardLabel.animator.alphaValue = 0.0;
 	}
 }
 

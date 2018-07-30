@@ -29,7 +29,7 @@ os_log_t __log_web_view;
 - (void)loadRequest:(NSURLRequest *)request
 {
 	os_signpost_event_emit(__log_web_view, OS_SIGNPOST_ID_EXCLUSIVE, "Loading Web Page");
-	DTXProfilerMarkEvent(@"Web", @"Loading Web Page", DTXEventStatusCategory4, request.URL.absoluteString);
+	DTXProfilerMarkEvent(@"Web", @"Loading Web Page", DTXEventStatusCompleted, request.URL.absoluteString);
 	
 	[super loadRequest:request];
 }
@@ -37,7 +37,7 @@ os_log_t __log_web_view;
 - (NSString *)stringByEvaluatingJavaScriptFromString:(NSString *)script
 {
 	os_signpost_event_emit(__log_web_view, OS_SIGNPOST_ID_EXCLUSIVE, "Evaluating JavaScript String");
-	DTXProfilerMarkEvent(@"Web", @"Evaluating JavaScript String", DTXEventStatusCategory4, script);
+	DTXProfilerMarkEvent(@"Web", @"Evaluating JavaScript String", DTXEventStatusCompleted, script);
 	
 	return [super stringByEvaluatingJavaScriptFromString:script];
 }
@@ -59,7 +59,7 @@ os_log_t __log_web_view;
 - (void)viewDidLoad
 {
 	os_signpost_event_emit(__log_web_view, OS_SIGNPOST_ID_EXCLUSIVE, "Web View Loaded");
-	DTXProfilerMarkEvent(@"Web", @"Web View Loaded", DTXEventStatusCategory4, nil);
+	DTXProfilerMarkEvent(@"Web", @"Web View Loaded", DTXEventStatusCompleted, nil);
 	
 	[super viewDidLoad];
 	
@@ -69,7 +69,7 @@ os_log_t __log_web_view;
 - (void)viewDidAppear:(BOOL)animated
 {
 	os_signpost_event_emit(__log_web_view, OS_SIGNPOST_ID_EXCLUSIVE, "Web View Appeared");
-	DTXProfilerMarkEvent(@"Web", @"Web View Appeared", DTXEventStatusCategory4, nil);
+	DTXProfilerMarkEvent(@"Web", @"Web View Appeared", DTXEventStatusCompleted, nil);
 	
 	[super viewDidAppear:animated];
 	
