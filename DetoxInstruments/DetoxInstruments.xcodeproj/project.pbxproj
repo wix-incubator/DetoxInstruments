@@ -80,6 +80,7 @@
 		396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */; };
 		396A6B5F1F4F107700768536 /* DTXHighlightingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5E1F4F107700768536 /* DTXHighlightingTableCellView.m */; };
 		396CC3DF20AAE80300756459 /* DTXAutogrowingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 396CC3DE20AAE80300756459 /* DTXAutogrowingButton.m */; };
+		396CCDAE210DC8F200152C34 /* DTXRNStackTraceParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 396CCDAD210DC8F200152C34 /* DTXRNStackTraceParser.m */; };
 		396E7DB520ED331F00F6F4DD /* DTXEventInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 396E7DB420ED331F00F6F4DD /* DTXEventInspectorDataProvider.m */; };
 		3972E67920694E6800F099DE /* Acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 3972E67820694E6800F099DE /* Acknowledgements.html */; };
 		3972E67C2069544900F099DE /* DTXAcknowledgementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */; };
@@ -556,6 +557,9 @@
 		396CC3DE20AAE80300756459 /* DTXAutogrowingButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAutogrowingButton.m; sourceTree = "<group>"; };
 		396CC43920AB07E300756459 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilingTargetManagementWindowController+DocumentationGeneration.h"; sourceTree = "<group>"; };
 		396CC43A20AB07E300756459 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXProfilingTargetManagementWindowController+DocumentationGeneration.m"; sourceTree = "<group>"; };
+		396CCDAB210DBE4E00152C34 /* DTXEventStatusPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventStatusPrivate.h; sourceTree = "<group>"; };
+		396CCDAC210DC8F200152C34 /* DTXRNStackTraceParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNStackTraceParser.h; sourceTree = "<group>"; };
+		396CCDAD210DC8F200152C34 /* DTXRNStackTraceParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNStackTraceParser.m; sourceTree = "<group>"; };
 		396E7DB220ECCFCB00F6F4DD /* DTXSignpostProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostProtocol.h; sourceTree = "<group>"; };
 		396E7DB320ED331F00F6F4DD /* DTXEventInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventInspectorDataProvider.h; sourceTree = "<group>"; };
 		396E7DB420ED331F00F6F4DD /* DTXEventInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXEventInspectorDataProvider.m; sourceTree = "<group>"; };
@@ -727,7 +731,6 @@
 		39D02CDD1EF1C8D100BAD7AF /* DTXTextViewCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTextViewCellView.m; sourceTree = "<group>"; };
 		39D02CDF1EF1C98F00BAD7AF /* DTXInspectorContentTableDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXInspectorContentTableDataSource.h; sourceTree = "<group>"; };
 		39D02CE01EF1C98F00BAD7AF /* DTXInspectorContentTableDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXInspectorContentTableDataSource.m; sourceTree = "<group>"; };
-		39D10D3920E38F8800320742 /* DTXEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DTXEventStatus.h; path = ../../../Profiler/DTXProfiler/DTXEventStatus.h; sourceTree = "<group>"; };
 		39D76E792086B6BF0033BDE2 /* DTXUserDefaultsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXUserDefaultsViewController.h; sourceTree = "<group>"; };
 		39D76E7A2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXUserDefaultsViewController.m; sourceTree = "<group>"; };
 		39D76E7C2086B6F00033BDE2 /* DTXProfilingTargetManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilingTargetManagement.h; sourceTree = "<group>"; };
@@ -912,6 +915,7 @@
 			isa = PBXGroup;
 			children = (
 				39C48BF120BEF2BA00E6AFC0 /* DTXInstruments.xcdatamodeld */,
+				396CCDAB210DBE4E00152C34 /* DTXEventStatusPrivate.h */,
 				39782CDA1FC590DA0034D70A /* DTXInstrumentsModel.h */,
 				39782CD91FC590DA0034D70A /* DTXRecording+Additions.h */,
 				39782CD81FC590DA0034D70A /* DTXRecording+Additions.m */,
@@ -988,6 +992,8 @@
 		393F41BF1F0E5E0B00F4DC1F /* ReactNative */ = {
 			isa = PBXGroup;
 			children = (
+				396CCDAC210DC8F200152C34 /* DTXRNStackTraceParser.h */,
+				396CCDAD210DC8F200152C34 /* DTXRNStackTraceParser.m */,
 				393F41C01F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.h */,
 				393F41C11F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m */,
 				39EE1F531F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.h */,
@@ -1338,7 +1344,6 @@
 			children = (
 				39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */,
 				39C72E051F28843A00FD470E /* DTXSocketConnection */,
-				39D10D3920E38F8800320742 /* DTXEventStatus.h */,
 				39C646691F24CAC800DF0C77 /* DTXRemoteProfilingBasics.h */,
 				399B3FBA1F248C3C00335109 /* DTXRemoteTarget.h */,
 				39C646681F24A16700DF0C77 /* DTXRemoteTarget-Private.h */,
@@ -1830,6 +1835,7 @@
 				39F6F6CB1F0E3D5200C7F411 /* AutoCoding.m in Sources */,
 				39BEE1EB207A47B3003AF93E /* aes_ni.c in Sources */,
 				3903F37A208F38E500B73E5D /* DTXLogDetailController.m in Sources */,
+				396CCDAE210DC8F200152C34 /* DTXRNStackTraceParser.m in Sources */,
 				39BEE1E3207A47B3003AF93E /* ioapi_buf.c in Sources */,
 				390442442067036100A29048 /* DTXAboutWindowController.m in Sources */,
 				39C6A8E51EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m in Sources */,

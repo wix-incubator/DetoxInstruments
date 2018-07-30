@@ -11,14 +11,12 @@
 		39377B0D2107B135000A7D82 /* DTXProfilerShim.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B0C2107B135000A7D82 /* DTXProfilerShim.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC79210A8F27003E9170 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39A7BC78210A8F27003E9170 /* DTXEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC7A210A8F9B003E9170 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215585210A8EF9002AF802 /* DTXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		39A7BC7B210A8F9B003E9170 /* DTXEventStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215584210A8EF8002AF802 /* DTXEventStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC7C210A8F9B003E9170 /* DTXProfilingConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215586210A8EF9002AF802 /* DTXProfilingConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC7D210A8F9B003E9170 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215583210A8EF8002AF802 /* DTXProfiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		39215583210A8EF8002AF802 /* DTXProfiler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.h; sourceTree = "<group>"; };
-		39215584210A8EF8002AF802 /* DTXEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventStatus.h; sourceTree = "<group>"; };
 		39215585210A8EF9002AF802 /* DTXBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXBase.h; sourceTree = "<group>"; };
 		39215586210A8EF9002AF802 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilingConfiguration.h; sourceTree = "<group>"; };
 		3929507B2107A87300F7E3E1 /* DTXProfilerShim.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DTXProfilerShim.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,7 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				39215585210A8EF9002AF802 /* DTXBase.h */,
-				39215584210A8EF8002AF802 /* DTXEventStatus.h */,
 				39A7BC78210A8F27003E9170 /* DTXEvents.h */,
 				39215586210A8EF9002AF802 /* DTXProfilingConfiguration.h */,
 				39215583210A8EF8002AF802 /* DTXProfiler.h */,
@@ -79,7 +76,6 @@
 			files = (
 				39A7BC79210A8F27003E9170 /* DTXEvents.h in Headers */,
 				39A7BC7A210A8F9B003E9170 /* DTXBase.h in Headers */,
-				39A7BC7B210A8F9B003E9170 /* DTXEventStatus.h in Headers */,
 				39A7BC7C210A8F9B003E9170 /* DTXProfilingConfiguration.h in Headers */,
 				39A7BC7D210A8F9B003E9170 /* DTXProfiler.h in Headers */,
 				39377B0D2107B135000A7D82 /* DTXProfilerShim.h in Headers */,

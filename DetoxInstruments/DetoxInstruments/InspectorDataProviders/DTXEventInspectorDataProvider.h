@@ -7,7 +7,8 @@
 //
 
 #import "DTXInspectorDataProvider.h"
+#import "DTXStackTraceCopyDataProvider.h"
 
-@interface DTXEventInspectorDataProvider : DTXInspectorDataProvider
+@interface DTXEventInspectorDataProvider : DTXStackTraceCopyDataProvider
 
 @end

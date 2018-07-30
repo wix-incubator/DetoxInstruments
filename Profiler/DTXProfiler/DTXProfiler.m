@@ -305,7 +305,7 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventIntervalBeginWithIdentifier:(NSString *)identifier category:(NSString *)category name:(NSString *)name additionalInfo:(NSString *)additionalInfo timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace timestamp:(NSDate*)timestamp
 {
 	[self->_backgroundContext performBlock:^{
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
@@ -315,6 +315,9 @@ DTX_CREATE_LOG(Profiler);
 		signpostSample.name = [name copy];
 		signpostSample.additionalInfoStart = [additionalInfo copy];
 		signpostSample.parentGroup = self->_currentSampleGroup;
+		signpostSample.isTimer = isTimer;
+		signpostSample.stackTrace = stackTrace;
+		signpostSample.stackTraceIsSymbolicated = NO;
 		
 		[self->_profilerStoryListener markEventIntervalBegin:signpostSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];

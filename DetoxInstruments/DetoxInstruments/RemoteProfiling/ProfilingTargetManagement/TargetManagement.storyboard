@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.3.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14306.4"/>
+        <development version="10000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.3.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -389,13 +390,13 @@
                                     <action selector="helpAppManagement:" target="F43-ke-g4I" id="5EH-nG-px1"/>
                                 </connections>
                             </button>
-                            <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="68" horizontalPageScroll="10" verticalLineScroll="68" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMj-Ow-mmD">
+                            <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="69" horizontalPageScroll="10" verticalLineScroll="69" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMj-Ow-mmD">
                                 <rect key="frame" x="0.0" y="61" width="550" height="519"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="JtJ-6r-iLn">
                                     <rect key="frame" x="0.0" y="0.0" width="550" height="519"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="66" rowSizeStyle="automatic" viewBased="YES" id="2Av-h6-jkF" customClass="DTXInspectorTableView">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="67" rowSizeStyle="automatic" viewBased="YES" id="2Av-h6-jkF" customClass="DTXInspectorTableView">
                                             <rect key="frame" x="0.0" y="0.0" width="550" height="519"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -415,8 +416,8 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="DTXGroupTextViewCellView" misplaced="YES" id="4As-xn-eTX">
-                                                            <rect key="frame" x="1" y="1" width="547" height="25"/>
+                                                        <tableCellView identifier="DTXGroupTextViewCellView" id="4As-xn-eTX">
+                                                            <rect key="frame" x="1" y="1" width="547" height="26"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1Yw-xa-M99">
@@ -438,8 +439,8 @@
                                                                 <outlet property="textField" destination="1Yw-xa-M99" id="cVG-Pg-JmY"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DTXTextViewCellView" wantsLayer="YES" misplaced="YES" id="qUX-v7-zU7" customClass="DTXTextViewCellView">
-                                                            <rect key="frame" x="1" y="28" width="547" height="66"/>
+                                                        <tableCellView identifier="DTXTextViewCellView" wantsLayer="YES" id="qUX-v7-zU7" customClass="DTXTextViewCellView">
+                                                            <rect key="frame" x="1" y="29" width="547" height="67"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <box boxType="custom" borderType="line" borderWidth="0.0" cornerRadius="8" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="KOq-fL-sB2">
@@ -568,6 +569,14 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zGO-1H-D0a">
+                                <rect key="frame" x="196" y="303" width="158" height="24"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Empty Clipboard" id="Ghi-1d-VCn">
+                                    <font key="font" metaFont="systemMedium" size="20"/>
+                                    <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="IRv-sA-n1T" secondAttribute="bottom" constant="20" id="0r1-jc-9vU"/>
@@ -575,13 +584,17 @@
                             <constraint firstItem="kL6-89-KO4" firstAttribute="leading" secondItem="4Wz-99-hzj" secondAttribute="leading" constant="20" id="1ft-4B-tJx"/>
                             <constraint firstAttribute="trailing" secondItem="IRv-sA-n1T" secondAttribute="trailing" constant="20" id="EtK-Hr-2uD"/>
                             <constraint firstItem="IRv-sA-n1T" firstAttribute="top" secondItem="uMj-Ow-mmD" secondAttribute="bottom" constant="20" id="Ghi-o0-K9Y"/>
+                            <constraint firstItem="zGO-1H-D0a" firstAttribute="centerY" secondItem="4Wz-99-hzj" secondAttribute="centerY" constant="-15" id="KeW-Dy-e3Z"/>
                             <constraint firstItem="uMj-Ow-mmD" firstAttribute="top" secondItem="4Wz-99-hzj" secondAttribute="top" constant="20" id="ofd-Qo-Dbb"/>
                             <constraint firstItem="uMj-Ow-mmD" firstAttribute="leading" secondItem="4Wz-99-hzj" secondAttribute="leading" id="p4F-dz-vbm"/>
                             <constraint firstAttribute="trailing" secondItem="uMj-Ow-mmD" secondAttribute="trailing" id="vqA-tO-WoZ"/>
+                            <constraint firstItem="zGO-1H-D0a" firstAttribute="centerX" secondItem="4Wz-99-hzj" secondAttribute="centerX" id="xoA-Fw-T8r"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="_emptyPasteboardLabel" destination="zGO-1H-D0a" id="Zue-Te-HJg"/>
                         <outlet property="_helpButton" destination="IRv-sA-n1T" id="QZM-lJ-c8N"/>
+                        <outlet property="_refreshButton" destination="v2Q-HM-tzp" id="RQ2-5L-a3d"/>
                         <outlet property="_tableView" destination="2Av-h6-jkF" id="VY8-eW-VIl"/>
                     </connections>
                 </viewController>

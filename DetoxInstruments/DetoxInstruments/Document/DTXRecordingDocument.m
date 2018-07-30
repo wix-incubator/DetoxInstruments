@@ -484,6 +484,19 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	}];
 }
 
+- (void)remoteProfilingClient:(DTXRemoteProfilingClient *)client didReceiveSourceMapsData:(NSData *)sourceMapsData
+{
+	NSError* error;
+	NSDictionary<NSString*, id>* sourceMaps = [NSJSONSerialization JSONObjectWithData:sourceMapsData options:0 error:&error];
+	if(sourceMaps == nil)
+	{
+		NSLog(@"Error parsing source maps: %@", error);
+		return;
+	}
+	
+	_sourceMapsParser = [DTXSourceMapsParser sourceMapsParserForSourceMaps:sourceMaps];
+}
+
 - (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient *)client
 {
 	[self updateChangeCount:NSChangeDone];
@@ -507,6 +520,8 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
 		}];
 	}];
+	
+	_remoteProfilingClient = nil;
 }
 
 - (void)remoteProfilingClientDidChangeDatabase:(DTXRemoteProfilingClient *)client

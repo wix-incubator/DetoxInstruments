@@ -179,6 +179,7 @@
 		_contentArray = [contentArray copy];
 		[self _prepareAttributedStrings];
 		[_managedTableView reloadData];
+		
 		return;
 	}
 	

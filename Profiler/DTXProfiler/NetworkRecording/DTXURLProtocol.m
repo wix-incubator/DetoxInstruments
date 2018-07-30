@@ -24,6 +24,11 @@ static __weak id<DTXURLProtocolDelegate> __protocolDelelgate;
 
 @implementation DTXURLProtocol
 
++ (void)load
+{
+	[NSURLProtocol registerClass:[DTXURLProtocol class]];
+}
+
 + (id<DTXURLProtocolDelegate>)delegate
 {
 	return __protocolDelelgate;

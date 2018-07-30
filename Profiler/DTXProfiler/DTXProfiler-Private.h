@@ -7,8 +7,7 @@
 //
 
 #import "DTXRemoteProfilingBasics.h"
-#import "DTXProfiler.h"
-#import "DTXEvents.h"
+#import <DTXProfiler/DTXProfiler.h>
 #import <pthread.h>
 
 extern pthread_mutex_t __active_profilers_mutex;
@@ -28,7 +27,7 @@ extern NSMutableSet<DTXProfiler*>* __activeProfilers;
 - (void)_addTag:(NSString*)tag timestamp:(NSDate*)timestamp;
 - (void)_addLogLine:(NSString*)line timestamp:(NSDate*)timestamp;
 - (void)_addLogLine:(NSString *)line objects:(NSArray *)objects timestamp:(NSDate*)timestamp;
-- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp;
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace timestamp:(NSDate*)timestamp;
 - (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp;
 - (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp;
 - (void)_networkRecorderDidStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
@@ -110,19 +109,19 @@ inline void __DTXProfilerAddLogLineWithObjects(NSDate* timestamp, NSString* line
 }
 
 DTX_ALWAYS_INLINE
-inline void __DTXProfilerMarkEventIntervalBeginIdentifier(NSString* identifier, NSDate* timestamp, NSString* category, NSString* name, NSString* additionalInfo)
+inline void __DTXProfilerMarkEventIntervalBeginIdentifier(NSString* identifier, NSDate* timestamp, NSString* category, NSString* name, NSString* additionalInfo, BOOL isTimer, NSArray* stackTrace)
 {
 	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
-		[profiler _markEventIntervalBeginWithIdentifier:identifier category:category name:name additionalInfo:additionalInfo timestamp:timestamp];
+		[profiler _markEventIntervalBeginWithIdentifier:identifier category:category name:name additionalInfo:additionalInfo isTimer:isTimer stackTrace:stackTrace timestamp:timestamp];
 	});
 }
 
 DTX_ALWAYS_INLINE
-inline NSString* __DTXProfilerMarkEventIntervalBegin(NSDate* timestamp, NSString* category, NSString* name, NSString* additionalInfo)
+inline NSString* __DTXProfilerMarkEventIntervalBegin(NSDate* timestamp, NSString* category, NSString* name, NSString* additionalInfo, BOOL isTimer, NSArray* stackTrace)
 {
 	NSString* rv = NSUUID.UUID.UUIDString;
 	
-	__DTXProfilerMarkEventIntervalBeginIdentifier(rv, timestamp, category, name, additionalInfo);
+	__DTXProfilerMarkEventIntervalBeginIdentifier(rv, timestamp, category, name, additionalInfo, isTimer, stackTrace);
 	
 	return rv;
 }
