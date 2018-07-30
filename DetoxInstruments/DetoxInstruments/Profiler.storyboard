@@ -2,8 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.3.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="f3X-2z-0cS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <development version="10000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.3.2"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -286,6 +286,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="680" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <box boxType="custom" borderWidth="0.0" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="026-TF-htI">
+                                <rect key="frame" x="0.0" y="0.0" width="680" height="300"/>
+                                <view key="contentView" id="FhW-Xc-6j4">
+                                    <rect key="frame" x="0.0" y="0.0" width="680" height="300"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <color key="borderColor" name="successColor"/>
+                                <color key="fillColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </box>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="CTK-Sj-Sng">
                                 <rect key="frame" x="0.0" y="0.0" width="680" height="273"/>
                                 <subviews>
@@ -375,13 +384,17 @@
                             </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="026-TF-htI" firstAttribute="top" secondItem="6ab-O0-jz6" secondAttribute="top" id="1Pd-fv-HlN"/>
                             <constraint firstItem="CTK-Sj-Sng" firstAttribute="top" secondItem="qC8-Mm-qyE" secondAttribute="bottom" constant="-1.5" id="3gU-mG-QIi"/>
+                            <constraint firstAttribute="trailing" secondItem="026-TF-htI" secondAttribute="trailing" id="FEj-LQ-WxG"/>
                             <constraint firstItem="CTK-Sj-Sng" firstAttribute="width" secondItem="6ab-O0-jz6" secondAttribute="width" id="GCd-Ju-KwB"/>
                             <constraint firstAttribute="bottom" secondItem="CTK-Sj-Sng" secondAttribute="bottom" id="IB3-18-s8m"/>
+                            <constraint firstItem="026-TF-htI" firstAttribute="leading" secondItem="6ab-O0-jz6" secondAttribute="leading" id="PXE-Dx-rwq"/>
                             <constraint firstItem="qC8-Mm-qyE" firstAttribute="top" secondItem="6ab-O0-jz6" secondAttribute="top" id="Pb1-Rc-Ah5"/>
                             <constraint firstItem="CTK-Sj-Sng" firstAttribute="centerX" secondItem="6ab-O0-jz6" secondAttribute="centerX" id="R3I-wQ-qb8"/>
                             <constraint firstItem="qC8-Mm-qyE" firstAttribute="leading" secondItem="6ab-O0-jz6" secondAttribute="leading" id="VhT-JF-WxP"/>
                             <constraint firstAttribute="trailing" secondItem="qC8-Mm-qyE" secondAttribute="trailing" id="jbR-ZV-HFT"/>
+                            <constraint firstAttribute="bottom" secondItem="026-TF-htI" secondAttribute="bottom" id="rAl-WU-uWn"/>
                         </constraints>
                     </view>
                     <connections>
@@ -594,7 +607,7 @@
                                 <subviews>
                                     <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="50" horizontalPageScroll="10" verticalLineScroll="50" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ri-ct-FFi">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="772"/>
-                                        <clipView key="contentView" copiesOnScroll="NO" id="FGd-gi-xu2">
+                                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="FGd-gi-xu2">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="772"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -602,7 +615,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="772"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
-                                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                    <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
@@ -812,14 +825,14 @@
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                         </textField>
-                                                                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="h7Z-F3-pn6" customClass="DTXScrollIgnoringScrollView">
+                                                                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="h7Z-F3-pn6" customClass="DTXScrollIgnoringScrollView">
                                                                             <rect key="frame" x="0.0" y="10" width="312" height="14"/>
                                                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="SCD-rE-vor">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="312" height="14"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
-                                                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="luK-3M-vK4" userLabel="Outline View" customClass="DTXAutomaticallyDeselectingOutlineView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="312" height="19"/>
+                                                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="18" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="luK-3M-vK4" userLabel="Outline View" customClass="DTXAutomaticallyDeselectingOutlineView">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="312" height="20"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -838,8 +851,8 @@
                                                                                                 </textFieldCell>
                                                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                 <prototypeCellViews>
-                                                                                                    <tableCellView identifier="ObjectCell" misplaced="YES" id="qi7-35-uyo" customClass="DTXHighlightingTableCellView">
-                                                                                                        <rect key="frame" x="1" y="1" width="309" height="17"/>
+                                                                                                    <tableCellView identifier="ObjectCell" id="qi7-35-uyo" customClass="DTXHighlightingTableCellView">
+                                                                                                        <rect key="frame" x="1" y="1" width="309" height="18"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
                                                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wBr-ud-Pex" customClass="DTXHighlightingAttributedTextField">
@@ -933,7 +946,7 @@
                                 <rect key="frame" x="0.0" y="771" width="320" height="29"/>
                                 <subviews>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCX-wo-mYx" customClass="DTXSegmentedView">
-                                        <rect key="frame" x="125.5" y="3" width="69" height="23"/>
+                                        <rect key="frame" x="126" y="3" width="69" height="23"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -994,5 +1007,8 @@
         <image name="SearchFilterOff" width="15" height="15"/>
         <image name="extendedInfo_highlighted" width="15" height="15"/>
         <image name="fileInfo" width="15" height="15"/>
+        <namedColor name="successColor">
+            <color red="0.26666666666666666" green="0.74117647058823533" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
