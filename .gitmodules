@@ -16,9 +16,6 @@
 [submodule "Shared/DTXSocketConnection"]
 	path = Shared/DTXSocketConnection
 url=https://github.com/wix/DTXSocketConnection.git
-[submodule "Profiler/JSC"]
-	path = Profiler/JSC
-	url = https://github.com/wix/DetoxInstruments-wk.git
 [submodule "Helper/ObjCCLIInfra"]
 	path = Helper/ObjCCLIInfra
 	url = https://github.com/wix/ObjCCLIInfra.git
