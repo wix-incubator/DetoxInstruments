@@ -25,6 +25,12 @@
 @property (class, nonatomic, strong, readonly) NSColor* networkRequestsPlotControllerColor;
 @property (class, nonatomic, strong, readonly) NSColor* signpostPlotControllerColor;
 
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeColorColor;
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeImageColor;
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeLinkColor;
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeRichTextColor;
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeTextColor;
+
 @end
 
 typedef NS_ENUM(NSUInteger, DTXColorEffect) {

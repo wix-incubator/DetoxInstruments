@@ -256,7 +256,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			*outError = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
 											code:-9
 										userInfo:@{
-												   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The document can only be opened safely in a newer version of Detox Instruments.\n\nIf you continue, recording data may be lost", @""),
+												   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The document can only be opened safely in a newer version of Detox Instruments.\n\nIf you continue, the recording may be lost or damaged altogether.", @""),
 												   NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Open Anyway", nil), NSLocalizedString(@"Cancel", nil)],
 												   NSRecoveryAttempterErrorKey: self,
 												   NSURLErrorKey: url

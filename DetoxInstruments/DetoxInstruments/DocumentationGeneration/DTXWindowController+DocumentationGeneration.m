@@ -16,6 +16,7 @@
 #import "DTXSamplePlotController.h"
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
 #import "DTXInspectorContentController.h"
+#import "NSAppearance+UIAdditions.h"
 
 @interface NSObject ()
 
@@ -108,10 +109,10 @@
 	[outline deselectAll:nil];
 }
 
-- (NSImage*)_snapshotForDetailPane
+- (NSImage*)_snapshotForDetailPane NS_AVAILABLE_MAC(10_14)
 {
 	[self _drainLayout];
-	return [[self valueForKey:@"detailContentController"] view].snapshotForCachingDisplay;
+	return __DTXThemeBorderedImage([[self valueForKey:@"detailContentController"] view].snapshotForCachingDisplay);
 }
 
 - (void)_scrollBottomPaneToPercentage:(CGFloat)percentage
@@ -176,10 +177,36 @@
 	}];
 }
 
-- (NSImage*)_snapshotForInspectorPane
+NS_AVAILABLE_MAC(10_14)
+static NSImage* __DTXThemeBorderedImage(NSImage* image)
 {
-	[self _drainLayout];
-	return [[self valueForKey:@"inspectorContentController"] view].snapshotForCachingDisplay;
+	NSImage* rvImage = [[NSImage alloc] initWithSize:NSMakeSize(image.size.width, image.size.height)];
+	[rvImage lockFocus];
+	NSRect rect = (NSRect){0, 0, rvImage.size};
+	[image drawInRect:rect fromRect:rect operation:NSCompositingOperationCopy fraction:1.0 respectFlipped:YES hints:nil];
+	
+	NSBezierPath* path = [NSBezierPath new];
+	path.lineWidth = 1.0;
+	
+	[path moveToPoint:NSMakePoint(0, image.size.height - 28)];
+	[path lineToPoint:NSMakePoint(image.size.width, image.size.height - 28)];
+	
+	[(NSApp.effectiveAppearance.isDarkAppearance ? NSColor.blackColor : [NSColor colorWithRed:0.83203125 green:0.83203125 blue:0.83203125 alpha:1.0]) set];
+	[path stroke];
+	
+	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
+	[rvImage unlockFocus];
+	
+	image = [NSImage new];
+	[image addRepresentation:rep];
+	
+	return image;
+}
+
+- (NSImage*)_snapshotForInspectorPane NS_AVAILABLE_MAC(10_14)
+{
+	[self _drainLayout];	
+	return __DTXThemeBorderedImage([[self valueForKey:@"inspectorContentController"] view].snapshotForCachingDisplay);
 }
 
 - (NSImage*)_snapshotForRecordingSettings
