@@ -29,7 +29,6 @@ IB_DESIGNABLE
 	_lineLayer = [CALayer new];
 	_lineLayer.frame = CGRectMake(0, 0, self.bounds.size.width, 1);
 	_lineLayer.autoresizingMask = kCALayerWidthSizable;
-	_lineLayer.backgroundColor = NSColor.greenColor.CGColor;
 	_lineLayer.zPosition = 10;
 	
 	[self.layer addSublayer:_lineLayer];

@@ -2,12 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "stopRecording-1.png",
-      "scale" : "2x"
+      "filename" : "stopRecording.pdf"
     }
   ],
   "info" : {
@@ -15,6 +10,7 @@
     "author" : "xcode"
   },
   "properties" : {
-    "template-rendering-intent" : "template"
+    "template-rendering-intent" : "template",
+    "preserves-vector-representation" : true
   }
 }

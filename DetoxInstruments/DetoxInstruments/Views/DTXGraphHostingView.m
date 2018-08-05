@@ -19,7 +19,6 @@
 	{
 		self.wantsLayer = YES;
 		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawNever;
-		self.layer.opaque = YES;
 		self.openHandCursor = [NSCursor arrowCursor];
 //		self.closedHandCursor = [NSCursor arrowCursor];
 	}

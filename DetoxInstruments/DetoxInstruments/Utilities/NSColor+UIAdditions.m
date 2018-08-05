@@ -13,7 +13,7 @@
 #define DTX_NAMED_COLOR_IMPL(NAME)	\
 + (NSColor*)NAME	\
 {	\
-	return [NSColor colorNamed:NSStringFromSelector(_cmd)];	\
+	return [NSColor colorNamed:@#NAME];	\
 }
 
 @implementation NSColor (NamedColors)
@@ -29,6 +29,12 @@ DTX_NAMED_COLOR_IMPL(successColor)
 DTX_NAMED_COLOR_IMPL(warningColor)
 DTX_NAMED_COLOR_IMPL(warning2Color)
 DTX_NAMED_COLOR_IMPL(warning3Color)
+
+DTX_NAMED_COLOR_IMPL(pasteboardTypeColorColor)
+DTX_NAMED_COLOR_IMPL(pasteboardTypeImageColor)
+DTX_NAMED_COLOR_IMPL(pasteboardTypeLinkColor)
+DTX_NAMED_COLOR_IMPL(pasteboardTypeRichTextColor)
+DTX_NAMED_COLOR_IMPL(pasteboardTypeTextColor)
 
 + (NSColor*)signpostPlotControllerColorForCategory:(DTXEventStatusPrivate)eventStatus
 {
