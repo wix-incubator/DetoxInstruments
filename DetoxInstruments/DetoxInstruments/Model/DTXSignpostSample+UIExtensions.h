@@ -8,6 +8,7 @@
 
 #import "DTXSignpostSample+CoreDataClass.h"
 @import CoreData;
+@import AppKit;
 #import "DTXSignpostProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BOOL)hasSignpostSamplesForManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 - (NSString*)eventStatusString;
+- (NSColor*)plotControllerColor;
 
 @end
 

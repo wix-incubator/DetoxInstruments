@@ -22,7 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		3901A89F1F5D5CA60021916B /* DTXMachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */; };
-		3901A8A01F5D5CA60021916B /* DTXMachUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3901A89E1F5D5CA60021916B /* DTXMachUtilities.m */; };
+		3901A8A01F5D5CA60021916B /* DTXMachUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */; };
 		391E4C751F55750C0057039E /* DTXURLProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 391E4C731F55750C0057039E /* DTXURLProtocol.h */; };
 		391E4C761F55750C0057039E /* DTXURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 391E4C741F55750C0057039E /* DTXURLProtocol.m */; };
 		391E4C791F5575BF0057039E /* DTXAuthenticationChallengeProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 391E4C771F5575BF0057039E /* DTXAuthenticationChallengeProxy.h */; };
@@ -105,7 +105,7 @@
 		39BEE1B3207A4778003AF93E /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE18D207A4777003AF93E /* SSZipArchive.m */; };
 		39BEE1B4207A4778003AF93E /* SSZipCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BEE18E207A4777003AF93E /* SSZipCommon.h */; };
 		39BEE1B5207A4778003AF93E /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BEE18F207A4778003AF93E /* ZipArchive.h */; };
-		39C44C3320F3A24900279955 /* DTXProfiler-API.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C44C3220F3A24900279955 /* DTXProfiler-API.m */; };
+		39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C44C3220F3A24900279955 /* DTXProfilerAPI.m */; };
 		39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713381EFFCB4000C827EB /* AutoCoding.m */; };
 		39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713391EFFCB4000C827EB /* AutoCoding.h */; };
 		39C713401EFFD6FF00C827EB /* DTXReactNativeSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */; };
@@ -124,8 +124,8 @@
 		39D40C151ED5B43700157C04 /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */; };
 		39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C161ED5B43F00157C04 /* DTXProfiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C171ED5B43F00157C04 /* DTXProfiler.m */; };
+		39D8637F210EFC9600FECB75 /* DTXProfilerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D8B31B21077714000895F7 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B31A21077643000895F7 /* DTXEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		39D8B34621079262000895F7 /* DTXEventStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B3452107923C000895F7 /* DTXEventStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D8B36F21079CCA000895F7 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B3682107997C000895F7 /* DTXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3933E1341F7A319F0081F82F /* UIKit.framework */; };
 		39D94EF01EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */; };
@@ -184,7 +184,7 @@
 
 /* Begin PBXFileReference section */
 		3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMachUtilities.h; sourceTree = "<group>"; };
-		3901A89E1F5D5CA60021916B /* DTXMachUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXMachUtilities.m; sourceTree = "<group>"; };
+		3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DTXMachUtilities.c; sourceTree = "<group>"; };
 		391E4C731F55750C0057039E /* DTXURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXURLProtocol.h; sourceTree = "<group>"; };
 		391E4C741F55750C0057039E /* DTXURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXURLProtocol.m; sourceTree = "<group>"; };
 		391E4C771F5575BF0057039E /* DTXAuthenticationChallengeProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAuthenticationChallengeProxy.h; sourceTree = "<group>"; };
@@ -280,7 +280,7 @@
 		39BEE18D207A4777003AF93E /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = ../../../Shared/ZipArchive/SSZipArchive/SSZipArchive.m; sourceTree = "<group>"; };
 		39BEE18E207A4777003AF93E /* SSZipCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipCommon.h; path = ../../../Shared/ZipArchive/SSZipArchive/SSZipCommon.h; sourceTree = "<group>"; };
 		39BEE18F207A4778003AF93E /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZipArchive.h; path = ../../../Shared/ZipArchive/SSZipArchive/ZipArchive.h; sourceTree = "<group>"; };
-		39C44C3220F3A24900279955 /* DTXProfiler-API.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXProfiler-API.m"; sourceTree = "<group>"; };
+		39C44C3220F3A24900279955 /* DTXProfilerAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXProfilerAPI.m; sourceTree = "<group>"; };
 		39C713381EFFCB4000C827EB /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoCoding.m; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.m; sourceTree = "<group>"; };
 		39C713391EFFCB4000C827EB /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoCoding.h; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.h; sourceTree = "<group>"; };
 		39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXReactNativeSampler.h; sourceTree = "<group>"; };
@@ -302,8 +302,8 @@
 		39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Additions.m"; sourceTree = "<group>"; };
 		39D40C161ED5B43F00157C04 /* DTXProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.h; sourceTree = "<group>"; };
 		39D40C171ED5B43F00157C04 /* DTXProfiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXProfiler.m; sourceTree = "<group>"; };
+		39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilerAPI.h; sourceTree = "<group>"; };
 		39D8B31A21077643000895F7 /* DTXEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEvents.h; sourceTree = "<group>"; };
-		39D8B3452107923C000895F7 /* DTXEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventStatus.h; sourceTree = "<group>"; };
 		39D8B3682107997C000895F7 /* DTXBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXBase.h; sourceTree = "<group>"; };
 		39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
 		39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
@@ -466,7 +466,7 @@
 				395B269E2067B12C00FD7368 /* DTXFPSCalculator.h */,
 				395B269F2067B12C00FD7368 /* DTXFPSCalculator.m */,
 				3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */,
-				3901A89E1F5D5CA60021916B /* DTXMachUtilities.m */,
+				3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */,
 				399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */,
 				399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */,
 				3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */,
@@ -630,14 +630,14 @@
 				39557CD51F1F7E1300FF3187 /* RemoteProfiler */,
 				396EE2BE20ADAD32006C4C55 /* ViewHierarchy */,
 				39D8B3682107997C000895F7 /* DTXBase.h */,
+				39D8B31A21077643000895F7 /* DTXEvents.h */,
+				39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */,
+				39C44C3220F3A24900279955 /* DTXProfilerAPI.m */,
 				39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */,
 				39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */,
 				39D40C161ED5B43F00157C04 /* DTXProfiler.h */,
-				39D8B3452107923C000895F7 /* DTXEventStatus.h */,
-				39D8B31A21077643000895F7 /* DTXEvents.h */,
 				39557CD71F1F7E5500FF3187 /* DTXProfiler-Private.h */,
 				39D40C171ED5B43F00157C04 /* DTXProfiler.m */,
-				39C44C3220F3A24900279955 /* DTXProfiler-API.m */,
 				39D40BFD1ED5ABD200157C04 /* Info.plist */,
 				393E66DD1FC59B730092EE89 /* Swiftier.h */,
 				396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */,
@@ -677,8 +677,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				39D8B36F21079CCA000895F7 /* DTXBase.h in Headers */,
-				39D8B34621079262000895F7 /* DTXEventStatus.h in Headers */,
 				39D8B31B21077714000895F7 /* DTXEvents.h in Headers */,
+				39D8637F210EFC9600FECB75 /* DTXProfilerAPI.h in Headers */,
 				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
 				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
 				39BEE196207A4778003AF93E /* ioapi_mem.h in Headers */,
@@ -880,7 +880,7 @@
 				391E4C7A1F5575BF0057039E /* DTXAuthenticationChallengeProxy.m in Sources */,
 				39432AEA1F55BE6C00468DB7 /* DTXExternalProtocolStorage.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
-				39C44C3320F3A24900279955 /* DTXProfiler-API.m in Sources */,
+				39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */,
 				39281E831ED70A77002CE905 /* DTXZipper.m in Sources */,
 				39BEE1AF207A4778003AF93E /* pwd2key.c in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
@@ -888,7 +888,7 @@
 				39BEE1B0207A4778003AF93E /* aestab.c in Sources */,
 				39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
 				395B26A12067B12C00FD7368 /* DTXFPSCalculator.m in Sources */,
-				3901A8A01F5D5CA60021916B /* DTXMachUtilities.m in Sources */,
+				3901A8A01F5D5CA60021916B /* DTXMachUtilities.c in Sources */,
 				39BEE1AD207A4778003AF93E /* prng.c in Sources */,
 				39BEE195207A4778003AF93E /* ioapi.c in Sources */,
 				39C713411EFFD6FF00C827EB /* DTXReactNativeSampler.m in Sources */,

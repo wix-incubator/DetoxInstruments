@@ -46,17 +46,14 @@ DTX_CREATE_LOG(RemoteProfiler);
 		
 		_socketConnection = connection;
 		
-		if(self.profilingConfiguration.symbolicateJavaScriptStackTraces)
-		{
-			DTXRNGetCurrentWorkingSourceMapsData(^(NSData* data) {
-				if(data == nil)
-				{
-					return;
-				}
-				
-				[self _serializeCommandWithSelector:NSSelectorFromString(@"setSourceMapsData:") entityName:@"" dict:@{@"data": data} additionalParams:nil];
-			});
-		}
+		DTXRNGetCurrentWorkingSourceMapsData(^(NSData* data) {
+			if(data == nil)
+			{
+				return;
+			}
+			
+			[self _serializeCommandWithSelector:NSSelectorFromString(@"setSourceMapsData:") entityName:@"" dict:@{@"data": data} additionalParams:nil];
+		});
 	}
 	
 	return self;

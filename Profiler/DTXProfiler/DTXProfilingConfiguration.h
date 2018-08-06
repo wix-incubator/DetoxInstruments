@@ -6,7 +6,7 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 NS_ASSUME_NONNULL_BEGIN
 

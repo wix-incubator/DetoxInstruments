@@ -6,7 +6,7 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-@import Darwin;
+#import <mach/mach.h>
 
 #define DTXMaxFrames 2048
 

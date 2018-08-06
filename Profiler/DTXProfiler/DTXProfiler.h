@@ -6,14 +6,13 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <DTXProfiler/DTXBase.h>
 #import <DTXProfiler/DTXProfilingConfiguration.h>
 #import <DTXProfiler/DTXEvents.h>
+#import <DTXProfiler/DTXProfilerAPI.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-#ifdef __OBJC__
 
 /**
  *  Profiler objects are used to record profiling sessions.
@@ -56,62 +55,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#endif
-
-__BEGIN_DECLS
-
-/**
- *  Push a sample group.
- *
- *  Subsequent samples will be pushed into this group.
- *
- *  @param name The name of the sample group to push.
- */
-DTX_NOTHROW
-extern void DTXProfilerPushSampleGroup(NSString* name);
-
-/**
- *  Pop a sample group.
- *
- *  Subsequent samples will be pushed into the parent group.
- */
-DTX_NOTHROW
-extern void DTXProfilerPopSampleGroup(void);
-
-/**
- *  Adds a tag.
- *
- *  Tags are added chronologically.
- *
- *  @param tag The tag name to push.
- */
-DTX_NOTHROW
-extern void DTXProfilerAddTag(NSString* tag);
-
-/**
- *  Adds a log line.
- *
- *  The line may be a multiline string.
- *
- *  Log lines are added chronologically.
- *
- *  @param line The line to add.
- */
-DTX_NOTHROW
-extern void DTXProfilerAddLogLine(NSString* line);
-
-/**
- *  Adds a log line and an array of object.
- *
- *  The line may be a multiline string.
- *
- *  Log lines are added chronologically.
- *
- *  @param line The line to add.
- *  @param objects The objects to add.
- */
-DTX_NOTHROW
-extern void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects);
-
-__END_DECLS
 NS_ASSUME_NONNULL_END

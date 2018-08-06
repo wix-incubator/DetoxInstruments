@@ -9,10 +9,12 @@
 #import "DTXBaseSplitViewController.h"
 #import "NSAppearance+UIAdditions.h"
 
-IB_DESIGNABLE
 @interface DTXBorderedView : NSBox @end
 
 @implementation DTXBorderedView
+{
+	CALayer* _lineLayer;
+}
 
 - (void)awakeFromNib
 {
@@ -20,34 +22,24 @@ IB_DESIGNABLE
 	self.boxType = NSBoxCustom;
 	self.cornerRadius = 0.0;
 	self.fillColor = NSColor.windowBackgroundColor;
-	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	self.wantsLayer = YES;
+	
+	_lineLayer = [CALayer new];
+	_lineLayer.frame = CGRectMake(0, 0, self.bounds.size.width, 1);
+	_lineLayer.autoresizingMask = kCALayerWidthSizable;
+	_lineLayer.zPosition = 10;
+	
+	[self.layer addSublayer:_lineLayer];
 }
 
-- (void)drawRect:(NSRect)rect
+- (void)updateLayer
 {
-	[super drawRect:rect];
-	
-	if(self.effectiveAppearance.isDarkAppearance)
-	{
-		[NSColor.blackColor set];
-	}
-	else
-	{
-		[NSColor.quaternaryLabelColor set];
-	}
-	
-	NSBezierPath* path = [NSBezierPath new];
-	[path moveToPoint:NSMakePoint(0, 0)];
-	[path lineToPoint:NSMakePoint(self.bounds.size.width, 0)];
-	path.lineWidth = 2.0;
-	
-	[path stroke];
+	_lineLayer.backgroundColor = self.effectiveAppearance.isDarkAppearance ? NSColor.blackColor.CGColor : NSColor.quaternaryLabelColor.CGColor;
 }
 
 @end
 
-IB_DESIGNABLE
 @interface _DTXSplitView : NSSplitView @end
 
 @implementation _DTXSplitView

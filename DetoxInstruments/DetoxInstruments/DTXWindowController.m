@@ -49,8 +49,6 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
     [super windowDidLoad];
 	
 	self.window.titleVisibility = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowTitleVisibility];
-	
-//	self.window.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
 }
 
 - (void)setContentViewController:(NSViewController *)contentViewController

@@ -7,7 +7,8 @@
 //
 
 #import "DTXSignpostSample+UIExtensions.h"
-#import "DTXEventStatus.h"
+#import "DTXEventStatusPrivate.h"
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXSignpostSample (UIExtensions)
 
@@ -44,23 +45,43 @@
 
 - (NSString *)eventStatusString
 {
-	if(self.eventStatus == DTXEventStatusError)
+	if(self.isEvent == NO && self.endTimestamp == nil)
 	{
-		return NSLocalizedString(@"Error", @"");
+		return NSLocalizedString(@"Pending", @"");
 	}
 	
-	NSMutableString* completed = [NSLocalizedString(@"Completed", @"") mutableCopy];
-	if(self.eventStatus > DTXEventStatusError)
-	{
-		[completed appendString:[NSString stringWithFormat:@" (Category %@)", @(self.eventStatus - DTXEventStatusError)]];
+	switch (self.eventStatus) {
+		case DTXEventStatusPrivateCancelled:
+			return NSLocalizedString(@"Cancelled", @"");
+		case DTXEventStatusPrivateError:
+			return NSLocalizedString(@"Error", @"");
+		default:
+			return NSLocalizedString(@"Completed", @"");
 	}
-	
-	return completed;
 }
 
 - (BOOL)isGroup
 {
 	return NO;
+}
+
+- (NSColor*)plotControllerColor
+{
+	DTXColorEffect effect = DTXColorEffectNormal;
+	if(self.eventStatus == DTXEventStatusPrivateError)
+	{
+		effect = DTXColorEffectError;
+	}
+	else if(self.eventStatus == DTXEventStatusPrivateCancelled)
+	{
+		effect = DTXColorEffectCancelled;
+	}
+	else if(self.endTimestamp == nil && self.isEvent == NO)
+	{
+		effect = DTXColorEffectPending;
+	}
+	
+	return [NSColor uiColorWithSeed:self.name effect:effect];
 }
 
 @end

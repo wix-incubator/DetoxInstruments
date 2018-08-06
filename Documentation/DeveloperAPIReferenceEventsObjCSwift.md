@@ -42,81 +42,103 @@ DTXProfilerMarkEvent("Category", "Name", .category3, "More info at single point 
 
 
 
-## Functions
+### Functions
 
-### `DTXProfilerMarkEventIntervalBegin`
+#### `DTXProfilerMarkEventIntervalBegin`
 
 Begins an event interval.
 
-#### Declaration
+##### Declaration
 
 ```objective-c
-DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* *__nullable* additionalInfo); 
+DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* *__nullable* additionalInfo)
 ```
 
 ```swift
 func DTXProfilerMarkEventIntervalBegin(_ category: String, _ name: String, _ additionalInfo: String?) -> String
 ```
 
-#### Parameters
+##### Parameters
 
-##### category
+###### category
 
-The category of this event.
+The category of this event
 
-##### name
+###### name
 
-The name of this event.
+The name of this event
 
-##### additionalInfo
+###### additionalInfo
 
-Additional information to include with this event.
+Additional information to include with this event
 
-#### Return Value
+##### Return Value
 
 Returns a valid event identifier to be used with `DTXProfilerMarkEventIntervalEnd`.
 
-###  `DTXProfilerMarkEventIntervalEnd`
+####  `DTXProfilerMarkEventIntervalEnd`
 
 Ends an event interval.
 
-#### Parameters
+##### Declaration
 
-##### identifier
+```objective-c
+void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable additionalInfo)
+```
 
-The identifier for the event which was provided by `DTXProfilerMarkEventIntervalBegin`. 
+```swift
+func DTXProfilerMarkEventIntervalEnd(_ identifier: String, _ eventStatus: DTXEventStatus, _ additionalInfo: String?)
+```
 
-##### eventStatus
+##### Parameters
 
-The status of this event.
+###### identifier
 
-##### additionalInfo
+The identifier for the event which was provided by `DTXProfilerMarkEventIntervalBegin`
 
-Additional information to include with this event.
+###### eventStatus
 
-### `DTXProfilerMarkEvent`
+The status of this event
+
+###### additionalInfo
+
+Additional information to include with this event
+
+#### `DTXProfilerMarkEvent`
 
 Marks a point of interest in time with no duration.
 
-##### category
+##### Declaration
 
-The category of this event.
+```objective-c
+void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable additionalInfo)
+```
 
-##### name
+```swift
+func DTXProfilerMarkEvent(_ category: String, _ name: String, _ eventStatus: DTXEventStatus, _ additionalInfo: String?)
+```
 
-The name of this event.
+##### Parameters
 
-##### eventStatus
+###### category
 
-The status of this event.
+The category of this event
 
-##### additionalInfo
+###### name
+
+The name of this event
+
+###### eventStatus
+
+The status of this event
+
+###### additionalInfo
 
 Additional information to include with this event.
 
-## Enums
+### Enums
 
-### `DTXEventStatus`
+#### `DTXEventStatus`
 
-The status of the event. Used to display events in different colors on the timeline pane of the Events instrument. Mark errored events with `DTXEventStatusError`/`.error`, otherwise use the desired completion or category value.
+Represents the status of events. Mark events ended in error with `DTXEventStatusError`/`.error` and cancelled events with `DTXEventStatusCancelled`/`.cancelled`.
 

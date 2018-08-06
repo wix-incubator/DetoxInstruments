@@ -10,7 +10,6 @@
 #import "DTXRemoteProfilingBasics.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
-#import "DTXRNJSCSourceMapsSupport.h"
 #import <DTXSourceMaps/DTXSourceMaps.h>
 
 @interface DTXRemoteProfilingClient ()
@@ -18,8 +17,6 @@
 	DTXRecording* _recording;
 	DTXSampleGroup* _currentSampleGroup;
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
-	
-	DTXSourceMapsParser* _sourceMapsParser;
 	
 	dispatch_queue_t _aggregationCollectionQueue;
 	dispatch_source_t _aggregationCollectionSource;
@@ -95,14 +92,14 @@
 	Class cls = NSClassFromString(entityDescription.managedObjectClassName);
 	__kindof DTXSample* sample = [[cls alloc] initWithPropertyListDictionaryRepresentation:sampleDict context:_managedObjectContext];
 	
-	if([sample isKindOfClass:[DTXReactNativePeroformanceSample class]] && _sourceMapsParser)
+	if([sample isKindOfClass:[DTXReactNativePeroformanceSample class]] && _delegate.sourceMapsParser)
 	{
 		DTXReactNativePeroformanceSample* rnSample = (id)sample;
 		
 		if(rnSample.stackTraceIsSymbolicated == NO && _recording.dtx_profilingConfiguration.symbolicateJavaScriptStackTraces)
 		{
 			BOOL wasSymbolicated = NO;
-			rnSample.stackTrace = DTXRNSymbolicateJSCBacktrace(_sourceMapsParser, rnSample.stackTrace, &wasSymbolicated);
+			rnSample.stackTrace = DTXRNSymbolicateJSCBacktrace(_delegate.sourceMapsParser, rnSample.stackTrace, &wasSymbolicated);
 			rnSample.stackTraceIsSymbolicated = wasSymbolicated;
 		}
 	}
@@ -159,15 +156,7 @@
 
 - (void)setSourceMapsData:(NSDictionary*)sourceMapsData;
 {
-	NSError* error;
-	NSDictionary<NSString*, id>* sourceMaps = [NSJSONSerialization JSONObjectWithData:sourceMapsData[@"data"] options:0 error:&error];
-	if(sourceMaps == nil)
-	{
-		NSLog(@"Error parsing source maps: %@", error);
-		return;
-	}
-	
-	_sourceMapsParser = [DTXSourceMapsParser sourceMapsParserForSourceMaps:sourceMaps];
+	[self.delegate remoteProfilingClient:self didReceiveSourceMapsData:sourceMapsData[@"data"]];
 }
 
 - (void)addLogSample:(NSDictionary *)logSample entityDescription:(NSEntityDescription *)entityDescription

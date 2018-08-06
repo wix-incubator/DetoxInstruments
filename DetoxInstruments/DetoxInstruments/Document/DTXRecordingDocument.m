@@ -256,7 +256,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			*outError = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
 											code:-9
 										userInfo:@{
-												   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The document can only be opened safely in a newer version of Detox Instruments.\n\nIf you continue, recording data may be lost", @""),
+												   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The document can only be opened safely in a newer version of Detox Instruments.\n\nIf you continue, the recording may be lost or damaged altogether.", @""),
 												   NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Open Anyway", nil), NSLocalizedString(@"Cancel", nil)],
 												   NSRecoveryAttempterErrorKey: self,
 												   NSURLErrorKey: url
@@ -484,6 +484,19 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	}];
 }
 
+- (void)remoteProfilingClient:(DTXRemoteProfilingClient *)client didReceiveSourceMapsData:(NSData *)sourceMapsData
+{
+	NSError* error;
+	NSDictionary<NSString*, id>* sourceMaps = [NSJSONSerialization JSONObjectWithData:sourceMapsData options:0 error:&error];
+	if(sourceMaps == nil)
+	{
+		NSLog(@"Error parsing source maps: %@", error);
+		return;
+	}
+	
+	_sourceMapsParser = [DTXSourceMapsParser sourceMapsParserForSourceMaps:sourceMaps];
+}
+
 - (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient *)client
 {
 	[self updateChangeCount:NSChangeDone];
@@ -507,6 +520,8 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
 		}];
 	}];
+	
+	_remoteProfilingClient = nil;
 }
 
 - (void)remoteProfilingClientDidChangeDatabase:(DTXRemoteProfilingClient *)client

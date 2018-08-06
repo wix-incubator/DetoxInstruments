@@ -109,7 +109,7 @@ os_log_t __log_general;
 //		DTXProfilerMarkEvent(@"CPU Stress", @"Slow Foreground Inside While", DTXEventStatusCategory1, nil);
 	}
 	
-	DTXProfilerMarkEventIntervalEnd(slowForeground, DTXEventStatusCategory1, nil);
+	DTXProfilerMarkEventIntervalEnd(slowForeground, DTXEventStatusCompleted, nil);
 	os_signpost_interval_end(__log_cpu_stress, slowFg, "Slow Foreground");
 }
 
@@ -131,7 +131,7 @@ os_log_t __log_general;
 //			DTXProfilerMarkEvent(@"CPU Stress", @"Slow Background Inside While", DTXEventStatusCategory1, nil);
 		}
 		
-		DTXProfilerMarkEventIntervalEnd(slowBackground, DTXEventStatusCategory1, nil);
+		DTXProfilerMarkEventIntervalEnd(slowBackground, DTXEventStatusCompleted, nil);
 		os_signpost_interval_end(__log_cpu_stress, slowBg, "Slow Background");
 	});
 }
@@ -168,7 +168,7 @@ os_log_t __log_general;
 			return;
 		}
 		
-		DTXProfilerMarkEventIntervalEnd(indexEvent, DTXEventStatusCategory7, nil);
+		DTXProfilerMarkEventIntervalEnd(indexEvent, DTXEventStatusCompleted, nil);
 		os_signpost_interval_end(__log_network, nwIndex, "Requesting Index");
 		
 		NSArray* arr = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
@@ -193,7 +193,7 @@ os_log_t __log_general;
 					return;
 				}
 				
-				DTXProfilerMarkEventIntervalEnd(itemRequest, DTXEventStatusCategory7, nil);
+				DTXProfilerMarkEventIntervalEnd(itemRequest, DTXEventStatusCompleted, nil);
 				os_signpost_interval_end(__log_network, nwItem, "Requesting Item");
 				NSLog(@"Got data with length: %@", @(data.length));
 			}] resume];
@@ -211,7 +211,7 @@ os_log_t __log_general;
 	
 	[data writeToURL:[[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"largeFile.dat"] atomically:YES];
 	
-	DTXProfilerMarkEventIntervalEnd(writeToDisk, DTXEventStatusCategory4, nil);
+	DTXProfilerMarkEventIntervalEnd(writeToDisk, DTXEventStatusCompleted, nil);
 	os_signpost_interval_end(__log_disk, disk, "Write to Disk");
 }
 

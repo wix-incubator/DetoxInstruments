@@ -8,11 +8,28 @@
 
 typedef NSString * DTXEventIdentifier;
 
-#import "DTXEventStatus.h"
 #import "DTXBase.h"
 
 NS_ASSUME_NONNULL_BEGIN
 __BEGIN_DECLS
+
+typedef NS_ENUM(NSUInteger, DTXEventStatus) {
+	DTXEventStatusCompleted,
+	DTXEventStatusError,
+	
+	DTXEventStatusCategory1,
+	DTXEventStatusCategory2,
+	DTXEventStatusCategory3,
+	DTXEventStatusCategory4,
+	DTXEventStatusCategory5,
+	DTXEventStatusCategory6,
+	DTXEventStatusCategory7,
+	DTXEventStatusCategory8,
+	DTXEventStatusCategory9,
+	DTXEventStatusCategory10,
+	DTXEventStatusCategory11,
+	DTXEventStatusCategory12,
+};
 
 /*!
  * @function DTXProfilerMarkEventIntervalBegin

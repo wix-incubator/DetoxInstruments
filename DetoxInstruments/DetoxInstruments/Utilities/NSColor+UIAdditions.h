@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 @import AppKit;
-#import "DTXRemoteProfilingBasics.h"
+#import "DTXEventStatusPrivate.h"
 
 @interface NSColor (NamedColors)
 
@@ -23,11 +23,22 @@
 @property (class, nonatomic, strong, readonly) NSColor* diskReadPlotControllerColor;
 @property (class, nonatomic, strong, readonly) NSColor* diskWritePlotControllerColor;
 @property (class, nonatomic, strong, readonly) NSColor* networkRequestsPlotControllerColor;
-
 @property (class, nonatomic, strong, readonly) NSColor* signpostPlotControllerColor;
-+ (NSColor*)signpostPlotControllerColorForCategory:(DTXEventStatus)eventStatus;
+
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeColorColor;
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeImageColor;
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeLinkColor;
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeRichTextColor;
+@property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeTextColor;
 
 @end
+
+typedef NS_ENUM(NSUInteger, DTXColorEffect) {
+	DTXColorEffectNormal,
+	DTXColorEffectPending,
+	DTXColorEffectCancelled,
+	DTXColorEffectError
+};
 
 @interface NSColor (UIAdditions)
 
@@ -35,5 +46,7 @@
 - (NSColor*)shallowerColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier;
 
 + (NSColor*)randomColorWithSeed:(NSString*)seed;
+
++ (NSColor*)uiColorWithSeed:(NSString*)seed effect:(DTXColorEffect)effect;
 
 @end
