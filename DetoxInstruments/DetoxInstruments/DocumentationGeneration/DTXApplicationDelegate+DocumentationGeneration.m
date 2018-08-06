@@ -27,6 +27,8 @@
 #import "NSAppearance+UIAdditions.h"
 
 #import "DTXManagedPlotControllerGroup.h"
+#import "NSView+UIAdditions.h"
+#import "DTXDebugMenuGenerator.h"
 
 @import ObjectiveC;
 
@@ -111,7 +113,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[obj close];
 	}];
 	
-	[self performSelector:@selector(__generateLightBlue) withObject:nil afterDelay:0.5];
+	[self performSelector:@selector(__generateLightBlue) withObject:nil afterDelay:1.0];
 }
 
 - (IBAction)_generateDocScreenshotsDark:(id)sender
@@ -120,13 +122,13 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[obj close];
 	}];
 	
-	[self performSelector:@selector(__generateDarkRed) withObject:nil afterDelay:0.5];
+	[self performSelector:@selector(__generateDarkRed) withObject:nil afterDelay:1.0];
 }
 
 - (void)__generateLightBlue NS_AVAILABLE_MAC(10_14)
 {
 	//Force a light appearance with blue accent and hightlight colors
-	NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+	NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
 	[NSUserDefaults.standardUserDefaults setObject:@100 forKey:@"AppleAccentColor"];
 	[NSUserDefaults.standardUserDefaults setObject:@"" forKey:@"AppleHighlightColor"];
 	[NSNotificationCenter.defaultCenter postNotificationName:@"kCUINotificationAquaColorVariantChanged" object:nil];
@@ -179,6 +181,8 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[windowController _setWindowSize:NSMakeSize(1344, 945)];
 	[windowController _setBottomSplitAtPercentage:0.53];
 	[windowController _drainLayout];
+	
+	[self _createConsoleMenuScreenshotWithWindowController:windowController];
 	
 	NSBitmapImageRep* rep = (NSBitmapImageRep*)[windowController _snapshotForTargetSelection].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Discovered.png"].path atomically:YES];
@@ -273,6 +277,9 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _deselectAnyPlotControllers];
 		[windowController _selectSampleAtIndex:175 forPlotControllerClass:DTXMemoryUsagePlotController.class];
 		
+//		NSAppearance* desiredAppearance = NSApp.effectiveAppearance;
+//		NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
 		[[__DTXThemeBackgroundRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
 		
@@ -294,6 +301,8 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_DetailPane.png"].path atomically:YES];
+		
+//		NSAppearance.currentAppearance = NSApp.appearance = desiredAppearance;
 		
 		[windowController _drainLayout];
 		[windowController close];
@@ -486,6 +495,62 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[mergedImage addRepresentation:first];
 	
 	return mergedImage;
+}
+
+- (void)_createConsoleMenuScreenshotWithWindowController:(DTXWindowController*)windowController
+{
+	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
+	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
+	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.visualEffectView.layer.borderColor = [NSColor.windowFrameColor colorWithAlphaComponent:0.25].CGColor;
+		menu.visualEffectView.layer.borderWidth = 1;
+	}
+	menu.visualEffectView.layer.masksToBounds = YES;
+	
+	menu.view.wantsLayer = YES;
+	menu.view.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.view.layer.borderColor = [NSColor.blackColor colorWithAlphaComponent:0.85].CGColor;
+	}
+	else
+	{
+		menu.view.layer.borderColor = NSColor.lightGrayColor.CGColor;
+	}
+	menu.view.layer.borderWidth = 0.5;
+	menu.view.layer.masksToBounds = YES;
+	
+	NSString* path = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Console"];
+	menu.consoleImageView.image = [[NSWorkspace sharedWorkspace] iconForFile:path] ?: [NSImage imageNamed:@"console_small"];
+	menu.consoleImageView.image.size = NSMakeSize(16, 16);
+	
+	[windowController.window.contentView addSubview:menu.view];
+	[windowController _drainLayout];
+	
+	NSBitmapImageRep* consoleMenuRep = (id)[menu.view snapshotForCachingDisplay].representations.firstObject;
+	
+	[menu.view removeFromSuperview];
+	
+	NSImage* consoleMenuImage = [[NSImage alloc] initWithSize:NSMakeSize(858, 82)];
+	[consoleMenuImage lockFocus];
+	
+	NSShadow* shadow = [NSShadow new];
+	shadow.shadowOffset = NSMakeSize(0, -4);
+	shadow.shadowBlurRadius = 16.0;
+	shadow.shadowColor = [NSColor.blackColor colorWithAlphaComponent:0.25];
+	[shadow set];
+	
+	NSRect centered = (NSRect){93, 20, consoleMenuRep.size};
+	[consoleMenuRep drawInRect:centered fromRect:(NSRect){0, 0, centered.size} operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	consoleMenuRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, consoleMenuImage.size}];
+	
+	[consoleMenuImage unlockFocus];
+	
+	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_DetailPane_Console.png"].path atomically:YES];
 }
 
 @end

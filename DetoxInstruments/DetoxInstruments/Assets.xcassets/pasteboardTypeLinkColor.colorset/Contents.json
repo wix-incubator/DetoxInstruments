@@ -25,13 +25,7 @@
         }
       ],
       "color" : {
-        "color-space" : "srgb",
-        "components" : {
-          "red" : "0.500",
-          "alpha" : "1.000",
-          "blue" : "0.830",
-          "green" : "0.124"
-        }
+        "reference" : "linkColor"
       }
     }
   ]

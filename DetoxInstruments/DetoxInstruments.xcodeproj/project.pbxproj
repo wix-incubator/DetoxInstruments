@@ -24,6 +24,8 @@
 		3905F4B91EF7FE12003E08C1 /* DTXThreadCPUUsagePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905F4B81EF7FE12003E08C1 /* DTXThreadCPUUsagePlotController.m */; };
 		3905F4BD1EF834CE003E08C1 /* DTXCPUInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905F4BC1EF834CE003E08C1 /* DTXCPUInspectorDataProvider.m */; };
 		3905F4C11EF83FF0003E08C1 /* DTXLineLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905F4C01EF83FF0003E08C1 /* DTXLineLayer.m */; };
+		390688C12117781900D15C86 /* DTXDebugMenuGenerator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */; };
+		390688DB21177D5000D15C86 /* DTXDebugMenuGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */; };
 		3922AE131F2BA72C0034B1FE /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C72E071F28843D00FD470E /* DTXSocketConnection.m */; };
 		3925A2631F1142EC008343ED /* DTXStackTraceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925A2621F1142EC008343ED /* DTXStackTraceCellView.m */; };
 		39281E861ED7175C002CE905 /* DTXDetailContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39281E851ED7175C002CE905 /* DTXDetailContentController.m */; };
@@ -458,6 +460,9 @@
 		3905F4BC1EF834CE003E08C1 /* DTXCPUInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCPUInspectorDataProvider.m; sourceTree = "<group>"; };
 		3905F4BF1EF83FF0003E08C1 /* DTXLineLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLineLayer.h; sourceTree = "<group>"; };
 		3905F4C01EF83FF0003E08C1 /* DTXLineLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLineLayer.m; sourceTree = "<group>"; };
+		390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DTXDebugMenuGenerator.xib; sourceTree = "<group>"; };
+		390688D921177D5000D15C86 /* DTXDebugMenuGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDebugMenuGenerator.h; sourceTree = "<group>"; };
+		390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDebugMenuGenerator.m; sourceTree = "<group>"; };
 		391958DC20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXApplicationDelegate+DocumentationGeneration.h"; sourceTree = "<group>"; };
 		391958DD20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXApplicationDelegate+DocumentationGeneration.m"; sourceTree = "<group>"; };
 		3925A2611F1142EC008343ED /* DTXStackTraceCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackTraceCellView.h; sourceTree = "<group>"; };
@@ -892,6 +897,9 @@
 		391958DF20A205FD00BD9C75 /* DocumentationGeneration */ = {
 			isa = PBXGroup;
 			children = (
+				390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */,
+				390688D921177D5000D15C86 /* DTXDebugMenuGenerator.h */,
+				390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */,
 				391958DC20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.h */,
 				391958DD20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.m */,
 				3947158720A2899800A7068A /* DTXWindowController+DocumentationGeneration.h */,
@@ -1782,6 +1790,7 @@
 				3967739320B594B200851154 /* Main.storyboard in Resources */,
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
 				3972E67920694E6800F099DE /* Acknowledgements.html in Resources */,
+				390688C12117781900D15C86 /* DTXDebugMenuGenerator.xib in Resources */,
 				399B4DCD1ED574E70098D2AC /* Profiler.storyboard in Resources */,
 				39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */,
 			);
@@ -1872,6 +1881,7 @@
 				395A43EA2081A2FB00DDF995 /* NSImage+UIAdditions.m in Sources */,
 				39BEE1E7207A47B3003AF93E /* hmac.c in Sources */,
 				397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */,
+				390688DB21177D5000D15C86 /* DTXDebugMenuGenerator.m in Sources */,
 				39C48BF520BEF2BB00E6AFC0 /* DTXInstruments.xcdatamodeld in Sources */,
 				39BEE1E2207A47B3003AF93E /* ioapi.c in Sources */,
 				39BEE1E9207A47B3003AF93E /* fileenc.c in Sources */,

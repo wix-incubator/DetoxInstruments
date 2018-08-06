@@ -35,7 +35,9 @@
 - (void)_drainLayout
 {
 	[self.window layoutIfNeeded];
-	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
+	[CATransaction flush];
+	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
+	[CATransaction flush];
 }
 
 - (void)_setWindowSize:(NSSize)size
@@ -111,7 +113,12 @@
 
 - (NSImage*)_snapshotForDetailPane NS_AVAILABLE_MAC(10_14)
 {
+	NSView* hv = [self valueForKeyPath:@"detailContentController.activeDetailController.outlineView.headerView.backgroundView"];
+	hv.wantsLayer = YES;
+	hv.layer.backgroundColor = NSApp.effectiveAppearance.isDarkAppearance ? NSColor.windowBackgroundColor.CGColor : NSColor.whiteColor.CGColor;
+	
 	[self _drainLayout];
+	
 	return __DTXThemeBorderedImage([[self valueForKey:@"detailContentController"] view].snapshotForCachingDisplay);
 }
 
@@ -217,6 +224,12 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	[targetPicker options:nil];
 	[self _drainLayout];
 	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
 	
 	NSWindow* window = self.window.sheets.firstObject;
 	return [window snapshotForCachingDisplay];
@@ -224,6 +237,8 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 
 - (NSImage*)_snapshotForTargetSelection
 {
+	[self _drainLayout];
+	[self _drainLayout];
 	[self _drainLayout];
 	[self _drainLayout];
 	DTXRecordingTargetPickerViewController* targetPicker = (id)self.window.sheets.firstObject.contentViewController;
