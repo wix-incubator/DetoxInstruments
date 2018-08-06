@@ -23,7 +23,7 @@
 	
 	DTXColumnInformation* info = [DTXColumnInformation new];
 	info.title = self.titleOfCPUHeader;
-	info.minWidth = 55;
+	info.minWidth = 70;
 	
 	[rv addObject:info];
 	
@@ -31,7 +31,7 @@
    {
 	   DTXColumnInformation* heaviestThread = [DTXColumnInformation new];
 	   heaviestThread.title = NSLocalizedString(@"Heaviest Thread", @"");
-	   heaviestThread.minWidth = 55;
+	   heaviestThread.minWidth = 300;
 	   heaviestThread.automaticallyGrowsWithTable = YES;
 	   
 	   [rv addObject:heaviestThread];
@@ -79,7 +79,7 @@
 
 - (NSColor*)textColorForItem:(id)item
 {
-	return NSColor.textColor;
+	return NSColor.labelColor;
 }
 
 - (NSColor*)backgroundRowColorForItem:(id)item

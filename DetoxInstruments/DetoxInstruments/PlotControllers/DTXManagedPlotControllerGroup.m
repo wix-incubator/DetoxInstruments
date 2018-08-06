@@ -271,7 +271,7 @@
 
 #pragma mark DTXPlotControllerDelegate
 
-static BOOL __uglyHackTODOFixThisShit()
+static BOOL __uglyHackTODOFixThis()
 {
 	//TODO: Fix
 	return [[[NSThread callStackSymbols] description] containsString:@"CPTAnimation"];
@@ -279,7 +279,7 @@ static BOOL __uglyHackTODOFixThisShit()
 
 - (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange
 {
-	if(_ignoringPlotRangeNotifications || __uglyHackTODOFixThisShit())
+	if(_ignoringPlotRangeNotifications || __uglyHackTODOFixThis())
 	{
 		return;
 	}
@@ -315,6 +315,21 @@ static BOOL __uglyHackTODOFixThisShit()
 		if([obj respondsToSelector:@selector(shadowHighlightAtSampleTime:)])
 		{
 			[obj shadowHighlightAtSampleTime:sampleTime];
+		}
+	}];
+}
+
+- (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(CPTPlotRange*)highlightRange
+{
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+		if(obj == pc)
+		{
+			return;
+		}
+		
+		if([obj respondsToSelector:@selector(shadowHighlightAtSampleTime:)])
+		{
+			[obj shadowHighlightRange:highlightRange];
 		}
 	}];
 }
@@ -371,8 +386,8 @@ static BOOL __uglyHackTODOFixThisShit()
 		if(controller.legendTitles.count > 1)
 		{
 			cell.topLegendTextField.hidden = cell.bottomLegendTextField.hidden = NO;
-			cell.topLegendTextField.attributedStringValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", controller.legendTitles.firstObject ?: @""] attributes:@{NSForegroundColorAttributeName: controller.legendColors.firstObject.darkerColor ?: NSColor.textColor}];
-			cell.bottomLegendTextField.attributedStringValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", controller.legendTitles.lastObject ?: @""] attributes:@{NSForegroundColorAttributeName: controller.legendColors.lastObject.darkerColor ?: NSColor.textColor}];
+			cell.topLegendTextField.attributedStringValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", controller.legendTitles.firstObject ?: @""] attributes:@{NSForegroundColorAttributeName: controller.legendColors.firstObject ?: NSColor.labelColor}];
+			cell.bottomLegendTextField.attributedStringValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", controller.legendTitles.lastObject ?: @""] attributes:@{NSForegroundColorAttributeName: controller.legendColors.lastObject ?: NSColor.labelColor}];
 		}
 		else
 		{

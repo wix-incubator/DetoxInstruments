@@ -7,11 +7,14 @@
 //
 
 #import "DTXBaseSplitViewController.h"
+#import "NSAppearance+UIAdditions.h"
 
-IB_DESIGNABLE
 @interface DTXBorderedView : NSBox @end
 
 @implementation DTXBorderedView
+{
+	CALayer* _lineLayer;
+}
 
 - (void)awakeFromNib
 {
@@ -19,21 +22,24 @@ IB_DESIGNABLE
 	self.boxType = NSBoxCustom;
 	self.cornerRadius = 0.0;
 	self.fillColor = NSColor.windowBackgroundColor;
-	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	self.wantsLayer = YES;
+	
+	_lineLayer = [CALayer new];
+	_lineLayer.frame = CGRectMake(0, 0, self.bounds.size.width, 1);
+	_lineLayer.autoresizingMask = kCALayerWidthSizable;
+	_lineLayer.zPosition = 10;
+	
+	[self.layer addSublayer:_lineLayer];
 }
 
-- (void)drawRect:(NSRect)rect
+- (void)updateLayer
 {
-	[super drawRect:rect];
-	
-	[NSColor.controlShadowColor set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(0, 0) toPoint:NSMakePoint(self.bounds.size.width, 0)];
+	_lineLayer.backgroundColor = self.effectiveAppearance.isDarkAppearance ? NSColor.blackColor.CGColor : NSColor.quaternaryLabelColor.CGColor;
 }
 
 @end
 
-IB_DESIGNABLE
 @interface _DTXSplitView : NSSplitView @end
 
 @implementation _DTXSplitView
@@ -46,11 +52,11 @@ IB_DESIGNABLE
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
-- (NSColor *)dividerColor
-{
-	const CGFloat grey = 188.0 / 255.0;
-	return [NSColor colorWithSRGBRed:grey green:grey blue:grey alpha:1.0];
-}
+//- (NSColor *)dividerColor
+//{
+//	const CGFloat grey = 188.0 / 255.0;
+//	return [NSColor colorWithSRGBRed:grey green:grey blue:grey alpha:1.0];
+//}
 
 @end
 

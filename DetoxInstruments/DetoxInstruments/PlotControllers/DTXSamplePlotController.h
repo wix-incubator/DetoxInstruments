@@ -38,4 +38,6 @@
 
 - (void)reloadHighlight;
 
+- (void)updateLayerHandler;
+
 @end

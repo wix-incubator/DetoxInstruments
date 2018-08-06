@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -22,7 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		3901A89F1F5D5CA60021916B /* DTXMachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */; };
-		3901A8A01F5D5CA60021916B /* DTXMachUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3901A89E1F5D5CA60021916B /* DTXMachUtilities.m */; };
+		3901A8A01F5D5CA60021916B /* DTXMachUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */; };
 		391E4C751F55750C0057039E /* DTXURLProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 391E4C731F55750C0057039E /* DTXURLProtocol.h */; };
 		391E4C761F55750C0057039E /* DTXURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 391E4C741F55750C0057039E /* DTXURLProtocol.m */; };
 		391E4C791F5575BF0057039E /* DTXAuthenticationChallengeProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 391E4C771F5575BF0057039E /* DTXAuthenticationChallengeProxy.h */; };
@@ -36,6 +36,7 @@
 		39281E5D1ED70347002CE905 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 39281E5C1ED70347002CE905 /* libz.tbd */; };
 		39281E821ED70A77002CE905 /* DTXZipper.h in Headers */ = {isa = PBXBuildFile; fileRef = 39281E801ED70A77002CE905 /* DTXZipper.h */; };
 		39281E831ED70A77002CE905 /* DTXZipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39281E811ED70A77002CE905 /* DTXZipper.m */; };
+		392950922107AAE600F7E3E1 /* DTXProfilerShim.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3929508B2107A87400F7E3E1 /* DTXProfilerShim.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */; };
 		39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */; };
 		393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */ = {isa = PBXBuildFile; fileRef = 393E66DD1FC59B730092EE89 /* Swiftier.h */; };
@@ -104,6 +105,7 @@
 		39BEE1B3207A4778003AF93E /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE18D207A4777003AF93E /* SSZipArchive.m */; };
 		39BEE1B4207A4778003AF93E /* SSZipCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BEE18E207A4777003AF93E /* SSZipCommon.h */; };
 		39BEE1B5207A4778003AF93E /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BEE18F207A4778003AF93E /* ZipArchive.h */; };
+		39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C44C3220F3A24900279955 /* DTXProfilerAPI.m */; };
 		39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713381EFFCB4000C827EB /* AutoCoding.m */; };
 		39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713391EFFCB4000C827EB /* AutoCoding.h */; };
 		39C713401EFFD6FF00C827EB /* DTXReactNativeSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */; };
@@ -122,6 +124,9 @@
 		39D40C151ED5B43700157C04 /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */; };
 		39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C161ED5B43F00157C04 /* DTXProfiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C171ED5B43F00157C04 /* DTXProfiler.m */; };
+		39D8637F210EFC9600FECB75 /* DTXProfilerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		39D8B31B21077714000895F7 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B31A21077643000895F7 /* DTXEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		39D8B36F21079CCA000895F7 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B3682107997C000895F7 /* DTXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3933E1341F7A319F0081F82F /* UIKit.framework */; };
 		39D94EF01EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */; };
 		39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */; };
@@ -137,7 +142,34 @@
 		39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3929508A2107A87400F7E3E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 392950862107A87300F7E3E1 /* DTXProfilerShim.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3929507B2107A87300F7E3E1;
+			remoteInfo = DTXProfilerShim;
+		};
+		3929508D2107A92200F7E3E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 392950862107A87300F7E3E1 /* DTXProfilerShim.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3929507A2107A87300F7E3E1;
+			remoteInfo = DTXProfilerShim;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		392950912107AAB200F7E3E1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				392950922107AAE600F7E3E1 /* DTXProfilerShim.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		39A72C431F20E9AD00D7628B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -152,7 +184,7 @@
 
 /* Begin PBXFileReference section */
 		3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMachUtilities.h; sourceTree = "<group>"; };
-		3901A89E1F5D5CA60021916B /* DTXMachUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXMachUtilities.m; sourceTree = "<group>"; };
+		3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DTXMachUtilities.c; sourceTree = "<group>"; };
 		391E4C731F55750C0057039E /* DTXURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXURLProtocol.h; sourceTree = "<group>"; };
 		391E4C741F55750C0057039E /* DTXURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXURLProtocol.m; sourceTree = "<group>"; };
 		391E4C771F5575BF0057039E /* DTXAuthenticationChallengeProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAuthenticationChallengeProxy.h; sourceTree = "<group>"; };
@@ -171,6 +203,7 @@
 		39281E5C1ED70347002CE905 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		39281E801ED70A77002CE905 /* DTXZipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXZipper.h; sourceTree = "<group>"; };
 		39281E811ED70A77002CE905 /* DTXZipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXZipper.m; sourceTree = "<group>"; };
+		392950862107A87300F7E3E1 /* DTXProfilerShim.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXProfilerShim.xcodeproj; path = DTXProfilerShim/DTXProfilerShim.xcodeproj; sourceTree = "<group>"; };
 		3933E1321F7A31950081F82F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3933E1341F7A319F0081F82F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3933E1361F7A31B40081F82F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -247,6 +280,7 @@
 		39BEE18D207A4777003AF93E /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = ../../../Shared/ZipArchive/SSZipArchive/SSZipArchive.m; sourceTree = "<group>"; };
 		39BEE18E207A4777003AF93E /* SSZipCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipCommon.h; path = ../../../Shared/ZipArchive/SSZipArchive/SSZipCommon.h; sourceTree = "<group>"; };
 		39BEE18F207A4778003AF93E /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZipArchive.h; path = ../../../Shared/ZipArchive/SSZipArchive/ZipArchive.h; sourceTree = "<group>"; };
+		39C44C3220F3A24900279955 /* DTXProfilerAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXProfilerAPI.m; sourceTree = "<group>"; };
 		39C713381EFFCB4000C827EB /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoCoding.m; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.m; sourceTree = "<group>"; };
 		39C713391EFFCB4000C827EB /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoCoding.h; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.h; sourceTree = "<group>"; };
 		39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXReactNativeSampler.h; sourceTree = "<group>"; };
@@ -268,6 +302,9 @@
 		39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Additions.m"; sourceTree = "<group>"; };
 		39D40C161ED5B43F00157C04 /* DTXProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.h; sourceTree = "<group>"; };
 		39D40C171ED5B43F00157C04 /* DTXProfiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXProfiler.m; sourceTree = "<group>"; };
+		39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilerAPI.h; sourceTree = "<group>"; };
+		39D8B31A21077643000895F7 /* DTXEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEvents.h; sourceTree = "<group>"; };
+		39D8B3682107997C000895F7 /* DTXBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXBase.h; sourceTree = "<group>"; };
 		39D94EEE1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
 		39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
 		39DA16801F3097780025C492 /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+FakeDecoder.h"; path = "../../../Shared/NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
@@ -337,6 +374,14 @@
 				396500F01F2E9E9000DA9530 /* DTXDeviceInfo.m */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		392950872107A87300F7E3E1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3929508B2107A87400F7E3E1 /* DTXProfilerShim.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		39498C3E1F1FAE650030B620 /* DTXSocketConnection */ = {
@@ -421,7 +466,7 @@
 				395B269E2067B12C00FD7368 /* DTXFPSCalculator.h */,
 				395B269F2067B12C00FD7368 /* DTXFPSCalculator.m */,
 				3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */,
-				3901A89E1F5D5CA60021916B /* DTXMachUtilities.m */,
+				3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */,
 				399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */,
 				399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */,
 				3966E1321F1017F900EE76A2 /* DTXAddressInfo.h */,
@@ -554,6 +599,7 @@
 		39D40BEF1ED5ABD200157C04 = {
 			isa = PBXGroup;
 			children = (
+				392950862107A87300F7E3E1 /* DTXProfilerShim.xcodeproj */,
 				39D40BFB1ED5ABD200157C04 /* DTXProfiler */,
 				397A017D1FA63DAD00ABCB87 /* JSC */,
 				39D40BFA1ED5ABD200157C04 /* Products */,
@@ -583,6 +629,10 @@
 				39D2054D1F03054000830A0D /* LogRecording */,
 				39557CD51F1F7E1300FF3187 /* RemoteProfiler */,
 				396EE2BE20ADAD32006C4C55 /* ViewHierarchy */,
+				39D8B3682107997C000895F7 /* DTXBase.h */,
+				39D8B31A21077643000895F7 /* DTXEvents.h */,
+				39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */,
+				39C44C3220F3A24900279955 /* DTXProfilerAPI.m */,
 				39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */,
 				39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */,
 				39D40C161ED5B43F00157C04 /* DTXProfiler.h */,
@@ -626,10 +676,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39D8B36F21079CCA000895F7 /* DTXBase.h in Headers */,
+				39D8B31B21077714000895F7 /* DTXEvents.h in Headers */,
+				39D8637F210EFC9600FECB75 /* DTXProfilerAPI.h in Headers */,
+				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
 				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
 				39BEE196207A4778003AF93E /* ioapi_mem.h in Headers */,
 				393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */,
-				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
 				399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */,
 				3958041B206D247A00E99909 /* DTXFileSystemItem.h in Headers */,
 				395B26A02067B12C00FD7368 /* DTXFPSCalculator.h in Headers */,
@@ -699,10 +752,12 @@
 				39D40BF61ED5ABD200157C04 /* Headers */,
 				39D40BF71ED5ABD200157C04 /* Resources */,
 				39A72C431F20E9AD00D7628B /* Embed Frameworks */,
+				392950912107AAB200F7E3E1 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3929508E2107A92200F7E3E1 /* PBXTargetDependency */,
 			);
 			name = DTXProfiler;
 			productName = DTXProfiler;
@@ -715,7 +770,7 @@
 		39D40BF01ED5ABD200157C04 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
 					3922F8231F4484DA00F10055 = {
@@ -728,7 +783,7 @@
 				};
 			};
 			buildConfigurationList = 39D40BF31ED5ABD200157C04 /* Build configuration list for PBXProject "DTXProfiler" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -737,6 +792,12 @@
 			mainGroup = 39D40BEF1ED5ABD200157C04;
 			productRefGroup = 39D40BFA1ED5ABD200157C04 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 392950872107A87300F7E3E1 /* Products */;
+					ProjectRef = 392950862107A87300F7E3E1 /* DTXProfilerShim.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				39D40BF81ED5ABD200157C04 /* DTXProfiler */,
@@ -744,6 +805,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3929508B2107A87400F7E3E1 /* DTXProfilerShim.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DTXProfilerShim.framework;
+			remoteRef = 3929508A2107A87400F7E3E1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		39D40BF71ED5ABD200157C04 /* Resources */ = {
@@ -767,7 +838,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" build\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" build\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 3. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n\n# Step 4. Create universal binaries for embedded frameworks if needed\nif [ -d \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks\" ]; then\nfor SUB_FRAMEWORK in $( ls \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks\" ); do\nif [ -d \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/$SUB_FRAMEWORK\" ]; then\necho \"Processing ${SUB_FRAMEWORK} as a dir\"\nBINARY_NAME=\"${SUB_FRAMEWORK%.*}\"\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\"\nelse\necho \"Processing ${SUB_FRAMEWORK} as a file\"\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\"\nfi\ndone\nfi\n\nif [ -d \"${INSTALL_DIR}\" ]; then\nrm -fr \"${INSTALL_DIR}\"\nfi\n\nmkdir -p \"${INSTALL_DIR}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-universal/${PROJECT_NAME}.framework\" ${INSTALL_DIR}";
+			shellScript = "UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" OBJROOT=\"${BUILD_ROOT}/iphoneos\" build\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" OBJROOT=\"${BUILD_ROOT}/iphonesimulator\" build\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 3. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n\n# Step 4. Create universal binaries for embedded frameworks if needed\nif [ -d \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks\" ]; then\nfor SUB_FRAMEWORK in $( ls \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks\" ); do\nif [ -d \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/$SUB_FRAMEWORK\" ]; then\necho \"Processing ${SUB_FRAMEWORK} as a dir\"\nBINARY_NAME=\"${SUB_FRAMEWORK%.*}\"\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\"\nelse\necho \"Processing ${SUB_FRAMEWORK} as a file\"\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\"\nfi\ndone\nfi\n\nif [ -d \"${INSTALL_DIR}\" ]; then\nrm -fr \"${INSTALL_DIR}\"\nfi\n\nmkdir -p \"${INSTALL_DIR}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-universal/${PROJECT_NAME}.framework\" ${INSTALL_DIR}\n";
 		};
 		395B5E9320568DCF0013CB75 /* Update Build Numbers */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -781,7 +852,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "shortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\n\necho \"@\\\"${shortVersion}\\\"\" > DTXProfiler/Version.h\n\nif [ \"${CONFIGURATION}\" = \"Release_External\" ]; then\nexit 0\nfi\n\n#Xcode calls this script twice for each SDK (iphoneos & iphonesimulatoros)\nif [ \"${SDK_NAME}\" = \"iphoneos11.2\" ]; then\nexit 0\nfi\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"";
+			shellScript = "shortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\n\necho \"@\\\"${shortVersion}\\\"\" > DTXProfiler/Version.h\n\nif [ \"${CONFIGURATION}\" = \"Release_External\" ]; then\nexit 0\nfi\n\n#Xcode calls this script twice for each SDK (iphoneos & iphonesimulatoros)\nif [ \"${SDK_NAME}\" = \"iphoneos11.2\" ]; then\nexit 0\nfi\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :DTXBuildDate $(date)\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -809,6 +880,7 @@
 				391E4C7A1F5575BF0057039E /* DTXAuthenticationChallengeProxy.m in Sources */,
 				39432AEA1F55BE6C00468DB7 /* DTXExternalProtocolStorage.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
+				39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */,
 				39281E831ED70A77002CE905 /* DTXZipper.m in Sources */,
 				39BEE1AF207A4778003AF93E /* pwd2key.c in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
@@ -816,7 +888,7 @@
 				39BEE1B0207A4778003AF93E /* aestab.c in Sources */,
 				39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
 				395B26A12067B12C00FD7368 /* DTXFPSCalculator.m in Sources */,
-				3901A8A01F5D5CA60021916B /* DTXMachUtilities.m in Sources */,
+				3901A8A01F5D5CA60021916B /* DTXMachUtilities.c in Sources */,
 				39BEE1AD207A4778003AF93E /* prng.c in Sources */,
 				39BEE195207A4778003AF93E /* ioapi.c in Sources */,
 				39C713411EFFD6FF00C827EB /* DTXReactNativeSampler.m in Sources */,
@@ -849,6 +921,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3929508E2107A92200F7E3E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DTXProfilerShim;
+			targetProxy = 3929508D2107A92200F7E3E1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3922F8241F4484DA00F10055 /* Debug */ = {
@@ -889,6 +969,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -976,6 +1057,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1035,6 +1117,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

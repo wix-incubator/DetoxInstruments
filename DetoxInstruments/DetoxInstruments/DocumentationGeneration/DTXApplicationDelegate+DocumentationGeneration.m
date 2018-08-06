@@ -23,8 +23,28 @@
 #import "DTXRNCPUUsagePlotController.h"
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
+#import "DTXSignpostPlotController.h"
+#import "NSAppearance+UIAdditions.h"
 
 #import "DTXManagedPlotControllerGroup.h"
+#import "NSView+UIAdditions.h"
+#import "DTXDebugMenuGenerator.h"
+
+@import ObjectiveC;
+
+static NSBitmapImageRep* __DTXThemeBackgroundRep(NSBitmapImageRep* rep)
+{
+	NSImage* rvImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, rep.size.height)];
+	[rvImage lockFocus];
+	[(NSApp.effectiveAppearance.isDarkAppearance ? [NSColor colorWithRed:0.1171875 green:0.1171875 blue:0.1171875 alpha:1.0] : NSColor.whiteColor) setFill];
+	NSRect rect = (NSRect){0, 0, rvImage.size};
+	NSRectFill(rect);
+	[rep drawInRect:rect fromRect:rect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
+	[rvImage unlockFocus];
+	
+	return rep;
+}
 
 static NSDictionary<NSString*, NSDictionary<NSString*, id>*>* __classToNameMapping;
 static NSNumber* __defaultSample;
@@ -34,13 +54,31 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 
 + (void)load
 {
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AppleAccentColor"];
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AppleHighlightColor"];
+	
 	dispatch_async(dispatch_get_main_queue(), ^{
-//		NSMenu* helpMenu = NSApp.mainMenu.itemArray.lastObject.submenu;
+		//		NSMenu* helpMenu = NSApp.mainMenu.itemArray.lastObject.submenu;
 		NSMenu* debugMenu = [[NSMenu alloc] initWithTitle:@"Debug"];
 		
 		NSMenuItem* item = [NSMenuItem new];
-		item.title = @"Generate Documentation Screenshots";
-		item.action = @selector(_generateDocScreenshots:);
+		item.title = @"Generate Screenshots";
+		
+		NSMenu* appearanceMenu = [NSMenu new];
+		
+		NSMenuItem* lightBlue = [NSMenuItem new];
+		lightBlue.title = @"Light Appearance";
+		lightBlue.action = @selector(_generateDocScreenshotsLight:);
+		
+		[appearanceMenu addItem:lightBlue];
+		
+		NSMenuItem* darkRed = [NSMenuItem new];
+		darkRed.title = @"Dark Appearance";
+		darkRed.action = @selector(_generateDocScreenshotsDark:);
+		
+		[appearanceMenu addItem:darkRed];
+		
+		item.submenu = appearanceMenu;
 		
 		[debugMenu addItem:item];
 		
@@ -54,7 +92,9 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 								 NSStringFromClass(DTXDiskReadWritesPlotController.class): @{@"name": @"DiskActivity", @"displaySample": @199},
 								 NSStringFromClass(DTXFPSPlotController.class): @{@"name": @"FPS"},
 								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @175},
-								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"displaySample": @175, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1},
+								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"inspectorSample": @24, @"displaySample": @175, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1},
+								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
+								 NSStringFromClass(DTXSignpostPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@4, @0, @3]},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
 								 };
 		
@@ -67,7 +107,48 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	return [[[NSURL URLWithString:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Resources/"] URLByStandardizingPath];
 }
 
-- (IBAction)_generateDocScreenshots:(id)sender
+- (IBAction)_generateDocScreenshotsLight:(id)sender
+{
+	[NSApp.orderedDocuments enumerateObjectsUsingBlock:^(NSDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj close];
+	}];
+	
+	[self performSelector:@selector(__generateLightBlue) withObject:nil afterDelay:1.0];
+}
+
+- (IBAction)_generateDocScreenshotsDark:(id)sender
+{
+	[NSApp.orderedDocuments enumerateObjectsUsingBlock:^(NSDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj close];
+	}];
+	
+	[self performSelector:@selector(__generateDarkRed) withObject:nil afterDelay:1.0];
+}
+
+- (void)__generateLightBlue NS_AVAILABLE_MAC(10_14)
+{
+	//Force a light appearance with blue accent and hightlight colors
+	NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+	[NSUserDefaults.standardUserDefaults setObject:@100 forKey:@"AppleAccentColor"];
+	[NSUserDefaults.standardUserDefaults setObject:@"" forKey:@"AppleHighlightColor"];
+	[NSNotificationCenter.defaultCenter postNotificationName:@"kCUINotificationAquaColorVariantChanged" object:nil];
+	
+	[self __generate];
+}
+
+- (void)__generateDarkRed NS_AVAILABLE_MAC(10_14)
+{
+	//Force a light appearance with blue accent and hightlight colors
+	NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
+	[NSUserDefaults.standardUserDefaults setObject:@0 forKey:@"AppleAccentColor"];
+	[NSUserDefaults.standardUserDefaults setObject:@"1.000000 0.733333 0.721569 Red" forKey:@"AppleHighlightColor"];
+	
+	[NSNotificationCenter.defaultCenter postNotificationName:@"kCUINotificationAquaColorVariantChanged" object:nil];
+	
+	[self __generate];
+}
+
+- (void)__generate NS_AVAILABLE_MAC(10_14)
 {
 	__block NSScreen* retinaScreen = nil;
 	
@@ -92,10 +173,6 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		return;
 	}
 	
-	[NSApp.orderedDocuments enumerateObjectsUsingBlock:^(NSDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[obj close];
-	}];
-	
 	NSDocument* newDocument = [NSDocumentController.sharedDocumentController openUntitledDocumentAndDisplay:YES error:NULL];
 	DTXWindowController* windowController = newDocument.windowControllers.firstObject;
 	
@@ -104,6 +181,8 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[windowController _setWindowSize:NSMakeSize(1344, 945)];
 	[windowController _setBottomSplitAtPercentage:0.53];
 	[windowController _drainLayout];
+	
+	[self _createConsoleMenuScreenshotWithWindowController:windowController];
 	
 	NSBitmapImageRep* rep = (NSBitmapImageRep*)[windowController _snapshotForTargetSelection].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Discovered.png"].path atomically:YES];
@@ -178,52 +257,59 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:pasteboardRep].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
 		
-		[windowController _setWindowSize:NSMakeSize(1176, 945)];
+		[windowController _setWindowSize:NSMakeSize(1344, 945)];
 		[windowController _setRecordingButtonsVisible:YES];
 		[windowController _drainLayout];
 		
 		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-
+		
 		NSBitmapImageRep* rep = (NSBitmapImageRep*)[self _exampleImageWithExistingRep:repIntro].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Example.png"].path atomically:YES];
-
+		
 		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-
+		
 		rep = (NSBitmapImageRep*)[self _toolbarImageWithExistingRep:repIntro].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Toolbar.png"].path atomically:YES];
-
+		
 		[windowController _setRecordingButtonsVisible:NO];
 		[windowController _drainLayout];
-
+		
+		[windowController _deselectAnyPlotControllers];
+		[windowController _selectSampleAtIndex:175 forPlotControllerClass:DTXMemoryUsagePlotController.class];
+		
+//		NSAppearance* desiredAppearance = NSApp.effectiveAppearance;
+//		NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+		
+		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
+		[[__DTXThemeBackgroundRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
+		
 		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, 511)];
-
+		
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 			[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage];
 		}];
-
+		
 		[inspectorPaneOverviewImage lockFocus];
 		rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, inspectorPaneOverviewImage.size}];
 		[inspectorPaneOverviewImage unlockFocus];
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_InspectorPane.png"].path atomically:YES];
-
-		[windowController _deselectAnyPlotControllers];
-		[windowController _selectSampleAtIndex:175 forPlotControllerClass:DTXMemoryUsagePlotController.class];
-
-		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
-		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
-
+		
 		[windowController _selectPlotControllerOfClass:DTXCompactNetworkRequestsPlotController.class];
 		[windowController _deselectAnyDetail];
 		[windowController _setBottomSplitAtPercentage:0.6];
 		[windowController _scrollBottomPaneToPercentage:0.8];
-
+		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_DetailPane.png"].path atomically:YES];
 		
-		[windowController _drainLayout];
-		[document close];
+//		NSAppearance.currentAppearance = NSApp.appearance = desiredAppearance;
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[windowController _drainLayout];
+		[windowController close];
+		[document close];
+		[NSUserDefaults.standardUserDefaults synchronize];
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[NSUserDefaults.standardUserDefaults synchronize];
 			exit(0);
 		});
@@ -237,6 +323,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	if(cls != nil)
 	{
 		NSString* name = info[@"name"];
+		NSArray* outlineBreadcrumbs = info[@"outlineBreadcrumbs"];
 		NSInteger displaySample = [info[@"displaySample"] ?: __defaultSample integerValue];
 		NSInteger inspectorSample = [info[@"inspectorSample"] ?: __defaultSample integerValue];
 		CGFloat scrollPercentage = [info[@"scrollPercentage"] ?: @0.5 doubleValue];
@@ -245,18 +332,33 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _selectSampleAtIndex:displaySample forPlotControllerClass:cls];
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForPlotControllerOfClass:cls].representations.firstObject;
-		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@.png", name]].path atomically:YES];
+		
+		[[__DTXThemeBackgroundRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@.png", name]].path atomically:YES];
 		
 		[windowController _selectPlotControllerOfClass:cls];
 		
 		[windowController _deselectAnyDetail];
-		[windowController _setBottomSplitAtPercentage:0.35];
+		
+		if(outlineBreadcrumbs)
+		{
+			[windowController _followOutlineBreadcrumbs:outlineBreadcrumbs forPlotControllerClass:cls selectLastBreadcrumb:NO];
+		}
+		
+		[windowController _setBottomSplitAtPercentage:0.5];
 		[windowController _scrollBottomPaneToPercentage:scrollPercentage];
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
+		
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_DetailPane.png", name]].path atomically:YES];
 		
-		[windowController _selectSampleAtIndex:inspectorSample forPlotControllerClass:cls];
+		if(outlineBreadcrumbs)
+		{
+			[windowController _followOutlineBreadcrumbs:outlineBreadcrumbs forPlotControllerClass:cls selectLastBreadcrumb:YES];
+		}
+		else
+		{
+			[windowController _selectSampleAtIndex:inspectorSample forPlotControllerClass:cls];
+		}
 		[windowController _setBottomSplitAtPercentage:0.6];
 		[windowController _selectExtendedDetailInspector];
 		
@@ -285,7 +387,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 - (NSImage*)_exampleImageWithExistingRep:(NSBitmapImageRep*)rep
 {
 	const CGFloat exampleImageWidthPadding = 440;
-	const CGFloat exampleImageHeightPadding = 120;
+	const CGFloat exampleImageHeightPadding = 100;
 	const CGFloat exampleFontSize = 80;
 	const CGFloat toolbarTitleXOffset = 1160;
 	const CGFloat lineLength = 172;
@@ -293,7 +395,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	NSMutableParagraphStyle* pStyle = [NSParagraphStyle defaultParagraphStyle].mutableCopy;
 	pStyle.alignment = NSTextAlignmentCenter;
 	
-	NSImage* exampleImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width + exampleImageWidthPadding * 2, rep.size.height + exampleImageHeightPadding)];
+	NSImage* exampleImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width + exampleImageWidthPadding * 2, rep.size.height + 1.5 * exampleImageHeightPadding)];
 	[exampleImage lockFocus];
 	
 	[rep drawAtPoint:NSMakePoint(exampleImage.size.width / 2 - rep.size.width / 2, exampleImage.size.height / 2 - rep.size.height / 2 - exampleImageHeightPadding)];
@@ -344,7 +446,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 
 - (NSImage*)_toolbarImageWithExistingRep:(NSBitmapImageRep*)rep
 {
-	NSImage* toolbarImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, 174)];
+	NSImage* toolbarImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, 184)];
 	[toolbarImage lockFocus];
 	
 	[rep drawAtPoint:NSMakePoint(0, toolbarImage.size.height - rep.size.height)];
@@ -393,6 +495,62 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[mergedImage addRepresentation:first];
 	
 	return mergedImage;
+}
+
+- (void)_createConsoleMenuScreenshotWithWindowController:(DTXWindowController*)windowController
+{
+	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
+	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
+	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.visualEffectView.layer.borderColor = [NSColor.windowFrameColor colorWithAlphaComponent:0.25].CGColor;
+		menu.visualEffectView.layer.borderWidth = 1;
+	}
+	menu.visualEffectView.layer.masksToBounds = YES;
+	
+	menu.view.wantsLayer = YES;
+	menu.view.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.view.layer.borderColor = [NSColor.blackColor colorWithAlphaComponent:0.85].CGColor;
+	}
+	else
+	{
+		menu.view.layer.borderColor = NSColor.lightGrayColor.CGColor;
+	}
+	menu.view.layer.borderWidth = 0.5;
+	menu.view.layer.masksToBounds = YES;
+	
+	NSString* path = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Console"];
+	menu.consoleImageView.image = [[NSWorkspace sharedWorkspace] iconForFile:path] ?: [NSImage imageNamed:@"console_small"];
+	menu.consoleImageView.image.size = NSMakeSize(16, 16);
+	
+	[windowController.window.contentView addSubview:menu.view];
+	[windowController _drainLayout];
+	
+	NSBitmapImageRep* consoleMenuRep = (id)[menu.view snapshotForCachingDisplay].representations.firstObject;
+	
+	[menu.view removeFromSuperview];
+	
+	NSImage* consoleMenuImage = [[NSImage alloc] initWithSize:NSMakeSize(858, 82)];
+	[consoleMenuImage lockFocus];
+	
+	NSShadow* shadow = [NSShadow new];
+	shadow.shadowOffset = NSMakeSize(0, -4);
+	shadow.shadowBlurRadius = 16.0;
+	shadow.shadowColor = [NSColor.blackColor colorWithAlphaComponent:0.25];
+	[shadow set];
+	
+	NSRect centered = (NSRect){93, 20, consoleMenuRep.size};
+	[consoleMenuRep drawInRect:centered fromRect:(NSRect){0, 0, centered.size} operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	consoleMenuRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, consoleMenuImage.size}];
+	
+	[consoleMenuImage unlockFocus];
+	
+	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_DetailPane_Console.png"].path atomically:YES];
 }
 
 @end

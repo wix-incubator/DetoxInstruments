@@ -26,11 +26,6 @@
 	[super prepareForReuse];
 }
 
-- (BOOL)isOpaque
-{
-	return YES;
-}
-
 - (void)setPlotController:(id<DTXPlotController>)plotController
 {
 	_plotController = plotController;

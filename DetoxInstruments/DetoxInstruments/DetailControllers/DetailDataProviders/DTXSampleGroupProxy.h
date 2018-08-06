@@ -7,19 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DTXSampleContainerProxy.h"
 #import "DTXInstrumentsModel.h"
 #import "DTXInspectorDataProvider.h"
 
-@interface DTXSampleGroupProxy : NSObject
+@interface DTXSampleGroupProxy : DTXSampleContainerProxy
+
+@property (nonatomic, strong, readonly) DTXSampleGroup* sampleGroup;
+@property (nonatomic, strong, readonly) NSArray<NSNumber*>* sampleTypes;
 
 - (instancetype)initWithSampleGroup:(DTXSampleGroup*)sampleGroup sampleTypes:(NSArray<NSNumber*>*)sampleTypes outlineView:(NSOutlineView*)outlineView;
-
-@property (nonatomic, readonly) NSUInteger samplesCount;
-- (id)sampleAtIndex:(NSUInteger)index;
-
-//@property (nonatomic, strong, readonly) NSArray<DTXSample*>* samples;
-@property (nonatomic, strong) NSDate* timestamp;
-@property (nonatomic, strong) NSDate* closeTimestamp;
-@property (nonatomic, strong) NSString* name;
 
 @end

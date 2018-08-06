@@ -10,9 +10,15 @@
 
 @implementation NSAppearance (UIAdditions)
 
-- (BOOL)isAppearanceDark
+- (BOOL)isDarkAppearance
 {
-	return self == [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
+	if (@available(macOS 10.14, *)) {
+		NSAppearanceName appearanceName = [self bestMatchFromAppearancesWithNames:@[NSAppearanceNameAqua, NSAppearanceNameDarkAqua]];
+		
+		return [appearanceName isEqualToString:NSAppearanceNameDarkAqua];
+	} else {
+		return NO;
+	}
 }
 
 @end

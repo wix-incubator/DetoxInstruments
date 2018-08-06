@@ -21,6 +21,11 @@
 
 - (NSRect)frameOfCellAtColumn:(NSInteger)column row:(NSInteger)row
 {
+	if(_respectsOutlineCellFraming)
+	{
+		return [super frameOfCellAtColumn:column row:row];
+	}
+	
 	struct objc_super mySuper = {
 		.receiver = self,
 		.super_class = NSTableView.class

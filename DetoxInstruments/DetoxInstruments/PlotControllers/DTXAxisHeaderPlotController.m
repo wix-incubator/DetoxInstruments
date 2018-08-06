@@ -76,10 +76,10 @@
 		CPTMutableLineStyle* axisLineStyle = [CPTMutableLineStyle lineStyle];
 		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.gridColor.CGColor];
 		axisLineStyle.lineWidth = 1.0;
-		axisLineStyle.lineCap   = kCGLineCapRound;
+		axisLineStyle.lineCap   = kCGLineCapButt;
 		
 		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
-		labelStyle.color = [CPTColor colorWithCGColor:(view.effectiveAppearance.isAppearanceDark ? NSColor.textColor : NSColor.disabledControlTextColor).CGColor];
+		labelStyle.color = [CPTColor colorWithCGColor:(view.effectiveAppearance.isDarkAppearance ? NSColor.labelColor : NSColor.disabledControlTextColor).CGColor];
 		labelStyle.fontName = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
 		labelStyle.fontSize = 11;
 		

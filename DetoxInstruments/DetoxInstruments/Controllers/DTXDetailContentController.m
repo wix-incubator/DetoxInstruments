@@ -91,14 +91,14 @@
 	NSPathControlItem* currentItem = [NSPathControlItem new];
 	currentItem.title = _activeDetailController.displayName;
 	currentItem.image = _activeDetailController.smallDisplayIcon;
-	[[currentItem valueForKey:@"secretCell"] setTextColor:NSColor.textColor];
+	[[currentItem valueForKey:@"secretCell"] setTextColor:NSColor.labelColor];
 
 	if([_cachedDetailControllers containsObject:_activeDetailController])
 	{
 		NSPathControlItem* parentItem = [NSPathControlItem new];
 		parentItem.title = self.managingPlotController.displayName;
 		parentItem.image = self.managingPlotController.smallDisplayIcon;
-		[[parentItem valueForKey:@"secretCell"] setTextColor:NSColor.textColor];
+		[[parentItem valueForKey:@"secretCell"] setTextColor:NSColor.labelColor];
 
 		_pathControl.pathItems = @[parentItem, currentItem];
 	}

@@ -24,6 +24,7 @@
 - (NSImage*)_snapshotForDetailPane;
 - (void)_scrollBottomPaneToPercentage:(CGFloat)percentage;
 - (void)_selectSampleAtIndex:(NSInteger)index forPlotControllerClass:(Class)cls;
+- (void)_followOutlineBreadcrumbs:(NSArray*)breadcrumbs forPlotControllerClass:(Class)cls selectLastBreadcrumb:(BOOL)selectLastBreadcrumb;
 - (NSImage*)_snapshotForInspectorPane;
 
 - (NSImage*)_snapshotForTargetSelection;

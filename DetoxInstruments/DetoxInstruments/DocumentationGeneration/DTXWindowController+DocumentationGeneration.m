@@ -16,6 +16,7 @@
 #import "DTXSamplePlotController.h"
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
 #import "DTXInspectorContentController.h"
+#import "NSAppearance+UIAdditions.h"
 
 @interface NSObject ()
 
@@ -34,13 +35,21 @@
 - (void)_drainLayout
 {
 	[self.window layoutIfNeeded];
-	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
+	[CATransaction flush];
+	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
+	[CATransaction flush];
 }
 
 - (void)_setWindowSize:(NSSize)size
 {
 	[self.window setFrame:(CGRect){0, 0, size} display:YES];
 	[self.window center];
+	NSOutlineView* timelineView = (NSOutlineView*)[self valueForKeyPath:@"_plotContentController._tableView"];
+	[timelineView.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj setNeedsDisplay:YES];
+		[obj displayIfNeeded];
+	}];
+	[self _drainLayout];
 }
 
 - (void)_deselectAnyPlotControllers
@@ -102,10 +111,15 @@
 	[outline deselectAll:nil];
 }
 
-- (NSImage*)_snapshotForDetailPane
+- (NSImage*)_snapshotForDetailPane NS_AVAILABLE_MAC(10_14)
 {
+	NSView* hv = [self valueForKeyPath:@"detailContentController.activeDetailController.outlineView.headerView.backgroundView"];
+	hv.wantsLayer = YES;
+	hv.layer.backgroundColor = NSApp.effectiveAppearance.isDarkAppearance ? NSColor.windowBackgroundColor.CGColor : NSColor.whiteColor.CGColor;
+	
 	[self _drainLayout];
-	return [[self valueForKey:@"detailContentController"] view].snapshotForCachingDisplay;
+	
+	return __DTXThemeBorderedImage([[self valueForKey:@"detailContentController"] view].snapshotForCachingDisplay);
 }
 
 - (void)_scrollBottomPaneToPercentage:(CGFloat)percentage
@@ -139,10 +153,67 @@
 	[plotController highlightSample:samples[index]];
 }
 
-- (NSImage*)_snapshotForInspectorPane
+- (void)_followOutlineBreadcrumbs:(NSArray*)breadcrumbs forPlotControllerClass:(Class)cls selectLastBreadcrumb:(BOOL)selectLastBreadcrumb
 {
+	NSParameterAssert(breadcrumbs.count > 0);
+	
 	[self _drainLayout];
-	return [[self valueForKey:@"inspectorContentController"] view].snapshotForCachingDisplay;
+	__kindof id<DTXPlotController> plotController = [self _plotControllerForClass:cls];
+	
+	NSOutlineView* ov = [self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"];
+	[ov collapseItem:nil collapseChildren:YES];
+	
+	__block NSUInteger offset = 0;
+	
+	[breadcrumbs enumerateObjectsUsingBlock:^(NSNumber*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSUInteger row = obj.unsignedIntegerValue;
+		
+		if(idx == breadcrumbs.count - 1)
+		{
+			if(selectLastBreadcrumb)
+			{
+				[ov selectRowIndexes:[NSIndexSet indexSetWithIndex:row + offset] byExtendingSelection:NO];
+			}
+			
+			return;
+		}
+		
+		id item = [ov itemAtRow:row + offset];
+		[ov expandItem:item];
+		offset += (row + 1);
+	}];
+}
+
+NS_AVAILABLE_MAC(10_14)
+static NSImage* __DTXThemeBorderedImage(NSImage* image)
+{
+	NSImage* rvImage = [[NSImage alloc] initWithSize:NSMakeSize(image.size.width, image.size.height)];
+	[rvImage lockFocus];
+	NSRect rect = (NSRect){0, 0, rvImage.size};
+	[image drawInRect:rect fromRect:rect operation:NSCompositingOperationCopy fraction:1.0 respectFlipped:YES hints:nil];
+	
+	NSBezierPath* path = [NSBezierPath new];
+	path.lineWidth = 1.0;
+	
+	[path moveToPoint:NSMakePoint(0, image.size.height - 28)];
+	[path lineToPoint:NSMakePoint(image.size.width, image.size.height - 28)];
+	
+	[(NSApp.effectiveAppearance.isDarkAppearance ? NSColor.blackColor : [NSColor colorWithRed:0.83203125 green:0.83203125 blue:0.83203125 alpha:1.0]) set];
+	[path stroke];
+	
+	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
+	[rvImage unlockFocus];
+	
+	image = [NSImage new];
+	[image addRepresentation:rep];
+	
+	return image;
+}
+
+- (NSImage*)_snapshotForInspectorPane NS_AVAILABLE_MAC(10_14)
+{
+	[self _drainLayout];	
+	return __DTXThemeBorderedImage([[self valueForKey:@"inspectorContentController"] view].snapshotForCachingDisplay);
 }
 
 - (NSImage*)_snapshotForRecordingSettings
@@ -153,6 +224,12 @@
 	[targetPicker options:nil];
 	[self _drainLayout];
 	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
 	
 	NSWindow* window = self.window.sheets.firstObject;
 	return [window snapshotForCachingDisplay];
@@ -160,6 +237,8 @@
 
 - (NSImage*)_snapshotForTargetSelection
 {
+	[self _drainLayout];
+	[self _drainLayout];
 	[self _drainLayout];
 	[self _drainLayout];
 	DTXRecordingTargetPickerViewController* targetPicker = (id)self.window.sheets.firstObject.contentViewController;

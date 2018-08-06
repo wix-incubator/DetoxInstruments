@@ -33,8 +33,6 @@
 		CFArrayAppendValue(windowIDs, (void*)obj.unsignedIntegerValue);
 	}];
 	
-	NSLog(@"%@", CGWindowListCreateDescriptionFromArray(windowIDs));
-	
 	CGImageRef windowImage = CGWindowListCreateImageFromArray(CGRectNull, windowIDs, kCGWindowImageDefault);
 	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCGImage:windowImage];
 	CGImageRelease(windowImage);
@@ -45,34 +43,34 @@
 	return image;
 }
 
-- (void)transitionToAppearance:(NSAppearance *)appearance
-{
-	NSView* themeFrame = [self valueForKey:@"themeFrame"];
-	
-	NSImage* snapshot = [themeFrame snapshotForCachingDisplay];
-	NSImageView* snapshotView = [NSImageView imageViewWithImage:snapshot];
-	snapshotView.wantsLayer = YES;
-	snapshotView.frame = themeFrame.frame;
-	
-	self.appearance = appearance; 
-	
-	struct objc_super superInfo = {
-		themeFrame,
-		themeFrame.superclass
-	};
-	
-	void (*msgSuper)(struct objc_super *, SEL, id) = (void*)objc_msgSendSuper;
-	
-	msgSuper(&superInfo, @selector(addSubview:), snapshotView);
-	
-	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-		context.duration = 0.2;
-		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-		context.allowsImplicitAnimation = YES;
-		snapshotView.animator.alphaValue = 0.0;
-	} completionHandler:^{
-		[snapshotView removeFromSuperview];
-	}];
-}
+//- (void)transitionToAppearance:(NSAppearance *)appearance
+//{
+//	NSView* themeFrame = [self valueForKey:@"themeFrame"];
+//	
+//	NSImage* snapshot = [themeFrame snapshotForCachingDisplay];
+//	NSImageView* snapshotView = [NSImageView imageViewWithImage:snapshot];
+//	snapshotView.wantsLayer = YES;
+//	snapshotView.frame = themeFrame.frame;
+//	
+//	self.appearance = appearance; 
+//	
+//	struct objc_super superInfo = {
+//		themeFrame,
+//		themeFrame.superclass
+//	};
+//	
+//	void (*msgSuper)(struct objc_super *, SEL, id) = (void*)objc_msgSendSuper;
+//	
+//	msgSuper(&superInfo, @selector(addSubview:), snapshotView);
+//	
+//	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+//		context.duration = 0.2;
+//		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//		context.allowsImplicitAnimation = YES;
+//		snapshotView.animator.alphaValue = 0.0;
+//	} completionHandler:^{
+//		[snapshotView removeFromSuperview];
+//	}];
+//}
 
 @end

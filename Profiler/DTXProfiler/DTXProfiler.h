@@ -6,8 +6,11 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "DTXProfilingConfiguration.h"
+@import Foundation;
+#import <DTXProfiler/DTXBase.h>
+#import <DTXProfiler/DTXProfilingConfiguration.h>
+#import <DTXProfiler/DTXEvents.h>
+#import <DTXProfiler/DTXProfilerAPI.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DTXProfiler : NSObject
 
-+ (NSString*)version;
+@property (class, nonatomic, readonly, copy) NSString* version;
 
 /**
  *  A Boolean value indicating whether there is currently a recording in progress.
@@ -26,9 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (atomic, assign, readonly, getter=isRecording) BOOL recording;
 
 /**
- * The profiling configuration provided to @c startProfilingWithConfiguration:.
+ * The profiling configuration provided to @c startProfilingWithConfiguration:. Will be null before calling that method.
  */
-@property (atomic, copy, readonly) DTXProfilingConfiguration* profilingConfiguration;
+@property (atomic, copy, readonly, nullable) DTXProfilingConfiguration* profilingConfiguration;
 
 /**
  *  Starts a profiling recording with the provided configuration.
@@ -49,54 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param completionHandler Completion handler called after the recording is saved to disk.
  */
 - (void)stopProfilingWithCompletionHandler:(void(^ __nullable)(NSError* __nullable error))completionHandler;
-
-/**
- *  Push a sample group.
- *
- *  Subsequent samples will be pushed into this group.
- *
- *  @param name The name of the sample group to push.
- */
-- (void)pushSampleGroupWithName:(NSString*)name;
-
-/**
- *  Pop a sample group.
- *
- *  Subsequent samples will be pushed into the parent group.
- */
-- (void)popSampleGroup;
-
-/**
- *  Adds a tag.
- *
- *  Tags are added chronologically.
- *
- *  @param tag The tag name to push.
- */
-- (void)addTag:(NSString*)tag;
-
-/**
- *  Adds a log line.
- *
- *  The line may be a multiline string.
- *
- *  Log lines are added chronologically.
- *
- *  @param line The line to add.
- */
-- (void)addLogLine:(NSString*)line;
-
-/**
- *  Adds a log line and an array of object.
- *
- *  The line may be a multiline string.
- *
- *  Log lines are added chronologically.
- *
- *  @param line The line to add.
- *  @param objects The objects to add.
- */
-- (void)addLogLine:(NSString *)line objects:(nullable NSArray *)objects;
 
 @end
 

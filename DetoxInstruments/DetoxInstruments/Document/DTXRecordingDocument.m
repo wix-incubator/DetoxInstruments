@@ -121,7 +121,8 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 {
 	[self _preparePersistenceContainerFromURL:nil allowCreation:YES error:NULL];
 	NSManagedObjectContext* bgCtx = [_container newBackgroundContext];
-	bgCtx.name = @"com.wix.RemoteProfiling";
+	bgCtx.name = @"com.wix.RemoteProfiling-ManagedObjectContext";
+
 	_remoteProfilingClient = [[DTXRemoteProfilingClient alloc] initWithProfilingTarget:target managedObjectContext:bgCtx];
 	_remoteProfilingClient.delegate = self;
 	[_remoteProfilingClient startProfilingWithConfiguration:configuration];
@@ -164,7 +165,11 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:storeURL];
 	description.type = url ? NSSQLiteStoreType : NSInMemoryStoreType;
-	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXRecordingDocument class]]]];
+	static NSManagedObjectModel* model;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXRecordingDocument class]]]];
+	});
 	
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
 	_container.persistentStoreDescriptions = @[description];
@@ -251,7 +256,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			*outError = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
 											code:-9
 										userInfo:@{
-												   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The document can only be opened safely in a newer version of Detox Instruments.\n\nIf you continue, recording data may be lost", @""),
+												   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The document can only be opened safely in a newer version of Detox Instruments.\n\nIf you continue, the recording may be lost or damaged altogether.", @""),
 												   NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Open Anyway", nil), NSLocalizedString(@"Cancel", nil)],
 												   NSRecoveryAttempterErrorKey: self,
 												   NSURLErrorKey: url
@@ -452,7 +457,6 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
 	
 	[_remoteProfilingClient.target stopProfiling];
-	[_remoteProfilingClient stopWithCompletionHandler:nil];
 }
 
 #pragma mark DTXRemoteTargetDelegate
@@ -480,8 +484,25 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	}];
 }
 
+- (void)remoteProfilingClient:(DTXRemoteProfilingClient *)client didReceiveSourceMapsData:(NSData *)sourceMapsData
+{
+	NSError* error;
+	NSDictionary<NSString*, id>* sourceMaps = [NSJSONSerialization JSONObjectWithData:sourceMapsData options:0 error:&error];
+	if(sourceMaps == nil)
+	{
+		NSLog(@"Error parsing source maps: %@", error);
+		return;
+	}
+	
+	_sourceMapsParser = [DTXSourceMapsParser sourceMapsParserForSourceMaps:sourceMaps];
+}
+
 - (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient *)client
 {
+	[self updateChangeCount:NSChangeDone];
+	
+	[_remoteProfilingClient stopWithCompletionHandler:nil];
+	
 	[_container.viewContext performBlock:^{
 		if(_recording == nil)
 		{
@@ -494,10 +515,13 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 			_recording.endTimestamp = [NSDate date];
 		}
 		
-		self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
-		
-		[self updateChangeCount:NSChangeDone];
+		//Autosave here so that the Core Data container moves to SQL type and only then update document state.
+		[self autosaveWithImplicitCancellability:self.autosavingIsImplicitlyCancellable completionHandler:^(NSError * _Nullable errorOrNil) {
+			self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
+		}];
 	}];
+	
+	_remoteProfilingClient = nil;
 }
 
 - (void)remoteProfilingClientDidChangeDatabase:(DTXRemoteProfilingClient *)client

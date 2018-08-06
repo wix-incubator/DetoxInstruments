@@ -11,23 +11,21 @@ Incorporating Detox Instruments into the development workflow from the beginning
 Detox Instruments supports profiling the following metrics:
 
 * Performance Profiling
-	* CPU Load
-		* Per Thread Breakdown of CPU Load
-		* Heaviest Stack Trace Sampling
-		* Automatic Runtime Symbolication of Stack Traces
-	* Memory Usage
-	* User Interface FPS (Frames per Second)
-	* Disk Activity (Reads and Writes, Open File Names)
+  * CPU Load
+  	* Per Thread Breakdown of CPU Load
+  	* Heaviest Stack Trace Sampling
+  	* Automatic Runtime Symbolication of Stack Traces
+  * Memory Usage
+  * User Interface FPS (Frames per Second)
+  * Disk Activity (Reads and Writes, Open File Names)
 * Network Activity
-	* Full Request and Response Header and Data Collection and Inspection
+  * Full Request and Response Header and Data Collection and Inspection
 * Log Output Recording
 * React Native Profiling
-	* JavaScript Thread CPU Load
-		* JavaScript Stack Trace Sampling **(Coming Soon)**
-		* Automatic Runtime Symbolication of Stack Traces Using Source Maps **(Coming Soon)**
-	* Bridge Call Counters
-	* Bridge Data Counters
-		* Bridge Data Collection **(Coming Soon)**
+  * JavaScript Thread CPU Load
+  * Bridge Call Counters
+  * Bridge Data Counters
+    * Bridge Data Collection **(Coming Soon)**
 
 For a list of available instruments and their description, see [Available Instruments](Documentation/AvailableInstruments.md).
 
@@ -57,9 +55,15 @@ brew cask install detox-instruments
 
 This will install Detox Instruments under `/Applications`.
 
-## Integration with Mobile App
+## Integration with Your App's Project
 
 In order to begin profiling your app, you need to integrate the Profiler framework in your app's project. See [Profiler Framework Integration Guide](Documentation/XcodeIntegrationGuide.md) for more information.
+
+#### Developer API Reference
+
+By integrating Detox Instruments in your app, many of the included instruments can automatically collect data. Some instruments require you to explicitly call the provided APIs so that specific data can be collected.
+
+See the [Developer API Reference](Documentation/DeveloperAPIReferenceIntro.md) for more information.
 
 ## Profiling an App
 

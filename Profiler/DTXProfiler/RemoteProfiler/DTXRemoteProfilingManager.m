@@ -137,7 +137,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePing)} completionHandler:^()
 	 {
-		 _lastPingDate = [NSDate date];
+		 self->_lastPingDate = [NSDate date];
 	 }];
 	
 }
@@ -151,7 +151,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 		switch (cmdType) {
 			case DTXRemoteProfilingCommandTypePing:
 			{
-				_lastPingDate = [NSDate date];
+				self->_lastPingDate = [NSDate date];
 			}	break;
 			case DTXRemoteProfilingCommandTypeGetDeviceInfo:
 			{
@@ -161,29 +161,29 @@ static DTXRemoteProfilingManager* __sharedManager;
 			{
 				NSDictionary* configDict = cmd[@"configuration"];
 				DTXProfilingConfiguration* config = configDict == nil ? [DTXProfilingConfiguration defaultProfilingConfiguration] : [[DTXProfilingConfiguration alloc] initWithCoder:(id)configDict];
-				_remoteProfiler = [[DTXRemoteProfiler alloc] initWithOpenedSocketConnection:_connection remoteProfilerDelegate:self];
-				[_remoteProfiler startProfilingWithConfiguration:config];
+				self->_remoteProfiler = [[DTXRemoteProfiler alloc] initWithOpenedSocketConnection:self->_connection remoteProfilerDelegate:self];
+				[self->_remoteProfiler startProfilingWithConfiguration:config];
 			}	break;
 			case DTXRemoteProfilingCommandTypeAddTag:
 			{
 				NSString* name = cmd[@"name"];
-				[_remoteProfiler addTag:name];
+				[self->_remoteProfiler _addTag:name timestamp:NSDate.date];
 			}	break;
 			case DTXRemoteProfilingCommandTypePushGroup:
 			{
 				NSString* name = cmd[@"name"];
-				[_remoteProfiler pushSampleGroupWithName:name];
+				[self->_remoteProfiler _pushSampleGroupWithName:name timestamp:NSDate.date];
 			}	break;
 			case DTXRemoteProfilingCommandTypePopGroup:
 			{
-				[_remoteProfiler popSampleGroup];
+				[self->_remoteProfiler _popSampleGroupWithTimestamp:NSDate.date];
 			}	break;
 			case DTXRemoteProfilingCommandTypeStopProfiling:
 			{
-				[_remoteProfiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
+				[self->_remoteProfiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
 					[self _sendRecordingDidStop];
 				}];
-				_remoteProfiler = nil;
+				self->_remoteProfiler = nil;
 			}	break;
 			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
 			{
@@ -435,7 +435,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 	
 	dtx_log_info(@"Accepted connection");
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
-	_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dispatch_queue_create("com.wix.DTXRemoteProfiler", qosAttribute)];
+	_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dispatch_queue_create("com.wix.DTXRemoteProfiler-Networking", qosAttribute)];
 	_connection.delegate = self;
 	
 	[_connection open];

@@ -47,7 +47,7 @@
 	}
 		
 	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSFetchRequest* fr = [self.classForPerformanceSamples fetchRequest];
+		NSFetchRequest* fr = [self.class.classForPerformanceSamples fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		fr.predicate = self.predicateForPerformanceSamples;
 		
@@ -81,7 +81,7 @@
 	return [NSPredicate predicateWithFormat:@"NOT(sampleType IN %@)", @[@(DTXSampleTypeThreadPerformance)]];
 }
 
-- (Class)classForPerformanceSamples
++ (Class)classForPerformanceSamples
 {
 	return [DTXPerformanceSample class];
 }

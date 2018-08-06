@@ -20,7 +20,7 @@
 {
 	[super viewDidLoad];
 	
-	__unused NSString* path = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Console"];
+	NSString* path = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Console"];
 	_consoleAppImage = [[NSWorkspace sharedWorkspace] iconForFile:path] ?: [NSImage imageNamed:@"console_small"];
 	_consoleAppImage.size = NSMakeSize(16, 16);
 }

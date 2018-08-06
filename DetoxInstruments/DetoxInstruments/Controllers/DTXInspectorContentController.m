@@ -88,7 +88,7 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	}
 }
 
-static NSString* __DTXStringFromBoolean(BOOL b)
+inline static NSString* __DTXStringFromBoolean(BOOL b)
 {
 	return b ? NSLocalizedString(@"Yes", @"") : NSLocalizedString(@"No", @"");
 }
@@ -163,8 +163,8 @@ static NSString* __DTXStringFromBoolean(BOOL b)
 		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
 		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Profile React Native", @"") description:__DTXStringFromBoolean(configuration.profileReactNative)]];
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Java Script Stack Traces", @"") description:__DTXStringFromBoolean(configuration.collectJavaScriptStackTraces)]];
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Symbolicate Java Script Stack Traces", @"") description:__DTXStringFromBoolean(configuration.symbolicateJavaScriptStackTraces)]];
+//		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Java Script Stack Traces", @"") description:__DTXStringFromBoolean(configuration.collectJavaScriptStackTraces)]];
+//		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Symbolicate Java Script Stack Traces", @"") description:__DTXStringFromBoolean(configuration.symbolicateJavaScriptStackTraces)]];
 		
 		recordingConfiguration.content = content;
 		

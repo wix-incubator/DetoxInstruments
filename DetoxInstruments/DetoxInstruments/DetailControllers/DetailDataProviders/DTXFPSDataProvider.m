@@ -38,7 +38,7 @@
 
 - (NSColor*)textColorForItem:(id)item
 {
-	return NSColor.textColor;
+	return NSColor.labelColor;
 }
 
 - (NSColor*)backgroundRowColorForItem:(id)item

@@ -53,7 +53,6 @@
 
 @end
 
-IB_DESIGNABLE
 @implementation DTXPlotTableView
 {
 	BOOL _ignoresEvents;
@@ -138,11 +137,6 @@ IB_DESIGNABLE
 - (BOOL)validateProposedFirstResponder:(NSResponder *)responder forEvent:(NSEvent *)event
 {
 	// This allows the user to click on controls within a cell withough first having to select the cell row
-	return YES;
-}
-
-- (BOOL)isOpaque
-{
 	return YES;
 }
 

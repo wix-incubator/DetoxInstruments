@@ -20,6 +20,7 @@
 #import "DTXRNJSCSourceMapsSupport.h"
 #import "DTXAddressInfo.h"
 #import "DTXDeviceInfo.h"
+#import "DTXSignpostSample+CoreDataClass.h"
 
 #define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
 #define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
@@ -27,7 +28,7 @@
 
 DTX_CREATE_LOG(Profiler);
 
-@interface DTXProfiler () <DTXNetworkListener, DTXLoggingListener>
+@interface DTXProfiler ()
 
 @property (atomic, assign, readwrite, getter=isRecording) BOOL recording;
 
@@ -95,62 +96,54 @@ DTX_CREATE_LOG(Profiler);
 	_container = [self _persistentStoreForProfiling];
 	
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
-		_backgroundContext = _container.newBackgroundContext;
+		self->_backgroundContext = self->_container.newBackgroundContext;
 		
-		[_backgroundContext performBlockAndWait:^{
-			_currentRecording = [[DTXRecording alloc] initWithContext:_backgroundContext];
-			_currentRecording.profilingConfiguration = configuration.dictionaryRepresentation;
+		[self->_backgroundContext performBlockAndWait:^{
+			self->_currentRecording = [[DTXRecording alloc] initWithContext:self->_backgroundContext];
+			self->_currentRecording.profilingConfiguration = configuration.dictionaryRepresentation;
 			
 			NSDictionary* deviceInfo = [DTXDeviceInfo deviceInfo];
 			[deviceInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-				[_currentRecording setValue:obj forKey:key];
+				[self->_currentRecording setValue:obj forKey:key];
 			}];
 			
-			[_profilerStoryListener createRecording:_currentRecording];
+			[self->_profilerStoryListener createRecording:self->_currentRecording];
 			
-			_rootSampleGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
-			_rootSampleGroup.name = @"DTXRoot";
-			_rootSampleGroup.recording = _currentRecording;
-			_currentSampleGroup = _rootSampleGroup;
+			self->_rootSampleGroup = [[DTXSampleGroup alloc] initWithContext:self->_backgroundContext];
+			self->_rootSampleGroup.name = @"DTXRoot";
+			self->_rootSampleGroup.recording = self->_currentRecording;
+			self->_currentSampleGroup = self->_rootSampleGroup;
 			
-			[_profilerStoryListener pushSampleGroup:_rootSampleGroup isRootGroup:YES];
+			[self->_profilerStoryListener pushSampleGroup:self->_rootSampleGroup isRootGroup:YES];
 			
 			__weak __typeof(self) weakSelf = self;
 			
-			_pollingManager = [[DTXPollingManager alloc] initWithInterval:configuration.samplingInterval];
-			[_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:configuration] handler:^(DTXPerformanceSampler* pollable) {
+			self->_pollingManager = [[DTXPollingManager alloc] initWithInterval:configuration.samplingInterval];
+			[self->_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:configuration] handler:^(DTXPerformanceSampler* pollable) {
 				[weakSelf performanceSamplerDidPoll:pollable];
 			}];
 			
-			if(configuration.recordNetwork == YES)
-			{
-				[DTXNetworkRecorder addNetworkListener:self];
-			}
-			
-			if(configuration.recordLogOutput == YES)
-			{
-				[DTXLoggingRecorder addLoggingListener:self];
-			}
-			
-			if(_currentRecording.hasReactNative == YES && _currentProfilingConfiguration.profileReactNative == YES)
+			if(self->_currentRecording.hasReactNative == YES && self->_currentProfilingConfiguration.profileReactNative == YES)
 			{
 				DTXReactNativeSampler* rnSampler = [[DTXReactNativeSampler alloc] initWithConfiguration:configuration];
 				if(rnSampler != nil)
 				{
-					[_pollingManager addPollable:rnSampler handler:^(DTXReactNativeSampler* pollable) {
+					[self->_pollingManager addPollable:rnSampler handler:^(DTXReactNativeSampler* pollable) {
 						[weakSelf reactNativeSamplerDidPoll:pollable];
 					}];
 				}
 			}
 			
-			[_pollingManager resume];
+			__DTXProfilerAddActiveProfiler(self);
+			
+			[self->_pollingManager resume];
 			
 			dtx_log_info(@"Started profiling");
 		} qos:QOS_CLASS_USER_INTERACTIVE];
 	}];
 }
 
-- (void)_symbolicateStackTracesInternal
+- (void)_symbolicateRemainingStackTracesInternal
 {
 	NSPredicate* unsymbolicated = [NSPredicate predicateWithFormat:@"stackTraceIsSymbolicated == NO"];
 	NSFetchRequest* fr = [DTXAdvancedPerformanceSample fetchRequest];
@@ -175,7 +168,7 @@ DTX_CREATE_LOG(Profiler);
 	unsymbolicatedSample.stackTraceIsSymbolicated = YES;
 }
 
-- (void)_symbolicateJavaScriptStackTracesInternal
+- (void)_symbolicateRemainingJavaScriptStackTracesInternal
 {
 	NSPredicate* unsymbolicated = [NSPredicate predicateWithFormat:@"stackTraceIsSymbolicated == NO"];
 	NSFetchRequest* fr = [DTXReactNativePeroformanceSample fetchRequest];
@@ -202,43 +195,35 @@ DTX_CREATE_LOG(Profiler);
 	dtx_log_info(@"Stopping profiling");
 	
 	[self _flushPendingSamplesWithInternalCompletionHandler:^{
-		_currentRecording.endTimestamp = [NSDate date];
+		__DTXProfilerRemoveActiveProfiler(self);
 		
-		[_profilerStoryListener updateRecording:_currentRecording stopRecording:YES];
+		self->_currentRecording.endTimestamp = [NSDate date];
 		
-		_pollingManager = nil;
+		[self->_profilerStoryListener updateRecording:self->_currentRecording stopRecording:YES];
 		
-		if(_currentProfilingConfiguration.collectStackTraces == YES
-		   && _currentProfilingConfiguration.symbolicateStackTraces == YES)
+		self->_pollingManager = nil;
+		
+		if(self->_currentProfilingConfiguration.collectStackTraces == YES
+		   && self->_currentProfilingConfiguration.symbolicateStackTraces == YES)
 		{
-			[self _symbolicateStackTracesInternal];
+			[self _symbolicateRemainingStackTracesInternal];
 		}
 		
-		if(_currentRecording.hasReactNative
-		   && _currentProfilingConfiguration.profileReactNative == YES
-		   && _currentProfilingConfiguration.collectJavaScriptStackTraces == YES
-		   && _currentProfilingConfiguration.symbolicateJavaScriptStackTraces == YES)
+		if(self->_currentRecording.hasReactNative
+		   && self->_currentProfilingConfiguration.profileReactNative == YES
+		   && self->_currentProfilingConfiguration.collectJavaScriptStackTraces == YES
+		   && self->_currentProfilingConfiguration.symbolicateJavaScriptStackTraces == YES)
 		{
-			[self _symbolicateJavaScriptStackTracesInternal];
+			[self _symbolicateRemainingJavaScriptStackTracesInternal];
 		}
 		
-		if(_currentProfilingConfiguration.recordNetwork == YES)
-		{
-			[DTXNetworkRecorder removeNetworkListener:self];
-		}
-		
-		if(_currentProfilingConfiguration.recordLogOutput == YES)
-		{
-			[DTXLoggingRecorder removeLoggingListener:self];
-		}
-		
-		[_backgroundContext save:NULL];
+		[self->_backgroundContext save:NULL];
 		
 		[self _closeContainerInternal];
 		
-		_container = nil;
+		self->_container = nil;
 		
-		_currentProfilingConfiguration = nil;
+		self->_currentProfilingConfiguration = nil;
 		self.recording = NO;
 		
 		dtx_log_info(@"Stopped profiling");
@@ -250,79 +235,139 @@ DTX_CREATE_LOG(Profiler);
 	}];
 }
 
-- (void)pushSampleGroupWithName:(NSString*)name
+- (void)_pushSampleGroupWithName:(NSString*)name timestamp:(NSDate*)timestamp
 {
 	DTX_ASSERT_RECORDING
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
-		DTXSampleGroup* newGroup = [[DTXSampleGroup alloc] initWithContext:_backgroundContext];
+		DTXSampleGroup* newGroup = [[DTXSampleGroup alloc] initWithContext:self->_backgroundContext];
+		newGroup.timestamp = timestamp;
 		newGroup.name = name;
-		newGroup.parentGroup = _currentSampleGroup;
-		[_profilerStoryListener pushSampleGroup:newGroup isRootGroup:NO];
-		_currentSampleGroup = newGroup;
+		newGroup.parentGroup = self->_currentSampleGroup;
+		[self->_profilerStoryListener pushSampleGroup:newGroup isRootGroup:NO];
+		self->_currentSampleGroup = newGroup;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)popSampleGroup
+- (void)_popSampleGroupWithTimestamp:(NSDate *)timestamp
 {
 	DTX_ASSERT_RECORDING
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		NSAssert(_currentSampleGroup.parentGroup != nil, @"Cannot pop the root sample group");
+		NSAssert(self->_currentSampleGroup.parentGroup != nil, @"Cannot pop the root sample group");
 		
-		_currentSampleGroup.closeTimestamp = [NSDate date];
-		[_profilerStoryListener popSampleGroup:_currentSampleGroup];
-		_currentSampleGroup = _currentSampleGroup.parentGroup;
+		self->_currentSampleGroup.closeTimestamp = timestamp;
+		[self->_profilerStoryListener popSampleGroup:self->_currentSampleGroup];
+		self->_currentSampleGroup = self->_currentSampleGroup.parentGroup;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)addTag:(NSString*)_tag
+- (void)_addTag:(NSString*)_tag timestamp:(NSDate*)timestamp
 {
 	DTX_ASSERT_RECORDING
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		DTXTag* tag = [[DTXTag alloc] initWithContext:_backgroundContext];
-		tag.parentGroup = _currentSampleGroup;
+		DTXTag* tag = [[DTXTag alloc] initWithContext:self->_backgroundContext];
+		tag.timestamp = timestamp;
+		tag.parentGroup = self->_currentSampleGroup;
 		tag.name = _tag;
 		
-		[_profilerStoryListener addTagSample:tag];
+		[self->_profilerStoryListener addTagSample:tag];
 		
 		[self _addPendingSampleInternal:tag];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)addLogLine:(NSString *)line
+- (void)_addLogLine:(NSString *)line timestamp:(NSDate*)timestamp
 {
-	[self addLogLine:line objects:nil];
+	[self _addLogLine:line objects:nil timestamp:timestamp];
 }
 
-- (void)addLogLine:(NSString *)line objects:(NSArray *)objects
+- (void)_addLogLine:(NSString *)line objects:(NSArray *)objects timestamp:(NSDate*)timestamp
 {
 	DTX_ASSERT_RECORDING
 	
-	[_backgroundContext performBlock:^{
+	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		DTXLogSample* log = [[DTXLogSample alloc] initWithContext:_backgroundContext];
-		log.parentGroup = _currentSampleGroup;
+		DTXLogSample* log = [[DTXLogSample alloc] initWithContext:self->_backgroundContext];
+		log.timestamp = timestamp;
+		log.parentGroup = self->_currentSampleGroup;
 		log.line = line;
 		log.objects = objects;
-		[_profilerStoryListener addLogSample:log];
+		[self->_profilerStoryListener addLogSample:log];
 		[self _addPendingSampleInternal:log];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace timestamp:(NSDate*)timestamp
+{
+	[self->_backgroundContext performBlock:^{
+		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
+		signpostSample.timestamp = timestamp;
+		signpostSample.uniqueIdentifier = identifier;
+		signpostSample.category = category;
+		signpostSample.name = [name copy];
+		signpostSample.additionalInfoStart = [additionalInfo copy];
+		signpostSample.parentGroup = self->_currentSampleGroup;
+		signpostSample.isTimer = isTimer;
+		signpostSample.stackTrace = stackTrace;
+		signpostSample.stackTraceIsSymbolicated = NO;
+		
+		[self->_profilerStoryListener markEventIntervalBegin:signpostSample];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo timestamp:(NSDate*)timestamp
+{
+	[self->_backgroundContext performBlock:^{
+		NSFetchRequest* fr = [DTXSignpostSample fetchRequest];
+		fr.predicate = [NSPredicate predicateWithFormat:@"uniqueIdentifier == %@", identifier];
+		DTXSignpostSample* signpostSample = [self->_backgroundContext executeFetchRequest:fr error:NULL].firstObject;
+		if(signpostSample == nil)
+		{
+			return;
+		}
+
+		signpostSample.endTimestamp = timestamp;
+		signpostSample.duration = [signpostSample.endTimestamp timeIntervalSinceDate:signpostSample.timestamp];
+		signpostSample.eventStatus = eventStatus;
+		signpostSample.additionalInfoEnd = [additionalInfo copy];
+		
+		[self->_profilerStoryListener markEventIntervalEnd:signpostSample];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp
+{
+	[self->_backgroundContext performBlock:^{
+		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
+		signpostSample.timestamp = timestamp;
+		signpostSample.parentGroup = self->_currentSampleGroup;
+		signpostSample.uniqueIdentifier = identifier;
+		signpostSample.category = category;
+		signpostSample.name = [name copy];
+		signpostSample.additionalInfoStart = [additionalInfo copy];
+		signpostSample.eventStatus = eventStatus;
+		signpostSample.endTimestamp = signpostSample.timestamp;
+		signpostSample.isEvent = YES;
+		
+		[self->_profilerStoryListener markEvent:signpostSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 - (void)_flushPendingSamplesInternal
 {
 	[_backgroundContext save:NULL];
-	[_pendingSamples enumerateObjectsUsingBlock:^(DTXSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[_backgroundContext refreshObject:obj mergeChanges:YES];
-	}];
+	
+	for (DTXSample* obj in _pendingSamples) {
+		[self->_backgroundContext refreshObject:obj mergeChanges:YES];
+	}
 	
 	[_backgroundContext refreshObject:_currentSampleGroup mergeChanges:YES];
 	
@@ -358,7 +403,7 @@ DTX_CREATE_LOG(Profiler);
 	[plistData writeToURL:plistURL atomically:YES];
 	
 	[_container.persistentStoreCoordinator.persistentStores.copy enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[_container.persistentStoreCoordinator removePersistentStore:obj error:NULL];
+		[self->_container.persistentStoreCoordinator removePersistentStore:obj error:NULL];
 	}];
 	
 	DTXWriteZipFileWithDirectoryURL([_currentProfilingConfiguration.recordingFileURL URLByAppendingPathExtension:@"zip"], _currentProfilingConfiguration.recordingFileURL);
@@ -380,20 +425,23 @@ DTX_CREATE_LOG(Profiler);
 	
 	NSArray* openFiles = performanceSampler.currentOpenFiles;
 	
-	[_backgroundContext performBlockAndWait:^{
+	NSDate* timestamp = NSDate.date;
+	
+	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
 		__kindof DTXPerformanceSample* perfSample;
 		
-		if(_currentProfilingConfiguration.recordThreadInformation)
+		if(self->_currentProfilingConfiguration.recordThreadInformation)
 		{
-			perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:_backgroundContext];
+			perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:self->_backgroundContext];
 		}
 		else
 		{
-			perfSample = [[DTXPerformanceSample alloc] initWithContext:_backgroundContext];
+			perfSample = [[DTXPerformanceSample alloc] initWithContext:self->_backgroundContext];
 		}
 		
+		perfSample.timestamp = timestamp;
 		perfSample.cpuUsage = cpu.totalCPU;
 		perfSample.memoryUsage = memory;
 		perfSample.fps = fps;
@@ -402,42 +450,42 @@ DTX_CREATE_LOG(Profiler);
 		perfSample.diskWrites = diskWrites;
 		perfSample.diskWritesDelta = diskWritesDelta;
 		
-		if(_currentProfilingConfiguration.collectOpenFileNames)
+		if(self->_currentProfilingConfiguration.collectOpenFileNames)
 		{
 			perfSample.openFiles = openFiles;
 		}
 		
-		if(_currentProfilingConfiguration.recordThreadInformation)
+		if(self->_currentProfilingConfiguration.recordThreadInformation)
 		{
-			[cpu.threads enumerateObjectsUsingBlock:^(DTXThreadMeasurement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				DTXThreadInfo* threadInfo = _threads[@(obj.identifier)];
+			for (DTXThreadMeasurement* obj in cpu.threads) {
+				DTXThreadInfo* threadInfo = self->_threads[@(obj.identifier)];
 				if(threadInfo == nil)
 				{
-					threadInfo = [[DTXThreadInfo alloc] initWithContext:_backgroundContext];
-					threadInfo.number = _threads.count;
-					_threads[@(obj.identifier)] = threadInfo;
-					threadInfo.recording = _currentRecording;
+					threadInfo = [[DTXThreadInfo alloc] initWithContext:self->_backgroundContext];
+					threadInfo.number = self->_threads.count;
+					self->_threads[@(obj.identifier)] = threadInfo;
+					threadInfo.recording = self->_currentRecording;
 				}
 				threadInfo.name = obj.name;
 				
-				[_profilerStoryListener createdOrUpdatedThreadInfo:threadInfo];
+				[self->_profilerStoryListener createdOrUpdatedThreadInfo:threadInfo];
 				
-				DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:_backgroundContext];
+				DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:self->_backgroundContext];
 				threadSample.cpuUsage = obj.cpu;
 				threadSample.threadInfo = threadInfo;
 				threadSample.advancedPerformanceSample = (DTXAdvancedPerformanceSample*)perfSample;
-			}];
+			}
 			
-			if(_currentProfilingConfiguration.collectStackTraces)
+			if(self->_currentProfilingConfiguration.collectStackTraces)
 			{
 				[perfSample setHeaviestStackTrace:stackTrace];
 				[perfSample setStackTraceIsSymbolicated:NO];
 			}
 		}
 		
-		perfSample.parentGroup = _currentSampleGroup;
+		perfSample.parentGroup = self->_currentSampleGroup;
 		
-		[_profilerStoryListener addPerformanceSample:perfSample];
+		[self->_profilerStoryListener addPerformanceSample:perfSample];
 		
 		[self _addPendingSampleInternal:perfSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -460,10 +508,13 @@ DTX_CREATE_LOG(Profiler);
 	NSArray* stackTrace = [rnSampler.currentStackTrace componentsSeparatedByString:@"\n"];
 	BOOL isSymbolicated = rnSampler.currentStackTraceSymbolicated;
 	
+	NSDate* timestamp = NSDate.date;
+	
 	[_backgroundContext performBlockAndWait:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		DTXReactNativePeroformanceSample* rnPerfSample = [[DTXReactNativePeroformanceSample alloc] initWithContext:_backgroundContext];
+		DTXReactNativePeroformanceSample* rnPerfSample = [[DTXReactNativePeroformanceSample alloc] initWithContext:self->_backgroundContext];
+		rnPerfSample.timestamp = timestamp;
 		rnPerfSample.cpuUsage = cpu;
 		rnPerfSample.bridgeNToJSCallCount = bridgeNToJSCallCount;
 		rnPerfSample.bridgeNToJSCallCountDelta = bridgeNToJSCallCountDelta;
@@ -477,9 +528,9 @@ DTX_CREATE_LOG(Profiler);
 		rnPerfSample.stackTrace = stackTrace;
 		rnPerfSample.stackTraceIsSymbolicated = isSymbolicated;
 		
-		rnPerfSample.parentGroup = _currentSampleGroup;
+		rnPerfSample.parentGroup = self->_currentSampleGroup;
 		
-		[_profilerStoryListener addRNPerformanceSample:rnPerfSample];
+		[self->_profilerStoryListener addRNPerformanceSample:rnPerfSample];
 		
 		[self _addPendingSampleInternal:rnPerfSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -495,9 +546,7 @@ DTX_CREATE_LOG(Profiler);
 	}
 }
 
-#pragma mark DTXNetworkListener
-
-- (void)networkRecorderDidStartRequest:(NSURLRequest *)request uniqueIdentifier:(NSString *)uniqueIdentifier
+- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
@@ -509,7 +558,8 @@ DTX_CREATE_LOG(Profiler);
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		DTXNetworkSample* networkSample = [[DTXNetworkSample alloc] initWithContext:_backgroundContext];
+		DTXNetworkSample* networkSample = [[DTXNetworkSample alloc] initWithContext:self->_backgroundContext];
+		networkSample.timestamp = timestamp;
 		networkSample.uniqueIdentifier = uniqueIdentifier;
 		networkSample.url = request.URL.absoluteString;
 		networkSample.requestTimeoutInterval = request.timeoutInterval;
@@ -517,18 +567,18 @@ DTX_CREATE_LOG(Profiler);
 		networkSample.requestHeaders = request.allHTTPHeaderFields;
 		networkSample.requestHeadersFlat = request.allHTTPHeaderFields.debugDescription;
 		
-		DTXNetworkData* requestData = [[DTXNetworkData alloc] initWithContext:_backgroundContext];
+		DTXNetworkData* requestData = [[DTXNetworkData alloc] initWithContext:self->_backgroundContext];
 		requestData.data = request.HTTPBody;
 		networkSample.requestData = requestData;
 		networkSample.requestDataLength = request.HTTPBody.length + request.allHTTPHeaderFields.description.length;
 		
-		networkSample.parentGroup = _currentSampleGroup;
+		networkSample.parentGroup = self->_currentSampleGroup;
 		
-		[_profilerStoryListener startRequestWithNetworkSample:networkSample];
+		[self->_profilerStoryListener startRequestWithNetworkSample:networkSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)netwrokRecorderDidFinishWithResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *)error forRequestWithUniqueIdentifier:(NSString *)uniqueIdentifier
+- (void)_networkRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
 	if(_currentProfilingConfiguration.recordLocalhostNetwork == NO && ([response.URL.host isEqualToString:@"localhost"] || [response.URL.host isEqualToString:@"127.0.0.1"]))
 	{
@@ -538,13 +588,13 @@ DTX_CREATE_LOG(Profiler);
 	[_backgroundContext performBlock:^{
 		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
 		fr.predicate = [NSPredicate predicateWithFormat:@"uniqueIdentifier == %@", uniqueIdentifier];
-		DTXNetworkSample* networkSample = [_backgroundContext executeFetchRequest:fr error:NULL].firstObject;
+		DTXNetworkSample* networkSample = [self->_backgroundContext executeFetchRequest:fr error:NULL].firstObject;
 		if(networkSample == nil)
 		{
 			return;
 		}
 		
-		networkSample.responseTimestamp = [NSDate date];
+		networkSample.responseTimestamp = timestamp;
 		
 		networkSample.responseError = error.localizedDescription;
 		networkSample.responseMIMEType = response.MIMEType;
@@ -558,24 +608,17 @@ DTX_CREATE_LOG(Profiler);
 			networkSample.responseHeadersFlat = httpResponse.allHeaderFields.debugDescription;
 		}
 		
-		DTXNetworkData* responseData = [[DTXNetworkData alloc] initWithContext:_backgroundContext];
+		DTXNetworkData* responseData = [[DTXNetworkData alloc] initWithContext:self->_backgroundContext];
 		responseData.data = data;
 		networkSample.responseData = responseData;
 		networkSample.responseDataLength = data.length + networkSample.responseHeaders.description.length;
 		
 		networkSample.totalDataLength = networkSample.requestDataLength + networkSample.responseDataLength;
 		
-		[_profilerStoryListener finishWithResponseForNetworkSample:networkSample];
+		[self->_profilerStoryListener finishWithResponseForNetworkSample:networkSample];
 		
 		[self _addPendingSampleInternal:networkSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
-}
-
-#pragma DTXLoggingListener
-
-- (void)loggingRecorderDidAddLogLine:(NSString *)logLine objects:(NSArray*)objects
-{
-	[self addLogLine:logLine objects:objects];
 }
 
 @end

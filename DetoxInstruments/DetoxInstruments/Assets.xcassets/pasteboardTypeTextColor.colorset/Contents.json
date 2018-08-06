@@ -1,0 +1,32 @@
+{
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  },
+  "colors" : [
+    {
+      "idiom" : "universal",
+      "color" : {
+        "color-space" : "srgb",
+        "components" : {
+          "red" : "0xBA",
+          "alpha" : "1.000",
+          "blue" : "0x59",
+          "green" : "0xDB"
+        }
+      }
+    },
+    {
+      "idiom" : "universal",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "color" : {
+        "reference" : "systemOrangeColor"
+      }
+    }
+  ]
+}

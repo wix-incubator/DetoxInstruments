@@ -47,10 +47,10 @@
 {
 	CPTMutableLineStyle* lineStyle = [CPTMutableLineStyle lineStyle];
 	lineStyle.lineWidth = 0.5;
-	lineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.textColor.CGColor];
+	lineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.labelColor.CGColor];
 	
 	_chart.borderLineStyle = lineStyle;
-	_chart.backgroundColor = NSColor.windowBackgroundColor.CGColor;
+	_chart.backgroundColor = NSColor.clearColor.CGColor;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect
@@ -65,10 +65,10 @@
 		_chart.pieInnerRadius = 40;
 		_chart.startAngle = CPTFloat(M_PI_4);
 		_chart.sliceDirection = CPTPieDirectionClockwise;
-		
+
 		_graph = [[CPTXYGraph alloc] initWithFrame:self.bounds];
 		[_graph addPlot:_chart];
-		
+
 		_graph.axisSet = nil;
 		_graph.backgroundColor = NSColor.clearColor.CGColor;
 		_graph.paddingLeft = 0;
@@ -76,19 +76,19 @@
 		_graph.paddingRight = 0;
 		_graph.paddingBottom = 0;
 		_graph.masksToBorder  = NO;
-		
+
 		_host = [[DTXGraphHostingView alloc] initWithFrame:self.bounds];
 		_host.translatesAutoresizingMaskIntoConstraints = NO;
-		
+
 		[self addSubview:_host];
-		
+
 		[NSLayoutConstraint activateConstraints:@[[_host.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
 												  [_host.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
 												  [_host.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
 												  [_host.topAnchor constraintEqualToAnchor:self.topAnchor]]];
-		
+
 		[_graph.defaultPlotSpace scaleToFitPlots:[_graph allPlots]];
-		
+
 		_host.hostedGraph = _graph;
 	}
 	

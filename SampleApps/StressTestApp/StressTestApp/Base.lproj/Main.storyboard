@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14112" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14269.14" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14252.5"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -29,14 +29,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBo-BC-Srv">
-                                <rect key="frame" x="102" y="356.5" width="172" height="30"/>
+                                <rect key="frame" x="101.5" y="356.5" width="172" height="30"/>
                                 <state key="normal" title="Slow Background Thread"/>
                                 <connections>
                                     <action selector="_slowMyBackgroundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w1q-e3-3FW"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="id4-Y6-Fd9">
-                                <rect key="frame" x="94" y="280.5" width="186" height="30"/>
+                                <rect key="frame" x="94.5" y="280.5" width="186" height="30"/>
                                 <state key="normal" title="Web View (Goolge Images)"/>
                                 <connections>
                                     <segue destination="gx5-xc-mTj" kind="presentation" identifier="LNOpenWebView" id="8M2-vR-cEp"/>
@@ -50,19 +50,19 @@
                                 </connections>
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cUI-1f-jo0">
-                                <rect key="frame" x="162.5" y="192" width="51" height="31"/>
+                                <rect key="frame" x="163" y="192" width="51" height="31"/>
                                 <connections>
                                     <action selector="protocolEnableSwitchDidChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="Rbx-LB-7fM"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Use App Protocol:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHS-Vn-pjo">
-                                <rect key="frame" x="29.5" y="199" width="125" height="18"/>
+                                <rect key="frame" x="31" y="198.5" width="124" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9RO-Jy-FIS">
-                                <rect key="frame" x="124" y="243" width="126" height="30"/>
+                                <rect key="frame" x="124.5" y="243" width="126" height="30"/>
                                 <state key="normal" title="Network Requests"/>
                                 <connections>
                                     <action selector="startNetworkRequestsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NJC-YP-Qqm"/>
@@ -78,7 +78,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h5x-cd-byP">
-                                <rect key="frame" x="323" y="280" width="36" height="30"/>
+                                <rect key="frame" x="323" y="280.5" width="36" height="30"/>
                                 <state key="normal" title="Clear"/>
                                 <connections>
                                     <action selector="_clearCookies:" destination="dkx-z0-nzr" eventType="touchUpInside" id="w2S-0k-aOE"/>
@@ -141,7 +141,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tgd-ga-z2i">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tgd-ga-z2i" customClass="LNWebView">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>

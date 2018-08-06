@@ -12,10 +12,12 @@
 
 - (NSImage*)snapshotForCachingDisplay
 {
-	NSBitmapImageRep* rep = [self bitmapImageRepForCachingDisplayInRect:self.bounds];
-	[self cacheDisplayInRect:self.bounds toBitmapImageRep:rep];
+	CGRect rect = self.bounds; //CGRectApplyAffineTransform(self.bounds, CGAffineTransformMakeScale(2.0, 2.0));
 	
-	NSImage* image = [[NSImage alloc] initWithSize:self.bounds.size];
+	NSBitmapImageRep* rep = [self bitmapImageRepForCachingDisplayInRect:rect];
+	[self cacheDisplayInRect:rect toBitmapImageRep:rep];
+	
+	NSImage* image = [[NSImage alloc] initWithSize:rect.size];
 	[image addRepresentation:rep];
 	
 	return image;

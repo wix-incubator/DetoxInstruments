@@ -10,7 +10,6 @@
 #import "DTXRemoteProfilingBasics.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
-#import "DTXRNJSCSourceMapsSupport.h"
 #import <DTXSourceMaps/DTXSourceMaps.h>
 
 @interface DTXRemoteProfilingClient ()
@@ -19,12 +18,8 @@
 	DTXSampleGroup* _currentSampleGroup;
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
 	
-	DTXSourceMapsParser* _sourceMapsParser;
-	
-	NSMutableArray<NSDictionary*>* _logSampleCache;
-	dispatch_queue_t _logSampleCacheQueue;
-	
-	dispatch_source_t _logSampleCacheConsumerSource;
+	dispatch_queue_t _aggregationCollectionQueue;
+	dispatch_source_t _aggregationCollectionSource;
 }
 
 @end
@@ -46,8 +41,8 @@
 		_target.managedObjectContext = ctx;
 		_target.storyDecoder = self;
 		
-		_logSampleCacheQueue = dispatch_queue_create(NULL, 0);
-		_logSampleCache = [NSMutableArray new];
+		dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
+		_aggregationCollectionQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingAggregation", qosAttribute);
 	}
 	
 	return self;
@@ -58,35 +53,33 @@
 	_threads = [NSMutableDictionary new];
 	[_target startProfilingWithConfiguration:configuration];
 	
-	_logSampleCacheConsumerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _logSampleCacheQueue);
+	_aggregationCollectionSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _aggregationCollectionQueue);
 	
 	uint64_t interval = configuration.samplingInterval * NSEC_PER_SEC;
-	dispatch_source_set_timer(_logSampleCacheConsumerSource, dispatch_walltime(NULL, 0), interval, interval / 10);
 	
-	dispatch_source_set_event_handler(_logSampleCacheConsumerSource, ^{
+	dispatch_source_set_timer(_aggregationCollectionSource, dispatch_walltime(NULL, 0), interval, interval);
+	
+	dispatch_source_set_event_handler(_aggregationCollectionSource, ^{
 		[_managedObjectContext performBlockAndWait:^{
-			for (NSDictionary* entry in _logSampleCache) {
-				NSDictionary* logSample = entry[@"sample"];
-				NSEntityDescription* entityDescription = entry[@"description"];
-				
-				[self _addSample:logSample entityDescription:entityDescription];
-			}
-			
-			if(_logSampleCache.count > 0)
+			@try
 			{
 				[_managedObjectContext save:NULL];
+				
+				if(_recording.managedObjectContext.insertedObjects > 0)
+				{
+					[self.delegate remoteProfilingClientDidChangeDatabase:self];
+				}
 			}
-			
-			[_logSampleCache removeAllObjects];
+			@catch(NSException* ex) {}
 		}];
 	});
 	
-	dispatch_resume(_logSampleCacheConsumerSource);
+	dispatch_resume(_aggregationCollectionSource);
 }
 
 - (void)stopWithCompletionHandler:(void (^)(void))completionHandler
 {
-	dispatch_cancel(_logSampleCacheConsumerSource);
+	dispatch_cancel(_aggregationCollectionSource);
 	
 	if(completionHandler)
 	{
@@ -99,14 +92,14 @@
 	Class cls = NSClassFromString(entityDescription.managedObjectClassName);
 	__kindof DTXSample* sample = [[cls alloc] initWithPropertyListDictionaryRepresentation:sampleDict context:_managedObjectContext];
 	
-	if([sample isKindOfClass:[DTXReactNativePeroformanceSample class]] && _sourceMapsParser)
+	if([sample isKindOfClass:[DTXReactNativePeroformanceSample class]] && _delegate.sourceMapsParser)
 	{
 		DTXReactNativePeroformanceSample* rnSample = (id)sample;
 		
 		if(rnSample.stackTraceIsSymbolicated == NO && _recording.dtx_profilingConfiguration.symbolicateJavaScriptStackTraces)
 		{
 			BOOL wasSymbolicated = NO;
-			rnSample.stackTrace = DTXRNSymbolicateJSCBacktrace(_sourceMapsParser, rnSample.stackTrace, &wasSymbolicated);
+			rnSample.stackTrace = DTXRNSymbolicateJSCBacktrace(_delegate.sourceMapsParser, rnSample.stackTrace, &wasSymbolicated);
 			rnSample.stackTraceIsSymbolicated = wasSymbolicated;
 		}
 	}
@@ -144,40 +137,31 @@
 	return networkSamples.firstObject;
 }
 
+- (DTXSignpostSample*)_signpostSampleWithIdentifier:(NSString*)sampleIdentifier
+{
+	NSFetchRequest* fr = [DTXSignpostSample fetchRequest];
+	fr.entity = [NSEntityDescription entityForName:@"SignpostSample" inManagedObjectContext:_managedObjectContext];
+	fr.predicate = [NSPredicate predicateWithFormat:@"sampleIdentifier == %@", sampleIdentifier];
+	NSArray* signpostSamples = [_managedObjectContext executeFetchRequest:fr error:NULL];
+	NSAssert(signpostSamples.count <= 1, @"More than one signpost sample with identifier '%@' found", sampleIdentifier);
+	
+	return signpostSamples.firstObject;
+}
+
 #pragma mark DTXProfilerStoryDecoder
 
 - (void)willDecodeStoryEvent {}
 
-- (void)didDecodeStoryEvent
-{
-	if(_recording.managedObjectContext.insertedObjects > 0)
-	{
-		[self.delegate remoteProfilingClientDidChangeDatabase:self];
-	}
-	
-	[_managedObjectContext save:NULL];
-}
+- (void)didDecodeStoryEvent {}
 
 - (void)setSourceMapsData:(NSDictionary*)sourceMapsData;
 {
-	NSError* error;
-	NSDictionary<NSString*, id>* sourceMaps = [NSJSONSerialization JSONObjectWithData:sourceMapsData[@"data"] options:0 error:&error];
-	if(sourceMaps == nil)
-	{
-		NSLog(@"Error parsing source maps: %@", error);
-		return;
-	}
-	
-	_sourceMapsParser = [DTXSourceMapsParser sourceMapsParserForSourceMaps:sourceMaps];
+	[self.delegate remoteProfilingClient:self didReceiveSourceMapsData:sourceMapsData[@"data"]];
 }
 
 - (void)addLogSample:(NSDictionary *)logSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	dispatch_async(_logSampleCacheQueue, ^{
-		[_logSampleCache addObject:@{@"sample": logSample, @"description": entityDescription}];
-	});
-	
-//	[self _addSample:logSample entityDescription:entityDescription];
+	[self _addSample:logSample entityDescription:entityDescription];
 }
 
 - (void)addPerformanceSample:(NSDictionary *)perfrmanceSample entityDescription:(NSEntityDescription *)entityDescription
@@ -233,6 +217,9 @@
 	{
 		_recording.rootSampleGroup = sampleGroupObj;
 		
+		//Save parent context here so it propagates to the view context and the recording is discovered on the view thread.
+		[_managedObjectContext save:NULL];
+		
 		[self.delegate remoteProfilingClient:self didCreateRecording:_recording];
 	}
 	else
@@ -258,6 +245,22 @@
 	}
 }
 
+- (void)markEvent:(NSDictionary *)signpostSample entityDescription:(NSEntityDescription *)entityDescription
+{
+	[self _addSample:signpostSample entityDescription:entityDescription];
+}
+
+- (void)markEventIntervalBegin:(NSDictionary *)signpostSample entityDescription:(NSEntityDescription *)entityDescription
+{
+	[self _addSample:signpostSample entityDescription:entityDescription];
+}
+
+- (void)markEventIntervalEnd:(NSDictionary *)signpostSample entityDescription:(NSEntityDescription *)entityDescription
+{
+	DTXSignpostSample* signpostSampleObj = [self _signpostSampleWithIdentifier:signpostSample[@"sampleIdentifier"]];
+	[signpostSampleObj updateWithPropertyListDictionaryRepresentation:signpostSample];
+}
+
 - (void)performBlock:(void (^)(void))block
 {
 	[_managedObjectContext performBlock:block];
@@ -268,6 +271,5 @@
 {
 	[_managedObjectContext performBlockAndWait:block];
 }
-
 
 @end

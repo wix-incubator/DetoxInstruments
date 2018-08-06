@@ -43,7 +43,7 @@
 
 - (NSArray<NSColor*>*)plotColors
 {
-	return @[[NSColor colorWithRed:198.0/255.0 green:109.0/255.0 blue:218.0/255.0 alpha:1.0]];
+	return @[NSColor.fpsPlotControllerColor];
 }
 
 - (id)transformedValueForFormatter:(id)value

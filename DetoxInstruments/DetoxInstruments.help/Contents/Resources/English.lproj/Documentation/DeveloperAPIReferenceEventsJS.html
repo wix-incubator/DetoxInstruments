@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="AppleTitle" content="Events API Reference for React Native / JavaScript" />
+<title>Events API Reference for React Native / JavaScript</title>
+<meta name="description" content="Events API Reference for React Native / JavaScript" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
+</style>
+<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+h1 { text-align: center; margin-left: -16px; margin-right: -16px; padding-bottom: 20px; background: linear-gradient(to bottom, #ffffff 0%,#f3f2f3 100%); }
+img { max-width: 100%; height: auto; }
+pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
+blockquote { border-left-color: rgb(245, 242, 240); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+ul { padding-left: 1.3em; }
+</style>
+<title>Detox Instruments Help</title></head><body>
+<h1>
+<a name="user-content-events-api-reference-for-react-native--javascript" class="anchor" href="#events-api-reference-for-react-native--javascript"><span class="octicon octicon-link"></span></a>Events API Reference for React Native / JavaScript</h1>
+<p>The Events instrument lets you add lightweight instrumentation to your code for collection and visualization by Detox Instruments. You can specify interesting periods of time ('intervals') and single points in time ('events'). Each event can be marked as completed or errored, or as 12 different general-purpose categories, each displayed with its own color in the timeline pane.</p>
+<p>Before using the provided developer APIs, first complete the <a href="XcodeIntegrationGuide.html">Profiler Framework Integration Guide</a>.</p>
+<p>For React Native apps, you need to install the <strong>detox-instruments-react-native-utils</strong> package:</p>
+<div class="highlight highlight-source-shell"><pre>npm install detox-instruments-react-native-utils --save-prod</pre></div>
+<p>Import the Event class from the package:</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> { <span class="pl-smi">Event</span> } <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>detox-instruments-react-native-utils<span class="pl-pds">'</span></span>;</pre></div>
+<h3>
+<a name="user-content-usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
+<h4>
+<a name="user-content-intervals" class="anchor" href="#intervals"><span class="octicon octicon-link"></span></a>Intervals</h4>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-c1">event</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Event</span>(<span class="pl-s"><span class="pl-pds">"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>);
+<span class="pl-c1">event</span>.<span class="pl-en">beginInterval</span>(<span class="pl-s"><span class="pl-pds">"</span>More info at begin<span class="pl-pds">"</span></span>);
+<span class="pl-c"><span class="pl-c">//</span>Long interval</span>
+<span class="pl-c1">event</span>.<span class="pl-en">endInterval</span>(<span class="pl-c1">Event</span>.<span class="pl-smi">EventStatus</span>.<span class="pl-smi">completed</span>, <span class="pl-s"><span class="pl-pds">"</span>More info at end<span class="pl-pds">"</span></span>);</pre></div>
+<h4>
+<a name="user-content-single-points-in-time" class="anchor" href="#single-points-in-time"><span class="octicon octicon-link"></span></a>Single Points in Time</h4>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">Event</span>.<span class="pl-c1">event</span>(<span class="pl-s"><span class="pl-pds">"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, <span class="pl-c1">Event</span>.<span class="pl-smi">EventStatus</span>.<span class="pl-smi">category3</span>, <span class="pl-s"><span class="pl-pds">"</span>More info for single point in time<span class="pl-pds">"</span></span>);</pre></div>
+</body></html>

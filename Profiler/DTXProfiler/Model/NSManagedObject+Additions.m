@@ -159,17 +159,19 @@ static NSDateFormatter* __iso8601DateFormatter;
 			else if(relationship.isToMany == YES)
 			{
 				NSMutableArray* transformed = [NSMutableArray new];
-				[obj enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-					NSString* className = [obj respondsToSelector:@selector(objectForKey:)] ? [obj objectForKey:@"__dtx_className"] : nil;
+				
+				for (id item in obj) {
+					NSString* className = [item respondsToSelector:@selector(objectForKey:)] ? [item objectForKey:@"__dtx_className"] : nil;
 					if(className == nil)
 					{
 						className = relationship.destinationEntity.managedObjectClassName;
 					}
 					
 					Class cls = NSClassFromString(className);
-					__kindof NSManagedObject* managedObject = [[cls alloc] initWithPropertyListDictionaryRepresentation:obj context:self.managedObjectContext];
+					__kindof NSManagedObject* managedObject = [[cls alloc] initWithPropertyListDictionaryRepresentation:item context:self.managedObjectContext];
 					[transformed addObject:managedObject];
-				}];
+				}
+				
 				obj = transformed;
 				
 				if(relationship.ordered == NO)

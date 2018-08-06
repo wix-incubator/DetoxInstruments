@@ -13,13 +13,12 @@
 #import "DTXLoggingRecorder.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "DTXCustomJSCSupport.h"
+#import "DTXProfiler-Private.h"
 @import ObjectiveC;
 @import Darwin;
 @import UIKit;
 
 static DTXJSCWrapper __jscWrapper;
-
-static atomic_uintmax_t __numberOfRecordings = 0;
 
 static atomic_uintmax_t __bridgeNToJSDataSize = 0;
 static atomic_uintmax_t __bridgeNToJSCallCount = 0;
@@ -32,6 +31,8 @@ static JSContextRef __rnCtx;
 
 static dispatch_semaphore_t __rnBacktraceSem;
 static NSString* __rnLastBacktrace;
+
+static dispatch_queue_t __eventDispatchQueue;
 
 static void resetAtomicVars()
 {
@@ -56,10 +57,8 @@ static void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secr
 	dispatch_semaphore_signal(__rnBacktraceSem);
 }
 
-static void installDtxNativeLoggingHook(JSContext* ctx)
+static void installDTXNativeLoggingHook(JSContext* ctx)
 {
-	ctx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
-	
 	ctx[@"dtxNativeLoggingHook"] = ^ {
 		NSMutableArray *objects = [NSMutableArray new];
 		NSArray *logArgs = ((JSValue *)[__jscWrapper.JSContext currentArguments].firstObject).toArray;
@@ -70,7 +69,42 @@ static void installDtxNativeLoggingHook(JSContext* ctx)
 				[objects addObject:object];
 			}
 		}
-		[DTXLoggingRecorder addLogLine:[logLine stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", "]] objects:objects];
+		
+		DTXProfilerAddLogLineWithObjects([logLine stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", "]], objects);
+	};
+}
+
+static void installDTXSignpostHook(JSContext* ctx)
+{
+	ctx[@"__dtx_getEventsSettings_v1"] = ^ NSDictionary* () {
+		return @{@"captureTimers": @YES};
+	};
+	
+	ctx[@"__dtx_markEventBatch_v1"] = ^ (NSArray<NSDictionary<NSString*, id>*>* samples)
+	{
+		dispatch_async(__eventDispatchQueue, ^{
+			for(NSDictionary<NSString*, id>* sample in samples)
+			{
+				NSString* identifier = sample[@"identifier"];
+				NSUInteger type = [sample[@"type"] unsignedIntegerValue];
+				NSDate* timestamp = [NSDate dateWithTimeIntervalSince1970:[sample[@"timestamp"] doubleValue] / 1000];
+				NSDictionary<NSString*, id>* params = sample[@"params"];
+				
+				switch (type) {
+					case 0:
+						__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], params[@"2"], [params[@"3"] boolValue], [params[@"4"] componentsSeparatedByString:@"\n"]);
+						break;
+					case 1:
+						__DTXProfilerMarkEventIntervalEnd(timestamp, identifier, [params[@"0"] unsignedIntegerValue], params[@"1"]);
+						break;
+					case 10:
+						__DTXProfilerMarkEventIdentifier(identifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] unsignedIntegerValue], params[@"3"]);
+						break;
+					default:
+						break;
+				}
+			}
+		});
 	};
 }
 
@@ -83,7 +117,7 @@ static void swz_runRunLoopThread(id self, SEL _cmd)
 }
 
 
-static NSUInteger DTXJSValueJsonStringLengh(JSContextRef ctx, JSValueRef value)
+static NSUInteger DTXJSValueJsonStringLength(JSContextRef ctx, JSValueRef value)
 {
 	NSUInteger rv = 0;
 	
@@ -112,7 +146,7 @@ static JSValueRef __dtx_JSObjectCallAsFunction(JSContextRef ctx, JSObjectRef obj
 	
 	for(size_t i = 0; i < argumentCount; i++)
 	{
-		atomic_fetch_add(&__bridgeNToJSDataSize, DTXJSValueJsonStringLengh(ctx, arguments[i]));
+		atomic_fetch_add(&__bridgeNToJSDataSize, DTXJSValueJsonStringLength(ctx, arguments[i]));
 	}
 	
 	return __orig_JSObjectCallAsFunction(ctx, object, thisObject, argumentCount, arguments, exception);
@@ -129,7 +163,8 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 		if(__rnCtx == nil || __rnCtx != ctx)
 		{
 			resetAtomicVars();
-			installDtxNativeLoggingHook(objcCtx);
+			installDTXNativeLoggingHook(objcCtx);
+			installDTXSignpostHook(objcCtx);
 		}
 		
 		__rnCtx = ctx;
@@ -143,7 +178,7 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 			JSValueRef* arguments = malloc(sizeof(JSValueRef) * [__jscWrapper.JSContext currentArguments].count);
 
 			[[__jscWrapper.JSContext currentArguments] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				atomic_fetch_add(&__bridgeJSToNDataSize, DTXJSValueJsonStringLengh(ctx, [obj JSValueRef]));
+				atomic_fetch_add(&__bridgeJSToNDataSize, DTXJSValueJsonStringLength(ctx, [obj JSValueRef]));
 
 				arguments[idx] = [obj JSValueRef];
 			}];
@@ -185,7 +220,7 @@ static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origB
 	if(shouldInstallDtxNativeLoggingHook)
 	{
 		resetAtomicVars();
-		installDtxNativeLoggingHook(context);
+		installDTXNativeLoggingHook(context);
 	}
 	
 	__orig_setObjectForKeyedSubscript(self, sel, ^{
@@ -194,11 +229,14 @@ static void __dtx_setObjectForKeyedSubscript(JSContext * self, SEL sel, id origB
 		
 		JSValueRef* arguments = malloc(sizeof(JSValueRef) * [__jscWrapper.JSContext currentArguments].count);
 		
-		[[__jscWrapper.JSContext currentArguments] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			atomic_fetch_add(&__bridgeJSToNDataSize, DTXJSValueJsonStringLengh(context.JSGlobalContextRef, [obj JSValueRef]));
+		NSUInteger idx = 0;
+		for (id obj in [__jscWrapper.JSContext currentArguments]) {
+			atomic_fetch_add(&__bridgeJSToNDataSize, DTXJSValueJsonStringLength(context.JSGlobalContextRef, [obj JSValueRef]));
 			
 			arguments[idx] = [obj JSValueRef];
-		}];
+			
+			idx += 1;
+		}
 		
 		JSValueRef exn = NULL;
 		
@@ -230,7 +268,7 @@ static double __rnCPUUsage(thread_t safeRNThread)
 }
 
 static int (*__orig_UIApplicationMain)(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName);
-static int __dtx_UIApplicationMain(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName)
+static int __dtxinst_rn_UIApplicationMain(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName)
 {
 	Class cls = NSClassFromString(@"RCTJSCExecutor");
 	Method m = NULL;
@@ -301,7 +339,7 @@ static void __DTXInitializeRNSampler()
 			NULL
 		},
 		{"UIApplicationMain",
-			__dtx_UIApplicationMain,
+			__dtxinst_rn_UIApplicationMain,
 			NULL
 		},
 	}, 2);
@@ -311,6 +349,9 @@ static void __DTXInitializeRNSampler()
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = DTXJSCStackTraceSignalHandler;
 	sigaction(SIGCHLD, &sa, NULL);
+	
+	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
+	__eventDispatchQueue = dispatch_queue_create("com.wix.DTXRNSampler-Events", qosAttribute);
 }
 
 @implementation DTXReactNativeSampler
@@ -356,30 +397,9 @@ static void __DTXInitializeRNSampler()
 	{
 		_shouldSampleThread = didLoadCustomJSCWrapper && configuration.collectJavaScriptStackTraces;
 		_shouldSymbolicate = didLoadCustomJSCWrapper && configuration.symbolicateJavaScriptStackTraces;
-		
-		atomic_fetch_add(&__numberOfRecordings, 1);
-		
-		if(__rnCtx != nil)
-		{
-			//TODO: Implement in a non-blocking manner.
-			//			JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
-			//			objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
-		}
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	atomic_fetch_sub(&__numberOfRecordings, 1);
-	
-	if(__rnCtx != nil)
-	{
-		//TODO: Implement in non-blocking manner.
-		//		JSContext* objcCtx = [__jscWrapper.JSContext contextWithJSGlobalContextRef:(JSGlobalContextRef)__rnCtx];
-		//		objcCtx.globalObject[@"dtx_numberOfRecordings"] = @(atomic_load(&__numberOfRecordings));
-	}
 }
 
 - (void)pollWithTimePassed:(NSTimeInterval)interval

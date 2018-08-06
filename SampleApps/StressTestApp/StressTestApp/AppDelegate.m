@@ -19,7 +19,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+{	
 	NSArray<NSString*>* exampleLogOutputs = @[ @"[CLIoHidInterface] Refreshing service refs",
 											   @"Fetching effective device orientation with temporary manager: faceUp (5)",
 											   @"Updating device orientation from CoreMotion to: faceUp (5)",

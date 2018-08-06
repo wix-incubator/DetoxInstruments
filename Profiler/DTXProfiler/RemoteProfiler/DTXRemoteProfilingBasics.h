@@ -8,6 +8,10 @@
 
 @class NSEntityDescription;
 
+#if __has_include("DTXEventStatusPrivate.h")
+	#import "DTXEventStatusPrivate.h"
+#endif
+
 typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypePing,
 	DTXRemoteProfilingCommandTypeGetDeviceInfo,
@@ -44,6 +48,7 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 
 @class DTXRecording, DTXSampleGroup, DTXPerformanceSample, DTXAdvancedPerformanceSample;
 @class DTXThreadInfo, DTXReactNativePeroformanceSample, DTXNetworkSample, DTXLogSample, DTXTag;
+@class DTXSignpostSample;
 
 @protocol DTXProfilerStoryListener <NSObject>
 
@@ -58,6 +63,9 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 - (void)finishWithResponseForNetworkSample:(DTXNetworkSample*)networkSample;
 - (void)addLogSample:(DTXLogSample*)logSample;
 - (void)addTagSample:(DTXTag*)tag;
+- (void)markEventIntervalBegin:(DTXSignpostSample*)signpostSample;
+- (void)markEventIntervalEnd:(DTXSignpostSample*)signpostSample;
+- (void)markEvent:(DTXSignpostSample*)signpostSample;
 
 @end
 
@@ -82,5 +90,9 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 - (void)finishWithResponseForNetworkSample:(NSDictionary*)networkSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)addLogSample:(NSDictionary*)logSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)addTagSample:(NSDictionary*)tag entityDescription:(NSEntityDescription*)entityDescription;
+- (void)markEventIntervalBegin:(NSDictionary*)signpostSample entityDescription:(NSEntityDescription*)entityDescription;
+- (void)markEventIntervalEnd:(NSDictionary*)signpostSample entityDescription:(NSEntityDescription*)entityDescription;
+- (void)markEvent:(NSDictionary*)signpostSample entityDescription:(NSEntityDescription*)entityDescription;
+
 
 @end
