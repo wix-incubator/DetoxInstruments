@@ -16,7 +16,6 @@
 
 @end
 
-IB_DESIGNABLE
 @interface DTXFilterField : NSSearchField <NSSearchFieldDelegate>
 
 @property (nonatomic, weak) id<DTXFilterFieldDelegate> filterDelegate;

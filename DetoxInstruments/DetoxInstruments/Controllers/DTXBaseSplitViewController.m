@@ -9,7 +9,6 @@
 #import "DTXBaseSplitViewController.h"
 #import "NSAppearance+UIAdditions.h"
 
-IB_DESIGNABLE
 @interface DTXBorderedView : NSBox @end
 
 @implementation DTXBorderedView
@@ -41,7 +40,6 @@ IB_DESIGNABLE
 
 @end
 
-IB_DESIGNABLE
 @interface _DTXSplitView : NSSplitView @end
 
 @implementation _DTXSplitView

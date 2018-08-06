@@ -53,7 +53,6 @@
 
 @end
 
-IB_DESIGNABLE
 @implementation DTXPlotTableView
 {
 	BOOL _ignoresEvents;
