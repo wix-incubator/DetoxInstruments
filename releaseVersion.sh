@@ -64,8 +64,10 @@ EXPORT_DIR=Distribution/Export
 rm -fr "${ARCHIVE}"
 rm -fr "${EXPORT_DIR}"
 
-export CODE_SIGNING_REQUIRED=NO && xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" archive -archivePath "${ARCHIVE}" | xcpretty
-xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -exportArchive -archivePath "${ARCHIVE}" -exportOptionsPlist Distribution/exportOptions.plist -exportPath "${EXPORT_DIR}" | xcpretty
+export CODE_SIGNING_REQUIRED=NO && xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" -configuration release archive -archivePath "${ARCHIVE}" | xcpretty
+# xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -exportArchive -archivePath "${ARCHIVE}" -exportOptionsPlist Distribution/exportOptions.plist -exportPath "${EXPORT_DIR}" | xcpretty
+mkdir -p "${EXPORT_DIR}"
+mv -r "${ARCHIVE}"/Products/Applications/*.app "${EXPORT_DIR}"/
 
 SHORT_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "${EXPORT_DIR}"/*.app/Contents/Info.plist)
 BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${EXPORT_DIR}"/*.app/Contents/Info.plist)

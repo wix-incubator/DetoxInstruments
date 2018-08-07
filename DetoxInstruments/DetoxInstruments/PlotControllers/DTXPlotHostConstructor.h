@@ -19,5 +19,6 @@
 - (void)setUpWithView:(NSView *)view;
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
 - (void)setupPlotsForGraph;
+- (void)didFinishViewSetup;
 
 @end

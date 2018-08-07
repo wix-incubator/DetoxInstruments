@@ -9,6 +9,9 @@
 #import "DTXLayerView.h"
 
 @implementation DTXLayerView
+{
+	__weak NSAppearance* _cachedAppearance;
+}
 
 - (instancetype)initWithCoder:(NSCoder *)decoder
 {
@@ -49,9 +52,14 @@
 {
 	[super updateLayer];
 	
-	if(self.updateLayerHandler)
+	if(self.effectiveAppearance != _cachedAppearance)
 	{
-		self.updateLayerHandler(self);
+		if(self.updateLayerHandler)
+		{
+			self.updateLayerHandler(self);
+		}
+		
+		_cachedAppearance = self.effectiveAppearance;
 	}
 }
 

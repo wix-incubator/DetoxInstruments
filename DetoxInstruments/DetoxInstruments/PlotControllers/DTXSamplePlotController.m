@@ -58,6 +58,8 @@
 	NSArray* _plots;
 	
 	double _samplingInterval;
+	
+	BOOL _atLeastOnce;
 }
 
 @synthesize delegate = _delegate;
@@ -254,6 +256,7 @@
 		}
 		
 		lineStyle.lineColor = [CPTColor colorWithCGColor:lineColor.CGColor];
+		
 		((CPTScatterPlot*)obj).dataLineStyle = lineStyle;
 		
 		NSColor* startColor;
@@ -684,16 +687,17 @@
 
 - (void)didFinishDrawing:(CPTPlot *)plot
 {
-	if(!CGRectEqualToRect(_lastDrawBounds, self.hostingView.bounds))
+	if(_atLeastOnce == NO || CGRectEqualToRect(_lastDrawBounds, self.hostingView.bounds) == NO)
 	{
 		[self reloadHighlight];
 		_lastDrawBounds = self.hostingView.bounds;
+		_atLeastOnce = YES;
 	}
 }
 
 - (void)reloadHighlight
 {
-	if(_shadowHighlightedSampleTime != 0.0)
+	if(_shadowHighlightedSampleTime != -1.0)
 	{
 		[self shadowHighlightAtSampleTime:_shadowHighlightedSampleTime];
 	}
@@ -704,6 +708,10 @@
 	else if(_highlightedRange)
 	{
 		[self highlightRange:_highlightedRange];
+	}
+	else
+	{
+		[self removeHighlight];
 	}
 }
 
@@ -755,7 +763,7 @@
 	_rangeHighlightBand = nil;
 	_rangeHighlightBand = nil;
 	
-	_shadowHighlightedSampleTime = 0.0;
+	_shadowHighlightedSampleTime = -1.0;
 }
 
 - (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates forPlotAtIndex:(NSUInteger)index
