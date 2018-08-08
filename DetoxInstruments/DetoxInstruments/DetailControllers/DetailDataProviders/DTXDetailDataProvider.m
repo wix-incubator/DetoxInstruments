@@ -261,6 +261,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	return child;
 }
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
+{
+	return [item isKindOfClass:[DTXTag class]];
+}
+
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
 	return [item isKindOfClass:[DTXSampleContainerProxy class]];
@@ -268,7 +273,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (void)_updateRowView:(DTXTableRowView*)rowView withItem:(id)item
 {
-	if([item isKindOfClass:[DTXSampleContainerProxy class]])
+	if([item isKindOfClass:[DTXSampleContainerProxy class]] || [item isKindOfClass:[DTXTag class]])
 	{
 		rowView.backgroundColor = NSColor.controlBackgroundColor;
 	}
@@ -325,7 +330,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	}
 	else if([item isMemberOfClass:[DTXTag class]])
 	{
-		cellView.textField.stringValue = ((DTXTag*)item).name;
+		cellView.textField.stringValue = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Tag", @""),((DTXTag*)item).name];
 		cellView.textField.textColor = NSColor.labelColor;
 	}
 	else
@@ -363,11 +368,6 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	
 	return MIN(1 + DTXDepthOfSample(sample.parentGroup, rootSampleGroup), 20);
 }
-
-//- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
-//{
-//	return [item isKindOfClass:[DTXSampleContainerProxy class]] || [item isMemberOfClass:[DTXTag class]];
-//}
 
 - (void)selectSample:(DTXSample*)sample
 {
