@@ -766,7 +766,6 @@
 	_highlightedSampleTime = 0.0;
 	_highlightedPercent = 0.0;
 	
-	CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
 	if(_rangeHighlightBandArray.count > 0)
 	{
 		[self.graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTScatterPlot * _Nonnull plot, NSUInteger idx, BOOL * _Nonnull stop) {

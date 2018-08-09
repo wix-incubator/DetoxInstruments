@@ -1,6 +1,6 @@
 # Events Instrument
 
-The Events instrument lets you add lightweight instrumentation to your code for collection and visualization by Detox Instruments. You can specify interesting periods of time ('intervals') and single points in time ('events'). Each event can be marked as completed or errored, or as 12 different general-purpose categories, each displayed with its own color in the timeline pane.
+The Events instrument lets you add lightweight instrumentation to your code for collection and visualization by Detox Instruments. You can specify interesting periods of time ('intervals') and single points in time ('events'). Each event can be marked as completed, ending in error or cancelled.
 
 For more information on developer APIs, see the [Developer API Reference](DeveloperAPIReferenceIntro.md).
 
@@ -10,7 +10,7 @@ For more information on developer APIs, see the [Developer API Reference](Develo
 
 Use the information captured by this instrument to inspect events in your app and how they correlate to other performance metrics, such as CPU and memory usage.
 
-Events appear as segmented lines on the timeline in the timeline pane. Multiple concurrent events will appear below each other.
+Events appear as segmented lines on the timeline in the timeline pane. Concurrent events will appear below each other.
 
 ### Detail Pane
 
@@ -22,6 +22,6 @@ Samples will be highlighted in red (warning 3) when you set the event status to 
 
 ### Inspector Pane
 
-For each sample, the inspector pane shows group or event information, such as status, timing and additional information provided by you in the API.
+For each sample or group, the inspector pane shows information, such as status, timing and additional information provided by you in the API.
 
 ![Events Inspector Pane](Resources/Instrument_Events_InspectorPane.png "Events Inspector Pane")

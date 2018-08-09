@@ -44,9 +44,9 @@ For an in-depth look at the Network Activity instrument, see [Network Activity I
 
 ### Events
 
-The Network Activity instrument captures information about your app's network activity. It can record localhost information when the **Record localhost network** profiling option is enabled.
+The Events instrument lets you add lightweight instrumentation to your code for collection and visualization by Detox Instruments.
 
-![Events](/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Resources/Instrument_Events.png "Events")
+![Events](Resources/Instrument_Events.png "Events")
 
 For an in-depth look at the Events instrument, see [Events Instrument](Instrument_Events.md).
 
