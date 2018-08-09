@@ -11,6 +11,7 @@
 @implementation DTXLayerView
 {
 	__weak NSAppearance* _cachedAppearance;
+	CGFloat _cachedBackingScaleFactor;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder
@@ -52,7 +53,7 @@
 {
 	[super updateLayer];
 	
-	if(self.effectiveAppearance != _cachedAppearance)
+	if(self.effectiveAppearance != _cachedAppearance || _cachedBackingScaleFactor != self.window.screen.backingScaleFactor)
 	{
 		if(self.updateLayerHandler)
 		{
@@ -60,6 +61,7 @@
 		}
 		
 		_cachedAppearance = self.effectiveAppearance;
+		_cachedBackingScaleFactor = self.window.screen.backingScaleFactor;
 	}
 }
 

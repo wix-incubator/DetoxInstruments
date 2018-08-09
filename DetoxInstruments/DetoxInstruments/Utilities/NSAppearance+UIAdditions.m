@@ -21,4 +21,12 @@
 	}
 }
 
+- (void)performBlockAsCurrentAppearance:(void(^)(void))block
+{
+	NSAppearance* current = NSAppearance.currentAppearance;
+	NSAppearance.currentAppearance = self;
+	block();
+	NSAppearance.currentAppearance = current;
+}
+
 @end

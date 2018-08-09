@@ -117,6 +117,41 @@
 	return cpu >= 2.0 ? NSColor.warning3Color : cpu > 1.5 ? NSColor.warning2Color : cpu > 1.0 ? NSColor.warningColor : NSColor.controlBackgroundColor;
 }
 
+- (NSString*)statusTooltipforItem:(id)item
+{
+	double cpu = [(DTXPerformanceSample*)item cpuUsage];
+	double fps = [(DTXPerformanceSample*)item fps];
+	
+	if([item isKindOfClass:[DTXAdvancedPerformanceSample class]] && [item threadSamples].count > 0)
+	{
+		DTXAdvancedPerformanceSample* advanced = item;
+		
+		if(advanced.threadSamples.firstObject.cpuUsage > 0.9)
+		{
+			return NSLocalizedString(@"Main thread usage above 90%", @"");
+		}
+		else if(advanced.threadSamples.firstObject.cpuUsage > 0.8)
+		{
+			return NSLocalizedString(@"Main thread usage above 80%", @"");
+		}
+		else if(advanced.threadSamples.firstObject.cpuUsage > 0.7)
+		{
+			return NSLocalizedString(@"Main thread usage above 70%", @"");
+		}
+		
+		cpu = cpu - advanced.threadSamples.firstObject.cpuUsage;
+	}
+	else
+	{
+		if(fps < 30 && cpu >= 0.95)
+		{
+			return NSLocalizedString(@"CPU usage above 95% and FPS lower than 30", @"");
+		}
+	}
+	
+	return cpu >= 2.0 ? NSLocalizedString(@"CPU usage above 200%", @"") : cpu > 1.5 ? NSLocalizedString(@"CPU usage above 150%", @"") : cpu > 1.0 ? NSLocalizedString(@"CPU usage above 100%", @"") : nil;
+}
+
 - (NSString*)titleOfCPUHeader
 {
 	return NSLocalizedString(@"CPU Usage", @"");

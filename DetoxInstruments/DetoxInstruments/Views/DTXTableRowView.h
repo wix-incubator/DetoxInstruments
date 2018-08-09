@@ -13,5 +13,7 @@
 @property (nonatomic, strong) id item;
 
 @property (nonatomic, strong, readonly) NSColor* selectionColor;
+@property (nonatomic, strong) NSColor* userNotifyColor;
+- (void)setUserNotifyTooltip:(NSString*)tooltip;
 
 @end

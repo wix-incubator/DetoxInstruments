@@ -95,6 +95,27 @@
 	return NSColor.controlBackgroundColor;
 }
 
+- (NSString*)statusTooltipforItem:(id)item
+{
+	DTXNetworkSample* sample = item;
+	
+	if(sample.responseStatusCode == 0)
+	{
+		return NSLocalizedString(@"Incomplete request", @"");
+	}
+	else if(sample.responseStatusCode < 200 || sample.responseStatusCode >= 400)
+	{
+		return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"HTTP error", @""), @(sample.responseStatusCode)];
+	}
+	
+	if(sample.responseError)
+	{
+		return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Error:", @""), sample.responseError];
+	}
+	
+	return nil;
+}
+
 - (BOOL)supportsDataFiltering
 {
 	return YES;

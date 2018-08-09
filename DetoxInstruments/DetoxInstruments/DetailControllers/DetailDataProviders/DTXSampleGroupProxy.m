@@ -11,12 +11,16 @@
 
 @interface DTXSampleGroupProxy ()
 {
+	NSString* _name;
 	NSMapTable<DTXSampleGroup*, DTXSampleGroupProxy*>* _groupToProxyMapping;
 }
 
 @end
 
 @implementation DTXSampleGroupProxy
+
+- (void)setName:(NSString *)name { _name = name; }
+- (NSString *)name { return _name; }
 
 - (id)objectForSample:(id)sample
 {

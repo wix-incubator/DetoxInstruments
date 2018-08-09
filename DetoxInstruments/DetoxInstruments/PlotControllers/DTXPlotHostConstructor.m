@@ -12,7 +12,7 @@
 
 - (void)setUpWithView:(NSView *)view
 {
-	[self setUpWithView:view insets:NSEdgeInsetsZero];
+	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 0, 0)];
 }
 
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets

@@ -11,5 +11,6 @@
 @interface NSImage (UIAdditions)
 
 + (NSImage*)imageWithColor:(NSColor*)color size:(NSSize)size;
+- (NSImage *)imageTintedWithColor:(NSColor *)tint;
 
 @end

@@ -44,7 +44,7 @@
 	NSTimeInterval _highlightedSampleTime;
 	CGFloat _highlightedPercent;
 	
-	CPTLimitBand* _rangeHighlightBand;
+	NSMutableArray<CPTLimitBand*>* _rangeHighlightBandArray;
 	CPTPlotRange* _highlightedRange;
 	
 	CPTPlotSpaceAnnotation* _shadowHighlightAnnotation;
@@ -88,8 +88,11 @@
 		
 		_samplingInterval = [_document.recording.profilingConfiguration[@"samplingInterval"] doubleValue];
 		
+		_rangeHighlightBandArray = [NSMutableArray new];
+		
 		//To initialize the highlighed cache ivars.
-		[self removeHighlight];
+		[self _removeHighlightNotifyDelegate:NO];
+		
 	}
 	
 	return self;
@@ -242,7 +245,8 @@
 		BOOL isDark = self.wrapperView.effectiveAppearance.isDarkAppearance;
 		
 		CPTMutableLineStyle *lineStyle = [((CPTScatterPlot*)obj).dataLineStyle mutableCopy];
-		lineStyle.lineWidth = 1.0;
+		CGFloat maxWidth = isDark ? 1.5 : 1.0;
+		lineStyle.lineWidth = MAX(1.0, maxWidth / self.hostingView.layer.contentsScale);
 		
 		NSColor* lineColor;
 		
@@ -287,14 +291,16 @@
 	
 	[self _updateShadowLineColor];
 	[self _updateLineColor];
-	if(_rangeHighlightBand)
+	
+	if(_rangeHighlightBandArray.count > 0)
 	{
-		CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
-		[plot removeAreaFillBand:_rangeHighlightBand];
-
-		_rangeHighlightBand = [self _highlightBandForRange:_rangeHighlightBand.range];
-
-		[plot addAreaFillBand:_rangeHighlightBand];
+		[self.graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTScatterPlot * _Nonnull plot, NSUInteger idx, BOOL * _Nonnull stop) {
+			CPTLimitBand* band = _rangeHighlightBandArray[idx];
+			[plot removeAreaFillBand:band];
+			band = [self _highlightBandForRange:_highlightedRange color:self.plotColors[idx]];
+			[plot addAreaFillBand:band];
+			_rangeHighlightBandArray[idx] = band;
+		}];
 	}
 	[_lineLayer setNeedsDisplay];
 	[_secondLineLayer setNeedsDisplay];
@@ -337,9 +343,9 @@
 	}
 }
 
-- (CPTLimitBand*)_highlightBandForRange:(CPTPlotRange *)newRange
+- (CPTLimitBand*)_highlightBandForRange:(CPTPlotRange *)newRange color:(NSColor*)color
 {
-	return [CPTLimitBand limitBandWithRange:newRange fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:[self.plotColors.lastObject shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.35].CGColor]]];
+	return [CPTLimitBand limitBandWithRange:newRange fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:[color shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.35].CGColor]]];
 }
 
 - (void)setupPlotsForGraph
@@ -542,7 +548,7 @@
 
 - (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime
 {
-	[self removeHighlight];
+	[self _removeHighlightNotifyDelegate:NO];
 	
 	_shadowHighlightedSampleTime = sampleTime;
 	
@@ -583,7 +589,7 @@
 
 - (void)_highlightSampleIndex:(NSUInteger)sampleIdx nextSampleIndex:(NSUInteger)nextSampleIdx sampleTime:(NSTimeInterval)sampleTime percect:(CGFloat)percent makeVisible:(BOOL)makeVisible
 {
-	[self removeHighlight];
+	[self _removeHighlightNotifyDelegate:NO];
 	
 	_highlightedSampleIndex = sampleIdx;
 	_highlightedNextSampleIndex = nextSampleIdx;
@@ -648,15 +654,14 @@
 
 - (void)_highlightRange:(CPTPlotRange*)range nofityDelegate:(BOOL)notifyDelegate
 {
-	CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
-	
-	[self removeHighlight];
+	[self _removeHighlightNotifyDelegate:NO];
 	
 	_highlightedRange = range;
-	
-	_rangeHighlightBand = [self _highlightBandForRange:range];
-	
-	[plot addAreaFillBand:_rangeHighlightBand];
+	[self.graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTScatterPlot * _Nonnull plot, NSUInteger idx, BOOL * _Nonnull stop) {
+		CPTLimitBand* band = [self _highlightBandForRange:range color:self.plotColors[idx]];
+		[plot addAreaFillBand:band];
+		_rangeHighlightBandArray[idx] = band;
+	}];
 	
 	if(self.graph)
 	{
@@ -666,19 +671,19 @@
 		_highlightAnnotation.contentLayer = _lineLayer;
 		_highlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 		_highlightAnnotation.anchorPlotPoint = @[range.location, @(- self.rangeInsets.top)];
-		
+
 		_secondHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 		_secondLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
 		_secondLineLayer.opacity = 0.3;
 		_secondHighlightAnnotation.contentLayer = _secondLineLayer;
 		_secondHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 		_secondHighlightAnnotation.anchorPlotPoint = @[@(range.locationDouble + range.lengthDouble), @(- self.rangeInsets.top)];
-		
+
 		[self _updateLineColor];
 		[self.graph addAnnotation:_highlightAnnotation];
 		[self.graph addAnnotation:_secondHighlightAnnotation];
 	}
-	
+
 	if(notifyDelegate)
 	{
 		[self.delegate plotController:self didHighlightRange:range];
@@ -711,12 +716,19 @@
 	}
 	else
 	{
-		[self removeHighlight];
+		[self _removeHighlightNotifyDelegate:NO];
 	}
 }
 
 - (void)removeHighlight
 {
+	[self _removeHighlightNotifyDelegate:YES];
+}
+
+- (void)_removeHighlightNotifyDelegate:(BOOL)notify
+{
+	BOOL hadHighlight = _lineLayer != nil;
+	
 	if(_shadowHighlightAnnotation && _shadowHighlightAnnotation.annotationHostLayer != nil)
 	{
 		[self.graph removeAnnotation:_shadowHighlightAnnotation];
@@ -755,15 +767,23 @@
 	_highlightedPercent = 0.0;
 	
 	CPTScatterPlot* plot = (id)self.graph.allPlots.firstObject;
-	if(_rangeHighlightBand)
+	if(_rangeHighlightBandArray.count > 0)
 	{
-		[plot removeAreaFillBand:_rangeHighlightBand];
+		[self.graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTScatterPlot * _Nonnull plot, NSUInteger idx, BOOL * _Nonnull stop) {
+			CPTLimitBand* band = _rangeHighlightBandArray[idx];
+			[plot removeAreaFillBand:band];
+		}];
+		
+		[_rangeHighlightBandArray removeAllObjects];
 	}
 	_highlightedRange = nil;
-	_rangeHighlightBand = nil;
-	_rangeHighlightBand = nil;
 	
 	_shadowHighlightedSampleTime = -1.0;
+	
+	if(hadHighlight && notify)
+	{
+		[self.delegate plotControllerDidRemoveHighlight:self];
+	}
 }
 
 - (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates forPlotAtIndex:(NSUInteger)index

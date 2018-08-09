@@ -48,4 +48,11 @@
 	return fps < 15 ? NSColor.warning3Color : fps <= 30 ? NSColor.warning2Color : fps <= 45 ? NSColor.warningColor : NSColor.controlBackgroundColor;
 }
 
+- (NSString*)statusTooltipforItem:(id)item
+{
+	double fps = [(DTXPerformanceSample*)item fps];
+	
+	return fps < 15 ? NSLocalizedString(@"FPS below 15", @"") : fps <= 30 ? NSLocalizedString(@"FPS below 30", @"") : fps <= 45 ? NSLocalizedString(@"FPS below 45", @"") : nil;
+}
+
 @end

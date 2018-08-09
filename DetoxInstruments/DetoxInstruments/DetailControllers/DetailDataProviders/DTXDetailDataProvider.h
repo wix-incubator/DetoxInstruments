@@ -77,6 +77,7 @@
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 - (NSColor*)textColorForItem:(id)item;
 - (NSColor*)backgroundRowColorForItem:(id)item;
+- (NSString*)statusTooltipforItem:(id)item;
 - (DTXSampleContainerProxy*)rootSampleContainerProxy;
 
 - (void)selectSample:(DTXSample*)sample;

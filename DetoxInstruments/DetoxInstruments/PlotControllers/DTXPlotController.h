@@ -21,6 +21,7 @@
 - (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc;
 - (void)plotController:(id<DTXPlotController>)pc didHighlightAtSampleTime:(NSTimeInterval)sampleTime;
 - (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(CPTPlotRange*)highlightRange;
+- (void)plotControllerDidRemoveHighlight:(id<DTXPlotController>)pc;
 
 @end
 

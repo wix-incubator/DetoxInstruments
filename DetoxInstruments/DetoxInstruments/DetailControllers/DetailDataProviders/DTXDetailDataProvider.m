@@ -88,7 +88,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	[_managedOutlineView setOutlineTableColumn:[_managedOutlineView tableColumnWithIdentifier:@"DTXTimestampColumn"]];
 	
 	[_managedOutlineView.tableColumns.copy enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if(idx < 1)
+		if(idx <= self.outlineColumnIndex)
 		{
 			return;
 		}
@@ -107,6 +107,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	NSTableColumn* timestampColumn = [_managedOutlineView tableColumnWithIdentifier:@"DTXTimestampColumn"];
 	timestampColumn.hidden = self.showsTimestampColumn == NO;
+//	_managedOutlineView.outlineTableColumn = timestampColumn;
 	
 	_columns = self.columns;
 	
@@ -204,7 +205,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSUInteger)outlineColumnIndex;
 {
-	return 0;
+	return 1;
 }
 
 - (NSArray<DTXColumnInformation*>*)columns
@@ -238,6 +239,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	return nil;
 }
 
+- (NSString*)statusTooltipforItem:(id)item
+{
+	return nil;
+}
+
 - (NSFont*)_monospacedNumbersFontForFont:(NSFont*)font bold:(BOOL)bold
 {
 	NSFontDescriptor* fontDescriptor = [font.fontDescriptor fontDescriptorByAddingAttributes:@{NSFontTraitsAttribute: @{NSFontWeightTrait: @(bold ? NSFontWeightBold : NSFontWeightRegular)}, NSFontFeatureSettingsAttribute: @[@{NSFontFeatureTypeIdentifierKey: @(kNumberSpacingType), NSFontFeatureSelectorIdentifierKey: @(kMonospacedNumbersSelector)}]}];
@@ -263,7 +269,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
 {
-	return [item isKindOfClass:[DTXTag class]];
+	return [item isKindOfClass:DTXTag.class] || ([item isKindOfClass:DTXSampleGroupProxy.class] && [item wantsStandardGroupDisplay]);
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
@@ -273,31 +279,38 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (void)_updateRowView:(DTXTableRowView*)rowView withItem:(id)item
 {
+	[rowView setUserNotifyTooltip:nil];
 	if([item isKindOfClass:[DTXSampleContainerProxy class]] || [item isKindOfClass:[DTXTag class]])
 	{
-		rowView.backgroundColor = NSColor.controlBackgroundColor;
+		rowView.userNotifyColor = NSColor.controlBackgroundColor;
 	}
 	else
 	{
-		rowView.backgroundColor = [self backgroundRowColorForItem:item];
+		rowView.userNotifyColor = [self backgroundRowColorForItem:item];
+		[rowView setUserNotifyTooltip:[self statusTooltipforItem:item]];
 		
 		BOOL hasParentGroup = [item respondsToSelector:@selector(parentGroup)];
-		if([rowView.backgroundColor isEqualTo:NSColor.controlBackgroundColor] && hasParentGroup && [item parentGroup] != _document.recording.rootSampleGroup)
+		if(hasParentGroup && [rowView.userNotifyColor isEqualTo:NSColor.controlBackgroundColor] && [item parentGroup] != _document.recording.rootSampleGroup)
 		{
 			CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(item, _document.recording.rootSampleGroup) / 30.0), 0.3);
 			
-			rowView.backgroundColor = [NSColor.controlBackgroundColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
+			rowView.userNotifyColor = [NSColor.controlBackgroundColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
 		}
 	}
 }
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
+	if([tableColumn.identifier isEqualToString:@"DTXSpacingColumn"])
+	{
+		return nil;
+	}
+	
 	DTXTableRowView* rowView = (id)[outlineView rowViewAtRow:[outlineView rowForItem:item] makeIfNecessary:YES];
 	
 	if([tableColumn.identifier isEqualToString:@"DTXTimestampColumn"])
 	{
-		NSTableCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXRightAlignedTextCell" owner:nil];
+		NSTableCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXTextCell" owner:nil];
 		NSDate* timestamp = [(DTXSample*)item timestamp];
 		NSTimeInterval ti = [timestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate];
 							 

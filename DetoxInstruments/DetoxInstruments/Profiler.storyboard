@@ -507,7 +507,7 @@
                                     <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
                                     <color key="gridColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="DTXTimestampColumn" editable="NO" width="72" minWidth="72" maxWidth="100000" id="eFp-9H-DG5">
+                                        <tableColumn identifier="DTXSpacingColumn" editable="NO" width="8" minWidth="8" maxWidth="8" id="eFp-9H-DG5">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -519,13 +519,31 @@
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <prototypeCellViews>
-                                                <tableCellView identifier="DTXTextCell" id="V8y-jp-k2E">
-                                                    <rect key="frame" x="1" y="1" width="72" height="17"/>
+                                                <tableCellView id="V8y-jp-k2E">
+                                                    <rect key="frame" x="1" y="1" width="25" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </tableCellView>
+                                            </prototypeCellViews>
+                                        </tableColumn>
+                                        <tableColumn identifier="DTXTimestampColumn" editable="NO" width="72" minWidth="72" maxWidth="100000" id="Ucy-DC-qWV">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="Yfa-Q3-WGP">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <prototypeCellViews>
+                                                <tableCellView identifier="DTXTextCell" id="uVT-Pq-fD5">
+                                                    <rect key="frame" x="28" y="1" width="72" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="O6G-5V-mW7">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Gr8-OD-wPL">
                                                             <rect key="frame" x="0.0" y="2" width="72" height="14"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="OaR-KL-nDS">
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="Vpf-2H-hHC">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -533,22 +551,22 @@
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="O6G-5V-mW7" firstAttribute="leading" secondItem="V8y-jp-k2E" secondAttribute="leading" constant="2" id="KaO-fh-FQG"/>
-                                                        <constraint firstItem="O6G-5V-mW7" firstAttribute="top" secondItem="V8y-jp-k2E" secondAttribute="top" constant="1" id="e8W-ZC-U0w"/>
-                                                        <constraint firstAttribute="bottom" secondItem="O6G-5V-mW7" secondAttribute="bottom" constant="2" id="qAT-ZX-Yn1"/>
-                                                        <constraint firstAttribute="trailing" secondItem="O6G-5V-mW7" secondAttribute="trailing" constant="2" id="zWV-HY-Ppi"/>
+                                                        <constraint firstItem="Gr8-OD-wPL" firstAttribute="top" secondItem="uVT-Pq-fD5" secondAttribute="top" constant="1" id="Tnx-bq-Ziy"/>
+                                                        <constraint firstItem="Gr8-OD-wPL" firstAttribute="leading" secondItem="uVT-Pq-fD5" secondAttribute="leading" constant="2" id="UXs-S0-UhX"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Gr8-OD-wPL" secondAttribute="trailing" constant="2" id="aoP-hG-We8"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Gr8-OD-wPL" secondAttribute="bottom" constant="2" id="vJ5-B7-kPY"/>
                                                     </constraints>
                                                     <connections>
-                                                        <outlet property="textField" destination="O6G-5V-mW7" id="mIJ-R8-pOU"/>
+                                                        <outlet property="textField" destination="Gr8-OD-wPL" id="SeT-VY-5Iu"/>
                                                     </connections>
                                                 </tableCellView>
-                                                <tableCellView identifier="DTXRightAlignedTextCell" id="Uvr-GD-pwu">
-                                                    <rect key="frame" x="1" y="21" width="72" height="17"/>
+                                                <tableCellView identifier="DTXRightAlignedTextCell" id="RJm-8G-Usz">
+                                                    <rect key="frame" x="28" y="21" width="72" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-Yb-bnx">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="HPy-jP-jY0">
                                                             <rect key="frame" x="0.0" y="2" width="72" height="14"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" id="4Ks-Q0-h5w">
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" id="UWW-E5-3ih">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -556,13 +574,13 @@
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="Euc-Yb-bnx" firstAttribute="leading" secondItem="Uvr-GD-pwu" secondAttribute="leading" constant="2" id="21g-po-dOf"/>
-                                                        <constraint firstAttribute="bottom" secondItem="Euc-Yb-bnx" secondAttribute="bottom" constant="2" id="VtR-jN-aQu"/>
-                                                        <constraint firstItem="Euc-Yb-bnx" firstAttribute="top" secondItem="Uvr-GD-pwu" secondAttribute="top" constant="1" id="p97-7A-6kX"/>
-                                                        <constraint firstAttribute="trailing" secondItem="Euc-Yb-bnx" secondAttribute="trailing" constant="2" id="qTN-dA-UOd"/>
+                                                        <constraint firstAttribute="trailing" secondItem="HPy-jP-jY0" secondAttribute="trailing" constant="2" id="bD3-eu-n0i"/>
+                                                        <constraint firstAttribute="bottom" secondItem="HPy-jP-jY0" secondAttribute="bottom" constant="2" id="qH7-Pz-dtN"/>
+                                                        <constraint firstItem="HPy-jP-jY0" firstAttribute="leading" secondItem="RJm-8G-Usz" secondAttribute="leading" constant="2" id="vR2-6C-Wfr"/>
+                                                        <constraint firstItem="HPy-jP-jY0" firstAttribute="top" secondItem="RJm-8G-Usz" secondAttribute="top" constant="1" id="x6a-3c-xSx"/>
                                                     </constraints>
                                                     <connections>
-                                                        <outlet property="textField" destination="Euc-Yb-bnx" id="TVV-4D-nxj"/>
+                                                        <outlet property="textField" destination="HPy-jP-jY0" id="Pqe-0W-Ehb"/>
                                                     </connections>
                                                 </tableCellView>
                                             </prototypeCellViews>

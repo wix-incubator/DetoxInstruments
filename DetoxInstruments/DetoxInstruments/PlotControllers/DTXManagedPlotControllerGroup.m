@@ -334,6 +334,21 @@ static BOOL __uglyHackTODOFixThis()
 	}];
 }
 
+- (void)plotControllerDidRemoveHighlight:(id<DTXPlotController>)pc
+{
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+		if(obj == pc)
+		{
+			return;
+		}
+		
+		if([obj respondsToSelector:@selector(removeHighlight)])
+		{
+			[obj removeHighlight];
+		}
+	}];
+}
+
 #pragma mark NSOutlineView Data Source & Delegate
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item

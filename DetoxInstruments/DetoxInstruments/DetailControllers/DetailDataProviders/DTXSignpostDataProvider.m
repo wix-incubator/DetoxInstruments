@@ -216,6 +216,23 @@
 	return NSColor.controlBackgroundColor;
 }
 
+- (NSString*)statusTooltipforItem:(id)item
+{
+	DTXSignpostSample* sample = item;
+	
+	if(sample.eventStatus == DTXEventStatusPrivateError)
+	{
+		return NSLocalizedString(@"Event error", @"");
+	}
+	
+	if(sample.isGroup == NO && sample.endTimestamp == nil)
+	{
+		return NSLocalizedString(@"Incomplete event", @"");
+	}
+	
+	return nil;
+}
+
 - (BOOL)supportsDataFiltering
 {
 	return YES;
