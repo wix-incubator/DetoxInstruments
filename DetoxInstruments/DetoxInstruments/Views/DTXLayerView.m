@@ -9,6 +9,10 @@
 #import "DTXLayerView.h"
 
 @implementation DTXLayerView
+{
+	__weak NSAppearance* _cachedAppearance;
+	CGFloat _cachedBackingScaleFactor;
+}
 
 - (instancetype)initWithCoder:(NSCoder *)decoder
 {
@@ -49,9 +53,15 @@
 {
 	[super updateLayer];
 	
-	if(self.updateLayerHandler)
+	if(self.effectiveAppearance != _cachedAppearance || _cachedBackingScaleFactor != self.window.screen.backingScaleFactor)
 	{
-		self.updateLayerHandler(self);
+		if(self.updateLayerHandler)
+		{
+			self.updateLayerHandler(self);
+		}
+		
+		_cachedAppearance = self.effectiveAppearance;
+		_cachedBackingScaleFactor = self.window.screen.backingScaleFactor;
 	}
 }
 

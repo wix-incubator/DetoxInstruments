@@ -67,6 +67,36 @@ DTX_NAMED_COLOR_IMPL(pasteboardTypeTextColor)
 	return [self interpolateToValue:modifierColor progress:modifier];
 }
 
+/*
+ - (NSColor*)deeperColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier
+ {
+ CGFloat h,s,b,a;
+ 
+ NSAppearance* current = NSAppearance.currentAppearance;
+ NSAppearance.currentAppearance = appearance;
+ [[self colorUsingColorSpace:NSColorSpace.deviceRGBColorSpace] getHue:&h saturation:&s brightness:&b alpha:&a];
+ NSAppearance.currentAppearance = current;
+ 
+ s *= 1.5;
+ 
+ return [NSColor colorWithHue:h saturation:s brightness:b alpha:a];
+ }
+ 
+ - (NSColor*)shallowerColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier
+ {
+ CGFloat h,s,b,a;
+ 
+ NSAppearance* current = NSAppearance.currentAppearance;
+ NSAppearance.currentAppearance = appearance;
+ [[self colorUsingColorSpace:NSColorSpace.deviceRGBColorSpace] getHue:&h saturation:&s brightness:&b alpha:&a];
+ NSAppearance.currentAppearance = current;
+ 
+ s *= 0.5;
+ 
+ return [NSColor colorWithHue:h saturation:s brightness:b alpha:a];
+ }
+ */
+
 + (NSColor*)randomColorWithSeed:(NSString*)seed;
 {
 	srand48(seed.hash * 200);

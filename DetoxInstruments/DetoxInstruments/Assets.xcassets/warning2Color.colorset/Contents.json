@@ -7,13 +7,7 @@
     {
       "idiom" : "universal",
       "color" : {
-        "color-space" : "srgb",
-        "components" : {
-          "red" : "1.000",
-          "alpha" : "1.000",
-          "blue" : "0.078",
-          "green" : "0.663"
-        }
+        "reference" : "systemOrangeColor"
       }
     },
     {
@@ -25,13 +19,7 @@
         }
       ],
       "color" : {
-        "color-space" : "srgb",
-        "components" : {
-          "red" : "0.970",
-          "alpha" : "1.000",
-          "blue" : "0.022",
-          "green" : "0.481"
-        }
+        "reference" : "systemOrangeColor"
       }
     }
   ]

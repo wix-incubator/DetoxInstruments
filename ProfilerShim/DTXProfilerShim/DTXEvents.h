@@ -6,30 +6,21 @@
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
-typedef NSString * DTXEventIdentifier;
+#ifndef DTXEvents_h
+#define DTXEvents_h
 
 #import "DTXBase.h"
 
-NS_ASSUME_NONNULL_BEGIN
-__BEGIN_DECLS
+typedef NSString * DTXEventIdentifier;
 
 typedef NS_ENUM(NSUInteger, DTXEventStatus) {
 	DTXEventStatusCompleted,
 	DTXEventStatusError,
-	
-	DTXEventStatusCategory1,
-	DTXEventStatusCategory2,
-	DTXEventStatusCategory3,
-	DTXEventStatusCategory4,
-	DTXEventStatusCategory5,
-	DTXEventStatusCategory6,
-	DTXEventStatusCategory7,
-	DTXEventStatusCategory8,
-	DTXEventStatusCategory9,
-	DTXEventStatusCategory10,
-	DTXEventStatusCategory11,
-	DTXEventStatusCategory12,
+	DTXEventStatusCancelled
 };
+
+NS_ASSUME_NONNULL_BEGIN
+__BEGIN_DECLS
 
 /*!
  * @function DTXProfilerMarkEventIntervalBegin
@@ -93,3 +84,5 @@ extern void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventSta
 
 __END_DECLS
 NS_ASSUME_NONNULL_END
+
+#endif /* DTXEvents_h */

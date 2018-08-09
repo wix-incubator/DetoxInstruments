@@ -12,4 +12,6 @@
 
 @property (nonatomic, readonly, getter=isDarkAppearance) BOOL darkAppearance;
 
+- (void)performBlockAsCurrentAppearance:(void(^)(void))block;
+
 @end

@@ -12,7 +12,7 @@
 
 - (void)setUpWithView:(NSView *)view
 {
-	[self setUpWithView:view insets:NSEdgeInsetsZero];
+	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 0, 0)];
 }
 
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets
@@ -58,6 +58,8 @@
 											  [view.trailingAnchor constraintEqualToAnchor:_wrapperView.trailingAnchor constant:-insets.right],
 											  [view.bottomAnchor constraintEqualToAnchor:_wrapperView.bottomAnchor constant:-insets.bottom]
 											  ]];
+	
+	[self didFinishViewSetup];
 }
 
 - (void)setupPlotsForGraph
@@ -69,6 +71,11 @@
 {
 	[_hostingView removeFromSuperview];
 	[_wrapperView removeFromSuperview];
+}
+
+- (void)didFinishViewSetup
+{
+	
 }
 
 @end

@@ -1,10 +1,15 @@
 #!/bin/bash
 set -e
-PROFILER_LIB_DIR="ProfilerFramework"
+
 INSTRUMENTS_SCRIPTS_DIR="${0%/*}"
+
+PROFILER_LIB_DIR="ProfilerFramework"
 PROFILER_FRAMEWORK_NAME="DTXProfiler.framework"
-PROFILER_SHIM_FRAMEWORK_NAME="DTXProfilerShim.framework"
 PROFILER_FRAMEWORK_PATH="${INSTRUMENTS_SCRIPTS_DIR}/../${PROFILER_LIB_DIR}/${PROFILER_FRAMEWORK_NAME}"
+
+SHIM_LIB_DIR="ShimFramework"
+SHIM_FRAMEWORK_NAME="DTXProfilerShim.framework"
+SHIM_FRAMEWORK_PATH="${INSTRUMENTS_SCRIPTS_DIR}/../${SHIM_LIB_DIR}/${SHIM_FRAMEWORK_NAME}"
 
 CONFIGURATION=$1
 ALLOWED_CONFIGURATIONS=(${2//,/ })
@@ -17,14 +22,14 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 	fi
 
 	if [[ " ${ALLOWED_CONFIGURATIONS[@]} " =~ " ${CONFIGURATION} " ]]; then
-		cp -rf "${PROFILER_FRAMEWORK_PATH}" "${CODESIGNING_FOLDER_PATH}"/Frameworks
+		cp -rf "${PROFILER_FRAMEWORK_PATH}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/
 		rm -fr "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/Frameworks/"${PROFILER_SHIM_FRAMEWORK_NAME}"
-		echo "Profiler framework has been included in ${CODESIGNING_FOLDER_PATH}."
+		echo "Profiler framework has been integrated in ${CODESIGNING_FOLDER_PATH}."
 	else
-	cp -rf "${PROFILER_FRAMEWORK_PATH}"/Frameworks/"${PROFILER_SHIM_FRAMEWORK_NAME}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/
-		mv "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_SHIM_FRAMEWORK_NAME}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"
+		cp -rf "${SHIM_FRAMEWORK_PATH}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/
+		mv "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${SHIM_FRAMEWORK_NAME}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"
 		mv "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfilerShim "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
-		echo "Profiler framework not included: current build configuration ${CONFIGURATION} is not included in the ALLOWED_CONFIGURATIONS list."
+		echo "Profiler framework not integrated: current build configuration “${CONFIGURATION}” is not included in the ALLOWED_CONFIGURATIONS list."
 	fi
 
 	if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" ]; then

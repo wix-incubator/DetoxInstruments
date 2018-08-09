@@ -334,6 +334,21 @@ static BOOL __uglyHackTODOFixThis()
 	}];
 }
 
+- (void)plotControllerDidRemoveHighlight:(id<DTXPlotController>)pc
+{
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+		if(obj == pc)
+		{
+			return;
+		}
+		
+		if([obj respondsToSelector:@selector(removeHighlight)])
+		{
+			[obj removeHighlight];
+		}
+	}];
+}
+
 #pragma mark NSOutlineView Data Source & Delegate
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
@@ -432,17 +447,17 @@ static BOOL __uglyHackTODOFixThis()
 	
 	[self.delegate managedPlotControllerGroup:self didSelectPlotController:plotController];
 }
-//
-//- (void)outlineViewItemDidExpand:(NSNotification *)notification
-//{
-//	//Tell the system to precache the whole outline area.
-//	_hostingOutlineView.preparedContentRect = _hostingOutlineView.bounds;
-//}
-//
-//- (void)outlineViewItemDidCollapse:(NSNotification *)notification
-//{
-//	//Tell the system to precache the whole outline area.
-//	_hostingOutlineView.preparedContentRect = _hostingOutlineView.bounds;
-//}
+
+- (void)outlineViewItemDidExpand:(NSNotification *)notification
+{
+	//Tell the system to precache the whole outline area.
+	_hostingOutlineView.preparedContentRect = _hostingOutlineView.bounds;
+}
+
+- (void)outlineViewItemDidCollapse:(NSNotification *)notification
+{
+	//Tell the system to precache the whole outline area.
+	_hostingOutlineView.preparedContentRect = _hostingOutlineView.bounds;
+}
 
 @end

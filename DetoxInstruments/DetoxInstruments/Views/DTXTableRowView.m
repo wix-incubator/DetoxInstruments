@@ -8,6 +8,8 @@
 
 #import "DTXTableRowView.h"
 #import "NSColor+UIAdditions.h"
+#import "NSImage+UIAdditions.h"
+#import "NSAppearance+UIAdditions.h"
 
 @interface NSTableRowView ()
 
@@ -17,6 +19,9 @@
 @end
 
 @implementation DTXTableRowView
+{
+	NSImageView* _statusImageView;
+}
 
 - (instancetype)init
 {
@@ -27,6 +32,10 @@
 		self.wantsLayer = YES;
 		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 //		self.canDrawSubviewsIntoLayer = YES;
+		
+		_statusImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 10, 0)];
+		[self addSubview:_statusImageView];
+		_statusImageView.hidden = YES;
 	}
 	
 	return self;
@@ -38,32 +47,82 @@
 	{
 		return self.primarySelectionColor;
 	}
-	
-	
+
 	return self.secondarySelectedControlColor;
 }
 
 - (void)drawSelectionInRect:(NSRect)dirtyRect
 {
 	[self.selectionColor setFill];
-	
+
 	[[NSBezierPath bezierPathWithRect:dirtyRect] fill];
+}
+
+- (void)drawBackgroundInRect:(NSRect)dirtyRect
+{
+	[super drawBackgroundInRect:dirtyRect];
+
+//	if(self._isUserNotifyColorImportant)
+//	{
+//		[[self.userNotifyColor colorWithAlphaComponent:0.5] setFill];
+//		[[NSBezierPath bezierPathWithRect:dirtyRect] fill];
+//	}
+}
+
+- (void)setUserNotifyTooltip:(NSString*)tooltip
+{
+	_statusImageView.toolTip = tooltip;
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+	[super drawRect:dirtyRect];
+}
+
+- (BOOL)_isUserNotifyColorImportant
+{
+	return _userNotifyColor != nil && [_userNotifyColor.colorNameComponent isEqualToString:@"controlBackgroundColor"] == NO;
+}
+
+- (void)setUserNotifyColor:(NSColor *)userNotifyColor
+{
+	_userNotifyColor = userNotifyColor;
+	
+	if(self._isUserNotifyColorImportant)
+	{
+		_statusImageView.image = [[NSImage imageNamed:@"statusIcon"] imageTintedWithColor:_userNotifyColor];
+		_statusImageView.hidden = NO;
+	}
+	else
+	{
+		_statusImageView.image = nil;
+		_statusImageView.hidden = YES;
+	}
+	
+	[self setNeedsDisplay:YES];
 }
 
 - (void)layout
 {
 	[super layout];
 	
+	_statusImageView.frame = NSMakeRect(10, 0, 10, self.bounds.size.height);
+	
 	if(self.isGroupRowStyle)
 	{
 		[self.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			if([obj isKindOfClass:NSClassFromString(@"NSBannerView")])
+			{
+				return;
+			}
+			
 			if([obj isKindOfClass:[NSButton class]])
 			{
-				obj.frame = (CGRect){4, obj.frame.origin.y, obj.frame.size};
+				obj.frame = (CGRect){9, obj.frame.origin.y, obj.frame.size};
 			}
 			else
 			{
-				obj.frame = (CGRect){16, obj.frame.origin.y, obj.frame.size};
+				obj.frame = (CGRect){37, obj.frame.origin.y, obj.frame.size};
 			}
 		}];
 	}

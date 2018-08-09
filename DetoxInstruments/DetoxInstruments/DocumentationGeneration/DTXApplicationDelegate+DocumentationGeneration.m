@@ -63,24 +63,18 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		
 		NSMenuItem* item = [NSMenuItem new];
 		item.title = @"Generate Screenshots";
-		
-		NSMenu* appearanceMenu = [NSMenu new];
+		item.enabled = NO;
+		[debugMenu addItem:item];
 		
 		NSMenuItem* lightBlue = [NSMenuItem new];
 		lightBlue.title = @"Light Appearance";
 		lightBlue.action = @selector(_generateDocScreenshotsLight:);
-		
-		[appearanceMenu addItem:lightBlue];
+		[debugMenu addItem:lightBlue];
 		
 		NSMenuItem* darkRed = [NSMenuItem new];
 		darkRed.title = @"Dark Appearance";
 		darkRed.action = @selector(_generateDocScreenshotsDark:);
-		
-		[appearanceMenu addItem:darkRed];
-		
-		item.submenu = appearanceMenu;
-		
-		[debugMenu addItem:item];
+		[debugMenu addItem:darkRed];
 		
 		NSMenuItem* debugMenuItem = [NSMenuItem new];
 		debugMenuItem.submenu = debugMenu;
