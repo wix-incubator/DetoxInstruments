@@ -200,6 +200,11 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	[_plotContentController zoomOut];
 }
 
+- (IBAction)editInstruments:(id)sender
+{
+	[_plotContentController presentPlotControllerPickerFromView:sender];
+}
+
 - (IBAction)fitAllData:(id)sender
 {
 	[_plotContentController fitAllData];

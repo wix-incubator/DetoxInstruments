@@ -33,7 +33,7 @@
 		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 //		self.canDrawSubviewsIntoLayer = YES;
 		
-		_statusImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 10, 0)];
+		_statusImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 14, 0)];
 		[self addSubview:_statusImageView];
 		_statusImageView.hidden = YES;
 	}
@@ -106,7 +106,7 @@
 {
 	[super layout];
 	
-	_statusImageView.frame = NSMakeRect(10, 0, 10, self.bounds.size.height);
+	_statusImageView.frame = NSMakeRect(10, 0, 14, self.bounds.size.height);
 	
 	if(self.isGroupRowStyle)
 	{

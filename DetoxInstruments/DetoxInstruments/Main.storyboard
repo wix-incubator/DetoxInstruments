@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.3.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.3.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -82,6 +82,22 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="0869D6A8-5B58-4D3A-878E-90047C09BAE8" label="" paletteLabel="" image="NSPrivateChaptersTemplate" id="Onx-le-cmY">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="38" height="27"/>
+                                    <size key="maxSize" width="38" height="28"/>
+                                    <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="W0F-h5-tJo">
+                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSPrivateChaptersTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3Mk-kW-h80">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <connections>
+                                                <action selector="editInstruments:" target="qp4-hX-WKE" id="Jnl-af-Xm9"/>
+                                            </connections>
+                                        </buttonCell>
+                                    </button>
+                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="90EE4064-5D29-4683-9335-5096C29E5054" label="" paletteLabel="" image="LeftHandle" id="TiO-Su-cAE">
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="38" height="27"/>
@@ -128,6 +144,7 @@
                                 <toolbarItem reference="fBO-X4-GkR"/>
                                 <toolbarItem reference="fBO-X4-GkR"/>
                                 <toolbarItem reference="kVe-S3-yGd"/>
+                                <toolbarItem reference="Onx-le-cmY"/>
                                 <toolbarItem reference="ei0-em-Ajm"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -656,7 +673,7 @@ CA
                             </popUpButtonCell>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
-                            <rect key="frame" x="33" y="23" width="51" height="18"/>
+                            <rect key="frame" x="33" y="25" width="51" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="7Wr-AB-JVL">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -680,6 +697,7 @@ CA
     <resources>
         <image name="Bottom" width="18" height="14"/>
         <image name="LeftHandle" width="20" height="16"/>
+        <image name="NSPrivateChaptersTemplate" width="14" height="13"/>
         <image name="Right" width="18" height="14"/>
         <image name="RightHandle" width="20" height="16"/>
         <image name="flag" width="12" height="15"/>

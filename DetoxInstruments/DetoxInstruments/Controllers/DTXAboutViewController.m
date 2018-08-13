@@ -44,7 +44,7 @@
 	NSImage *icon = (iconURL == nil) ? nil : [[NSImage alloc] initWithContentsOfURL:iconURL];
 	// Use a default icon if none is defined.
 	if (!icon) {
-		icon = [[NSWorkspace sharedWorkspace] iconForFileType:(__bridge NSString *)kUTTypeApplication];
+		icon = [[NSWorkspace sharedWorkspace] iconForFileType:NS(kUTTypeApplication)];
 	}
 	
 	return icon;

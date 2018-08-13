@@ -58,7 +58,7 @@
 	
 	if(menuItem.action == @selector(paste:))
 	{
-		return [NSPasteboard.generalPasteboard canReadItemWithDataConformingToTypes:@[(__bridge id)kUTTypeFileURL]];
+		return [NSPasteboard.generalPasteboard canReadItemWithDataConformingToTypes:@[NS(kUTTypeFileURL)]];
 	}
 	
 	DTXFileSystemItem* item = self.selectedOrClicked;
@@ -424,7 +424,7 @@
 	}
 	else
 	{
-		CFStringRef fileExtension = (__bridge CFStringRef)[fsItem.name pathExtension];
+		CFStringRef fileExtension = CF([fsItem.name pathExtension]);
 		NSString* fileUTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL));
 		icon = [[NSWorkspace sharedWorkspace] iconForFileType:fileUTI];
 	}

@@ -215,13 +215,13 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 
 - (IBAction)_exportFormatChanged:(NSPopUpButton*)sender
 {
-	_exportPanel.allowedFileTypes = @[sender.selectedTag == 0 ? (__bridge NSString*)kUTTypePropertyList : (__bridge NSString*)kUTTypeJSON];
+	_exportPanel.allowedFileTypes = @[sender.selectedTag == 0 ? NS(kUTTypePropertyList) : NS(kUTTypeJSON)];
 }
 
 - (IBAction)_export:(id)sender
 {
 	_exportPanel = [NSSavePanel new];
-	_exportPanel.allowedFileTypes = @[_formatPopupButton.selectedTag == 0 ? (__bridge NSString*)kUTTypePropertyList : (__bridge NSString*)kUTTypeJSON];
+	_exportPanel.allowedFileTypes = @[_formatPopupButton.selectedTag == 0 ? NS(kUTTypePropertyList) : NS(kUTTypeJSON)];
 	_exportPanel.allowsOtherFileTypes = NO;
 	_exportPanel.canCreateDirectories = YES;
 	_exportPanel.treatsFilePackagesAsDirectories = NO;

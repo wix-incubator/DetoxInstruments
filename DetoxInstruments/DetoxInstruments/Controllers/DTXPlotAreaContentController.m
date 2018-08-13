@@ -22,6 +22,7 @@
 #import "DTXSignpostPlotController.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXSignpostSample+UIExtensions.h"
+#import "DTXPlotControllerPickerController.h"
 
 #import "DTXLayerView.h"
 
@@ -103,7 +104,7 @@
 		return;
 	}
 	
-	_plotGroup = [[DTXManagedPlotControllerGroup alloc] initWithHostingOutlineView:_tableView];
+	_plotGroup = [[DTXManagedPlotControllerGroup alloc] initWithHostingOutlineView:_tableView document:_document];
 	_plotGroup.delegate = self;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentDefactoEndTimestampDidChange:) name:DTXRecordingDocumentDefactoEndTimestampDidChangeNotification object:self.document];
@@ -124,7 +125,7 @@
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document];
 	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 209.5, 0, 0)];
 	
-	[_plotGroup addHeaderPlotController:headerPlotController];
+	[_plotGroup setHeaderPlotController:headerPlotController];
 	
 	_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document];
 	[_plotGroup addPlotController:_cpuPlotController];
@@ -194,6 +195,14 @@
 	
 	[_plotGroup setGlobalStartTimestamp:[note.object recording].defactoStartTimestamp endTimestamp:[note.object recording].defactoEndTimestamp];
 	[_plotGroup setLocalStartTimestamp:[note.object recording].defactoStartTimestamp endTimestamp:[note.object recording].defactoEndTimestamp];
+}
+
+- (void)presentPlotControllerPickerFromView:(NSView*)view
+{
+	DTXPlotControllerPickerController* plotControllerPicker = [self.storyboard instantiateControllerWithIdentifier:@"DTXPlotControllerPickerController"];
+	plotControllerPicker.managedPlotControllerGroup = _plotGroup;
+	
+	[self presentViewController:plotControllerPicker asPopoverRelativeToRect:view.bounds ofView:view preferredEdge:NSRectEdgeMaxY behavior:NSPopoverBehaviorSemitransient];
 }
 
 #pragma mark DTXManagedPlotControllerGroupDelegate

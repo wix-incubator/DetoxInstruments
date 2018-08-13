@@ -20,17 +20,19 @@
 @interface DTXManagedPlotControllerGroup : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithHostingOutlineView:(NSOutlineView*)outlineView;
+- (instancetype)initWithHostingOutlineView:(NSOutlineView*)outlineView document:(DTXRecordingDocument*)document;
 
 @property (nonatomic, weak) id<DTXManagedPlotControllerGroupDelegate> delegate;
 
-- (void)addHeaderPlotController:(id<DTXPlotController>)headerPlotController;
+- (void)setHeaderPlotController:(id<DTXPlotController>)headerPlotController;
 
 //Main plot controllers
 - (NSArray<id<DTXPlotController>>*)plotControllers;
 - (void)addPlotController:(id<DTXPlotController>)plotController;
 - (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController;
 - (void)removePlotController:(id<DTXPlotController>)plotController;
+- (void)setPlotControllerHidden:(id<DTXPlotController>)plotController;
+- (void)setPlotControllerVisible:(id<DTXPlotController>)plotController;
 
 //Child plot controllers
 - (NSArray<id<DTXPlotController>>*)childPlotControllersForPlotController:(id<DTXPlotController>)plotController;

@@ -16,6 +16,7 @@
 @interface DTXManagedPlotControllerGroup () <DTXPlotControllerDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
 	NSMutableArray<id<DTXPlotController>>* _managedPlotControllers;
+	NSMutableArray<id<DTXPlotController>>* _visiblePlotControllers;
 	NSMapTable<id<DTXPlotController>, NSMutableArray<id<DTXPlotController>>*>* _childrenMap;
 	
 	BOOL _ignoringPlotRangeNotifications;
@@ -32,15 +33,27 @@
 
 @end
 
-@implementation DTXManagedPlotControllerGroup
+@interface NSUserDefaults ()
 
-- (instancetype)initWithHostingOutlineView:(NSOutlineView*)outlineView
+- (id)_initWithSuiteName:(id)i container:(id)p;
+
+@end
+
+@implementation DTXManagedPlotControllerGroup
+{
+	__weak DTXRecordingDocument* _document;
+}
+
+- (instancetype)initWithHostingOutlineView:(NSOutlineView*)outlineView document:(DTXRecordingDocument*)document
 {
 	self = [super init];
 	
 	if(self)
 	{
+		_document = document;
+		
 		_managedPlotControllers = [NSMutableArray new];
+		_visiblePlotControllers = [NSMutableArray new];
 		_childrenMap = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 		
 		_hostingOutlineView = outlineView;
@@ -70,7 +83,7 @@
 	return _managedPlotControllers;
 }
 
-- (void)addHeaderPlotController:(id<DTXPlotController>)headerPlotController
+- (void)setHeaderPlotController:(id<DTXPlotController>)headerPlotController
 {
 	_headerPlotController = headerPlotController;
 	_headerPlotController.delegate = self;
@@ -111,6 +124,14 @@
 		//This will make sure we insert at index 0.
 		idx = -1;
 	}
+	else if(collection.firstObject == afterPlotController)
+	{
+		idx = 0;
+	}
+	else if(collection.lastObject == afterPlotController)
+	{
+		idx = collection.count - 1;
+	}
 	else
 	{
 		idx = [collection indexOfObject:afterPlotController];
@@ -136,10 +157,20 @@
 	
 	[self _noteOutlineViewOfInsertedAtIndex:idx + 1 forItem:parentPlotController];
 	
-	if(idx == 0 && parentPlotController == nil && _hostingOutlineView.selectedRowIndexes.count == 0)
-	{
-		[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-	}
+//	if(idx == 0 && parentPlotController == nil && _hostingOutlineView.selectedRowIndexes.count == 0)
+//	{
+//		[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+//	}
+}
+
+- (void)setPlotControllerVisible:(id<DTXPlotController>)plotController
+{
+	NSLog(@"Visible: %@", plotController.class);
+}
+
+- (void)setPlotControllerHidden:(id<DTXPlotController>)plotController
+{
+	NSLog(@"Hidden: %@", plotController.class);
 }
 
 - (void)_noteOutlineViewOfInsertedAtIndex:(NSUInteger)index forItem:(id<DTXPlotController>)item
@@ -171,7 +202,7 @@
 
 - (NSArray<id<DTXPlotController>>*)childPlotControllersForPlotController:(id<DTXPlotController>)plotController;
 {
-	return [self _childrenArrayForPlotController:plotController create:NO] ?: @[];
+	return [self _childrenArrayForPlotController:plotController create:YES];
 }
 
 - (void)addChildPlotController:(id<DTXPlotController>)childPlotController toPlotController:(id<DTXPlotController>)plotController

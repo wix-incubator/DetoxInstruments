@@ -45,6 +45,7 @@
 		393CD9231F4337B900FB01FE /* DTXDetailOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CD9221F4337B900FB01FE /* DTXDetailOutlineView.m */; };
 		393E17B9207E70A4002E6136 /* _DTXModalProgressIndicatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393E17B8207E70A4002E6136 /* _DTXModalProgressIndicatorController.m */; };
 		393F41C21F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 393F41C11F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m */; };
+		393FAC1A21202C3000637395 /* DTXPlotControllerPickerCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393FAC1921202C3000637395 /* DTXPlotControllerPickerCellView.m */; };
 		394093F520AB12FD00667765 /* DTXApplicationDelegate+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 391958DD20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.m */; };
 		3940940D20AB130000667765 /* DTXWindowController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947158820A2899800A7068A /* DTXWindowController+DocumentationGeneration.m */; };
 		3940940E20AB130300667765 /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947159120A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m */; };
@@ -191,6 +192,7 @@
 		39EFF5DB20E8FE5300B5AE75 /* DTXSampleContainerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EFF5DA20E8FE5300B5AE75 /* DTXSampleContainerProxy.m */; };
 		39EFF5F520E90D2C00B5AE75 /* DTXSignpostRootProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EFF5F420E90D2C00B5AE75 /* DTXSignpostRootProxy.m */; };
 		39F24F5D1EEEE9D70040EED3 /* DTXFPSDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F24F5C1EEEE9D70040EED3 /* DTXFPSDataProvider.m */; };
+		39F40ABD21202DD600829BA3 /* DTXPlotControllerPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F40ABC21202DD600829BA3 /* DTXPlotControllerPickerController.m */; };
 		39F6F6C61F0E3D2400C7F411 /* DTXProfilingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6C51F0E3D2400C7F411 /* DTXProfilingConfiguration.m */; };
 		39F6F6CB1F0E3D5200C7F411 /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6C91F0E3D5200C7F411 /* AutoCoding.m */; };
 		39F6F6CE1F0E400300C7F411 /* NSDictionary+FakeDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6CD1F0E400300C7F411 /* NSDictionary+FakeDecoder.m */; };
@@ -503,6 +505,8 @@
 		393E66DA1FC594B30092EE89 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		393F41C01F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNCPUInspectorDataProvider.h; sourceTree = "<group>"; };
 		393F41C11F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUInspectorDataProvider.m; sourceTree = "<group>"; };
+		393FAC1821202C3000637395 /* DTXPlotControllerPickerCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotControllerPickerCellView.h; sourceTree = "<group>"; };
+		393FAC1921202C3000637395 /* DTXPlotControllerPickerCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotControllerPickerCellView.m; sourceTree = "<group>"; };
 		3943CA831EEEF46F0009AD88 /* NSColor+UIAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSColor+UIAdditions.h"; sourceTree = "<group>"; };
 		3943CA841EEEF46F0009AD88 /* NSColor+UIAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSColor+UIAdditions.m"; sourceTree = "<group>"; };
 		3943CA931EEEFB3F0009AD88 /* DTXDiskDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDiskDataProvider.h; sourceTree = "<group>"; };
@@ -789,6 +793,8 @@
 		39EFF5F420E90D2C00B5AE75 /* DTXSignpostRootProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostRootProxy.m; sourceTree = "<group>"; };
 		39F24F5B1EEEE9D70040EED3 /* DTXFPSDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXFPSDataProvider.h; sourceTree = "<group>"; };
 		39F24F5C1EEEE9D70040EED3 /* DTXFPSDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXFPSDataProvider.m; sourceTree = "<group>"; };
+		39F40ABB21202DD600829BA3 /* DTXPlotControllerPickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotControllerPickerController.h; sourceTree = "<group>"; };
+		39F40ABC21202DD600829BA3 /* DTXPlotControllerPickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotControllerPickerController.m; sourceTree = "<group>"; };
 		39F6F6C41F0E3D2300C7F411 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXProfilingConfiguration.h; path = ../../Profiler/DTXProfiler/DTXProfilingConfiguration.h; sourceTree = "<group>"; };
 		39F6F6C51F0E3D2400C7F411 /* DTXProfilingConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXProfilingConfiguration.m; path = ../../Profiler/DTXProfiler/DTXProfilingConfiguration.m; sourceTree = "<group>"; };
 		39F6F6C91F0E3D5200C7F411 /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoCoding.m; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.m; sourceTree = "<group>"; };
@@ -1179,6 +1185,8 @@
 				396CC3DE20AAE80300756459 /* DTXAutogrowingButton.m */,
 				3902CB072114976300C49D04 /* DTXBox.h */,
 				3902CB082114976300C49D04 /* DTXBox.m */,
+				393FAC1821202C3000637395 /* DTXPlotControllerPickerCellView.h */,
+				393FAC1921202C3000637395 /* DTXPlotControllerPickerCellView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1354,6 +1362,8 @@
 				3904425D206703E500A29048 /* DTXAboutViewController.m */,
 				3972E67A2069544900F099DE /* DTXAcknowledgementsViewController.h */,
 				3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */,
+				39F40ABB21202DD600829BA3 /* DTXPlotControllerPickerController.h */,
+				39F40ABC21202DD600829BA3 /* DTXPlotControllerPickerController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1509,17 +1519,17 @@
 				3967739220B594B200851154 /* Main.storyboard */,
 				399B4DCC1ED574E70098D2AC /* Profiler.storyboard */,
 				39EBDFBF1ED36D45005D8AB1 /* main.m */,
-				3904E1531EFABE7600FF2707 /* DTXInstrumentsApplication.h */,
-				3904E1541EFABE7600FF2707 /* DTXInstrumentsApplication.m */,
 				39EBDFBB1ED36D45005D8AB1 /* DTXApplicationDelegate.h */,
 				39EBDFBC1ED36D45005D8AB1 /* DTXApplicationDelegate.m */,
 				399B4DC61ED574410098D2AC /* DTXWindowController.h */,
 				399B4DC71ED574410098D2AC /* DTXWindowController.m */,
-				39538D72209B40F3003AF7D3 /* About.storyboard */,
+				3904E1531EFABE7600FF2707 /* DTXInstrumentsApplication.h */,
+				3904E1541EFABE7600FF2707 /* DTXInstrumentsApplication.m */,
 				393E66D81FC592BE0092EE89 /* Swiftier.h */,
 				393E66DA1FC594B30092EE89 /* PrefixHeader.pch */,
 				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
 				3905F48B1EF72B4B003E08C1 /* DetoxInstruments.entitlements */,
+				39538D72209B40F3003AF7D3 /* About.storyboard */,
 				3972E67820694E6800F099DE /* Acknowledgements.html */,
 				3980C0C72086C75000789E3B /* DetoxInstruments.help */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
@@ -1890,6 +1900,7 @@
 				399B4DC81ED574410098D2AC /* DTXWindowController.m in Sources */,
 				398741C520A60E52003AB4BD /* DTXPasteboardItem.m in Sources */,
 				393973D61EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.m in Sources */,
+				39F40ABD21202DD600829BA3 /* DTXPlotControllerPickerController.m in Sources */,
 				39EE1F5B1F3E4729002CB6C1 /* DTXRNBridgeDataDataProvider.m in Sources */,
 				3954CAAE20884C6300934BCE /* CCNPreferencesWindowController.m in Sources */,
 				39BEE1DF207A47B3003AF93E /* crypt.c in Sources */,
@@ -2016,6 +2027,7 @@
 				39EE1F551F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.m in Sources */,
 				3905F4BD1EF834CE003E08C1 /* DTXCPUInspectorDataProvider.m in Sources */,
 				3947158C20A2FB0E00A7068A /* NSView+UIAdditions.m in Sources */,
+				393FAC1A21202C3000637395 /* DTXPlotControllerPickerCellView.m in Sources */,
 				39BEE165207A1AA9003AF93E /* DTXDeviceActionButton.m in Sources */,
 				39EE1F5E1F3E489F002CB6C1 /* DTXRNBridgeDataInspectorDataProvider.m in Sources */,
 				3944E3561F4DB80F001911E8 /* DTXCPTScatterPlot.m in Sources */,

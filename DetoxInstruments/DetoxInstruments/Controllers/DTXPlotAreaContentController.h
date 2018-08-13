@@ -24,6 +24,8 @@
 - (void)zoomOut;
 - (void)fitAllData;
 
+- (void)presentPlotControllerPickerFromView:(NSView*)view;
+
 @property (nonatomic, strong) DTXRecordingDocument* document;
 @property (nonatomic, weak) id<DTXPlotAreaContentControllerDelegate> delegate;
 

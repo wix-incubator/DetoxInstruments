@@ -51,11 +51,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1.0</string>
 	<key>CFBundleVersion</key>
-	<string>7056</string>
+	<string>7101</string>
 	<key>DTXBuildDate</key>
-	<date>2018-08-09T21:11:36Z</date>
+	<date>2018-08-13T23:15:01Z</date>
 	<key>DTXSourceRoot</key>
 	<string>$(DTXSRCROOT)</string>
 	<key>LSMinimumSystemVersion</key>

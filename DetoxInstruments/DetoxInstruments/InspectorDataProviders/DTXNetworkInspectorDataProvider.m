@@ -18,7 +18,7 @@
 - (BOOL)_hasImage
 {
 	DTXNetworkSample* networkSample = self.sample;
-	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)networkSample.responseMIMEType, NULL);
+	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL);
 	
 	BOOL rv = UTI != NULL ? UTTypeConformsTo(UTI, kUTTypeImage) : NO;
 	
@@ -105,7 +105,7 @@
 		{
 			if(networkSample.responseMIMEType && networkSample.responseData.data)
 			{
-				NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)networkSample.responseMIMEType, NULL));
+				NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL));
 				image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];
 				image.size = NSMakeSize(128, 128);
 			}
@@ -182,8 +182,8 @@
 		fileName = @"file";
 	}
 	
-	NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef)networkSample.responseMIMEType, NULL));
-	NSString* extension = CFBridgingRelease(UTTypeCopyPreferredTagWithClass((__bridge CFStringRef)UTI, kUTTagClassFilenameExtension));
+	NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL));
+	NSString* extension = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(UTI), kUTTagClassFilenameExtension));
 	
 	if(extension && [fileName.pathExtension isEqualToString:extension] == NO)
 	{
