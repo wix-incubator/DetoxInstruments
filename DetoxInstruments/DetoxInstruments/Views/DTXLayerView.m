@@ -49,6 +49,11 @@
 	return YES;
 }
 
+- (void)removeFromSuperview
+{
+	[super removeFromSuperview];
+}
+
 - (void)updateLayer
 {
 	[super updateLayer];

@@ -224,7 +224,7 @@
 	}
 }
 
-- (CPTPlotRange*)finesedPlotRangeForPlotRange:(CPTPlotRange*)_yRange;
+- (CPTPlotRange*)finesedPlotYRangeForPlotYRange:(CPTPlotRange*)_yRange;
 {
 	NSEdgeInsets insets = self.rangeInsets;
 	
@@ -243,10 +243,11 @@
 	
 	[self.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		BOOL isDark = self.wrapperView.effectiveAppearance.isDarkAppearance;
+		BOOL isTouchBar = self.wrapperView.effectiveAppearance.isTouchBarAppearance;
 		
 		CPTMutableLineStyle *lineStyle = [((CPTScatterPlot*)obj).dataLineStyle mutableCopy];
 		CGFloat maxWidth = isDark ? 1.5 : 1.0;
-		lineStyle.lineWidth = MAX(1.0, maxWidth / self.hostingView.layer.contentsScale);
+		lineStyle.lineWidth = isTouchBar ? 0.0 : MAX(1.0, maxWidth / self.hostingView.layer.contentsScale);
 		
 		NSColor* lineColor;
 		
@@ -267,7 +268,13 @@
 		NSColor* endColor;
 		CPTFill* fill;
 		
-		if(isDark)
+		if(isTouchBar)
+		{
+			startColor = self.plotColors[idx];
+//			startColor = [startColor colorWithAlphaComponent:0.4];
+			fill = [CPTFill fillWithColor:[CPTColor colorWithCGColor:startColor.CGColor]];
+		}
+		else if(isDark)
 		{
 			endColor = [self.plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.25];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.1];//[plotColors[idx] colorWithAlphaComponent:0.5];
 			startColor = [self.plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.25];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] colorWithAlphaComponent:0.85];
@@ -358,7 +365,7 @@
 	NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:self.hostingView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
 	[self.hostingView addTrackingArea:tracker];
 	
-	self.graph.plotAreaFrame.plotGroup = [DTXStackedPlotGroup new];
+	self.graph.plotAreaFrame.plotGroup = [[DTXStackedPlotGroup alloc] initForTouchBar:self.isForTouchBar];
 	
 	self.graph.axisSet = nil;
 	
@@ -393,7 +400,7 @@
 	}
 	CPTPlotRange *yRange = [plotSpace.yRange mutableCopy];
 	
-	yRange = [self finesedPlotRangeForPlotRange:yRange];
+	yRange = [self finesedPlotYRangeForPlotYRange:yRange];
 	
 	plotSpace.globalXRange = xRange;
 	plotSpace.globalYRange = yRange;
@@ -410,12 +417,9 @@
 	
 	__weak auto weakSelf = self;
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
-		weakSelf.graph.backgroundColor = NSColor.clearColor.CGColor;
-		
 		[weakSelf updateLayerHandler];
 		
 		[weakSelf.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			obj.backgroundColor = NSColor.clearColor.CGColor;
 			[obj reloadData];
 		}];
 	};
@@ -667,14 +671,20 @@
 	{
 		_highlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 		_lineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-		_lineLayer.opacity = 0.3;
+		if(self.isForTouchBar == NO)
+		{
+			_lineLayer.opacity = 0.3;
+		}
 		_highlightAnnotation.contentLayer = _lineLayer;
 		_highlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 		_highlightAnnotation.anchorPlotPoint = @[range.location, @(- self.rangeInsets.top)];
 
 		_secondHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 		_secondLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-		_secondLineLayer.opacity = 0.3;
+		if(self.isForTouchBar == NO)
+		{
+			_secondLineLayer.opacity = 0.3;
+		}
 		_secondHighlightAnnotation.contentLayer = _secondLineLayer;
 		_secondHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 		_secondHighlightAnnotation.anchorPlotPoint = @[@(range.locationDouble + range.lengthDouble), @(- self.rangeInsets.top)];
@@ -806,7 +816,7 @@
 	
 	CPTXYPlotSpace* plotSpace = (id)self.graph.defaultPlotSpace;
 	CPTPlotRange* newYRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(maxValue)];
-	newYRange = [self finesedPlotRangeForPlotRange:newYRange];
+	newYRange = [self finesedPlotYRangeForPlotYRange:newYRange];
 	
 	if(plotSpace.yRange.length.doubleValue < newYRange.length.doubleValue)
 	{

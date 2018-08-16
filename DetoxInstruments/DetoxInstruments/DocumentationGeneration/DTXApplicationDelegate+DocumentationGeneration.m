@@ -23,7 +23,7 @@
 #import "DTXRNCPUUsagePlotController.h"
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
-#import "DTXSignpostPlotController.h"
+#import "DTXEventsPlotController.h"
 #import "NSAppearance+UIAdditions.h"
 
 #import "DTXManagedPlotControllerGroup.h"
@@ -88,7 +88,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @175},
 								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"inspectorSample": @24, @"displaySample": @175, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
-								 NSStringFromClass(DTXSignpostPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@4, @0, @3]},
+								 NSStringFromClass(DTXEventsPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@4, @0, @3]},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
 								 };
 		

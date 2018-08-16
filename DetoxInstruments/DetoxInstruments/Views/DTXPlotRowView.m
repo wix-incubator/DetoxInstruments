@@ -16,6 +16,11 @@
 	[[NSBezierPath bezierPathWithRect:NSMakeRect(dirtyRect.origin.x, dirtyRect.origin.y, 210.5, dirtyRect.size.height - 1)] fill];
 }
 
+- (BOOL)wantsUpdateLayer
+{
+	return NO;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
 	[super drawRect:dirtyRect];

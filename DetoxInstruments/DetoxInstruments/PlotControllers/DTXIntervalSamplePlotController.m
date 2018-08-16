@@ -73,16 +73,13 @@
 	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 	_frc.delegate = self;
 	[_frc performFetch:NULL];
+	
+	[self _prepareMergedSamples];
 }
 
 - (void)updateLayerHandler
 {
 	[self _updateShadowLineColor];
-}
-
-- (CPTLimitBand*)_highlightBandForRange:(CPTPlotRange *)newRange
-{
-	return [CPTLimitBand limitBandWithRange:newRange fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:[self.plotColors.lastObject shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.35].CGColor]]];
 }
 
 - (void)_updateShadowLineColor
@@ -102,11 +99,6 @@
 	if(_frc == nil)
 	{
 		[self prepareSamples];
-	}
-	
-	if(_mergedSamples == nil)
-	{
-		[self _prepareMergedSamples];
 	}
 	
 	return _mergedSamples;
@@ -165,8 +157,8 @@
 		
 		// Add line style
 		CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
-		lineStyle.lineWidth = 5.0;
-		lineStyle.lineCap = kCGLineCapRound;
+		lineStyle.lineWidth = self.isForTouchBar ? 1.5 : 5.0;
+		lineStyle.lineCap = self.isForTouchBar ? kCGLineCapButt : kCGLineCapRound;
 		_plot.barLineStyle = lineStyle;
 		
 		// Bar properties
@@ -303,14 +295,20 @@
 	{
 		_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 		_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-		_shadowLineLayer.opacity = 0.3;
+		if(self.isForTouchBar == NO)
+		{
+			_shadowLineLayer.opacity = 0.3;
+		}
 		_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
 		_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 		_shadowHighlightAnnotation.anchorPlotPoint = @[range.location, @(- self.rangeInsets.top)];
 		
 		_secondShadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
 		_secondShadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-		_secondShadowLineLayer.opacity = 0.3;
+		if(self.isForTouchBar == NO)
+		{
+			_secondShadowLineLayer.opacity = 0.3;
+		}
 		_secondShadowHighlightAnnotation.contentLayer = _secondShadowLineLayer;
 		_secondShadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
 		_secondShadowHighlightAnnotation.anchorPlotPoint = @[@(range.locationDouble + range.lengthDouble), @(- self.rangeInsets.top)];
@@ -393,6 +391,11 @@
 
 - (NSEdgeInsets)rangeInsets
 {
+	if(self.isForTouchBar)
+	{
+		return NSEdgeInsetsMake(1, 0, 1, 0);
+	}
+	
 	return NSEdgeInsetsMake(3, 0, 3, 0);
 }
 
@@ -412,12 +415,18 @@
 	NSTimeInterval range = responseTimestamp - timestamp;
 	NSTimeInterval avg = (timestamp + responseTimestamp) / 2;
 	
+	CGFloat ratio = 1.0;
+//	if(self.isForTouchBar)
+//	{
+//		ratio = self.wrapperView.bounds.size.height / self.requiredHeight;
+//	}
+	
 	switch (fieldEnum)
 	{
 		case CPTRangePlotFieldX:
 			return @(avg);
 		case CPTRangePlotFieldY:
-			return @(indexPath.section * 3);
+			return @(ratio * (indexPath.section * 3));
 		case CPTRangePlotFieldLeft:
 		case CPTRangePlotFieldRight:
 			return @(range / 2.0);
@@ -479,7 +488,7 @@
 	[self _prepareMergedSamples];
 	[_plot reloadData];
 	CPTPlotRange* range = [_plot plotRangeForCoordinate:CPTCoordinateY];
-	range = [self finesedPlotRangeForPlotRange:range];
+	range = [self finesedPlotYRangeForPlotYRange:range];
 	
 	CPTXYPlotSpace* plotSpace = (id)self.graph.defaultPlotSpace;
 	[self setValue:range forKey:@"_globalYRange"];

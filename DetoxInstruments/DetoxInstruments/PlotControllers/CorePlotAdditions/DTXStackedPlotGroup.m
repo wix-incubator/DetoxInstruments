@@ -15,13 +15,26 @@
 //	return YES;
 //}
 
+- (instancetype)initForTouchBar:(BOOL)isForTouchBar
+{
+	self = [super init];
+	
+	if(self)
+	{
+		_isForTouchBar = isForTouchBar;
+	}
+	
+	return self;
+}
+
 -(void)layoutSublayers
 {
 	CGRect selfBounds = self.bounds;
 	
 	CPTSublayerArray *mySublayers = self.sublayers;
 	
-	if ( mySublayers.count > 0 ) {
+	if (mySublayers.count > 0)
+	{
 		CGFloat leftPadding, topPadding, rightPadding, bottomPadding;
 		
 		[self sublayerMarginLeft:&leftPadding top:&topPadding right:&rightPadding bottom:&bottomPadding];
@@ -40,9 +53,11 @@
 		
 		NSUInteger count = mySublayers.count;
 		
+		CGFloat offset = _isForTouchBar ? 1 : 0;
+		
 		[mySublayers enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			idx = count - 1 - idx;
-			CGRect frameForCurrentSublayer = CGRectMake(subLayerFrame.origin.x, subLayerFrame.origin.y + (CGFloat)idx * (subLayerFrame.size.height / count), subLayerFrame.size.width, subLayerFrame.size.height / count);
+			CGRect frameForCurrentSublayer = CGRectMake(subLayerFrame.origin.x, subLayerFrame.origin.y + (CGFloat)idx * (subLayerFrame.size.height / count + offset), subLayerFrame.size.width, subLayerFrame.size.height / count);
 			obj.frame = frameForCurrentSublayer;
 		}];
 	}

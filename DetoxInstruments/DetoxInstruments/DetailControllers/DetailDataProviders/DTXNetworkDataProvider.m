@@ -92,7 +92,7 @@
 		return NSColor.warning3Color;
 	}
 	
-	return NSColor.controlBackgroundColor;
+	return NSColor.successColor;
 }
 
 - (NSString*)statusTooltipforItem:(id)item
@@ -105,7 +105,7 @@
 	}
 	else if(sample.responseStatusCode < 200 || sample.responseStatusCode >= 400)
 	{
-		return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"HTTP error", @""), @(sample.responseStatusCode)];
+		return [NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"HTTP error", @""), @(sample.responseStatusCode)];
 	}
 	
 	if(sample.responseError)
@@ -113,7 +113,7 @@
 		return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Error:", @""), sample.responseError];
 	}
 	
-	return nil;
+	return [NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Success", @""), @(sample.responseStatusCode)];;
 }
 
 - (BOOL)supportsDataFiltering

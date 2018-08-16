@@ -45,7 +45,7 @@
 	
 	DTXColumnInformation* count = [DTXColumnInformation new];
 	count.title = NSLocalizedString(@"Count", @"");
-	count.minWidth = durationMinWidth;
+	count.minWidth = 40;
 	
 	DTXColumnInformation* timestamp = [DTXColumnInformation new];
 	timestamp.title = NSLocalizedString(@"Start", @"");
@@ -69,7 +69,7 @@
 	
 	DTXColumnInformation* status = [DTXColumnInformation new];
 	status.title = NSLocalizedString(@"Status", @"");
-	status.minWidth = 150;
+	status.minWidth = 100;
 	
 	return @[name, count, timestamp, duration, minDuration, avgDuration, maxDuration, status];
 }
@@ -96,7 +96,7 @@
 	
 	DTXColumnInformation* status = [DTXColumnInformation new];
 	status.title = NSLocalizedString(@"Status", @"");
-	status.minWidth = 150;
+	status.minWidth = 100;
 	
 	return @[duration, type, category, name, status];
 }
@@ -213,7 +213,7 @@
 		return NSColor.warningColor;
 	}
 	
-	return NSColor.controlBackgroundColor;
+	return sample.plotControllerColor;
 }
 
 - (NSString*)statusTooltipforItem:(id)item

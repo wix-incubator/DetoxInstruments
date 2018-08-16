@@ -13,4 +13,8 @@
 
 @interface DTXStackedPlotGroup : CPTPlotGroup
 
+@property (nonatomic, readonly) BOOL isForTouchBar;
+
+- (instancetype)initForTouchBar:(BOOL)isForTouchBar;
+
 @end

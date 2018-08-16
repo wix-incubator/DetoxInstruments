@@ -54,7 +54,7 @@
 + (instancetype)new NS_UNAVAILABLE;
 
 - (void)setUpWithView:(NSView*)view;
-- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
+- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets isForTouchBar:(BOOL)isForTouchBar;
 
 - (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange;
 - (void)setPlotRange:(CPTPlotRange*)plotRange;

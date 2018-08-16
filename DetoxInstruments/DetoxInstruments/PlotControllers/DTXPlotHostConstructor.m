@@ -12,11 +12,13 @@
 
 - (void)setUpWithView:(NSView *)view
 {
-	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 0, 0)];
+	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 0, 0) isForTouchBar:NO];
 }
 
-- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets
+- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets isForTouchBar:(BOOL)isForTouchBar
 {
+	_isForTouchBar = isForTouchBar;
+	
 	if(_wrapperView)
 	{
 		[_wrapperView removeFromSuperview];
@@ -37,8 +39,13 @@
 		_graph.paddingRight = 0;
 		_graph.paddingBottom = 0;
 		_graph.masksToBorder  = NO;
+		_graph.backgroundColor = _isForTouchBar ? NSColor.gridColor.CGColor : NSColor.clearColor.CGColor;
 		
 		[self setupPlotsForGraph];
+		
+		[self.graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			obj.backgroundColor = _isForTouchBar ? NSColor.blackColor.CGColor : NSColor.clearColor.CGColor;
+		}];
 		
 		_hostingView.hostedGraph = _graph;
 		

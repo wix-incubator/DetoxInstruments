@@ -15,9 +15,10 @@
 @property (nonatomic, strong, readonly) DTXLayerView* wrapperView;
 @property (nonatomic, strong, readonly) DTXGraphHostingView* hostingView;
 @property (nonatomic, strong, readonly) CPTGraph* graph;
+@property (nonatomic, readonly) BOOL isForTouchBar;
 
 - (void)setUpWithView:(NSView *)view;
-- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
+- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets isForTouchBar:(BOOL)isForTouchBar;
 - (void)setupPlotsForGraph;
 - (void)didFinishViewSetup;
 

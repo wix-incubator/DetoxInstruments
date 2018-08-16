@@ -11,6 +11,7 @@
 @interface NSAppearance (UIAdditions)
 
 @property (nonatomic, readonly, getter=isDarkAppearance) BOOL darkAppearance;
+@property (nonatomic, readonly, getter=isTouchBarAppearance) BOOL touchBarAppearance;
 
 - (void)performBlockAsCurrentAppearance:(void(^)(void))block;
 

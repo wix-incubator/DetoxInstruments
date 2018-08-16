@@ -10,6 +10,7 @@
 #import "NSColor+UIAdditions.h"
 #import "NSImage+UIAdditions.h"
 #import "NSAppearance+UIAdditions.h"
+@import LNInterpolation;
 
 @interface NSTableRowView ()
 
@@ -33,12 +34,44 @@
 		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 //		self.canDrawSubviewsIntoLayer = YES;
 		
-		_statusImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 14, 0)];
+		_statusImageView = [NSImageView new];
+		_statusImageView.translatesAutoresizingMaskIntoConstraints = NO;
 		[self addSubview:_statusImageView];
+		
+		[NSLayoutConstraint activateConstraints:@[
+												  [_statusImageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10],
+												  [_statusImageView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
+												  [_statusImageView.widthAnchor constraintEqualToConstant:9],
+												  [_statusImageView.heightAnchor constraintEqualToConstant:9],
+												  ]];
+		
+		_statusImageView.wantsLayer = YES;
+		_statusImageView.layer.cornerRadius = 4.5;
+		_statusImageView.layer.masksToBounds = YES;
+		
 		_statusImageView.hidden = YES;
 	}
 	
 	return self;
+}
+
+- (BOOL)wantsUpdateLayer
+{
+	return YES;
+}
+
+- (void)updateLayer
+{
+	[super updateLayer];
+	
+//	if(self.effectiveAppearance.isDarkAppearance)
+//	{
+	_statusImageView.layer.backgroundColor = [_userNotifyColor blendedColorWithFraction:0.4 ofColor:NSColor.controlBackgroundColor].CGColor;
+//	}
+//	else
+//	{
+//		_statusImageView.layer.backgroundColor = NSColor.whiteColor.CGColor;
+//	}
 }
 
 - (NSColor*)selectionColor
@@ -81,7 +114,7 @@
 
 - (BOOL)_isUserNotifyColorImportant
 {
-	return _userNotifyColor != nil && [_userNotifyColor.colorNameComponent isEqualToString:@"controlBackgroundColor"] == NO;
+	return _userNotifyColor != nil && ([_userNotifyColor.colorSpaceName isEqualToString:@"NSNamedColorSpace"] == NO || [_userNotifyColor.colorNameComponent isEqualToString:@"controlBackgroundColor"] == NO);
 }
 
 - (void)setUserNotifyColor:(NSColor *)userNotifyColor
@@ -105,8 +138,6 @@
 - (void)layout
 {
 	[super layout];
-	
-	_statusImageView.frame = NSMakeRect(10, 0, 14, self.bounds.size.height);
 	
 	if(self.isGroupRowStyle)
 	{

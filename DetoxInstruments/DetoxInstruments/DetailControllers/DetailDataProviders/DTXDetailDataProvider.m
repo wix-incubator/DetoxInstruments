@@ -138,6 +138,9 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
 	
+	_managedOutlineView.intercellSpacing = NSMakeSize(15, 1);
+	_managedOutlineView.headerView = self.showsHeaderView ? [NSTableHeaderView new] : nil;
+	
 	[self setupContainerProxies];
 	
 	if(_document.documentState == DTXRecordingDocumentStateLiveRecording)
@@ -165,10 +168,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	_rootGroupProxy = self.rootSampleContainerProxy;
 	[_rootGroupProxy reloadData];
-	
-	_managedOutlineView.intercellSpacing = NSMakeSize(15, 1);
-	
-	_managedOutlineView.headerView = self.showsHeaderView ? [NSTableHeaderView new] : nil;
 	
 	_managedOutlineView.delegate = self;
 	_managedOutlineView.dataSource = self;

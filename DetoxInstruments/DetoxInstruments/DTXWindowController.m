@@ -214,6 +214,14 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 {
 	_detailContentController.managingPlotController = plotController;
 	_inspectorContentController.moreInfoDataProvider = nil;
+	
+	NSTouchBar *bar = [[NSTouchBar alloc] init];
+	bar.delegate = (id)cc;
+	
+	// Set the default ordering of items.
+	bar.defaultItemIdentifiers = @[@"TouchBarPlotController"];
+	
+	self.touchBar = bar;
 }
 
 - (void)bottomController:(DTXDetailContentController*)bc updateWithInspectorProvider:(DTXInspectorDataProvider*)inspectorProvider

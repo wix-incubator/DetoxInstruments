@@ -656,7 +656,7 @@ CA
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6TD-ro-Yv4">
-                            <rect key="frame" x="88" y="19" width="116" height="26"/>
+                            <rect key="frame" x="88" y="19" width="116" height="25"/>
                             <popUpButtonCell key="cell" type="push" title="Property List" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="JD6-rS-EW3" id="kgh-0l-b0F">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -673,7 +673,7 @@ CA
                             </popUpButtonCell>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
-                            <rect key="frame" x="33" y="25" width="51" height="17"/>
+                            <rect key="frame" x="33" y="24" width="51" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="7Wr-AB-JVL">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

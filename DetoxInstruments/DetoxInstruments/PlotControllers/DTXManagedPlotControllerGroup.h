@@ -24,7 +24,8 @@
 
 @property (nonatomic, weak) id<DTXManagedPlotControllerGroupDelegate> delegate;
 
-- (void)setHeaderPlotController:(id<DTXPlotController>)headerPlotController;
+@property (nonatomic, strong) id<DTXPlotController> headerPlotController;
+@property (nonatomic, strong) id<DTXPlotController> touchBarPlotController;
 
 //Main plot controllers
 - (NSArray<id<DTXPlotController>>*)plotControllers;

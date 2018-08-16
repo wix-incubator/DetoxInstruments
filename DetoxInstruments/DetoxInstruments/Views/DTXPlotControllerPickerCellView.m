@@ -16,6 +16,12 @@
 	
 	self.wantsLayer = YES;
 	_plotControllerEnabled = YES;
+	
+	self.imageView.wantsLayer = YES;
+	self.imageView.layer.borderWidth = 2.0;
+	self.imageView.layer.borderColor = NSColor.whiteColor.CGColor;
+	self.imageView.layer.cornerRadius = 15;
+	self.imageView.layer.masksToBounds = YES;
 }
 
 - (void)setPlotController:(id<DTXPlotController>)plotController

@@ -1,18 +1,18 @@
 //
-//  DTXSignpostPlotController.m
+//  DTXEventsPlotController.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 6/24/18.
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
-#import "DTXSignpostPlotController.h"
+#import "DTXEventsPlotController.h"
 #import "NSColor+UIAdditions.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXSignpostDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
 
-@implementation DTXSignpostPlotController
+@implementation DTXEventsPlotController
 
 + (Class)UIDataProviderClass
 {
@@ -36,7 +36,7 @@
 
 - (NSString *)toolTip
 {
-	return NSLocalizedString(@"The Events instrument captures information about events marked by the profiled app.", @"");
+	return NSLocalizedString(@"The Events instrument captures information about events marked by the developer of the profiled app.", @"");
 }
 
 - (NSImage*)displayIcon

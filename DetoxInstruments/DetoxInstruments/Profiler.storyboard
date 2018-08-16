@@ -61,7 +61,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="dh1-8y-zfS">
-                            <rect key="frame" x="88" y="19" width="116" height="26"/>
+                            <rect key="frame" x="88" y="19" width="116" height="25"/>
                             <popUpButtonCell key="cell" type="push" title="Property List" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="EN1-xb-dmb" id="rm1-5d-cO2">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -81,7 +81,7 @@
                             </connections>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="3Ov-Tw-qaT">
-                            <rect key="frame" x="33" y="25" width="51" height="17"/>
+                            <rect key="frame" x="33" y="24" width="51" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="8bZ-eX-Z9S">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -288,7 +288,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="360" height="200"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="76" viewBased="YES" id="n1W-cG-2SO">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="76" viewBased="YES" id="n1W-cG-2SO" customClass="DTXKeyDownIgnoringTableView">
                                     <rect key="frame" x="0.0" y="0.0" width="360" height="200"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>

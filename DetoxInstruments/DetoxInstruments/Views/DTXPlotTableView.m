@@ -104,6 +104,11 @@
 		return;
 	}
 	
+	if(self.numberOfRows == 0)
+	{
+		return;
+	}
+	
 	_ignoresEvents = YES;
 	NSTableRowView* rowView = [self rowViewAtRow:0 makeIfNecessary:NO];
 	NSView* actualView = [[[rowView viewAtColumn:rowView.numberOfColumns - 1] subviews] lastObject];

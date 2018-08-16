@@ -23,13 +23,14 @@
 	DTXTimelineIndicatorView* _timelineView;
 	CPTPlotRange* _savedPlotRange;
 	CPTPlotRange* _savedGlobalPlotRange;
+	NSNumber* _savedHighlight;
+	CPTPlotRange* _savedHighlightRange;
 	
 	id<DTXPlotController> _currentlySelectedPlotController;
 }
 
 @property (nonatomic, strong) NSOutlineView* hostingOutlineView;
 @property (nonatomic, copy, readonly) NSArray<id<DTXPlotController>>* plotControllers;
-@property (nonatomic, copy, readonly) id<DTXPlotController> headerPlotController;
 
 @end
 
@@ -99,6 +100,33 @@
 	}
 }
 
+- (void)setTouchBarPlotController:(id<DTXPlotController>)touchBarPlotController
+{
+	_touchBarPlotController = touchBarPlotController;
+	
+	_touchBarPlotController.delegate = self;
+	
+	if(_savedGlobalPlotRange)
+	{
+		[_touchBarPlotController setGlobalPlotRange:_savedGlobalPlotRange];
+	}
+	
+	if(_savedPlotRange)
+	{
+		[_touchBarPlotController setPlotRange:_savedPlotRange];
+	}
+	
+	if(_savedHighlight)
+	{
+		[_touchBarPlotController shadowHighlightAtSampleTime:_savedHighlight.doubleValue];
+	}
+	
+	if(_savedHighlightRange)
+	{
+		[_touchBarPlotController shadowHighlightRange:_savedHighlightRange];
+	}
+}
+
 - (void)addPlotController:(id<DTXPlotController>)plotController
 {
 	[self insertPlotController:plotController afterPlotController:_managedPlotControllers.lastObject];
@@ -155,12 +183,22 @@
 		[plotController setPlotRange:_savedPlotRange];
 	}
 	
+	if(_savedHighlight)
+	{
+		[plotController shadowHighlightAtSampleTime:_savedHighlight.doubleValue];
+	}
+	
+	if(_savedHighlightRange)
+	{
+		[plotController shadowHighlightRange:_savedHighlightRange];
+	}
+	
 	[self _noteOutlineViewOfInsertedAtIndex:idx + 1 forItem:parentPlotController];
 	
-//	if(idx == 0 && parentPlotController == nil && _hostingOutlineView.selectedRowIndexes.count == 0)
-//	{
-//		[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-//	}
+	if(idx == 0 && parentPlotController == nil && _hostingOutlineView.selectedRowIndexes.count == 0)
+	{
+		[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+	}
 }
 
 - (void)setPlotControllerVisible:(id<DTXPlotController>)plotController
@@ -242,6 +280,7 @@
 	
 	_ignoringPlotRangeNotifications = YES;
 	[_headerPlotController setPlotRange:_savedPlotRange];
+	[_touchBarPlotController setPlotRange:_savedPlotRange];
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		[obj setPlotRange:_savedPlotRange];
 	}];
@@ -255,6 +294,7 @@
 	
 	_ignoringPlotRangeNotifications = YES;
 	[_headerPlotController setGlobalPlotRange:_savedGlobalPlotRange];
+	[_touchBarPlotController setGlobalPlotRange:_savedGlobalPlotRange];
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		[obj setGlobalPlotRange:_savedGlobalPlotRange];
 	}];
@@ -297,6 +337,11 @@
 
 - (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc
 {
+	if(pc == _touchBarPlotController)
+	{
+		return;
+	}
+	
 	[_hostingOutlineView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[_hostingOutlineView rowForItem:pc]]];
 }
 
@@ -323,6 +368,11 @@ static BOOL __uglyHackTODOFixThis()
 		[_headerPlotController setPlotRange:plotRange];
 	}
 	
+	if(pc != _touchBarPlotController)
+	{
+		[_touchBarPlotController setPlotRange:plotRange];
+	}
+	
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		if(obj == pc)
 		{
@@ -337,6 +387,8 @@ static BOOL __uglyHackTODOFixThis()
 
 - (void)plotController:(id<DTXPlotController>)pc didHighlightAtSampleTime:(NSTimeInterval)sampleTime
 {
+	_savedHighlight = @(sampleTime);
+	
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		if(obj == pc)
 		{
@@ -348,10 +400,17 @@ static BOOL __uglyHackTODOFixThis()
 			[obj shadowHighlightAtSampleTime:sampleTime];
 		}
 	}];
+	
+	if([_touchBarPlotController respondsToSelector:@selector(shadowHighlightAtSampleTime:)])
+	{
+		[_touchBarPlotController shadowHighlightAtSampleTime:sampleTime];
+	}
 }
 
 - (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(CPTPlotRange*)highlightRange
 {
+	_savedHighlightRange = highlightRange;
+	
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		if(obj == pc)
 		{
@@ -363,10 +422,18 @@ static BOOL __uglyHackTODOFixThis()
 			[obj shadowHighlightRange:highlightRange];
 		}
 	}];
+	
+	if([_touchBarPlotController respondsToSelector:@selector(shadowHighlightAtSampleTime:)])
+	{
+		[_touchBarPlotController shadowHighlightRange:highlightRange];
+	}
 }
 
 - (void)plotControllerDidRemoveHighlight:(id<DTXPlotController>)pc
 {
+	_savedHighlight = nil;
+	_savedHighlightRange = nil;
+	
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		if(obj == pc)
 		{
@@ -378,6 +445,11 @@ static BOOL __uglyHackTODOFixThis()
 			[obj removeHighlight];
 		}
 	}];
+	
+	if([_touchBarPlotController respondsToSelector:@selector(removeHighlight)])
+	{
+		[_touchBarPlotController removeHighlight];
+	}
 }
 
 #pragma mark NSOutlineView Data Source & Delegate

@@ -1,5 +1,5 @@
 //
-//  DTXSignpostPlotController.h
+//  DTXEventsPlotController.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 6/24/18.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DTXSignpostPlotController : DTXIntervalSamplePlotController
+@interface DTXEventsPlotController : DTXIntervalSamplePlotController
 
 @end
 

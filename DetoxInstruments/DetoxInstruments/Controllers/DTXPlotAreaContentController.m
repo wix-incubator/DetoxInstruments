@@ -19,14 +19,14 @@
 #import "DTXRNCPUUsagePlotController.h"
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
-#import "DTXSignpostPlotController.h"
+#import "DTXEventsPlotController.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXPlotControllerPickerController.h"
 
 #import "DTXLayerView.h"
 
-@interface DTXPlotAreaContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate>
+@interface DTXPlotAreaContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate, NSTouchBarDelegate>
 {
 	IBOutlet DTXPlotTableView *_tableView;
 	DTXManagedPlotControllerGroup* _plotGroup;
@@ -35,6 +35,9 @@
 	DTXCPUUsagePlotController* _cpuPlotController;
 	NSMutableArray<DTXThreadInfo*>* _insertedCPUThreads;
 	NSFetchedResultsController* _threadsObserver;
+	
+	Class _touchBarPlotControllerClass;
+	id<DTXPlotController> _touchBarPlotController;
 }
 
 @end
@@ -48,9 +51,9 @@
 	_tableView.enclosingScrollView.contentInsets = NSEdgeInsetsMake(0, 0, 20, 0);
 	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, 0, -20, 0);
 	
-	[(DTXLayerView*)self.view setUpdateLayerHandler:^ (NSView* view) {
-		view.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
-	}];
+//	[(DTXLayerView*)self.view setUpdateLayerHandler:^ (NSView* view) {
+//		view.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
+//	}];
 }
 
 - (void)viewWillAppear
@@ -123,20 +126,20 @@
 	_tableView.intercellSpacing = NSMakeSize(1, 0);
 	
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document];
-	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 209.5, 0, 0)];
-	
+	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 209.5, 0, 0) isForTouchBar:NO];
+
 	[_plotGroup setHeaderPlotController:headerPlotController];
-	
+
 	_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document];
 	[_plotGroup addPlotController:_cpuPlotController];
-	
+
 	NSFetchRequest* fr = [DTXThreadInfo fetchRequest];
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES]];
-	
+
 	_threadsObserver = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 	_threadsObserver.delegate = self;
 	[_threadsObserver performFetch:nil];
-	
+
 	NSArray* threads = _threadsObserver.fetchedObjects;
 	if(threads.count > 0)
 	{
@@ -144,7 +147,7 @@
 			[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj] toPlotController:_cpuPlotController];
 		}];
 	}
-	
+
 	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.document]];
 	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.document]];
 	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.document]];
@@ -205,6 +208,11 @@
 	DTXPlotControllerPickerController* plotControllerPicker = [self.storyboard instantiateControllerWithIdentifier:@"DTXPlotControllerPickerController"];
 	plotControllerPicker.managedPlotControllerGroup = _plotGroup;
 	
+	if([self.presentedViewControllers.firstObject isKindOfClass:DTXPlotControllerPickerController.class])
+	{
+		[self dismissViewController:self.presentedViewControllers.firstObject];
+		return;
+	}
 	[self presentViewController:plotControllerPicker asPopoverRelativeToRect:view.bounds ofView:view preferredEdge:NSRectEdgeMaxY behavior:NSPopoverBehaviorSemitransient];
 }
 
@@ -213,6 +221,8 @@
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup *)group didSelectPlotController:(id<DTXPlotController>)plotController
 {
 	[self.delegate contentController:self updatePlotController:plotController];
+	
+	_touchBarPlotControllerClass = plotController.class;
 }
 
 #pragma NSFetchedResultsControllerDelegate
@@ -238,5 +248,29 @@
 		[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj] toPlotController:_cpuPlotController];
 	}];
 }
+
+#pragma mark NSTouchBarDelegate
+
+- (nullable NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
+{
+	if ([identifier isEqualToString:@"TouchBarPlotController"])
+	{
+		DTXLayerView* customView = [DTXLayerView new];
+		_touchBarPlotController = [[_touchBarPlotControllerClass alloc] initWithDocument:self.document];
+		[_touchBarPlotController setUpWithView:customView insets:NSEdgeInsetsZero isForTouchBar:YES];
+		[_touchBarPlotController requiredHeight];
+		
+		[_plotGroup setTouchBarPlotController:_touchBarPlotController];
+		
+		auto item = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"TouchBarPlotController"];
+		item.view = customView;
+		item.customizationLabel = NSLocalizedString(@"Custom View", @"");
+		
+		return item;
+	}
+	
+	return nil;
+}
+
 
 @end

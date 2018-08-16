@@ -57,7 +57,7 @@
 	return @(MAX([value doubleValue], 0.0));
 }
 
-- (CPTPlotRange*)finesedPlotRangeForPlotRange:(CPTPlotRange*)_yRange;
+- (CPTPlotRange*)finesedPlotYRangeForPlotYRange:(CPTPlotRange*)_yRange;
 {
 	NSEdgeInsets insets = self.rangeInsets;
 	

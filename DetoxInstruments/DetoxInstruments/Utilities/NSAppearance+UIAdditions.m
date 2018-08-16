@@ -12,6 +12,11 @@
 
 - (BOOL)isDarkAppearance
 {
+	if([self.name isEqualToString:@"NSAppearanceNameFunctionRow"])
+	{
+		return YES;
+	}
+	
 	if (@available(macOS 10.14, *)) {
 		NSAppearanceName appearanceName = [self bestMatchFromAppearancesWithNames:@[NSAppearanceNameAqua, NSAppearanceNameDarkAqua]];
 		
@@ -19,6 +24,16 @@
 	} else {
 		return NO;
 	}
+}
+
+- (BOOL)isTouchBarAppearance
+{
+	if([self.name isEqualToString:@"NSAppearanceNameFunctionRow"])
+	{
+		return YES;
+	}
+	
+	return NO;
 }
 
 - (void)performBlockAsCurrentAppearance:(void(^)(void))block
