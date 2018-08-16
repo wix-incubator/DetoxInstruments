@@ -434,7 +434,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 	}
 	
 	dtx_log_info(@"Accepted connection");
-	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
+	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
 	_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dispatch_queue_create("com.wix.DTXRemoteProfiler-Networking", qosAttribute)];
 	_connection.delegate = self;
 	
