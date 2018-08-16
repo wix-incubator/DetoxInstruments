@@ -9,13 +9,14 @@
 #import "DTXSignpostSample+CoreDataClass.h"
 @import CoreData;
 @import AppKit;
+@class DTXRecording;
 #import "DTXSignpostProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DTXSignpostSample (UIExtensions) <DTXSignpost>
 
-+ (BOOL)hasSignpostSamplesForManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
++ (BOOL)hasSignpostSamplesInRecording:(DTXRecording*)recording;
 - (NSString*)eventStatusString;
 - (NSColor*)plotControllerColor;
 

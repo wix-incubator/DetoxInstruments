@@ -9,13 +9,14 @@
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXEventStatusPrivate.h"
 #import "NSColor+UIAdditions.h"
+#import "DTXRecording+UIExtensions.h"
 
 @implementation DTXSignpostSample (UIExtensions)
 
-+ (BOOL)hasSignpostSamplesForManagedObjectContext:(NSManagedObjectContext*)managedObjectContext
++ (BOOL)hasSignpostSamplesInRecording:(DTXRecording*)recording
 {
 	NSFetchRequest* fr = [self fetchRequest];
-	return [managedObjectContext countForFetchRequest:fr error:NULL] > 0;
+	return [recording.managedObjectContext countForFetchRequest:fr error:NULL] > 0;
 }
 
 - (NSUInteger)count

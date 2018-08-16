@@ -7,7 +7,10 @@
 //
 
 #import "DTXNetworkSample+CoreDataClass.h"
+@class DTXRecording;
 
 @interface DTXNetworkSample (UIExtensions)
+
++ (BOOL)hasNetworkSamplesInRecording:(DTXRecording*)recording;
 
 @end

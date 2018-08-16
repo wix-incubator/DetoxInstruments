@@ -149,13 +149,16 @@
 	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.document]];
 	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.document]];
 	
-	if((self.document.recording.dtx_profilingConfiguration == nil || self.document.recording.dtx_profilingConfiguration.recordNetwork == YES))
+	if((self.document.recording.dtx_profilingConfiguration == nil || self.document.recording.dtx_profilingConfiguration.recordNetwork == YES) && (self.document.documentState <= DTXRecordingDocumentStateLiveRecordingFinished || [DTXSignpostSample hasSignpostSamplesInRecording:self.document.recording]))
 	{
 		[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.document]];
 	}
-	
-	[_plotGroup addPlotController:[[DTXSignpostPlotController alloc] initWithDocument:self.document]];
-	
+
+	if(self.document.documentState <= DTXRecordingDocumentStateLiveRecordingFinished || [DTXSignpostSample hasSignpostSamplesInRecording:self.document.recording])
+	{
+		[_plotGroup addPlotController:[[DTXEventsPlotController alloc] initWithDocument:self.document]];
+	}
+
 	if(self.document.recording.hasReactNative && self.document.recording.dtx_profilingConfiguration.profileReactNative)
 	{
 		[_plotGroup addPlotController:[[DTXRNCPUUsagePlotController alloc] initWithDocument:self.document]];
