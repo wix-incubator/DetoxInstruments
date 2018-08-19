@@ -44,6 +44,7 @@
 		393B2464207A61E7002371D5 /* DTXFileListOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393B2463207A61E7002371D5 /* DTXFileListOutlineView.m */; };
 		393CD9231F4337B900FB01FE /* DTXDetailOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393CD9221F4337B900FB01FE /* DTXDetailOutlineView.m */; };
 		393E17B9207E70A4002E6136 /* _DTXModalProgressIndicatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393E17B8207E70A4002E6136 /* _DTXModalProgressIndicatorController.m */; };
+		393E76B1212995CE00E5623F /* DTXTouchBarGraphHostingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393E76B0212995CE00E5623F /* DTXTouchBarGraphHostingView.m */; };
 		393F41C21F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 393F41C11F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m */; };
 		393FAC1A21202C3000637395 /* DTXPlotControllerPickerCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393FAC1921202C3000637395 /* DTXPlotControllerPickerCellView.m */; };
 		394093F520AB12FD00667765 /* DTXApplicationDelegate+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 391958DD20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.m */; };
@@ -504,6 +505,8 @@
 		393E17DA207EEE88002E6136 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		393E66D81FC592BE0092EE89 /* Swiftier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../Shared/Swiftier.h; sourceTree = "<group>"; };
 		393E66DA1FC594B30092EE89 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		393E76AF212995CE00E5623F /* DTXTouchBarGraphHostingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTouchBarGraphHostingView.h; sourceTree = "<group>"; };
+		393E76B0212995CE00E5623F /* DTXTouchBarGraphHostingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTouchBarGraphHostingView.m; sourceTree = "<group>"; };
 		393F41C01F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNCPUInspectorDataProvider.h; sourceTree = "<group>"; };
 		393F41C11F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUInspectorDataProvider.m; sourceTree = "<group>"; };
 		393FAC1821202C3000637395 /* DTXPlotControllerPickerCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotControllerPickerCellView.h; sourceTree = "<group>"; };
@@ -1192,6 +1195,8 @@
 				393FAC1921202C3000637395 /* DTXPlotControllerPickerCellView.m */,
 				39C63AF9212396D700946581 /* DTXKeyDownIgnoringTableView.h */,
 				39C63AFA212396D700946581 /* DTXKeyDownIgnoringTableView.m */,
+				393E76AF212995CE00E5623F /* DTXTouchBarGraphHostingView.h */,
+				393E76B0212995CE00E5623F /* DTXTouchBarGraphHostingView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1929,6 +1934,7 @@
 				39DE8E7A2091EDFD00ED16B4 /* DTXCookiesViewController.m in Sources */,
 				39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */,
 				39BEE1EE207A47B3003AF93E /* aestab.c in Sources */,
+				393E76B1212995CE00E5623F /* DTXTouchBarGraphHostingView.m in Sources */,
 				D8243F941F5401530005CF4B /* DTXFilterField.m in Sources */,
 				39EBDFBD1ED36D45005D8AB1 /* DTXApplicationDelegate.m in Sources */,
 				39C72E0A1F28846300FD470E /* DTXRemoteProfilingClient.m in Sources */,

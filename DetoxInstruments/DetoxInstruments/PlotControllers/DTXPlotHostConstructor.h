@@ -9,11 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "DTXLayerView.h"
 #import "DTXGraphHostingView.h"
+#import "DTXTouchBarGraphHostingView.h"
 
 @interface DTXPlotHostConstructor : NSObject
 
 @property (nonatomic, strong, readonly) DTXLayerView* wrapperView;
-@property (nonatomic, strong, readonly) DTXGraphHostingView* hostingView;
+@property (nonatomic, strong, readonly) __kindof DTXGraphHostingView* hostingView;
 @property (nonatomic, strong, readonly) CPTGraph* graph;
 @property (nonatomic, readonly) BOOL isForTouchBar;
 

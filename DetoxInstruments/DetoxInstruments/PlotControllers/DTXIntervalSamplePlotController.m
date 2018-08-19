@@ -488,7 +488,7 @@
 	[self _prepareMergedSamples];
 	[_plot reloadData];
 	CPTPlotRange* range = [_plot plotRangeForCoordinate:CPTCoordinateY];
-	range = [self finesedPlotYRangeForPlotYRange:range];
+	range = [self finessedPlotYRangeForPlotYRange:range];
 	
 	CPTXYPlotSpace* plotSpace = (id)self.graph.defaultPlotSpace;
 	[self setValue:range forKey:@"_globalYRange"];

@@ -66,6 +66,7 @@
 @synthesize document = _document;
 @synthesize dataProviderControllers = _dataProviderControllers;
 @synthesize sampleClickDelegate = _sampleClickDelegate;
+@synthesize parentPlotController = _parentPlotController;
 
 + (Class)graphHostingViewClass
 {
@@ -178,7 +179,7 @@
 	}
 }
 
-- (void)_clicked:(NSClickGestureRecognizer*)cgr
+- (void)clickedByClickGestureRegonizer:(NSClickGestureRecognizer*)cgr
 {
 	if(self.canReceiveFocus == NO)
 	{
@@ -218,23 +219,31 @@
 		id sample = [self samplesForPlotIndex:((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex];
 		id nextSample = foundPointIndex == numberOfRecords - 1 ? nil : [self samplesForPlotIndex:((NSNumber*)self.plots.firstObject.identifier).unsignedIntegerValue][foundPointIndex + 1];
 		
-		[self _highlightSample:sample nextSample:nextSample plotSpaceOffset:foundPointDelta notifyDelegate:YES];
+		if(self.parentPlotController)
+		{
+			DTXSamplePlotController* spc = (id)self.parentPlotController;
+			[spc _highlightSample:sample nextSample:nextSample plotSpaceOffset:foundPointDelta notifyDelegate:YES];
+		}
+		else
+		{
+			[self _highlightSample:sample nextSample:nextSample plotSpaceOffset:foundPointDelta notifyDelegate:YES];
+		}
 		
-		[self.sampleClickDelegate plotController:self didClickOnSample:sample];
+		[self.sampleClickDelegate plotController:(id)self.parentPlotController ?: self didClickOnSample:sample];
 	}
 }
 
-- (CPTPlotRange*)finesedPlotYRangeForPlotYRange:(CPTPlotRange*)_yRange;
+- (CPTPlotRange*)finessedPlotYRangeForPlotYRange:(CPTPlotRange*)yRange;
 {
 	NSEdgeInsets insets = self.rangeInsets;
 	
-	CPTMutablePlotRange* yRange = [_yRange mutableCopy];
+	CPTMutablePlotRange* rv = [yRange mutableCopy];
 	
-	CGFloat initial = yRange.location.doubleValue;
-	yRange.location = @(-insets.bottom);
-	yRange.length = @((initial + yRange.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier * self.sampleKeys.count);
+	CGFloat initial = rv.location.doubleValue;
+	rv.location = @(-insets.bottom);
+	rv.length = @((initial + rv.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier * self.sampleKeys.count);
 	
-	return yRange;
+	return rv;
 }
 
 - (void)updateLayerHandler
@@ -359,7 +368,7 @@
 {
 	[self prepareSamples];
 	
-	NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_clicked:)];
+	NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(clickedByClickGestureRegonizer:)];
 	[self.hostingView addGestureRecognizer:clickGestureRecognizer];
 	
 	NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:self.hostingView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
@@ -400,7 +409,7 @@
 	}
 	CPTPlotRange *yRange = [plotSpace.yRange mutableCopy];
 	
-	yRange = [self finesedPlotYRangeForPlotYRange:yRange];
+	yRange = [self finessedPlotYRangeForPlotYRange:yRange];
 	
 	plotSpace.globalXRange = xRange;
 	plotSpace.globalYRange = yRange;
@@ -816,7 +825,7 @@
 	
 	CPTXYPlotSpace* plotSpace = (id)self.graph.defaultPlotSpace;
 	CPTPlotRange* newYRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(maxValue)];
-	newYRange = [self finesedPlotYRangeForPlotYRange:newYRange];
+	newYRange = [self finessedPlotYRangeForPlotYRange:newYRange];
 	
 	if(plotSpace.yRange.length.doubleValue < newYRange.length.doubleValue)
 	{

@@ -31,7 +31,15 @@
 
 @end
 
-@protocol DTXPlotController <NSObject>
+@protocol DTXPlotControllerClickHandler <NSObject>
+
+@optional
+
+- (void)clickedByClickGestureRegonizer:(NSClickGestureRecognizer*)cgr;
+
+@end
+
+@protocol DTXPlotController <NSObject, DTXPlotControllerClickHandler>
 
 @property (nonatomic, strong, readonly) DTXRecordingDocument* document;
 @property (nonatomic, weak) id<DTXPlotControllerDelegate> delegate;
@@ -64,6 +72,7 @@
 
 @optional
 
+@property (nonatomic, weak) id<DTXPlotController> parentPlotController;
 @property (nonatomic, weak) id<DTXPlotControllerSampleClickHandlingDelegate> sampleClickDelegate;
 
 - (void)highlightSample:(id)sample;

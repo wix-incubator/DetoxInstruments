@@ -37,6 +37,7 @@
 	NSFetchedResultsController* _threadsObserver;
 	
 	Class _touchBarPlotControllerClass;
+	__weak id<DTXPlotController> _selectedPlotController;
 	id<DTXPlotController> _touchBarPlotController;
 }
 
@@ -222,6 +223,7 @@
 {
 	[self.delegate contentController:self updatePlotController:plotController];
 	
+	_selectedPlotController = plotController;
 	_touchBarPlotControllerClass = plotController.class;
 }
 
@@ -256,11 +258,18 @@
 	if ([identifier isEqualToString:@"TouchBarPlotController"])
 	{
 		DTXLayerView* customView = [DTXLayerView new];
+		customView.allowedTouchTypes = NSTouchTypeMaskDirect;
 		_touchBarPlotController = [[_touchBarPlotControllerClass alloc] initWithDocument:self.document];
 		[_touchBarPlotController setUpWithView:customView insets:NSEdgeInsetsZero isForTouchBar:YES];
 		[_touchBarPlotController requiredHeight];
+		_touchBarPlotController.parentPlotController = _selectedPlotController;
+		_touchBarPlotController.sampleClickDelegate = _selectedPlotController.sampleClickDelegate;
 		
 		[_plotGroup setTouchBarPlotController:_touchBarPlotController];
+		
+		NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:_touchBarPlotController action:@selector(clickedByClickGestureRegonizer:)];
+		clickGestureRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+		[customView addGestureRecognizer:clickGestureRecognizer];
 		
 		auto item = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"TouchBarPlotController"];
 		item.view = customView;

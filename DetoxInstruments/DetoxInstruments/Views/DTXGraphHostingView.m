@@ -25,13 +25,6 @@
 	return self;
 }
 
--(void)viewDidChangeBackingProperties
-{
-	CGFloat scale = self.window ? self.window.backingScaleFactor : 1.0;
-	
-	self.layer.contentsScale = scale;
-}
-
 -(void)scrollWheel:(nonnull NSEvent *)theEvent
 {
 	if(fabs(theEvent.scrollingDeltaY) > fabs(theEvent.scrollingDeltaX))

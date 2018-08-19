@@ -34,7 +34,7 @@
 + (NSFormatter*)formatterForDataPresentation;
 - (id)transformedValueForFormatter:(id)value;
 
-- (CPTPlotRange*)finesedPlotYRangeForPlotYRange:(CPTPlotRange*)yRange;
+- (CPTPlotRange*)finessedPlotYRangeForPlotYRange:(CPTPlotRange*)yRange;
 
 - (void)reloadHighlight;
 

@@ -29,7 +29,7 @@
 		_wrapperView = [DTXLayerView new];
 		_wrapperView.translatesAutoresizingMaskIntoConstraints = NO;
 		
-		_hostingView = [[DTXGraphHostingView alloc] initWithFrame:view.bounds];
+		_hostingView = [[isForTouchBar ? DTXTouchBarGraphHostingView.class : DTXGraphHostingView.class alloc] initWithFrame:view.bounds];
 		_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
 		
 		_graph = [[CPTXYGraph alloc] initWithFrame:_hostingView.bounds];
