@@ -34,7 +34,7 @@
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration;
 
 @property (nonatomic, strong, readonly) DTXCPUMeasurement* currentCPU;
-@property (nonatomic, readonly) double currentMemory;
+@property (nonatomic, readonly) uint64_t currentMemory;
 @property (nonatomic, readonly) double currentFPS;
 @property (nonatomic, readonly) uint64_t currentDiskReads;
 @property (nonatomic, readonly) uint64_t currentDiskReadsDelta;

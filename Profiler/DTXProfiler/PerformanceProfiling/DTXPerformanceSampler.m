@@ -23,7 +23,7 @@ static void* __symbols[DTXMaxFrames];
 @property (nonatomic, strong) DTXFPSCalculator *fpsCalculator;
 
 @property (nonatomic, strong) DTXCPUMeasurement* currentCPU;
-@property (nonatomic, assign) double currentMemory;
+@property (nonatomic, assign) uint64_t currentMemory;
 @property (nonatomic, assign) double currentFPS;
 @property (nonatomic, assign) uint64_t currentDiskReads;
 @property (nonatomic, assign) uint64_t currentDiskReadsDelta;
@@ -187,12 +187,12 @@ static void* __symbols[DTXMaxFrames];
 
 #pragma mark - Memory
 
-- (double)memory
+- (uint64_t)memory
 {
-	struct task_basic_info task_basic_info;
-	mach_msg_type_number_t taskInfoCount = sizeof(task_basic_info);
-	kern_return_t result = task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&task_basic_info, &taskInfoCount);
-	return result == KERN_SUCCESS ? task_basic_info.resident_size : 0;
+	struct task_vm_info task_vm_info;
+	mach_msg_type_number_t vmInfoCount = sizeof(task_vm_info);
+	kern_return_t result = task_info(mach_task_self(), TASK_VM_INFO, (task_info_t)&task_vm_info, &vmInfoCount);
+	return result == KERN_SUCCESS ? task_vm_info.internal + task_vm_info.compressed : 0;
 }
 
 #pragma mark - Disk IO
