@@ -188,6 +188,14 @@
 	[_activeDetailController removeFromParentViewController];
 	_activeDetailController.delegate = nil;
 	
+	if(dataProviderController == nil)
+	{
+		_noSamplesLabel.hidden = NO;
+		_bottomView.hidden = YES;
+	
+		return;
+	}
+	
 	_activeDetailController = dataProviderController;
 	_activeDetailController.delegate = self;
 

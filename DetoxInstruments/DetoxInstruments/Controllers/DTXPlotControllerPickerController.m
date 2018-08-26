@@ -16,6 +16,7 @@
 @implementation DTXPlotControllerPickerController
 {
 	IBOutlet NSTableView* _tableView;
+	NSUInteger _visibleCount;
 }
 
 - (void)viewDidLoad {
@@ -27,6 +28,16 @@
 	[self.view setFrame:NSMakeRect(0, 0, self.view.frame.size.width, MIN(640, _tableView.bounds.size.height))];
 }
 
+- (void)viewWillDisappear
+{
+	[super viewWillDisappear];
+	
+	if(_visibleCount == 0)
+	{
+		[_managedPlotControllerGroup resetPlotControllerVisibility];
+	}
+}
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return _managedPlotControllerGroup.plotControllers.count;
@@ -35,11 +46,11 @@
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	DTXPlotControllerPickerCellView* cell = [tableView makeViewWithIdentifier:@"DTXPlotControllerPickerCellView" owner:nil];
-//	cell.translatesAutoresizingMaskIntoConstraints = NO;
-//
-//	NSLayoutConstraint* c = [cell.widthAnchor constraintEqualToConstant:357];
-//	c.priority = NSLayoutPriorityRequired;
-//	c.active = YES;
+	cell.plotControllerEnabled = [_managedPlotControllerGroup isPlotControllerVisible:_managedPlotControllerGroup.plotControllers[row]];
+	if(cell.plotControllerEnabled)
+	{
+		_visibleCount += 1;
+	}
 	
 	[cell setPlotController:_managedPlotControllerGroup.plotControllers[row]];
 	
@@ -57,10 +68,12 @@
 		if(!cell.plotControllerEnabled)
 		{
 			[_managedPlotControllerGroup setPlotControllerHidden:cell.plotController];
+			_visibleCount -= 1;
 		}
 		else
 		{
 			[_managedPlotControllerGroup setPlotControllerVisible:cell.plotController];
+			_visibleCount += 1;
 		}
 	}
 }

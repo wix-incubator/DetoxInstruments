@@ -129,18 +129,14 @@
 
 - (void)addPlotController:(id<DTXPlotController>)plotController
 {
-	[self insertPlotController:plotController afterPlotController:_managedPlotControllers.lastObject];
+	[self _insertPlotController:plotController afterPlotController:_managedPlotControllers.lastObject parentPlotController:nil inCollection:_managedPlotControllers];
 }
 
 - (void)removePlotController:(id<DTXPlotController>)plotController
 {
 	plotController.delegate = nil;
 	[_managedPlotControllers removeObject:plotController];
-}
-
-- (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController
-{
-	[self _insertPlotController:plotController afterPlotController:afterPlotController parentPlotController:nil inCollection:_managedPlotControllers];
+	[_visiblePlotControllers removeObject:plotController];
 }
 
 - (void)_insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController parentPlotController:(id<DTXPlotController>)parentPlotController inCollection:(NSMutableArray<id<DTXPlotController>>*)collection
@@ -193,36 +189,162 @@
 		[plotController shadowHighlightRange:_savedHighlightRange];
 	}
 	
-	[self _noteOutlineViewOfInsertedAtIndex:idx + 1 forItem:parentPlotController];
-	
-	if(idx == 0 && parentPlotController == nil && _hostingOutlineView.selectedRowIndexes.count == 0)
+	if(collection == _managedPlotControllers)
+	{
+		if([self isPlotControllerVisible:plotController])
+		{
+			[self _insertPlotControllerToVisibleControllers:plotController animated:NO];
+		}
+	}
+	else
+	{
+		[self _noteOutlineViewOfInsertedAtIndex:idx + 1 forItem:parentPlotController animated:NO];
+	}
+}
+
+- (void)_selectFirstPlotControllerIfNeeded
+{
+	if(_hostingOutlineView.selectedRowIndexes.count == 0)
 	{
 		[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	}
 }
 
+- (void)_insertPlotControllerToVisibleControllers:(id<DTXPlotController>)plotController animated:(BOOL)animated
+{
+	__block NSUInteger idxToInsert = 0;
+	
+	if(_managedPlotControllers.lastObject == plotController && _managedPlotControllers.count == _visiblePlotControllers.count - 1)
+	{
+		idxToInsert = _managedPlotControllers.count - 1;
+	}
+	else
+	{
+		NSUInteger idxOfPlotController = [_managedPlotControllers indexOfObject:plotController];
+		
+		if(_managedPlotControllers.count == _visiblePlotControllers.count)
+		{
+			idxToInsert = idxOfPlotController;
+		}
+		else
+		{
+			for(id<DTXPlotController> obj in _visiblePlotControllers)
+			{
+				NSUInteger idxOfCandidate = [_managedPlotControllers indexOfObject:obj];
+				
+				if(idxOfCandidate > idxOfPlotController)
+				{
+					break;
+				}
+				
+				idxToInsert += 1;
+			}
+		}
+	}
+	
+	[_visiblePlotControllers insertObject:plotController atIndex:idxToInsert];
+	
+	[self _noteOutlineViewOfInsertedAtIndex:idxToInsert forItem:nil animated:animated];
+	
+	[self _selectFirstPlotControllerIfNeeded];
+}
+
+- (void)_removePlotControllerFromVisibleControllers:(id<DTXPlotController>)plotController animated:(BOOL)animated
+{
+	NSUInteger idx = [_visiblePlotControllers indexOfObject:plotController];
+	[_visiblePlotControllers removeObject:plotController];
+	
+	if(_hostingOutlineView.selectedRow == idx)
+	{
+		[self.delegate managedPlotControllerGroup:self didSelectPlotController:nil];
+	}
+	
+	[self _noteOutlineViewOfRemovedAtIndex:idx forItem:nil animated:animated];
+	
+	[self _selectFirstPlotControllerIfNeeded];
+}
+
+- (void)_setPlotController:(id<DTXPlotController>)plotController visible:(BOOL)visible
+{
+	NSMutableDictionary* plotControllerVisibility = [[_document objectForPreferenceKey:@"plotControllerVisibility"] mutableCopy] ?: NSMutableDictionary.new;
+	
+	plotControllerVisibility[NSStringFromClass(plotController.class)] = @(visible);
+	
+	if(visible)
+	{
+		[self _insertPlotControllerToVisibleControllers:plotController animated:YES];
+	}
+	else
+	{
+		[self _removePlotControllerFromVisibleControllers:plotController animated:YES];
+	}
+	
+	[_document setObject:plotControllerVisibility forPreferenceKey:@"plotControllerVisibility"];
+}
+
 - (void)setPlotControllerVisible:(id<DTXPlotController>)plotController
 {
-	NSLog(@"Visible: %@", plotController.class);
+	[self _setPlotController:plotController visible:YES];
+	
+//	NSLog(@"Visible: %@", plotController.class);
 }
 
 - (void)setPlotControllerHidden:(id<DTXPlotController>)plotController
 {
-	NSLog(@"Hidden: %@", plotController.class);
+	[self _setPlotController:plotController visible:NO];
+	
+//	NSLog(@"Hidden: %@", plotController.class);
 }
 
-- (void)_noteOutlineViewOfInsertedAtIndex:(NSUInteger)index forItem:(id<DTXPlotController>)item
+- (BOOL)isPlotControllerVisible:(id<DTXPlotController>)plotController
 {
+	return [([_document objectForPreferenceKey:@"plotControllerVisibility"][NSStringFromClass(plotController.class)] ?: @YES) boolValue];
+}
+
+- (void)resetPlotControllerVisibility
+{
+	[_document setObject:nil forPreferenceKey:@"plotControllerVisibility"];
+	
+	NSIndexSet* removed = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _visiblePlotControllers.count)];
+	
+	[_visiblePlotControllers removeAllObjects];
+	
+	[self _noteOutlineViewOfRemovedAtIndexSet:removed forItem:nil animated:YES];
+	
+	[_visiblePlotControllers addObjectsFromArray:_managedPlotControllers];
+	
+	NSIndexSet* added = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _visiblePlotControllers.count)];
+	[self _noteOutlineViewOfInsertedAtIndexSet:added forItem:nil animated:YES];
+	
+	[self _selectFirstPlotControllerIfNeeded];
+}
+
+- (void)_noteOutlineViewOfInsertedAtIndexSet:(NSIndexSet*)indexSet forItem:(id<DTXPlotController>)item animated:(BOOL)animated
+{
+	NSTableViewAnimationOptions animationOptions = animated ? (indexSet.count == 1 ? NSTableViewAnimationSlideRight : NSTableViewAnimationEffectNone) : NSTableViewAnimationEffectNone;
+	
 	[_hostingOutlineView beginUpdates];
-	[_hostingOutlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:item withAnimation:NSTableViewAnimationEffectNone];
+	[_hostingOutlineView insertItemsAtIndexes:indexSet inParent:item withAnimation:animationOptions];
 	[_hostingOutlineView endUpdates];
 }
 
-- (void)_noteOutlineViewOfRemovedAtIndex:(NSUInteger)index forItem:(id<DTXPlotController>)item
+- (void)_noteOutlineViewOfInsertedAtIndex:(NSUInteger)index forItem:(id<DTXPlotController>)item animated:(BOOL)animated
 {
+	[self _noteOutlineViewOfInsertedAtIndexSet:[NSIndexSet indexSetWithIndex:index] forItem:item animated:animated];
+}
+
+- (void)_noteOutlineViewOfRemovedAtIndexSet:(NSIndexSet*)indexSet forItem:(id<DTXPlotController>)item animated:(BOOL)animated
+{
+	NSTableViewAnimationOptions animationOptions = animated ? (indexSet.count == 1 ? NSTableViewAnimationSlideRight : NSTableViewAnimationEffectNone) : NSTableViewAnimationEffectNone;
+	
 	[_hostingOutlineView beginUpdates];
-	[_hostingOutlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:item withAnimation:NSTableViewAnimationEffectNone];
+	[_hostingOutlineView removeItemsAtIndexes:indexSet inParent:item withAnimation:animationOptions];
 	[_hostingOutlineView endUpdates];
+}
+
+- (void)_noteOutlineViewOfRemovedAtIndex:(NSUInteger)index forItem:(id<DTXPlotController>)item animated:(BOOL)animated
+{
+	[self _noteOutlineViewOfRemovedAtIndexSet:[NSIndexSet indexSetWithIndex:index] forItem:item animated:animated];
 }
 
 - (NSMutableArray<id<DTXPlotController>>*)_childrenArrayForPlotController:(id<DTXPlotController>)plotController create:(BOOL)create
@@ -247,12 +369,6 @@
 {
 	NSMutableArray* children = [self _childrenArrayForPlotController:plotController create:YES];
 	[self _insertPlotController:childPlotController afterPlotController:children.lastObject parentPlotController:plotController inCollection:children];
-}
-
-- (void)insertChildPlotController:(id<DTXPlotController>)childPlotController afterChildPlotController:(id<DTXPlotController>)afterPlotController ofPlotController:(id<DTXPlotController>)plotController
-{
-	NSMutableArray* children = [self _childrenArrayForPlotController:plotController create:YES];
-	[self _insertPlotController:childPlotController afterPlotController:afterPlotController parentPlotController:plotController inCollection:children];
 }
 
 - (void)removeChildPlotController:(id<DTXPlotController>)childPlotController ofPlotController:(id<DTXPlotController>)plotController
@@ -458,7 +574,7 @@ static BOOL __uglyHackTODOFixThis()
 {
 	if(item == nil)
 	{
-		return _managedPlotControllers.count;
+		return _visiblePlotControllers.count;
 	}
 	
 	return [[self _childrenArrayForPlotController:item create:NO] count];
@@ -473,7 +589,7 @@ static BOOL __uglyHackTODOFixThis()
 {
 	if(item == nil)
 	{
-		return _managedPlotControllers[index];
+		return _visiblePlotControllers[index];
 	}
 	
 	id<DTXPlotController> plotController = item;

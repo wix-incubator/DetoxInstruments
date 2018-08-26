@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXDocument.h"
 #import "DTXInstrumentsModel.h"
 #import "DTXRNJSCSourceMapsSupport.h"
 
@@ -25,7 +26,7 @@ typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 	DTXRecordingDocumentStateSavedToDisk,
 };
 
-@interface DTXRecordingDocument : NSDocument
+@interface DTXRecordingDocument : DTXDocument
 
 @property (nonatomic) DTXRecordingDocumentState documentState;
 @property (nonatomic, strong, readonly) DTXRecording* recording;

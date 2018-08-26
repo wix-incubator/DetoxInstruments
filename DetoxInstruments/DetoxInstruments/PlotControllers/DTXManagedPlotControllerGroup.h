@@ -30,15 +30,16 @@
 //Main plot controllers
 - (NSArray<id<DTXPlotController>>*)plotControllers;
 - (void)addPlotController:(id<DTXPlotController>)plotController;
-- (void)insertPlotController:(id<DTXPlotController>)plotController afterPlotController:(id<DTXPlotController>)afterPlotController;
 - (void)removePlotController:(id<DTXPlotController>)plotController;
+
 - (void)setPlotControllerHidden:(id<DTXPlotController>)plotController;
 - (void)setPlotControllerVisible:(id<DTXPlotController>)plotController;
+- (BOOL)isPlotControllerVisible:(id<DTXPlotController>)plotController;
+- (void)resetPlotControllerVisibility;
 
 //Child plot controllers
 - (NSArray<id<DTXPlotController>>*)childPlotControllersForPlotController:(id<DTXPlotController>)plotController;
 - (void)addChildPlotController:(id<DTXPlotController>)childPlotController toPlotController:(id<DTXPlotController>)plotController;
-- (void)insertChildPlotController:(id<DTXPlotController>)childPlotController afterChildPlotController:(id<DTXPlotController>)afterPlotController ofPlotController:(id<DTXPlotController>)plotController;
 - (void)removeChildPlotController:(id<DTXPlotController>)childPlotController ofPlotController:(id<DTXPlotController>)plotController;
 
 //Group plot range control
