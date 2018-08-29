@@ -385,6 +385,13 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 - (void)selectSample:(DTXSample*)sample
 {
 	NSInteger idx = [_managedOutlineView rowForItem:sample];
+	
+	if(sample.hidden || idx == -1)
+	{
+		[_managedOutlineView selectRowIndexes:NSIndexSet.indexSet byExtendingSelection:NO];
+		return;
+	}
+	
 	_ignoresSelections = YES;
 	[_managedOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
 	[_managedOutlineView scrollRowToVisible:idx];
