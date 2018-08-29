@@ -61,7 +61,7 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 {
 	_recordingDescriptionDataSource = nil;
 	
-	if(self.document.recording == nil)
+	if(self.document.recordings.count == 0)
 	{
 		return;
 	}
@@ -105,7 +105,7 @@ inline static NSString* __DTXStringFromBoolean(BOOL b)
 		return;
 	}
 	
-	DTXRecording* recording = [self.document recording];
+	DTXRecording* recording = self.document.firstRecording;
 	DTXProfilingConfiguration* configuration;
 	if(recording.profilingConfiguration)
 	{
@@ -135,13 +135,17 @@ inline static NSString* __DTXStringFromBoolean(BOOL b)
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
 	
+	if(self.document.recordings.count > 1)
+	{
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Number of Recordings", @"") description:[NSString stringWithFormat:@"%lu", self.document.recordings.count]]];
+	}
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start Time", @"") description:[NSDateFormatter localizedStringFromDate:recording.startTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]]];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End Time", @"") description:[NSDateFormatter localizedStringFromDate:recording.endTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End Time", @"") description:[NSDateFormatter localizedStringFromDate:self.document.lastRecording.endTimestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]]];
 	
 	NSDateComponentsFormatter* ivFormatter = [NSDateComponentsFormatter new];
 	ivFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
 	
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Duration", @"") description:[ivFormatter stringFromDate:recording.startTimestamp toDate:recording.endTimestamp]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Duration", @"") description:[ivFormatter stringFromDate:recording.startTimestamp toDate:self.document.lastRecording.endTimestamp]]];
 	
 	recordingInfo.content = content;
 	
@@ -160,7 +164,7 @@ inline static NSString* __DTXStringFromBoolean(BOOL b)
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Symbolicate Stack Traces", @"") description:__DTXStringFromBoolean(configuration.symbolicateStackTraces)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Log Output", @"") description:__DTXStringFromBoolean(configuration.recordLogOutput)]];
 		
-		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
+//		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
 		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Profile React Native", @"") description:__DTXStringFromBoolean(configuration.profileReactNative)]];
 //		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Java Script Stack Traces", @"") description:__DTXStringFromBoolean(configuration.collectJavaScriptStackTraces)]];

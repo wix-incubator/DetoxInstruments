@@ -14,10 +14,10 @@ extern NSByteCountFormatter* __byteFormatter;
 
 @implementation DTXNetworkSample (UIExtensions)
 
-+ (BOOL)hasNetworkSamplesInRecording:(DTXRecording*)recording
++ (BOOL)hasNetworkSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext
 {
 	NSFetchRequest* fr = [self fetchRequest];
-	return [recording.managedObjectContext countForFetchRequest:fr error:NULL] > 0;
+	return [managedObjectContext countForFetchRequest:fr error:NULL] > 0;
 }
 
 @end

@@ -59,7 +59,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	return self;
 }
 
-- (NSPersistentContainer*)_persistentStoreForProfiling
+- (NSPersistentContainer*)_persistentStoreForProfilingDeleteExisting:(BOOL)deleteExisting
 {
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[NSURL URLWithString:@""]];
 	description.type = NSInMemoryStoreType;

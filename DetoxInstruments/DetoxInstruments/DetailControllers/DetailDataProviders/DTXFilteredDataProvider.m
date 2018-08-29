@@ -44,10 +44,10 @@
 		NSFetchRequest* fr = [NSFetchRequest new];
 		Class cls = [DTXSample classFromSampleType:self.sampleTypes.firstObject.unsignedIntegerValue];
 		NSString* entityName = [NSStringFromClass(cls) substringFromIndex:3];
-		fr.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:_document.recording.managedObjectContext];
+		fr.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:_document.firstRecording.managedObjectContext];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		
-		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 		_frc.delegate = self;
 	}
 

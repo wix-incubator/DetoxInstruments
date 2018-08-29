@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DTXSignpostSample (UIExtensions) <DTXSignpost>
 
-+ (BOOL)hasSignpostSamplesInRecording:(DTXRecording*)recording;
++ (BOOL)hasSignpostSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 - (NSString*)eventStatusString;
 - (NSColor*)plotControllerColor;
 

@@ -18,6 +18,7 @@
 #import "DTXFilteredDataProvider.h"
 #import "NSView+UIAdditions.h"
 #import "DTXSampleAggregatorProxy.h"
+#import "DTXRecording+UIExtensions.h"
 
 const CGFloat DTXAutomaticColumnWidth = -1.0;
 
@@ -179,7 +180,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (DTXSampleContainerProxy*)rootSampleContainerProxy
 {
-	return [[DTXSampleGroupProxy alloc] initWithSampleGroup:_document.recording.rootSampleGroup sampleTypes:self.sampleTypes outlineView:_managedOutlineView];
+	return [[DTXSampleGroupProxy alloc] initWithSampleTypes:self.sampleTypes outlineView:_managedOutlineView managedObjectContext:_document.firstRecording.managedObjectContext];
 }
 
 - (BOOL)showsHeaderView
@@ -288,13 +289,13 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		rowView.userNotifyColor = [self backgroundRowColorForItem:item];
 		[rowView setUserNotifyTooltip:[self statusTooltipforItem:item]];
 		
-		BOOL hasParentGroup = [item respondsToSelector:@selector(parentGroup)];
-		if(hasParentGroup && [rowView.userNotifyColor isEqualTo:NSColor.controlBackgroundColor] && [item parentGroup] != _document.recording.rootSampleGroup)
-		{
-			CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(item, _document.recording.rootSampleGroup) / 30.0), 0.3);
-			
-			rowView.userNotifyColor = [NSColor.controlBackgroundColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
-		}
+//		BOOL hasParentGroup = [item respondsToSelector:@selector(parentGroup)];
+//		if(hasParentGroup && [rowView.userNotifyColor isEqualTo:NSColor.controlBackgroundColor] && [item parentGroup] != _document.recording.rootSampleGroup)
+//		{
+//			CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(item, _document.recording.rootSampleGroup) / 30.0), 0.3);
+//
+//			rowView.userNotifyColor = [NSColor.controlBackgroundColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
+//		}
 	}
 }
 
@@ -311,7 +312,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	{
 		NSTableCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXTextCell" owner:nil];
 		NSDate* timestamp = [(DTXSample*)item timestamp];
-		NSTimeInterval ti = [timestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate];
+		NSTimeInterval ti = [timestamp timeIntervalSinceReferenceDate] - [_document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
 							 
 		cellView.textField.stringValue = [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:NO];
@@ -418,9 +419,9 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 		{
 			DTXSampleContainerProxy* groupProxy = item;
 			
-			NSDate* groupCloseTimestamp = groupProxy.closeTimestamp ?: _document.recording.endTimestamp;
+			NSDate* groupCloseTimestamp = groupProxy.closeTimestamp ?: [item recording].endTimestamp;
 			
-			CPTPlotRange* groupRange = [CPTPlotRange plotRangeWithLocation:@(groupProxy.timestamp.timeIntervalSinceReferenceDate - _document.recording.startTimestamp.timeIntervalSinceReferenceDate) length:@(groupCloseTimestamp.timeIntervalSinceReferenceDate - groupProxy.timestamp.timeIntervalSinceReferenceDate)];
+			CPTPlotRange* groupRange = [CPTPlotRange plotRangeWithLocation:@(groupProxy.timestamp.timeIntervalSinceReferenceDate - _document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate) length:@(groupCloseTimestamp.timeIntervalSinceReferenceDate - groupProxy.timestamp.timeIntervalSinceReferenceDate)];
 			[_plotController highlightRange:groupRange];
 		}
 	}

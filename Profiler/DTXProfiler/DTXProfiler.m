@@ -21,9 +21,22 @@
 #import "DTXAddressInfo.h"
 #import "DTXDeviceInfo.h"
 #import "DTXSignpostSample+CoreDataClass.h"
+#import "DTXRecording+Additions.h"
+#import <Foundation/Foundation.h>
 
-#define DTX_ASSERT_RECORDING NSAssert(self.recording == YES, @"No recording in progress");
-#define DTX_ASSERT_NOT_RECORDING NSAssert(self.recording == NO, @"A recording is already in progress");
+extern NSString* _NSFullMethodName(Class cls, SEL sel);
+
+#define DTXAssert(condition, desc, ...)	\
+do {				\
+__PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \
+if (__builtin_expect(!(condition), 0)) {		\
+[NSException raise:NSInternalInconsistencyException format:desc]; \
+}				\
+__PRAGMA_POP_NO_EXTRA_ARG_WARNINGS \
+} while(0)
+
+#define DTX_ASSERT_RECORDING DTXAssert(self.recording == YES, @"No recording in progress");
+#define DTX_ASSERT_NOT_RECORDING DTXAssert(self.recording == NO, @"A recording is already in progress");
 #define DTX_IGNORE_NOT_RECORDING if(self.recording == NO) { return; }
 
 DTX_CREATE_LOG(Profiler);
@@ -50,6 +63,8 @@ DTX_CREATE_LOG(Profiler);
 	NSMutableArray<DTXSample*>* _pendingSamples;
 	
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
+	
+	BOOL _awaitsMarkerInsertion;
 }
 
 @synthesize _profilerStoryListener = _profilerStoryListener;
@@ -64,10 +79,15 @@ DTX_CREATE_LOG(Profiler);
 	return _currentProfilingConfiguration;
 }
 
-- (NSPersistentContainer*)_persistentStoreForProfiling
+- (NSPersistentContainer*)_persistentStoreForProfilingDeleteExisting:(BOOL)deleteExisting
 {
 	NSError* err;
-	[[NSFileManager defaultManager] removeItemAtURL:_currentProfilingConfiguration.recordingFileURL error:&err];
+	
+	if(deleteExisting)
+	{
+		[[NSFileManager defaultManager] removeItemAtURL:_currentProfilingConfiguration.recordingFileURL error:&err];
+	}
+	
 	[[NSFileManager defaultManager] createDirectoryAtURL:_currentProfilingConfiguration.recordingFileURL withIntermediateDirectories:YES attributes:nil error:NULL];
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];
@@ -81,6 +101,16 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
+	[self _startProfilingWithConfiguration:configuration deleteExisting:YES];
+}
+
+- (void)continueProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
+{
+	[self _startProfilingWithConfiguration:configuration deleteExisting:NO];
+}
+
+- (void)_startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration deleteExisting:(BOOL)deleteExisting
+{
 	DTX_ASSERT_NOT_RECORDING
 
 	dtx_log_info(@"Starting profiling");
@@ -93,14 +123,40 @@ DTX_CREATE_LOG(Profiler);
 	
 	_threads = [NSMutableDictionary new];
 	
-	_container = [self _persistentStoreForProfiling];
+	_container = [self _persistentStoreForProfilingDeleteExisting:deleteExisting];
 	
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
 		self->_backgroundContext = self->_container.newBackgroundContext;
 		
 		[self->_backgroundContext performBlockAndWait:^{
+			if(deleteExisting == NO)
+			{
+				NSFetchRequest* fr = [DTXSample fetchRequest];
+				fr.fetchLimit = 1;
+				fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
+				fr.resultType = NSDictionaryResultType;
+				fr.propertiesToFetch = @[@"timestamp"];
+				
+				NSArray<NSDictionary*>* samples = [self->_backgroundContext executeFetchRequest:fr error:NULL];
+				if(samples.count > 0)
+				{
+					NSDate* sampleTimestamp = samples.firstObject[@"timestamp"];
+					
+					[self _addMarkerPerformanceSampleAtTimestamp:[sampleTimestamp dateByAddingTimeInterval:0.0001]];
+					self->_awaitsMarkerInsertion = YES;
+				}
+				
+				fr = [DTXRecording fetchRequest];
+				fr.fetchLimit = 1;
+				DTXRecording* anotherRecording = [self->_backgroundContext executeFetchRequest:fr error:NULL].firstObject;
+				if(anotherRecording)
+				{
+					self->_currentProfilingConfiguration = [anotherRecording.dtx_profilingConfiguration copy];
+				}
+			}
+			
 			self->_currentRecording = [[DTXRecording alloc] initWithContext:self->_backgroundContext];
-			self->_currentRecording.profilingConfiguration = configuration.dictionaryRepresentation;
+			self->_currentRecording.profilingConfiguration = self->_currentProfilingConfiguration.dictionaryRepresentation;
 			
 			NSDictionary* deviceInfo = [DTXDeviceInfo deviceInfo];
 			[deviceInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
@@ -118,14 +174,14 @@ DTX_CREATE_LOG(Profiler);
 			
 			__weak __typeof(self) weakSelf = self;
 			
-			self->_pollingManager = [[DTXPollingManager alloc] initWithInterval:configuration.samplingInterval];
-			[self->_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:configuration] handler:^(DTXPerformanceSampler* pollable) {
+			self->_pollingManager = [[DTXPollingManager alloc] initWithInterval:self->_currentProfilingConfiguration.samplingInterval];
+			[self->_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:self->_currentProfilingConfiguration] handler:^(DTXPerformanceSampler* pollable) {
 				[weakSelf performanceSamplerDidPoll:pollable];
 			}];
 			
 			if(self->_currentRecording.hasReactNative == YES && self->_currentProfilingConfiguration.profileReactNative == YES)
 			{
-				DTXReactNativeSampler* rnSampler = [[DTXReactNativeSampler alloc] initWithConfiguration:configuration];
+				DTXReactNativeSampler* rnSampler = [[DTXReactNativeSampler alloc] initWithConfiguration:self->_currentProfilingConfiguration];
 				if(rnSampler != nil)
 				{
 					[self->_pollingManager addPollable:rnSampler handler:^(DTXReactNativeSampler* pollable) {
@@ -188,11 +244,37 @@ DTX_CREATE_LOG(Profiler);
 	unsymbolicatedSample.stackTraceIsSymbolicated = wasSymbolicated;
 }
 
+- (void)_addMarkerPerformanceSampleAtTimestamp:(NSDate*)timestamp
+{
+	__kindof DTXPerformanceSample* perfSample;
+	
+	if(self->_currentProfilingConfiguration.recordThreadInformation)
+	{
+		perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:self->_backgroundContext];
+	}
+	else
+	{
+		perfSample = [[DTXPerformanceSample alloc] initWithContext:self->_backgroundContext];
+	}
+	
+	perfSample.parentGroup = self->_currentRecording.rootSampleGroup;
+	perfSample.timestamp = timestamp;
+	perfSample.hidden = YES;
+	
+	[self->_profilerStoryListener addPerformanceSample:perfSample];
+	
+	[_pendingSamples addObject:perfSample];
+	[self _flushPendingSamplesInternal];
+}
+
 - (void)stopProfilingWithCompletionHandler:(void(^ __nullable)(NSError* __nullable error))handler
 {
 	DTX_ASSERT_RECORDING
 	
 	dtx_log_info(@"Stopping profiling");
+	
+	[_pollingManager suspend];
+	_pollingManager = nil;
 	
 	[self _flushPendingSamplesWithInternalCompletionHandler:^{
 		__DTXProfilerRemoveActiveProfiler(self);
@@ -200,8 +282,6 @@ DTX_CREATE_LOG(Profiler);
 		self->_currentRecording.endTimestamp = [NSDate date];
 		
 		[self->_profilerStoryListener updateRecording:self->_currentRecording stopRecording:YES];
-		
-		self->_pollingManager = nil;
 		
 		if(self->_currentProfilingConfiguration.collectStackTraces == YES
 		   && self->_currentProfilingConfiguration.symbolicateStackTraces == YES)
@@ -237,7 +317,7 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_pushSampleGroupWithName:(NSString*)name timestamp:(NSDate*)timestamp
 {
-	DTX_ASSERT_RECORDING
+	DTX_IGNORE_NOT_RECORDING
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
@@ -252,7 +332,7 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_popSampleGroupWithTimestamp:(NSDate *)timestamp
 {
-	DTX_ASSERT_RECORDING
+	DTX_IGNORE_NOT_RECORDING
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
@@ -267,7 +347,7 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_addTag:(NSString*)_tag timestamp:(NSDate*)timestamp
 {
-	DTX_ASSERT_RECORDING
+	DTX_IGNORE_NOT_RECORDING
 	
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
@@ -290,7 +370,7 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_addLogLine:(NSString *)line objects:(NSArray *)objects timestamp:(NSDate*)timestamp
 {
-	DTX_ASSERT_RECORDING
+	DTX_IGNORE_NOT_RECORDING
 	
 	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
@@ -307,7 +387,11 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace timestamp:(NSDate*)timestamp
 {
+	DTX_IGNORE_NOT_RECORDING
+	
 	[self->_backgroundContext performBlock:^{
+		DTX_IGNORE_NOT_RECORDING
+		
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
 		signpostSample.timestamp = timestamp;
 		signpostSample.uniqueIdentifier = identifier;
@@ -325,7 +409,11 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo timestamp:(NSDate*)timestamp
 {
+	DTX_IGNORE_NOT_RECORDING
+	
 	[self->_backgroundContext performBlock:^{
+		DTX_IGNORE_NOT_RECORDING
+		
 		NSFetchRequest* fr = [DTXSignpostSample fetchRequest];
 		fr.predicate = [NSPredicate predicateWithFormat:@"uniqueIdentifier == %@", identifier];
 		DTXSignpostSample* signpostSample = [self->_backgroundContext executeFetchRequest:fr error:NULL].firstObject;
@@ -345,7 +433,10 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp
 {
+	DTX_IGNORE_NOT_RECORDING
 	[self->_backgroundContext performBlock:^{
+		DTX_IGNORE_NOT_RECORDING
+		
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
 		signpostSample.timestamp = timestamp;
 		signpostSample.parentGroup = self->_currentSampleGroup;
@@ -538,6 +629,12 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_addPendingSampleInternal:(DTXSample*)pendingSample
 {
+	if(_awaitsMarkerInsertion)
+	{
+		[self _addMarkerPerformanceSampleAtTimestamp:[pendingSample.timestamp dateByAddingTimeInterval:-0.0001]];
+		_awaitsMarkerInsertion = NO;
+	}
+	
 	[_pendingSamples addObject:pendingSample];
 	
 	if(_pendingSamples.count >= _currentProfilingConfiguration.numberOfSamplesBeforeFlushToDisk)
@@ -580,12 +677,16 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_networkRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
+	DTX_IGNORE_NOT_RECORDING
+	
 	if(_currentProfilingConfiguration.recordLocalhostNetwork == NO && ([response.URL.host isEqualToString:@"localhost"] || [response.URL.host isEqualToString:@"127.0.0.1"]))
 	{
 		return;
 	}
 	
 	[_backgroundContext performBlock:^{
+		DTX_IGNORE_NOT_RECORDING
+		
 		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
 		fr.predicate = [NSPredicate predicateWithFormat:@"uniqueIdentifier == %@", uniqueIdentifier];
 		DTXNetworkSample* networkSample = [self->_backgroundContext executeFetchRequest:fr error:NULL].firstObject;

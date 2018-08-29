@@ -70,7 +70,7 @@
 	NSFetchRequest* fr = [self.class.classForIntervalSamples fetchRequest];
 	fr.sortDescriptors = self.sortDescriptors ?: @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 	
-	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 	_frc.delegate = self;
 	[_frc performFetch:NULL];
 	
@@ -223,10 +223,10 @@
 		[_plot reloadData];
 	}
 	
-	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
 	
-	NSTimeInterval timestamp =  sample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
-	NSTimeInterval responseTimestamp = [self endTimestampForSample:sample].timeIntervalSinceReferenceDate  - self.document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval timestamp =  sample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval responseTimestamp = [self endTimestampForSample:sample].timeIntervalSinceReferenceDate  - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
 	CPTPlotRange* range = [CPTPlotRange plotRangeWithLocation:@(timestamp) length:@(responseTimestamp - timestamp)];
 	[self.delegate plotController:self didHighlightRange:range];
 	
@@ -410,8 +410,8 @@
 	
 	DTXSample* sample = self._mergedSamples[indexPath.section][indexPath.item];
 	
-	NSTimeInterval timestamp = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate];
-	NSTimeInterval responseTimestamp = [[self endTimestampForSample:sample] timeIntervalSinceReferenceDate]  - [self.document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval timestamp = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval responseTimestamp = [[self endTimestampForSample:sample] timeIntervalSinceReferenceDate]  - [self.document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate];
 	NSTimeInterval range = responseTimestamp - timestamp;
 	NSTimeInterval avg = (timestamp + responseTimestamp) / 2;
 	

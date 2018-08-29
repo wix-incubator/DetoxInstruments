@@ -10,6 +10,6 @@
 
 @interface DTXSignpostRootProxy : DTXSampleAggregatorProxy
 
-- (instancetype)initWithRecording:(DTXRecording*)recording outlineView:(NSOutlineView*)outlineView;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView;
 
 @end

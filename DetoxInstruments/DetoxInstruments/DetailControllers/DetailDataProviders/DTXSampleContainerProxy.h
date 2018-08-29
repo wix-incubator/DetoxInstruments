@@ -24,7 +24,7 @@
 @property (nonatomic, strong) NSDate* closeTimestamp;
 @property (nonatomic, strong) NSString* name;
 
-@property (nonatomic, strong) NSFetchedResultsController* fetchedResultsController;
+@property (nonatomic, strong, readonly) NSFetchedResultsController* fetchedResultsController;
 
 - (instancetype)initWithOutlineView:(NSOutlineView*)outlineView isRoot:(BOOL)root managedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 - (void)reloadData;

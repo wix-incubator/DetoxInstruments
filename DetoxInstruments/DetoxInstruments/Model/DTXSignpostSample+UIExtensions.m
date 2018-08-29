@@ -13,10 +13,10 @@
 
 @implementation DTXSignpostSample (UIExtensions)
 
-+ (BOOL)hasSignpostSamplesInRecording:(DTXRecording*)recording
++ (BOOL)hasSignpostSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext
 {
 	NSFetchRequest* fr = [self fetchRequest];
-	return [recording.managedObjectContext countForFetchRequest:fr error:NULL] > 0;
+	return [managedObjectContext countForFetchRequest:fr error:NULL] > 0;
 }
 
 - (NSUInteger)count

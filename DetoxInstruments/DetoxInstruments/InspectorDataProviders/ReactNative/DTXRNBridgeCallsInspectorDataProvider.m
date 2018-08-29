@@ -21,7 +21,7 @@
 	
 	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
 	
-	NSTimeInterval ti = perfSample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval ti = perfSample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Bridge Calls N->JS (Delta)", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(perfSample.bridgeNToJSCallCountDelta)]]];

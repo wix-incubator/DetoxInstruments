@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Profiling configuration object for the Profiler.
  */
-@interface DTXProfilingConfiguration : NSObject <NSCopying, NSMutableCopying>
+@interface DTXProfilingConfiguration : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
 /**
  *  Returns a newly created default profiling configuration object.

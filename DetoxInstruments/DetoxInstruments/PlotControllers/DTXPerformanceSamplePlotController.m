@@ -36,7 +36,7 @@
 
 - (void)prepareSamples
 {
-	if(self.document == nil || self.document.recording == nil)
+	if(self.document == nil || self.document.recordings.count == 0)
 	{
 		return;
 	}
@@ -51,7 +51,7 @@
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		fr.predicate = self.predicateForPerformanceSamples;
 		
-		NSFetchedResultsController* frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+		NSFetchedResultsController* frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 		frc.delegate = self;
 		_frcs[idx] = frc;
 		

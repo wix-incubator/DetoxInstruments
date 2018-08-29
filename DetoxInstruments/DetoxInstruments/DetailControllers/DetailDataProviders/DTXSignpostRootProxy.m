@@ -12,9 +12,9 @@
 
 @implementation DTXSignpostRootProxy
 
-- (instancetype)initWithRecording:(DTXRecording*)recording outlineView:(NSOutlineView*)outlineView
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView
 {
-	self = [super initWithKeyPath:@"category" isRoot:YES recording:recording outlineView:outlineView];
+	self = [super initWithKeyPath:@"category" isRoot:YES managedObjectContext:managedObjectContext outlineView:outlineView];
 	
 	if(self)
 	{
@@ -30,7 +30,7 @@
 
 - (id)objectForSample:(id)sample
 {
-	return [[DTXSignpostCategoryProxy alloc] initWithCategory:sample recording:self.recording outlineView:self.outlineView];
+	return [[DTXSignpostCategoryProxy alloc] initWithCategory:sample managedObjectContext:self.managedObjectContext outlineView:self.outlineView];
 }
 
 @end

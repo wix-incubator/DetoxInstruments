@@ -11,6 +11,6 @@
 
 @interface DTXNetworkSample (UIExtensions)
 
-+ (BOOL)hasNetworkSamplesInRecording:(DTXRecording*)recording;
++ (BOOL)hasNetworkSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 
 @end

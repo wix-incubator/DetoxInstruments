@@ -12,28 +12,6 @@ static void __DTXProfilerActiveProfilersInit()
 }
 
 /**
- *  Push a sample group.
- *
- *  Subsequent samples will be pushed into this group.
- *
- *  @param name The name of the sample group to push.
- */
-void DTXProfilerPushSampleGroup(NSString* name)
-{
-	__DTXProfilerPushSampleGroup(NSDate.date, name);
-}
-
-/**
- *  Pop a sample group.
- *
- *  Subsequent samples will be pushed into the parent group.
- */
-void DTXProfilerPopSampleGroup(void)
-{
-	__DTXProfilerPopSampleGroup(NSDate.date);
-}
-
-/**
  *  Adds a tag.
  *
  *  Tags are added chronologically.

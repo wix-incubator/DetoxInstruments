@@ -29,7 +29,11 @@ typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 @interface DTXRecordingDocument : DTXDocument
 
 @property (nonatomic) DTXRecordingDocumentState documentState;
-@property (nonatomic, strong, readonly) DTXRecording* recording;
+
+//@property (nonatomic, strong, readonly) DTXRecording* recording;
+@property (nonatomic, strong, readonly) NSArray<DTXRecording*>* recordings;
+@property (nonatomic, strong, readonly) DTXRecording* firstRecording;
+@property (nonatomic, strong, readonly) DTXRecording* lastRecording;
 
 @property (nonatomic, strong, readonly) DTXSourceMapsParser* sourceMapsParser;
 

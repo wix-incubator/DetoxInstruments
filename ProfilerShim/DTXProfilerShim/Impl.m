@@ -81,14 +81,6 @@
 
 @end
 
-void DTXProfilerPushSampleGroup(NSString* name)
-{
-	
-}
-void DTXProfilerPopSampleGroup(void)
-{
-	
-}
 void DTXProfilerAddTag(NSString* tag)
 {
 	

@@ -65,7 +65,7 @@
 
 - (NSDate*)endTimestampForSample:(DTXNetworkSample*)sample
 {
-	return sample.responseTimestamp ?: NSDate.distantFuture;
+	return sample.responseTimestamp ?: (sample.recording == self.document.lastRecording && self.document.lastRecording.endTimestamp == nil) ? NSDate.distantFuture : sample.recording.endTimestamp;
 }
 
 - (NSColor*)colorForSample:(DTXNetworkSample*)sample

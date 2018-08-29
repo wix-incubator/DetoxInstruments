@@ -38,7 +38,7 @@
 	
 	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
 	
-	NSTimeInterval ti = eventSample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval ti = eventSample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Type", @"") description:eventSample.isEvent ? NSLocalizedString(@"Event", @"") : NSLocalizedString(@"Interval", @"")]];
 	
@@ -61,7 +61,7 @@
 		
 		if(eventSample.endTimestamp)
 		{
-			ti = eventSample.endTimestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
+			ti = eventSample.endTimestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 			endString = [NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)];
 			durationString = [NSFormatter.dtx_durationFormatter stringFromTimeInterval:eventSample.duration];
 		}

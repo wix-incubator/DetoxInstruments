@@ -63,7 +63,7 @@ DTX_CREATE_LOG(PollingManager);
 
 - (void)suspend
 {
-	dispatch_suspend(_measurementsTimer);
+	dispatch_cancel(_measurementsTimer);
 }
 
 - (void)_pollPollables
@@ -80,7 +80,10 @@ DTX_CREATE_LOG(PollingManager);
 
 - (void)dealloc
 {
-	dispatch_cancel(_measurementsTimer);
+	if(dispatch_source_testcancel(_measurementsTimer) == 0)
+	{
+		dispatch_cancel(_measurementsTimer);
+	}
 }
 
 @end

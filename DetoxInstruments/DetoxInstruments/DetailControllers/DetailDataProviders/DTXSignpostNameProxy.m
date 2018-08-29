@@ -8,6 +8,7 @@
 
 #import "DTXSignpostNameProxy.h"
 #import "DTXSignpostSample+UIExtensions.h"
+#import "DTXSample+Additions.h"
 
 @implementation DTXSignpostNameProxy
 
@@ -19,9 +20,9 @@
 @synthesize maxDuration=_maxDuration;
 @synthesize stddevDuration=_stddevDuration;
 
-- (instancetype)initWithCategory:(NSString*)category name:(NSString*)name recording:(DTXRecording*)recording outlineView:(NSOutlineView*)outlineView
+- (instancetype)initWithCategory:(NSString*)category name:(NSString*)name managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView
 {
-	self = [super initWithOutlineView:outlineView isRoot:NO managedObjectContext:recording.managedObjectContext];
+	self = [super initWithOutlineView:outlineView isRoot:NO managedObjectContext:managedObjectContext];
 	
 	if(self)
 	{
@@ -89,6 +90,26 @@
 	DTXSignpostSample* sample = self.fetchedResultsController.fetchedObjects.lastObject;
 	
 	return sample.endTimestamp;
+}
+
+- (DTXRecording*)recording
+{
+	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
+	fr.predicate = _fetchRequest.predicate;
+	NSArray<DTXSample*>* events = [self.fetchedResultsController.managedObjectContext executeFetchRequest:fr error:NULL];
+	
+	DTXRecording* rv = events.firstObject.recording;
+	
+	for(DTXSample* sample in events)
+	{
+		DTXRecording* pending = sample.recording;
+		if([pending.startTimestamp compare:rv.startTimestamp] == NSOrderedDescending)
+		{
+			rv = pending;
+		}
+	}
+	
+	return rv;
 }
 
 - (BOOL)isGroup

@@ -23,7 +23,7 @@
 	
 	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
 	
-	NSTimeInterval ti = logSample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval ti = logSample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
 	

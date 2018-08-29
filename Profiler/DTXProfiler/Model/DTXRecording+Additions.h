@@ -7,7 +7,10 @@
 //
 
 #import "DTXRecording+CoreDataClass.h"
+#import "DTXProfilingConfiguration.h"
 
 @interface DTXRecording (Additions)
+
+@property (nonatomic, strong, readonly) DTXProfilingConfiguration* dtx_profilingConfiguration;
 
 @end

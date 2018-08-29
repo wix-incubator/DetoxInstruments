@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14308.2" systemVersion="18A336e" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.12.1" systemVersion="18A371a" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdvancedPerformanceSample" representedClassName="DTXAdvancedPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <attribute name="heaviestStackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
         <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -125,6 +125,7 @@
         </relationship>
     </entity>
     <entity name="Sample" representedClassName="DTXSample" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sampleIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -183,7 +184,7 @@
         <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="165"/>
         <element name="ReactNativePeroformanceSample" positionX="-27" positionY="135" width="128" height="210"/>
         <element name="Recording" positionX="-27" positionY="45" width="128" height="345"/>
-        <element name="Sample" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="Sample" positionX="-63" positionY="-18" width="128" height="120"/>
         <element name="SampleGroup" positionX="-45" positionY="0" width="128" height="90"/>
         <element name="SignpostSample" positionX="-27" positionY="135" width="128" height="225"/>
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>

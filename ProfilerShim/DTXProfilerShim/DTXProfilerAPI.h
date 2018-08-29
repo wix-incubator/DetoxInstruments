@@ -15,33 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 __BEGIN_DECLS
 
 /*!
- * @function DTXProfilerPushSampleGroup
- *
- * @abstract
- * Push a new sample group.
- *
- * @discussion
- * Subsequent samples will be pushed into this group.
- *
- * @param name
- * The name of the sample group to push.
- */
-DTX_NOTHROW
-extern void DTXProfilerPushSampleGroup(NSString* name);
-
-/*!
- * @function DTXProfilerPopSampleGroup
- *
- * @abstract
- * Pop the current sample group.
- *
- * @discussion
- * Subsequent samples will be pushed into the parent group.
- */
-DTX_NOTHROW
-extern void DTXProfilerPopSampleGroup(void);
-
-/*!
  * @function DTXProfilerAddTag
  *
  * @abstract

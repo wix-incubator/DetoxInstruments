@@ -68,7 +68,7 @@
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Name", @"") description:tag.name]];
 	
-	NSTimeInterval ti = [tag.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval ti = [tag.timestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
 	
@@ -96,11 +96,11 @@
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Name", @"") description:proxy.name]];
 	
-	NSTimeInterval ti = [proxy.timestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	NSTimeInterval ti = [proxy.timestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
 	
-	ti = [proxy.closeTimestamp ?: self.document.recording.endTimestamp timeIntervalSinceReferenceDate] - [self.document.recording.startTimestamp timeIntervalSinceReferenceDate];
+	ti = [proxy.closeTimestamp ?: proxy.recording.endTimestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
 	

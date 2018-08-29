@@ -13,6 +13,6 @@
 
 @property (nonatomic, strong, readonly) NSString* category;
 
-- (instancetype)initWithCategory:(NSString*)category recording:(DTXRecording*)recording outlineView:(NSOutlineView*)outlineView;
+- (instancetype)initWithCategory:(NSString*)category managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView;
 
 @end

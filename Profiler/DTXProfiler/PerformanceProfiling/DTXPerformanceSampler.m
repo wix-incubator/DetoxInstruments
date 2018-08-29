@@ -146,8 +146,8 @@ static void* __symbols[DTXMaxFrames];
 		
 		thread_extended_info_t thread_extended_info = (thread_extended_info_t)thread_info_data;
 		
-		if (!(thread_extended_info->pth_flags & TH_FLAGS_IDLE))
-		{
+//		if (!(thread_extended_info->pth_flags & TH_FLAGS_IDLE))
+//		{
 			total_cpu += (thread_extended_info->pth_cpu_usage / (double)TH_USAGE_SCALE);
 			
 			if(_collectThreadInfo)
@@ -174,7 +174,7 @@ static void* __symbols[DTXMaxFrames];
 					heaviestThread = thread;
 				}
 			}
-		}
+//		}
 	}
 	vm_deallocate(mach_task_self(), (vm_offset_t)thread_list, thread_count * sizeof(thread_t));
 	

@@ -242,13 +242,15 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		NSData* data = nil;
 		NSError* error = nil;
 		
+		//TODO: Fix this
+		
 		if(_formatPopupButton.selectedTag == 0)
 		{
-			data = [NSPropertyListSerialization dataWithPropertyList:[((DTXRecordingDocument*)self.document).recording dictionaryRepresentationForPropertyList] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
+//			data = [NSPropertyListSerialization dataWithPropertyList:[((DTXRecordingDocument*)self.document).recording dictionaryRepresentationForPropertyList] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
 		}
 		else
 		{
-			data = [NSJSONSerialization dataWithJSONObject:[((DTXRecordingDocument*)self.document).recording dictionaryRepresentationForJSON] options:NSJSONWritingPrettyPrinted error:&error];
+//			data = [NSJSONSerialization dataWithJSONObject:[((DTXRecordingDocument*)self.document).recording dictionaryRepresentationForJSON] options:NSJSONWritingPrettyPrinted error:&error];
 		}
 		
 		if(data != nil)

@@ -66,7 +66,7 @@
 
 - (NSDate*)endTimestampForSample:(DTXSignpostSample*)sample
 {
-	return sample.isEvent ? sample.timestamp : sample.endTimestamp ?: NSDate.distantFuture;
+	return sample.isEvent ? sample.timestamp : sample.endTimestamp ?: (sample.recording == self.document.lastRecording && self.document.lastRecording.endTimestamp != nil) ? NSDate.distantFuture : sample.recording.endTimestamp;
 }
 
 - (NSDate*)endTimestampForSampleForSorting:(DTXSignpostSample*)sample

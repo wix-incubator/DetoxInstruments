@@ -11,6 +11,4 @@
 
 @interface DTXSampleGroup (UIExtensions)
 
-- (NSFetchRequest<DTXSample*>*)fetchRequestForSamplesWithTypes:(NSArray<NSNumber*>*)sampleTypes includingGroups:(BOOL)includeGroups;
-
 @end

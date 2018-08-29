@@ -9,6 +9,7 @@
 #import "DTXSignpostCategoryProxy.h"
 #import "DTXSignpostNameProxy.h"
 #import "DTXSignpostSample+UIExtensions.h"
+#import "DTXSample+Additions.h"
 
 @implementation DTXSignpostCategoryProxy
 
@@ -18,9 +19,9 @@
 @synthesize maxDuration=_maxDuration;
 @synthesize stddevDuration=_stddevDuration;
 
-- (instancetype)initWithCategory:(NSString *)category recording:(DTXRecording *)recording outlineView:(NSOutlineView *)outlineView
+- (instancetype)initWithCategory:(NSString*)category managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView
 {
-	self = [super initWithKeyPath:@"name" isRoot:NO recording:recording outlineView:outlineView];
+	self = [super initWithKeyPath:@"name" isRoot:NO managedObjectContext:managedObjectContext outlineView:outlineView];
 	
 	if(self)
 	{
@@ -37,7 +38,7 @@
 
 - (id)objectForSample:(id)sample
 {
-	return [[DTXSignpostNameProxy alloc] initWithCategory:self.category name:sample recording:self.recording outlineView:self.outlineView];
+	return [[DTXSignpostNameProxy alloc] initWithCategory:self.category name:sample managedObjectContext:self.managedObjectContext outlineView:self.outlineView];
 }
 
 - (NSString *)name
@@ -47,7 +48,7 @@
 
 - (NSPredicate *)predicateForAggregator
 {
-	return [NSPredicate predicateWithFormat:@"category == %@ && endTimestamp != nil", _category];
+	return [NSPredicate predicateWithFormat:@"category == %@", _category];
 }
 
 - (NSUInteger)count
@@ -95,6 +96,26 @@
 	_minDuration = results[@"min"].doubleValue;
 	_avgDuration = results[@"avg"].doubleValue;
 	_maxDuration = results[@"max"].doubleValue;
+}
+
+- (DTXRecording*)recording
+{
+	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
+	fr.predicate = self.fetchRequest.predicate;
+	NSArray<DTXSample*>* events = [self.fetchedResultsController.managedObjectContext executeFetchRequest:fr error:NULL];
+	
+	DTXRecording* rv = events.firstObject.recording;
+	
+	for(DTXSample* sample in events)
+	{
+		DTXRecording* pending = sample.recording;
+		if([pending.startTimestamp compare:rv.startTimestamp] == NSOrderedDescending)
+		{
+			rv = pending;
+		}
+	}
+	
+	return rv;
 }
 
 - (NSDate *)closeTimestamp

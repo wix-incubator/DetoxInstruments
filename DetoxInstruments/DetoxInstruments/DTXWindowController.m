@@ -29,8 +29,6 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	
 	__weak IBOutlet NSButton* _stopRecordingButton;
 	__weak IBOutlet NSButton* _flagButton;
-	__weak IBOutlet NSButton* _pushGroupButton;
-	__weak IBOutlet NSButton* _popGroupButton;
 	
 	DTXPlotDetailSplitViewController* _plotDetailsSplitViewController;
 	DTXDetailInspectorSplitViewController* _detailInspectorSplitViewController;
@@ -136,13 +134,13 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 		
 		DTXRecordingDocument* document = (DTXRecordingDocument*)self.document;
 		
-		if(document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished && document.recording.startTimestamp && document.recording.endTimestamp)
+		if(document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished && document.firstRecording.startTimestamp && document.lastRecording.endTimestamp)
 		{
-			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, [ivFormatter stringFromDate:document.recording.startTimestamp toDate:document.recording.endTimestamp]];
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.firstRecording.appName, [ivFormatter stringFromDate:document.firstRecording.startTimestamp toDate:document.lastRecording.endTimestamp]];
 		}
 		else if(document.documentState == DTXRecordingDocumentStateLiveRecording)
 		{
-			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.recording.appName, NSLocalizedString(@"Recording...", @"")];
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.firstRecording.appName, NSLocalizedString(@"Recording...", @"")];
 		}
 		else
 		{
@@ -162,12 +160,6 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	
 	_flagButton.enabled = [(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
 	_flagButton.hidden = !_flagButton.enabled;
-	
-	_pushGroupButton.enabled = 0.0; //[(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
-	_pushGroupButton.hidden = !_pushGroupButton.enabled;
-	
-	_popGroupButton.enabled = _popGroupButton.hidden = 0.0; //[(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
-	_popGroupButton.hidden = !_popGroupButton.enabled;
 }
 
 - (IBAction)_stopRecordingButtonPressed:(id)sender

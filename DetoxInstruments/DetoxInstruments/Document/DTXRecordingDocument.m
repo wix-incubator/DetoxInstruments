@@ -28,6 +28,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 #endif
 {
 	NSPersistentContainer* _container;
+	NSMutableArray<DTXRecording*>* _recordings;
 #ifndef CLI
 	__weak DTXRecordingTargetPickerViewController* _recordingTargetPicker;
 	DTXRemoteProfilingClient* _remoteProfilingClient;
@@ -40,6 +41,8 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 @end
 
 @implementation DTXRecordingDocument
+
+@synthesize recordings=_recordings;
 
 #ifndef CLI
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
@@ -186,27 +189,30 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		
 		_container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
 		
-		DTXRecording* recording = [_container.viewContext executeFetchRequest:[DTXRecording fetchRequest] error:NULL].firstObject;
+		NSFetchRequest* fr = [DTXRecording fetchRequest];
+		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"startTimestamp" ascending:YES]];
 		
-		self.documentState = url != nil && recording != nil ? DTXRecordingDocumentStateSavedToDisk : DTXRecordingDocumentStateNew;
+		NSArray<DTXRecording*>* recordings = [_container.viewContext executeFetchRequest:fr error:NULL];
 		
-		if(recording == nil)
+		self.documentState = url != nil && recordings.count != 0 ? DTXRecordingDocumentStateSavedToDisk : DTXRecordingDocumentStateNew;
+		
+		if(recordings.count == 0)
 		{
 			return;
 		}
 		
-		_recording = recording;
+		_recordings = [recordings mutableCopy];
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDocumentDidLoadNotification object:self.windowControllers.firstObject];
 		
 		//The recording might not have been properly closed by the profiler for several reasons. If no close date, use the last sample as the close date.
-		if(_recording.endTimestamp == nil)
+		if(_recordings.lastObject.endTimestamp == nil)
 		{
-			_recording.endTimestamp = _recording.defactoEndTimestamp;
+			_recordings.lastObject.endTimestamp = _recordings.lastObject.defactoEndTimestamp;
 		}
 		
 #ifndef CLI
-		[self _prepareForLiveRecording:_recording];
+		[self _prepareForLiveRecording:_recordings.lastObject];
 #endif
 	}];
 	
@@ -216,6 +222,16 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	}
 	
 	return outerError == nil;
+}
+
+- (DTXRecording *)firstRecording
+{
+	return _recordings.firstObject;
+}
+
+- (DTXRecording *)lastRecording
+{
+	return _recordings.lastObject;
 }
 
 - (NSString*)_versionForFlag
@@ -474,12 +490,14 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	NSManagedObjectID* recordingID = recording.objectID;
 	
 	[_container.viewContext performBlock:^{
-		_recording = [_container.viewContext existingObjectWithID:recordingID error:NULL];
+		DTXRecording* recording = [_container.viewContext existingObjectWithID:recordingID error:NULL];
 		
-		[self _prepareForLiveRecording:_recording];
+		[_recordings addObject:recording];
+		
+		[self _prepareForLiveRecording:recording];
 		
 		self.documentState = DTXRecordingDocumentStateLiveRecording;
-		self.displayName = _recording.dtx_profilingConfiguration.recordingFileURL.lastPathComponent.stringByDeletingPathExtension;
+		self.displayName = recording.dtx_profilingConfiguration.recordingFileURL.lastPathComponent.stringByDeletingPathExtension;
 		[self.windowControllers.firstObject synchronizeWindowTitleWithDocumentName];
 	}];
 }
@@ -504,15 +522,15 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 	[_remoteProfilingClient stopWithCompletionHandler:nil];
 	
 	[_container.viewContext performBlock:^{
-		if(_recording == nil)
+		if(self.lastRecording == nil)
 		{
 			[self close];
 			return;
 		}
 		
-		if(_recording.endTimestamp == nil)
+		if(self.lastRecording.endTimestamp == nil)
 		{
-			_recording.endTimestamp = [NSDate date];
+			self.lastRecording.endTimestamp = [NSDate date];
 		}
 		
 		//Autosave here so that the Core Data container moves to SQL type and only then update document state.
@@ -527,7 +545,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 - (void)remoteProfilingClientDidChangeDatabase:(DTXRemoteProfilingClient *)client
 {
 	[_container.viewContext performBlock:^{
-		[_recording invalidateDefactoEndTimestamp];
+		[self.lastRecording invalidateDefactoEndTimestamp];
 	}];
 }
 

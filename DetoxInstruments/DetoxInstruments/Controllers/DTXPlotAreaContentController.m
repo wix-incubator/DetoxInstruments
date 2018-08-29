@@ -22,6 +22,7 @@
 #import "DTXEventsPlotController.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXSignpostSample+UIExtensions.h"
+#import "DTXNetworkSample+UIExtensions.h"
 #import "DTXPlotControllerPickerController.h"
 
 #import "DTXLayerView.h"
@@ -86,7 +87,7 @@
 {
 	_plotGroup = nil;
 	
-	if(self.document.recording == nil)
+	if(self.document.recordings.count == 0)
 	{
 		return;
 	}
@@ -115,13 +116,13 @@
 	
 	if(self.document.documentState < DTXRecordingDocumentStateLiveRecordingFinished)
 	{
-		[_plotGroup setGlobalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:[NSDate distantFuture]];
-		[_plotGroup setLocalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:[self.document.recording.defactoStartTimestamp dateByAddingTimeInterval:120]];
+		[_plotGroup setGlobalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[NSDate distantFuture]];
+		[_plotGroup setLocalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[self.document.firstRecording.defactoStartTimestamp dateByAddingTimeInterval:120]];
 	}
 	else
 	{
-		[_plotGroup setGlobalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:self.document.recording.defactoEndTimestamp];
-		[_plotGroup setLocalStartTimestamp:self.document.recording.defactoStartTimestamp endTimestamp:self.document.recording.defactoEndTimestamp];
+		[_plotGroup setGlobalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:self.document.lastRecording.defactoEndTimestamp];
+		[_plotGroup setLocalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:self.document.lastRecording.defactoEndTimestamp];
 	}
 	
 	_tableView.intercellSpacing = NSMakeSize(1, 0);
@@ -137,7 +138,7 @@
 	NSFetchRequest* fr = [DTXThreadInfo fetchRequest];
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES]];
 
-	_threadsObserver = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.recording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+	_threadsObserver = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 	_threadsObserver.delegate = self;
 	[_threadsObserver performFetch:nil];
 
@@ -153,17 +154,17 @@
 	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.document]];
 	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.document]];
 	
-	if((self.document.recording.dtx_profilingConfiguration == nil || self.document.recording.dtx_profilingConfiguration.recordNetwork == YES) && (self.document.documentState <= DTXRecordingDocumentStateLiveRecordingFinished || [DTXSignpostSample hasSignpostSamplesInRecording:self.document.recording]))
+	if(self.document.documentState <= DTXRecordingDocumentStateLiveRecordingFinished || [DTXNetworkSample hasNetworkSamplesInManagedObjectContext:self.document.firstRecording.managedObjectContext])
 	{
 		[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.document]];
 	}
 
-	if(self.document.documentState <= DTXRecordingDocumentStateLiveRecordingFinished || [DTXSignpostSample hasSignpostSamplesInRecording:self.document.recording])
+	if(self.document.documentState <= DTXRecordingDocumentStateLiveRecordingFinished || [DTXSignpostSample hasSignpostSamplesInManagedObjectContext:self.document.firstRecording.managedObjectContext])
 	{
 		[_plotGroup addPlotController:[[DTXEventsPlotController alloc] initWithDocument:self.document]];
 	}
-
-	if(self.document.recording.hasReactNative && self.document.recording.dtx_profilingConfiguration.profileReactNative)
+	
+	if(self.document.firstRecording.hasReactNative && self.document.firstRecording.dtx_profilingConfiguration.profileReactNative)
 	{
 		[_plotGroup addPlotController:[[DTXRNCPUUsagePlotController alloc] initWithDocument:self.document]];
 		[_plotGroup addPlotController:[[DTXRNBridgeCountersPlotController alloc] initWithDocument:self.document]];

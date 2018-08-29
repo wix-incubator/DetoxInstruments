@@ -139,7 +139,7 @@
 			return [NSFormatter.dtx_stringFormatter stringForObjectValue:@(signpostSample.count)];
 		case 2:
 		{
-			NSTimeInterval ti = signpostSample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
+			NSTimeInterval ti = signpostSample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 			return [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		}
 		case 3:
@@ -247,7 +247,7 @@
 {
 	if(self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
 	{
-		return [[DTXSignpostRootProxy alloc] initWithRecording:self.document.recording outlineView:self.managedOutlineView];
+		return [[DTXSignpostRootProxy alloc] initWithManagedObjectContext:self.document.firstRecording.managedObjectContext outlineView:self.managedOutlineView];
 	}
 	
 	return [super rootSampleContainerProxy];

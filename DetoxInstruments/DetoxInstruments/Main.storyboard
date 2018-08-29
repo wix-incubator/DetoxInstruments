@@ -98,45 +98,11 @@
                                         </buttonCell>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="90EE4064-5D29-4683-9335-5096C29E5054" label="" paletteLabel="" image="LeftHandle" id="TiO-Su-cAE">
-                                    <nil key="toolTip"/>
-                                    <size key="minSize" width="38" height="27"/>
-                                    <size key="maxSize" width="38" height="28"/>
-                                    <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="sUK-hu-r2c">
-                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="LeftHandle" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3j9-D3-E52">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="_pushGroupButtonPressed:" target="lYN-De-XWI" id="NgR-I2-Llg"/>
-                                        </connections>
-                                    </button>
-                                </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="FD196E1C-CCF2-4420-B16B-F4D3EB208223" label="" paletteLabel="" image="RightHandle" id="oLh-FD-yY3">
-                                    <nil key="toolTip"/>
-                                    <size key="minSize" width="38" height="27"/>
-                                    <size key="maxSize" width="38" height="28"/>
-                                    <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="S2m-fK-X5X">
-                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="RightHandle" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AoU-rb-F8g">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="_popGroupButtonPressed:" target="lYN-De-XWI" id="jJn-mC-N34"/>
-                                        </connections>
-                                    </button>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="fBO-X4-GkR"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="PQK-tc-eSX"/>
                                 <toolbarItem reference="Mgt-46-7Hh"/>
-                                <toolbarItem reference="TiO-Su-cAE"/>
-                                <toolbarItem reference="oLh-FD-yY3"/>
                                 <toolbarItem reference="kVe-S3-yGd"/>
                                 <toolbarItem reference="fBO-X4-GkR"/>
                                 <toolbarItem reference="N0I-Xm-YUa"/>
@@ -155,8 +121,6 @@
                     <connections>
                         <outlet property="_flagButton" destination="hsw-RF-kd0" id="1Ab-Hc-Cmv"/>
                         <outlet property="_layoutSegmentControl" destination="exo-S1-QJq" id="Qxw-Un-xuG"/>
-                        <outlet property="_popGroupButton" destination="S2m-fK-X5X" id="688-9H-cXb"/>
-                        <outlet property="_pushGroupButton" destination="sUK-hu-r2c" id="e9Z-qL-nsw"/>
                         <outlet property="_stopRecordingButton" destination="aub-nx-8CB" id="pf7-9g-1Ji"/>
                         <outlet property="_titleLabelContainer" destination="T7S-3q-2aZ" id="4Xt-Wt-O9d"/>
                         <segue destination="U0P-Vs-3Mc" kind="relationship" relationship="window.shadowedContentViewController" id="otc-m8-0Xa"/>
@@ -696,10 +660,8 @@ CA
     </scenes>
     <resources>
         <image name="Bottom" width="18" height="14"/>
-        <image name="LeftHandle" width="20" height="16"/>
         <image name="NSPrivateChaptersTemplate" width="14" height="13"/>
         <image name="Right" width="18" height="14"/>
-        <image name="RightHandle" width="20" height="16"/>
         <image name="flag" width="12" height="15"/>
         <image name="stopRecording" width="12" height="12"/>
     </resources>

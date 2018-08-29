@@ -7,7 +7,6 @@
 //
 
 #import "DTXRecording+Additions.h"
-#import "DTXProfilingConfiguration.h"
 
 extern NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp;
 
@@ -18,7 +17,6 @@ extern NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp;
 @property (nonatomic, copy, readonly) NSDate* defactoEndTimestamp;
 - (void)invalidateDefactoEndTimestamp;
 
-@property (nonatomic, strong, readonly) DTXProfilingConfiguration* dtx_profilingConfiguration;
 @property (nonatomic, readonly) BOOL hasNetworkSamples;
 
 @end

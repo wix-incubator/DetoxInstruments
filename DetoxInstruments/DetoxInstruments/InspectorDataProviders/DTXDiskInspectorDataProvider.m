@@ -23,7 +23,7 @@
 	
 	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
 	
-	NSTimeInterval ti = perfSample.timestamp.timeIntervalSinceReferenceDate - self.document.recording.startTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval ti = perfSample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Data Read (Delta)", @"") description:[NSFormatter.dtx_memoryFormatter stringForObjectValue:@(perfSample.diskReadsDelta)]]];
@@ -35,7 +35,7 @@
 	
 	NSMutableArray* contentArray = @[request].mutableCopy;
 	
-	if(self.document.recording.dtx_profilingConfiguration.collectOpenFileNames)
+	if(perfSample.recording.dtx_profilingConfiguration.collectOpenFileNames)
 	{
 		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
 		stackTrace.title = NSLocalizedString(@"Open Files", @"");
@@ -101,7 +101,7 @@
 
 - (BOOL)canCopy
 {
-	return self.document.recording.dtx_profilingConfiguration.collectOpenFileNames;
+	return self.sample.recording.dtx_profilingConfiguration.collectOpenFileNames;
 }
 
 - (void)copy:(id)sender targetView:(__kindof NSView *)targetView

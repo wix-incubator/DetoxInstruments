@@ -56,7 +56,7 @@
 	}
 	else
 	{
-		plotSpace.globalXRange = plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.startTimestamp timeIntervalSinceReferenceDate])];
+		plotSpace.globalXRange = plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.lastRecording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.firstRecording.startTimestamp timeIntervalSinceReferenceDate])];
 	}
 	plotSpace.globalYRange = plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:@0.5 length:@5.0];
 	

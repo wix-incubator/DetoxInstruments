@@ -14,14 +14,16 @@
 	NSMutableDictionary<NSString*, DTXSampleContainerProxy*>* _proxyMapping;
 }
 
-- (instancetype)initWithKeyPath:(NSString*)keyPath isRoot:(BOOL)root recording:(DTXRecording*)recording outlineView:(NSOutlineView*)outlineView
+@synthesize managedObjectContext=_managedObjectContext;
+
+- (instancetype)initWithKeyPath:(NSString*)keyPath isRoot:(BOOL)root managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView;
 {
-	self = [super initWithOutlineView:outlineView isRoot:root managedObjectContext:recording.managedObjectContext];
+	self = [super initWithOutlineView:outlineView isRoot:root managedObjectContext:managedObjectContext];
 	
 	if(self)
 	{
 		_keyPath = keyPath;
-		_recording = recording;
+		_managedObjectContext = managedObjectContext;
 	}
 	
 	return self;
@@ -29,8 +31,8 @@
 
 - (void)reloadData
 {
-	NSFetchRequest* fr = [self _fetchRequestForAggregatesWithRecording:_recording dictionaryResult:YES];
-	id categories = [_recording.managedObjectContext executeFetchRequest:fr error:NULL];
+	NSFetchRequest* fr = [self _fetchRequestForAggregatesWithDictionaryResult:YES];
+	id categories = [_managedObjectContext executeFetchRequest:fr error:NULL];
 	
 	_aggregates = [categories valueForKey:self.keyPath];
 	_proxyMapping = [NSMutableDictionary new];
@@ -44,10 +46,10 @@
 
 - (NSFetchRequest *)fetchRequest
 {
-	return [self _fetchRequestForAggregatesWithRecording:_recording dictionaryResult:NO];
+	return [self _fetchRequestForAggregatesWithDictionaryResult:NO];
 }
 
-- (NSFetchRequest*)_fetchRequestForAggregatesWithRecording:(DTXRecording*)recording dictionaryResult:(BOOL)dictionaryResult
+- (NSFetchRequest*)_fetchRequestForAggregatesWithDictionaryResult:(BOOL)dictionaryResult
 {
 	NSFetchRequest* fr = [self.sampleClass fetchRequest];
 	

@@ -57,8 +57,6 @@
 	
 	NSArray* _plots;
 	
-	double _samplingInterval;
-	
 	BOOL _atLeastOnce;
 }
 
@@ -86,8 +84,6 @@
 	{
 		_document = document;
 		_scene = [NSStoryboard storyboardWithName:@"Profiler" bundle:nil];
-		
-		_samplingInterval = [_document.recording.profilingConfiguration[@"samplingInterval"] doubleValue];
 		
 		_rangeHighlightBandArray = [NSMutableArray new];
 		
@@ -405,7 +401,7 @@
 	}
 	else
 	{
-		xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.recording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate])];
+		xRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.lastRecording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate])];
 	}
 	CPTPlotRange *yRange = [plotSpace.yRange mutableCopy];
 	
@@ -481,7 +477,7 @@
 	
 	if(fieldEnum == CPTScatterPlotFieldX )
 	{
-		return @([[[self samplesForPlotIndex:plotIdx][index] valueForKey:@"timestamp"] timeIntervalSinceReferenceDate] - [_document.recording.defactoStartTimestamp timeIntervalSinceReferenceDate]);
+		return @([[[self samplesForPlotIndex:plotIdx][index] valueForKey:@"timestamp"] timeIntervalSinceReferenceDate] - [_document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate]);
 	}
 	else
 	{
@@ -587,7 +583,7 @@
 		offset = 0.0;
 	}
 	
-	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.recording.defactoStartTimestamp.timeIntervalSinceReferenceDate + offset;
+	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate + offset;
 	NSUInteger sampleIdx = [[self samplesForPlotIndex:0] indexOfObject:sample];
 	NSUInteger nextSampleIdx = nextSample ? [[self samplesForPlotIndex:0] indexOfObject:nextSample] : NSNotFound;
 	CGFloat percent = offset / (nextSample.timestamp.timeIntervalSinceReferenceDate - sample.timestamp.timeIntervalSinceReferenceDate);

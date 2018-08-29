@@ -32,7 +32,7 @@
 		
 		if(groupProxy == nil)
 		{
-			groupProxy = [[DTXSampleGroupProxy alloc] initWithSampleGroup:sampleGroup sampleTypes:self.sampleTypes isRoot:NO outlineView:self.outlineView];
+			groupProxy = [[DTXSampleGroupProxy alloc] initWithSampleTypes:self.sampleTypes isRoot:NO outlineView:self.outlineView managedObjectContext:self.managedObjectContext];
 			groupProxy.name = sampleGroup.name;
 			groupProxy.timestamp = sampleGroup.timestamp;
 			groupProxy.closeTimestamp = sampleGroup.closeTimestamp;
@@ -47,18 +47,17 @@
 	}
 }
 
-- (instancetype)initWithSampleGroup:(DTXSampleGroup*)sampleGroup sampleTypes:(NSArray<NSNumber*>*)sampleTypes outlineView:(NSOutlineView*)outlineView
+- (instancetype)initWithSampleTypes:(NSArray<NSNumber*>*)sampleTypes outlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
-	return [self initWithSampleGroup:sampleGroup sampleTypes:sampleTypes isRoot:YES outlineView:outlineView];
+	return [self initWithSampleTypes:sampleTypes isRoot:YES outlineView:outlineView managedObjectContext:managedObjectContext];
 }
 
-- (instancetype)initWithSampleGroup:(DTXSampleGroup*)sampleGroup sampleTypes:(NSArray<NSNumber*>*)sampleTypes isRoot:(BOOL)isRoot outlineView:(NSOutlineView*)outlineView;
+- (instancetype)initWithSampleTypes:(NSArray<NSNumber*>*)sampleTypes isRoot:(BOOL)isRoot outlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
-	self = [super initWithOutlineView:outlineView isRoot:isRoot managedObjectContext:sampleGroup.managedObjectContext];
+	self = [super initWithOutlineView:outlineView isRoot:isRoot managedObjectContext:managedObjectContext];
 	if(self)
 	{
 		_sampleTypes = sampleTypes;
-		_sampleGroup = sampleGroup;
 		_groupToProxyMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 	}
 	return self;
@@ -66,8 +65,10 @@
 
 - (NSFetchRequest *)fetchRequest
 {
-	NSFetchRequest* fr = [_sampleGroup fetchRequestForSamplesWithTypes:_sampleTypes includingGroups:YES];
-//	NSManagedObjectContext* ctx = _sampleGroup.managedObjectContext;
+	NSFetchRequest* fr = [NSFetchRequest new];
+	fr.entity = [NSEntityDescription entityForName:@"Sample" inManagedObjectContext:self.managedObjectContext];
+	fr.predicate = [NSPredicate predicateWithFormat:@"hidden == NO && sampleType in %@", [_sampleTypes arrayByAddingObjectsFromArray:@[@(DTXSampleTypeTag)]]];
+	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 	
 	return fr;
 }

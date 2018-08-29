@@ -16,6 +16,6 @@
 @property (nonatomic, strong, readonly) DTXSampleGroup* sampleGroup;
 @property (nonatomic, strong, readonly) NSArray<NSNumber*>* sampleTypes;
 
-- (instancetype)initWithSampleGroup:(DTXSampleGroup*)sampleGroup sampleTypes:(NSArray<NSNumber*>*)sampleTypes outlineView:(NSOutlineView*)outlineView;
+- (instancetype)initWithSampleTypes:(NSArray<NSNumber*>*)sampleTypes outlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 @end
