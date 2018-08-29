@@ -83,17 +83,17 @@
 	
 	request.content = content;
 	
-	if(perfSample.recording.dtx_profilingConfiguration.collectJavaScriptStackTraces)
-	{
-		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
-		stackTrace.title = NSLocalizedString(@"Stack Trace", @"");
-		
-		rv.contentArray = @[request, stackTrace];
-	}
-	else
-	{
+//	if(perfSample.recording.dtx_profilingConfiguration.collectJavaScriptStackTraces)
+//	{
+//		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
+//		stackTrace.title = NSLocalizedString(@"Stack Trace", @"");
+//
+//		rv.contentArray = @[request, stackTrace];
+//	}
+//	else
+//	{
 		rv.contentArray = @[request];
-	}
+//	}
 	
 	return rv;
 }
@@ -101,7 +101,7 @@
 - (BOOL)canCopy
 {
 	DTXReactNativePeroformanceSample* perfSample = self.sample;
-	return perfSample.recording.dtx_profilingConfiguration.collectJavaScriptStackTraces;
+	return NO; //perfSample.recording.dtx_profilingConfiguration.collectJavaScriptStackTraces;
 }
 
 @end

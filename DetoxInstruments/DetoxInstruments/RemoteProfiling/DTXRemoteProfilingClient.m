@@ -96,7 +96,7 @@
 	{
 		DTXReactNativePeroformanceSample* rnSample = (id)sample;
 		
-		if(rnSample.stackTraceIsSymbolicated == NO && _recording.dtx_profilingConfiguration.symbolicateJavaScriptStackTraces)
+		if(rnSample.stackTraceIsSymbolicated == NO && NO/*_recording.dtx_profilingConfiguration.symbolicateJavaScriptStackTraces*/)
 		{
 			BOOL wasSymbolicated = NO;
 			rnSample.stackTrace = DTXRNSymbolicateJSCBacktrace(_delegate.sourceMapsParser, rnSample.stackTrace, &wasSymbolicated);

@@ -379,24 +379,24 @@ static void __DTXInitializeRNSampler()
 
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
-	uint64_t bridgeNToJSDataSize = atomic_load(&__bridgeNToJSDataSize);
-	uint64_t bridgeJSToNDataSize = atomic_load(&__bridgeJSToNDataSize);
-	uint64_t bridgeNToJSCallCount = atomic_load(&__bridgeNToJSCallCount);
-	uint64_t bridgeJSToNCallCount = atomic_load(&__bridgeJSToNCallCount);
-	
-	_initialBridgeNToJSCallCount = bridgeNToJSCallCount;
-	_initialBridgeJSToNCallCount = bridgeJSToNCallCount;
-	_initialBridgeNToJSDataSize = bridgeNToJSDataSize;
-	_initialBridgeJSToNDataSize = bridgeJSToNDataSize;
-	
-	BOOL didLoadCustomJSCWrapper = DTXLoadJSCWrapper(NULL);
-	
 	self = [super init];
 	
 	if(self)
 	{
-		_shouldSampleThread = didLoadCustomJSCWrapper && configuration.collectJavaScriptStackTraces;
-		_shouldSymbolicate = didLoadCustomJSCWrapper && configuration.symbolicateJavaScriptStackTraces;
+		uint64_t bridgeNToJSDataSize = atomic_load(&__bridgeNToJSDataSize);
+		uint64_t bridgeJSToNDataSize = atomic_load(&__bridgeJSToNDataSize);
+		uint64_t bridgeNToJSCallCount = atomic_load(&__bridgeNToJSCallCount);
+		uint64_t bridgeJSToNCallCount = atomic_load(&__bridgeJSToNCallCount);
+		
+		_initialBridgeNToJSCallCount = bridgeNToJSCallCount;
+		_initialBridgeJSToNCallCount = bridgeJSToNCallCount;
+		_initialBridgeNToJSDataSize = bridgeNToJSDataSize;
+		_initialBridgeJSToNDataSize = bridgeJSToNDataSize;
+		
+		BOOL didLoadCustomJSCWrapper = DTXLoadJSCWrapper(NULL);
+		
+//		_shouldSampleThread = didLoadCustomJSCWrapper && configuration.collectJavaScriptStackTraces;
+//		_shouldSymbolicate = didLoadCustomJSCWrapper && configuration.symbolicateJavaScriptStackTraces;
 	}
 	
 	return self;

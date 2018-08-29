@@ -193,24 +193,6 @@
 	_profileReactNative = profileReactNative;
 }
 
-@dynamic collectJavaScriptStackTraces;
-- (void)setCollectJavaScriptStackTraces:(BOOL)collectJavaScriptStackTraces
-{
-	_collectJavaScriptStackTraces = collectJavaScriptStackTraces;
-}
-
-@dynamic symbolicateJavaScriptStackTraces;
-- (void)setSymbolicateJavaScriptStackTraces:(BOOL)symbolicateJavaScriptStackTraces
-{
-	_symbolicateJavaScriptStackTraces = symbolicateJavaScriptStackTraces;
-}
-
-@dynamic prettyPrintJSONOutput;
-- (void)setPrettyPrintJSONOutput:(BOOL)prettyPrintJSONOutput
-{
-	_prettyPrintJSONOutput = prettyPrintJSONOutput;
-}
-
 @dynamic recordingFileURL;
 - (void)_setRecordingFileURL:(NSURL *)recordingFileURL
 {

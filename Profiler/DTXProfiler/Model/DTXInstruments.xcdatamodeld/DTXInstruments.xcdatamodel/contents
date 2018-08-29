@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.12.1" systemVersion="18A371a" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.12.1" systemVersion="18A377a" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdvancedPerformanceSample" representedClassName="DTXAdvancedPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <attribute name="heaviestStackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
-        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
         <relationship name="threadSamples" optional="YES" toMany="YES" minCount="1" deletionRule="Cascade" ordered="YES" destinationEntity="ThreadPerformanceSample" inverseName="advancedPerformanceSample" inverseEntity="ThreadPerformanceSample" syncable="YES">
             <userInfo>
                 <entry key="includeInDictionaryRepresentation" value="YES"/>
@@ -68,16 +72,8 @@
                 <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
             </userInfo>
         </attribute>
-        <attribute name="fps" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
-            <userInfo>
-                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
-            </userInfo>
-        </attribute>
-        <attribute name="memoryUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
-            <userInfo>
-                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
-            </userInfo>
-        </attribute>
+        <attribute name="fps" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="memoryUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="openFiles" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
     </entity>
     <entity name="ReactNativePeroformanceSample" representedClassName="DTXReactNativePeroformanceSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
@@ -91,7 +87,11 @@
         <attribute name="bridgeNToJSDataSizeDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="cpuUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="stackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
-        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
     </entity>
     <entity name="Recording" representedClassName="DTXRecording" syncable="YES" codeGenerationType="class">
         <attribute name="appName" optional="YES" attributeType="String" syncable="YES"/>
@@ -125,7 +125,11 @@
         </relationship>
     </entity>
     <entity name="Sample" representedClassName="DTXSample" isAbstract="YES" syncable="YES" codeGenerationType="class">
-        <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
         <attribute name="sampleIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -152,11 +156,23 @@
         <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="endTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="eventStatus" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="isEvent" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="isTimer" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isEvent" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="isTimer" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
-        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
         <attribute name="uniqueIdentifier" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Tag" representedClassName="DTXTag" parentEntity="Sample" syncable="YES" codeGenerationType="class">

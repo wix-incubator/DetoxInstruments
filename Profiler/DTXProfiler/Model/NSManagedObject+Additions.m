@@ -7,6 +7,8 @@
 //
 
 #import "NSManagedObject+Additions.h"
+#import "DTXSample+Additions.h"
+#import "DTXRecording+Additions.h"
 @import Darwin;
 
 static NSDateFormatter* __iso8601DateFormatter;
@@ -22,6 +24,58 @@ static NSDateFormatter* __iso8601DateFormatter;
 	});
 }
 
+- (void)_cleanupIfNeeded:(NSMutableDictionary*)rv
+{
+	if([self isKindOfClass:DTXSample.class])
+	{
+		Class cls = [DTXSample classFromSampleType:((DTXSample*)self).sampleType];
+		NSString* sampleType = [NSStringFromClass(cls) substringFromIndex:3];
+		sampleType = [NSString stringWithFormat:@"%@%@", [[sampleType substringToIndex:1] lowercaseString], [sampleType substringFromIndex:1]];
+		
+		rv[@"sampleType"] = sampleType;
+	}
+	
+	if([self isKindOfClass:DTXRecording.class])
+	{
+		NSMutableDictionary* config = [rv[@"profilingConfiguration"] mutableCopy];
+		NSURL* url = config[@"recordingFileURL"];
+		if(url)
+		{
+			config[@"recordingFileURL"] = url.path;
+		}
+		rv[@"profilingConfiguration"] = config;
+	}
+}
+
+- (NSDictionary*)cleanDictionaryRepresentationForJSON
+{
+	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:^id(NSAttributeDescription* obj, id val) {
+		if(obj.attributeType == NSDateAttributeType)
+		{
+			val = [__iso8601DateFormatter stringFromDate:val];
+		}
+		else if(obj.attributeType == NSBinaryDataAttributeType)
+		{
+			val = [(NSData*)val base64EncodedStringWithOptions:0];
+		}
+		
+		return val;
+	} callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO];
+	
+	[self _cleanupIfNeeded:rv];
+	
+	return rv;
+}
+
+- (NSDictionary*)cleanDictionaryRepresentationForPropertyList
+{
+	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO];
+	
+	[self _cleanupIfNeeded:rv];
+	
+	return rv;
+}
+
 - (NSDictionary*)dictionaryRepresentationForJSON
 {
 	return [self _dictionaryRepresentationWithAttributeTransformer:^id(NSAttributeDescription* obj, id val) {
@@ -35,20 +89,20 @@ static NSDateFormatter* __iso8601DateFormatter;
 		}
 		
 		return val;
-	} callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil];
+	} callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES];
 }
 
 - (NSDictionary*)dictionaryRepresentationForPropertyList
 {
-	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil];
+	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES];
 }
 
 - (NSDictionary<NSString *,id> *)dictionaryRepresentationOfChangedValuesForPropertyList
 {
-	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:@"dictionaryRepresentationForPropertyList" onlyInKeys:[[self changedValuesForCurrentEvent] allKeys]];
+	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:@"dictionaryRepresentationForPropertyList" onlyInKeys:[[self changedValuesForCurrentEvent] allKeys] includeMetadata:YES];
 }
 
-- (NSDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSAttributeDescription* obj, id val))transformer callingKey:(NSString*)callingKey onlyInKeys:(NSArray<NSString*>*)filteredKeys
+- (NSMutableDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSAttributeDescription* obj, id val))transformer callingKey:(NSString*)callingKey onlyInKeys:(NSArray<NSString*>*)filteredKeys includeMetadata:(BOOL)includeMetadata
 {
 	if(transformer == nil)
 	{
@@ -57,8 +111,11 @@ static NSDateFormatter* __iso8601DateFormatter;
 	
 	NSMutableDictionary* rv = [NSMutableDictionary new];
 	
-	rv[@"__dtx_className"] = self.entity.managedObjectClassName;
-	rv[@"__dtx_entityName"] = self.entity.name;
+	if(includeMetadata)
+	{
+		rv[@"__dtx_className"] = self.entity.managedObjectClassName;
+		rv[@"__dtx_entityName"] = self.entity.name;
+	}
 	
 	NSDictionary<NSString *, NSAttributeDescription *>* attributes = [[self entity] attributesByName];
 	[attributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSAttributeDescription * _Nonnull obj, BOOL * _Nonnull stop) {
@@ -77,6 +134,11 @@ static NSDateFormatter* __iso8601DateFormatter;
 		if([obj.userInfo[@"suppressInDictionaryRepresentationIfZero"] boolValue] && [val isKindOfClass:[NSNumber class]] && [val isEqualToNumber:@0])
 		{
 			val = nil;
+		}
+		
+		if([val isKindOfClass:NSNumber.class] && obj.attributeType == NSBooleanAttributeType)
+		{
+			val = [NSNumber numberWithBool:[val boolValue]];
 		}
 		
 		rv[key] = val;

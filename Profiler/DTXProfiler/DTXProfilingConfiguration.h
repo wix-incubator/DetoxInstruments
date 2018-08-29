@@ -110,35 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) BOOL profileReactNative;
 
-/**
- *  Collect JavaScript stack trace information where appropriate.
- *
- *  Collecting JavaScript stack traces may introduce some performance hit.
- *
- *  JavaScript stack trace collection is implemented using signals. Specifically, @c SIGPROF and @c SIGCHLD are used.
- *  If your application uses those signals or installs custom handlers for those signals, there may be collision issues.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readonly) BOOL collectJavaScriptStackTraces;
-
-/**
- *  Symbolicate JavaScript stack traces at runtime using source maps (if available).
- *
- *  Symbolicating JavaScript stack traces may introduce some performance hit.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readonly) BOOL symbolicateJavaScriptStackTraces;
-
 /* Output Configuration */
-
-/**
- *  Prints the JSON portion of the output in a pretty manner.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readonly) BOOL prettyPrintJSONOutput;
 
 /**
  *  The recording file URL to save to.
@@ -247,35 +219,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readwrite) BOOL profileReactNative;
 
-/**
- *  Collect JavaScript stack trace information where appropriate.
- *
- *  Collecting JavaScript stack traces may introduce some performance hit.
- *
- *  JavaScript stack trace collection is implemented using signals. Specifically, @c SIGPROF and @c SIGCHLD are used.
- *  If your application uses those signals or installs custom handlers for those signals, there may be collision issues.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readwrite) BOOL collectJavaScriptStackTraces;
-
-/**
- *  Symbolicate JavaScript stack traces at runtime using source maps (if available).
- *
- *  Symbolicating JavaScript stack traces may introduce some performance hit.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readonly) BOOL symbolicateJavaScriptStackTraces;
-
 /* Output Configuration */
-
-/**
- *  Prints the JSON portion of the output in a pretty manner.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readwrite) BOOL prettyPrintJSONOutput;
 
 /**
  *  The recording file URL to save to.

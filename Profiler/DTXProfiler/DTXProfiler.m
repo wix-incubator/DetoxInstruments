@@ -289,13 +289,13 @@ DTX_CREATE_LOG(Profiler);
 			[self _symbolicateRemainingStackTracesInternal];
 		}
 		
-		if(self->_currentRecording.hasReactNative
-		   && self->_currentProfilingConfiguration.profileReactNative == YES
-		   && self->_currentProfilingConfiguration.collectJavaScriptStackTraces == YES
-		   && self->_currentProfilingConfiguration.symbolicateJavaScriptStackTraces == YES)
-		{
-			[self _symbolicateRemainingJavaScriptStackTracesInternal];
-		}
+//		if(self->_currentRecording.hasReactNative
+//		   && self->_currentProfilingConfiguration.profileReactNative == YES
+//		   && self->_currentProfilingConfiguration.collectJavaScriptStackTraces == YES
+//		   && self->_currentProfilingConfiguration.symbolicateJavaScriptStackTraces == YES)
+//		{
+//			[self _symbolicateRemainingJavaScriptStackTracesInternal];
+//		}
 		
 		[self->_backgroundContext save:NULL];
 		
