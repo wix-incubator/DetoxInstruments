@@ -239,27 +239,28 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 			return;
 		}
 		
-		NSData* data = nil;
-		NSError* error = nil;
-		
-		//TODO: Fix this
-		
-		if(_formatPopupButton.selectedTag == 0)
+		@autoreleasepool
 		{
-			data = [NSPropertyListSerialization dataWithPropertyList:[((DTXRecordingDocument*)self.document).recordings valueForKey:@"cleanDictionaryRepresentationForPropertyList"] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
-		}
-		else
-		{
-			data = [NSJSONSerialization dataWithJSONObject:[((DTXRecordingDocument*)self.document).recordings valueForKey:@"cleanDictionaryRepresentationForJSON"] options:NSJSONWritingPrettyPrinted error:&error];
-		}
-		
-		if(data != nil)
-		{
-			[data writeToURL:_exportPanel.URL atomically:YES];
-		}
-		else if(error != nil)
-		{
-			[self presentError:error modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
+			NSData* data = nil;
+			NSError* error = nil;
+			
+			if(_formatPopupButton.selectedTag == 0)
+			{
+				data = [NSPropertyListSerialization dataWithPropertyList:[((DTXRecordingDocument*)self.document).recordings valueForKey:@"cleanDictionaryRepresentationForPropertyList"] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
+			}
+			else
+			{
+				data = [NSJSONSerialization dataWithJSONObject:[((DTXRecordingDocument*)self.document).recordings valueForKey:@"cleanDictionaryRepresentationForJSON"] options:NSJSONWritingPrettyPrinted error:&error];
+			}
+			
+			if(data != nil)
+			{
+				[data writeToURL:_exportPanel.URL atomically:YES];
+			}
+			else if(error != nil)
+			{
+				[self presentError:error modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
+			}
 		}
 		
 		_exportPanel = nil;

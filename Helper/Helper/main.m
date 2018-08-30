@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DTXDocumentController.h"
-#import "DTXDocument.h"
+#import "DTXRecordingDocumentController.h"
+#import "DTXRecordingDocument.h"
 #import "LNOptionsParser.h"
 
 int main(int argc, const char* argv[])
@@ -16,13 +16,6 @@ int main(int argc, const char* argv[])
 	@autoreleasepool
 	{
 		LNUsageSetIntroStrings(@[@"Helper tool for DetoxInstruments"]);
-		
-		/*
-		 [parser registerOption:@"input" requirement:GBValueRequired];
-		 [parser registerOption:@"output" requirement:GBValueRequired];
-		 [parser registerOption:@"json" requirement:GBValueNone];
-		 [parser registerOption:@"plist" requirement:GBValueNone];
-		 */
 		
 		LNUsageSetOptions(@[
 							[LNUsageOption optionWithName:@"input" valueRequirement:GBValueRequired description:@""],
@@ -33,7 +26,7 @@ int main(int argc, const char* argv[])
 		
 		GBSettings* settings = LNUsageParseArguments(argc, argv);
 		
-		auto documentController = [DTXDocumentController new];
+		auto documentController = [DTXRecordingDocumentController new];
 		
 		auto inputURL = [NSURL fileURLWithPath:[settings objectForKey:@"input"]];
 		NSURL* outputDirURL;
@@ -50,21 +43,24 @@ int main(int argc, const char* argv[])
 			outputDirURL = inputURL.URLByDeletingLastPathComponent;
 		}
 		
-		NSError* error;
-		DTXDocument* document = [documentController makeDocumentWithContentsOfURL:inputURL ofType:@"dtxprof" error:&error];
-		
-		if([settings boolForKey:@"json"])
+		@autoreleasepool
 		{
-			NSData* jsonData = [NSJSONSerialization dataWithJSONObject:document.recording.dictionaryRepresentationForJSON options:NSJSONWritingPrettyPrinted error:NULL];
-			NSURL* jsonURL = [outputDirURL URLByAppendingPathComponent:[inputURL.lastPathComponent.stringByDeletingPathExtension stringByAppendingPathExtension:@"json"]];
-			[jsonData writeToURL:jsonURL atomically:YES];
-		}
-		
-		if([settings boolForKey:@"plist"])
-		{
-			NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:document.recording.dictionaryRepresentationForPropertyList format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
-			NSURL* plistURL = [outputDirURL URLByAppendingPathComponent:[inputURL.lastPathComponent.stringByDeletingPathExtension stringByAppendingPathExtension:@"plist"]];
-			[plistData writeToURL:plistURL atomically:YES];
+			NSError* error;
+			DTXRecordingDocument* document = [documentController makeDocumentWithContentsOfURL:inputURL ofType:@"dtxprof" error:&error];
+			
+			if([settings boolForKey:@"json"])
+			{
+				NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[document.recordings valueForKey:@"cleanDictionaryRepresentationForJSON"] options:NSJSONWritingPrettyPrinted error:&error];
+				NSURL* jsonURL = [outputDirURL URLByAppendingPathComponent:[inputURL.lastPathComponent.stringByDeletingPathExtension stringByAppendingPathExtension:@"json"]];
+				[jsonData writeToURL:jsonURL atomically:YES];
+			}
+			
+			if([settings boolForKey:@"plist"])
+			{
+				NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:[document.recordings valueForKey:@"cleanDictionaryRepresentationForPropertyList"] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
+				NSURL* plistURL = [outputDirURL URLByAppendingPathComponent:[inputURL.lastPathComponent.stringByDeletingPathExtension stringByAppendingPathExtension:@"plist"]];
+				[plistData writeToURL:plistURL atomically:YES];
+			}
 		}
 	}
 	return 0;
