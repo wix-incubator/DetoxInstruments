@@ -23,4 +23,6 @@
 @property (nonatomic, weak) __kindof NSView* targetForCopy;
 @property (nonatomic, weak) id<DTXWindowWideCopyHanler> handlerForCopy;
 
+- (void)reloadTouchBar;
+
 @end

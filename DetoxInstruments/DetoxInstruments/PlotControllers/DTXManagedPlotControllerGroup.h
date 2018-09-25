@@ -14,6 +14,8 @@
 @protocol DTXManagedPlotControllerGroupDelegate <NSObject>
 
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didSelectPlotController:(id<DTXPlotController>)plotController;
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didHidePlotController:(id<DTXPlotController>)plotController;
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didShowPlotController:(id<DTXPlotController>)plotController;
 
 @end
 
@@ -28,10 +30,11 @@
 @property (nonatomic, strong) id<DTXPlotController> touchBarPlotController;
 
 //Main plot controllers
-- (NSArray<id<DTXPlotController>>*)plotControllers;
+@property (nonatomic, readonly, copy) NSArray<id<DTXPlotController>>* plotControllers;
 - (void)addPlotController:(id<DTXPlotController>)plotController;
 - (void)removePlotController:(id<DTXPlotController>)plotController;
 
+@property (nonatomic, readonly, copy) NSArray<id<DTXPlotController>>* visiblePlotControllers;
 - (void)setPlotControllerHidden:(id<DTXPlotController>)plotController;
 - (void)setPlotControllerVisible:(id<DTXPlotController>)plotController;
 - (BOOL)isPlotControllerVisible:(id<DTXPlotController>)plotController;

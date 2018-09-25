@@ -14,6 +14,7 @@
 
 @protocol DTXPlotAreaContentControllerDelegate
 
+- (void)reloadTouchBar;
 - (void)contentController:(DTXPlotAreaContentController*)cc updatePlotController:(id<DTXPlotController>)plotController;
 
 @end

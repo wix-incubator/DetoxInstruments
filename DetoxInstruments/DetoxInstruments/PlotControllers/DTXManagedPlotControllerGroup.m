@@ -30,7 +30,6 @@
 }
 
 @property (nonatomic, strong) NSOutlineView* hostingOutlineView;
-@property (nonatomic, copy, readonly) NSArray<id<DTXPlotController>>* plotControllers;
 
 @end
 
@@ -82,6 +81,11 @@
 - (NSArray<id<DTXPlotController>> *)plotControllers
 {
 	return _managedPlotControllers;
+}
+
+- (NSArray<id<DTXPlotController>> *)visiblePlotControllers
+{
+	return _visiblePlotControllers;
 }
 
 - (void)setHeaderPlotController:(id<DTXPlotController>)headerPlotController
@@ -273,10 +277,12 @@
 	if(visible)
 	{
 		[self _insertPlotControllerToVisibleControllers:plotController animated:YES];
+		[self.delegate managedPlotControllerGroup:self didShowPlotController:plotController];
 	}
 	else
 	{
 		[self _removePlotControllerFromVisibleControllers:plotController animated:YES];
+		[self.delegate managedPlotControllerGroup:self didHidePlotController:plotController];
 	}
 	
 	[_document setObject:plotControllerVisibility forPreferenceKey:@"plotControllerVisibility"];

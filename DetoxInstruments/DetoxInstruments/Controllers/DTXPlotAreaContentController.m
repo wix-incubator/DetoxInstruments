@@ -24,6 +24,7 @@
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXNetworkSample+UIExtensions.h"
 #import "DTXPlotControllerPickerController.h"
+#import "DTXClassSelectionButton.h"
 
 #import "DTXLayerView.h"
 
@@ -225,10 +226,25 @@
 	[self.delegate contentController:self updatePlotController:plotController];
 	
 	_selectedPlotController = plotController;
-	_touchBarPlotControllerClass = plotController.class;
 }
 
-#pragma NSFetchedResultsControllerDelegate
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didHidePlotController:(id<DTXPlotController>)plotController
+{
+	if(_touchBarPlotControllerClass == plotController.class)
+	{
+		_touchBarPlotControllerClass = nil;
+		_touchBarPlotController = nil;
+	}
+	
+	[self.delegate reloadTouchBar];
+}
+
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didShowPlotController:(id<DTXPlotController>)plotController
+{
+	[self.delegate reloadTouchBar];
+}
+
+#pragma mark NSFetchedResultsControllerDelegate
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -254,19 +270,37 @@
 
 #pragma mark NSTouchBarDelegate
 
+- (void)_handleTouchBarSelection:(DTXClassSelectionButton*)button
+{
+	_touchBarPlotControllerClass = button.selectionClass;
+	_touchBarPlotController = nil;
+	
+	[self.delegate reloadTouchBar];
+}
+
 - (nullable NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
 {
-	if ([identifier isEqualToString:@"TouchBarPlotController"])
+	if(_touchBarPlotController == nil)
 	{
-		DTXLayerView* customView = [DTXLayerView new];
-		customView.allowedTouchTypes = NSTouchTypeMaskDirect;
+		if(_touchBarPlotControllerClass == nil)
+		{
+			_touchBarPlotControllerClass = _plotGroup.visiblePlotControllers.firstObject.class;
+		}
+		
 		_touchBarPlotController = [[_touchBarPlotControllerClass alloc] initWithDocument:self.document];
-		[_touchBarPlotController setUpWithView:customView insets:NSEdgeInsetsZero isForTouchBar:YES];
 		[_touchBarPlotController requiredHeight];
 		_touchBarPlotController.parentPlotController = _selectedPlotController;
 		_touchBarPlotController.sampleClickDelegate = _selectedPlotController.sampleClickDelegate;
 		
 		[_plotGroup setTouchBarPlotController:_touchBarPlotController];
+	}
+	
+	if ([identifier isEqualToString:@"TouchBarPlotController"])
+	{
+		DTXLayerView* customView = [DTXLayerView new];
+		customView.allowedTouchTypes = NSTouchTypeMaskDirect;
+		
+		[_touchBarPlotController setUpWithView:customView insets:NSEdgeInsetsZero isForTouchBar:YES];
 		
 		NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:_touchBarPlotController action:@selector(clickedByClickGestureRegonizer:)];
 		clickGestureRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
@@ -274,7 +308,61 @@
 		
 		auto item = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"TouchBarPlotController"];
 		item.view = customView;
-		item.customizationLabel = NSLocalizedString(@"Custom View", @"");
+		
+		return item;
+	}
+	else if ([identifier isEqualToString:@"TouchBarPlotControllerSelector"])
+	{
+		NSScrollView* scrollView = [NSScrollView new];
+		
+		NSMutableDictionary *constraintViews = [NSMutableDictionary dictionary];
+		NSView *documentView = [[NSView alloc] initWithFrame:NSZeroRect];
+		documentView.translatesAutoresizingMaskIntoConstraints = NO;
+		
+		NSString *layoutFormat = @"H:|";
+		NSSize size = NSMakeSize(8, 30);
+		
+		for (id<DTXPlotController> plotController in _plotGroup.visiblePlotControllers)
+		{
+			auto button = [DTXClassSelectionButton buttonWithTitle:plotController.displayName target:self action:@selector(_handleTouchBarSelection:)];
+			button.selectionClass = plotController.class;
+			button.image = plotController.smallDisplayIcon;
+			button.imagePosition = NSImageLeading;
+			button.imageHugsTitle = YES;
+			button.translatesAutoresizingMaskIntoConstraints = NO;
+			[button setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
+			[button setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
+			[documentView addSubview:button];
+			
+			NSString* ptr = NSStringFromClass(plotController.class);
+			
+			// Constraint information
+			layoutFormat = [layoutFormat stringByAppendingString:[NSString stringWithFormat:@"[%@]-8-", ptr]];
+			[constraintViews setObject:button forKey:ptr];
+		}
+		
+		layoutFormat = [layoutFormat stringByAppendingString:[NSString stringWithFormat:@"|"]];
+		
+		NSArray *hConstraints = [NSLayoutConstraint constraintsWithVisualFormat:layoutFormat
+																		options:NSLayoutFormatAlignAllCenterY
+																		metrics:nil
+																		  views:constraintViews];
+		
+		[documentView setFrame:NSMakeRect(0, 0, size.width, size.height)];
+		[NSLayoutConstraint activateConstraints:hConstraints];
+		scrollView.documentView = documentView;
+		
+		auto scrubberItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"TouchBarPlotControllerSelectorGroup"];
+		scrubberItem.view = scrollView;
+		
+		auto groupTouchBar = [NSTouchBar new];
+		groupTouchBar.defaultItemIdentifiers = @[@"TouchBarPlotControllerSelectorGroup"];
+		groupTouchBar.templateItems = [NSSet setWithObject:scrubberItem];
+		
+		auto item = [[NSPopoverTouchBarItem alloc] initWithIdentifier:@"TouchBarPlotControllerSelector"];
+		item.collapsedRepresentationImage = [_touchBarPlotController smallDisplayIcon];
+//		item.collapsedRepresentationLabel = [_touchBarPlotController displayName];
+		item.popoverTouchBar = groupTouchBar;
 		
 		return item;
 	}
@@ -282,5 +370,5 @@
 	return nil;
 }
 
-
 @end
+
