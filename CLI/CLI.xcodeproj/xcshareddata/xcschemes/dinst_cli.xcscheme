@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "396487691FC325C400006341"
-               BuildableName = "Helper"
-               BlueprintName = "Helper"
-               ReferencedContainer = "container:Helper.xcodeproj">
+               BuildableName = "CLI"
+               BlueprintName = "CLI"
+               ReferencedContainer = "container:CLI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "396487691FC325C400006341"
-            BuildableName = "Helper"
-            BlueprintName = "Helper"
-            ReferencedContainer = "container:Helper.xcodeproj">
+            BuildableName = "CLI"
+            BlueprintName = "CLI"
+            ReferencedContainer = "container:CLI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "396487691FC325C400006341"
-            BuildableName = "Helper"
-            BlueprintName = "Helper"
-            ReferencedContainer = "container:Helper.xcodeproj">
+            BuildableName = "CLI"
+            BlueprintName = "CLI"
+            ReferencedContainer = "container:CLI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -72,7 +72,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--json"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--plist"
@@ -80,6 +80,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--help"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--version"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--zzz"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -97,9 +105,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "396487691FC325C400006341"
-            BuildableName = "Helper"
-            BlueprintName = "Helper"
-            ReferencedContainer = "container:Helper.xcodeproj">
+            BuildableName = "CLI"
+            BlueprintName = "CLI"
+            ReferencedContainer = "container:CLI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

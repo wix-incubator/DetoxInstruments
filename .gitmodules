@@ -15,10 +15,7 @@
 	url = https://github.com/wix/DTXSourceMaps.git
 [submodule "Shared/DTXSocketConnection"]
 	path = Shared/DTXSocketConnection
-url=https://github.com/wix/DTXSocketConnection.git
-[submodule "Helper/ObjCCLIInfra"]
-	path = Helper/ObjCCLIInfra
-	url = https://github.com/wix/ObjCCLIInfra.git
+	url=https://github.com/wix/DTXSocketConnection.git
 [submodule "Shared/DTXLoggingInfra"]
 	path = Shared/DTXLoggingInfra
 	url = https://github.com/wix/DTXLoggingInfra.git
@@ -34,3 +31,5 @@ url=https://github.com/wix/DTXSocketConnection.git
 [submodule "DetoxInstruments/LNPropertyListEditor"]
 	path = DetoxInstruments/LNPropertyListEditor
 	url = https://github.com/LeoNatan/LNPropertyListEditor.git
+[submodule "CLI/ObjCCLIInfra"]
+	path = CLI/ObjCCLIInfra

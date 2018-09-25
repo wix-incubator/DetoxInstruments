@@ -11,20 +11,51 @@
 #import "DTXRecordingDocument.h"
 #import "LNOptionsParser.h"
 
+static char* const __version =
+#include "version.h"
+;
+
 int main(int argc, const char* argv[])
 {
 	@autoreleasepool
 	{
-		LNUsageSetIntroStrings(@[@"Helper tool for DetoxInstruments"]);
+		LNUsageSetIntroStrings(@[@"CLI tools for Detox Instruments"]);
 		
 		LNUsageSetOptions(@[
-							[LNUsageOption optionWithName:@"input" valueRequirement:GBValueRequired description:@""],
-							[LNUsageOption optionWithName:@"output" valueRequirement:GBValueRequired description:@""],
-							[LNUsageOption optionWithName:@"json" valueRequirement:GBValueNone description:@""],
-							[LNUsageOption optionWithName:@"plist" valueRequirement:GBValueNone description:@""],
+							[LNUsageOption optionWithName:@"input" shortcut:@"i" valueRequirement:GBValueRequired description:@"The input recording"],
+							[LNUsageOption optionWithName:@"output" shortcut:@"o" valueRequirement:GBValueRequired description:@"The output directory"],
+							[LNUsageOption optionWithName:@"json" valueRequirement:GBValueNone description:@"Export the recording information data as JSON"],
+							[LNUsageOption optionWithName:@"plist" valueRequirement:GBValueNone description:@"Export the recording information data as property list"],
+							[LNUsageOption optionWithName:@"version" shortcut:@"v" valueRequirement:GBValueNone description:@"Prints version"],
 							]);
 		
+		LNUsageSetAdditionalStrings(@[
+									  @"",
+									  @"For more features, open an issue at https://github.com/wix/DetoxInstruments",
+									  @"Pull-requests are always welcome!"
+									  ]);
+		
 		GBSettings* settings = LNUsageParseArguments(argc, argv);
+		
+		if([settings boolForKey:@"version"])
+		{
+			LNLog(LNLogLevelStdOut, @"%@ version %s", NSProcessInfo.processInfo.arguments.firstObject.lastPathComponent, __version);
+			return 0;
+		}
+		
+		if(![settings boolForKey:@"version"] &&
+		   (
+			![settings objectForKey:@"input"] ||
+			![settings objectForKey:@"output"] ||
+			(
+			 ![settings boolForKey:@"json"] &&
+			 ![settings boolForKey:@"plist"])
+			)
+		   )
+		{
+			LNUsagePrintMessage(nil, LNLogLevelStdOut);
+			exit(-1);
+		}
 		
 		auto documentController = [DTXRecordingDocumentController new];
 		
