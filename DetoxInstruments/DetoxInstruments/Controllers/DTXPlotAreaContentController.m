@@ -226,6 +226,7 @@
 	[self.delegate contentController:self updatePlotController:plotController];
 	
 	_selectedPlotController = plotController;
+	_touchBarPlotController.sampleClickDelegate = plotController.sampleClickDelegate;
 }
 
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didHidePlotController:(id<DTXPlotController>)plotController
@@ -287,9 +288,20 @@
 			_touchBarPlotControllerClass = _plotGroup.visiblePlotControllers.firstObject.class;
 		}
 		
+		NSUInteger idx = [_plotGroup.visiblePlotControllers indexOfObjectPassingTest:^BOOL(id<DTXPlotController>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			if([obj isKindOfClass:_touchBarPlotControllerClass.class])
+			{
+				return YES;
+			}
+			
+			return NO;
+		}];
+		
+		id<DTXPlotController> plotController = _plotGroup.visiblePlotControllers[idx];
+		
 		_touchBarPlotController = [[_touchBarPlotControllerClass alloc] initWithDocument:self.document];
 		[_touchBarPlotController requiredHeight];
-		_touchBarPlotController.parentPlotController = _selectedPlotController;
+		_touchBarPlotController.parentPlotController = plotController;
 		_touchBarPlotController.sampleClickDelegate = _selectedPlotController.sampleClickDelegate;
 		
 		[_plotGroup setTouchBarPlotController:_touchBarPlotController];
