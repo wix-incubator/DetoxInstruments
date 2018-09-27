@@ -34,6 +34,8 @@
 + (NSFormatter*)formatterForDataPresentation;
 - (id)transformedValueForFormatter:(id)value;
 
+- (BOOL)wantsGestureRecognizerForPlots;
+
 - (CPTPlotRange*)finessedPlotYRangeForPlotYRange:(CPTPlotRange*)yRange;
 
 - (void)reloadHighlight;

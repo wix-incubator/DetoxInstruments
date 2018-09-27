@@ -43,7 +43,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 @implementation DTXDetailDataProvider
 {
 	DTXRecordingDocument* _document;
-	DTXSampleContainerProxy* _rootGroupProxy;
 	NSArray<DTXColumnInformation*>* _columns;
 	
 	BOOL _ignoresSelections;
@@ -382,14 +381,69 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	return MIN(1 + DTXDepthOfSample(sample.parentGroup, rootSampleGroup), 20);
 }
 
+- (BOOL)_findSample:(DTXSample*)sample inContainerProxy:(DTXSampleContainerProxy*)containerProxy traversalChain:(NSMutableArray*)chain
+{
+	[chain addObject:containerProxy];
+	BOOL found = NO;
+	
+	if([containerProxy isDataLoaded] == NO)
+	{
+		[containerProxy reloadData];
+	}
+	
+	for (NSUInteger idx = 0; idx < [containerProxy samplesCount]; idx ++)
+	{
+		id sampleOrProxy = [containerProxy sampleAtIndex:idx];
+		if(sampleOrProxy == sample)
+		{
+			[chain addObject:sample];
+			found = YES;
+			break;
+		}
+		
+		if([sampleOrProxy isKindOfClass:DTXSampleContainerProxy.class])
+		{
+			found = [self _findSample:sample inContainerProxy:sampleOrProxy traversalChain:chain];
+			
+			if(found)
+			{
+				break;
+			}
+		}
+	}
+	
+	if(found == NO)
+	{
+		[chain removeObject:containerProxy];
+	}
+	
+	return found;
+}
+
 - (void)selectSample:(DTXSample*)sample
 {
 	NSInteger idx = [_managedOutlineView rowForItem:sample];
 	
 	if(sample.hidden || idx == -1)
 	{
-		[_managedOutlineView selectRowIndexes:NSIndexSet.indexSet byExtendingSelection:NO];
-		return;
+		//Sample not found directly. Look for it recursively in sample groups and expand the outline until the item is visible and then select it.
+		NSMutableArray* chain = [NSMutableArray new];
+		BOOL found = [self _findSample:sample inContainerProxy:self.rootGroupProxy traversalChain:chain];
+		
+		if(found)
+		{
+			for (id sampleOrProxy in chain)
+			{
+				[_managedOutlineView expandItem:sampleOrProxy];
+			}
+			
+			idx = [_managedOutlineView rowForItem:sample];
+		}
+		else
+		{
+			[_managedOutlineView selectRowIndexes:NSIndexSet.indexSet byExtendingSelection:NO];
+			return;
+		}
 	}
 	
 	_ignoresSelections = YES;

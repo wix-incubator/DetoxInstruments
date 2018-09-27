@@ -17,7 +17,7 @@
 #import "NSAppearance+UIAdditions.h"
 #import <LNInterpolation/Color+Interpolation.h>
 
-@interface DTXIntervalSamplePlotController () <CPTRangePlotDataSource, NSFetchedResultsControllerDelegate>
+@interface DTXIntervalSamplePlotController () <CPTRangePlotDataSource, CPTRangePlotDelegate, NSFetchedResultsControllerDelegate>
 {
 	NSFetchedResultsController<DTXSample*>* _frc;
 	
@@ -147,6 +147,11 @@
 	}];
 }
 
+- (BOOL)wantsGestureRecognizerForPlots
+{
+	return NO;
+}
+
 - (NSArray<CPTPlot *> *)plots
 {
 	if(_plot == nil)
@@ -167,6 +172,7 @@
 		_plot.gapHeight = 0.0;
 		
 		_plot.dataSource = self;
+//		_plot.delegate = self;
 	}
 	
 	return @[_plot];
@@ -430,6 +436,10 @@
 		case CPTRangePlotFieldLeft:
 		case CPTRangePlotFieldRight:
 			return @(range / 2.0);
+		case CPTRangePlotFieldHigh:
+			return @0;//@3.25;
+		case CPTRangePlotFieldLow:
+			return @0;// @-3.25;
 		default:
 			return @0;
 	}
@@ -477,6 +487,27 @@
 - (NSArray<NSSortDescriptor *> *)sortDescriptors
 {
 	return nil;
+}
+
+#pragma mark CPTRangePlotDelegate
+
+-(void)rangePlot:(nonnull CPTRangePlot *)plot rangeWasSelectedAtRecordIndex:(NSUInteger)idx
+{
+	if(self.canReceiveFocus == NO)
+	{
+		return;
+	}
+	
+	if(self.isForTouchBar)
+	{
+		return;
+	}
+	
+	NSIndexPath* indexPath = _sampleIndices[idx];
+	DTXSample* sample = self._mergedSamples[indexPath.section][indexPath.item];
+	
+	[self highlightSample:sample];
+	[self.sampleClickDelegate plotController:self didClickOnSample:sample];
 }
 
 #pragma mark NSFetchedResultsControllerDelegate

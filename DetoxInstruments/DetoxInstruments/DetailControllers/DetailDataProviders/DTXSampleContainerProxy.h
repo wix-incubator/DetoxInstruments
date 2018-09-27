@@ -27,6 +27,7 @@
 @property (nonatomic, strong, readonly) NSFetchedResultsController* fetchedResultsController;
 
 - (instancetype)initWithOutlineView:(NSOutlineView*)outlineView isRoot:(BOOL)root managedObjectContext:(NSManagedObjectContext*)managedObjectContext;
+- (BOOL)isDataLoaded;
 - (void)reloadData;
 
 - (void)handleSampleInserts:(NSArray*)inserts updates:(NSArray*)updates shouldReloadProxy:(BOOL*)reloadProxy;

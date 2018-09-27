@@ -256,6 +256,11 @@
 	[_cachedDetailControllers enumerateObjectsUsingBlock:^(DTXDetailController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[obj selectSample:sample];
 	}];
+	
+	if(sample != nil)
+	{
+		[_logDetailController scrollToTimestamp:sample.timestamp];
+	}
 }
 
 @end

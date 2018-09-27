@@ -184,6 +184,11 @@
 	
 	[self.delegate plotControllerUserDidClickInPlotBounds:self];
 	
+	if(self.wantsGestureRecognizerForPlots == NO)
+	{
+		return;
+	}
+	
 	if([self.graph.allPlots.firstObject isKindOfClass:[CPTScatterPlot class]])
 	{
 		NSPoint pointInView = [cgr locationInView:self.hostingView];
@@ -360,12 +365,23 @@
 	return [CPTLimitBand limitBandWithRange:newRange fill:[CPTFill fillWithColor:[CPTColor colorWithCGColor:[color shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.35].CGColor]]];
 }
 
+- (BOOL)wantsGestureRecognizerForPlots
+{
+	return YES;
+}
+
 - (void)setupPlotsForGraph
 {
 	[self prepareSamples];
 	
 	NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(clickedByClickGestureRegonizer:)];
 	[self.hostingView addGestureRecognizer:clickGestureRecognizer];
+	if(self.wantsGestureRecognizerForPlots == NO)
+	{
+		clickGestureRecognizer.delaysPrimaryMouseButtonEvents = NO;
+		clickGestureRecognizer.delaysSecondaryMouseButtonEvents = NO;
+		clickGestureRecognizer.delaysOtherMouseButtonEvents = NO;
+	}
 	
 	NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:self.hostingView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
 	[self.hostingView addTrackingArea:tracker];

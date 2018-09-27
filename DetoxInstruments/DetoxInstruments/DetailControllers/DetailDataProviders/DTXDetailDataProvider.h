@@ -65,6 +65,8 @@
 @property (nonatomic, weak, readonly) id<DTXPlotController> plotController;
 @property (nonatomic, weak) NSOutlineView* managedOutlineView;
 
+@property (nonatomic, strong, readonly) DTXSampleContainerProxy* rootGroupProxy;
+
 @property (nonatomic, strong, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
 

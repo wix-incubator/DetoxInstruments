@@ -20,6 +20,8 @@
 	
 	NSMutableArray* _updates;
 	NSMutableArray* _inserts;
+	
+	BOOL _isDataLoaded;
 }
 
 @dynamic fetchRequest;
@@ -52,6 +54,13 @@
 	_fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:ctx sectionNameKeyPath:nil cacheName:nil];
 	_fetchedResultsController.delegate = self;
 	[_fetchedResultsController performFetch:NULL];
+	
+	_isDataLoaded = YES;
+}
+
+- (BOOL)isDataLoaded
+{
+	return _isDataLoaded;
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
