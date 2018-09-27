@@ -33,3 +33,4 @@
 	url = https://github.com/LeoNatan/LNPropertyListEditor.git
 [submodule "CLI/ObjCCLIInfra"]
 	path = CLI/ObjCCLIInfra
+	url = https://github.com/wix/ObjCCLIInfra.git
