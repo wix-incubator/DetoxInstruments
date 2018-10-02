@@ -29,7 +29,7 @@ You'll need to perform the following steps for each target that you wish to inte
   #       ALLOWED_CONFIGURATIONS="Debug,Debug_Another,Release"
   ALLOWED_CONFIGURATIONS="Debug"
   
-  # Leave this section empty to dynamically determine the path of the Detox Instruments app. If are seeing issues, point explicitly to the app here.
+  # Leave this section empty to dynamically determine the path of the Detox Instruments app. If you are seeing issues, point explicitly to the app here.
   EXPLICIT_INSTRUMENTS_APP_PATH=
   
   if [ -z "$EXPLICIT_INSTRUMENTS_APP_PATH" ]; then
