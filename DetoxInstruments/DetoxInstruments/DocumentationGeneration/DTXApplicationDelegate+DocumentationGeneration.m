@@ -232,7 +232,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/example.dtxprof"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
 		
 		DTXWindowController* windowController = document.windowControllers.firstObject;
-		[document setValue:@"Example App" forKeyPath:@"recording.appName"];
+		[[document valueForKeyPath:@"recordings.@firstObject"] setValue:@"Example App" forKeyPath:@"appName"];
 		[windowController _setRecordingButtonsVisible:NO];
 		[windowController.window setFrame:[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen] display:YES];
 		[windowController.window makeKeyAndOrderFront:nil];
