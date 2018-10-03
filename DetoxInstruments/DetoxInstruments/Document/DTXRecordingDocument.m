@@ -196,12 +196,12 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 		
 		self.documentState = url != nil && recordings.count != 0 ? DTXRecordingDocumentStateSavedToDisk : DTXRecordingDocumentStateNew;
 		
+		_recordings = [recordings mutableCopy];
+		
 		if(recordings.count == 0)
 		{
 			return;
 		}
-		
-		_recordings = [recordings mutableCopy];
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDocumentDidLoadNotification object:self.windowControllers.firstObject];
 		
