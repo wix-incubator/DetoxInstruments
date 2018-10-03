@@ -13,6 +13,7 @@
 @property (nonatomic, weak) IBOutlet NSImageView* applicationIconImageView;
 @property (nonatomic, weak) IBOutlet NSTextField* applicationTitleTextField;
 @property (nonatomic, weak) IBOutlet NSTextField* applicationVersionTextField;
+@property (nonatomic, weak) IBOutlet NSTextField* applicationDateTextField;
 @property (nonatomic, weak) IBOutlet NSTextField* applicationCopyrightTextField;
 
 @end
@@ -24,6 +25,7 @@
 	self.applicationIconImageView.image = [DTXAboutViewController _bestIcon];
 	self.applicationTitleTextField.stringValue = @"Detox Instruments";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 	self.applicationVersionTextField.stringValue = [NSString stringWithFormat:@"%@ %@ (%@)", NSLocalizedString(@"Version", @""), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+	self.applicationDateTextField.stringValue = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Built on", @""),[NSDateFormatter localizedStringFromDate:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DTXBuildDate"] dateStyle:NSDateFormatterFullStyle timeStyle:NSDateFormatterShortStyle]];
 	self.applicationCopyrightTextField.stringValue = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"];
 }
 

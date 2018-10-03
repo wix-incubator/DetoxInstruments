@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.3.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bf6-yZ-a8A">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bf6-yZ-a8A">
     <dependencies>
         <deployment identifier="macosx"/>
-        <development version="10000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.3.2"/>
-        <plugIn identifier="com.apple.WebKit2IBPlugin" version="14313.3.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
+        <plugIn identifier="com.apple.WebKit2IBPlugin" version="14313.13.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -102,10 +101,10 @@ DQ
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5Jd-qH-cgz">
-                                            <rect key="frame" x="196" y="116" width="49" height="18"/>
-                                            <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version" id="3s7-df-Xo6">
-                                                <font key="font" metaFont="systemLight" size="13"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <rect key="frame" x="196" y="99" width="29" height="14"/>
+                                            <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Date" id="3s7-df-Xo6">
+                                                <font key="font" metaFont="systemLight" size="11"/>
+                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
@@ -133,19 +132,29 @@ DQ
                                             <rect key="frame" x="196" y="61" width="338" height="11"/>
                                             <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="Copyright" id="fev-gu-oSX">
                                                 <font key="font" metaFont="miniSystem"/>
-                                                <color key="textColor" name="windowFrameColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mmt-La-AhW">
+                                            <rect key="frame" x="196" y="117" width="49" height="17"/>
+                                            <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version" id="ON3-vm-67E">
+                                                <font key="font" metaFont="systemLight" size="13"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="5Jd-qH-cgz" firstAttribute="top" secondItem="qJR-mE-3h9" secondAttribute="bottom" constant="8" symbolic="YES" id="0FZ-G6-V61"/>
+                                        <constraint firstItem="5Jd-qH-cgz" firstAttribute="top" secondItem="mmt-La-AhW" secondAttribute="bottom" constant="4" id="48c-6l-w2L"/>
                                         <constraint firstItem="5Jd-qH-cgz" firstAttribute="leading" secondItem="qJR-mE-3h9" secondAttribute="leading" id="4qF-6c-Vz0"/>
                                         <constraint firstAttribute="trailing" secondItem="0wI-ty-V8m" secondAttribute="trailing" constant="20" id="BnP-wv-cdn"/>
                                         <constraint firstAttribute="bottom" secondItem="0wI-ty-V8m" secondAttribute="bottom" constant="20" id="BqU-6t-hU7"/>
                                         <constraint firstItem="qJR-mE-3h9" firstAttribute="top" secondItem="Yzb-2v-wZV" secondAttribute="top" constant="20" id="VMH-zv-GeG"/>
+                                        <constraint firstItem="mmt-La-AhW" firstAttribute="leading" secondItem="5Jd-qH-cgz" secondAttribute="leading" id="YbA-57-D7N"/>
                                         <constraint firstItem="7DH-4e-CoZ" firstAttribute="leading" secondItem="RfQ-mE-RzE" secondAttribute="leading" id="Yvt-ez-nug"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qJR-mE-3h9" secondAttribute="trailing" constant="35" id="b5L-qI-h7S"/>
+                                        <constraint firstItem="mmt-La-AhW" firstAttribute="top" secondItem="qJR-mE-3h9" secondAttribute="bottom" constant="8" id="bp2-oO-fQG"/>
                                         <constraint firstAttribute="bottom" secondItem="RfQ-mE-RzE" secondAttribute="bottom" constant="20" id="gVB-wT-jq6"/>
                                         <constraint firstItem="0wI-ty-V8m" firstAttribute="leading" secondItem="RfQ-mE-RzE" secondAttribute="trailing" constant="15" id="iqy-l8-f24"/>
                                         <constraint firstItem="RfQ-mE-RzE" firstAttribute="leading" secondItem="qJR-mE-3h9" secondAttribute="leading" id="lMJ-uT-tkI"/>
@@ -178,9 +187,10 @@ DQ
                     </view>
                     <connections>
                         <outlet property="applicationCopyrightTextField" destination="7DH-4e-CoZ" id="iKm-HU-AgV"/>
+                        <outlet property="applicationDateTextField" destination="5Jd-qH-cgz" id="g6U-2A-Pcr"/>
                         <outlet property="applicationIconImageView" destination="5nb-xv-6Gd" id="TGR-gw-Jwt"/>
                         <outlet property="applicationTitleTextField" destination="qJR-mE-3h9" id="KvO-Tz-HNU"/>
-                        <outlet property="applicationVersionTextField" destination="5Jd-qH-cgz" id="26l-c6-ys6"/>
+                        <outlet property="applicationVersionTextField" destination="mmt-La-AhW" id="kb0-gs-P3O"/>
                     </connections>
                 </viewController>
                 <customObject id="x0I-Mr-AhS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
