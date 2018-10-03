@@ -116,12 +116,10 @@ void unused_func(void)
 	DTXProfiler* profiler = [[DTXProfiler alloc] init];
 	[profiler startProfilingWithConfiguration:config];
 	
-	NSString* x = DTXProfilerMarkEventIntervalBegin(@"1", @"2", @"3");
+	DTXEventIdentifier x = DTXProfilerMarkEventIntervalBegin(@"1", @"2", @"3");
 	DTXProfilerMarkEventIntervalEnd(x, 0, @"4");
 	DTXProfilerMarkEvent(@"5", @"6", 7, @"8");
 	
-	DTXProfilerPushSampleGroup(@"9");
-	DTXProfilerPopSampleGroup();
 	DTXProfilerAddTag(@"10");
 	DTXProfilerAddLogLine(@"11");
 	DTXProfilerAddLogLineWithObjects(@"12", @[@"13"]);

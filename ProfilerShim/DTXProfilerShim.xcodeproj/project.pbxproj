@@ -21,7 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		3900FBD321185F010054BA5E /* DTXProfilerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3900FBD221185F010054BA5E /* DTXProfilerAPI.h */; };
+		3900FBD321185F010054BA5E /* DTXProfilerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3900FBD221185F010054BA5E /* DTXProfilerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39377AFB2107ADFF000A7D82 /* Impl.m in Sources */ = {isa = PBXBuildFile; fileRef = 39377AFA2107ADFF000A7D82 /* Impl.m */; };
 		39377B0D2107B135000A7D82 /* DTXProfilerShim.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B0C2107B135000A7D82 /* DTXProfilerShim.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC79210A8F27003E9170 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39A7BC78210A8F27003E9170 /* DTXEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };

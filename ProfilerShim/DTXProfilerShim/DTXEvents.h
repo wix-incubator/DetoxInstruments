@@ -59,7 +59,7 @@ extern DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, 
  * Additional information to include with this event.
  */
 DTX_NOTHROW
-extern void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable additionalInfo);
+extern void DTXProfilerMarkEventIntervalEnd(DTXEventIdentifier identifier, DTXEventStatus eventStatus, NSString* __nullable additionalInfo);
 
 /*!
  * @function DTXProfilerMarkEvent
