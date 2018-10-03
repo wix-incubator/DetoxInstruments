@@ -16,6 +16,7 @@ It includes the following main elements:
 
 * **Profiling controls:** Allow you to stop data collection and add a flag
 * **Activity viewer:** Shows information about the current recording document
+* **Customization button:** Customize the list of visible instruments in the timeline pane.
 * **View buttons:** Hide or show the detail pane and inspector.
 
 ### Timeline Pane
@@ -57,6 +58,16 @@ For some instruments, the extended detail area in the inspector pane shows addit
 ##### Recording Info
 
 The recording info area includes information about the recording and the profiling options which were used for the recording.
+
+### Touch Bar
+
+The Touch Bar displays a single instrument at a time and can be used as input for sample selection.
+
+![Touch Bar](Resources/RecordingDocument_TouchBar.png "Touch Bar")
+
+Tap the **Select Instrument** button to select which instrument is displayed.
+
+![Touch Bar - Select Instrument](Resources/RecordingDocument_TouchBarPicker.png "Touch Bar - Select Instrument")
 
 ### Saving a Recording Document
 
