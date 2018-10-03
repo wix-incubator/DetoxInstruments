@@ -100,7 +100,7 @@
 
 - (BOOL)canCopy
 {
-	DTXReactNativePeroformanceSample* perfSample = self.sample;
+//	DTXReactNativePeroformanceSample* perfSample = self.sample;
 	return NO; //perfSample.recording.dtx_profilingConfiguration.collectJavaScriptStackTraces;
 }
 
