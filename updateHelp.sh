@@ -58,6 +58,7 @@ function render_markdown {
   #remove "aria" attributes; sed doesn't support non-greedy lookup
   sed -E -i '' -e 's/\ ?aria-hidden=\"true\"//g' "${TARGET_FILE}"
   sed -E -i '' -e 's/\ ?aria-hidden=\"false\"//g' "${TARGET_FILE}"
+  sed -E -i '' -e 's/\ rel=\"noopener noreferrer\"//g' "${TARGET_FILE}"
   #broken image tags
   sed -E -i '' -e 's/\<img(.*)>\<\/a\>/\<img\1 \/\>\<\/a\>/g' "${TARGET_FILE}"
   #anchor names
