@@ -147,6 +147,17 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	{
 		[_managedOutlineView scrollToBottom];
 	}
+	
+	//This fixes an NSTableView layout issue where the last column does not take the full space of the table view.
+	CGRect frame = _managedOutlineView.enclosingScrollView.frame;
+	frame.size.width += 1;
+	_managedOutlineView.enclosingScrollView.frame = frame;
+	[_managedOutlineView setNeedsLayout:YES];
+	[_managedOutlineView layoutSubtreeIfNeeded];
+	frame.size.width -= 1;
+	_managedOutlineView.enclosingScrollView.frame = frame;
+	[_managedOutlineView setNeedsLayout:YES];
+	[_managedOutlineView layoutSubtreeIfNeeded];
 }
 
 - (void)_documentStateDidChangeNotification:(NSNotification*)note
