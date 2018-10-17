@@ -10,4 +10,7 @@
 
 @interface DTXScrollView : NSScrollView
 
+@property (nonatomic, strong, readonly) NSScroller* customHorizontalScroller;
+- (void)setHorizontalScrollerKnobProportion:(CGFloat)proportion value:(CGFloat)value;
+
 @end

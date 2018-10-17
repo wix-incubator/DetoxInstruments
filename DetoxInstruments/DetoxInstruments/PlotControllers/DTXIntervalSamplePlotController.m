@@ -491,8 +491,13 @@
 
 #pragma mark CPTRangePlotDelegate
 
--(void)rangePlot:(nonnull CPTRangePlot *)plot rangeWasSelectedAtRecordIndex:(NSUInteger)idx
+-(void)rangePlot:(nonnull CPTRangePlot *)plot rangeWasSelectedAtRecordIndex:(NSUInteger)idx withEvent:(nonnull CPTNativeEvent *)event
 {
+	if(event.type != NSEventTypeLeftMouseUp)
+	{
+		return;
+	}
+	
 	if(self.canReceiveFocus == NO)
 	{
 		return;

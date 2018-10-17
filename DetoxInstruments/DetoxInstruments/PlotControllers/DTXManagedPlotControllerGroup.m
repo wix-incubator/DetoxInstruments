@@ -396,9 +396,33 @@
 	}];
 }
 
+- (void)_resetSavedPlotRange:(CPTPlotRange*)plotRange updatePlotControllers:(BOOL)update notifyDelegate:(BOOL)notify
+{
+	_savedPlotRange = plotRange;
+	
+	if(update)
+	{
+		[_headerPlotController setPlotRange:plotRange];
+		
+		[_touchBarPlotController setPlotRange:plotRange];
+		
+		[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+			[obj setPlotRange:plotRange];
+		}];
+	}
+	
+	if(notify)
+	{
+		CGFloat proportion = _savedPlotRange.lengthDouble / _savedGlobalPlotRange.lengthDouble;
+		CGFloat value = _savedPlotRange.locationDouble / _savedGlobalPlotRange.lengthDouble;
+		
+		[self.delegate managedPlotControllerGroup:self didScrollToProportion:proportion value:value];
+	}
+}
+
 - (void)setLocalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
 {
-	_savedPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)];
+	[self _resetSavedPlotRange:[CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)] updatePlotControllers:NO notifyDelegate:YES];
 	
 	_ignoringPlotRangeNotifications = YES;
 	[_headerPlotController setPlotRange:_savedPlotRange];
@@ -442,6 +466,13 @@
 	[_managedPlotControllers.firstObject zoomToFitAllData];
 }
 
+- (void)scrollToValue:(CGFloat)value
+{
+	CPTPlotRange* newPlotRange = [CPTPlotRange plotRangeWithLocation:@(value * _savedGlobalPlotRange.lengthDouble) length:_savedPlotRange.length];
+	
+	[self _resetSavedPlotRange:newPlotRange updatePlotControllers:YES notifyDelegate:YES];
+}
+
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc
 {
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
@@ -483,7 +514,8 @@ static BOOL __uglyHackTODOFixThis()
 	}
 	
 	_ignoringPlotRangeNotifications = YES;
-	_savedPlotRange = plotRange;
+	
+	[self _resetSavedPlotRange:plotRange updatePlotControllers:NO notifyDelegate:YES];
 	
 	if(pc != _headerPlotController)
 	{

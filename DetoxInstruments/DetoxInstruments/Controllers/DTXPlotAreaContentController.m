@@ -25,14 +25,15 @@
 #import "DTXNetworkSample+UIExtensions.h"
 #import "DTXPlotControllerPickerController.h"
 #import "DTXClassSelectionButton.h"
+#import "DTXScrollView.h"
 
 #import "DTXLayerView.h"
 
 @interface DTXPlotAreaContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate, NSTouchBarDelegate>
 {
-	IBOutlet DTXPlotTableView *_tableView;
+	IBOutlet DTXPlotTableView* _tableView;
 	DTXManagedPlotControllerGroup* _plotGroup;
-	IBOutlet NSView *_headerView;
+	IBOutlet NSView* _headerView;
 	
 	DTXCPUUsagePlotController* _cpuPlotController;
 	NSMutableArray<DTXThreadInfo*>* _insertedCPUThreads;
@@ -52,11 +53,18 @@
 	[super viewDidLoad];
 	
 	_tableView.enclosingScrollView.contentInsets = NSEdgeInsetsMake(0, 0, 20, 0);
-	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, 0, -20, 0);
+	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, 210.5, -20, 0);
 	
-//	[(DTXLayerView*)self.view setUpdateLayerHandler:^ (NSView* view) {
-//		view.layer.backgroundColor = NSColor.textBackgroundColor.CGColor;
-//	}];
+	[(DTXScrollView*)_tableView.enclosingScrollView setHorizontalScrollerKnobProportion:1.0 value:0.0];
+	
+	_tableView.enclosingScrollView.autohidesScrollers = NO;
+	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.target = self;
+	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.action = @selector(_horizontalScrollerDidScroll:);
+}
+
+- (void)_horizontalScrollerDidScroll:(NSScroller*)sender
+{
+	[_plotGroup scrollToValue:sender.doubleValue];
 }
 
 - (void)viewWillAppear
@@ -220,6 +228,11 @@
 }
 
 #pragma mark DTXManagedPlotControllerGroupDelegate
+
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didScrollToProportion:(CGFloat)proportion value:(CGFloat)value
+{
+	[(DTXScrollView*)_tableView.enclosingScrollView setHorizontalScrollerKnobProportion:proportion value:value];
+}
 
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup *)group didSelectPlotController:(id<DTXPlotController>)plotController
 {

@@ -85,28 +85,20 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"
+            argument = "-NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints YES"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "YES"
+            argument = "-com.apple.CoreData.ConcurrencyDebug 1"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-com.apple.CoreData.ConcurrencyDebug"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "1"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-NSTrackMenuValidation"
+            argument = "-NSTrackMenuValidation YES"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "YES"
-            isEnabled = "NO">
+            argument = "-NSDebugScrolling YES"
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

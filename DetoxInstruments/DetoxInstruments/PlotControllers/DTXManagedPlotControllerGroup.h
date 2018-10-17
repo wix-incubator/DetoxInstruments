@@ -13,6 +13,7 @@
 
 @protocol DTXManagedPlotControllerGroupDelegate <NSObject>
 
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didScrollToProportion:(CGFloat)proportion value:(CGFloat)value;
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didSelectPlotController:(id<DTXPlotController>)plotController;
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didHidePlotController:(id<DTXPlotController>)plotController;
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didShowPlotController:(id<DTXPlotController>)plotController;
@@ -51,5 +52,6 @@
 - (void)zoomIn;
 - (void)zoomOut;
 - (void)zoomToFitAllData;
+- (void)scrollToValue:(CGFloat)value;
 
 @end
