@@ -31,6 +31,23 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 		mv "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfilerShim "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
 		echo "Profiler framework not integrated: current build configuration “${CONFIGURATION}” is not included in the ALLOWED_CONFIGURATIONS list."
 	fi
+	
+	EXTRACTED_ARCHS=()
+
+	for ARCH in $ARCHS
+	do
+	echo "Extracting $ARCH"
+	lipo -extract "${ARCH}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler -o "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler"-${ARCH}"
+	EXTRACTED_ARCHS+=("${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler"-${ARCH}")
+	done
+
+	echo "Merging extracted architectures: ${ARCHS}"
+	lipo -o "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler"-merged" -create "${EXTRACTED_ARCHS[@]}"
+	rm "${EXTRACTED_ARCHS[@]}"
+
+	echo "Replacing original executable with thinned version"
+	rm "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
+	mv "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler"-merged" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
 
 	if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" ]; then
 		codesign -fs "${EXPANDED_CODE_SIGN_IDENTITY}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}" &> /dev/null
