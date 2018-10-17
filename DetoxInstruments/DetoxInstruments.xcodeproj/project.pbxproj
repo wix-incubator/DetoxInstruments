@@ -209,6 +209,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3925A26221779636005353AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5AB8F19F214DA72000A1187F;
+			remoteInfo = generate_keys;
+		};
+		3925A26421779636005353AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3968DE4D2056F55F0089609A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A5ADED7214EDE4900DF0099;
+			remoteInfo = sign_update;
+		};
 		392D52A81FA9FC0800A28938 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
@@ -1230,6 +1244,8 @@
 				3968DE662056F55F0089609A /* UI Tests.xctest */,
 				3968DE682056F55F0089609A /* fileop */,
 				3968DE6A2056F55F0089609A /* generate_appcast */,
+				3925A26321779636005353AE /* generate_keys */,
+				3925A26521779636005353AE /* sign_update */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1685,6 +1701,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		3925A26321779636005353AE /* generate_keys */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = generate_keys;
+			remoteRef = 3925A26221779636005353AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3925A26521779636005353AE /* sign_update */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = sign_update;
+			remoteRef = 3925A26421779636005353AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		392D52A91FA9FC0800A28938 /* DTXSourceMaps.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
