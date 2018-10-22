@@ -119,13 +119,13 @@ fi
 echo -e "\033[1;34mUploading ZIP attachment to release\033[0m"
 
 if [ -z "$DRY_RUN" ]; then
-curl -s --data-binary @"${ZIP_FILE}" -H "Content-Type: application/octet-stream" "https://uploads.github.com/repos/wix/DetoxInstruments/releases/${RELEASE_ID}/assets?name=$(basename ${ZIP_FILE})&access_token=${GITHUB_RELEASES_TOKEN}" | jq "." &> /dev/null
+curl -s --data-binary @"${ZIP_FILE}" -H "Content-Type: application/octet-stream" "https://uploads.github.com/repos/wix/DetoxInstruments/releases/${RELEASE_ID}/assets?name=$(basename ${ZIP_FILE})&access_token=${GITHUB_RELEASES_TOKEN}" | jq "."
 fi
 
 echo -e "\033[1;34mTriggering gh-pages rebuild\033[0m"
 
 if [ -z "$DRY_RUN" ]; then
-curl -H "Content-Type: application/json; charset=UTF-8" -X PUT -d '{"message": "Rebuild GH Pages", "committer": { "name": "PublishScript", "email": "somefakeaddress@wix.com" }, "content": "LnB1Ymxpc2gK", "sha": "3f949857e8ed4cb106f9744e40b638a7aabf647f", "branch": "gh-pages"}' https://api.github.com/repos/wix/DetoxInstruments/contents/.publish?access_token=${GITHUB_RELEASES_TOKEN} | jq "." &> /dev/null
+curl -H "Content-Type: application/json; charset=UTF-8" -X PUT -d '{"message": "Rebuild GH Pages", "committer": { "name": "PublishScript", "email": "somefakeaddress@wix.com" }, "content": "LnB1Ymxpc2gK", "sha": "3f949857e8ed4cb106f9744e40b638a7aabf647f", "branch": "gh-pages"}' https://api.github.com/repos/wix/DetoxInstruments/contents/.publish?access_token=${GITHUB_RELEASES_TOKEN} | jq "."
 fi
 
 echo -e "\033[1;34mOpening archive in Xcode\033[0m"
