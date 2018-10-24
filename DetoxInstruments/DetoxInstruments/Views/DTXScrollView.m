@@ -11,6 +11,9 @@
 @interface NSObject ()
 
 - (void)_setIsHorizontal:(BOOL)arg1;
+- (void)setOverlayScrollerTrackAlpha:(double)arg1;
+- (void)setOverlayScrollerKnobAlpha:(double)arg1;
+- (double)overlayScrollerKnobAlpha;
 
 @end
 
@@ -36,6 +39,90 @@
 	[line stroke];
 }
 
+- (void)setScrollerStyle:(NSScrollerStyle)scrollerStyle
+{
+	[super setScrollerStyle:scrollerStyle];
+	
+	[self _resetStyles];
+	[self _animateKnobIfNeeded];
+}
+
+- (void)setKnobProportion:(CGFloat)proportion
+{
+	float oldProportion = self.knobProportion;
+	
+	[super setKnobProportion:proportion];
+	
+	[self _resetStyles];
+	
+	if(oldProportion != self.knobProportion)
+	{
+		[self _animateKnobIfNeeded];
+	}
+}
+
+- (void)setDoubleValue:(double)doubleValue
+{
+	double oldDoubleValue = self.doubleValue;
+	
+	[super setDoubleValue:doubleValue];
+	
+	[self _resetStyles];
+	
+	if(oldDoubleValue != self.doubleValue)
+	{
+		[self _animateKnobIfNeeded];
+	}
+}
+
+- (void)_resetStyles
+{
+	self.enabled = YES;
+
+	if(self.scrollerStyle == NSScrollerStyleOverlay)
+	{
+		[self setOverlayScrollerTrackAlpha:0.0];
+	}
+	else
+	{
+		[self setOverlayScrollerTrackAlpha:1.0];
+	}
+}
+
+- (void)_fadeOut
+{
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+		context.duration = 0.2;
+		context.allowsImplicitAnimation = YES;
+		[self.animator setOverlayScrollerKnobAlpha:0.0];
+	} completionHandler:^{
+		
+	}];
+}
+
+- (void)_animateKnobIfNeeded
+{
+	if(self.scrollerStyle == NSScrollerStyleLegacy)
+	{
+		[self setOverlayScrollerKnobAlpha:1.0];
+		
+		return;
+	}
+	
+	if(self.knobProportion == 1.0)
+	{
+		[self _fadeOut];
+	}
+	else
+	{
+		[self setOverlayScrollerKnobAlpha:1.0];
+		
+		[NSObject cancelPreviousPerformRequestsWithTarget:self];
+		
+		[self performSelector:@selector(_fadeOut) withObject:nil afterDelay:1.0];
+	}
+}
+
 @end
 
 @interface NSScrollView ()
@@ -51,6 +138,11 @@
 	DTXScroller* _horizontalScroller;
 }
 
+- (void)_scrollerStyleDidChange_DTX
+{
+	_horizontalScroller.scrollerStyle = [NSScroller preferredScrollerStyle];
+}
+
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
@@ -63,7 +155,9 @@
 	_horizontalScroller = [DTXScroller new];
 	_horizontalScroller.enabled = YES;
 	[_horizontalScroller _setIsHorizontal:YES];
+	[_horizontalScroller setOverlayScrollerTrackAlpha:0.0];
 	_horizontalScroller.scrollerStyle = [NSScroller preferredScrollerStyle];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_scrollerStyleDidChange_DTX) name:NSPreferredScrollerStyleDidChangeNotification object:nil];
 	
 	self.horizontalScroller.alphaValue = 0.0;
 	
@@ -81,8 +175,10 @@
 	
 	_knobProportion = proportion;
 	_knobValue = value;
+	[_horizontalScroller setKnobProportion:_knobProportion];
+	[_horizontalScroller setDoubleValue:_knobValue];
 	
-	[self _resetHorizontalScrollerKnob];
+	self.horizontalScroller.alphaValue = 0.0;
 }
 
 - (void)reflectScrolledClipView:(NSClipView *)cView
@@ -91,19 +187,8 @@
 	
 	if(_requiresCustomHorizontalScrollerManagement)
 	{
-		[self _resetHorizontalScrollerKnob];
+		self.horizontalScroller.alphaValue = 0.0;
 	}
-}
-
-- (void)_resetHorizontalScrollerKnob
-{
-	_horizontalScroller.enabled = YES;
-	[_horizontalScroller setKnobProportion:_knobProportion];
-	[_horizontalScroller setDoubleValue:_knobValue];
-	
-	self.horizontalScroller.alphaValue = 0.0;
-	
-//	[[self valueForKey:@"scrollerImpPair"] _updateOverlayScrollersStateWithReason:@"user update horizontal scroller" forcingVisibilityForHorizontalKnob:1 verticalKnob:1];
 }
 
 - (void)tile
