@@ -20,36 +20,40 @@
 #define DTX_DETAG_INSTRUCTION_ADDRESS(A) ((A) & ~(3UL))
 #define DTX_THREAD_STATE_COUNT ARM_THREAD_STATE64_COUNT
 #define DTX_THREAD_STATE ARM_THREAD_STATE64
-#define DTX_FRAME_POINTER_REGISTER __fp
-#define DTX_STACK_POINTER_REGISTER __sp
-#define DTX_INSTRUCTION_ADDRESS_REGISTER __pc
+
+#define DTX_MACHINE_CONTEXT_GET_FRAME_POINTER(mc) ((void*)__darwin_arm_thread_state64_get_fp(mc->__ss))
+#define DTX_MACHINE_CONTEXT_GET_PROGRAM_COUNTER(mc) ((void*)__darwin_arm_thread_state64_get_pc(mc->__ss))
+#define DTX_MACHINE_CONTEXT_GET_LINK_REGISTER(mc) ((void*)__darwin_arm_thread_state64_get_lr(mc->__ss))
 
 #elif defined(__arm__)
 
 #define DTX_DETAG_INSTRUCTION_ADDRESS(A) ((A) & ~(1UL))
 #define DTX_THREAD_STATE_COUNT ARM_THREAD_STATE_COUNT
 #define DTX_THREAD_STATE ARM_THREAD_STATE
-#define DTX_FRAME_POINTER_REGISTER __r[7]
-#define DTX_STACK_POINTER_REGISTER __sp
-#define DTX_INSTRUCTION_ADDRESS_REGISTER __pc
+
+#define DTX_MACHINE_CONTEXT_GET_FRAME_POINTER(mc) ((void*)mc->__ss.__r[7])
+#define DTX_MACHINE_CONTEXT_GET_PROGRAM_COUNTER(mc) ((void*)mc->__ss.__pc)
+#define DTX_MACHINE_CONTEXT_GET_LINK_REGISTER(mc) ((void*)mc->__ss.__lr)
 
 #elif defined(__x86_64__)
 
 #define DTX_DETAG_INSTRUCTION_ADDRESS(A) (A)
 #define DTX_THREAD_STATE_COUNT x86_THREAD_STATE64_COUNT
 #define DTX_THREAD_STATE x86_THREAD_STATE64
-#define DTX_FRAME_POINTER_REGISTER __rbp
-#define DTX_STACK_POINTER_REGISTER __rsp
-#define DTX_INSTRUCTION_ADDRESS_REGISTER __rip
+
+#define DTX_MACHINE_CONTEXT_GET_FRAME_POINTER(mc) ((void*)mc->__ss.__rbp)
+#define DTX_MACHINE_CONTEXT_GET_PROGRAM_COUNTER(mc) ((void*)mc->__ss.__rip)
+#define DTX_MACHINE_CONTEXT_GET_LINK_REGISTER(mc) ((void*)0)
 
 #elif defined(__i386__)
 
 #define DTX_DETAG_INSTRUCTION_ADDRESS(A) (A)
 #define DTX_THREAD_STATE_COUNT x86_THREAD_STATE32_COUNT
 #define DTX_THREAD_STATE x86_THREAD_STATE32
-#define DTX_FRAME_POINTER_REGISTER __ebp
-#define DTX_STACK_POINTER_REGISTER __esp
-#define DTX_INSTRUCTION_ADDRESS_REGISTER __eip
+
+#define DTX_MACHINE_CONTEXT_GET_FRAME_POINTER(mc) ((void*)mc->__ss.__ebp)
+#define DTX_MACHINE_CONTEXT_GET_PROGRAM_COUNTER(mc) ((void*)mc->__ss.__eip)
+#define DTX_MACHINE_CONTEXT_GET_LINK_REGISTER(mc) ((void*)0)
 
 #endif
 
@@ -69,21 +73,17 @@ inline static bool __DTXFillThreadStateIntoMachineContext(thread_t thread, _STRU
 
 inline static void* __DTXReadFramePointerRegister(mcontext_t const machineContext)
 {
-	return (void*)machineContext->__ss.DTX_FRAME_POINTER_REGISTER;
+	return DTX_MACHINE_CONTEXT_GET_FRAME_POINTER(machineContext);
 }
 
 inline static void* __DTXReadInstructionAddressRegister(mcontext_t const machineContext)
 {
-	return (void*)machineContext->__ss.DTX_INSTRUCTION_ADDRESS_REGISTER;
+	return DTX_MACHINE_CONTEXT_GET_PROGRAM_COUNTER(machineContext);
 }
 
 inline static void* __DTXReadLinkRegister(mcontext_t const machineContext)
 {
-#if defined(__i386__) || defined(__x86_64__)
-	return 0;
-#else
-	return (void*)machineContext->__ss.__lr;
-#endif
+	return DTX_MACHINE_CONTEXT_GET_LINK_REGISTER(machineContext);
 }
 
 inline static kern_return_t __DTXReadMemorySafely(const void *const src, void *const dst, const size_t numBytes)

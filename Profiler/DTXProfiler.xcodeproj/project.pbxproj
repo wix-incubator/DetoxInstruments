@@ -942,6 +942,10 @@
 		395B5E9120568C470013CB75 /* Release_External */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					arm64e,
+				);
 				BITCODE_GENERATION_MODE = bitcode;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1094,6 +1098,10 @@
 		39D40C021ED5ABD200157C04 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					arm64e,
+				);
 				BITCODE_GENERATION_MODE = bitcode;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1126,6 +1134,10 @@
 		39D40C031ED5ABD200157C04 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					arm64e,
+				);
 				BITCODE_GENERATION_MODE = bitcode;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
