@@ -9,7 +9,11 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DTXDebugMenuGenerator">
             <connections>
-                <outlet property="consoleImageView" destination="D6f-S4-b5U" id="EWl-Pn-p6n"/>
+                <outlet property="chevronImageView" destination="5MX-na-n9t" id="wit-aJ-oGQ"/>
+                <outlet property="firstImageTextField" destination="QTQ-yJ-zZP" id="QDu-wT-bqi"/>
+                <outlet property="firstImageView" destination="aH1-vT-o9C" id="5ua-UE-yPK"/>
+                <outlet property="secondImageTextField" destination="Ony-sU-fs1" id="8HU-dy-TVJ"/>
+                <outlet property="secondImageView" destination="D6f-S4-b5U" id="EWl-Pn-p6n"/>
                 <outlet property="view" destination="iaq-Qa-wsb" id="8xV-N7-nSQ"/>
                 <outlet property="visualEffectView" destination="ggh-8j-UUw" id="PzO-gz-HZa"/>
             </connections>

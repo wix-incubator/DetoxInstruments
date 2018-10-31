@@ -22,6 +22,7 @@
 	BOOL _symbolicateStackTraces;
 	BOOL _recordLogOutput;
 	BOOL _profileReactNative;
+	BOOL _recordReactNativeBridgeData;
 	BOOL _collectJavaScriptStackTraces;
 	BOOL _symbolicateJavaScriptStackTraces;
 	BOOL _prettyPrintJSONOutput;
@@ -74,6 +75,16 @@
 	}
 	
 	return self;
+}
+
+- (instancetype)copy
+{
+	return [super copy];
+}
+
+- (DTXMutableProfilingConfiguration *)mutableCopy
+{
+	return [super mutableCopy];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -197,6 +208,12 @@
 - (void)_setRecordingFileURL:(NSURL *)recordingFileURL
 {
 	self->_nonkvc_recordingFileURL = recordingFileURL;
+}
+
+@dynamic recordReactNativeBridgeData;
+- (void)setRecordReactNativeBridgeData:(BOOL)recordReactNativeBridgeData
+{
+	self->_recordReactNativeBridgeData = recordReactNativeBridgeData;
 }
 
 - (void)setRecordingFileURL:(NSURL *)recordingFileURL

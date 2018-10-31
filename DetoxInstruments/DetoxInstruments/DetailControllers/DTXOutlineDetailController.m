@@ -25,15 +25,12 @@
 
 - (NSString *)displayName
 {
-	return NSLocalizedString(@"Samples", @"");
+	return self.detailDataProvider.displayName;
 }
 
 - (NSImage *)smallDisplayIcon
 {
-	NSImage* image = [NSImage imageNamed:@"samples"];
-	image.size = NSMakeSize(16, 16);
-	
-	return image;
+	return self.detailDataProvider.displayIcon;
 }
 
 - (void)setDetailDataProvider:(DTXDetailDataProvider *)detailDataProvider

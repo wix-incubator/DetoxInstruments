@@ -19,3 +19,5 @@
 #import "DTXThreadPerformanceSample+CoreDataClass.h"
 #import "DTXReactNativePeroformanceSample+CoreDataClass.h"
 #import "DTXSignpostSample+CoreDataClass.h"
+#import "DTXReactNativeBridgeData+CoreDataClass.h"
+#import "DTXReactNativeDataSample+CoreDataClass.h"

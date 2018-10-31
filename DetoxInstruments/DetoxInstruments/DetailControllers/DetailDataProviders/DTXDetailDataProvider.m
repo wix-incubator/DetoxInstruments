@@ -72,12 +72,15 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSString *)displayName
 {
-	return self.plotController.displayName;
+	return NSLocalizedString(@"Samples", @"");;
 }
 
 - (NSImage *)displayIcon
 {
-	return self.plotController.displayIcon;
+	NSImage* image = [NSImage imageNamed:@"samples"];
+	image.size = NSMakeSize(16, 16);
+	
+	return image;
 }
 
 - (void)setManagedOutlineView:(NSOutlineView *)outlineView
@@ -102,6 +105,8 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	if(_managedOutlineView == nil)
 	{
+		[_rootGroupProxy unloadData];
+		
 		return;
 	}
 	

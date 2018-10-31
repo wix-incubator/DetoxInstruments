@@ -32,8 +32,21 @@ extern NSMutableSet<DTXProfiler*>* __activeProfilers;
 - (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp;
 - (void)_networkRecorderDidStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
 - (void)_networkRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
+- (void)_addRNDataFromFunction:(NSString*)function arguments:(NSArray<NSString*>*)arguments returnValue:(NSString*)rv exception:(NSString*)exception isFromNative:(BOOL)isFromNative timestamp:(NSDate*)timestamp;
 
 @end
+
+DTX_ALWAYS_INLINE
+inline DTXProfilingConfiguration* __DTXProfilerGetActiveConfiguration(void)
+{
+	pthread_mutex_lock(&__active_profilers_mutex);
+	
+	auto rv = __activeProfilers.anyObject.profilingConfiguration.copy;
+	
+	pthread_mutex_unlock(&__active_profilers_mutex);
+	
+	return rv;
+}
 
 DTX_ALWAYS_INLINE
 inline void __DTXProfilerAddActiveProfiler(DTXProfiler* profiler)
@@ -164,5 +177,18 @@ inline void __DTXProfilerMarkNetworkResponseEnd(NSURLResponse* response, NSData*
 {
 	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
 		[profiler _networkRecorderDidFinishWithResponse:response data:data error:error forRequestWithUniqueIdentifier:uniqueIdentifier timestamp:timestamp];
+	});
+}
+
+DTX_ALWAYS_INLINE
+inline void __DTXProfilerAddRNBridgeDataCapture(NSString* functionName, NSArray<NSString*>* arguments, NSString* returnValue, NSString* exception, BOOL isFromNative)
+{
+	if(arguments.count == 0)
+	{
+		return;
+	}
+	
+	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+		[profiler _addRNDataFromFunction:functionName arguments:arguments returnValue:returnValue exception:exception isFromNative:isFromNative timestamp:NSDate.date];
 	});
 }

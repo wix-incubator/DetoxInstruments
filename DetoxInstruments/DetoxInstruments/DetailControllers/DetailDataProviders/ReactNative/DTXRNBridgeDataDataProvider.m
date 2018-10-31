@@ -24,19 +24,19 @@
 - (NSArray<DTXColumnInformation *> *)columns
 {
 	DTXColumnInformation* reads = [DTXColumnInformation new];
-	reads.title = NSLocalizedString(@"N->JS (Total)", @"");
+	reads.title = NSLocalizedString(@"N → JS (Total)", @"");
 	reads.minWidth = 80;
 	
 	DTXColumnInformation* writes = [DTXColumnInformation new];
-	writes.title = NSLocalizedString(@"JS->N (Total)", @"");
+	writes.title = NSLocalizedString(@"JS → N (Total)", @"");
 	writes.minWidth = 80;
 	
 	DTXColumnInformation* readsDelta = [DTXColumnInformation new];
-	readsDelta.title = NSLocalizedString(@"N->JS (Delta)", @"");
+	readsDelta.title = NSLocalizedString(@"N → JS (Delta)", @"");
 	readsDelta.minWidth = 80;
 	
 	DTXColumnInformation* writesDelta = [DTXColumnInformation new];
-	writesDelta.title = NSLocalizedString(@"JS->N (Delta)", @"");
+	writesDelta.title = NSLocalizedString(@"JS → N (Delta)", @"");
 	writesDelta.minWidth = 80;
 	
 	return @[readsDelta, writesDelta, reads, writes];

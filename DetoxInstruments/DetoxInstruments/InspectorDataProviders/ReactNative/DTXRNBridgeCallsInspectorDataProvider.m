@@ -24,10 +24,10 @@
 	NSTimeInterval ti = perfSample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Bridge Calls N->JS (Delta)", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(perfSample.bridgeNToJSCallCountDelta)]]];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Bridge Calls N->JS (Total)", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(perfSample.bridgeNToJSCallCount)]]];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Bridge Calls JS->N (Delta)", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(perfSample.bridgeJSToNCallCountDelta)]]];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Bridge Calls JS->N (Total)", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(perfSample.bridgeJSToNCallCount)]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Bridge Calls N → JS (Delta)", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(perfSample.bridgeNToJSCallCountDelta)]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Bridge Calls N → JS (Total)", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(perfSample.bridgeNToJSCallCount)]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Bridge Calls JS → N (Delta)", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(perfSample.bridgeJSToNCallCountDelta)]]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Bridge Calls JS → N (Total)", @"") description:[NSFormatter.dtx_stringFormatter stringForObjectValue:@(perfSample.bridgeJSToNCallCount)]]];
 	
 	request.content = content;
 	

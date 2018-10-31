@@ -8,12 +8,17 @@
 
 @import Foundation;
 
+@class DTXMutableProfilingConfiguration;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Profiling configuration object for the Profiler.
  */
 @interface DTXProfilingConfiguration : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
+
+- (instancetype)copy;
+- (__kindof DTXMutableProfilingConfiguration*)mutableCopy;
 
 /**
  *  Returns a newly created default profiling configuration object.
@@ -109,6 +114,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  The default value is @c true.
  */
 @property (nonatomic, readonly) BOOL profileReactNative;
+
+/**
+ *  Record React Native bridge data during profiling.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL recordReactNativeBridgeData;
 
 /* Output Configuration */
 
@@ -218,6 +230,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  The default value is @c true.
  */
 @property (nonatomic, readwrite) BOOL profileReactNative;
+
+/**
+ *  Record React Native bridge data during profiling.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
 
 /* Output Configuration */
 

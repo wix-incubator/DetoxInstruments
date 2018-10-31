@@ -21,6 +21,7 @@
 @interface NSObject ()
 
 - (IBAction)options:(id)sender;
+- (void)_activateDetailProviderController:(DTXDetailController*)dataProviderController;
 
 @end
 
@@ -149,6 +150,7 @@
 	}
 	
 	[(NSOutlineView*)[self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"] selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+	[(NSOutlineView*)[self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"] scrollRowToVisible:index];
 	
 	[plotController highlightSample:samples[index]];
 }
@@ -173,6 +175,7 @@
 			if(selectLastBreadcrumb)
 			{
 				[ov selectRowIndexes:[NSIndexSet indexSetWithIndex:row + offset] byExtendingSelection:NO];
+				[ov scrollRowToVisible:row + offset];
 			}
 			
 			return;
@@ -182,6 +185,13 @@
 		[ov expandItem:item];
 		offset += (row + 1);
 	}];
+}
+
+- (void)_selectDetailControllerSampleAtIndex:(NSInteger)index
+{
+	[self _drainLayout];
+	[(NSOutlineView*)[self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"] selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+	[(NSOutlineView*)[self valueForKeyPath:@"detailContentController.activeDetailController.outlineView"] scrollRowToVisible:index];
 }
 
 NS_AVAILABLE_MAC(10_14)
@@ -294,6 +304,13 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	[self _drainLayout];
 	DTXRecordingTargetPickerViewController* targetPicker = (id)self.window.sheets.firstObject.contentViewController;
 	return [targetPicker _openManagementWindowController];
+}
+
+- (void)_selectDetailPaneIndex:(NSUInteger)idx
+{
+	NSArray* detailContentControllers = [self valueForKeyPath:@"detailContentController.cachedDetailControllers"];
+	
+	[[self valueForKeyPath:@"detailContentController"] _activateDetailProviderController:detailContentControllers[idx]];
 }
 
 @end

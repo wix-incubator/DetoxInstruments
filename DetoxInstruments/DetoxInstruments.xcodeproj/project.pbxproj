@@ -26,6 +26,8 @@
 		3905F4C11EF83FF0003E08C1 /* DTXLineLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905F4C01EF83FF0003E08C1 /* DTXLineLayer.m */; };
 		390688C12117781900D15C86 /* DTXDebugMenuGenerator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */; };
 		390688DB21177D5000D15C86 /* DTXDebugMenuGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */; };
+		390BEDD821874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BEDD721874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m */; };
+		390BEE0021875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BEDFF21875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.m */; };
 		3916501A213292D50016A468 /* DTXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39165019213292D50016A468 /* DTXDocument.m */; };
 		3922AE131F2BA72C0034B1FE /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C72E071F28843D00FD470E /* DTXSocketConnection.m */; };
 		3925A2631F1142EC008343ED /* DTXStackTraceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925A2621F1142EC008343ED /* DTXStackTraceCellView.m */; };
@@ -485,6 +487,10 @@
 		390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DTXDebugMenuGenerator.xib; sourceTree = "<group>"; };
 		390688D921177D5000D15C86 /* DTXDebugMenuGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDebugMenuGenerator.h; sourceTree = "<group>"; };
 		390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDebugMenuGenerator.m; sourceTree = "<group>"; };
+		390BEDD621874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeDataDataDataProvider.h; sourceTree = "<group>"; };
+		390BEDD721874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeDataDataDataProvider.m; sourceTree = "<group>"; };
+		390BEDFE21875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeDataDataInspectorDataProvider.h; sourceTree = "<group>"; };
+		390BEDFF21875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeDataDataInspectorDataProvider.m; sourceTree = "<group>"; };
 		39165018213292D50016A468 /* DTXDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDocument.h; sourceTree = "<group>"; };
 		39165019213292D50016A468 /* DTXDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDocument.m; sourceTree = "<group>"; };
 		391958DC20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXApplicationDelegate+DocumentationGeneration.h"; sourceTree = "<group>"; };
@@ -1036,6 +1042,8 @@
 				39EE1F571F3E4411002CB6C1 /* DTXRNBridgeCallsDataProvider.m */,
 				39EE1F591F3E4729002CB6C1 /* DTXRNBridgeDataDataProvider.h */,
 				39EE1F5A1F3E4729002CB6C1 /* DTXRNBridgeDataDataProvider.m */,
+				390BEDD621874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.h */,
+				390BEDD721874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m */,
 			);
 			path = ReactNative;
 			sourceTree = "<group>";
@@ -1051,6 +1059,8 @@
 				39EE1F541F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.m */,
 				39EE1F5C1F3E489F002CB6C1 /* DTXRNBridgeDataInspectorDataProvider.h */,
 				39EE1F5D1F3E489F002CB6C1 /* DTXRNBridgeDataInspectorDataProvider.m */,
+				390BEDFE21875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.h */,
+				390BEDFF21875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.m */,
 			);
 			path = ReactNative;
 			sourceTree = "<group>";
@@ -1973,6 +1983,7 @@
 				39C141621F3C55B3008CF5B9 /* DTXTintedImageView.m in Sources */,
 				39DE8E7A2091EDFD00ED16B4 /* DTXCookiesViewController.m in Sources */,
 				39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */,
+				390BEE0021875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.m in Sources */,
 				39BEE1EE207A47B3003AF93E /* aestab.c in Sources */,
 				393E76B1212995CE00E5623F /* DTXTouchBarGraphHostingView.m in Sources */,
 				D8243F941F5401530005CF4B /* DTXFilterField.m in Sources */,
@@ -2064,6 +2075,7 @@
 				39D02CE11EF1C98F00BAD7AF /* DTXInspectorContentTableDataSource.m in Sources */,
 				39782CDD1FC590DB0034D70A /* DTXSample+Additions.m in Sources */,
 				39F6F6D11F0E407900C7F411 /* DTXRecording+UIExtensions.m in Sources */,
+				390BEDD821874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m in Sources */,
 				39C6A9151EE3A313000E2EE1 /* DTXMemoryUsagePlotController.m in Sources */,
 				39782CDC1FC590DB0034D70A /* NSManagedObject+Additions.m in Sources */,
 				395F01C61EE81DA200695236 /* DTXTimelineIndicatorView.m in Sources */,

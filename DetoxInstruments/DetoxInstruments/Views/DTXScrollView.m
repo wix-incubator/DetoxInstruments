@@ -154,6 +154,7 @@
 	
 	_horizontalScroller = [DTXScroller new];
 	_horizontalScroller.enabled = YES;
+	_horizontalScroller.alphaValue = 0.0;
 	[_horizontalScroller _setIsHorizontal:YES];
 	[_horizontalScroller setOverlayScrollerTrackAlpha:0.0];
 	_horizontalScroller.scrollerStyle = [NSScroller preferredScrollerStyle];
@@ -171,6 +172,8 @@
 
 - (void)setHorizontalScrollerKnobProportion:(CGFloat)proportion value:(CGFloat)value
 {
+	_horizontalScroller.alphaValue = 1.0;
+	
 	_requiresCustomHorizontalScrollerManagement = YES;
 	
 	_knobProportion = proportion;

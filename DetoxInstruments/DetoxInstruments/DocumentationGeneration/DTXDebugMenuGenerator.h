@@ -14,7 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) IBOutlet NSView* view;
 @property (nonatomic, strong) IBOutlet NSVisualEffectView* visualEffectView;
-@property (nonatomic, strong) IBOutlet NSImageView* consoleImageView;
+
+@property (nonatomic, strong) IBOutlet NSImageView* firstImageView;
+@property (nonatomic, strong) IBOutlet NSTextField* firstImageTextField;
+
+@property (nonatomic, strong) IBOutlet NSImageView* secondImageView;
+@property (nonatomic, strong) IBOutlet NSTextField* secondImageTextField;
+
+@property (nonatomic, strong) IBOutlet NSImageView* chevronImageView;
 
 @end
 

@@ -601,10 +601,17 @@
 	
 	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - _document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate + offset;
 	NSUInteger sampleIdx = [[self samplesForPlotIndex:0] indexOfObject:sample];
-	NSUInteger nextSampleIdx = nextSample ? [[self samplesForPlotIndex:0] indexOfObject:nextSample] : NSNotFound;
-	CGFloat percent = offset / (nextSample.timestamp.timeIntervalSinceReferenceDate - sample.timestamp.timeIntervalSinceReferenceDate);
-	
-	[self _highlightSampleIndex:sampleIdx nextSampleIndex:nextSampleIdx sampleTime:sampleTime percect:percent makeVisible:YES];
+	if(sampleIdx == NSNotFound)
+	{
+		[self shadowHighlightAtSampleTime:sampleTime];
+	}
+	else
+	{
+		NSUInteger nextSampleIdx = nextSample ? [[self samplesForPlotIndex:0] indexOfObject:nextSample] : NSNotFound;
+		CGFloat percent = offset / (nextSample.timestamp.timeIntervalSinceReferenceDate - sample.timestamp.timeIntervalSinceReferenceDate);
+		
+		[self _highlightSampleIndex:sampleIdx nextSampleIndex:nextSampleIdx sampleTime:sampleTime percect:percent makeVisible:YES];
+	}
 	
 	if(notify == YES)
 	{

@@ -28,7 +28,7 @@ static NSDateFormatter* __iso8601DateFormatter;
 {
 	if([self isKindOfClass:DTXSample.class])
 	{
-		Class cls = [DTXSample classFromSampleType:((DTXSample*)self).sampleType];
+		Class cls = [DTXSample classFromSampleType:(DTXSampleType)(((DTXSample*)self).sampleType)];
 		NSString* sampleType = [NSStringFromClass(cls) substringFromIndex:3];
 		sampleType = [NSString stringWithFormat:@"%@%@", [[sampleType substringToIndex:1] lowercaseString], [sampleType substringFromIndex:1]];
 		

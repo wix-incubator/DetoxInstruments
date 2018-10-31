@@ -47,7 +47,9 @@ static NSBitmapImageRep* __DTXThemeBackgroundRep(NSBitmapImageRep* rep)
 }
 
 static NSDictionary<NSString*, NSDictionary<NSString*, id>*>* __classToNameMapping;
+static NSDictionary<NSString*, NSDictionary<NSString*, id>*>* __classToNameRNMapping;
 static NSNumber* __defaultSample;
+static NSNumber* __defaultSampleRN;
 static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 
 @implementation DTXApplicationDelegate (DocumentationGeneration)
@@ -92,7 +94,14 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
 								 };
 		
+		__classToNameRNMapping = @{
+								   NSStringFromClass(DTXRNCPUUsagePlotController.class): @{@"name": @"RNJSThread"},
+								   NSStringFromClass(DTXRNBridgeCountersPlotController.class): @{@"name": @"RNBridgeCounters"},
+								   NSStringFromClass(DTXRNBridgeDataTransferPlotController.class): @{@"name": @"RNBridgeData"},
+								 };
+		
 		__defaultSample = @22;
+		__defaultSampleRN = @22;
 	});
 }
 
@@ -177,6 +186,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[windowController _drainLayout];
 	
 	[self _createConsoleMenuScreenshotWithWindowController:windowController];
+	[self _createBridgeDataMenuScreenshotWithWindowController:windowController];
 	
 	NSBitmapImageRep* rep = (NSBitmapImageRep*)[windowController _snapshotForTargetSelection].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Discovered.png"].path atomically:YES];
@@ -230,7 +240,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[newDocument close];
 	
 	[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/example.dtxprof"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
-		
+
 		DTXWindowController* windowController = document.windowControllers.firstObject;
 		[[document valueForKeyPath:@"recordings.@firstObject"] setValue:@"Example App" forKeyPath:@"appName"];
 		[windowController _setRecordingButtonsVisible:NO];
@@ -240,79 +250,108 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _setBottomSplitAtPercentage:0.53];
 		[windowController _removeDetailVerticalScroller];
 		[windowController _drainLayout];
-		
+
 		[windowController _selectSampleAtIndex:__defaultSample.integerValue forPlotControllerClass:DTXCPUUsagePlotController.class];
-		
+
 		[windowController _drainLayout];
-		
+
 		NSBitmapImageRep* repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Document.png"].path atomically:YES];
-		
+
 		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:pasteboardRep].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
-		
+
 		[windowController _setWindowSize:NSMakeSize(1344, 945)];
 		[windowController _setRecordingButtonsVisible:YES];
 		[windowController _drainLayout];
-		
+
 		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-		
+
 		NSBitmapImageRep* rep = (NSBitmapImageRep*)[self _exampleImageWithExistingRep:repIntro].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Example.png"].path atomically:YES];
-		
+
 		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-		
+
 		rep = (NSBitmapImageRep*)[self _toolbarImageWithExistingRep:repIntro].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Toolbar.png"].path atomically:YES];
-		
+
 		[windowController _setRecordingButtonsVisible:NO];
 		[windowController _drainLayout];
-		
+
 		[windowController _deselectAnyPlotControllers];
 		[windowController _selectSampleAtIndex:175 forPlotControllerClass:DTXMemoryUsagePlotController.class];
-		
+
 //		NSAppearance* desiredAppearance = NSApp.effectiveAppearance;
 //		NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
-		
+
 		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
 		[[__DTXThemeBackgroundRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
-		
+
 		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, 511)];
-		
+
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-			[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage];
+			[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage mapping:__classToNameMapping];
 		}];
-		
+
 		[inspectorPaneOverviewImage lockFocus];
 		rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, inspectorPaneOverviewImage.size}];
 		[inspectorPaneOverviewImage unlockFocus];
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_InspectorPane.png"].path atomically:YES];
-		
+
 		[windowController _selectPlotControllerOfClass:DTXCompactNetworkRequestsPlotController.class];
 		[windowController _deselectAnyDetail];
 		[windowController _setBottomSplitAtPercentage:0.6];
 		[windowController _scrollBottomPaneToPercentage:0.8];
-		
+
 		rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_DetailPane.png"].path atomically:YES];
-		
+
 //		NSAppearance.currentAppearance = NSApp.appearance = desiredAppearance;
-		
+
 		[windowController _drainLayout];
 		[windowController close];
 		[document close];
-		[NSUserDefaults.standardUserDefaults synchronize];
-		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+	
+		[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/exampleRN.dtxprof"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
+			
+			DTXWindowController* windowController = document.windowControllers.firstObject;
+			[[document valueForKeyPath:@"recordings.@firstObject"] setValue:@"Example RN App" forKeyPath:@"appName"];
+			[windowController _setRecordingButtonsVisible:NO];
+			[windowController.window setFrame:[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen] display:YES];
+			[windowController.window makeKeyAndOrderFront:nil];
+			[windowController _setWindowSize:NSMakeSize(1344, 945)];
+			[windowController _setBottomSplitAtPercentage:0.53];
+			[windowController _removeDetailVerticalScroller];
+			[windowController _drainLayout];
+			
+			[windowController _selectSampleAtIndex:__defaultSample.integerValue forPlotControllerClass:DTXCPUUsagePlotController.class];
+			
+			[windowController _drainLayout];
+			[windowController _drainLayout];
+			[windowController _drainLayout];
+			
+			[__classToNameRNMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+				[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage mapping:__classToNameRNMapping];
+			}];
+			
+			[self _createRNBridgeDataBridgeDataScreenshotsForWindowController:windowController];
+			
+			[windowController _drainLayout];
+			[windowController close];
+			[document close];
 			[NSUserDefaults.standardUserDefaults synchronize];
-			exit(0);
-		});
+			
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[NSUserDefaults.standardUserDefaults synchronize];
+				exit(0);
+			});
+		}];
 	}];
 }
 
-- (void)_createInstrumentScreenshotForPlotControllerClass:(Class)cls windowController:(DTXWindowController*)windowController inspectorPaneOverviewImage:(NSImage*)inspectorPaneOverviewImage;
+- (void)_createInstrumentScreenshotForPlotControllerClass:(Class)cls windowController:(DTXWindowController*)windowController inspectorPaneOverviewImage:(NSImage*)inspectorPaneOverviewImage mapping:(NSDictionary<NSString*, NSDictionary<NSString*, id>*>*) mapping;
 {
-	NSDictionary* info = __classToNameMapping[NSStringFromClass(cls) ?: @"NULL"];
+	NSDictionary* info = mapping[NSStringFromClass(cls) ?: @"NULL"];
 	NSBitmapImageRep* rep;
 	if(cls != nil)
 	{
@@ -353,6 +392,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		{
 			[windowController _selectSampleAtIndex:inspectorSample forPlotControllerClass:cls];
 		}
+		
 		[windowController _setBottomSplitAtPercentage:0.6];
 		[windowController _selectExtendedDetailInspector];
 		
@@ -376,6 +416,38 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		
 		[inspectorPaneOverviewImage unlockFocus];
 	}
+}
+
+- (void)_createRNBridgeDataBridgeDataScreenshotsForWindowController:(DTXWindowController*)windowController
+{
+	NSBitmapImageRep* rep;
+	
+	Class cls = DTXRNBridgeDataTransferPlotController.class;
+	NSString* name = @"RNBridgeData";
+	
+	[windowController _deselectAnyPlotControllers];
+	[windowController _selectSampleAtIndex:[__defaultSample integerValue] forPlotControllerClass:cls];
+	
+	[windowController _selectPlotControllerOfClass:cls];
+	
+	[windowController _deselectAnyDetail];
+	
+	[windowController _setBottomSplitAtPercentage:0.5];
+	[windowController _scrollBottomPaneToPercentage:0.5];
+	
+	[windowController _selectDetailPaneIndex:1];
+	
+	rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
+	
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_DetailPane_BridgeData.png", name]].path atomically:YES];
+	
+	[windowController _selectDetailControllerSampleAtIndex:[__defaultSample integerValue]];
+	
+	[windowController _setBottomSplitAtPercentage:0.6];
+	[windowController _selectExtendedDetailInspector];
+	
+	rep = (NSBitmapImageRep*)[windowController _snapshotForInspectorPane].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_InspectorPane_BridgeData.png", name]].path atomically:YES];
 }
 
 - (NSImage*)_exampleImageWithExistingRep:(NSBitmapImageRep*)rep
@@ -518,8 +590,8 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	menu.view.layer.masksToBounds = YES;
 	
 	NSString* path = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Console"];
-	menu.consoleImageView.image = [[NSWorkspace sharedWorkspace] iconForFile:path] ?: [NSImage imageNamed:@"console_small"];
-	menu.consoleImageView.image.size = NSMakeSize(16, 16);
+	menu.secondImageView.image = [[NSWorkspace sharedWorkspace] iconForFile:path] ?: [NSImage imageNamed:@"console_small"];
+	menu.secondImageView.image.size = NSMakeSize(16, 16);
 	
 	[windowController.window.contentView addSubview:menu.view];
 	[windowController _drainLayout];
@@ -545,6 +617,72 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[consoleMenuImage unlockFocus];
 	
 	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_DetailPane_Console.png"].path atomically:YES];
+}
+
+- (void)_createBridgeDataMenuScreenshotWithWindowController:(DTXWindowController*)windowController NS_AVAILABLE_MAC(10_14)
+{
+	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
+	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
+	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.visualEffectView.layer.borderColor = [NSColor.windowFrameColor colorWithAlphaComponent:0.25].CGColor;
+		menu.visualEffectView.layer.borderWidth = 1;
+	}
+	menu.visualEffectView.layer.masksToBounds = YES;
+	
+	menu.view.wantsLayer = YES;
+	menu.view.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.view.layer.borderColor = [NSColor.blackColor colorWithAlphaComponent:0.85].CGColor;
+	}
+	else
+	{
+		menu.view.layer.borderColor = NSColor.lightGrayColor.CGColor;
+	}
+	menu.view.layer.borderWidth = 0.5;
+	menu.view.layer.masksToBounds = YES;
+	
+	menu.firstImageTextField.stringValue = @"Samples";
+	menu.firstImageView.image = [NSImage imageNamed:@"samples"];
+	menu.firstImageView.image.size = NSMakeSize(16, 16);
+	menu.secondImageTextField.stringValue = @"Bridge Data";
+	menu.secondImageView.image = [NSImage imageNamed:@"bridge_data"];
+	menu.secondImageView.image.size = NSMakeSize(16, 16);
+	
+	if(NSApp.effectiveAppearance.isDarkAppearance == NO)
+	{
+		menu.secondImageView.contentTintColor = NSColor.whiteColor;
+	}
+	
+	menu.chevronImageView.hidden = YES;
+	
+	[windowController.window.contentView addSubview:menu.view];
+	[windowController _drainLayout];
+	
+	NSBitmapImageRep* consoleMenuRep = (id)[menu.view snapshotForCachingDisplay].representations.firstObject;
+	
+	[menu.view removeFromSuperview];
+	
+	NSImage* consoleMenuImage = [[NSImage alloc] initWithSize:NSMakeSize(858, 82)];
+	[consoleMenuImage lockFocus];
+	
+	NSShadow* shadow = [NSShadow new];
+	shadow.shadowOffset = NSMakeSize(0, -4);
+	shadow.shadowBlurRadius = 16.0;
+	shadow.shadowColor = [NSColor.blackColor colorWithAlphaComponent:0.25];
+	[shadow set];
+	
+	NSRect centered = (NSRect){93, 20, consoleMenuRep.size};
+	[consoleMenuRep drawInRect:centered fromRect:(NSRect){0, 0, centered.size} operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	consoleMenuRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, consoleMenuImage.size}];
+	
+	[consoleMenuImage unlockFocus];
+	
+	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Instrument_RNBridgeData_Menu.png"].path atomically:YES];
 }
 
 @end

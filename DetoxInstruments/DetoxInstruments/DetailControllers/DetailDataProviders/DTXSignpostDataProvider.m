@@ -22,16 +22,16 @@
 
 - (void)setManagedOutlineView:(NSOutlineView *)managedOutlineView
 {
-	[super setManagedOutlineView:managedOutlineView];
+	[self _enableOutlineRespectIfNeededForOutlineView:managedOutlineView];
 	
-	[self _enableOutlineRespectIfNeeded];
+	[super setManagedOutlineView:managedOutlineView];
 }
 
-- (void)_enableOutlineRespectIfNeeded
+- (void)_enableOutlineRespectIfNeededForOutlineView:(NSOutlineView*)outlineView
 {
-	if([self.managedOutlineView respondsToSelector:@selector(setRespectsOutlineCellFraming:)])
+	if([outlineView respondsToSelector:@selector(setRespectsOutlineCellFraming:)])
 	{
-		[(DTXDetailOutlineView*)self.managedOutlineView setRespectsOutlineCellFraming:self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished];
+		[(DTXDetailOutlineView*)outlineView setRespectsOutlineCellFraming:self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished];
 	}
 }
 

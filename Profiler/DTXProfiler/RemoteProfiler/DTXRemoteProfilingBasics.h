@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 
 @class DTXRecording, DTXSampleGroup, DTXPerformanceSample, DTXAdvancedPerformanceSample;
 @class DTXThreadInfo, DTXReactNativePeroformanceSample, DTXNetworkSample, DTXLogSample, DTXTag;
-@class DTXSignpostSample;
+@class DTXSignpostSample, DTXReactNativeDataSample;
 
 @protocol DTXProfilerStoryListener <NSObject>
 
@@ -61,6 +61,7 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 - (void)addRNPerformanceSample:(DTXReactNativePeroformanceSample *)rnPerfrmanceSample;
 - (void)startRequestWithNetworkSample:(DTXNetworkSample*)networkSample;
 - (void)finishWithResponseForNetworkSample:(DTXNetworkSample*)networkSample;
+- (void)addRNBridgeDataSample:(DTXReactNativeDataSample*)rbBridgeDataSample;
 - (void)addLogSample:(DTXLogSample*)logSample;
 - (void)addTagSample:(DTXTag*)tag;
 - (void)markEventIntervalBegin:(DTXSignpostSample*)signpostSample;
@@ -88,6 +89,7 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 - (void)addRNPerformanceSample:(NSDictionary *)rnPerfrmanceSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)startRequestWithNetworkSample:(NSDictionary*)networkSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)finishWithResponseForNetworkSample:(NSDictionary*)networkSample entityDescription:(NSEntityDescription*)entityDescription;
+- (void)addRNBridgeDataSample:(NSDictionary*)rbBridgeDataSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)addLogSample:(NSDictionary*)logSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)addTagSample:(NSDictionary*)tag entityDescription:(NSEntityDescription*)entityDescription;
 - (void)markEventIntervalBegin:(NSDictionary*)signpostSample entityDescription:(NSEntityDescription*)entityDescription;

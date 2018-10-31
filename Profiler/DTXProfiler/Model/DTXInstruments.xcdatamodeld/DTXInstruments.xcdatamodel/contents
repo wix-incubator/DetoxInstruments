@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.12.1" systemVersion="18A377a" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.22" systemVersion="18B57c" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdvancedPerformanceSample" representedClassName="DTXAdvancedPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <attribute name="heaviestStackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
         <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES">
@@ -75,6 +75,21 @@
         <attribute name="fps" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="memoryUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="openFiles" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
+    </entity>
+    <entity name="ReactNativeBridgeData" representedClassName="DTXReactNativeBridgeData" syncable="YES" codeGenerationType="class">
+        <attribute name="arguments" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
+        <attribute name="exception" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="returnValue" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="dataSample" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReactNativeDataSample" inverseName="data" inverseEntity="ReactNativeDataSample" syncable="YES"/>
+    </entity>
+    <entity name="ReactNativeDataSample" representedClassName="DTXReactNativeDataSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="function" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isFromNative" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="data" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReactNativeBridgeData" inverseName="dataSample" inverseEntity="ReactNativeBridgeData" syncable="YES">
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+            </userInfo>
+        </relationship>
     </entity>
     <entity name="ReactNativePeroformanceSample" representedClassName="DTXReactNativePeroformanceSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="bridgeJSToNCallCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -198,6 +213,8 @@
         <element name="NetworkData" positionX="-18" positionY="126" width="128" height="90"/>
         <element name="NetworkSample" positionX="9" positionY="153" width="128" height="315"/>
         <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="165"/>
+        <element name="ReactNativeBridgeData" positionX="-27" positionY="135" width="128" height="105"/>
+        <element name="ReactNativeDataSample" positionX="-18" positionY="144" width="128" height="90"/>
         <element name="ReactNativePeroformanceSample" positionX="-27" positionY="135" width="128" height="210"/>
         <element name="Recording" positionX="-27" positionY="45" width="128" height="345"/>
         <element name="Sample" positionX="-63" positionY="-18" width="128" height="120"/>

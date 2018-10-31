@@ -20,8 +20,22 @@ ul { padding-left: 1.3em; }
 <h3>
 <a name="user-content-discussion" class="anchor" href="#discussion"><span class="octicon octicon-link"></span></a>Discussion</h3>
 <p>Use the information captured by this instrument to inspect the data passed in your app's React Native bridge. The more data passed, the more processing needed in native and the JavaScript thread, and thus can lead to your app being less responsive.</p>
+<p>If the <strong>Record bridge data</strong> option is enabled, recorded bridge data can be accessed from the navigation bar.</p>
+<p>For an in-depth look at profiling options, see <a href="ProfilingOptions.html">Profiling Options</a>.</p>
 <h3>
 <a name="user-content-detail-pane" class="anchor" href="#detail-pane"><span class="octicon octicon-link"></span></a>Detail Pane</h3>
-<p>The detail pane includes your app's React Native bridge data at the time of the sample; N➔JS (native to JavaScript) and JS➔N (JavaScript to native) are displayed in columns of delta as well as total.</p>
-<p><a href="Resources/Instrument_RNBridgeData_DetailPane.png" target="_blank"><img src="Resources/Instrument_RNBridgeData_DetailPane.png" alt="React Native Bridge Data Detail Pane" title="React Native Bridge Data Detail Pane" style="max-width:100%;" /></a></p>
+<p>The detail pane includes your app's React Native bridge data at the time of the sample; N ➔ JS (native to JavaScript) and JS ➔ N (JavaScript to native) are displayed in columns of delta as well as total.</p>
+<p>If the <strong>Record bridge data</strong> option was enabled during recording, you can select to view <strong>Samples</strong> or <strong>Bridge Data</strong> in the navigation bar.</p>
+<h4>
+<a name="user-content-samples" class="anchor" href="#samples"><span class="octicon octicon-link"></span></a>Samples</h4>
+<p><a href="Resources/Instrument_RNBridgeData_DetailPane.png" target="_blank"><img src="Resources/Instrument_RNBridgeData_DetailPane.png" alt="CPU Usage Detail Pane" title="Bridge Data Detail Pane" style="max-width:100%;" /></a></p>
+<h4>
+<a name="user-content-bridge-data" class="anchor" href="#bridge-data"><span class="octicon octicon-link"></span></a>Bridge Data</h4>
+<p><a href="Resources/Instrument_RNBridgeData_DetailPane_BridgeData.png" target="_blank"><img src="Resources/Instrument_RNBridgeData_DetailPane_BridgeData.png" alt="CPU Usage Detail Pane" title="Bridge Data Detail Pane" style="max-width:100%;" /></a></p>
+<h3>
+<a name="user-content-inspector" class="anchor" href="#inspector"><span class="octicon octicon-link"></span></a>Inspector</h3>
+<h4>
+<a name="user-content-bridge-data-1" class="anchor" href="#bridge-data-1"><span class="octicon octicon-link"></span></a>Bridge Data</h4>
+<p>If the <strong>Record bridge data</strong> option was enabled during recording, the inspector pane shows information about React Native bridge data packets.</p>
+<p><a href="Resources/Instrument_RNBridgeData_InspectorPane_BridgeData.png" target="_blank"><img src="Resources/Instrument_RNBridgeData_InspectorPane_BridgeData.png" alt="CPU Usage Inspector Pane" title="Bridge Data Inspector Pane" style="max-width:100%;" /></a></p>
 </body></html>

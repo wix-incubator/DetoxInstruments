@@ -14,6 +14,8 @@
 
 @interface DTXSamplePlotController : DTXPlotHostConstructor <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
 
+@property (nonatomic, strong, readonly) NSStoryboard* scene;
+
 + (Class)graphHostingViewClass;
 + (Class)UIDataProviderClass;
 

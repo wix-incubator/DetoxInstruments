@@ -12,7 +12,7 @@ Use the information captured by this instrument to inspect your app's general Ja
 
 The detail pane includes your app's JavaScript thread CPU usage at the time of the sample.
 
-![JavaScript Thread Detail Pane](Resources/Instrument_RNJavaScriptThread_DetailPane.png "JavaScript Thread Detail Pane")
+![JavaScript Thread Detail Pane](Resources/Instrument_RNJSThread_DetailPane.png "JavaScript Thread Detail Pane")
 
 Samples will be highlighted in red (warning 3) when:
 

@@ -647,6 +647,11 @@ DTX_CREATE_LOG(Profiler);
 {
 	DTX_IGNORE_NOT_RECORDING
 	
+	if(_currentProfilingConfiguration.recordNetwork == NO)
+	{
+		return;
+	}
+	
 	if(_currentProfilingConfiguration.recordLocalhostNetwork == NO && ([request.URL.host isEqualToString:@"localhost"] || [request.URL.host isEqualToString:@"127.0.0.1"]))
 	{
 		return;
@@ -678,6 +683,11 @@ DTX_CREATE_LOG(Profiler);
 - (void)_networkRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
+	
+	if(_currentProfilingConfiguration.recordNetwork == NO)
+	{
+		return;
+	}
 	
 	if(_currentProfilingConfiguration.recordLocalhostNetwork == NO && ([response.URL.host isEqualToString:@"localhost"] || [response.URL.host isEqualToString:@"127.0.0.1"]))
 	{
@@ -719,6 +729,38 @@ DTX_CREATE_LOG(Profiler);
 		[self->_profilerStoryListener finishWithResponseForNetworkSample:networkSample];
 		
 		[self _addPendingSampleInternal:networkSample];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)_addRNDataFromFunction:(NSString*)function arguments:(NSArray<NSString*>*)arguments returnValue:(NSString*)rv exception:(NSString*)exception isFromNative:(BOOL)isFromNative timestamp:(NSDate*)timestamp;
+{
+	DTX_IGNORE_NOT_RECORDING
+	
+	if(_currentProfilingConfiguration.recordReactNativeBridgeData == NO)
+	{
+		return;
+	}
+	
+	[_backgroundContext performBlock:^{
+		DTX_IGNORE_NOT_RECORDING
+		
+		DTXReactNativeDataSample* rnDataSample = [[DTXReactNativeDataSample alloc] initWithContext:self->_backgroundContext];
+		rnDataSample.timestamp = timestamp;
+		rnDataSample.isFromNative = isFromNative;
+		rnDataSample.function = function;
+		
+		DTXReactNativeBridgeData* bridgeData = [[DTXReactNativeBridgeData alloc] initWithContext:self->_backgroundContext];
+		bridgeData.arguments = arguments;
+		bridgeData.returnValue = rv;
+		bridgeData.exception = exception;
+		
+		rnDataSample.data = bridgeData;
+		
+		rnDataSample.parentGroup = self->_currentSampleGroup;
+		
+		[self->_profilerStoryListener addRNBridgeDataSample:rnDataSample];
+		
+		[self _addPendingSampleInternal:rnDataSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 

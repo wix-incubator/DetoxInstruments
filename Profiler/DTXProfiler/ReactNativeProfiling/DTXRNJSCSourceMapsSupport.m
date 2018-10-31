@@ -23,22 +23,25 @@ static JSValueRef (*__orig_JSEvaluateScript)(JSContextRef ctx, JSStringRef scrip
 
 static JSValueRef __dtx_JSEvaluateScript(JSContextRef ctx, JSStringRef script, JSObjectRef thisObject, JSStringRef sourceURL, int startingLineNumber, JSValueRef* exception)
 {
-	NSString* srcString = CFBridgingRelease(JSStringCopyCFString(kCFAllocatorDefault, script));
-	
-	NSArray<NSString*>* srcSplit = [srcString componentsSeparatedByString:@"sourceMappingURL="];
-	
-	if(srcSplit.count > 1)
+	@autoreleasepool
 	{
-		NSURL* rnSourceURL = (__bridge NSURL*)atomic_load(&__rnSourceURL);
-		atomic_store(&__sourceMapsURL, CFBridgingRetain([NSURL URLWithString:srcString.lastPathComponent relativeToURL:rnSourceURL]));
+		NSString* srcString = CFBridgingRelease(JSStringCopyCFString(kCFAllocatorDefault, script));
 		
+		NSArray<NSString*>* srcSplit = [srcString componentsSeparatedByString:@"sourceMappingURL="];
+		
+		if(srcSplit.count > 1)
+		{
+			NSURL* rnSourceURL = (__bridge NSURL*)atomic_load(&__rnSourceURL);
+			atomic_store(&__sourceMapsURL, CFBridgingRetain([NSURL URLWithString:srcString.lastPathComponent relativeToURL:rnSourceURL]));
+			
 #ifdef DTX_EMBED_SOURCEMAPS
-		srcString = [srcSplit.firstObject stringByAppendingString:[NSString stringWithFormat:@"sourceMappingURL=data:application/json;base64,%@", [sourceMapsData base64EncodedStringWithOptions:0]]];
-		
-		JSStringRelease(script);
-		
-		script = JSStringCreateWithCFString((__bridge CFStringRef)srcString);
+			srcString = [srcSplit.firstObject stringByAppendingString:[NSString stringWithFormat:@"sourceMappingURL=data:application/json;base64,%@", [sourceMapsData base64EncodedStringWithOptions:0]]];
+			
+			JSStringRelease(script);
+			
+			script = JSStringCreateWithCFString((__bridge CFStringRef)srcString);
 #endif
+		}
 	}
 	
 	return __orig_JSEvaluateScript(ctx, script, thisObject, sourceURL, startingLineNumber, exception);

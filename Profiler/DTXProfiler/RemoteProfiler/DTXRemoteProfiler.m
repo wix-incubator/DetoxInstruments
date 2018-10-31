@@ -177,6 +177,17 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[networkSample.managedObjectContext save:NULL];
 }
 
+- (void)addRNBridgeDataSample:(DTXReactNativeDataSample*)rbBridgeDataSample;
+{
+	NSMutableDictionary* dict = [rbBridgeDataSample.dictionaryRepresentationOfChangedValuesForPropertyList mutableCopy];
+	dict[@"sampleIdentifier"] = rbBridgeDataSample.sampleIdentifier;
+	
+	[self _serializeCommandWithSelector:_cmd entityName:rbBridgeDataSample.entity.name dict:dict additionalParams:nil];
+	
+	[rbBridgeDataSample.managedObjectContext deleteObject:rbBridgeDataSample];
+	[rbBridgeDataSample.managedObjectContext save:NULL];
+}
+
 - (void)popSampleGroup:(DTXSampleGroup *)sampleGroup
 {
 	[self _serializeCommandWithSelector:_cmd managedObject:sampleGroup additionalParams:nil];

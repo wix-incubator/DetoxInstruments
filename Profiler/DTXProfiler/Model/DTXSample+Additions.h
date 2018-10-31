@@ -28,6 +28,7 @@ typedef NS_ENUM(NSUInteger, DTXSampleType) {
 	DTXSampleTypeGroup					        = 1000,
 	
 	DTXSampleTypeReactNativePerformanceType     = 10000,
+	DTXSampleTypeReactNativeBridgeDataType      = 10001,
 	
 	DTXSampleTypeUser					        = 20000,
 };

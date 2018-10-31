@@ -202,6 +202,11 @@
 	[networkSampleObj updateWithPropertyListDictionaryRepresentation:networkSample];
 }
 
+- (void)addRNBridgeDataSample:(NSDictionary*)rbBridgeDataSample entityDescription:(NSEntityDescription*)entityDescription
+{
+	[self _addSample:rbBridgeDataSample entityDescription:entityDescription];
+}
+
 - (void)popSampleGroup:(NSDictionary *)sampleGroup entityDescription:(NSEntityDescription *)entityDescription
 {
 	[_currentSampleGroup updateWithPropertyListDictionaryRepresentation:sampleGroup];

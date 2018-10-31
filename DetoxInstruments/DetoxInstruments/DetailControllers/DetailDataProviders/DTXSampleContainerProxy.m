@@ -63,6 +63,13 @@
 	return _isDataLoaded;
 }
 
+- (void)unloadData
+{
+	_isDataLoaded = NO;
+	
+	_fetchedResultsController = nil;
+}
+
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
 	_updates = [NSMutableArray new];
