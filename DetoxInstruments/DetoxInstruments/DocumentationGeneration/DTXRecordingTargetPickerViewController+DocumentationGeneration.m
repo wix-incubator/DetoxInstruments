@@ -62,6 +62,11 @@
 	});
 }
 
+- (BOOL)isCompatibleWithInstruments
+{
+	return YES;
+}
+
 
 @end
 
@@ -83,7 +88,7 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	fakeTarget.appName = @"Example App";
 	fakeTarget.deviceName = @"iPhone XS Max";
 	fakeTarget.deviceOS = @"Version 12.1 (Build 16A405)";
-	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.4.0"};
+	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.4"};
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	
 	fakeTarget.delegate = (id)self;
@@ -95,7 +100,7 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	fakeTarget.appName = @"Another App";
 	fakeTarget.deviceName = @"iPad Pro";
 	fakeTarget.deviceOS = @"Version 12.1 (Build 16A405)";
-	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.4.0", @"machineName": @"ipad5.3", @"deviceEnclosureColor": @2};
+	fakeTarget.deviceInfo = @{@"profilerVersion": @"200.0", @"machineName": @"ipad5.3", @"deviceEnclosureColor": @2};
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	
 	fakeTarget.delegate = (id)self;

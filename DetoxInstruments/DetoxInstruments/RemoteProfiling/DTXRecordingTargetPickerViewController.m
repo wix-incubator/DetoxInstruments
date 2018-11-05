@@ -17,7 +17,7 @@
 
 @import QuartzCore;
 
-@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteTargetDelegate>
+@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteTargetDelegate, NSPopoverDelegate>
 {
 	IBOutlet NSView* _containerView;
 	IBOutlet NSStackView* _actionButtonStackView;
@@ -38,6 +38,8 @@
 	dispatch_queue_t _workQueue;
 	
 	NSMapTable<DTXRemoteTarget*, DTXProfilingTargetManagementWindowController*>* _targetManagementControllers;
+	
+	NSPopover* _warningPopover;
 }
 
 @end
@@ -275,6 +277,54 @@
 	[target captureViewHierarchy];
 }
 
+- (IBAction)_presentIncompatibleProfilingTarget:(NSButton*)sender
+{
+	NSInteger row = [_outlineView rowForView:sender];
+	if(row == -1)
+	{
+		return;
+	}
+	
+	DTXRemoteTarget* target = _targets[row];
+	
+	auto alert = [NSAlert new];
+	
+	alert.alertStyle = NSAlertStyleCritical;
+	alert.messageText = NSLocalizedString(@"Incompatible Profiler Framework", @"");
+	
+	auto informativeText = [NSMutableString new];
+	[informativeText appendString:NSLocalizedString(@"The profiler version of this app is incompatible with the current version of Detox Instruments.", @"")];
+	[informativeText appendFormat:@"\n\n"];
+	[informativeText appendFormat:@"%@: %@\n", NSLocalizedString(@"Profiler framework version", @""), target.deviceInfo[@"profilerVersion"]];
+	[informativeText appendFormat:@"%@: %@.%@", NSLocalizedString(@"Detox Instruments version", @""), [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+	
+	alert.informativeText = informativeText;
+	
+	[alert addButtonWithTitle:NSLocalizedString(@"Check for Updates", nil)];
+	[alert.buttons.firstObject setAction:@selector(_dismissWarningCheckForUpdates:)];
+	
+	[alert layout];
+	
+	// Instantiate a new NSPopover with a view controller that manages this alert's view
+	NSViewController *controller = [[NSViewController alloc] init];
+	controller.view = alert.window.contentView;
+	
+	_warningPopover = [NSPopover new];
+	_warningPopover.contentViewController = controller;
+	_warningPopover.behavior = NSPopoverBehaviorTransient;
+	_warningPopover.delegate = self;
+	
+	// Open the alert within the popover and mark it as the currently shown one.
+	[_warningPopover showRelativeToRect:sender.bounds ofView:sender preferredEdge:NSMaxYEdge];
+}
+
+- (IBAction)_dismissWarningCheckForUpdates:(id)sender
+{
+	[NSApp sendAction:NSSelectorFromString(@"checkForUpdates:") to:nil from:nil];
+	
+	[_warningPopover close];
+}
+
 - (IBAction)_doubleClicked:(id)sender
 {
 	if(_outlineView.clickedRow == -1)
@@ -285,6 +335,11 @@
 	DTXRemoteTarget* target = _targets[_outlineView.clickedRow];
 	
 	if(target.state != DTXRemoteTargetStateDeviceInfoLoaded)
+	{
+		return;
+	}
+	
+	if(target.isCompatibleWithInstruments == NO)
 	{
 		return;
 	}
@@ -355,7 +410,7 @@
 	
 	DTXRemoteTargetCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXRemoteTargetCellView" owner:nil];
 	cellView.progressIndicator.usesThreadedAnimation = YES;
-	[cellView updateFeatureSetWithProfilerVersion:target.deviceInfo[@"profilerVersion"]];
+	[cellView updateFeatureSetWithTarget:target];
 	
 	switch(target.state)
 	{
@@ -407,7 +462,16 @@
 
 - (void)_validateSelectButton
 {
-	_outlineController.selectButton.enabled = _outlineView.selectedRowIndexes.count > 0;
+	BOOL hasSelection = _outlineView.selectedRowIndexes.count > 0;
+	BOOL hasCompatibleVersion = NO;
+	
+	if(hasSelection)
+	{
+		DTXRemoteTarget* target = [_outlineController.outlineView itemAtRow:_outlineView.selectedRow];
+		hasCompatibleVersion = target.isCompatibleWithInstruments;
+	}
+	
+	_outlineController.selectButton.enabled = hasSelection && hasCompatibleVersion;
 }
 
 #pragma mark NSNetServiceDelegate
@@ -484,6 +548,13 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadPasteboardContents];
 	});
+}
+
+#pragma mark NSPopoverDelegate
+
+- (void)popoverWillClose:(NSNotification *)notification
+{
+	_warningPopover = nil;
 }
 
 @end

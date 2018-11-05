@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXRemoteTarget.h"
 
 @interface DTXRemoteTargetCellView : NSTableCellView
 
@@ -18,6 +19,6 @@
 @property (nonatomic, strong, readonly) NSImageView* deviceSnapshotImageView;
 @property (nonatomic, strong, readonly) NSProgressIndicator* progressIndicator;
 
-- (void)updateFeatureSetWithProfilerVersion:(NSString*)profilerVersion;
+- (void)updateFeatureSetWithTarget:(DTXRemoteTarget*)target;
 
 @end

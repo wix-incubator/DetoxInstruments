@@ -223,6 +223,19 @@
 	}
 }
 
+- (BOOL)isCompatibleWithInstruments
+{
+	NSString* profilerVersion = self.deviceInfo[@"profilerVersion"];
+	if(profilerVersion == nil)
+	{
+		profilerVersion = @"0";
+	}
+	
+	NSString* instrumentsVersion = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	
+	return [instrumentsVersion compare:profilerVersion options:NSNumericSearch] != NSOrderedAscending;
+}
+
 #pragma mark Container Contents
 
 - (void)loadContainerContents

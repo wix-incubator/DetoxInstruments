@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.23.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.23.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -56,7 +56,7 @@
                                                                     <rect key="frame" x="22" y="29" width="32" height="32"/>
                                                                 </progressIndicator>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h8g-4z-MlV">
-                                                                    <rect key="frame" x="79" y="56" width="109" height="19"/>
+                                                                    <rect key="frame" x="79" y="54" width="109" height="19"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="StressTestApp" usesSingleLineMode="YES" id="9P6-mc-nee">
                                                                         <font key="font" metaFont="system" size="16"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -64,7 +64,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xEi-6o-1U5">
-                                                                    <rect key="frame" x="79" y="39" width="121" height="17"/>
+                                                                    <rect key="frame" x="79" y="37" width="121" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Leo Natan's iPhone" usesSingleLineMode="YES" id="FUC-RN-WDX">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -72,29 +72,43 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gXk-g3-2wI">
-                                                                    <rect key="frame" x="79" y="21" width="164" height="14"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="iPhone 7 Plus, iOS 11 (a1234b)" usesSingleLineMode="YES" id="HXx-sM-JoD">
+                                                                    <rect key="frame" x="79" y="19" width="176" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="iPhone XS Max, iOS 12.1 (16B93)" usesSingleLineMode="YES" id="HXx-sM-JoD">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sh6-Zd-8Lr">
-                                                                    <rect key="frame" x="468" y="35" width="20" height="20"/>
+                                                                    <rect key="frame" x="412" y="35" width="76" height="20"/>
                                                                     <subviews>
-                                                                        <button hidden="YES" toolTip="Manage this app" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="umq-X8-qyG">
-                                                                            <rect key="frame" x="0.0" y="1" width="18" height="19"/>
-                                                                            <buttonCell key="cell" type="inline" bezelStyle="inline" image="3d" imagePosition="only" alignment="center" inset="2" id="p2D-rp-AXx">
+                                                                        <button toolTip="Incompatible profiler framework version." horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="4eT-Np-oD5">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="20" id="p1E-3X-bZn"/>
+                                                                                <constraint firstAttribute="height" constant="20" id="pew-a2-gDR"/>
+                                                                            </constraints>
+                                                                            <buttonCell key="cell" type="inline" bezelStyle="inline" image="warning" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="U71-XX-iyC">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                 <font key="font" metaFont="smallSystemBold"/>
+                                                                            </buttonCell>
+                                                                            <connections>
+                                                                                <action selector="_presentIncompatibleProfilingTarget:" target="Jrb-X6-yjY" id="RRy-rt-Iqp"/>
+                                                                            </connections>
+                                                                        </button>
+                                                                        <button toolTip="Debug view hierarchy" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="umq-X8-qyG">
+                                                                            <rect key="frame" x="22" y="-7" width="32" height="31"/>
+                                                                            <buttonCell key="cell" type="round" bezelStyle="circular" image="3d" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="p2D-rp-AXx">
+                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                <font key="font" metaFont="system"/>
                                                                             </buttonCell>
                                                                             <connections>
                                                                                 <action selector="_captureViewHierarchy:" target="Jrb-X6-yjY" id="QFU-bM-MMW"/>
                                                                             </connections>
                                                                         </button>
                                                                         <button toolTip="Manage this app" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="PKA-IK-BF6">
-                                                                            <rect key="frame" x="-6" y="-7" width="32" height="31"/>
-                                                                            <buttonCell key="cell" type="round" bezelStyle="circular" image="NSActionTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" inset="2" id="2gW-ll-lF8">
+                                                                            <rect key="frame" x="50" y="-7" width="32" height="31"/>
+                                                                            <buttonCell key="cell" type="round" bezelStyle="circular" image="NSActionTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="2gW-ll-lF8">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                 <font key="font" metaFont="system"/>
                                                                             </buttonCell>
@@ -106,8 +120,10 @@
                                                                     <visibilityPriorities>
                                                                         <integer value="1000"/>
                                                                         <integer value="1000"/>
+                                                                        <integer value="1000"/>
                                                                     </visibilityPriorities>
                                                                     <customSpacing>
+                                                                        <real value="3.4028234663852886e+38"/>
                                                                         <real value="3.4028234663852886e+38"/>
                                                                         <real value="3.4028234663852886e+38"/>
                                                                     </customSpacing>
@@ -120,7 +136,7 @@
                                                                 <constraint firstItem="d5C-40-8qS" firstAttribute="top" secondItem="wpN-IR-eTh" secondAttribute="top" constant="10" id="BFi-5d-qYW"/>
                                                                 <constraint firstItem="d5C-40-8qS" firstAttribute="leading" secondItem="wpN-IR-eTh" secondAttribute="leading" constant="3" id="Bii-hd-nhE"/>
                                                                 <constraint firstItem="xEi-6o-1U5" firstAttribute="top" secondItem="h8g-4z-MlV" secondAttribute="bottom" id="LDU-tp-0M1"/>
-                                                                <constraint firstItem="xEi-6o-1U5" firstAttribute="centerY" secondItem="d5C-40-8qS" secondAttribute="centerY" constant="-2" id="Nhh-zz-M08"/>
+                                                                <constraint firstItem="xEi-6o-1U5" firstAttribute="centerY" secondItem="d5C-40-8qS" secondAttribute="centerY" id="Nhh-zz-M08"/>
                                                                 <constraint firstItem="xEi-6o-1U5" firstAttribute="leading" secondItem="d5C-40-8qS" secondAttribute="trailing" constant="8" id="Pzt-hJ-6Du"/>
                                                                 <constraint firstItem="Sh6-Zd-8Lr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gXk-g3-2wI" secondAttribute="trailing" constant="8" id="SDz-dg-gMM"/>
                                                                 <constraint firstItem="gXk-g3-2wI" firstAttribute="leading" secondItem="xEi-6o-1U5" secondAttribute="leading" id="Xr4-52-w1o"/>
@@ -135,6 +151,7 @@
                                                                 <outlet property="_buttonsStack" destination="Sh6-Zd-8Lr" id="TAi-rD-uFw"/>
                                                                 <outlet property="_manageButton" destination="PKA-IK-BF6" id="RKv-Gi-UNB"/>
                                                                 <outlet property="_viewHierarchy" destination="umq-X8-qyG" id="Rwt-Al-P73"/>
+                                                                <outlet property="_warningButton" destination="4eT-Np-oD5" id="VGJ-PB-Kzr"/>
                                                                 <outlet property="deviceImageView" destination="d5C-40-8qS" id="hSK-HD-n4E"/>
                                                                 <outlet property="progressIndicator" destination="7Jo-60-0Qv" id="3wy-xE-3sM"/>
                                                                 <outlet property="title1Field" destination="h8g-4z-MlV" id="pHv-Ss-OEp"/>
@@ -313,6 +330,13 @@ DQ
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
+                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Tll-KW-g4M">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLocalhostNetwork" id="pLw-V4-bui"/>
                                     <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" previousBinding="Tll-KW-g4M" id="Ng6-xX-pic">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -321,13 +345,6 @@ DQ
                                             <integer key="NSNullPlaceholder" value="0"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Tll-KW-g4M">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                        </dictionary>
-                                    </binding>
-                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLocalhostNetwork" id="pLw-V4-bui"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="gvZ-Vg-zOa">
@@ -364,6 +381,13 @@ Collecting stack traces may introduce some performance hit.</string>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
+                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="7N3-bt-nQp">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="Q3b-wv-JVB"/>
                                     <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="7N3-bt-nQp" id="CeR-ms-Y5b">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -372,13 +396,6 @@ Collecting stack traces may introduce some performance hit.</string>
                                             <integer key="NSNullPlaceholder" value="0"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="7N3-bt-nQp">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                        </dictionary>
-                                    </binding>
-                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="Q3b-wv-JVB"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="4Ry-X3-hwt">
@@ -391,14 +408,6 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="cZB-yu-VZN" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="91Q-Hg-BEx" id="A48-Dt-FCc">
-                                        <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
                                     <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="zGi-d0-4uO">
                                         <dictionary key="options">
                                             <integer key="NSNullPlaceholder" value="1"/>
@@ -406,6 +415,14 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                         </dictionary>
                                     </binding>
                                     <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" previousBinding="zGi-d0-4uO" id="91Q-Hg-BEx">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="cZB-yu-VZN" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="91Q-Hg-BEx" id="A48-Dt-FCc">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -498,18 +515,18 @@ Currently, only one active React Native bridge is supported.</string>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
+                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="DdA-HT-d7j">
+                                        <dictionary key="options">
+                                            <integer key="NSNullPlaceholder" value="1"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
                                     <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="DdA-HT-d7j" id="er9-3Z-arG">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
                                             <integer key="NSNotApplicablePlaceholder" value="-1"/>
                                             <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
-                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="DdA-HT-d7j">
-                                        <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="1"/>
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
                                     <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeBridgeData" id="NbN-0G-9bO"/>
@@ -655,5 +672,6 @@ Gw
     <resources>
         <image name="3d" width="15" height="15"/>
         <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="warning" width="20" height="20"/>
     </resources>
 </document>

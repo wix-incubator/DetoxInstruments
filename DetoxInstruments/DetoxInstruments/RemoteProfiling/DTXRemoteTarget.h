@@ -51,6 +51,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 @property (nonatomic, copy, readonly) NSImage* deviceSnapshot;
 @property (nonatomic, copy, readonly) NSDictionary* deviceInfo;
 
+@property (nonatomic, readonly, getter=isCompatibleWithInstruments) BOOL compatibleWithInstruments;
+
 @property (nonatomic, assign, readonly) DTXRemoteTargetState state;
 
 @property (nonatomic, strong) NSManagedObjectContext* managedObjectContext;
