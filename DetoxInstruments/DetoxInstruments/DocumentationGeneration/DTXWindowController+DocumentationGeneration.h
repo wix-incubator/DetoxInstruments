@@ -32,6 +32,8 @@
 - (NSImage*)_snapshotForTargetSelection;
 - (NSImage*)_snapshotForRecordingSettings;
 
+- (NSImage*)_snapshotForInstrumentsCustomization;
+
 - (void)_triggerDetailMenu;
 
 - (void)_removeDetailVerticalScroller;

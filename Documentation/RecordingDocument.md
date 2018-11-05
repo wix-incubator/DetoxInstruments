@@ -31,6 +31,14 @@ Clicking on any point in the timeline will select the closest recorded data samp
 
 ![Timeline Pane](Resources/RecordingDocument_TimelinePane.png "Timeline Pane")
 
+##### Customization
+
+Clicking the **Customization button** in the window toolbar will display a list of all the available instruments in the current document.
+
+![Customization](Resources/RecordingDocument_InstrumentCustomization.png "Customization")
+
+Click on instruments you would like to hide from display.
+
 ### Detail Pane
 
 The detail pane displays the data associated with the current recording for the selected instrument. Detox Instruments displays only one instrument at a time in the detail pane, so you must select different instruments to see different sets of details.

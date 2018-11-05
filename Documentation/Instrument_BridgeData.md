@@ -10,6 +10,8 @@ Use the information captured by this instrument to inspect the data passed in yo
 
 If the **Record bridge data** option is enabled, recorded bridge data can be accessed from the navigation bar.
 
+![React Native Bridge Data Navigation Menu](Resources/Instrument_RNBridgeData_Menu.png "React Native Bridge Data Navigation Menu")
+
 For an in-depth look at profiling options, see [Profiling Options](ProfilingOptions.md).
 
 ### Detail Pane

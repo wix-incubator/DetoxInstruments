@@ -81,9 +81,9 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	fakeTarget = [__FAKE_DTXRemoteTarget new];
 	fakeTarget.deviceOS = 0;
 	fakeTarget.appName = @"Example App";
-	fakeTarget.deviceName = @"iPhone X";
-	fakeTarget.deviceOS = @"Version 11.4 (Build 15F5037c)";
-	fakeTarget.deviceInfo = @{@"profilerVersion": @"0.9.1"};
+	fakeTarget.deviceName = @"iPhone XS Max";
+	fakeTarget.deviceOS = @"Version 12.1 (Build 16A405)";
+	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.4.0"};
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	
 	fakeTarget.delegate = (id)self;
@@ -93,9 +93,9 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	__FAKE_DTXRemoteTarget* fakeTarget = [__FAKE_DTXRemoteTarget new];
 	fakeTarget.deviceOS = 0;
 	fakeTarget.appName = @"Another App";
-	fakeTarget.deviceName = @"Cool iPad";
-	fakeTarget.deviceOS = @"Version 11.4 (Build 15F5037c)";
-	fakeTarget.deviceInfo = @{@"profilerVersion": @"0.9.1", @"machineName": @"ipad5.3", @"deviceEnclosureColor": @2};
+	fakeTarget.deviceName = @"iPad Pro";
+	fakeTarget.deviceOS = @"Version 12.1 (Build 16A405)";
+	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.4.0", @"machineName": @"ipad5.3", @"deviceEnclosureColor": @2};
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	
 	fakeTarget.delegate = (id)self;

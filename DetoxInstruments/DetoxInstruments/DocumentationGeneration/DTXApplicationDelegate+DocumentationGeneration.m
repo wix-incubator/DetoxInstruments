@@ -324,6 +324,20 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 			[windowController _removeDetailVerticalScroller];
 			[windowController _drainLayout];
 			
+			NSBitmapImageRep* rep = (NSBitmapImageRep*)[windowController _snapshotForInstrumentsCustomization].representations.firstObject;
+			
+			NSImage* customizationPopoverImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width * 3, rep.size.height)];
+			[customizationPopoverImage lockFocus];
+			
+			NSRect centered = (NSRect){93, 20, rep.size};
+			[rep drawInRect:centered fromRect:(NSRect){0, 0, centered.size} operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+			
+			rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, customizationPopoverImage.size}];
+			
+			[customizationPopoverImage unlockFocus];
+			
+			[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_InstrumentCustomization.png"].path atomically:YES];
+			
 			[windowController _selectSampleAtIndex:__defaultSample.integerValue forPlotControllerClass:DTXCPUUsagePlotController.class];
 			
 			[windowController _drainLayout];

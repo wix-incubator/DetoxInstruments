@@ -17,6 +17,7 @@
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
 #import "DTXInspectorContentController.h"
 #import "NSAppearance+UIAdditions.h"
+#import "DTXPlotAreaContentController.h"
 
 @interface NSObject ()
 
@@ -258,6 +259,35 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	
 	NSWindow* window = self.window.sheets.firstObject;
 	return [window snapshotForCachingDisplay];
+}
+
+- (NSImage*)_snapshotForInstrumentsCustomization;
+{
+	[self _drainLayout];
+	
+	[[self valueForKey:@"_plotContentController"] presentPlotControllerPickerFromView:[self valueForKeyPath:@"window.toolbar.toolbarView"]];
+	
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	
+	NSImage* popoverSnapshot = [[[self valueForKey:@"_plotContentController"] presentedViewControllers].firstObject.view.window snapshotForCachingDisplay];
+	
+	[[self valueForKey:@"_plotContentController"] dismissViewController:[[self valueForKey:@"_plotContentController"] presentedViewControllers].firstObject];
+	
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	
+	return popoverSnapshot;
 }
 
 - (void)_triggerDetailMenu;
