@@ -1,0 +1,19 @@
+{
+  "name": "detox-instruments",
+  "version": "1.4.7499",
+  "description": "Detox Instruments is a performance–analysis and testing framework, designed to help developers profile their mobile apps in order to better understand and optimize their behavior and performance.",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "./postinstall.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wix/DetoxInstruments.git"
+  },
+  "author": "Leo Natan (lnatan@wix.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wix/DetoxInstruments/issues"
+  },
+  "homepage": "https://github.com/wix/DetoxInstruments#readme"
+}
