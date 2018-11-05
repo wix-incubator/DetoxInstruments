@@ -443,7 +443,7 @@
                                         <rect key="frame" x="282" y="124" width="116" height="24"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="No Samples" id="wxS-lv-Wdt">
                                             <font key="font" metaFont="systemMedium" size="20"/>
-                                            <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="textColor" name="placeholderTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
@@ -561,7 +561,6 @@
                                     </tableColumns>
                                 </tableView>
                             </subviews>
-                            <nil key="backgroundColor"/>
                         </clipView>
                         <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="ZfO-GK-YnR">
@@ -681,7 +680,6 @@
                                     </tableColumns>
                                 </outlineView>
                             </subviews>
-                            <nil key="backgroundColor"/>
                         </clipView>
                         <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="cNa-Fh-d2X">
@@ -1042,7 +1040,7 @@
                                             <rect key="frame" x="115" y="374" width="90" height="24"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="No Detail" id="poP-cF-7pq">
                                                 <font key="font" metaFont="systemMedium" size="20"/>
-                                                <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="textColor" name="placeholderTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
@@ -1062,7 +1060,7 @@
                                 <rect key="frame" x="0.0" y="771" width="320" height="29"/>
                                 <subviews>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCX-wo-mYx" customClass="DTXSegmentedView">
-                                        <rect key="frame" x="126" y="3" width="68" height="23"/>
+                                        <rect key="frame" x="126" y="3" width="69" height="23"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>

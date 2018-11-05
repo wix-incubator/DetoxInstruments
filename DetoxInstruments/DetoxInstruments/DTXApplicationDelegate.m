@@ -187,9 +187,33 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	return NSTerminateNow;
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	if(menuItem.action == @selector(checkForUpdates:))
+	{
+		BOOL canCheckForUpdates = [self updaterMayCheckForUpdates:_updater];
+
+		if(canCheckForUpdates == NO)
+		{
+			menuItem.title = NSLocalizedString(@"Updates Disabled for This App Instance", @"");
+		}
+
+		return canCheckForUpdates;
+	}
+
+	return [NSApp validateMenuItem:menuItem];;
+}
+
 - (IBAction)checkForUpdates:(id)sender
 {
 	[_updater checkForUpdates:sender];
+}
+
+#pragma mark SUUpdaterDelegate
+
+- (BOOL)updaterMayCheckForUpdates:(SUUpdater *)updater
+{
+	return [NSBundle.mainBundle.bundlePath containsString:@"node_modules/"] == NO;
 }
 
 @end
