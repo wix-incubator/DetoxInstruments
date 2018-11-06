@@ -74,7 +74,6 @@ BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${EXPORT_DIR}
 
 VERSION="${SHORT_VERSION}"."${BUILD_NUMBER}"
 
-
 ZIP_FILE=Distribution/DetoxInstruments-v"${SHORT_VERSION}".b"${BUILD_NUMBER}".zip
 
 echo -e "\033[1;34mVersion is: $VERSION\033[0m"
@@ -139,7 +138,8 @@ if [ -z "$DRY_RUN" ]; then
 	fi
 	NPM_VERSION="${NPM_VERSION}${BUILD_NUMBER}"	
 	npm version "${NPM_VERSION}" --allow-same-version &> /dev/null
-	# npm publish
+	npm publish
+	git checkout package.json
 	popd &> /dev/null
 fi
 
