@@ -71,7 +71,7 @@ static NSString* __version =
 #else
 	NSString* deviceTypeSim = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
 	
-	deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"%@ Simulator (%@)", @""), deviceTypeSim, currentDevice.name];
+	deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"%@ (%@ Simulator)", @""), currentDevice.name, deviceTypeSim];
 #endif
 	deviceDetails[@"deviceOS"] = processInfo.operatingSystemVersionString;
 	deviceDetails[@"deviceOSType"] = 0;
