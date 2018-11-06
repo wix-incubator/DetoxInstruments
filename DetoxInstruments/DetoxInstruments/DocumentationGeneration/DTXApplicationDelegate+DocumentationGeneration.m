@@ -29,6 +29,7 @@
 #import "DTXManagedPlotControllerGroup.h"
 #import "NSView+UIAdditions.h"
 #import "DTXDebugMenuGenerator.h"
+#import "NSImage+UIAdditions.h"
 
 @import ObjectiveC;
 
@@ -48,11 +49,38 @@ static NSBitmapImageRep* __DTXThemeBackgroundRep(NSBitmapImageRep* rep)
 
 static NSDictionary<NSString*, NSDictionary<NSString*, id>*>* __classToNameMapping;
 static NSDictionary<NSString*, NSDictionary<NSString*, id>*>* __classToNameRNMapping;
+static NSDictionary<NSNumber*, NSNumber*>* __appleAccentColorMapping;
+static NSDictionary<NSNumber*, NSString*>* __appleHighlightColorMapping;
 static NSNumber* __defaultSample;
 static NSNumber* __defaultSampleRN;
 static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 
 @implementation DTXApplicationDelegate (DocumentationGeneration)
+
++ (void)_addColorsToMenuItem:(NSMenuItem*)menuItem
+{
+	NSMenu* colors = [NSMenu new];
+	menuItem.submenu = colors;
+	
+	NSArray* colorNames = @[@"Blue", @"Purple", @"Pink", @"Red", @"Orange", @"Yellow", @"Green", @"Graphite"];
+	NSArray* colorTints = @[[NSColor systemBlueColor],
+							[NSColor systemPurpleColor],
+							[NSColor systemPinkColor],
+							[NSColor systemRedColor],
+							[NSColor systemOrangeColor],
+							[NSColor systemYellowColor],
+							[NSColor systemGreenColor],
+							[NSColor systemGrayColor]
+							];
+	[colorNames enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSMenuItem* colorItem = [NSMenuItem new];
+		colorItem.title = obj;
+		colorItem.tag = idx;
+		colorItem.image = [[NSImage imageNamed:@"color_indicator"] imageTintedWithColor:colorTints[idx]];
+		colorItem.action = @selector(_generateDocScreenshots:);
+		[colors addItem:colorItem];
+	}];
+}
 
 + (void)load
 {
@@ -68,15 +96,17 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		item.enabled = NO;
 		[debugMenu addItem:item];
 		
-		NSMenuItem* lightBlue = [NSMenuItem new];
-		lightBlue.title = @"Light Appearance";
-		lightBlue.action = @selector(_generateDocScreenshotsLight:);
-		[debugMenu addItem:lightBlue];
+		NSMenuItem* darkAppearance = [NSMenuItem new];
+		darkAppearance.title = @"Dark Appearance";
+		darkAppearance.tag = 1;
+		[self _addColorsToMenuItem:darkAppearance];
+		[debugMenu addItem:darkAppearance];
 		
-		NSMenuItem* darkRed = [NSMenuItem new];
-		darkRed.title = @"Dark Appearance";
-		darkRed.action = @selector(_generateDocScreenshotsDark:);
-		[debugMenu addItem:darkRed];
+		NSMenuItem* lightAppearance = [NSMenuItem new];
+		lightAppearance.title = @"Light Appearance";
+		lightAppearance.tag = 0;
+		[self _addColorsToMenuItem:lightAppearance];
+		[debugMenu addItem:lightAppearance];
 		
 		NSMenuItem* debugMenuItem = [NSMenuItem new];
 		debugMenuItem.submenu = debugMenu;
@@ -98,10 +128,32 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 								   NSStringFromClass(DTXRNCPUUsagePlotController.class): @{@"name": @"RNJSThread"},
 								   NSStringFromClass(DTXRNBridgeCountersPlotController.class): @{@"name": @"RNBridgeCounters"},
 								   NSStringFromClass(DTXRNBridgeDataTransferPlotController.class): @{@"name": @"RNBridgeData"},
-								 };
+								   };
 		
 		__defaultSample = @22;
 		__defaultSampleRN = @22;
+		
+		__appleAccentColorMapping = @{
+									  @0: @100,
+									  @1: @5,
+									  @2: @6,
+									  @3: @0,
+									  @4: @1,
+									  @5: @2,
+									  @6: @3,
+									  @7: @-1
+									  };
+		
+		__appleHighlightColorMapping = @{
+										 @0: @"",
+										 @1: @"0.968627 0.831373 1.000000 Purple",
+										 @2: @"1.000000 0.749020 0.823529 Pink",
+										 @3: @"1.000000 0.733333 0.721569 Red",
+										 @4: @"1.000000 0.874510 0.701961 Orange",
+										 @5: @"1.000000 0.937255 0.690196 Yellow",
+										 @6: @"0.752941 0.964706 0.678431 Green",
+										 @7: @"0.847059 0.847059 0.862745 Graphite"
+										 };
 	});
 }
 
@@ -110,48 +162,33 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	return [[[NSURL URLWithString:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Resources/"] URLByStandardizingPath];
 }
 
-- (IBAction)_generateDocScreenshotsLight:(id)sender
+- (IBAction)_generateDocScreenshots:(NSMenuItem*)sender
 {
 	[NSApp.orderedDocuments enumerateObjectsUsingBlock:^(NSDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[obj close];
 	}];
 	
-	[self performSelector:@selector(__generateLightBlue) withObject:nil afterDelay:1.0];
+	//performSelector: API must be used here for some reason. dispatch_after does not work.
+	[self performSelector:@selector(__generateMiddleman:) withObject:sender afterDelay:1.0];
 }
 
-- (IBAction)_generateDocScreenshotsDark:(id)sender
+- (void)__generateMiddleman:(NSMenuItem*)sender
 {
-	[NSApp.orderedDocuments enumerateObjectsUsingBlock:^(NSDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[obj close];
-	}];
-	
-	[self performSelector:@selector(__generateDarkRed) withObject:nil afterDelay:1.0];
-}
+	NSUInteger menuAppearance = sender.parentItem.tag;
+	NSUInteger menuAccent = sender.tag;
 
-- (void)__generateLightBlue NS_AVAILABLE_MAC(10_14)
-{
-	//Force a light appearance with blue accent and hightlight colors
-	NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
-	[NSUserDefaults.standardUserDefaults setObject:@100 forKey:@"AppleAccentColor"];
-	[NSUserDefaults.standardUserDefaults setObject:@"" forKey:@"AppleHighlightColor"];
+	if (@available(macOS 10.14, *))
+	{
+		NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed: menuAppearance == 0 ? NSAppearanceNameAqua : NSAppearanceNameDarkAqua];
+	}
+	[NSUserDefaults.standardUserDefaults setObject:__appleAccentColorMapping[@(menuAccent)] forKey:@"AppleAccentColor"];
+	[NSUserDefaults.standardUserDefaults setObject:__appleHighlightColorMapping[@(menuAccent)] forKey:@"AppleHighlightColor"];
 	[NSNotificationCenter.defaultCenter postNotificationName:@"kCUINotificationAquaColorVariantChanged" object:nil];
 	
 	[self __generate];
 }
 
-- (void)__generateDarkRed NS_AVAILABLE_MAC(10_14)
-{
-	//Force a light appearance with blue accent and hightlight colors
-	NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
-	[NSUserDefaults.standardUserDefaults setObject:@0 forKey:@"AppleAccentColor"];
-	[NSUserDefaults.standardUserDefaults setObject:@"1.000000 0.733333 0.721569 Red" forKey:@"AppleHighlightColor"];
-	
-	[NSNotificationCenter.defaultCenter postNotificationName:@"kCUINotificationAquaColorVariantChanged" object:nil];
-	
-	[self __generate];
-}
-
-- (void)__generate NS_AVAILABLE_MAC(10_14)
+- (void)__generate
 {
 	__block NSScreen* retinaScreen = nil;
 	
@@ -240,7 +277,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[newDocument close];
 	
 	[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/example.dtxprof"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
-
+		
 		DTXWindowController* windowController = document.windowControllers.firstObject;
 		[[document valueForKeyPath:@"recordings.@firstObject"] setValue:@"Example App" forKeyPath:@"appName"];
 		[windowController _setRecordingButtonsVisible:NO];
@@ -250,68 +287,68 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _setBottomSplitAtPercentage:0.53];
 		[windowController _removeDetailVerticalScroller];
 		[windowController _drainLayout];
-
+		
 		[windowController _selectSampleAtIndex:__defaultSample.integerValue forPlotControllerClass:DTXCPUUsagePlotController.class];
-
+		
 		[windowController _drainLayout];
-
+		
 		NSBitmapImageRep* repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Document.png"].path atomically:YES];
-
+		
 		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:pasteboardRep].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
-
+		
 		[windowController _setWindowSize:NSMakeSize(1344, 945)];
 		[windowController _setRecordingButtonsVisible:YES];
 		[windowController _drainLayout];
-
+		
 		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-
+		
 		NSBitmapImageRep* rep = (NSBitmapImageRep*)[self _exampleImageWithExistingRep:repIntro].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Example.png"].path atomically:YES];
-
+		
 		repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
-
+		
 		rep = (NSBitmapImageRep*)[self _toolbarImageWithExistingRep:repIntro].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_Toolbar.png"].path atomically:YES];
-
+		
 		[windowController _setRecordingButtonsVisible:NO];
 		[windowController _drainLayout];
-
+		
 		[windowController _deselectAnyPlotControllers];
 		[windowController _selectSampleAtIndex:175 forPlotControllerClass:DTXMemoryUsagePlotController.class];
-
-//		NSAppearance* desiredAppearance = NSApp.effectiveAppearance;
-//		NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
-
+		
+		//		NSAppearance* desiredAppearance = NSApp.effectiveAppearance;
+		//		NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
 		[[__DTXThemeBackgroundRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
-
+		
 		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, 511)];
-
+		
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 			[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage mapping:__classToNameMapping];
 		}];
-
+		
 		[inspectorPaneOverviewImage lockFocus];
 		rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, inspectorPaneOverviewImage.size}];
 		[inspectorPaneOverviewImage unlockFocus];
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_InspectorPane.png"].path atomically:YES];
-
+		
 		[windowController _selectPlotControllerOfClass:DTXCompactNetworkRequestsPlotController.class];
 		[windowController _deselectAnyDetail];
 		[windowController _setBottomSplitAtPercentage:0.6];
 		[windowController _scrollBottomPaneToPercentage:0.8];
-
+		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
 		[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_DetailPane.png"].path atomically:YES];
-
-//		NSAppearance.currentAppearance = NSApp.appearance = desiredAppearance;
-
+		
+		//		NSAppearance.currentAppearance = NSApp.appearance = desiredAppearance;
+		
 		[windowController _drainLayout];
 		[windowController close];
 		[document close];
-	
+		
 		[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/exampleRN.dtxprof"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
 			
 			DTXWindowController* windowController = document.windowControllers.firstObject;
@@ -633,7 +670,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_DetailPane_Console.png"].path atomically:YES];
 }
 
-- (void)_createBridgeDataMenuScreenshotWithWindowController:(DTXWindowController*)windowController NS_AVAILABLE_MAC(10_14)
+- (void)_createBridgeDataMenuScreenshotWithWindowController:(DTXWindowController*)windowController
 {
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
@@ -668,7 +705,9 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	
 	if(NSApp.effectiveAppearance.isDarkAppearance == NO)
 	{
-		menu.secondImageView.contentTintColor = NSColor.whiteColor;
+		if (@available(macOS 10.14, *)) {
+			menu.secondImageView.contentTintColor = NSColor.whiteColor;
+		}
 	}
 	
 	menu.chevronImageView.hidden = YES;
