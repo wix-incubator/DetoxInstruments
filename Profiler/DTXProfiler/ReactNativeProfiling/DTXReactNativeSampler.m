@@ -118,25 +118,25 @@ static void swz_runRunLoopThread(id self, SEL _cmd)
 	orig_runRunLoopThread(self, _cmd);
 }
 
-static NSString* DTXJSValueGeneringToNSString(JSContextRef ctx, JSValueRef value)
-{
-	NSString* rv = nil;
-	
-	JSValueRef exception = NULL;
-	JSStringRef jsonStrRef = __jscWrapper.JSValueToStringCopy(ctx, value, &exception);
-	
-	if(exception == NULL && jsonStrRef != NULL)
-	{
-		rv = (__bridge_transfer NSString*)__jscWrapper.JSStringCopyCFString(kCFAllocatorDefault, jsonStrRef);
-	}
-	
-	if(jsonStrRef != NULL)
-	{
-		__jscWrapper.JSStringRelease(jsonStrRef);
-	}
-	
-	return rv;
-}
+//static NSString* DTXJSValueGeneringToNSString(JSContextRef ctx, JSValueRef value)
+//{
+//	NSString* rv = nil;
+//	
+//	JSValueRef exception = NULL;
+//	JSStringRef jsonStrRef = __jscWrapper.JSValueToStringCopy(ctx, value, &exception);
+//	
+//	if(exception == NULL && jsonStrRef != NULL)
+//	{
+//		rv = (__bridge_transfer NSString*)__jscWrapper.JSStringCopyCFString(kCFAllocatorDefault, jsonStrRef);
+//	}
+//	
+//	if(jsonStrRef != NULL)
+//	{
+//		__jscWrapper.JSStringRelease(jsonStrRef);
+//	}
+//	
+//	return rv;
+//}
 
 static NSString* DTXJSValueJSONStringToNSString(JSContextRef ctx, JSValueRef value)
 {
@@ -414,7 +414,7 @@ static void __DTXInitializeRNSampler()
 		_initialBridgeNToJSDataSize = bridgeNToJSDataSize;
 		_initialBridgeJSToNDataSize = bridgeJSToNDataSize;
 		
-		BOOL didLoadCustomJSCWrapper = DTXLoadJSCWrapper(NULL);
+//		BOOL didLoadCustomJSCWrapper = DTXLoadJSCWrapper(NULL);
 		
 //		_shouldSampleThread = didLoadCustomJSCWrapper && configuration.collectJavaScriptStackTraces;
 //		_shouldSymbolicate = didLoadCustomJSCWrapper && configuration.symbolicateJavaScriptStackTraces;
