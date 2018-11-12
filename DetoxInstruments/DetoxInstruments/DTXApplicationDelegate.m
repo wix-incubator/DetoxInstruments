@@ -101,7 +101,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		[DTXProfilingConfiguration.defaultProfilingConfigurationForRemoteProfiling setAsDefaultRemoteProfilingConfiguration];
 	}
 	
-	NSLog(@"%@", @([NSHelpManager.sharedHelpManager registerBooksInBundle:NSBundle.mainBundle]));
+	[NSHelpManager.sharedHelpManager registerBooksInBundle:NSBundle.mainBundle];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
