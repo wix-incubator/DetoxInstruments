@@ -61,9 +61,13 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	NSMutableURLRequest* arg1_ = [arg1 mutableCopy];
 	NSMutableURLRequest* arg2_ = [arg2 mutableCopy];
 	
-//	arg1_.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-//	arg2_.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-	
+	DTXProfilingConfiguration* config = __DTXProfilerGetActiveConfiguration();
+	if(config != nil && config.disableNetworkCache == YES)
+	{
+		arg1_.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+		arg2_.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+	}
+		
 	return [self initWithOriginalRequest__dtx:arg1_ updatedRequest:arg2_ ident:arg3 session:arg4];
 }
 

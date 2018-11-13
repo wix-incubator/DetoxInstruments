@@ -53,9 +53,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.4</string>
 	<key>CFBundleVersion</key>
-	<string>7523</string>
+	<string>7524</string>
 	<key>DTXBuildDate</key>
-	<date>2018-11-13T13:30:43Z</date>
+	<date>2018-11-13T14:47:13Z</date>
 	<key>DTXSourceRoot</key>
 	<string>$(DTXSRCROOT)</string>
 	<key>LSMinimumSystemVersion</key>

@@ -156,19 +156,25 @@ inline static NSString* __DTXStringFromBoolean(BOOL b)
 		
 		content = [NSMutableArray new];
 		
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Sampling Interval", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(configuration.samplingInterval)]]];
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Network", @"") description:__DTXStringFromBoolean(configuration.recordNetwork)]];
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Localhost", @"") description:__DTXStringFromBoolean(configuration.recordLocalhostNetwork)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Sampling Interval", @"") description:[NSFormatter.dtx_highPrecisionDurationFormatter stringFromTimeInterval:configuration.samplingInterval]]];
+		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Thread Information", @"") description:__DTXStringFromBoolean(configuration.recordThreadInformation)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Stack Traces", @"") description:__DTXStringFromBoolean(configuration.collectStackTraces)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Symbolicate Stack Traces", @"") description:__DTXStringFromBoolean(configuration.symbolicateStackTraces)]];
+		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Open File Names", @"") description:__DTXStringFromBoolean(configuration.collectOpenFileNames)]];
+		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Network", @"") description:__DTXStringFromBoolean(configuration.recordNetwork)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Localhost", @"") description:__DTXStringFromBoolean(configuration.recordLocalhostNetwork)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Disable Network Cache", @"") description:__DTXStringFromBoolean(configuration.disableNetworkCache)]];
+		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Log Output", @"") description:__DTXStringFromBoolean(configuration.recordLogOutput)]];
 		
-//		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
-		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Profile React Native", @"") description:__DTXStringFromBoolean(configuration.profileReactNative)]];
-//		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Java Script Stack Traces", @"") description:__DTXStringFromBoolean(configuration.collectJavaScriptStackTraces)]];
-//		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Symbolicate Java Script Stack Traces", @"") description:__DTXStringFromBoolean(configuration.symbolicateJavaScriptStackTraces)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Bridge Data", @"") description:__DTXStringFromBoolean(configuration.recordReactNativeBridgeData)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Timers as Events", @"") description:__DTXStringFromBoolean(configuration.recordReactNativeTimersAsEvents)]];
+		
+//		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
 		
 		recordingConfiguration.content = content;
 		

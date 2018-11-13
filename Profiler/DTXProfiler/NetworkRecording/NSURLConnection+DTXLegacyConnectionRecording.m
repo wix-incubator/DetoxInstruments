@@ -216,7 +216,11 @@ static void __copyMethods(Class orig, Class target)
 	
 	NSMutableURLRequest* arg1_ = [arg1 mutableCopy];
 	
-	//	arg1_.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+	DTXProfilingConfiguration* config = __DTXProfilerGetActiveConfiguration();
+	if(config != nil && config.disableNetworkCache == YES)
+	{
+		arg1_.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+	}
 	
 	self = [self _initWithRequest___dtx:arg1_ delegate:origDelegate usesCache:arg3 maxContentLength:arg4 startImmediately:arg5 connectionProperties:arg6];
 	
