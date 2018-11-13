@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The sampling interval of the Profiler.
  *
- *  The default value is 0.5.
+ *  The default value is 1.0.
  */
 @property (nonatomic, readonly) NSTimeInterval samplingInterval;
 
@@ -72,6 +72,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  The default value is @c false.
  */
 @property (nonatomic, readonly) BOOL recordLocalhostNetwork;
+
+/**
+ *  Disables cache for network requests.
+ *
+ *  Only relevant if @c recordNetwork is set to @c true.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL disableNetworkCache;
 
 /**
  *  Record thread information during profiling.
@@ -121,6 +130,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  The default value is @c false.
  */
 @property (nonatomic, readonly) BOOL recordReactNativeBridgeData;
+
+/**
+ *  Record React Native timers (created using @c setTimeout() in Java Script) as events.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL recordReactNativeTimersAsEvents;
 
 /* Output Configuration */
 
@@ -190,6 +206,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) BOOL recordLocalhostNetwork;
 
 /**
+ *  Disables cache for network requests.
+ *
+ *  Only relevant if @c recordNetwork is set to @c true.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readwrite) BOOL disableNetworkCache;
+
+/**
  *  Record thread information during profiling.
  *
  *  The default value is @c true.
@@ -237,6 +262,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  The default value is @c false.
  */
 @property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
+
+/**
+ *  Record React Native timers (created using @c setTimeout() in Java Script) as events.
+ *  Timers will appear as interval events in the Events instrument.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL recordReactNativeTimersAsEvents;
 
 /* Output Configuration */
 

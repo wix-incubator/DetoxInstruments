@@ -26,6 +26,8 @@
 	BOOL _collectJavaScriptStackTraces;
 	BOOL _symbolicateJavaScriptStackTraces;
 	BOOL _prettyPrintJSONOutput;
+	BOOL _disableNetworkCache;
+	BOOL _recordReactNativeTimersAsEvents;
 	NSURL* _nonkvc_recordingFileURL;
 }
 
@@ -44,7 +46,7 @@
 	rv->_recordNetwork = YES;
 	rv->_recordThreadInformation = YES;
 	rv->_recordLogOutput = YES;
-	rv->_samplingInterval = 0.5;
+	rv->_samplingInterval = 1.0;
 	rv->_numberOfSamplesBeforeFlushToDisk = 200;
 	rv->_profileReactNative = YES;
 	rv->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
@@ -55,7 +57,6 @@
 + (instancetype)defaultProfilingConfigurationForRemoteProfiling
 {
 	DTXProfilingConfiguration* rv = self.defaultProfilingConfiguration;
-	rv->_samplingInterval = 1.0;
 	
 	return rv;
 }
@@ -214,6 +215,18 @@
 - (void)setRecordReactNativeBridgeData:(BOOL)recordReactNativeBridgeData
 {
 	self->_recordReactNativeBridgeData = recordReactNativeBridgeData;
+}
+
+@dynamic disableNetworkCache;
+- (void)setDisableNetworkCache:(BOOL)disableNetworkCache
+{
+	self->_disableNetworkCache = disableNetworkCache;
+}
+
+@dynamic recordReactNativeTimersAsEvents;
+- (void)setRecordReactNativeTimersAsEvents:(BOOL)recordReactNativeTimersAsEvents
+{
+	self->_recordReactNativeTimersAsEvents = recordReactNativeTimersAsEvents;
 }
 
 - (void)setRecordingFileURL:(NSURL *)recordingFileURL

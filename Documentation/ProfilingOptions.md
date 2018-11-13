@@ -14,6 +14,14 @@ The **Sampling frequency** option configures how many samples should be collecte
 
 It is recommended to start with the default value and only increase sampling frequency if necessary.
 
+### Threads
+
+The **Record thread information** option controls whether any thread information is recorded during profiling. Recording thread information can provide additional performance metrics per thread. Normally, recording thread information is not an expensive operation and should be enabled unless absolutely not needed.
+
+The **Collect stack traces** option enables the recording of the stack trace of the heaviest thread. This provides code symbol information for additional debugging purposes. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.
+
+The **Symbolicate stack traces** option enables the runtime symbolication of symbols collected in stack traces. This further assists development by creating human-readable symbols. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.
+
 ### Disk Usage
 
 The **Collect open file names** option enables the collection of names of files open in the app at the time of sampling. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.
@@ -24,13 +32,7 @@ The **Record network** option controls whether any network traffic is recorded, 
 
 The **Record localhost network** option extends the network recording to localhost connections as well. Depending on your app's activity, this may introduce a lot of unwanted noise. Enable if you need to profile or debug localhost connections.
 
-### Threads
-
-The **Record thread information** option controls whether any thread information is recorded during profiling. Recording thread information can provide additional performance metrics per thread. Normally, recording thread information is not an expensive operation and should be enabled unless absolutely not needed.
-
-The **Collect stack traces** option enables the recording of the stack trace of the heaviest thread. This provides code symbol information for additional debugging purposes. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.
-
-The **Symbolicate stack traces** option enables the runtime symbolication of symbols collected in stack traces. This further assists development by creating human-readable symbols. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.
+The **Disable network cache** option controls whether network cache should be disabled for requests the app makes while recording.
 
 ### Log
 
@@ -41,3 +43,5 @@ The **Collect log output** options enables the recording of your app's log outpu
 The **Profile React Native (if available)** options controls the React Native profiling systems in Detox Instruments and its Profiler framework. These systems provide information such as JavaScript thread performance, bridge calls and bridge data, which can be very helpful when debugging apps with React Native usage.
 
 The **Record bridge data** option controls whether React Native bridge data is recorded during profiling. Depending on your app's activity, this can take a small-to-moderate toll on performance. If bridge data recording is not necessary, you can turn this option off to save performance.
+
+The **Record timers as events** options controls whether React Native timers, created in JavaScript using `setTimeout()`, should be recorded as events and displayed in the Events instrument.
