@@ -722,6 +722,13 @@ Currently, only one active React Native bridge is supported.</string>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
+                                                            <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeTimersAsEvents" id="fbh-EE-OL0"/>
+                                                            <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="G0V-d7-eZd">
+                                                                <dictionary key="options">
+                                                                    <integer key="NSNullPlaceholder" value="1"/>
+                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                </dictionary>
+                                                            </binding>
                                                             <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="G0V-d7-eZd" id="Fp4-i3-hoI">
                                                                 <dictionary key="options">
                                                                     <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -730,13 +737,6 @@ Currently, only one active React Native bridge is supported.</string>
                                                                     <integer key="NSNullPlaceholder" value="0"/>
                                                                 </dictionary>
                                                             </binding>
-                                                            <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="G0V-d7-eZd">
-                                                                <dictionary key="options">
-                                                                    <integer key="NSNullPlaceholder" value="1"/>
-                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                </dictionary>
-                                                            </binding>
-                                                            <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeBridgeData" id="vY7-mC-r73"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>

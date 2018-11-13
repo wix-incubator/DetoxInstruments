@@ -85,12 +85,21 @@ static void installDTXSignpostHook(JSContext* ctx)
 	ctx[@"__dtx_markEventBatch_v1"] = ^ (NSArray<NSDictionary<NSString*, id>*>* samples)
 	{
 		dispatch_async(__eventDispatchQueue, ^{
+			DTXProfilingConfiguration* config = __DTXProfilerGetActiveConfiguration();
+			BOOL allowJSTimers = config.recordReactNativeTimersAsEvents;
+			
 			for(NSDictionary<NSString*, id>* sample in samples)
 			{
 				NSString* identifier = sample[@"identifier"];
 				NSUInteger type = [sample[@"type"] unsignedIntegerValue];
 				NSDate* timestamp = [NSDate dateWithTimeIntervalSince1970:[sample[@"timestamp"] doubleValue] / 1000];
 				NSDictionary<NSString*, id>* params = sample[@"params"];
+				BOOL isFromTimer = [sample[@"isFromJSTimer"] boolValue];
+				
+				if(isFromTimer == YES && allowJSTimers == NO)
+				{
+					continue;
+				}
 				
 				switch (type) {
 					case 0:
