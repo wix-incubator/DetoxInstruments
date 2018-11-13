@@ -385,9 +385,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6Z9ASVU98Y;
 				ENABLE_BITCODE = NO;
+				IBSC_WARNINGS = NO;
 				INFOPLIST_FILE = StressTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.LeoNatan.---";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -399,9 +403,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6Z9ASVU98Y;
 				ENABLE_BITCODE = NO;
+				IBSC_WARNINGS = NO;
 				INFOPLIST_FILE = StressTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.LeoNatan.---";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

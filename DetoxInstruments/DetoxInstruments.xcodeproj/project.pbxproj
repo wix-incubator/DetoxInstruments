@@ -2141,6 +2141,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				IBSC_NOTICES = NO;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
@@ -2171,6 +2172,7 @@
 				);
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				IBSC_NOTICES = NO;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
