@@ -61,6 +61,7 @@ echo -e "\033[1;34mBuilding archive and exporting\033[0m"
 ARCHIVE=Distribution/Archive.xcarchive
 EXPORT_DIR=Distribution/Export
 
+rm -fr Distribution/*.zip
 rm -fr "${ARCHIVE}"
 rm -fr "${EXPORT_DIR}"
 
