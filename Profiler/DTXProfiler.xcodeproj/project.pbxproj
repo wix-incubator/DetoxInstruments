@@ -967,7 +967,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DTXProfiler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1125,7 +1125,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DTXProfiler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1159,7 +1159,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.DTXProfiler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
