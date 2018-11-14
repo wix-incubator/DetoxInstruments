@@ -54,7 +54,7 @@ fi
 echo -e "\033[1;34mUpdating acknowledgements and Apple Help\033[0m"
 
 ./updateAcknowledgements.sh
-./updateHelp.sh
+./updateHelp.sh || :
 
 echo -e "\033[1;34mBuilding archive and exporting\033[0m"
 
