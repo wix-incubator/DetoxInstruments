@@ -32,6 +32,11 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 		echo "Profiler framework not integrated: current build configuration “${CONFIGURATION}” is not included in the ALLOWED_CONFIGURATIONS list."
 	fi
 	
+	if [ "${ENABLE_BITCODE}" = "NO" ]; then
+		echo "Stripping bitcode"
+		xcrun bitcode_strip -r "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler -o "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
+	fi
+	
 	EXTRACTED_ARCHS=()
 
 	for ARCH in $ARCHS
