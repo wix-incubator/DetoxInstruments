@@ -305,8 +305,8 @@ static double __rnCPUUsage(thread_t safeRNThread)
 	return threadBasicInfo->cpu_usage / (double)TH_USAGE_SCALE;
 }
 
-static int (*__orig_UIApplicationMain)(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName);
-static int __dtxinst_rn_UIApplicationMain(int argc, char * _Nonnull * _Null_unspecified argv, NSString * _Nullable principalClassName, NSString * _Nullable delegateClassName)
+static int (*__orig_UIApplication_run)(id self, SEL _cmd);
+static int __dtxinst_UIApplication_run(id self, SEL _cmd)
 {
 	Class cls = NSClassFromString(@"RCTCxxBridge");
 	
@@ -336,7 +336,7 @@ static int __dtxinst_rn_UIApplicationMain(int argc, char * _Nonnull * _Null_unsp
 		}
 	}
 	
-	return __orig_UIApplicationMain(argc, argv, principalClassName, delegateClassName);
+	return __orig_UIApplication_run(self, _cmd);
 }
 
 __attribute__((constructor))
@@ -359,7 +359,9 @@ static void __DTXInitializeRNSampler()
 		__orig_JSObjectGetProperty = dlsym(RTLD_DEFAULT, "JSObjectGetProperty");
 	}
 	
-	__orig_UIApplicationMain = dlsym(RTLD_DEFAULT, "UIApplicationMain");
+	Method m = class_getInstanceMethod(UIApplication.class, NSSelectorFromString(@"_run"));
+	__orig_UIApplication_run = (void*)method_getImplementation(m);
+	method_setImplementation(m, (void*)__dtxinst_UIApplication_run);
 	
 	rebind_symbols((struct rebinding[]){
 		{"JSObjectCallAsFunction",
@@ -370,11 +372,7 @@ static void __DTXInitializeRNSampler()
 			__dtx_JSObjectGetProperty,
 			NULL
 		},
-		{"UIApplicationMain",
-			__dtxinst_rn_UIApplicationMain,
-			NULL
-		},
-	}, 3);
+	}, 2);
 	
 	struct sigaction sa;
 	sigfillset(&sa.sa_mask);
