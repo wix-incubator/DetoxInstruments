@@ -250,6 +250,11 @@ os_log_t __log_general;
 	}
 }
 
+- (IBAction)exitTapped:(UIButton*)sender
+{
+	exit(0);
+}
+
 - (IBAction)startDemoTapped:(UIButton*)sender
 {
 	[sender setEnabled:NO];

@@ -268,8 +268,6 @@
 {
 	_progressIndicatorCounter += 1;
 	
-//	NSLog(@"💔 %@\n%@", @(_progressIndicatorCounter), NSThread.callStackSymbols);
-	
 	void (^display)(void) = ^{
 		if(_progressIndicatorCounter > 0)
 		{
@@ -277,8 +275,6 @@
 			{
 				return;
 			}
-			
-//			NSLog(@"🤦‍♂️ %@", @(_progressIndicatorCounter));
 			
 			[self presentViewControllerAsSheet:_modalProgressIndicatorController];
 			_modalProgressIndicatorController.view.window.styleMask &= ~NSWindowStyleMaskResizable;
@@ -298,8 +294,6 @@
 - (void)decreaseProgressIndicatorCounter
 {
 	_progressIndicatorCounter = MAX(_progressIndicatorCounter - 1, 0);
-	
-//	NSLog(@"❤️ %@", @(_progressIndicatorCounter));
 	
 	if(_progressIndicatorCounter == 0)
 	{

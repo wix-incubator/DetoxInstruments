@@ -409,55 +409,8 @@
 	DTXRemoteTarget* target = item;
 	
 	DTXRemoteTargetCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXRemoteTargetCellView" owner:nil];
-	cellView.progressIndicator.usesThreadedAnimation = YES;
-	[cellView updateFeatureSetWithTarget:target];
 	
-	switch(target.state)
-	{
-		case DTXRemoteTargetStateDiscovered:
-		case DTXRemoteTargetStateResolved:
-			cellView.title1Field.stringValue = @"";
-			cellView.title2Field.stringValue = target.state == DTXRemoteTargetStateDiscovered ? NSLocalizedString(@"Resolving...", @"") : NSLocalizedString(@"Loading...", @"");
-			cellView.title3Field.stringValue = @"";
-			cellView.deviceImageView.hidden = YES;
-			[cellView.progressIndicator startAnimation:nil];
-			cellView.progressIndicator.hidden = NO;
-			break;
-		case DTXRemoteTargetStateDeviceInfoLoaded:
-		{
-			cellView.title1Field.stringValue = target.appName;
-			cellView.title2Field.stringValue = target.deviceName;
-			cellView.title3Field.stringValue = [NSString stringWithFormat:@"iOS %@", [target.deviceOS stringByReplacingOccurrencesOfString:@"Version " withString:@""]];
-			cellView.deviceImageView.hidden = NO;
-			[cellView.progressIndicator stopAnimation:nil];
-			cellView.progressIndicator.hidden = YES;
-			cellView.deviceSnapshotImageView.image = target.deviceSnapshot;
-			
-			NSArray<NSString*>* xSuffix = @[@"10,3", @"10,6", @"11,6", @"11,2", @"11,8"];
-			__block BOOL hasNotch = false;
-			[xSuffix enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				hasNotch = hasNotch || [target.deviceInfo[@"machineName"] hasSuffix:obj];
-			}];
-			
-			NSArray<NSString*>* maxSuffix = @[@"11,6", @"11,8"];
-			__block BOOL isMax = false;
-			[maxSuffix enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				isMax = isMax || [target.deviceInfo[@"machineName"] hasSuffix:obj];
-			}];
-			
-			NSString* devicePrefix = [target.deviceInfo[@"machineName"] hasPrefix:@"iPhone"] ? @"device_iphone" : @"device_ipad";
-			NSString* deviceEnclosureColor = target.deviceInfo[@"deviceEnclosureColor"];
-			NSString* imageName = [NSString stringWithFormat:@"%@_%@", devicePrefix, isMax ? @"max" : hasNotch ? @"x" : @""];
-			NSString* imageNameWColor = [NSString stringWithFormat:@"%@_%@", imageName, deviceEnclosureColor];
-			
-			NSImage* image = [NSImage imageNamed:imageNameWColor] ?: [NSImage imageNamed:imageName] ?: [NSImage imageNamed:@"device_iphone_x_2"];;
-			
-			cellView.deviceImageView.image = image;
-			
-		}	break;
-		default:
-			break;
-	}
+	[cellView updateWithTarget:target];
 	
 	return cellView;
 }
@@ -510,6 +463,13 @@
 }
 
 - (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteTarget *)target
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self _updateTarget:target];
+	});
+}
+
+- (void)profilingTargetDidLoadScreenSnapshot:(DTXRemoteTarget*)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self _updateTarget:target];

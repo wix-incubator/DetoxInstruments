@@ -17,6 +17,7 @@
 @property (nonatomic, copy, readwrite) NSString* deviceOS;
 @property (nonatomic, copy, readwrite) NSImage* deviceSnapshot;
 @property (nonatomic, copy, readwrite) NSDictionary* deviceInfo;
+@property (nonatomic, strong, readwrite) NSImage* screenSnapshot;
 
 @property (nonatomic, copy, readonly) NSString* hostName;
 @property (nonatomic, assign, readonly) NSInteger port;

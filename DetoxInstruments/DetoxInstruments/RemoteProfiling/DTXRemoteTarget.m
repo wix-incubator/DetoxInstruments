@@ -18,6 +18,8 @@
 {
 	dispatch_source_t _pingTimer;
 	NSDate* _lastPingDate;
+	
+	NSTimer* _uiUpdateTimer;
 }
 
 @property (nonatomic, strong, readwrite) DTXSocketConnection* connection;
@@ -168,6 +170,9 @@
 			case DTXRemoteProfilingCommandTypeGetDeviceInfo:
 				[weakSelf _handleDeviceInfo:cmd];
 				break;
+			case DTXRemoteProfilingCommandTypeLoadScreenSnapshot:
+				[weakSelf _handleScreenSnapshot:cmd];
+				break;
 			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
 				[weakSelf _handleProfilerStoryEvent:cmd];
 				break;
@@ -207,6 +212,11 @@
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetDeviceInfo)} completionHandler:nil];
 }
 
+- (void)loadScreenSnapshot
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeLoadScreenSnapshot)} completionHandler:nil];
+}
+
 - (void)_handleDeviceInfo:(NSDictionary*)deviceInfo
 {
 	self.deviceName = deviceInfo[@"deviceName"];
@@ -220,6 +230,31 @@
 	if([self.delegate respondsToSelector:@selector(profilingTargetDidLoadDeviceInfo:)])
 	{
 		[self.delegate profilingTargetDidLoadDeviceInfo:self];
+	}
+	
+	if([self.delegate respondsToSelector:@selector(profilingTargetDidLoadScreenSnapshot:)])
+	{
+		[self loadScreenSnapshot];
+	}
+}
+
+- (void)_handleScreenSnapshot:(NSDictionary*)deviceSnapshot
+{
+	self.screenSnapshot = [[NSImage alloc] initWithData:deviceSnapshot[@"screenSnapshot"]];
+	
+	[_uiUpdateTimer invalidate];
+	_uiUpdateTimer = nil;
+	
+	if([self.delegate respondsToSelector:@selector(profilingTargetDidLoadScreenSnapshot:)])
+	{
+		[self.delegate profilingTargetDidLoadScreenSnapshot:self];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			__weak auto weakSelf = self;
+			_uiUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+				[weakSelf loadScreenSnapshot];
+			}];
+		});
 	}
 }
 
@@ -387,6 +422,15 @@
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
+	if(self.state >= DTXRemoteTargetStateRecording)
+	{
+		return;
+	}
+	
+	[_uiUpdateTimer invalidate];
+	_uiUpdateTimer = nil;
+	_state = DTXRemoteTargetStateRecording;
+	
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration), @"configuration": configuration.dictionaryRepresentation} completionHandler:nil];
 }
 
@@ -407,6 +451,13 @@
 
 - (void)stopProfiling
 {
+	if(_state != DTXRemoteTargetStateRecording)
+	{
+		return;
+	}
+	
+	_state = DTXRemoteTargetStateStopped;
+	
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStopProfiling)} completionHandler:nil];
 }
 

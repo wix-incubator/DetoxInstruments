@@ -157,6 +157,10 @@ static DTXRemoteProfilingManager* __sharedManager;
 			{
 				[self _sendDeviceInfo];
 			} 	break;
+			case DTXRemoteProfilingCommandTypeLoadScreenSnapshot:
+			{
+				[self _sendScreenSnapshot];
+			} 	break;
 			case DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration:
 			{
 				NSDictionary* configDict = cmd[@"configuration"];
@@ -267,6 +271,52 @@ static DTXRemoteProfilingManager* __sharedManager;
 	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetDeviceInfo);
 	
 	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)_sendScreenSnapshot
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+//		UIView* snapshotView = [UIScreen.mainScreen snapshotViewAfterScreenUpdates:NO];
+		
+		UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+		CGSize imageSize = UIScreen.mainScreen.fixedCoordinateSpace.bounds.size;
+		
+		UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.25);
+		CGContextRef context = UIGraphicsGetCurrentContext();
+		for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+			CGContextSaveGState(context);
+			CGContextTranslateCTM(context, window.center.x, window.center.y);
+			CGContextConcatCTM(context, window.transform);
+			CGContextTranslateCTM(context, -window.bounds.size.width * window.layer.anchorPoint.x, -window.bounds.size.height * window.layer.anchorPoint.y);
+			if (orientation == UIInterfaceOrientationLandscapeLeft) {
+				CGContextRotateCTM(context, M_PI_2);
+				CGContextTranslateCTM(context, 0, -imageSize.width);
+			} else if (orientation == UIInterfaceOrientationLandscapeRight) {
+				CGContextRotateCTM(context, -M_PI_2);
+				CGContextTranslateCTM(context, -imageSize.height, 0);
+			} else if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+				CGContextRotateCTM(context, M_PI);
+				CGContextTranslateCTM(context, -imageSize.width, -imageSize.height);
+			}
+			if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+				[window drawViewHierarchyInRect:window.bounds afterScreenUpdates:NO];
+			} else {
+				[window.layer renderInContext:context];
+			}
+			CGContextRestoreGState(context);
+		}
+
+		UIImage * snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		
+		NSData* png = UIImagePNGRepresentation(snapshotImage);
+		
+		NSMutableDictionary* cmd = [[DTXDeviceInfo deviceInfo] mutableCopy];
+		cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeLoadScreenSnapshot);
+		cmd[@"screenSnapshot"] = png;
+		
+		[self _writeCommand:cmd completionHandler:nil];
+	});
 }
 
 #pragma mark Container Contents

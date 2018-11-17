@@ -36,7 +36,9 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypeGetPasteboard,
 	DTXRemoteProfilingCommandTypeSetPasteboard,
 	
-	DTXRemoteProfilingCommandTypeCaptureViewHierarchy
+	DTXRemoteProfilingCommandTypeCaptureViewHierarchy,
+	
+	DTXRemoteProfilingCommandTypeLoadScreenSnapshot
 };
 
 typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {

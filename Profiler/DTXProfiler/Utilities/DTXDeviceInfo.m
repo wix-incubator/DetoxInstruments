@@ -78,6 +78,7 @@ static NSString* __version =
 	deviceDetails[@"devicePhysicalMemory"] = @(processInfo.physicalMemory);
 	deviceDetails[@"deviceProcessorCount"] = @(processInfo.activeProcessorCount);
 	deviceDetails[@"deviceType"] = currentDevice.model;
+	deviceDetails[@"deviceResolution"] = NSStringFromCGSize(UIScreen.mainScreen.currentMode.size);
 	deviceDetails[@"processIdentifier"] = @(processInfo.processIdentifier);
 	deviceDetails[@"hasReactNative"] = @([DTXReactNativeSampler reactNativeInstalled]);
 	deviceDetails[@"profilerVersion"] = __version;

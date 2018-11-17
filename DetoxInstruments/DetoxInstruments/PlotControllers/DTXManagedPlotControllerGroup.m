@@ -291,15 +291,11 @@
 - (void)setPlotControllerVisible:(id<DTXPlotController>)plotController
 {
 	[self _setPlotController:plotController visible:YES];
-	
-//	NSLog(@"Visible: %@", plotController.class);
 }
 
 - (void)setPlotControllerHidden:(id<DTXPlotController>)plotController
 {
 	[self _setPlotController:plotController visible:NO];
-	
-//	NSLog(@"Hidden: %@", plotController.class);
 }
 
 - (BOOL)isPlotControllerVisible:(id<DTXPlotController>)plotController

@@ -16,9 +16,10 @@
 @property (nonatomic, strong, readonly) NSTextField* title3Field;
 
 @property (nonatomic, strong, readonly) NSImageView* deviceImageView;
+@property (nonatomic, strong, readonly) NSImageView* deviceScreenSnapshotImageView;
 @property (nonatomic, strong, readonly) NSImageView* deviceSnapshotImageView;
 @property (nonatomic, strong, readonly) NSProgressIndicator* progressIndicator;
 
-- (void)updateFeatureSetWithTarget:(DTXRemoteTarget*)target;
+- (void)updateWithTarget:(DTXRemoteTarget*)target;
 
 @end

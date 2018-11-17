@@ -30,6 +30,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 - (void)connectionDidCloseForProfilingTarget:(DTXRemoteTarget*)target;
 
 - (void)profilingTargetDidLoadDeviceInfo:(DTXRemoteTarget*)target;
+- (void)profilingTargetDidLoadScreenSnapshot:(DTXRemoteTarget*)target;
 
 - (void)profilingTargetdidLoadContainerContents:(DTXRemoteTarget*)target;
 - (void)profilingTarget:(DTXRemoteTarget*)target didDownloadContainerContents:(NSData*)containerContents wasZipped:(BOOL)wasZipped;
@@ -50,6 +51,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 @property (nonatomic, copy, readonly) NSString* deviceOS;
 @property (nonatomic, copy, readonly) NSImage* deviceSnapshot;
 @property (nonatomic, copy, readonly) NSDictionary* deviceInfo;
+@property (nonatomic, strong, readonly) NSImage* screenSnapshot;
 
 @property (nonatomic, readonly, getter=isCompatibleWithInstruments) BOOL compatibleWithInstruments;
 
@@ -60,6 +62,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 @property (nonatomic, weak) id<DTXRemoteTargetDelegate> delegate;
 
 - (void)loadDeviceInfo;
+- (void)loadScreenSnapshot;
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
 - (void)addTagWithName:(NSString*)name;
 - (void)pushSampleGroupWithName:(NSString*)name;

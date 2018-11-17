@@ -7,6 +7,7 @@
 //
 
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
+#import "DevicePreviewImagesDocumentationGeneration.h"
 
 @interface __FAKE_DTXRemoteTarget : NSObject
 
@@ -14,7 +15,7 @@
 @property (nonatomic, copy) NSString* appName;
 @property (nonatomic, copy) NSString* deviceName;
 @property (nonatomic, copy) NSString* deviceOS;
-@property (nonatomic, copy) NSImage* deviceSnapshot;
+@property (nonatomic, copy) NSImage* screenSnapshot;
 @property (nonatomic, copy) NSDictionary* deviceInfo;
 
 @property (nonatomic, strong) DTXFileSystemItem* containerContents;
@@ -88,7 +89,8 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	fakeTarget.appName = @"Example App";
 	fakeTarget.deviceName = @"iPhone XS Max";
 	fakeTarget.deviceOS = @"Version 12.1 (Build 16A405)";
-	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.4"};
+	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.4", @"machineName": @"iPhone11,6"};
+	fakeTarget.screenSnapshot = __DTXiPhoneXSMaxScreenshot();
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	
 	fakeTarget.delegate = (id)self;
@@ -100,7 +102,8 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	fakeTarget.appName = @"Another App";
 	fakeTarget.deviceName = @"iPad Pro";
 	fakeTarget.deviceOS = @"Version 12.1 (Build 16A405)";
-	fakeTarget.deviceInfo = @{@"profilerVersion": @"200.0", @"machineName": @"ipad5.3", @"deviceEnclosureColor": @2};
+	fakeTarget.deviceInfo = @{@"profilerVersion": @"200.0", @"machineName": @"iPad5.3", @"deviceEnclosureColor": @2};
+	fakeTarget.screenSnapshot = __DTXiPadScreenshot();
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	
 	fakeTarget.delegate = (id)self;

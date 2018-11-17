@@ -44,6 +44,10 @@
                                                             <rect key="frame" x="1" y="1" width="496" height="90"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8lz-Am-CZo">
+                                                                    <rect key="frame" x="3" y="10" width="70" height="70"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" id="jb8-3u-yuv"/>
+                                                                </imageView>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d5C-40-8qS">
                                                                     <rect key="frame" x="3" y="10" width="70" height="70"/>
                                                                     <constraints>
@@ -131,6 +135,7 @@
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="gXk-g3-2wI" firstAttribute="top" secondItem="xEi-6o-1U5" secondAttribute="bottom" constant="4" id="2mz-e0-tHh"/>
+                                                                <constraint firstItem="8lz-Am-CZo" firstAttribute="height" secondItem="d5C-40-8qS" secondAttribute="height" id="4J7-Nu-M5D"/>
                                                                 <constraint firstAttribute="trailing" secondItem="Sh6-Zd-8Lr" secondAttribute="trailing" constant="8" id="8uE-dJ-u2E"/>
                                                                 <constraint firstItem="7Jo-60-0Qv" firstAttribute="centerX" secondItem="d5C-40-8qS" secondAttribute="centerX" id="B4Z-pa-D6m"/>
                                                                 <constraint firstItem="d5C-40-8qS" firstAttribute="top" secondItem="wpN-IR-eTh" secondAttribute="top" constant="10" id="BFi-5d-qYW"/>
@@ -138,12 +143,15 @@
                                                                 <constraint firstItem="xEi-6o-1U5" firstAttribute="top" secondItem="h8g-4z-MlV" secondAttribute="bottom" id="LDU-tp-0M1"/>
                                                                 <constraint firstItem="xEi-6o-1U5" firstAttribute="centerY" secondItem="d5C-40-8qS" secondAttribute="centerY" id="Nhh-zz-M08"/>
                                                                 <constraint firstItem="xEi-6o-1U5" firstAttribute="leading" secondItem="d5C-40-8qS" secondAttribute="trailing" constant="8" id="Pzt-hJ-6Du"/>
+                                                                <constraint firstItem="8lz-Am-CZo" firstAttribute="centerY" secondItem="d5C-40-8qS" secondAttribute="centerY" id="Qbv-Ji-RvO"/>
                                                                 <constraint firstItem="Sh6-Zd-8Lr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gXk-g3-2wI" secondAttribute="trailing" constant="8" id="SDz-dg-gMM"/>
                                                                 <constraint firstItem="gXk-g3-2wI" firstAttribute="leading" secondItem="xEi-6o-1U5" secondAttribute="leading" id="Xr4-52-w1o"/>
                                                                 <constraint firstItem="Sh6-Zd-8Lr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xEi-6o-1U5" secondAttribute="trailing" constant="8" id="atF-Vd-QY3"/>
                                                                 <constraint firstItem="Sh6-Zd-8Lr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="h8g-4z-MlV" secondAttribute="trailing" constant="8" id="bLA-EG-IT4"/>
                                                                 <constraint firstItem="7Jo-60-0Qv" firstAttribute="centerY" secondItem="d5C-40-8qS" secondAttribute="centerY" id="ebo-WF-tJj"/>
                                                                 <constraint firstItem="Sh6-Zd-8Lr" firstAttribute="centerY" secondItem="wpN-IR-eTh" secondAttribute="centerY" id="k7C-8G-WID"/>
+                                                                <constraint firstItem="8lz-Am-CZo" firstAttribute="centerX" secondItem="d5C-40-8qS" secondAttribute="centerX" id="mQd-W0-3Y4"/>
+                                                                <constraint firstItem="8lz-Am-CZo" firstAttribute="width" secondItem="d5C-40-8qS" secondAttribute="width" id="mZi-C2-eCs"/>
                                                                 <constraint firstAttribute="bottom" secondItem="d5C-40-8qS" secondAttribute="bottom" constant="10" id="vk1-gB-Wlu"/>
                                                                 <constraint firstItem="h8g-4z-MlV" firstAttribute="leading" secondItem="xEi-6o-1U5" secondAttribute="leading" id="yAG-eU-i2R"/>
                                                             </constraints>
@@ -153,7 +161,10 @@
                                                                 <outlet property="_viewHierarchy" destination="umq-X8-qyG" id="Rwt-Al-P73"/>
                                                                 <outlet property="_warningButton" destination="4eT-Np-oD5" id="VGJ-PB-Kzr"/>
                                                                 <outlet property="deviceImageView" destination="d5C-40-8qS" id="hSK-HD-n4E"/>
+                                                                <outlet property="deviceScreenSnapshotImageView" destination="8lz-Am-CZo" id="sA9-Pv-VQc"/>
                                                                 <outlet property="progressIndicator" destination="7Jo-60-0Qv" id="3wy-xE-3sM"/>
+                                                                <outlet property="screenSnapshotHorizontalConstraint" destination="mZi-C2-eCs" id="hr8-H4-ACT"/>
+                                                                <outlet property="screenSnapshotVerticalConstraint" destination="4J7-Nu-M5D" id="EMn-7o-yMT"/>
                                                                 <outlet property="title1Field" destination="h8g-4z-MlV" id="pHv-Ss-OEp"/>
                                                                 <outlet property="title2Field" destination="xEi-6o-1U5" id="4Vg-f0-WEe"/>
                                                                 <outlet property="title3Field" destination="gXk-g3-2wI" id="irE-se-gFc"/>
@@ -722,7 +733,6 @@ Currently, only one active React Native bridge is supported.</string>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeTimersAsEvents" id="fbh-EE-OL0"/>
                                                             <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="G0V-d7-eZd">
                                                                 <dictionary key="options">
                                                                     <integer key="NSNullPlaceholder" value="1"/>
@@ -737,6 +747,7 @@ Currently, only one active React Native bridge is supported.</string>
                                                                     <integer key="NSNullPlaceholder" value="0"/>
                                                                 </dictionary>
                                                             </binding>
+                                                            <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeTimersAsEvents" id="fbh-EE-OL0"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>

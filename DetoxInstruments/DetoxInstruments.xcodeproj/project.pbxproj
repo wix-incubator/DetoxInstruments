@@ -90,6 +90,9 @@
 		396CC3DF20AAE80300756459 /* DTXAutogrowingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 396CC3DE20AAE80300756459 /* DTXAutogrowingButton.m */; };
 		396CCDAE210DC8F200152C34 /* DTXRNStackTraceParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 396CCDAD210DC8F200152C34 /* DTXRNStackTraceParser.m */; };
 		396E7DB520ED331F00F6F4DD /* DTXEventInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 396E7DB420ED331F00F6F4DD /* DTXEventInspectorDataProvider.m */; };
+		39725F7D21A086B5001D6BFD /* DTXDeviceSnapshotManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39725F7C21A086B5001D6BFD /* DTXDeviceSnapshotManager.m */; };
+		39725F8E21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39725F8D21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist */; };
+		39725F9021A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39725F8F21A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets */; };
 		3972E67920694E6800F099DE /* Acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 3972E67820694E6800F099DE /* Acknowledgements.html */; };
 		3972E67C2069544900F099DE /* DTXAcknowledgementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */; };
 		39775F241EE826F2001F69CC /* DTXValueIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */; };
@@ -528,6 +531,11 @@
 		396E7DB220ECCFCB00F6F4DD /* DTXSignpostProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostProtocol.h; sourceTree = "<group>"; };
 		396E7DB320ED331F00F6F4DD /* DTXEventInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventInspectorDataProvider.h; sourceTree = "<group>"; };
 		396E7DB420ED331F00F6F4DD /* DTXEventInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXEventInspectorDataProvider.m; sourceTree = "<group>"; };
+		39725F7B21A086B5001D6BFD /* DTXDeviceSnapshotManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDeviceSnapshotManager.h; sourceTree = "<group>"; };
+		39725F7C21A086B5001D6BFD /* DTXDeviceSnapshotManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDeviceSnapshotManager.m; sourceTree = "<group>"; };
+		39725F8D21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DTXDeviceSnapshotDevices.plist; sourceTree = "<group>"; };
+		39725F8F21A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = DTXDeviceSnapshotDevices.xcassets; sourceTree = "<group>"; };
+		39725FA721A0CDEA001D6BFD /* DevicePreviewImagesDocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DevicePreviewImagesDocumentationGeneration.h; sourceTree = "<group>"; };
 		3972E67820694E6800F099DE /* Acknowledgements.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = Acknowledgements.html; sourceTree = "<group>"; };
 		3972E67A2069544900F099DE /* DTXAcknowledgementsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAcknowledgementsViewController.h; sourceTree = "<group>"; };
 		3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAcknowledgementsViewController.m; sourceTree = "<group>"; };
@@ -875,6 +883,7 @@
 				3947159120A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m */,
 				396CC43920AB07E300756459 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.h */,
 				396CC43A20AB07E300756459 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.m */,
+				39725FA721A0CDEA001D6BFD /* DevicePreviewImagesDocumentationGeneration.h */,
 			);
 			path = DocumentationGeneration;
 			sourceTree = "<group>";
@@ -1166,6 +1175,17 @@
 			name = Sparkle;
 			sourceTree = "<group>";
 		};
+		39725F8C21A089EE001D6BFD /* DeviceSnapshotManagement */ = {
+			isa = PBXGroup;
+			children = (
+				39725F7B21A086B5001D6BFD /* DTXDeviceSnapshotManager.h */,
+				39725F7C21A086B5001D6BFD /* DTXDeviceSnapshotManager.m */,
+				39725F8D21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist */,
+				39725F8F21A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets */,
+			);
+			path = DeviceSnapshotManagement;
+			sourceTree = "<group>";
+		};
 		397A01741FA6348200ABCB87 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1343,6 +1363,7 @@
 				394B42AC1F34F2CE0093986E /* InternalViewControllers */,
 				39B706A11F20AFB500B1060D /* DTXRecordingTargetPickerViewController.h */,
 				39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */,
+				39725F8C21A089EE001D6BFD /* DeviceSnapshotManagement */,
 				398183DB20B2FE75009B8FEA /* ViewHierarchy */,
 			);
 			path = RemoteProfiling;
@@ -1709,12 +1730,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3980C0DF2086C75000789E3B /* DetoxInstruments.help in Resources */,
+				39725F9021A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets in Resources */,
 				39538D73209B40F3003AF7D3 /* About.storyboard in Resources */,
 				39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */,
 				3967739320B594B200851154 /* Main.storyboard in Resources */,
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
 				3972E67920694E6800F099DE /* Acknowledgements.html in Resources */,
 				390688C12117781900D15C86 /* DTXDebugMenuGenerator.xib in Resources */,
+				39725F8E21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist in Resources */,
 				399B4DCD1ED574E70098D2AC /* Profiler.storyboard in Resources */,
 				39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */,
 			);
@@ -1804,6 +1827,7 @@
 				398EC454207BCA1100C55809 /* DTXZipper.m in Sources */,
 				39EA56C420DFEA1800600BA7 /* DTXSignpostDataProvider.m in Sources */,
 				3902F3571EF503DD000CB397 /* DTXInspectorDataProvider.m in Sources */,
+				39725F7D21A086B5001D6BFD /* DTXDeviceSnapshotManager.m in Sources */,
 				39B706A31F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m in Sources */,
 				39EBDFC61ED36D45005D8AB1 /* DTXRecordingDocument.m in Sources */,
 				3988D2C31EEED5AF0090088E /* DTXMemoryDataProvider.m in Sources */,
