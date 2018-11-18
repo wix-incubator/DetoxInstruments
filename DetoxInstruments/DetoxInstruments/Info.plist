@@ -68,6 +68,8 @@
 	<string>DTXInstrumentsApplication</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
+	<key>NSSupportsAutomaticTermination</key>
+	<true/>
 	<key>SUBundleName</key>
 	<string>Detox Instruments</string>
 	<key>SUEnableAutomaticChecks</key>
