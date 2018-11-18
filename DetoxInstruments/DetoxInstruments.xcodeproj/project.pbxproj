@@ -26,6 +26,8 @@
 		3905F4C11EF83FF0003E08C1 /* DTXLineLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905F4C01EF83FF0003E08C1 /* DTXLineLayer.m */; };
 		390688C12117781900D15C86 /* DTXDebugMenuGenerator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */; };
 		390688DB21177D5000D15C86 /* DTXDebugMenuGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */; };
+		3908CC7921A164850063B9EA /* DTXClickableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908CC7821A164850063B9EA /* DTXClickableImageView.m */; };
+		3908CC7C21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908CC7B21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.m */; };
 		390BEDD821874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BEDD721874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m */; };
 		390BEE0021875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BEDFF21875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.m */; };
 		3916501A213292D50016A468 /* DTXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39165019213292D50016A468 /* DTXDocument.m */; };
@@ -413,6 +415,10 @@
 		390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DTXDebugMenuGenerator.xib; sourceTree = "<group>"; };
 		390688D921177D5000D15C86 /* DTXDebugMenuGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDebugMenuGenerator.h; sourceTree = "<group>"; };
 		390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDebugMenuGenerator.m; sourceTree = "<group>"; };
+		3908CC7721A164850063B9EA /* DTXClickableImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXClickableImageView.h; sourceTree = "<group>"; };
+		3908CC7821A164850063B9EA /* DTXClickableImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXClickableImageView.m; sourceTree = "<group>"; };
+		3908CC7A21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingSelectionOutlineView.h; sourceTree = "<group>"; };
+		3908CC7B21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRemoteProfilingSelectionOutlineView.m; sourceTree = "<group>"; };
 		390BEDD621874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeDataDataDataProvider.h; sourceTree = "<group>"; };
 		390BEDD721874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeDataDataDataProvider.m; sourceTree = "<group>"; };
 		390BEDFE21875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeDataDataInspectorDataProvider.h; sourceTree = "<group>"; };
@@ -1163,6 +1169,10 @@
 				393E76B0212995CE00E5623F /* DTXTouchBarGraphHostingView.m */,
 				39DB918B215A7BCE00C27309 /* DTXClassSelectionButton.h */,
 				39DB918C215A7BCE00C27309 /* DTXClassSelectionButton.m */,
+				3908CC7721A164850063B9EA /* DTXClickableImageView.h */,
+				3908CC7821A164850063B9EA /* DTXClickableImageView.m */,
+				3908CC7A21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.h */,
+				3908CC7B21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1911,6 +1921,7 @@
 				399E0EE61F0EC8000047CF92 /* DTXFPSInspectorDataProvider.m in Sources */,
 				3947158F20A32EDF00A7068A /* NSWindow+Snapshotting.m in Sources */,
 				396755DA20844CC00023D562 /* DTXTwoLabelsCellView.m in Sources */,
+				3908CC7C21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.m in Sources */,
 				396CC3DF20AAE80300756459 /* DTXAutogrowingButton.m in Sources */,
 				39C51E0C208ED729007AA717 /* DTXThreadInfo+UIExtensions.m in Sources */,
 				39C63AFB212396D700946581 /* DTXKeyDownIgnoringTableView.m in Sources */,
@@ -1941,6 +1952,7 @@
 				3997A8BA1EE980700057418B /* DTXDetailDataProvider.m in Sources */,
 				393F41C21F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m in Sources */,
 				39BEE1E1207A47B3003AF93E /* zip.c in Sources */,
+				3908CC7921A164850063B9EA /* DTXClickableImageView.m in Sources */,
 				3905F4A91EF7F679003E08C1 /* DTXPlotTypeCellView.m in Sources */,
 				3916501A213292D50016A468 /* DTXDocument.m in Sources */,
 				399E0EE91F0EC8960047CF92 /* DTXDiskInspectorDataProvider.m in Sources */,

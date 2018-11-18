@@ -20,7 +20,7 @@
                                     <rect key="frame" x="1" y="1" width="498" height="354"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="90" viewBased="YES" outlineTableColumn="c7g-oF-BMF" id="65u-RA-Spb">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="90" viewBased="YES" outlineTableColumn="c7g-oF-BMF" id="65u-RA-Spb" customClass="DTXRemoteProfilingSelectionOutlineView">
                                             <rect key="frame" x="0.0" y="0.0" width="498" height="354"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
@@ -44,11 +44,14 @@
                                                             <rect key="frame" x="1" y="1" width="496" height="90"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8lz-Am-CZo">
+                                                                <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" minValue="1" maxValue="100" doubleValue="1" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7Jo-60-0Qv">
+                                                                    <rect key="frame" x="22" y="29" width="32" height="32"/>
+                                                                </progressIndicator>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8lz-Am-CZo" customClass="DTXClickableImageView">
                                                                     <rect key="frame" x="3" y="10" width="70" height="70"/>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" id="jb8-3u-yuv"/>
                                                                 </imageView>
-                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d5C-40-8qS">
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d5C-40-8qS" customClass="DTXClickableImageView">
                                                                     <rect key="frame" x="3" y="10" width="70" height="70"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="70" id="3Pu-br-MPY"/>
@@ -56,9 +59,6 @@
                                                                     </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="cDm-Qd-AaT"/>
                                                                 </imageView>
-                                                                <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" minValue="1" maxValue="100" doubleValue="1" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7Jo-60-0Qv">
-                                                                    <rect key="frame" x="22" y="29" width="32" height="32"/>
-                                                                </progressIndicator>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h8g-4z-MlV">
                                                                     <rect key="frame" x="79" y="54" width="109" height="19"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="StressTestApp" usesSingleLineMode="YES" id="9P6-mc-nee">

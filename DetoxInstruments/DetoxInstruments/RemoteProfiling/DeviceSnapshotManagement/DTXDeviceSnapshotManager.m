@@ -10,6 +10,7 @@
 #import "NSImage+UIAdditions.h"
 @import AVFoundation;
 @import CommonCrypto.CommonDigest;
+@import QuickLook;
 
 static NSDictionary* _deviceMapping;
 
@@ -20,6 +21,8 @@ static NSDictionary* _deviceMapping;
 	NSImageView* _deviceImageView;
 	NSImageView* _snapshotImageView;
 	NSSize _currentDeviceScreenResolution;
+	
+	NSClickGestureRecognizer* _clickGestureRecognizer;
 }
 
 static NSData* __DTXSHADataOfString(NSString* string)
@@ -49,9 +52,32 @@ static NSData* __DTXSHADataOfString(NSString* string)
 		_snapshotImageView = snapshotImageView;
 		
 		_snapshotImageView.hidden = YES;
+		
+		_clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_clicked)];
+		[_deviceImageView addGestureRecognizer:_clickGestureRecognizer];
 	}
 	
 	return self;
+}
+
+- (void)_clicked
+{
+	NSImage* snapshotImage = [_snapshotImageView.image copy];
+	snapshotImage.size = _currentDeviceScreenResolution;
+	
+	NSBitmapImageRep* bmp = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL pixelsWide:_currentDeviceScreenResolution.width pixelsHigh:_currentDeviceScreenResolution.height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSDeviceRGBColorSpace bytesPerRow:_currentDeviceScreenResolution.width * 8 bitsPerPixel:32];
+	NSGraphicsContext* ctx = [NSGraphicsContext graphicsContextWithBitmapImageRep:bmp];
+	[NSGraphicsContext saveGraphicsState];
+	[NSGraphicsContext setCurrentContext:ctx];
+	[snapshotImage drawInRect:(NSRect){0, 0, _currentDeviceScreenResolution}];
+	[ctx flushGraphics];
+	[NSGraphicsContext restoreGraphicsState];
+	
+	NSURL *temporaryURL = [[NSFileManager.defaultManager URLForDirectory:NSItemReplacementDirectory inDomain:NSUserDomainMask appropriateForURL:[NSURL fileURLWithPath:@"/"] create:YES error:NULL] URLByAppendingPathComponent:@"Screenshot.png"];
+	
+	[[bmp representationUsingType:NSBitmapImageFileTypePNG properties:@{}] writeToURL:temporaryURL atomically:YES];
+	
+	[NSWorkspace.sharedWorkspace openURL:temporaryURL];
 }
 
 - (void)clearDevice

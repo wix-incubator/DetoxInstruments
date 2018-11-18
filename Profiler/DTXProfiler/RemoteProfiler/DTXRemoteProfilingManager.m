@@ -20,6 +20,12 @@
 #import "DTXUIPasteboardParser.h"
 #import "DTXViewHierarchySnapshotter.h"
 
+@interface UIWindow ()
+
++ (id)allWindowsIncludingInternalWindows:(_Bool)arg1 onlyVisibleWindows:(_Bool)arg2 forScreen:(id)arg3;
+
+@end
+
 DTX_CREATE_LOG(RemoteProfilingManager);
 
 static DTXRemoteProfilingManager* __sharedManager;
@@ -281,28 +287,30 @@ static DTXRemoteProfilingManager* __sharedManager;
 		UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
 		CGSize imageSize = UIScreen.mainScreen.fixedCoordinateSpace.bounds.size;
 		
-		UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.25);
+		UIGraphicsBeginImageContextWithOptions(imageSize, NO, UIScreen.mainScreen.scale);
 		CGContextRef context = UIGraphicsGetCurrentContext();
-		for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+		
+		NSArray* windows = [UIWindow allWindowsIncludingInternalWindows:YES onlyVisibleWindows:YES forScreen:UIScreen.mainScreen];
+		for (UIWindow *window in windows)
+		{
 			CGContextSaveGState(context);
 			CGContextTranslateCTM(context, window.center.x, window.center.y);
 			CGContextConcatCTM(context, window.transform);
 			CGContextTranslateCTM(context, -window.bounds.size.width * window.layer.anchorPoint.x, -window.bounds.size.height * window.layer.anchorPoint.y);
-			if (orientation == UIInterfaceOrientationLandscapeLeft) {
+			if (orientation == UIInterfaceOrientationLandscapeLeft)
+			{
 				CGContextRotateCTM(context, M_PI_2);
 				CGContextTranslateCTM(context, 0, -imageSize.width);
-			} else if (orientation == UIInterfaceOrientationLandscapeRight) {
+			} else if (orientation == UIInterfaceOrientationLandscapeRight)
+			{
 				CGContextRotateCTM(context, -M_PI_2);
 				CGContextTranslateCTM(context, -imageSize.height, 0);
-			} else if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+			} else if (orientation == UIInterfaceOrientationPortraitUpsideDown)
+			{
 				CGContextRotateCTM(context, M_PI);
 				CGContextTranslateCTM(context, -imageSize.width, -imageSize.height);
 			}
-			if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-				[window drawViewHierarchyInRect:window.bounds afterScreenUpdates:NO];
-			} else {
-				[window.layer renderInContext:context];
-			}
+			[window drawViewHierarchyInRect:window.bounds afterScreenUpdates:NO];
 			CGContextRestoreGState(context);
 		}
 
