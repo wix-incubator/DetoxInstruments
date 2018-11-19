@@ -20,7 +20,7 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 
 @interface NSURLSessionTask ()
 
-- (void)_onqueue_resume;
+- (void)resume;
 - (void)connection:(id)arg1 didReceiveResponse:(id)arg2 completion:(id)arg3;
 - (void)connection:(id)arg1 didFinishLoadingWithError:(id)arg2;
 - (void)connection:(id)arg1 didReceiveData:(id)arg2 completion:(id)arg3;
@@ -34,8 +34,8 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		Method m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(_onqueue_resume));
-		Method m2 = class_getInstanceMethod(self.class, @selector(__dtx__onqueue_resume));
+		Method m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(resume));
+		Method m2 = class_getInstanceMethod(self.class, @selector(__dtx_resume));
 		method_exchangeImplementations(m1, m2);
 		
 		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(connection:didReceiveResponse:completion:));
@@ -71,7 +71,7 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	return [self initWithOriginalRequest__dtx:arg1_ updatedRequest:arg2_ ident:arg3 session:arg4];
 }
 
-- (void)__dtx__onqueue_resume
+- (void)__dtx_resume
 {
 	NSString* unique = [NSProcessInfo processInfo].globallyUniqueString;
 	
@@ -80,7 +80,7 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	__DTXProfilerMarkNetworkRequestBegin(self.currentRequest, unique, NSDate.date);
 	[self dtx_attachObject:@YES forKey:__DTXConnectionDidStart];
 	
-	[self __dtx__onqueue_resume];
+	[self __dtx_resume];
 }
 
 - (void)__dtx_connection:(id)arg1 didFinishLoadingWithError:(id)arg2;
