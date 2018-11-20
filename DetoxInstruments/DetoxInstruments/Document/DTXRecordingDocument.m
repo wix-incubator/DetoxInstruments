@@ -22,6 +22,17 @@ NSString* const DTXRecordingDocumentStateDidChangeNotification = @"DTXRecordingD
 
 static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
+static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
+{
+	NSTimeInterval timeLimit = [NSUserDefaults.standardUserDefaults integerForKey:@"DTXSelectedProfilingConfiguration_timeLimit"];
+	
+	auto mapping = @{@0: @1, @1: @60, @2: @3600};
+	NSNumber* type = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_timeLimitType"];
+	timeLimit *= [mapping[type] doubleValue];
+	
+	return timeLimit;
+}
+
 @interface DTXRecordingDocument ()
 #ifndef CLI
 <DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate, DTXRemoteTargetDelegate>
@@ -32,6 +43,7 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 #ifndef CLI
 	__weak DTXRecordingTargetPickerViewController* _recordingTargetPicker;
 	DTXRemoteProfilingClient* _remoteProfilingClient;
+	dispatch_block_t _pendingCancelBlock;
 #endif
 }
 
@@ -470,9 +482,20 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
 - (void)stopLiveRecording
 {
+	dispatch_block_cancel(_pendingCancelBlock);
+	_pendingCancelBlock = nil;
+	
 	[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
 	
 	[_remoteProfilingClient.target stopProfiling];
+}
+
+- (void)_workspaceWillSleepNotification
+{
+	if(self.documentState == DTXRecordingDocumentStateLiveRecording)
+	{
+		[self stopLiveRecording];
+	}
 }
 
 #pragma mark DTXRemoteTargetDelegate
@@ -488,6 +511,22 @@ static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 - (void)remoteProfilingClient:(DTXRemoteProfilingClient *)client didCreateRecording:(DTXRecording *)recording
 {
 	NSManagedObjectID* recordingID = recording.objectID;
+	__weak auto weakSelf = self;
+	[NSWorkspace.sharedWorkspace.notificationCenter addObserver:self selector:@selector(_workspaceWillSleepNotification) name:NSWorkspaceWillSleepNotification object:nil];
+	_pendingCancelBlock = dispatch_block_create_with_qos_class(DISPATCH_BLOCK_ENFORCE_QOS_CLASS, QOS_CLASS_USER_INTERACTIVE, 0, ^{
+		__strong auto strongSelf = weakSelf;
+		if(strongSelf == nil)
+		{
+			return;
+		}
+		
+		if(strongSelf.documentState == DTXRecordingDocumentStateLiveRecording)
+		{
+			[strongSelf stopLiveRecording];
+		}
+	});
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_DTXCurrentRecordingTimeLimit() * NSEC_PER_SEC)), dispatch_get_main_queue(), _pendingCancelBlock);
 	
 	[_container.viewContext performBlock:^{
 		DTXRecording* recording = [_container.viewContext existingObjectWithID:recordingID error:NULL];

@@ -389,13 +389,13 @@
                                     <action selector="helpAppManagement:" target="F43-ke-g4I" id="5EH-nG-px1"/>
                                 </connections>
                             </button>
-                            <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="69" horizontalPageScroll="10" verticalLineScroll="69" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMj-Ow-mmD">
+                            <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="68" horizontalPageScroll="10" verticalLineScroll="68" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMj-Ow-mmD">
                                 <rect key="frame" x="10" y="61" width="530" height="519"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="JtJ-6r-iLn">
                                     <rect key="frame" x="0.0" y="0.0" width="530" height="519"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="67" rowSizeStyle="automatic" viewBased="YES" id="2Av-h6-jkF" customClass="DTXInspectorTableView">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="66" rowSizeStyle="automatic" viewBased="YES" id="2Av-h6-jkF" customClass="DTXInspectorTableView">
                                             <rect key="frame" x="0.0" y="0.0" width="530" height="519"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -415,8 +415,8 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="DTXGroupTextViewCellView" misplaced="YES" id="4As-xn-eTX">
-                                                            <rect key="frame" x="1" y="1" width="527" height="26"/>
+                                                        <tableCellView identifier="DTXGroupTextViewCellView" id="4As-xn-eTX">
+                                                            <rect key="frame" x="1" y="1" width="527" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1Yw-xa-M99">
@@ -438,8 +438,8 @@
                                                                 <outlet property="textField" destination="1Yw-xa-M99" id="cVG-Pg-JmY"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DTXTextViewCellView" wantsLayer="YES" misplaced="YES" id="qUX-v7-zU7" customClass="DTXTextViewCellView">
-                                                            <rect key="frame" x="1" y="29" width="527" height="67"/>
+                                                        <tableCellView identifier="DTXTextViewCellView" wantsLayer="YES" id="qUX-v7-zU7" customClass="DTXTextViewCellView">
+                                                            <rect key="frame" x="1" y="28" width="527" height="66"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <box boxType="custom" borderType="none" borderWidth="0.0" cornerRadius="8" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="KOq-fL-sB2" customClass="DTXBox">
@@ -603,7 +603,7 @@
     </scenes>
     <resources>
         <image name="NSColorPickerUser" width="24" height="24"/>
-        <image name="NSFolder" width="128" height="128"/>
+        <image name="NSFolder" width="32" height="32"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
     </resources>
 </document>

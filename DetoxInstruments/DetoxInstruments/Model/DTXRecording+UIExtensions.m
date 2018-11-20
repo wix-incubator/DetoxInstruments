@@ -50,6 +50,16 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 		
 		obj = [[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
 		
+		if(obj == nil)
+		{
+			obj = self.endTimestamp;
+		}
+		
+		if(obj == nil)
+		{
+			obj = self.startTimestamp;
+		}
+		
 		objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN);
 	}
 	

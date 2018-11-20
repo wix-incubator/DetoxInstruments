@@ -35,7 +35,7 @@
 
 - (void)updateLayer
 {
-	_lineLayer.backgroundColor = NSColor.gridColor.CGColor; //self.effectiveAppearance.isDarkAppearance ? NSColor.blackColor.CGColor : NSColor.quaternaryLabelColor.CGColor;
+	_lineLayer.backgroundColor = self.effectiveAppearance.isDarkAppearance ? NSColor.blackColor.CGColor : NSColor.quaternaryLabelColor.CGColor;
 }
 
 @end

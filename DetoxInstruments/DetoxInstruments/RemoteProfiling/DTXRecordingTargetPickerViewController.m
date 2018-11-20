@@ -129,6 +129,16 @@
 
 - (IBAction)cancel:(id)sender
 {
+	if([_activeController conformsToProtocol:@protocol(NSUserInterfaceValidations)])
+	{
+		BOOL shouldGoBack = [(id<NSUserInterfaceValidations>)_activeController validateUserInterfaceItem:sender];
+		if(shouldGoBack == NO)
+		{
+			NSBeep();
+			return;
+		}
+	}
+	
 	if(_activeController != _outlineController)
 	{
 		[self _transitionToController:_outlineController];

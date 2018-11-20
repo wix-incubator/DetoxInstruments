@@ -37,9 +37,59 @@
 
 @end
 
+@interface _DTXProfilingConfigurationViewController () <NSControlTextEditingDelegate, NSUserInterfaceValidations>
+
+@end
+
 @implementation _DTXProfilingConfigurationViewController
 {
 	IBOutlet NSButton* _helpButton;
+	IBOutlet NSTextField* _;
+	
+	BOOL _lastValidationFailed;
+}
+
+- (id)timeLimit
+{
+	NSNumber* rv = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_timeLimit"];
+	
+	if(rv == nil)
+	{
+		rv = @2;
+	}
+	
+	return rv;
+}
+
+- (void)setTimeLimit:(id)timeLimit
+{
+	if(timeLimit == nil || [timeLimit isKindOfClass:NSNumber.class] == NO)
+	{
+		return;
+	}
+	
+	[NSUserDefaults.standardUserDefaults setObject:timeLimit forKey:@"DTXSelectedProfilingConfiguration_timeLimit"];
+}
+
+- (BOOL)validateValue:(inout id  _Nullable __autoreleasing *)ioValue forKey:(NSString *)inKey error:(out NSError * _Nullable __autoreleasing *)outError
+{
+	NSScanner* scanner = [NSScanner scannerWithString:*ioValue];
+	
+	NSInteger result;
+	if([scanner scanInteger:&result] == NO || [scanner isAtEnd] == NO)
+	{
+		_lastValidationFailed = YES;
+		
+		*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"The value “%@” is not valid", *ioValue], NSLocalizedRecoverySuggestionErrorKey: @"Please provide a valid value."}];
+		
+		return NO;
+	}
+	
+	_lastValidationFailed = NO;
+	
+	*ioValue = @(result);
+	
+	return YES;
 }
 
 - (void)viewDidLoad
@@ -61,6 +111,13 @@
 - (NSArray<NSButton *> *)actionButtons
 {
 	return @[_helpButton];
+}
+
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
+{
+	[self.view.window makeFirstResponder:self];
+	
+	return _lastValidationFailed == NO;
 }
 
 @end
