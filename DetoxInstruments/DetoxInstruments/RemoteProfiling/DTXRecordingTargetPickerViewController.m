@@ -20,6 +20,8 @@
 @interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteTargetDelegate, NSPopoverDelegate>
 {
 	IBOutlet NSView* _containerView;
+	IBOutlet NSLayoutConstraint* _containerConstraint;
+	
 	IBOutlet NSStackView* _actionButtonStackView;
 	
 	_DTXTargetsOutlineViewContoller* _outlineController;
@@ -186,14 +188,25 @@
 		_cancelButton.title = NSLocalizedString(@"Back", @"");
 	}
 	
+	transitionOptions |= NSViewControllerTransitionCrossfade;
+	
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
 		context.duration = 0.3;
 		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+
+		_containerConstraint.animator.constant = controller.view.fittingSize.height;
+		
+		[NSAnimationContext beginGrouping];
+		
+		NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
 		
 		[self _removeActionButtonsWithProvider:_activeController];
 		[self _setupActionButtonsWithProvider:controller];
 		
+		[NSAnimationContext endGrouping];
+		
 		[self transitionFromViewController:_activeController toViewController:controller options:transitionOptions completionHandler:nil];
+		
 	} completionHandler:nil];
 	
 	_activeController = controller;
