@@ -45,3 +45,7 @@ The **Profile React Native (if available)** options controls the React Native pr
 The **Record bridge data** option controls whether React Native bridge data is recorded during profiling. Depending on your app's activity, this can take a small-to-moderate toll on performance. If bridge data recording is not necessary, you can turn this option off to save performance.
 
 The **Record timers as events** options controls whether React Native timers, created in JavaScript using `setTimeout()`, should be recorded as events and displayed in the Events instrument.
+
+### Time Limit
+
+The **Time limit** option sets a hard time limit on recording duration. You can set the value in seconds, minutes or hours. The default is 2 minutes.

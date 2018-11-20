@@ -789,7 +789,7 @@ Currently, only one active React Native bridge is supported.</string>
                                                     <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KJu-Yl-3x3">
                                                         <rect key="frame" x="0.0" y="0.0" width="123" height="22"/>
                                                         <subviews>
-                                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="STB-dD-UdS">
+                                                            <textField toolTip="Time limit" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="STB-dD-UdS">
                                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="22"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="30" id="l2r-qg-XTX"/>
