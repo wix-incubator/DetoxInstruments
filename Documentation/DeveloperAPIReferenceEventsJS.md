@@ -4,7 +4,7 @@ The Events instrument lets you add lightweight instrumentation to your code for 
 
 Before using the provided developer APIs, first complete the [Profiler Framework Integration Guide](XcodeIntegrationGuide.md).
 
-For React Native apps, you need to install the **detox-instruments-react-native-utils** package:
+For React Native apps, you need to install the **`detox-instruments-react-native-utils`** package:
 
 ```shell
 npm install detox-instruments-react-native-utils --save-prod

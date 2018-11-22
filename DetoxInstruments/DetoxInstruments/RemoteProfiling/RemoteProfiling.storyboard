@@ -730,7 +730,7 @@ Currently, only one active React Native bridge is supported.</string>
                                                             </button>
                                                             <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="9ig-gg-B7Q">
                                                                 <rect key="frame" x="-2" y="-2" width="168" height="18"/>
-                                                                <string key="toolTip">Record React Native timers, created using setTimeout() in Java Script, as events. Timers will appear as interval events in the Events instrument.</string>
+                                                                <string key="toolTip">Record React Native timers, created using setTimeout() in Java Script, as events. Timers will appear as interval events in the Events instrument. This option requires the detox-instruments-react-native-utils package be installed in the profiled React Native app.</string>
                                                                 <buttonCell key="cell" type="check" title="Record timers as events" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Qtb-65-0rf">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
