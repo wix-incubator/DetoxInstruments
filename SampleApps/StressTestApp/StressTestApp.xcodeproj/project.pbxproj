@@ -183,7 +183,6 @@
 				TargetAttributes = {
 					39EBDF131ED2DEA2005D8AB1 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 6Z9ASVU98Y;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -387,7 +386,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 6Z9ASVU98Y;
+				DEVELOPMENT_TEAM = S9QFG2VH2E;
 				ENABLE_BITCODE = NO;
 				IBSC_WARNINGS = NO;
 				INFOPLIST_FILE = StressTestApp/Info.plist;
@@ -396,7 +395,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.LeoNatan.---";
+				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.StressTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -405,7 +404,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 6Z9ASVU98Y;
+				DEVELOPMENT_TEAM = S9QFG2VH2E;
 				ENABLE_BITCODE = NO;
 				IBSC_WARNINGS = NO;
 				INFOPLIST_FILE = StressTestApp/Info.plist;
@@ -414,7 +413,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.LeoNatan.---";
+				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.StressTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
