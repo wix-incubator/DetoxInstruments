@@ -24,6 +24,8 @@
 		3900FBD321185F010054BA5E /* DTXProfilerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3900FBD221185F010054BA5E /* DTXProfilerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39377AFB2107ADFF000A7D82 /* Impl.m in Sources */ = {isa = PBXBuildFile; fileRef = 39377AFA2107ADFF000A7D82 /* Impl.m */; };
 		39377B0D2107B135000A7D82 /* DTXProfilerShim.h in Headers */ = {isa = PBXBuildFile; fileRef = 39377B0C2107B135000A7D82 /* DTXProfilerShim.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3939238721AB3B720015A15F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3939238621AB3B720015A15F /* main.m */; };
+		3939238C21AB3BC30015A15F /* Impl.m in Sources */ = {isa = PBXBuildFile; fileRef = 39377AFA2107ADFF000A7D82 /* Impl.m */; };
 		39A7BC79210A8F27003E9170 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39A7BC78210A8F27003E9170 /* DTXEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC7A210A8F9B003E9170 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215585210A8EF9002AF802 /* DTXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC7C210A8F9B003E9170 /* DTXProfilingConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215586210A8EF9002AF802 /* DTXProfilingConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -39,11 +41,21 @@
 		3929507F2107A87300F7E3E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39377AFA2107ADFF000A7D82 /* Impl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Impl.m; sourceTree = "<group>"; };
 		39377B0C2107B135000A7D82 /* DTXProfilerShim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfilerShim.h; sourceTree = "<group>"; };
+		3939237521AB3B710015A15F /* DTXProfilerShimTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DTXProfilerShimTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3939238521AB3B720015A15F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3939238621AB3B720015A15F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		39A7BC78210A8F27003E9170 /* DTXEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXEvents.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		392950782107A87300F7E3E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3939237221AB3B710015A15F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -57,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				3929507D2107A87300F7E3E1 /* DTXProfilerShim */,
+				3939237621AB3B710015A15F /* DTXProfilerShimTest */,
 				3929507C2107A87300F7E3E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				3929507B2107A87300F7E3E1 /* DTXProfilerShim.framework */,
+				3939237521AB3B710015A15F /* DTXProfilerShimTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,6 +96,15 @@
 				39377AFA2107ADFF000A7D82 /* Impl.m */,
 			);
 			path = DTXProfilerShim;
+			sourceTree = "<group>";
+		};
+		3939237621AB3B710015A15F /* DTXProfilerShimTest */ = {
+			isa = PBXGroup;
+			children = (
+				3939238521AB3B720015A15F /* Info.plist */,
+				3939238621AB3B720015A15F /* main.m */,
+			);
+			path = DTXProfilerShimTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -121,6 +144,23 @@
 			productReference = 3929507B2107A87300F7E3E1 /* DTXProfilerShim.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		3939237421AB3B710015A15F /* DTXProfilerShimTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3939238821AB3B720015A15F /* Build configuration list for PBXNativeTarget "DTXProfilerShimTest" */;
+			buildPhases = (
+				3939237121AB3B710015A15F /* Sources */,
+				3939237221AB3B710015A15F /* Frameworks */,
+				3939237321AB3B710015A15F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DTXProfilerShimTest;
+			productName = DTXProfilerShimTest;
+			productReference = 3939237521AB3B710015A15F /* DTXProfilerShimTest.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -136,6 +176,9 @@
 					3929507A2107A87300F7E3E1 = {
 						CreatedOnToolsVersion = 10.0;
 					};
+					3939237421AB3B710015A15F = {
+						CreatedOnToolsVersion = 10.1;
+					};
 				};
 			};
 			buildConfigurationList = 392950752107A87300F7E3E1 /* Build configuration list for PBXProject "DTXProfilerShim" */;
@@ -144,6 +187,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 392950712107A87300F7E3E1;
 			productRefGroup = 3929507C2107A87300F7E3E1 /* Products */;
@@ -152,12 +196,20 @@
 			targets = (
 				3929507A2107A87300F7E3E1 /* DTXProfilerShim */,
 				3900FB8B21185A880054BA5E /* DTXProfilerShimFramework */,
+				3939237421AB3B710015A15F /* DTXProfilerShimTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		392950792107A87300F7E3E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3939237321AB3B710015A15F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -192,6 +244,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				39377AFB2107ADFF000A7D82 /* Impl.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3939237121AB3B710015A15F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3939238721AB3B720015A15F /* main.m in Sources */,
+				3939238C21AB3BC30015A15F /* Impl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,6 +544,57 @@
 			};
 			name = Release_External;
 		};
+		3939238921AB3B720015A15F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S9QFG2VH2E;
+				INFOPLIST_FILE = DTXProfilerShimTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfilerShimTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3939238A21AB3B720015A15F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S9QFG2VH2E;
+				INFOPLIST_FILE = DTXProfilerShimTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfilerShimTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3939238B21AB3B720015A15F /* Release_External */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S9QFG2VH2E;
+				INFOPLIST_FILE = DTXProfilerShimTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfilerShimTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release_External;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -512,6 +624,16 @@
 				392950842107A87300F7E3E1 /* Debug */,
 				392950852107A87300F7E3E1 /* Release */,
 				392950902107A9A600F7E3E1 /* Release_External */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3939238821AB3B720015A15F /* Build configuration list for PBXNativeTarget "DTXProfilerShimTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3939238921AB3B720015A15F /* Debug */,
+				3939238A21AB3B720015A15F /* Release */,
+				3939238B21AB3B720015A15F /* Release_External */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
