@@ -34,6 +34,8 @@
 		39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */; };
 		3939235521AB34060015A15F /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3939234821AB33F70015A15F /* ZipZap.framework */; };
 		3939235821AB342F0015A15F /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3939234821AB33F70015A15F /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3939239121AB42220015A15F /* DTXRemoteProfilingConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939238F21AB42220015A15F /* DTXRemoteProfilingConnectionManager.h */; };
+		3939239221AB42220015A15F /* DTXRemoteProfilingConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3939239021AB42220015A15F /* DTXRemoteProfilingConnectionManager.m */; };
 		393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */ = {isa = PBXBuildFile; fileRef = 393E66DD1FC59B730092EE89 /* Swiftier.h */; };
 		39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */; };
 		39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 39498C401F1FAE650030B620 /* DTXSocketConnection.h */; };
@@ -207,6 +209,8 @@
 		39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
 		39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
 		3939233D21AB33F70015A15F /* ZipZap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipZap.xcodeproj; path = ../../../Shared/ZipZap/ZipZap.xcodeproj; sourceTree = "<group>"; };
+		3939238F21AB42220015A15F /* DTXRemoteProfilingConnectionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingConnectionManager.h; sourceTree = "<group>"; };
+		3939239021AB42220015A15F /* DTXRemoteProfilingConnectionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRemoteProfilingConnectionManager.m; sourceTree = "<group>"; };
 		393E66DD1FC59B730092EE89 /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../Shared/Swiftier.h; sourceTree = "<group>"; };
 		39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSocketConnection.m; sourceTree = "<group>"; };
 		39498C401F1FAE650030B620 /* DTXSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSocketConnection.h; sourceTree = "<group>"; };
@@ -395,6 +399,8 @@
 				3985048B21A4434800F04573 /* DTXFileSystemItem.m */,
 				396677B11F1FCE18002D5E43 /* DTXRemoteProfilingManager.h */,
 				396677B21F1FCE18002D5E43 /* DTXRemoteProfilingManager.m */,
+				3939238F21AB42220015A15F /* DTXRemoteProfilingConnectionManager.h */,
+				3939239021AB42220015A15F /* DTXRemoteProfilingConnectionManager.m */,
 				3985048F21A4435100F04573 /* DTXPasteboardItem.h */,
 				3985049021A4435100F04573 /* DTXPasteboardItem.m */,
 				39E75EBA209C7B8B00C95D15 /* DTXUIPasteboardParser.h */,
@@ -610,6 +616,7 @@
 				39B22BE9217C963A0032F190 /* NSObject+AttachedObjects.h in Headers */,
 				39D40C0F1ED5B43700157C04 /* DTXInstrumentsModel.h in Headers */,
 				396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */,
+				3939239121AB42220015A15F /* DTXRemoteProfilingConnectionManager.h in Headers */,
 				39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */,
 				39281E821ED70A77002CE905 /* DTXZipper.h in Headers */,
 				39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */,
@@ -830,6 +837,7 @@
 				39557CDB1F1F7E8D00FF3187 /* DTXRemoteProfiler.m in Sources */,
 				39D40C0E1ED5B43700157C04 /* DTXInstruments.xcdatamodeld in Sources */,
 				399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */,
+				3939239221AB42220015A15F /* DTXRemoteProfilingConnectionManager.m in Sources */,
 				39E75EBD209C7B8B00C95D15 /* DTXUIPasteboardParser.m in Sources */,
 				39DA16831F3097780025C492 /* NSDictionary+FakeDecoder.m in Sources */,
 				39B22BE6217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.m in Sources */,
