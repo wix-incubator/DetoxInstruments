@@ -34,8 +34,12 @@
                         <constraints>
                             <constraint firstItem="Rkq-0b-htw" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="Bmw-VU-F2a"/>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="GJd-Yh-RWb" secondAttribute="centerX" id="Q3B-4B-g5h"/>
-                            <constraint firstItem="Rkq-0b-htw" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.75" id="WN8-4g-uDf"/>
+                            <constraint firstItem="Rkq-0b-htw" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.75" priority="999" id="WN8-4g-uDf"/>
+                            <constraint firstItem="Rkq-0b-htw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="47" id="eB2-A2-4tU"/>
+                            <constraint firstItem="Rkq-0b-htw" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="47" id="eaU-kv-vli"/>
                             <constraint firstItem="Rkq-0b-htw" firstAttribute="centerY" secondItem="Bcu-3y-fUS" secondAttribute="centerY" id="hOo-d1-8pn"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Rkq-0b-htw" secondAttribute="trailing" constant="47" id="nRm-jI-Ixb"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Rkq-0b-htw" secondAttribute="bottom" constant="47" id="uEA-YQ-bis"/>
                             <constraint firstItem="GJd-Yh-RWb" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" symbolic="YES" id="x7j-FC-K8j"/>
                             <constraint firstItem="Rkq-0b-htw" firstAttribute="top" secondItem="GJd-Yh-RWb" secondAttribute="bottom" id="zKb-iv-J4D"/>
                         </constraints>

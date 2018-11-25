@@ -255,6 +255,23 @@ os_log_t __log_general;
 	exit(0);
 }
 
+- (IBAction)bombardEvents:(UIButton*)sender
+{
+	NSMutableArray* events = [NSMutableArray new];
+	
+	for(NSUInteger idx = 0; idx < 5000; idx++)
+	{
+		id event = DTXProfilerMarkEventIntervalBegin(@"Bombardment", [NSString stringWithFormat:@"%@", @(idx % 10)], [NSString stringWithFormat:@"%@", @(idx)]);
+		[events addObject:event];
+	}
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[events enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			DTXProfilerMarkEventIntervalEnd(obj, DTXEventStatusCompleted, nil);
+		}];
+	});
+}
+
 - (IBAction)startDemoTapped:(UIButton*)sender
 {
 	[sender setEnabled:NO];
