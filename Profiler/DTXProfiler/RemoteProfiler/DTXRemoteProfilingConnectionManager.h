@@ -12,6 +12,7 @@
 
 @protocol DTXRemoteProfilingConnectionManagerDelegate <NSObject>
 
+- (void)remoteProfilingConnectionManagerDidStartProfiling:(DTXRemoteProfilingConnectionManager*)manager;
 - (void)remoteProfilingConnectionManager:(DTXRemoteProfilingConnectionManager*)manager didFinishWithError:(NSError*)error;
 
 @end

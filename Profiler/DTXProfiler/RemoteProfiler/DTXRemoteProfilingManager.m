@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <pthread.h>
 
 #import "DTXRemoteProfilingManager.h"
 #import "DTXRemoteProfilingConnectionManager.h"
@@ -22,7 +23,9 @@ static DTXRemoteProfilingManager* __sharedManager;
 @implementation DTXRemoteProfilingManager
 {
 	NSNetService* _publishingService;
+	BOOL _currentlyPublished;
 	
+	pthread_mutex_t _connectionsMutex;
 	NSMutableArray<DTXRemoteProfilingConnectionManager*>* _connections;
 }
 
@@ -35,9 +38,14 @@ static DTXRemoteProfilingManager* __sharedManager;
 	});
 }
 
-- (void)_applicationDidEnterForeground
+- (void)_applicationInBackground
 {
-	[_publishingService stop];
+	[self _stopPublishing];
+}
+
+- (void)_applicationInForeground
+{
+	[self _stopPublishing];
 	[self _resumePublishing];
 }
 
@@ -47,7 +55,14 @@ static DTXRemoteProfilingManager* __sharedManager;
 	
 	if(self)
 	{
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationDidEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationInForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationInBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+		
+		pthread_mutexattr_t attr;
+		pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+		pthread_mutex_init(&_connectionsMutex, &attr);
+		_connections = [NSMutableArray new];
 		
 		_publishingService = [[NSNetService alloc] initWithDomain:@"local" type:@"_detoxprofiling._tcp" name:@"" port:0];
 		_publishingService.delegate = self;
@@ -59,8 +74,40 @@ static DTXRemoteProfilingManager* __sharedManager;
 
 - (void)_resumePublishing
 {
-	dtx_log_info(@"Attempting to publish “%@” service", _publishingService.type);
-	[_publishingService publishWithOptions:NSNetServiceListenForConnections];
+	void (^resumePublish)(void) = ^ {
+		if(self->_currentlyPublished)
+		{
+			return;
+		}
+		
+		dtx_log_info(@"Attempting to publish “%@” service", self->_publishingService.type);
+		[self->_publishingService publishWithOptions:NSNetServiceListenForConnections];
+		self->_currentlyPublished = YES;
+	};
+	
+	if(NSThread.isMainThread)
+	{
+		resumePublish();
+		return;
+	}
+	
+	dispatch_async(dispatch_get_main_queue(), resumePublish);
+}
+
+- (void)_stopPublishing
+{
+	void (^stopPublish)(void) = ^ {
+		self->_currentlyPublished = NO;
+		[self->_publishingService stop];
+	};
+	
+	if(NSThread.isMainThread)
+	{
+		stopPublish();
+		return;
+	}
+	
+	dispatch_async(dispatch_get_main_queue(), stopPublish);
 }
 
 #pragma mark NSNetServiceDelegate
@@ -80,7 +127,11 @@ static DTXRemoteProfilingManager* __sharedManager;
 {
 	dtx_log_info(@"Accepted connection");
 	auto connectionManager = [[DTXRemoteProfilingConnectionManager alloc] initWithInputStream:inputStream outputStream:outputStream];
+	connectionManager.delegate = self;
+	
+	pthread_mutex_lock(&_connectionsMutex);
 	[_connections addObject:connectionManager];
+	pthread_mutex_unlock(&_connectionsMutex);
 }
 
 - (void)netServiceDidPublish:(NSNetService *)sender
@@ -98,7 +149,30 @@ static DTXRemoteProfilingManager* __sharedManager;
 - (void)remoteProfilingConnectionManager:(DTXRemoteProfilingConnectionManager*)manager didFinishWithError:(NSError*)error
 {
 	[manager abortConnectionAndProfiling];
+	
+	pthread_mutex_lock(&_connectionsMutex);
 	[_connections removeObject:manager];
+	pthread_mutex_unlock(&_connectionsMutex);
+	
+	[self _resumePublishing];
+}
+
+- (void)remoteProfilingConnectionManagerDidStartProfiling:(DTXRemoteProfilingConnectionManager*)manager
+{
+	[self _stopPublishing];
+	
+	pthread_mutex_lock(&_connectionsMutex);
+	for(DTXRemoteProfilingConnectionManager* connection in _connections)
+	{
+		if(connection == manager)
+		{
+			continue;
+		}
+		
+		[connection abortConnectionAndProfiling];
+	}
+	_connections = @[manager].mutableCopy;
+	pthread_mutex_unlock(&_connectionsMutex);
 }
 
 @end

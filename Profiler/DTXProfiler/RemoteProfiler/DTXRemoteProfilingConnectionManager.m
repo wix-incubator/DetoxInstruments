@@ -31,6 +31,8 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 
 @implementation DTXRemoteProfilingConnectionManager
 {
+	BOOL _aborted;
+	
 	DTXSocketConnection* _connection;
 	DTXRemoteProfiler* _remoteProfiler;
 }
@@ -96,6 +98,13 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 
 - (void)abortConnectionAndProfiling
 {
+	self->_aborted = YES;
+	
+	[self->_connection closeRead];
+	[self->_connection closeWrite];
+	
+	self->_connection = nil;
+	
 	[_remoteProfiler stopProfilingWithCompletionHandler:nil];
 	_remoteProfiler = nil;
 }
@@ -124,6 +133,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 				DTXProfilingConfiguration* config = configDict == nil ? [DTXProfilingConfiguration defaultProfilingConfiguration] : [[DTXProfilingConfiguration alloc] initWithCoder:(id)configDict];
 				self->_remoteProfiler = [[DTXRemoteProfiler alloc] initWithOpenedSocketConnection:self->_connection remoteProfilerDelegate:self];
 				[self->_remoteProfiler startProfilingWithConfiguration:config];
+				[self.delegate remoteProfilingConnectionManagerDidStartProfiling:self];
 			}	break;
 			case DTXRemoteProfilingCommandTypeAddTag:
 			{
@@ -447,6 +457,11 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	
 	_connection = nil;
 	
+	if(_aborted)
+	{
+		return;
+	}
+	
 	[self.delegate remoteProfilingConnectionManager:self didFinishWithError:nil];
 }
 
@@ -457,6 +472,11 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	dtx_log_info(@"Socket connection closed for writing");
 	
 	_connection = nil;
+	
+	if(_aborted)
+	{
+		return;
+	}
 	
 	[self.delegate remoteProfilingConnectionManager:self didFinishWithError:nil];
 }
