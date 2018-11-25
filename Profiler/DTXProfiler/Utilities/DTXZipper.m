@@ -62,7 +62,6 @@ static NSArray* _DTXZipEntriesForURL(NSURL* contentsURL)
 BOOL DTXWriteZipFileWithURLArray(NSURL* zipURL, NSArray<NSURL*>* contentsURLs)
 {
 	ZZArchive* archive = [[ZZArchive alloc] initWithURL:zipURL options:@{ZZOpenOptionsCreateIfMissingKey : @YES} error:NULL];
-	__block BOOL success = YES;
 	
 	NSMutableArray* entries = [NSMutableArray new];
 	[contentsURLs enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
