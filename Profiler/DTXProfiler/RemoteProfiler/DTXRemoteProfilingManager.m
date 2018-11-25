@@ -22,7 +22,8 @@ static DTXRemoteProfilingManager* __sharedManager;
 @implementation DTXRemoteProfilingManager
 {
 	NSNetService* _publishingService;
-	DTXRemoteProfilingConnectionManager* _connectionManager;
+	
+	NSMutableArray<DTXRemoteProfilingConnectionManager*>* _connections;
 }
 
 + (void)load
@@ -58,19 +59,8 @@ static DTXRemoteProfilingManager* __sharedManager;
 
 - (void)_resumePublishing
 {
-	if(_connectionManager)
-	{
-		return;
-	}
-	
 	dtx_log_info(@"Attempting to publish “%@” service", _publishingService.type);
 	[_publishingService publishWithOptions:NSNetServiceListenForConnections];
-}
-
-- (void)_errorOutWithError:(NSError*)error
-{
-	[_connectionManager abortConnectionAndProfiling];
-	[self _resumePublishing];
 }
 
 #pragma mark NSNetServiceDelegate
@@ -88,18 +78,9 @@ static DTXRemoteProfilingManager* __sharedManager;
 
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
-	if(_connectionManager != nil)
-	{
-		dtx_log_debug(@"Ignoring additional connection");
-		return;
-	}
-	
 	dtx_log_info(@"Accepted connection");
-	_connectionManager = [[DTXRemoteProfilingConnectionManager alloc] initWithInputStream:inputStream outputStream:outputStream];
-	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		[sender stop];
-	});
+	auto connectionManager = [[DTXRemoteProfilingConnectionManager alloc] initWithInputStream:inputStream outputStream:outputStream];
+	[_connections addObject:connectionManager];
 }
 
 - (void)netServiceDidPublish:(NSNetService *)sender
@@ -116,7 +97,8 @@ static DTXRemoteProfilingManager* __sharedManager;
 
 - (void)remoteProfilingConnectionManager:(DTXRemoteProfilingConnectionManager*)manager didFinishWithError:(NSError*)error
 {
-	[self _errorOutWithError:error];
+	[manager abortConnectionAndProfiling];
+	[_connections removeObject:manager];
 }
 
 @end
