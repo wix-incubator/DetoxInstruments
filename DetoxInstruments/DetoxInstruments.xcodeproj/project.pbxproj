@@ -41,6 +41,8 @@
 		392F09841F168959005ACF8D /* DTXStackTraceCopyDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 392F09831F168959005ACF8D /* DTXStackTraceCopyDataProvider.m */; };
 		3932A06F1F054022001AC360 /* DTXRNCPUUsagePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3932A06E1F054022001AC360 /* DTXRNCPUUsagePlotController.m */; };
 		3932A0731F0547EF001AC360 /* DTXRNCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3932A0721F0547EF001AC360 /* DTXRNCPUDataProvider.m */; };
+		3939233621AB33DC0015A15F /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3939232D21AB33CB0015A15F /* ZipZap.framework */; };
+		3939233721AB33DC0015A15F /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3939232D21AB33CB0015A15F /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		393973C01EDB02DF0064D4C8 /* DTXInspectorContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973BF1EDB02DF0064D4C8 /* DTXInspectorContentController.m */; };
 		393973D61EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973D51EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.m */; };
 		393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973D91EDC1C590064D4C8 /* DTXSample+UIExtensions.m */; };
@@ -141,23 +143,6 @@
 		39B4CA3E1F15C4AD009BD2D2 /* NSString+FileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B4CA3D1F15C4AD009BD2D2 /* NSString+FileNames.m */; };
 		39B706A31F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */; };
 		39BEE165207A1AA9003AF93E /* DTXDeviceActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE164207A1AA9003AF93E /* DTXDeviceActionButton.m */; };
-		39BEE1DF207A47B3003AF93E /* crypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1B9207A47B3003AF93E /* crypt.c */; };
-		39BEE1E0207A47B3003AF93E /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1BA207A47B3003AF93E /* unzip.c */; };
-		39BEE1E1207A47B3003AF93E /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1BB207A47B3003AF93E /* zip.c */; };
-		39BEE1E2207A47B3003AF93E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1BD207A47B3003AF93E /* ioapi.c */; };
-		39BEE1E3207A47B3003AF93E /* ioapi_buf.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1BF207A47B3003AF93E /* ioapi_buf.c */; };
-		39BEE1E4207A47B3003AF93E /* ioapi_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1C3207A47B3003AF93E /* ioapi_mem.c */; };
-		39BEE1E5207A47B3003AF93E /* minishared.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1C4207A47B3003AF93E /* minishared.c */; };
-		39BEE1E6207A47B3003AF93E /* aeskey.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1CA207A47B3003AF93E /* aeskey.c */; };
-		39BEE1E7207A47B3003AF93E /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1CB207A47B3003AF93E /* hmac.c */; };
-		39BEE1E8207A47B3003AF93E /* aescrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1CE207A47B3003AF93E /* aescrypt.c */; };
-		39BEE1E9207A47B3003AF93E /* fileenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1CF207A47B3003AF93E /* fileenc.c */; };
-		39BEE1EA207A47B3003AF93E /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1D1207A47B3003AF93E /* sha1.c */; };
-		39BEE1EB207A47B3003AF93E /* aes_ni.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1D4207A47B3003AF93E /* aes_ni.c */; };
-		39BEE1EC207A47B3003AF93E /* prng.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1D6207A47B3003AF93E /* prng.c */; };
-		39BEE1ED207A47B3003AF93E /* pwd2key.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1D8207A47B3003AF93E /* pwd2key.c */; };
-		39BEE1EE207A47B3003AF93E /* aestab.c in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1D9207A47B3003AF93E /* aestab.c */; };
-		39BEE1EF207A47B3003AF93E /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE1DC207A47B3003AF93E /* SSZipArchive.m */; };
 		39C1415F1F3C47F7008CF5B9 /* DTXStackTraceFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */; };
 		39C141621F3C55B3008CF5B9 /* DTXTintedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C141611F3C55B3008CF5B9 /* DTXTintedImageView.m */; };
 		39C48BF520BEF2BB00E6AFC0 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39C48BF120BEF2BA00E6AFC0 /* DTXInstruments.xcdatamodeld */; };
@@ -244,6 +229,62 @@
 			proxyType = 1;
 			remoteGlobalIDString = 39352F8F1F0A23C800D033B2;
 			remoteInfo = DTXSourceMaps;
+		};
+		3939232821AB33CB0015A15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D87BA1F81B3D6DEA00ED7EB3;
+			remoteInfo = "ZipZap (iOS Framework)";
+		};
+		3939232A21AB33CB0015A15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D899CFB0162C5EEB00112F49;
+			remoteInfo = "ZipZap (iOS Static Library)";
+		};
+		3939232C21AB33CB0015A15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8D140D31B423B1100C411B0;
+			remoteInfo = "ZipZap (macOS Framework)";
+		};
+		3939232E21AB33CB0015A15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D899CF82162C5EC100112F49;
+			remoteInfo = "ZipZap (macOS Static Library)";
+		};
+		3939233021AB33CB0015A15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BF8624CB1BB7495200C12EEE;
+			remoteInfo = "ZipZap (tvOS Framework)";
+		};
+		3939233221AB33CB0015A15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BF8624EF1BB74B1F00C12EEE;
+			remoteInfo = "ZipZap (tvOS Static Library)";
+		};
+		3939233421AB33CB0015A15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D899CF96162C5EC100112F49;
+			remoteInfo = ZipZapTests;
+		};
+		3939233821AB33DC0015A15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D8D140D21B423B1100C411B0;
+			remoteInfo = "ZipZap (macOS Framework)";
 		};
 		394516B01EEF44090093E503 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -366,6 +407,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				3939233721AB33DC0015A15F /* ZipZap.framework in Embed Frameworks */,
 				392D52C11FAA008000A28938 /* DTXSourceMaps.framework in Embed Frameworks */,
 				398D6E761EE03E9B00AA9C11 /* CorePlot.framework in Embed Frameworks */,
 				39443F43219482DF00E9C0EA /* Sparkle.framework in Embed Frameworks */,
@@ -442,6 +484,7 @@
 		3932A06E1F054022001AC360 /* DTXRNCPUUsagePlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUUsagePlotController.m; sourceTree = "<group>"; };
 		3932A0711F0547EF001AC360 /* DTXRNCPUDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNCPUDataProvider.h; sourceTree = "<group>"; };
 		3932A0721F0547EF001AC360 /* DTXRNCPUDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUDataProvider.m; sourceTree = "<group>"; };
+		3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipZap.xcodeproj; path = ../../../Shared/ZipZap/ZipZap.xcodeproj; sourceTree = "<group>"; };
 		393973BE1EDB02DF0064D4C8 /* DTXInspectorContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXInspectorContentController.h; sourceTree = "<group>"; };
 		393973BF1EDB02DF0064D4C8 /* DTXInspectorContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXInspectorContentController.m; sourceTree = "<group>"; };
 		393973D41EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXSampleGroup+UIExtensions.h"; sourceTree = "<group>"; };
@@ -634,44 +677,6 @@
 		39BEE163207A1AA9003AF93E /* DTXDeviceActionButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDeviceActionButton.h; sourceTree = "<group>"; };
 		39BEE164207A1AA9003AF93E /* DTXDeviceActionButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDeviceActionButton.m; sourceTree = "<group>"; };
 		39BEE166207A1C80003AF93E /* _DTXActionButtonProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXActionButtonProvider.h; sourceTree = "<group>"; };
-		39BEE1B7207A47B3003AF93E /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = ../../../Shared/ZipArchive/SSZipArchive/SSZipArchive.h; sourceTree = "<group>"; };
-		39BEE1B9207A47B3003AF93E /* crypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crypt.c; sourceTree = "<group>"; };
-		39BEE1BA207A47B3003AF93E /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		39BEE1BB207A47B3003AF93E /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
-		39BEE1BC207A47B3003AF93E /* minishared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minishared.h; sourceTree = "<group>"; };
-		39BEE1BD207A47B3003AF93E /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
-		39BEE1BE207A47B3003AF93E /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi_mem.h; sourceTree = "<group>"; };
-		39BEE1BF207A47B3003AF93E /* ioapi_buf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi_buf.c; sourceTree = "<group>"; };
-		39BEE1C0207A47B3003AF93E /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
-		39BEE1C1207A47B3003AF93E /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
-		39BEE1C2207A47B3003AF93E /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
-		39BEE1C3207A47B3003AF93E /* ioapi_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi_mem.c; sourceTree = "<group>"; };
-		39BEE1C4207A47B3003AF93E /* minishared.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minishared.c; sourceTree = "<group>"; };
-		39BEE1C5207A47B3003AF93E /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
-		39BEE1C6207A47B3003AF93E /* ioapi_buf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi_buf.h; sourceTree = "<group>"; };
-		39BEE1C8207A47B3003AF93E /* prng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prng.h; sourceTree = "<group>"; };
-		39BEE1C9207A47B3003AF93E /* aes_ni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes_ni.h; sourceTree = "<group>"; };
-		39BEE1CA207A47B3003AF93E /* aeskey.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aeskey.c; sourceTree = "<group>"; };
-		39BEE1CB207A47B3003AF93E /* hmac.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hmac.c; sourceTree = "<group>"; };
-		39BEE1CC207A47B3003AF93E /* aestab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aestab.h; sourceTree = "<group>"; };
-		39BEE1CD207A47B3003AF93E /* pwd2key.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pwd2key.h; sourceTree = "<group>"; };
-		39BEE1CE207A47B3003AF93E /* aescrypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aescrypt.c; sourceTree = "<group>"; };
-		39BEE1CF207A47B3003AF93E /* fileenc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fileenc.c; sourceTree = "<group>"; };
-		39BEE1D0207A47B3003AF93E /* aesopt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aesopt.h; sourceTree = "<group>"; };
-		39BEE1D1207A47B3003AF93E /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
-		39BEE1D2207A47B3003AF93E /* brg_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = brg_types.h; sourceTree = "<group>"; };
-		39BEE1D3207A47B3003AF93E /* hmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmac.h; sourceTree = "<group>"; };
-		39BEE1D4207A47B3003AF93E /* aes_ni.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aes_ni.c; sourceTree = "<group>"; };
-		39BEE1D5207A47B3003AF93E /* brg_endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = brg_endian.h; sourceTree = "<group>"; };
-		39BEE1D6207A47B3003AF93E /* prng.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = prng.c; sourceTree = "<group>"; };
-		39BEE1D7207A47B3003AF93E /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
-		39BEE1D8207A47B3003AF93E /* pwd2key.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pwd2key.c; sourceTree = "<group>"; };
-		39BEE1D9207A47B3003AF93E /* aestab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aestab.c; sourceTree = "<group>"; };
-		39BEE1DA207A47B3003AF93E /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
-		39BEE1DB207A47B3003AF93E /* fileenc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileenc.h; sourceTree = "<group>"; };
-		39BEE1DC207A47B3003AF93E /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = ../../../Shared/ZipArchive/SSZipArchive/SSZipArchive.m; sourceTree = "<group>"; };
-		39BEE1DD207A47B3003AF93E /* SSZipCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipCommon.h; path = ../../../Shared/ZipArchive/SSZipArchive/SSZipCommon.h; sourceTree = "<group>"; };
-		39BEE1DE207A47B3003AF93E /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZipArchive.h; path = ../../../Shared/ZipArchive/SSZipArchive/ZipArchive.h; sourceTree = "<group>"; };
 		39C1415D1F3C47F7008CF5B9 /* DTXStackTraceFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackTraceFrame.h; sourceTree = "<group>"; };
 		39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackTraceFrame.m; sourceTree = "<group>"; };
 		39C141601F3C55B3008CF5B9 /* DTXTintedImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTintedImageView.h; sourceTree = "<group>"; };
@@ -792,6 +797,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3939233621AB33DC0015A15F /* ZipZap.framework in Frameworks */,
 				392D52C01FAA008000A28938 /* DTXSourceMaps.framework in Frameworks */,
 				398D6E751EE03E9B00AA9C11 /* CorePlot.framework in Frameworks */,
 				39443F41219482C500E9C0EA /* Sparkle.framework in Frameworks */,
@@ -987,6 +993,28 @@
 				390BEDD721874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m */,
 			);
 			path = ReactNative;
+			sourceTree = "<group>";
+		};
+		393922C021AB190D0015A15F /* ZipZap */ = {
+			isa = PBXGroup;
+			children = (
+				3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */,
+			);
+			name = ZipZap;
+			sourceTree = "<group>";
+		};
+		3939231F21AB33CA0015A15F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3939232921AB33CB0015A15F /* ZipZap.framework */,
+				3939232B21AB33CB0015A15F /* libZipZap.a */,
+				3939232D21AB33CB0015A15F /* ZipZap.framework */,
+				3939232F21AB33CB0015A15F /* libZipZap.a */,
+				3939233121AB33CB0015A15F /* ZipZap.framework */,
+				3939233321AB33CB0015A15F /* libZipZap.a */,
+				3939233521AB33CB0015A15F /* ZipZapTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		393F41BF1F0E5E0B00F4DC1F /* ReactNative */ = {
@@ -1240,9 +1268,9 @@
 		3988D2C01EEEC6D30090088E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				393922C021AB190D0015A15F /* ZipZap */,
 				3954CAAA20884C5100934BCE /* CCNPreferencesWindowController */,
 				39D76E832086B8290033BDE2 /* LNPropertyListEditor */,
-				39BEE1B6207A47A6003AF93E /* SSZipArchive */,
 				3968DE4C2056F5580089609A /* Sparkle */,
 				3919DF781FA6342900F47DD6 /* SourceMaps */,
 				398D6E731EE03E8B00AA9C11 /* CorePlot */,
@@ -1392,68 +1420,6 @@
 			path = RemoteProfiling;
 			sourceTree = "<group>";
 		};
-		39BEE1B6207A47A6003AF93E /* SSZipArchive */ = {
-			isa = PBXGroup;
-			children = (
-				39BEE1B8207A47B3003AF93E /* minizip */,
-				39BEE1B7207A47B3003AF93E /* SSZipArchive.h */,
-				39BEE1DC207A47B3003AF93E /* SSZipArchive.m */,
-				39BEE1DD207A47B3003AF93E /* SSZipCommon.h */,
-				39BEE1DE207A47B3003AF93E /* ZipArchive.h */,
-			);
-			name = SSZipArchive;
-			sourceTree = "<group>";
-		};
-		39BEE1B8207A47B3003AF93E /* minizip */ = {
-			isa = PBXGroup;
-			children = (
-				39BEE1B9207A47B3003AF93E /* crypt.c */,
-				39BEE1BA207A47B3003AF93E /* unzip.c */,
-				39BEE1BB207A47B3003AF93E /* zip.c */,
-				39BEE1BC207A47B3003AF93E /* minishared.h */,
-				39BEE1BD207A47B3003AF93E /* ioapi.c */,
-				39BEE1BE207A47B3003AF93E /* ioapi_mem.h */,
-				39BEE1BF207A47B3003AF93E /* ioapi_buf.c */,
-				39BEE1C0207A47B3003AF93E /* crypt.h */,
-				39BEE1C1207A47B3003AF93E /* zip.h */,
-				39BEE1C2207A47B3003AF93E /* unzip.h */,
-				39BEE1C3207A47B3003AF93E /* ioapi_mem.c */,
-				39BEE1C4207A47B3003AF93E /* minishared.c */,
-				39BEE1C5207A47B3003AF93E /* ioapi.h */,
-				39BEE1C6207A47B3003AF93E /* ioapi_buf.h */,
-				39BEE1C7207A47B3003AF93E /* aes */,
-			);
-			name = minizip;
-			path = ../../../Shared/ZipArchive/SSZipArchive/minizip;
-			sourceTree = "<group>";
-		};
-		39BEE1C7207A47B3003AF93E /* aes */ = {
-			isa = PBXGroup;
-			children = (
-				39BEE1C8207A47B3003AF93E /* prng.h */,
-				39BEE1C9207A47B3003AF93E /* aes_ni.h */,
-				39BEE1CA207A47B3003AF93E /* aeskey.c */,
-				39BEE1CB207A47B3003AF93E /* hmac.c */,
-				39BEE1CC207A47B3003AF93E /* aestab.h */,
-				39BEE1CD207A47B3003AF93E /* pwd2key.h */,
-				39BEE1CE207A47B3003AF93E /* aescrypt.c */,
-				39BEE1CF207A47B3003AF93E /* fileenc.c */,
-				39BEE1D0207A47B3003AF93E /* aesopt.h */,
-				39BEE1D1207A47B3003AF93E /* sha1.c */,
-				39BEE1D2207A47B3003AF93E /* brg_types.h */,
-				39BEE1D3207A47B3003AF93E /* hmac.h */,
-				39BEE1D4207A47B3003AF93E /* aes_ni.c */,
-				39BEE1D5207A47B3003AF93E /* brg_endian.h */,
-				39BEE1D6207A47B3003AF93E /* prng.c */,
-				39BEE1D7207A47B3003AF93E /* aes.h */,
-				39BEE1D8207A47B3003AF93E /* pwd2key.c */,
-				39BEE1D9207A47B3003AF93E /* aestab.c */,
-				39BEE1DA207A47B3003AF93E /* sha1.h */,
-				39BEE1DB207A47B3003AF93E /* fileenc.h */,
-			);
-			path = aes;
-			sourceTree = "<group>";
-		};
 		39C72E051F28843A00FD470E /* DTXSocketConnection */ = {
 			isa = PBXGroup;
 			children = (
@@ -1592,6 +1558,7 @@
 				394516B31EEF44190093E503 /* PBXTargetDependency */,
 				392D52C31FAA008000A28938 /* PBXTargetDependency */,
 				39D76EA42086B8470033BDE2 /* PBXTargetDependency */,
+				3939233921AB33DC0015A15F /* PBXTargetDependency */,
 			);
 			name = DetoxInstruments;
 			productName = "Detox Instruments";
@@ -1652,6 +1619,10 @@
 					ProductGroup = 39D76E9C2086B83B0033BDE2 /* Products */;
 					ProjectRef = 39D76E9B2086B83B0033BDE2 /* LNPropertyListEditor.xcodeproj */;
 				},
+				{
+					ProductGroup = 3939231F21AB33CA0015A15F /* Products */;
+					ProjectRef = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1673,6 +1644,55 @@
 			fileType = wrapper.cfbundle;
 			path = DTXSourceMapsTests.xctest;
 			remoteRef = 392D52AA1FA9FC0800A28938 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3939232921AB33CB0015A15F /* ZipZap.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ZipZap.framework;
+			remoteRef = 3939232821AB33CB0015A15F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3939232B21AB33CB0015A15F /* libZipZap.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libZipZap.a;
+			remoteRef = 3939232A21AB33CB0015A15F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3939232D21AB33CB0015A15F /* ZipZap.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ZipZap.framework;
+			remoteRef = 3939232C21AB33CB0015A15F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3939232F21AB33CB0015A15F /* libZipZap.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libZipZap.a;
+			remoteRef = 3939232E21AB33CB0015A15F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3939233121AB33CB0015A15F /* ZipZap.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ZipZap.framework;
+			remoteRef = 3939233021AB33CB0015A15F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3939233321AB33CB0015A15F /* libZipZap.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libZipZap.a;
+			remoteRef = 3939233221AB33CB0015A15F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3939233521AB33CB0015A15F /* ZipZapTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ZipZapTests.xctest;
+			remoteRef = 3939233421AB33CB0015A15F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		394516B11EEF44090093E503 /* LNInterpolation.framework */ = {
@@ -1846,7 +1866,6 @@
 			files = (
 				399B4DCB1ED574AE0098D2AC /* DTXBaseSplitViewController.m in Sources */,
 				39C1415F1F3C47F7008CF5B9 /* DTXStackTraceFrame.m in Sources */,
-				39BEE1E0207A47B3003AF93E /* unzip.c in Sources */,
 				398EC454207BCA1100C55809 /* DTXZipper.m in Sources */,
 				39EA56C420DFEA1800600BA7 /* DTXSignpostDataProvider.m in Sources */,
 				3902F3571EF503DD000CB397 /* DTXInspectorDataProvider.m in Sources */,
@@ -1856,10 +1875,8 @@
 				3988D2C31EEED5AF0090088E /* DTXMemoryDataProvider.m in Sources */,
 				396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */,
 				39F6F6CB1F0E3D5200C7F411 /* AutoCoding.m in Sources */,
-				39BEE1EB207A47B3003AF93E /* aes_ni.c in Sources */,
 				3903F37A208F38E500B73E5D /* DTXLogDetailController.m in Sources */,
 				396CCDAE210DC8F200152C34 /* DTXRNStackTraceParser.m in Sources */,
-				39BEE1E3207A47B3003AF93E /* ioapi_buf.c in Sources */,
 				390442442067036100A29048 /* DTXAboutWindowController.m in Sources */,
 				39C6A8E51EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m in Sources */,
 				3988D70120EA4F4000F11F8C /* DTXSignpostNameProxy.m in Sources */,
@@ -1884,17 +1901,13 @@
 				39F40ABD21202DD600829BA3 /* DTXPlotControllerPickerController.m in Sources */,
 				39EE1F5B1F3E4729002CB6C1 /* DTXRNBridgeDataDataProvider.m in Sources */,
 				3954CAAE20884C6300934BCE /* CCNPreferencesWindowController.m in Sources */,
-				39BEE1DF207A47B3003AF93E /* crypt.c in Sources */,
 				39EFF5F520E90D2C00B5AE75 /* DTXSignpostRootProxy.m in Sources */,
 				39EBDFC01ED36D45005D8AB1 /* main.m in Sources */,
 				3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */,
 				395A43EA2081A2FB00DDF995 /* NSImage+UIAdditions.m in Sources */,
-				39BEE1E7207A47B3003AF93E /* hmac.c in Sources */,
 				397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */,
 				390688DB21177D5000D15C86 /* DTXDebugMenuGenerator.m in Sources */,
 				39C48BF520BEF2BB00E6AFC0 /* DTXInstruments.xcdatamodeld in Sources */,
-				39BEE1E2207A47B3003AF93E /* ioapi.c in Sources */,
-				39BEE1E9207A47B3003AF93E /* fileenc.c in Sources */,
 				39008F2A1EF2AB740013B584 /* DTXSegmentedView.m in Sources */,
 				396828EB1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m in Sources */,
 				39F6F6C61F0E3D2400C7F411 /* DTXProfilingConfiguration.m in Sources */,
@@ -1905,7 +1918,6 @@
 				39DE8E7A2091EDFD00ED16B4 /* DTXCookiesViewController.m in Sources */,
 				39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */,
 				390BEE0021875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.m in Sources */,
-				39BEE1EE207A47B3003AF93E /* aestab.c in Sources */,
 				393E76B1212995CE00E5623F /* DTXTouchBarGraphHostingView.m in Sources */,
 				D8243F941F5401530005CF4B /* DTXFilterField.m in Sources */,
 				39EBDFBD1ED36D45005D8AB1 /* DTXApplicationDelegate.m in Sources */,
@@ -1924,7 +1936,6 @@
 				393CD9231F4337B900FB01FE /* DTXDetailOutlineView.m in Sources */,
 				396A6B481F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m in Sources */,
 				39281E861ED7175C002CE905 /* DTXDetailContentController.m in Sources */,
-				39BEE1E5207A47B3003AF93E /* minishared.c in Sources */,
 				394093F520AB12FD00667765 /* DTXApplicationDelegate+DocumentationGeneration.m in Sources */,
 				39622DC220A8832900B50E40 /* DTXPasteForwardingFieldEditorTextFieldCell.m in Sources */,
 				393973F31EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m in Sources */,
@@ -1946,7 +1957,6 @@
 				39C646571F249CA100DF0C77 /* DTXRemoteTargetCellView.m in Sources */,
 				3925A2631F1142EC008343ED /* DTXStackTraceCellView.m in Sources */,
 				3988D71B20EA533300F11F8C /* DTXSignpostCategoryProxy.m in Sources */,
-				39BEE1E8207A47B3003AF93E /* aescrypt.c in Sources */,
 				3905F4B91EF7FE12003E08C1 /* DTXThreadCPUUsagePlotController.m in Sources */,
 				392A49591EFA69A0000F397F /* DTXViewCellView.m in Sources */,
 				39C6A90F1EE3A155000E2EE1 /* DTXCPUUsagePlotController.m in Sources */,
@@ -1958,13 +1968,11 @@
 				39D02CDE1EF1C8D100BAD7AF /* DTXTextViewCellView.m in Sources */,
 				39EA56A720DFCB9B00600BA7 /* DTXEventsPlotController.m in Sources */,
 				39A876BA1EED61B800AE62F8 /* DTXScrollView.m in Sources */,
-				39BEE1EC207A47B3003AF93E /* prng.c in Sources */,
 				398D6EAC1EE0626400AA9C11 /* DTXSamplePlotController.m in Sources */,
 				39E3B7112097A7B6006F9D43 /* DTXPasteboardViewController.m in Sources */,
 				39C6A9181EE3ADDC000E2EE1 /* DTXFPSPlotController.m in Sources */,
 				3997A8BA1EE980700057418B /* DTXDetailDataProvider.m in Sources */,
 				393F41C21F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m in Sources */,
-				39BEE1E1207A47B3003AF93E /* zip.c in Sources */,
 				3908CC7921A164850063B9EA /* DTXClickableImageView.m in Sources */,
 				3905F4A91EF7F679003E08C1 /* DTXPlotTypeCellView.m in Sources */,
 				3916501A213292D50016A468 /* DTXDocument.m in Sources */,
@@ -1973,13 +1981,11 @@
 				39C6A8F51EE1E757000E2EE1 /* DTXPlotTableView.m in Sources */,
 				396202361EEF4A9C00D04E96 /* DTXCPTRangePlot.m in Sources */,
 				39EE1F501F3E2AF8002CB6C1 /* DTXSegmentedControl.m in Sources */,
-				39BEE1E4207A47B3003AF93E /* ioapi_mem.c in Sources */,
 				397C3F3E1F35555B00BA9159 /* DTXStackedPlotGroup.m in Sources */,
 				3940940E20AB130300667765 /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m in Sources */,
 				398D6EA91EE061FE00AA9C11 /* DTXPlotAreaContentController.m in Sources */,
 				39EA56ED20E02E4B00600BA7 /* NSAppearance+UIAdditions.m in Sources */,
 				39EC15B31F20A243007EBE22 /* DTXRecordingDocumentController.m in Sources */,
-				39BEE1ED207A47B3003AF93E /* pwd2key.c in Sources */,
 				393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */,
 				3922AE131F2BA72C0034B1FE /* DTXSocketConnection.m in Sources */,
 				399B4DD41ED575780098D2AC /* DTXPlotDetailSplitViewController.m in Sources */,
@@ -1992,7 +1998,6 @@
 				396A6B5F1F4F107700768536 /* DTXHighlightingTableCellView.m in Sources */,
 				3954CAA920883FAA00934BCE /* DTXProfilingTargetManagementWindowController.m in Sources */,
 				39F24F5D1EEEE9D70040EED3 /* DTXFPSDataProvider.m in Sources */,
-				39BEE1EA207A47B3003AF93E /* sha1.c in Sources */,
 				39EA56C120DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.m in Sources */,
 				39C6A9051EE37E57000E2EE1 /* DTXAxisHeaderPlotController.m in Sources */,
 				39D02CE11EF1C98F00BAD7AF /* DTXInspectorContentTableDataSource.m in Sources */,
@@ -2010,7 +2015,6 @@
 				39DF54B120A71431007A30B0 /* DTXNSPasteboardParser.m in Sources */,
 				3902F3461EF4F2BF000CB397 /* DTXLogDataProvider.m in Sources */,
 				3940940F20AB130600667765 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.m in Sources */,
-				39BEE1E6207A47B3003AF93E /* aeskey.c in Sources */,
 				3988D71E20EA551700F11F8C /* DTXSampleAggregatorProxy.m in Sources */,
 				399E0ED61F0EC7410047CF92 /* DTXMemoryInspectorDataProvider.m in Sources */,
 				392A49561EF96F72000F397F /* DTXPieChartView.m in Sources */,
@@ -2024,7 +2028,6 @@
 				395F01C31EE7E7AD00695236 /* DTXHeaderView.m in Sources */,
 				39D76E7B2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m in Sources */,
 				3905F4C11EF83FF0003E08C1 /* DTXLineLayer.m in Sources */,
-				39BEE1EF207A47B3003AF93E /* SSZipArchive.m in Sources */,
 				399B3FBC1F248C3C00335109 /* DTXRemoteTarget.m in Sources */,
 				39782CDE1FC590DB0034D70A /* DTXRecording+Additions.m in Sources */,
 				3903F37D208F4C3700B73E5D /* DTXOutlineDetailController.m in Sources */,
@@ -2044,6 +2047,11 @@
 			isa = PBXTargetDependency;
 			name = DTXSourceMaps;
 			targetProxy = 392D52C21FAA008000A28938 /* PBXContainerItemProxy */;
+		};
+		3939233921AB33DC0015A15F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ZipZap (macOS Framework)";
+			targetProxy = 3939233821AB33DC0015A15F /* PBXContainerItemProxy */;
 		};
 		394516B31EEF44190093E503 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

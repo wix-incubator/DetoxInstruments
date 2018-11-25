@@ -16,7 +16,6 @@
 #import "DTXFileSystemItem.h"
 #import "AutoCoding.h"
 #import "DTXZipper.h"
-#import "SSZipArchive.h"
 #import "DTXUIPasteboardParser.h"
 #import "DTXViewHierarchySnapshotter.h"
 
@@ -360,7 +359,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 	NSURL* tempZipURL = DTXTempZipURL();
 	[data writeToURL:tempZipURL atomically:YES];
 	
-	[SSZipArchive unzipFileAtPath:tempZipURL.path toDestination:URL.path];
+	DTXExtractZipToURL(tempZipURL, URL);
 	
 	[[NSFileManager defaultManager] removeItemAtURL:tempZipURL error:NULL];
 }

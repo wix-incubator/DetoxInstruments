@@ -7,7 +7,7 @@
 //
 
 #import "DTXZipper.h"
-#import "SSZipArchive.h"
+@import ZipZap;
 
 #if __has_include("DTXLogging.h")
 #import "DTXLogging.h"
@@ -20,127 +20,96 @@ NSURL* DTXTempZipURL(void)
 	return [[NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES] URLByAppendingPathComponent:@".containerContents.zip"];
 }
 
-BOOL _DTXWriteZipFile(SSZipArchive* zipArchive, NSURL* fileURL)
+static NSArray* _DTXZipEntriesForURL(NSURL* contentsURL)
 {
-	return [zipArchive writeFileAtPath:fileURL.path withFileName:fileURL.lastPathComponent compressionLevel:0 password:nil AES:NO];
-}
+	NSMutableArray* entries = [NSMutableArray new];
 
-BOOL _DTXWriteZipDirectory(SSZipArchive* zipArchive, NSURL* zipURL, NSURL* directoryURL, BOOL prepandDirectory)
-{
-	BOOL success = YES;
+	NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:contentsURL includingPropertiesForKeys:@[NSURLIsDirectoryKey,NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
 	
-	// use a local fileManager (queue/thread compatibility)
-	NSFileManager *fileManager = [[NSFileManager alloc] init];
-	NSDirectoryEnumerator *dirEnumerator = [fileManager enumeratorAtPath:directoryURL.path];
-	NSArray<NSString *> *allObjects = dirEnumerator.allObjects;
-	NSString *dirName = directoryURL.lastPathComponent;
-	NSString *fileName;
-	
-	if(prepandDirectory)
+	for (NSURL *fileURL in enumerator)
 	{
-		[zipArchive writeFolderAtPath:directoryURL.path withFolderName:dirName withPassword:nil];
-	}
-	
-	for (fileName in allObjects)
-	{
-		BOOL isDir;
-		NSString *fullFilePath = [directoryURL.path stringByAppendingPathComponent:fileName];
-		
-		if(prepandDirectory)
+		NSString* name = [fileURL.path substringFromIndex:contentsURL.path.length];
+
+		NSNumber* isDirectory;
+		[fileURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+		if(isDirectory.boolValue == YES)
 		{
-			fileName = [NSString stringWithFormat:@"%@/%@", dirName, fileName];
-		}
-		
-		if([fullFilePath isEqualToString:zipURL.path])
-		{
-			continue;
-		}
-		
-		[fileManager fileExistsAtPath:fullFilePath isDirectory:&isDir];
-		
-		if (!isDir)
-		{
-			success &= [zipArchive writeFileAtPath:fullFilePath withFileName:fileName compressionLevel:0 password:nil AES:NO];
+			[entries addObject:[ZZArchiveEntry archiveEntryWithDirectoryName:[NSString stringWithFormat:@"%@/", name]]];
 		}
 		else
 		{
-			if ([[NSFileManager defaultManager] subpathsOfDirectoryAtPath:fullFilePath error:nil].count == 0)
-			{
-				success &= [zipArchive writeFolderAtPath:fullFilePath withFolderName:fileName withPassword:nil];
-			}
-		}
-		
-		if(success == NO)
-		{
-			NSLog(@"FAILED for %@", fileName);
+			[entries addObject:[ZZArchiveEntry archiveEntryWithFileName:name compress:YES dataBlock:^NSData * _Nullable(NSError * _Nullable __autoreleasing * _Nullable error) {
+				return [NSData dataWithContentsOfURL:fileURL];
+			}]];
 		}
 	}
 	
-	return success;
-}
-
-BOOL _DTXWriteZipFileWithURLInternal(SSZipArchive* zipArchive, NSURL* zipURL, NSURL* contentsURL)
-{
-	NSNumber* isDirectory;
-	[contentsURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+//	NSNumber* isDirectory;
+//	[contentsURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+//	if(isDirectory.boolValue == YES)
+//	{
+//
+//
+//	}
+//	else
+//	{
+//
+//	}
 	
-	if(isDirectory.boolValue == YES)
-	{
-		return _DTXWriteZipDirectory(zipArchive, zipURL, contentsURL, YES);
-	}
-	else
-	{
-		return _DTXWriteZipFile(zipArchive, contentsURL);
-	}
+	return entries;
 }
 
 BOOL DTXWriteZipFileWithURLArray(NSURL* zipURL, NSArray<NSURL*>* contentsURLs)
 {
-	SSZipArchive *zipArchive = [[SSZipArchive alloc] initWithPath:zipURL.path];
-	__block BOOL success = [zipArchive open];
+	ZZArchive* archive = [[ZZArchive alloc] initWithURL:zipURL options:@{ZZOpenOptionsCreateIfMissingKey : @YES} error:NULL];
+	__block BOOL success = YES;
+	
+	NSMutableArray* entries = [NSMutableArray new];
 	[contentsURLs enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		success &= _DTXWriteZipFileWithURLInternal(zipArchive, zipURL, obj);
-		
-		if(success == NO)
-		{
-			NSLog(@"FAILED in DTXWriteZipFileWithURLArray");
-		}
-		
-		*stop = !success;
+		[entries addObjectsFromArray:_DTXZipEntriesForURL(obj)];
 	}];
-	return success & [zipArchive close];
+	
+	return [archive updateEntries:entries error:NULL];
 }
 
 BOOL DTXWriteZipFileWithURL(NSURL* zipURL, NSURL* contentsURL)
 {
-	NSNumber* isDirectory;
-	[contentsURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+	ZZArchive* archive = [[ZZArchive alloc] initWithURL:zipURL options:@{ZZOpenOptionsCreateIfMissingKey : @YES} error:NULL];
+
+	NSArray* entries = _DTXZipEntriesForURL(contentsURL);
 	
-	if(isDirectory.boolValue == YES)
-	{
-		return DTXWriteZipFileWithDirectoryURL(zipURL, contentsURL);
-	}
-	else
-	{
-		return DTXWriteZipFileWithFileURL(zipURL, contentsURL);
-	}
+	return [archive updateEntries:entries error:NULL];
 }
 
 BOOL DTXWriteZipFileWithFileURL(NSURL* zipURL, NSURL* fileURL)
 {
-	SSZipArchive *zipArchive = [[SSZipArchive alloc] initWithPath:zipURL.path];
-	BOOL success = [zipArchive open];
-	success &= _DTXWriteZipFile(zipArchive, fileURL);
-	return success & [zipArchive close];
+	return DTXWriteZipFileWithURL(zipURL, fileURL);
 }
 
 BOOL DTXWriteZipFileWithDirectoryURL(NSURL* zipURL, NSURL* directoryURL)
 {
-	SSZipArchive *zipArchive = [[SSZipArchive alloc] initWithPath:zipURL.path];
-	BOOL success = [zipArchive open];
-	if (success)
+	return DTXWriteZipFileWithURL(zipURL, directoryURL);
+}
+
+BOOL DTXExtractZipToURL(NSURL* zipURL, NSURL* targetURL)
+{
+	ZZArchive* archive = [ZZArchive archiveWithURL:zipURL error:NULL];
+	
+	[archive.entries enumerateObjectsUsingBlock:^(ZZArchiveEntry * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
 	{
-		success &= _DTXWriteZipDirectory(zipArchive, zipURL, directoryURL, NO);
-	}
-	return success;
+		NSURL* fullExtractURL = [targetURL URLByAppendingPathComponent:obj.fileName];
+		
+		BOOL isDirectory = (obj.fileMode & S_IFDIR) != 0;
+	
+		if(isDirectory)
+		{
+			[NSFileManager.defaultManager createDirectoryAtURL:fullExtractURL withIntermediateDirectories:YES attributes:nil error:NULL];
+		}
+		else
+		{
+			[[obj newDataWithError:NULL] writeToURL:fullExtractURL atomically:YES];
+		}
+	}];
+	
+	return YES;
 }

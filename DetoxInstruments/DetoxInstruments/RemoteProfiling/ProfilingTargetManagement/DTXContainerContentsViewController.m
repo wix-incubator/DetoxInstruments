@@ -8,7 +8,6 @@
 
 #import "DTXContainerContentsViewController.h"
 #import "DTXZipper.h"
-#import "SSZipArchive.h"
 #import "DTXTwoLabelsCellView.h"
 
 @interface DTXContainerContentsViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
@@ -197,7 +196,7 @@
 				NSURL* tempZipURL = DTXTempZipURL();
 				[data writeToURL:tempZipURL atomically:YES];
 				
-				[SSZipArchive unzipFileAtPath:tempZipURL.path toDestination:URL.path];
+				DTXExtractZipToURL(tempZipURL, URL);
 				
 				[[NSFileManager defaultManager] removeItemAtURL:tempZipURL error:NULL];
 			}

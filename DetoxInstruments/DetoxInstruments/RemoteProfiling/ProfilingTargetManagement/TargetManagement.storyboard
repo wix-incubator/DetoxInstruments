@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -273,8 +274,8 @@
                                         <constraint firstItem="Gf1-vD-H1U" firstAttribute="centerY" secondItem="5ZI-dc-fTZ" secondAttribute="centerY" id="th7-6B-yH9"/>
                                     </constraints>
                                 </view>
-                                <color key="borderColor" red="0.96470588239999999" green="0.85882352939999995" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="fillColor" red="0.96470588239999999" green="0.95294117649999999" blue="0.72941176470000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="borderColor" name="modalProgressIndicatorColor"/>
+                                <color key="fillColor" name="modalProgressIndicatorColor"/>
                             </box>
                         </subviews>
                         <constraints>
@@ -605,5 +606,8 @@
         <image name="NSColorPickerUser" width="24" height="24"/>
         <image name="NSFolder" width="32" height="32"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
+        <namedColor name="modalProgressIndicatorColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

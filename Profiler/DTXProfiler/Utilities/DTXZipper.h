@@ -15,3 +15,5 @@ extern BOOL DTXWriteZipFileWithFileURL(NSURL* zipURL, NSURL* fileURL);
 extern BOOL DTXWriteZipFileWithDirectoryURL(NSURL* zipURL, NSURL* directoryURL);
 
 extern BOOL DTXWriteZipFileWithURLArray(NSURL* zipURL, NSArray<NSURL*>* contentsURLs);
+
+extern BOOL DTXExtractZipToURL(NSURL* zipURL, NSURL* targetURL);
