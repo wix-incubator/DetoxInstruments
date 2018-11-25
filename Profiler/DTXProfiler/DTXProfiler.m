@@ -79,6 +79,16 @@ DTX_CREATE_LOG(Profiler);
 	return _currentProfilingConfiguration;
 }
 
++ (NSManagedObjectModel*)_modelForProfiler
+{
+	static NSManagedObjectModel* model;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXProfiler class]]]];
+	});
+	return model;
+}
+
 - (NSPersistentContainer*)_persistentStoreForProfilingDeleteExisting:(BOOL)deleteExisting
 {
 	NSError* err;
@@ -91,9 +101,8 @@ DTX_CREATE_LOG(Profiler);
 	[[NSFileManager defaultManager] createDirectoryAtURL:_currentProfilingConfiguration.recordingFileURL withIntermediateDirectories:YES attributes:nil error:NULL];
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.sqlite"]];
-	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXProfiler class]]]];
 	
-	NSPersistentContainer* rv = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
+	NSPersistentContainer* rv = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:self.class._modelForProfiler];
 	rv.persistentStoreDescriptions = @[description];
 	
 	return rv;

@@ -15,6 +15,12 @@
 
 DTX_CREATE_LOG(RemoteProfiler);
 
+@interface DTXProfiler ()
+
++ (NSManagedObjectModel*)_modelForProfiler;
+
+@end
+
 @interface DTXRemoteProfiler () <DTXProfilerStoryListener>
 
 @end
@@ -63,9 +69,8 @@ DTX_CREATE_LOG(RemoteProfiler);
 {
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:[NSURL URLWithString:@""]];
 	description.type = NSInMemoryStoreType;
-	NSManagedObjectModel* model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXProfiler class]]]];
 	
-	NSPersistentContainer* rv = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
+	NSPersistentContainer* rv = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:self.class._modelForProfiler];
 	rv.persistentStoreDescriptions = @[description];
 	
 	return rv;
