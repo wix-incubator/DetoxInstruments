@@ -119,7 +119,7 @@
 		
 		[NSObject cancelPreviousPerformRequestsWithTarget:self];
 		
-		[self performSelector:@selector(_fadeOut) withObject:nil afterDelay:1.0];
+		[self performSelector:@selector(_fadeOut) withObject:nil afterDelay:3.0];
 	}
 }
 

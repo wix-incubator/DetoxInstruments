@@ -67,7 +67,14 @@
 
 - (void)prepareSamples
 {
+	if(_frc != nil)
+	{
+		return;
+	}
+	
 	NSFetchRequest* fr = [self.class.classForIntervalSamples fetchRequest];
+	fr.propertiesToFetch = self.propertiesToFetch;
+	fr.relationshipKeyPathsForPrefetching = self.relationshipsToFetch;
 	fr.sortDescriptors = self.sortDescriptors ?: @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 	
 	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
@@ -96,10 +103,7 @@
 
 - (NSMutableArray<NSMutableArray<DTXSample*>*>*)_mergedSamples
 {
-	if(_frc == nil)
-	{
-		[self prepareSamples];
-	}
+	[self prepareSamples];
 	
 	return _mergedSamples;
 }
@@ -111,6 +115,8 @@
 
 - (void)_prepareMergedSamples
 {
+	CFTimeInterval startTime = CACurrentMediaTime();
+	
 	_mergedSamples = [NSMutableArray new];
 	_sampleIndices = [NSMutableArray new];
 	
@@ -118,21 +124,25 @@
 	{
 		return;
 	}
-	
-	[_frc.fetchedObjects enumerateObjectsUsingBlock:^(DTXSample* _Nonnull currentSample, NSUInteger idx, BOOL * _Nonnull stop) {
+
+	for(DTXSample* currentSample in _frc.fetchedObjects)
+	{
 		NSDate* timestamp = currentSample.timestamp;
 		
 		__block NSMutableArray* _insertionGroup = nil;
 		
-		[_mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<DTXSample *> * _Nonnull possibleSampleGroup, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSDate* lastResponseTimestamp = [self endTimestampForSampleForSorting:possibleSampleGroup.lastObject];
+		NSUInteger insertionGroupIndex = 0;
+		for (NSMutableArray* possibleSampleGroup in _mergedSamples) {
+			NSDate* lastResponseTimestamp = [self endTimestampForSample:possibleSampleGroup.lastObject];
 			
 			if([timestamp compare:lastResponseTimestamp] == NSOrderedDescending)
 			{
 				_insertionGroup = possibleSampleGroup;
-				*stop = YES;
+				break;
 			}
-		}];
+			
+			insertionGroupIndex += 1;
+		}
 		
 		if(_insertionGroup == nil)
 		{
@@ -140,11 +150,15 @@
 			[_mergedSamples addObject:_insertionGroup];
 		}
 		
+		NSUInteger insertionIndex = _insertionGroup.count;
 		[_insertionGroup addObject:currentSample];
 		
-		NSIndexPath* indexPath = [NSIndexPath indexPathForItem:[_insertionGroup indexOfObject:currentSample] inSection:[_mergedSamples indexOfObject:_insertionGroup]];
+		NSIndexPath* indexPath = [NSIndexPath indexPathForItem:insertionIndex inSection:insertionGroupIndex];
 		[_sampleIndices addObject:indexPath];
-	}];
+	}
+	
+	CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+	NSLog(@"%@ took %@ seconds to prepare samples", self.class, @(elapsedTime));
 }
 
 - (BOOL)wantsGestureRecognizerForPlots
@@ -163,7 +177,7 @@
 		// Add line style
 		CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
 		lineStyle.lineWidth = self.isForTouchBar ? 1.5 : 5.0;
-		lineStyle.lineCap = self.isForTouchBar ? kCGLineCapButt : kCGLineCapRound;
+		lineStyle.lineCap = kCGLineCapButt;//self.isForTouchBar ? kCGLineCapButt : kCGLineCapRound;
 		_plot.barLineStyle = lineStyle;
 		
 		// Bar properties
@@ -176,6 +190,19 @@
 	}
 	
 	return @[_plot];
+}
+
+- (CPTPlotRange*)finessedPlotYRangeForPlotYRange:(CPTPlotRange*)yRange;
+{
+	NSEdgeInsets insets = self.rangeInsets;
+	
+	CPTMutablePlotRange* rv = [yRange mutableCopy];
+	
+	CGFloat initial = rv.location.doubleValue;
+	rv.location = @(-insets.bottom);
+	rv.length = @((initial + rv.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier);
+	
+	return rv;
 }
 
 - (void)mouseMoved:(NSEvent *)event
@@ -469,11 +496,6 @@
 	return lineStyle;
 }
 
-- (NSDate*)endTimestampForSampleForSorting:(DTXSample*)sample
-{
-	return [self endTimestampForSample:sample];
-}
-
 - (NSDate*)endTimestampForSample:(DTXSample*)sample
 {
 	return nil;
@@ -520,18 +542,18 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
 	CGFloat oldHeight = self.requiredHeight;
-	
+
 	[self _prepareMergedSamples];
 	[_plot reloadData];
 	CPTPlotRange* range = [_plot plotRangeForCoordinate:CPTCoordinateY];
 	range = [self finessedPlotYRangeForPlotYRange:range];
-	
+
 	CPTXYPlotSpace* plotSpace = (id)self.graph.defaultPlotSpace;
 	[self setValue:range forKey:@"_globalYRange"];
 	plotSpace.globalYRange = plotSpace.yRange = range;
-	
+
 	CGFloat newHeight = self.requiredHeight;
-	
+
 	if(newHeight != oldHeight)
 	{
 		//Because of macOS bugs, delay the height change notification to next runloop.

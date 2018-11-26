@@ -58,14 +58,9 @@
 	return [NSFormatter dtx_memoryFormatter];
 }
 
-- (NSDate*)endTimestampForSampleForSorting:(DTXNetworkSample*)sample
-{
-	return sample.responseTimestamp ?: NSDate.distantFuture;
-}
-
 - (NSDate*)endTimestampForSample:(DTXNetworkSample*)sample
 {
-	return sample.responseTimestamp ?: (sample.recording == self.document.lastRecording && self.document.lastRecording.endTimestamp == nil) ? NSDate.distantFuture : sample.recording.endTimestamp;
+	return sample.responseTimestamp ?: [sample.timestamp dateByAddingTimeInterval:1];
 }
 
 - (NSColor*)colorForSample:(DTXNetworkSample*)sample

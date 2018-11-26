@@ -11,6 +11,7 @@
 #import "DTXRecording+UIExtensions.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import <DTXSourceMaps/DTXSourceMaps.h>
+#import <pthread.h>
 
 @interface DTXRemoteProfilingClient ()
 {
@@ -20,6 +21,12 @@
 	
 	dispatch_queue_t _aggregationCollectionQueue;
 	dispatch_source_t _aggregationCollectionSource;
+	
+	pthread_mutex_t _opportunisticSourceMutext;
+	NSMutableDictionary<NSString*, NSMutableDictionary*>* _opportunisticSamples;
+	NSMutableDictionary<NSString*, NSDictionary*>* _opportunisticUpdates;
+	dispatch_queue_t _opportunisticQueue;
+	dispatch_source_t _opportunisticSource;
 }
 
 @end
@@ -43,9 +50,70 @@
 		
 		dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
 		_aggregationCollectionQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingAggregation", qosAttribute);
+		
+		_opportunisticQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingOpportunisticSamples", qosAttribute);
+		pthread_mutex_init(&_opportunisticSourceMutext, NULL);
+		
+		_opportunisticSamples = [NSMutableDictionary new];
+		_opportunisticUpdates = [NSMutableDictionary new];
 	}
 	
 	return self;
+}
+
+- (void)_resetOpportunisticSamplesTimer
+{
+	pthread_mutex_lock(&_opportunisticSourceMutext);
+	if(_opportunisticSource)
+	{
+		dispatch_source_cancel(_opportunisticSource);
+		_opportunisticSource = nil;
+	}
+	
+	_opportunisticSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _opportunisticQueue);
+	uint64_t interval = 0.5 * NSEC_PER_SEC;
+	dispatch_source_set_timer(_opportunisticSource, dispatch_time(DISPATCH_TIME_NOW, interval), interval, interval);
+	dispatch_source_set_event_handler(_opportunisticSource, ^{
+		pthread_mutex_lock(&_opportunisticSourceMutext);
+		if(_opportunisticSource)
+		{
+			dispatch_source_cancel(_opportunisticSource);
+			_opportunisticSource = nil;
+		}
+		pthread_mutex_unlock(&_opportunisticSourceMutext);
+		
+		[_managedObjectContext performBlockAndWait:^{
+			for(NSString* sampleIdentifier in _opportunisticSamples)
+			{
+				NSMutableDictionary* sample = _opportunisticSamples[sampleIdentifier];
+				NSEntityDescription* entityDescription = [NSClassFromString(sample[@"__dtx_className"]) entity];
+				
+				id parent = sample[@"parent"];
+				sample[@"parent"] = nil;
+				
+				[self _addSample:sample entityDescription:entityDescription inParent:parent];
+			}
+			
+			[_opportunisticSamples removeAllObjects];
+			
+			NSArray* allUpdates = _opportunisticUpdates.allKeys;
+			
+			NSFetchRequest* fr = [DTXSample fetchRequest];
+			fr.predicate = [NSPredicate predicateWithFormat:@"sampleIdentifier in %@", allUpdates];
+			NSArray* samples = [_managedObjectContext executeFetchRequest:fr error:NULL];
+			
+			for(DTXSample* sample in samples)
+			{
+				NSDictionary* update = _opportunisticUpdates[sample.sampleIdentifier];
+				[sample updateWithPropertyListDictionaryRepresentation:update];
+			}
+			
+			[_opportunisticUpdates removeAllObjects];
+		}];
+	});
+	
+	dispatch_resume(_opportunisticSource);
+	pthread_mutex_unlock(&_opportunisticSourceMutext);
 }
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration
@@ -54,11 +122,8 @@
 	[_target startProfilingWithConfiguration:configuration];
 	
 	_aggregationCollectionSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _aggregationCollectionQueue);
-	
 	uint64_t interval = configuration.samplingInterval * NSEC_PER_SEC;
-	
-	dispatch_source_set_timer(_aggregationCollectionSource, dispatch_walltime(NULL, 0), interval, interval);
-	
+	dispatch_source_set_timer(_aggregationCollectionSource, dispatch_time(interval, 0), interval, interval);
 	dispatch_source_set_event_handler(_aggregationCollectionSource, ^{
 		[_managedObjectContext performBlockAndWait:^{
 			@try
@@ -87,7 +152,7 @@
 	}
 }
 
-- (void)_addSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
+- (void)_addSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription inParent:(DTXSampleGroup*)parent
 {
 	Class cls = NSClassFromString(entityDescription.managedObjectClassName);
 	__kindof DTXSample* sample = [[cls alloc] initWithPropertyListDictionaryRepresentation:sampleDict context:_managedObjectContext];
@@ -104,12 +169,34 @@
 		}
 	}
 	
-	[self _addSampleObject:sample];
+	[self _addSampleObject:sample inParent:parent];
 }
 
-- (void)_addSampleObject:(DTXSample*)sample
+- (void)_addOpportunisticSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
 {
-	sample.parentGroup = _currentSampleGroup;
+	NSMutableDictionary* mutableSample = sampleDict.mutableCopy;
+	
+	mutableSample[@"parent"] = _currentSampleGroup;
+	_opportunisticSamples[mutableSample[@"sampleIdentifier"]] = mutableSample;
+	
+	[self _resetOpportunisticSamplesTimer];
+}
+
+- (void)_addOpportunisticUpdate:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
+{
+	_opportunisticUpdates[sampleDict[@"sampleIdentifier"]] = sampleDict;
+	
+	[self _resetOpportunisticSamplesTimer];
+}
+
+- (void)_addSampleObject:(DTXSample*)sample inParent:(DTXSampleGroup*)parent
+{
+	if(parent == nil)
+	{
+		parent = _currentSampleGroup;
+	}
+	
+	sample.parentGroup = parent;
 }
 
 - (DTXThreadInfo*)_threadWithNumber:(NSNumber*)threadNumber
@@ -126,28 +213,6 @@
 	return thread;
 }
 
-- (DTXNetworkSample*)_networkSampleWithIdentifier:(NSString*)sampleIdentifier
-{
-	NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
-	fr.entity = [NSEntityDescription entityForName:@"NetworkSample" inManagedObjectContext:_managedObjectContext];
-	fr.predicate = [NSPredicate predicateWithFormat:@"sampleIdentifier == %@", sampleIdentifier];
-	NSArray* networkSamples = [_managedObjectContext executeFetchRequest:fr error:NULL];
-	NSAssert(networkSamples.count <= 1, @"More than one network sample with identifier '%@' found", sampleIdentifier);
-	
-	return networkSamples.firstObject;
-}
-
-- (DTXSignpostSample*)_signpostSampleWithIdentifier:(NSString*)sampleIdentifier
-{
-	NSFetchRequest* fr = [DTXSignpostSample fetchRequest];
-	fr.entity = [NSEntityDescription entityForName:@"SignpostSample" inManagedObjectContext:_managedObjectContext];
-	fr.predicate = [NSPredicate predicateWithFormat:@"sampleIdentifier == %@", sampleIdentifier];
-	NSArray* signpostSamples = [_managedObjectContext executeFetchRequest:fr error:NULL];
-	NSAssert(signpostSamples.count <= 1, @"More than one signpost sample with identifier '%@' found", sampleIdentifier);
-	
-	return signpostSamples.firstObject;
-}
-
 #pragma mark DTXProfilerStoryDecoder
 
 - (void)willDecodeStoryEvent {}
@@ -161,22 +226,22 @@
 
 - (void)addLogSample:(NSDictionary *)logSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:logSample entityDescription:entityDescription];
+	[self _addSample:logSample entityDescription:entityDescription inParent:nil];
 }
 
 - (void)addPerformanceSample:(NSDictionary *)perfrmanceSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:perfrmanceSample entityDescription:entityDescription];
+	[self _addSample:perfrmanceSample entityDescription:entityDescription inParent:nil];
 }
 
 - (void)addRNPerformanceSample:(NSDictionary *)rnPerfrmanceSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:rnPerfrmanceSample entityDescription:entityDescription];
+	[self _addSample:rnPerfrmanceSample entityDescription:entityDescription inParent:nil];
 }
 
 - (void)addTagSample:(NSDictionary *)tag entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:tag entityDescription:entityDescription];
+	[self _addSample:tag entityDescription:entityDescription inParent:nil];
 }
 
 - (void)createRecording:(NSDictionary *)recording entityDescription:(NSEntityDescription *)entityDescription
@@ -198,13 +263,12 @@
 
 - (void)finishWithResponseForNetworkSample:(NSDictionary *)networkSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	DTXNetworkSample* networkSampleObj = [self _networkSampleWithIdentifier:networkSample[@"sampleIdentifier"]];
-	[networkSampleObj updateWithPropertyListDictionaryRepresentation:networkSample];
+	[self _addOpportunisticUpdate:networkSample entityDescription:entityDescription];
 }
 
 - (void)addRNBridgeDataSample:(NSDictionary*)rbBridgeDataSample entityDescription:(NSEntityDescription*)entityDescription
 {
-	[self _addSample:rbBridgeDataSample entityDescription:entityDescription];
+	[self _addSample:rbBridgeDataSample entityDescription:entityDescription inParent:nil];
 }
 
 - (void)popSampleGroup:(NSDictionary *)sampleGroup entityDescription:(NSEntityDescription *)entityDescription
@@ -229,7 +293,7 @@
 	}
 	else
 	{
-		[self _addSampleObject:sampleGroupObj];
+		[self _addSampleObject:sampleGroupObj inParent:nil];
 	}
 	
 	_currentSampleGroup = sampleGroupObj;
@@ -237,7 +301,7 @@
 
 - (void)startRequestWithNetworkSample:(NSDictionary *)networkSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:networkSample entityDescription:entityDescription];
+	[self _addOpportunisticSample:networkSample entityDescription:entityDescription];
 }
 
 - (void)updateRecording:(NSDictionary *)recording stopRecording:(NSNumber *)stopRecording entityDescription:(NSEntityDescription *)entityDescription
@@ -252,18 +316,17 @@
 
 - (void)markEvent:(NSDictionary *)signpostSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:signpostSample entityDescription:entityDescription];
+	[self _addOpportunisticSample:signpostSample entityDescription:entityDescription];
 }
 
 - (void)markEventIntervalBegin:(NSDictionary *)signpostSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:signpostSample entityDescription:entityDescription];
+	[self _addOpportunisticSample:signpostSample entityDescription:entityDescription];
 }
 
 - (void)markEventIntervalEnd:(NSDictionary *)signpostSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	DTXSignpostSample* signpostSampleObj = [self _signpostSampleWithIdentifier:signpostSample[@"sampleIdentifier"]];
-	[signpostSampleObj updateWithPropertyListDictionaryRepresentation:signpostSample];
+	[self _addOpportunisticUpdate:signpostSample entityDescription:entityDescription];
 }
 
 - (void)performBlock:(void (^)(void))block

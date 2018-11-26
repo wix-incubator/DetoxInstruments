@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DTXIntervalSamplePlotController : DTXSamplePlotController
 
-- (NSDate*)endTimestampForSampleForSorting:(DTXSample*)sample;
 - (NSDate*)endTimestampForSample:(DTXSample*)sample;
 - (NSColor*)colorForSample:(DTXSample*)sample;
 + (Class)classForIntervalSamples;

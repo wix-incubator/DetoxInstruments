@@ -54,6 +54,16 @@
 	return @[@"totalDataLength"];
 }
 
+- (NSArray<NSString*>*)propertiesToFetch;
+{
+	return @[@"timestamp", @"endTimestamp", @"isEvent", @"eventStatus"];
+}
+
+- (NSArray<NSString*>*)relationshipsToFetch
+{
+	return @[@"recording"];
+}
+
 - (NSArray<NSColor*>*)plotColors
 {
 	return @[NSColor.signpostPlotControllerColor];
@@ -66,12 +76,7 @@
 
 - (NSDate*)endTimestampForSample:(DTXSignpostSample*)sample
 {
-	return sample.isEvent ? sample.timestamp : sample.endTimestamp ?: (sample.recording == self.document.lastRecording && self.document.lastRecording.endTimestamp != nil) ? NSDate.distantFuture : sample.recording.endTimestamp;
-}
-
-- (NSDate*)endTimestampForSampleForSorting:(DTXSignpostSample*)sample
-{
-	return sample.isEvent ? /*[*/ sample.timestamp /*dateByAddingTimeInterval:1]*/ : sample.endTimestamp ?: NSDate.distantFuture;
+	return sample.endTimestamp ?: [sample.timestamp dateByAddingTimeInterval:1];
 }
 
 - (NSColor*)colorForSample:(DTXSignpostSample*)sample

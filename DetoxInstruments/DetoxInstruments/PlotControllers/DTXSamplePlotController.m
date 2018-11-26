@@ -909,6 +909,16 @@
 	return @[];
 }
 
+- (NSArray<NSString*>*)propertiesToFetch;
+{
+	return @[@"timestamp"];
+}
+
+- (NSArray<NSString*>*)relationshipsToFetch
+{
+	return nil;
+}
+
 - (NSArray<NSColor*>*)plotColors
 {
 	return @[];

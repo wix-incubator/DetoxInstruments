@@ -26,6 +26,8 @@
 - (NSArray<__kindof CPTPlot*>*)plots;
 - (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph;
 - (NSArray<NSString*>*)sampleKeys;
+- (NSArray<NSString*>*)propertiesToFetch;
+- (NSArray<NSString*>*)relationshipsToFetch;
 - (NSArray<NSColor*>*)plotColors;
 - (NSArray<NSString*>*)plotTitles;
 - (BOOL)isStepped;
