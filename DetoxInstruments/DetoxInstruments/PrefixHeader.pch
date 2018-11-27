@@ -10,5 +10,6 @@
 #define PrefixHeader_pch
 
 #import "Swiftier.h"
+#import "NSMapTable+Subscripting.h"
 
 #endif /* PrefixHeader_pch */

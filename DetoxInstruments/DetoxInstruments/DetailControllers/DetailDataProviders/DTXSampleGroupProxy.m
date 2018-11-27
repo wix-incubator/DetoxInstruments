@@ -58,7 +58,7 @@
 	if(self)
 	{
 		_sampleTypes = sampleTypes;
-		_groupToProxyMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
+		_groupToProxyMapping = [NSMapTable strongToStrongObjectsMapTable];
 	}
 	return self;
 }

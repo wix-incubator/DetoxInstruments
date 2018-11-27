@@ -11,7 +11,7 @@
 @implementation DTXSampleAggregatorProxy
 {
 	NSMutableArray<NSString*>* _aggregates;
-	NSMutableDictionary<NSString*, DTXSampleContainerProxy*>* _proxyMapping;
+	NSMapTable<NSString*, DTXSampleContainerProxy*>* _proxyMapping;
 }
 
 @synthesize managedObjectContext=_managedObjectContext;
@@ -35,7 +35,7 @@
 	id categories = [_managedObjectContext executeFetchRequest:fr error:NULL];
 	
 	_aggregates = [categories valueForKey:self.keyPath];
-	_proxyMapping = [NSMutableDictionary new];
+	_proxyMapping = [NSMapTable strongToStrongObjectsMapTable];
 	
 	[_aggregates enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		_proxyMapping[obj] = [self objectForSample:obj];

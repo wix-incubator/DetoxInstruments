@@ -16,6 +16,30 @@
 #import "NSColor+UIAdditions.h"
 #import "NSAppearance+UIAdditions.h"
 #import <LNInterpolation/Color+Interpolation.h>
+//@import os.signpost;
+
+@interface _DTXSampleGroup : NSObject
+
+@property (nonatomic, strong) NSMutableArray<DTXSample*>* samples;
+@property (nonatomic, strong) NSDate* lastDate;
+
+@end
+
+@implementation _DTXSampleGroup
+
+- (instancetype)init
+{
+	self = [super init];
+	
+	if(self)
+	{
+		_samples = [NSMutableArray new];
+	}
+	
+	return self;
+}
+
+@end
 
 @interface DTXIntervalSamplePlotController () <CPTRangePlotDataSource, CPTRangePlotDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -23,8 +47,10 @@
 	
 	CPTRangePlot* _plot;
 	
-	NSMutableArray<NSMutableArray<DTXSample*>*>* _mergedSamples;
+	NSMutableArray<_DTXSampleGroup*>* _mergedSamples;
 	NSMutableArray<NSIndexPath*>* _sampleIndices;
+	NSMapTable<NSString*, NSIndexPath*>* _sampleMapping;
+	NSMapTable<NSIndexPath*, NSNumber*>* _indexPathIndexMapping;
 	NSUInteger _selectedIndex;
 	
 	CPTPlotSpaceAnnotation* _shadowHighlightAnnotation;
@@ -101,7 +127,7 @@
 	}
 }
 
-- (NSMutableArray<NSMutableArray<DTXSample*>*>*)_mergedSamples
+- (NSMutableArray<_DTXSampleGroup*>*)_mergedSamples
 {
 	[self prepareSamples];
 	
@@ -115,25 +141,33 @@
 
 - (void)_prepareMergedSamples
 {
-	CFTimeInterval startTime = CACurrentMediaTime();
-	
 	_mergedSamples = [NSMutableArray new];
 	_sampleIndices = [NSMutableArray new];
+	_sampleMapping = [NSMapTable strongToStrongObjectsMapTable];
+	_indexPathIndexMapping = [NSMapTable strongToStrongObjectsMapTable];
 	
 	if(_frc.fetchedObjects.count == 0)
 	{
 		return;
 	}
+	
+//	os_log_t log = os_log_create("DetoxInstruments", NSStringFromClass(self.class).UTF8String);
+//	os_signpost_id_t signpost_id = os_signpost_id_generate(log);
+//
+//	os_signpost_interval_begin(log, signpost_id, "_prepareMergedSamples");
+//
+	CFTimeInterval startTime = CACurrentMediaTime();
 
 	for(DTXSample* currentSample in _frc.fetchedObjects)
 	{
 		NSDate* timestamp = currentSample.timestamp;
 		
-		__block NSMutableArray* _insertionGroup = nil;
+		__block _DTXSampleGroup* _insertionGroup = nil;
 		
 		NSUInteger insertionGroupIndex = 0;
-		for (NSMutableArray* possibleSampleGroup in _mergedSamples) {
-			NSDate* lastResponseTimestamp = [self endTimestampForSample:possibleSampleGroup.lastObject];
+		for (_DTXSampleGroup* possibleSampleGroup in _mergedSamples)
+		{
+			NSDate* lastResponseTimestamp = possibleSampleGroup.lastDate;
 			
 			if([timestamp compare:lastResponseTimestamp] == NSOrderedDescending)
 			{
@@ -146,19 +180,26 @@
 		
 		if(_insertionGroup == nil)
 		{
-			_insertionGroup = [NSMutableArray new];
+			_insertionGroup = [_DTXSampleGroup new];
 			[_mergedSamples addObject:_insertionGroup];
 		}
 		
-		NSUInteger insertionIndex = _insertionGroup.count;
-		[_insertionGroup addObject:currentSample];
+		NSDate* endTimestamp = [self endTimestampForSample:currentSample];
+		
+		NSUInteger insertionIndex = _insertionGroup.samples.count;
+		[_insertionGroup.samples addObject:currentSample];
+		_insertionGroup.lastDate = endTimestamp;
 		
 		NSIndexPath* indexPath = [NSIndexPath indexPathForItem:insertionIndex inSection:insertionGroupIndex];
 		[_sampleIndices addObject:indexPath];
+		_sampleMapping[currentSample.sampleIdentifier] = indexPath;
+		_indexPathIndexMapping[indexPath] = @(_sampleIndices.count - 1);
 	}
-	
+
 	CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
 	NSLog(@"%@ took %@ seconds to prepare samples", self.class, @(elapsedTime));
+	
+//	os_signpost_interval_end(log, signpost_id, "_prepareMergedSamples");
 }
 
 - (BOOL)wantsGestureRecognizerForPlots
@@ -217,28 +258,8 @@
 	__block NSUInteger section = NSNotFound;
 	__block NSUInteger item = NSNotFound;
 	
-	[self._mergedSamples enumerateObjectsUsingBlock:^(NSMutableArray<DTXSample *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[obj enumerateObjectsUsingBlock:^(DTXSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			if(obj != sample)
-			{
-				return;
-			}
-			
-			item = idx;
-			*stop = YES;
-		}];
-		
-		if(item == NSNotFound)
-		{
-			return;
-		}
-		
-		section = idx;
-		*stop = YES;
-	}];
-	
-	NSIndexPath* ip = [NSIndexPath indexPathForItem:item inSection:section];
-	NSUInteger indexOfIndexPath = [_sampleIndices indexOfObject:ip];
+	NSIndexPath* ip = _sampleMapping[sample.sampleIdentifier];
+	NSUInteger indexOfIndexPath = [_indexPathIndexMapping[ip] unsignedIntegerValue];
 	
 	NSUInteger prevSelectedIndex = _selectedIndex;
 	_selectedIndex = indexOfIndexPath;
@@ -441,7 +462,7 @@
 {
 	NSIndexPath* indexPath = _sampleIndices[index];
 	
-	DTXSample* sample = self._mergedSamples[indexPath.section][indexPath.item];
+	DTXSample* sample = self._mergedSamples[indexPath.section].samples[indexPath.item];
 	
 	NSTimeInterval timestamp = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate];
 	NSTimeInterval responseTimestamp = [[self endTimestampForSample:sample] timeIntervalSinceReferenceDate]  - [self.document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate];
@@ -477,7 +498,7 @@
 	CPTMutableLineStyle* lineStyle = [plot.barLineStyle mutableCopy];
 	
 	NSIndexPath* indexPath = _sampleIndices[idx];
-	DTXSample* sample = _mergedSamples[indexPath.section][indexPath.item];
+	DTXSample* sample = _mergedSamples[indexPath.section].samples[indexPath.item];
 	
 	NSColor* lineColor = [self colorForSample:sample];
 	
@@ -531,7 +552,7 @@
 	}
 	
 	NSIndexPath* indexPath = _sampleIndices[idx];
-	DTXSample* sample = self._mergedSamples[indexPath.section][indexPath.item];
+	DTXSample* sample = self._mergedSamples[indexPath.section].samples[indexPath.item];
 	
 	[self highlightSample:sample];
 	[self.sampleClickDelegate plotController:self didClickOnSample:sample];

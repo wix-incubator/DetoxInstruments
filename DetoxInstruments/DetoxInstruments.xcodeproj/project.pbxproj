@@ -43,6 +43,7 @@
 		3932A0731F0547EF001AC360 /* DTXRNCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3932A0721F0547EF001AC360 /* DTXRNCPUDataProvider.m */; };
 		3939233621AB33DC0015A15F /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3939232D21AB33CB0015A15F /* ZipZap.framework */; };
 		3939233721AB33DC0015A15F /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3939232D21AB33CB0015A15F /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3939248721ADF4600015A15F /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 3939248621ADF4600015A15F /* NSMapTable+Subscripting.m */; };
 		393973C01EDB02DF0064D4C8 /* DTXInspectorContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973BF1EDB02DF0064D4C8 /* DTXInspectorContentController.m */; };
 		393973D61EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973D51EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.m */; };
 		393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973D91EDC1C590064D4C8 /* DTXSample+UIExtensions.m */; };
@@ -486,6 +487,8 @@
 		3932A0721F0547EF001AC360 /* DTXRNCPUDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUDataProvider.m; sourceTree = "<group>"; };
 		3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipZap.xcodeproj; path = ../../../Shared/ZipZap/ZipZap.xcodeproj; sourceTree = "<group>"; };
 		3939245521AD51C00015A15F /* DTXProfilingBasics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DTXProfilingBasics.h; path = ../../../../Profiler/DTXProfiler/Model/DTXProfilingBasics.h; sourceTree = "<group>"; };
+		3939248521ADF4600015A15F /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
+		3939248621ADF4600015A15F /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
 		393973BE1EDB02DF0064D4C8 /* DTXInspectorContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXInspectorContentController.h; sourceTree = "<group>"; };
 		393973BF1EDB02DF0064D4C8 /* DTXInspectorContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXInspectorContentController.m; sourceTree = "<group>"; };
 		393973D41EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXSampleGroup+UIExtensions.h"; sourceTree = "<group>"; };
@@ -504,7 +507,7 @@
 		393E17B7207E70A4002E6136 /* _DTXModalProgressIndicatorController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXModalProgressIndicatorController.h; sourceTree = "<group>"; };
 		393E17B8207E70A4002E6136 /* _DTXModalProgressIndicatorController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DTXModalProgressIndicatorController.m; sourceTree = "<group>"; };
 		393E17DA207EEE88002E6136 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
-		393E66D81FC592BE0092EE89 /* Swiftier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../Shared/Swiftier.h; sourceTree = "<group>"; };
+		393E66D81FC592BE0092EE89 /* Swiftier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Swiftier.h; sourceTree = "<group>"; };
 		393E66DA1FC594B30092EE89 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		393E76AF212995CE00E5623F /* DTXTouchBarGraphHostingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTouchBarGraphHostingView.h; sourceTree = "<group>"; };
 		393E76B0212995CE00E5623F /* DTXTouchBarGraphHostingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTouchBarGraphHostingView.m; sourceTree = "<group>"; };
@@ -1268,6 +1271,7 @@
 		3988D2C01EEEC6D30090088E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				393E66D81FC592BE0092EE89 /* Swiftier.h */,
 				393922C021AB190D0015A15F /* ZipZap */,
 				3954CAAA20884C5100934BCE /* CCNPreferencesWindowController */,
 				39D76E832086B8290033BDE2 /* LNPropertyListEditor */,
@@ -1298,6 +1302,8 @@
 				398EC453207BCA1000C55809 /* DTXZipper.m */,
 				39F0EB6821A98550005A7F01 /* WebView+DarkAppearanceTextView.h */,
 				39F0EB6921A98550005A7F01 /* WebView+DarkAppearanceTextView.m */,
+				3939248521ADF4600015A15F /* NSMapTable+Subscripting.h */,
+				3939248621ADF4600015A15F /* NSMapTable+Subscripting.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1487,7 +1493,6 @@
 				399B4DC71ED574410098D2AC /* DTXWindowController.m */,
 				3904E1531EFABE7600FF2707 /* DTXInstrumentsApplication.h */,
 				3904E1541EFABE7600FF2707 /* DTXInstrumentsApplication.m */,
-				393E66D81FC592BE0092EE89 /* Swiftier.h */,
 				393E66DA1FC594B30092EE89 /* PrefixHeader.pch */,
 				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
 				3905F48B1EF72B4B003E08C1 /* DetoxInstruments.entitlements */,
@@ -1929,6 +1934,7 @@
 				3972E67C2069544900F099DE /* DTXAcknowledgementsViewController.m in Sources */,
 				39E20F5B1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m in Sources */,
 				399E733420919A52006EAD6E /* DTXPlotRowView.m in Sources */,
+				3939248721ADF4600015A15F /* NSMapTable+Subscripting.m in Sources */,
 				3940940D20AB130000667765 /* DTXWindowController+DocumentationGeneration.m in Sources */,
 				394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */,
 				39A6A2E21F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m in Sources */,
