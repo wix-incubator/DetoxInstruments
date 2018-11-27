@@ -31,6 +31,9 @@ DTX_CREATE_LOG(RemoteProfiler);
 	DTXSocketConnection* _socketConnection;
 	DTXSampleGroup* _currentGroup;
 	NSManagedObjectContext* _ctx;
+	
+	NSMutableDictionary<NSString*, id>* _pendingEvents;
+	NSMutableDictionary<NSString*, id>* _pendingNetworkRequests;
 }
 
 - (instancetype)init
@@ -40,6 +43,8 @@ DTX_CREATE_LOG(RemoteProfiler);
 	if(self)
 	{
 		self._profilerStoryListener = self;
+		_pendingEvents = [NSMutableDictionary new];
+		_pendingNetworkRequests = [NSMutableDictionary new];
 	}
 	
 	return self;
@@ -133,12 +138,26 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[self _serializeCommandWithSelector:_cmd managedObject:threadInfo additionalParams:nil];
 }
 
-- (void)addLogSample:(DTXLogSample *)logSample
+- (void)_addLogLine:(NSString *)line objects:(NSArray *)objects timestamp:(NSDate*)timestamp
 {
-	[self _serializeCommandWithSelector:_cmd managedObject:logSample additionalParams:nil];
-	
-	[logSample.managedObjectContext deleteObject:logSample];
-	[logSample.managedObjectContext save:NULL];
+	[_ctx performBlock:^{
+		NSMutableDictionary* preserialized = @{
+										@"__dtx_className": @"DTXLogSample",
+										@"__dtx_entityName": @"LogSample",
+										@"line": line ?: @"",
+										@"parentGroup": self->_currentGroup.sampleIdentifier,
+										@"sampleIdentifier": NSUUID.UUID.UUIDString,
+										@"sampleType": @100,
+										@"timestamp": timestamp,
+										}.mutableCopy;
+
+		if(objects.count > 0)
+		{
+			preserialized[objects] = objects;
+		}
+
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"addLogSample:") entityName:@"LogSample" dict:preserialized additionalParams:nil];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 - (void)addPerformanceSample:(__kindof DTXPerformanceSample *)performanceSample
@@ -176,26 +195,162 @@ DTX_CREATE_LOG(RemoteProfiler);
 	_ctx = recording.managedObjectContext;
 }
 
-- (void)finishWithResponseForNetworkSample:(DTXNetworkSample *)networkSample
+- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
-	NSMutableDictionary* dict = [networkSample.dictionaryRepresentationOfChangedValuesForPropertyList mutableCopy];
-	dict[@"sampleIdentifier"] = networkSample.sampleIdentifier;
+	if(self.profilingConfiguration.recordNetwork == NO)
+	{
+		return;
+	}
 	
-	[self _serializeCommandWithSelector:_cmd entityName:networkSample.entity.name dict:dict additionalParams:nil];
-	
-	[networkSample.managedObjectContext deleteObject:networkSample];
-	[networkSample.managedObjectContext save:NULL];
+	[_ctx performBlock:^{
+		if(self.profilingConfiguration.recordLocalhostNetwork == NO && ([request.URL.host isEqualToString:@"localhost"] || [request.URL.host isEqualToString:@"127.0.0.1"]))
+		{
+			return;
+		}
+		
+		NSMutableDictionary* preserialized = @{
+											   @"__dtx_className": @"DTXNetworkSample",
+											   @"__dtx_entityName": @"NetworkSample",
+											   @"sampleIdentifier": NSUUID.UUID.UUIDString,
+											   @"sampleType": @50,
+											   @"parentGroup": self->_currentGroup.sampleIdentifier,
+											   @"timestamp": timestamp,
+											   @"uniqueIdentifier": uniqueIdentifier,
+											   @"url": request.URL.absoluteString,
+											   @"requestTimeoutInterval": @(request.timeoutInterval),
+											   @"requestDataLength": @(request.HTTPBody.length + request.allHTTPHeaderFields.description.length),
+											   }.mutableCopy;
+		
+		if(request.HTTPMethod.length > 0)
+		{
+			preserialized[@"requestHTTPMethod"] = request.HTTPMethod;
+		}
+		
+		if(request.allHTTPHeaderFields.count > 0)
+		{
+			preserialized[@"requestHeaders"] = request.allHTTPHeaderFields;
+			preserialized[@"requestHeadersFlat"] = request.allHTTPHeaderFields.debugDescription;
+		}
+		
+		if(request.HTTPBody.length > 0)
+		{
+			NSDictionary* requestDataPreserialized = @{
+													   @"__dtx_className": @"DTXNetworkData",
+													   @"__dtx_entityName": @"NetworkData",
+													   @"data": request.HTTPBody
+													   };
+			preserialized[@"requestData"] = requestDataPreserialized;
+		}
+		
+		self->_pendingNetworkRequests[uniqueIdentifier] = preserialized;
+		
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"startRequestWithNetworkSample:") entityName:@"NetworkSample" dict:preserialized additionalParams:nil];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)addRNBridgeDataSample:(DTXReactNativeDataSample*)rbBridgeDataSample;
+- (void)_networkRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
-	NSMutableDictionary* dict = [rbBridgeDataSample.dictionaryRepresentationOfChangedValuesForPropertyList mutableCopy];
-	dict[@"sampleIdentifier"] = rbBridgeDataSample.sampleIdentifier;
+	if(self.profilingConfiguration.recordNetwork == NO)
+	{
+		return;
+	}
 	
-	[self _serializeCommandWithSelector:_cmd entityName:rbBridgeDataSample.entity.name dict:dict additionalParams:nil];
+	[_ctx performBlock:^{
+		if(self.profilingConfiguration.recordLocalhostNetwork == NO && ([response.URL.host isEqualToString:@"localhost"] || [response.URL.host isEqualToString:@"127.0.0.1"]))
+		{
+			return;
+		}
+		
+		NSDictionary* request = self->_pendingNetworkRequests[uniqueIdentifier];
+		
+		NSMutableDictionary* preserialized = @{
+											   @"responseTimestamp": timestamp,
+											   }.mutableCopy;
+		
+		if(error.localizedDescription.length > 0)
+		{
+			preserialized[@"responseError"] = error.localizedDescription;
+		}
+		
+		if(response.MIMEType.length > 0)
+		{
+			preserialized[@"responseMIMEType"] = response.MIMEType;
+		}
+		
+		NSDictionary* headers;
+		if([response isKindOfClass:[NSHTTPURLResponse class]])
+		{
+			NSHTTPURLResponse* httpResponse = (id)response;
+			preserialized[@"responseStatusCode"] = @(httpResponse.statusCode);
+			NSString* localizedStatusCodeString = [NSHTTPURLResponse localizedStringForStatusCode:httpResponse.statusCode];
+			if(localizedStatusCodeString.length > 0)
+			{
+				preserialized[@"responseStatusCodeString"] = localizedStatusCodeString;
+			}
+			
+			headers = httpResponse.allHeaderFields;
+			if(headers.count > 0)
+			{
+				preserialized[@"responseHeaders"] = headers;
+				preserialized[@"responseHeadersFlat"] = headers.debugDescription;
+			}
+		}
+		
+		preserialized[@"responseDataLength"] = @(data.length + headers.description.length);
+		
+		if(data.length > 0)
+		{
+			NSDictionary* responseDataPreserialized = @{
+													   @"__dtx_className": @"DTXNetworkData",
+													   @"__dtx_entityName": @"NetworkData",
+													   @"data": data
+													   };
+			preserialized[@"responseData"] = responseDataPreserialized;
+		}
+		
+		preserialized[@"sampleIdentifier"] = request[@"sampleIdentifier"];
+		
+		[self->_pendingNetworkRequests removeObjectForKey:uniqueIdentifier];
+		
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"finishWithResponseForNetworkSample:") entityName:@"NetworkSample" dict:preserialized additionalParams:nil];
+	}];
+}
+
+- (void)_addRNDataFromFunction:(NSString*)function arguments:(NSArray<NSString*>*)arguments returnValue:(NSString*)rv exception:(NSString*)exception isFromNative:(BOOL)isFromNative timestamp:(NSDate*)timestamp;
+{
+	NSMutableDictionary* preserializedData = @{
+										@"__dtx_className": @"DTXReactNativeBridgeData",
+										@"__dtx_entityName": @"ReactNativeBridgeData",
+										@"returnValue": rv ?: @"null"
+										}.mutableCopy;
 	
-	[rbBridgeDataSample.managedObjectContext deleteObject:rbBridgeDataSample];
-	[rbBridgeDataSample.managedObjectContext save:NULL];
+	if(exception.length > 0)
+	{
+		preserializedData[@"exception"] = exception;
+	}
+	
+	if(arguments.count > 0)
+	{
+		preserializedData[@"arguments"] = arguments;
+	}
+	
+	NSMutableDictionary* preserialized = @{
+									@"__dtx_className": @"DTXReactNativeDataSample",
+									@"__dtx_entityName": @"ReactNativeDataSample",
+									@"parentGroup": _currentGroup.sampleIdentifier,
+									@"sampleIdentifier": NSUUID.UUID.UUIDString,
+									@"sampleType": @10001,
+									@"timestamp": timestamp,
+									@"isFromNative": @(isFromNative),
+									@"data": preserializedData
+									}.mutableCopy;
+	
+	if(function.length > 0)
+	{
+		preserialized[@"function"] = function;
+	}
+	
+	[self _serializeCommandWithSelector:NSSelectorFromString(@"addRNBridgeDataSample:") entityName:@"ReactNativeDataSample" dict:preserialized additionalParams:nil];
 }
 
 - (void)popSampleGroup:(DTXSampleGroup *)sampleGroup
@@ -213,11 +368,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[self _serializeCommandWithSelector:_cmd managedObject:sampleGroup additionalParams:@[@(isRootGroup)]];
 	
 	_currentGroup = sampleGroup;
-}
-
-- (void)startRequestWithNetworkSample:(DTXNetworkSample *)networkSample
-{
-	[self _serializeCommandWithSelector:_cmd managedObject:networkSample additionalParams:nil];
 }
 
 - (void)updateRecording:(DTXRecording *)recording stopRecording:(BOOL)stopRecording
@@ -238,30 +388,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[tag.managedObjectContext save:NULL];
 }
 
-- (void)markEventIntervalBegin:(DTXSignpostSample *)signpostSample
-{
-	[self _serializeCommandWithSelector:_cmd managedObject:signpostSample additionalParams:nil];
-}
-
-- (void)markEventIntervalEnd:(DTXSignpostSample *)signpostSample
-{
-	NSMutableDictionary* dict = [signpostSample.dictionaryRepresentationOfChangedValuesForPropertyList mutableCopy];
-	dict[@"sampleIdentifier"] = signpostSample.sampleIdentifier;
-	
-	[self _serializeCommandWithSelector:_cmd entityName:signpostSample.entity.name dict:dict additionalParams:nil];
-	
-	[signpostSample.managedObjectContext deleteObject:signpostSample];
-	[signpostSample.managedObjectContext save:NULL];
-}
-
-- (void)markEvent:(DTXSignpostSample *)signpostSample
-{
-	[self _serializeCommandWithSelector:_cmd managedObject:signpostSample additionalParams:nil];
-	
-	[signpostSample.managedObjectContext deleteObject:signpostSample];
-	[signpostSample.managedObjectContext save:NULL];
-}
-
 - (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace timestamp:(NSDate*)timestamp
 {
 	[_ctx performBlock:^{
@@ -279,6 +405,9 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"timestamp": timestamp,
 										@"uniqueIdentifier": NSUUID.UUID.UUIDString
 										};
+		
+		self->_pendingEvents[identifier] = preserialized;
+		
 		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEventIntervalBegin:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
@@ -286,6 +415,8 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo timestamp:(NSDate*)timestamp
 {
 	[_ctx performBlock:^{
+		NSDictionary* event = self->_pendingEvents[identifier];
+		
 		NSDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",
@@ -293,8 +424,11 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"eventStatus": @(eventStatus),
 										@"endTimestamp": timestamp,
 										@"sampleIdentifier": identifier,
+										@"duration": @([timestamp timeIntervalSinceDate:event[@"timestamp"]]),
 										};
 		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEventIntervalEnd:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
+		
+		[self->_pendingEvents removeObjectForKey:identifier];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
@@ -320,6 +454,14 @@ DTX_CREATE_LOG(RemoteProfiler);
 		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEvent:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
+
+- (void)addLogSample:(DTXLogSample *)logSample {}
+- (void)markEvent:(DTXSignpostSample *)signpostSample {}
+- (void)markEventIntervalBegin:(DTXSignpostSample *)signpostSample {}
+- (void)markEventIntervalEnd:(DTXSignpostSample *)signpostSample {}
+- (void)startRequestWithNetworkSample:(DTXNetworkSample *)networkSample {}
+- (void)finishWithResponseForNetworkSample:(DTXNetworkSample *)networkSample {}
+- (void)addRNBridgeDataSample:(DTXReactNativeDataSample*)rbBridgeDataSample {}
 
 @end
 

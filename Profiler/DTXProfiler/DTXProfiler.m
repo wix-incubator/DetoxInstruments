@@ -678,9 +678,12 @@ DTX_CREATE_LOG(Profiler);
 		networkSample.requestHeaders = request.allHTTPHeaderFields;
 		networkSample.requestHeadersFlat = request.allHTTPHeaderFields.debugDescription;
 		
-		DTXNetworkData* requestData = [[DTXNetworkData alloc] initWithContext:self->_backgroundContext];
-		requestData.data = request.HTTPBody;
-		networkSample.requestData = requestData;
+		if(request.HTTPBody.length > 0)
+		{
+			DTXNetworkData* requestData = [[DTXNetworkData alloc] initWithContext:self->_backgroundContext];
+			requestData.data = request.HTTPBody;
+			networkSample.requestData = requestData;
+		}
 		networkSample.requestDataLength = request.HTTPBody.length + request.allHTTPHeaderFields.description.length;
 		
 		networkSample.parentGroup = self->_currentSampleGroup;

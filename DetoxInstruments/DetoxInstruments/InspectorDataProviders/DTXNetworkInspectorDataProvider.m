@@ -52,16 +52,20 @@
 	
 	request.content = content;
 	
-	DTXInspectorContent* requestHeaders = [DTXInspectorContent new];
-	requestHeaders.title = NSLocalizedString(@"Request Headers", @"");
-	
-	content = [NSMutableArray new];
-	
-	[[networkSample.requestHeaders.allKeys sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:key description:networkSample.requestHeaders[key]]];
-	}];
-	
-	requestHeaders.content = content;
+	DTXInspectorContent* requestHeaders;
+	if(networkSample.requestHeaders.count > 0)
+	{
+		requestHeaders = [DTXInspectorContent new];
+		requestHeaders.title = NSLocalizedString(@"Request Headers", @"");
+		
+		content = [NSMutableArray new];
+		
+		[[networkSample.requestHeaders.allKeys sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:key description:networkSample.requestHeaders[key]]];
+		}];
+		
+		requestHeaders.content = content;
+	}
 	
 	DTXInspectorContent* response = [DTXInspectorContent new];
 	response.title = NSLocalizedString(@"Response", @"");
@@ -81,6 +85,8 @@
 		ti = networkSample.responseTimestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
+		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Duration", @"") description:[[NSFormatter dtx_durationFormatter] stringFromDate:networkSample.timestamp toDate:networkSample.responseTimestamp]]];
 		
 		NSString* status = [NSString stringWithFormat:@"%@%@", @(networkSample.responseStatusCode), networkSample.responseStatusCodeString ? [NSString stringWithFormat:@" (%@)", networkSample.responseStatusCodeString] : @""];
 		
@@ -136,7 +142,10 @@
 	}
 	
 	[contentArray addObject:request];
-	[contentArray addObject:requestHeaders];
+	if(requestHeaders)
+	{
+		[contentArray addObject:requestHeaders];
+	}
 	
 	rv.contentArray = contentArray;
 	
