@@ -29,6 +29,7 @@
 	BOOL _disableNetworkCache;
 	BOOL _recordReactNativeTimersAsEvents;
 	NSURL* _nonkvc_recordingFileURL;
+	NSSet* _ignoredEventCategories;
 }
 
 + (BOOL)supportsSecureCoding
@@ -50,6 +51,7 @@
 	rv->_numberOfSamplesBeforeFlushToDisk = 200;
 	rv->_profileReactNative = YES;
 	rv->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
+	rv->_ignoredEventCategories = [NSSet new];
 	
 	return rv;
 }
@@ -76,6 +78,11 @@
 	}
 	
 	return self;
+}
+
+- (NSSet<NSString *> *)ignoredEventCategories
+{
+	return _ignoredEventCategories ?: [NSSet new];
 }
 
 - (instancetype)copy
@@ -191,6 +198,12 @@
 - (void)setSymbolicateStackTraces:(BOOL)symbolicateStackTraces
 {
 	_symbolicateStackTraces = symbolicateStackTraces;
+}
+
+@dynamic ignoredEventCategories;
+- (void)setIgnoredEventCategories:(NSSet *)ignoredEventCategories
+{
+	_ignoredEventCategories = ignoredEventCategories;
 }
 
 @dynamic recordLogOutput;

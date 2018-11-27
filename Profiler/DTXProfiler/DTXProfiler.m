@@ -401,6 +401,11 @@ DTX_CREATE_LOG(Profiler);
 	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
+		if([self->_currentProfilingConfiguration.ignoredEventCategories containsObject:category])
+		{
+			return;
+		}
+		
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
 		signpostSample.timestamp = timestamp;
 		signpostSample.uniqueIdentifier = identifier;
@@ -445,6 +450,11 @@ DTX_CREATE_LOG(Profiler);
 	DTX_IGNORE_NOT_RECORDING
 	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
+		
+		if([self->_currentProfilingConfiguration.ignoredEventCategories containsObject:category])
+		{
+			return;
+		}
 		
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
 		signpostSample.timestamp = timestamp;

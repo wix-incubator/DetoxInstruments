@@ -263,6 +263,11 @@ DTX_CREATE_LOG(RemoteProfiler);
 		
 		NSDictionary* request = self->_pendingNetworkRequests[uniqueIdentifier];
 		
+		if(request == nil)
+		{
+			return;
+		}
+		
 		NSMutableDictionary* preserialized = @{
 											   @"responseTimestamp": timestamp,
 											   }.mutableCopy;
@@ -391,6 +396,12 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace timestamp:(NSDate*)timestamp
 {
 	[_ctx performBlock:^{
+		
+		if([self.profilingConfiguration.ignoredEventCategories containsObject:category])
+		{
+			return;
+		}
+		
 		NSDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",
@@ -417,6 +428,11 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[_ctx performBlock:^{
 		NSDictionary* event = self->_pendingEvents[identifier];
 		
+		if(event == nil)
+		{
+			return;
+		}
+		
 		NSDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",
@@ -435,6 +451,12 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp
 {
 	[_ctx performBlock:^{
+		
+		if([self.profilingConfiguration.ignoredEventCategories containsObject:category])
+		{
+			return;
+		}
+		
 		NSDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",

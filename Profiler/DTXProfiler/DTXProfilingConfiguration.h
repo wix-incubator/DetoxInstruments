@@ -48,7 +48,32 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSUInteger numberOfSamplesBeforeFlushToDisk;
 
-//Recording Configuration
+#pragma mark Recording Configuration
+
+/**
+ *  Record thread information during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readonly) BOOL recordThreadInformation;
+
+/**
+ *  Collect stack trace information where appropriate.
+ *
+ *  Collecting stack traces may introduce some performance hit.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL collectStackTraces;
+
+/**
+ *  Symbolicate stack traces at runtime.
+ *
+ *  Symbolicating stack traces may introduce some performance hit.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL symbolicateStackTraces;
 
 /**
  *  Collect the names of open files for each sample.
@@ -83,29 +108,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL disableNetworkCache;
 
 /**
- *  Record thread information during profiling.
+ *  A set of categories to ignore when profiling.
+ *  Use this property to prevent clutter in the Events instrument.
  *
- *  The default value is @c true.
+ *  The default value is an empty set.
  */
-@property (nonatomic, readonly) BOOL recordThreadInformation;
-
-/**
- *  Collect stack trace information where appropriate.
- *
- *  Collecting stack traces may introduce some performance hit.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readonly) BOOL collectStackTraces;
-
-/**
- *  Symbolicate stack traces at runtime.
- *
- *  Symbolicating stack traces may introduce some performance hit.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readonly) BOOL symbolicateStackTraces;
+@property (nonatomic, readonly) NSSet<NSString*>* ignoredEventCategories;
 
 /**
  *  Record log output during profiling.
@@ -180,7 +188,32 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readwrite) NSUInteger numberOfSamplesBeforeFlushToDisk;
 
-//Recording Configuration
+#pragma mark Recording Configuration
+
+/**
+ *  Record thread information during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readwrite) BOOL recordThreadInformation;
+
+/**
+ *  Collect stack trace information where appropriate.
+ *
+ *  Collecting stack traces may introduce some performance hit.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readwrite) BOOL collectStackTraces;
+
+/**
+ *  Symbolicate stack traces at runtime.
+ *
+ *  Symbolicating stack traces may introduce some performance hit.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readwrite) BOOL symbolicateStackTraces;
 
 /**
  *  Collect the names of open files for each sample.
@@ -215,29 +248,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) BOOL disableNetworkCache;
 
 /**
- *  Record thread information during profiling.
+ *  A set of categories to ignore when profiling.
+ *  Use this property to prevent clutter in the Events instrument.
  *
- *  The default value is @c true.
+ *  The default value is an empty set.
  */
-@property (nonatomic, readwrite) BOOL recordThreadInformation;
-
-/**
- *  Collect stack trace information where appropriate.
- *
- *  Collecting stack traces may introduce some performance hit.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readwrite) BOOL collectStackTraces;
-
-/**
- *  Symbolicate stack traces at runtime.
- *
- *  Symbolicating stack traces may introduce some performance hit.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readwrite) BOOL symbolicateStackTraces;
+@property (nonatomic, readwrite) NSSet<NSString*>* ignoredEventCategories;
 
 /**
  *  Record log output during profiling.
