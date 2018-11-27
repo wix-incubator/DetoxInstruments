@@ -7,7 +7,11 @@
 //
 
 #import "DTXZipper.h"
-@import ZipZap;
+#if __has_include(<ZipZap/ZipZap.h>)
+#import <ZipZap/ZipZap.h>
+#else
+#import "ZipZap.h"
+#endif
 
 #if __has_include("DTXLogging.h")
 #import "DTXLogging.h"

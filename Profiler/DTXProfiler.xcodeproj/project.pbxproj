@@ -32,10 +32,51 @@
 		39281E831ED70A77002CE905 /* DTXZipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39281E811ED70A77002CE905 /* DTXZipper.m */; };
 		39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */; };
 		39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */; };
-		3939235521AB34060015A15F /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3939234821AB33F70015A15F /* ZipZap.framework */; };
-		3939235821AB342F0015A15F /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3939234821AB33F70015A15F /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3939239121AB42220015A15F /* DTXRemoteProfilingConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939238F21AB42220015A15F /* DTXRemoteProfilingConnectionManager.h */; };
 		3939239221AB42220015A15F /* DTXRemoteProfilingConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3939239021AB42220015A15F /* DTXRemoteProfilingConnectionManager.m */; };
+		3939240721AD0A330015A15F /* ZZError.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923DB21AD0A320015A15F /* ZZError.h */; };
+		3939240821AD0A330015A15F /* ZZArchiveEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923DC21AD0A320015A15F /* ZZArchiveEntry.h */; };
+		3939240921AD0A330015A15F /* ZZChannelOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923DD21AD0A320015A15F /* ZZChannelOutput.h */; };
+		3939240A21AD0A330015A15F /* ZZOldArchiveEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923DE21AD0A320015A15F /* ZZOldArchiveEntry.h */; };
+		3939240B21AD0A330015A15F /* ZZNewArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = 393923DF21AD0A320015A15F /* ZZNewArchiveEntry.mm */; };
+		3939240C21AD0A330015A15F /* ZZDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923E021AD0A320015A15F /* ZZDataProvider.h */; };
+		3939240D21AD0A330015A15F /* ZZDeflateOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923E121AD0A320015A15F /* ZZDeflateOutputStream.m */; };
+		3939240E21AD0A330015A15F /* ZZConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923E221AD0A320015A15F /* ZZConstants.h */; };
+		3939240F21AD0A330015A15F /* ZZArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923E321AD0A320015A15F /* ZZArchiveEntryWriter.h */; };
+		3939241021AD0A330015A15F /* ZZHeaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923E421AD0A320015A15F /* ZZHeaders.h */; };
+		3939241121AD0A330015A15F /* ZZStandardCryptoEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 393923E521AD0A320015A15F /* ZZStandardCryptoEngine.cpp */; };
+		3939241221AD0A330015A15F /* ZZStoreOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923E621AD0A320015A15F /* ZZStoreOutputStream.h */; };
+		3939241321AD0A330015A15F /* ZipZap.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923E721AD0A320015A15F /* ZipZap.h */; };
+		3939241421AD0A330015A15F /* ZZAESDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = 393923E821AD0A320015A15F /* ZZAESDecryptInputStream.mm */; };
+		3939241521AD0A330015A15F /* ZZDataChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923E921AD0A320015A15F /* ZZDataChannel.h */; };
+		3939241621AD0A330015A15F /* ZZStandardCryptoEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923EA21AD0A320015A15F /* ZZStandardCryptoEngine.h */; };
+		3939241721AD0A330015A15F /* ZZChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923EB21AD0A320015A15F /* ZZChannel.h */; };
+		3939241821AD0A330015A15F /* ZZArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923EC21AD0A320015A15F /* ZZArchive.h */; };
+		3939241921AD0A330015A15F /* ZZArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 393923ED21AD0A320015A15F /* ZZArchive.mm */; };
+		3939241A21AD0A330015A15F /* ZZDataChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923EE21AD0A320015A15F /* ZZDataChannelOutput.m */; };
+		3939241B21AD0A330015A15F /* ZZFileChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923EF21AD0A320015A15F /* ZZFileChannelOutput.m */; };
+		3939241C21AD0A330015A15F /* ZZInflateInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923F021AD0A320015A15F /* ZZInflateInputStream.m */; };
+		3939241D21AD0A330015A15F /* ZZFileChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923F121AD0A320015A15F /* ZZFileChannel.h */; };
+		3939241E21AD0A330015A15F /* ZZConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923F221AD0A320015A15F /* ZZConstants.m */; };
+		3939241F21AD0A330015A15F /* ZZDeflateOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923F321AD0A320015A15F /* ZZDeflateOutputStream.h */; };
+		3939242021AD0A330015A15F /* ZZNewArchiveEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923F421AD0A320015A15F /* ZZNewArchiveEntry.h */; };
+		3939242121AD0A330015A15F /* ZZOldArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923F521AD0A320015A15F /* ZZOldArchiveEntryWriter.h */; };
+		3939242221AD0A330015A15F /* ZZArchiveEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923F621AD0A320015A15F /* ZZArchiveEntry.m */; };
+		3939242321AD0A330015A15F /* ZZError.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923F721AD0A320015A15F /* ZZError.m */; };
+		3939242421AD0A330015A15F /* ZZOldArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 393923F821AD0A320015A15F /* ZZOldArchiveEntryWriter.mm */; };
+		3939242521AD0A330015A15F /* ZZAESDecryptInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923F921AD0A320015A15F /* ZZAESDecryptInputStream.h */; };
+		3939242621AD0A330015A15F /* ZZDataChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923FA21AD0A320015A15F /* ZZDataChannel.m */; };
+		3939242721AD0A330015A15F /* ZZStoreOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923FB21AD0A320015A15F /* ZZStoreOutputStream.m */; };
+		3939242821AD0A330015A15F /* ZZNewArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 393923FC21AD0A320015A15F /* ZZNewArchiveEntryWriter.mm */; };
+		3939242921AD0A330015A15F /* ZZScopeGuard.h in Headers */ = {isa = PBXBuildFile; fileRef = 393923FD21AD0A320015A15F /* ZZScopeGuard.h */; };
+		3939242A21AD0A330015A15F /* ZZOldArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = 393923FE21AD0A320015A15F /* ZZOldArchiveEntry.mm */; };
+		3939242B21AD0A330015A15F /* ZZFileChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 393923FF21AD0A320015A15F /* ZZFileChannel.m */; };
+		3939242C21AD0A330015A15F /* ZZStandardDecryptInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240021AD0A320015A15F /* ZZStandardDecryptInputStream.h */; };
+		3939242D21AD0A330015A15F /* ZZInflateInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240121AD0A320015A15F /* ZZInflateInputStream.h */; };
+		3939242F21AD0A330015A15F /* ZZFileChannelOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240321AD0A320015A15F /* ZZFileChannelOutput.h */; };
+		3939243021AD0A330015A15F /* ZZStandardDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3939240421AD0A320015A15F /* ZZStandardDecryptInputStream.mm */; };
+		3939243121AD0A330015A15F /* ZZDataChannelOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240521AD0A320015A15F /* ZZDataChannelOutput.h */; };
+		3939243221AD0A330015A15F /* ZZNewArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */; };
 		393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */ = {isa = PBXBuildFile; fileRef = 393E66DD1FC59B730092EE89 /* Swiftier.h */; };
 		39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */; };
 		39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 39498C401F1FAE650030B620 /* DTXSocketConnection.h */; };
@@ -106,65 +147,6 @@
 		39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		3939234721AB33F70015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939233D21AB33F70015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D87BA1F81B3D6DEA00ED7EB3;
-			remoteInfo = "ZipZap (iOS Framework)";
-		};
-		3939234921AB33F70015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939233D21AB33F70015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D899CFB0162C5EEB00112F49;
-			remoteInfo = "ZipZap (iOS Static Library)";
-		};
-		3939234B21AB33F70015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939233D21AB33F70015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D8D140D31B423B1100C411B0;
-			remoteInfo = "ZipZap (macOS Framework)";
-		};
-		3939234D21AB33F70015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939233D21AB33F70015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D899CF82162C5EC100112F49;
-			remoteInfo = "ZipZap (macOS Static Library)";
-		};
-		3939234F21AB33F70015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939233D21AB33F70015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BF8624CB1BB7495200C12EEE;
-			remoteInfo = "ZipZap (tvOS Framework)";
-		};
-		3939235121AB33F70015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939233D21AB33F70015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BF8624EF1BB74B1F00C12EEE;
-			remoteInfo = "ZipZap (tvOS Static Library)";
-		};
-		3939235321AB33F70015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939233D21AB33F70015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D899CF96162C5EC100112F49;
-			remoteInfo = ZipZapTests;
-		};
-		3939235621AB340E0015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939233D21AB33F70015A15F /* ZipZap.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D87BA1F71B3D6DEA00ED7EB3;
-			remoteInfo = "ZipZap (iOS Framework)";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		392950912107AAB200F7E3E1 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -181,7 +163,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3939235821AB342F0015A15F /* ZipZap.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -208,9 +189,51 @@
 		3933E1361F7A31B40081F82F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
 		39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
-		3939233D21AB33F70015A15F /* ZipZap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipZap.xcodeproj; path = ../../../Shared/ZipZap/ZipZap.xcodeproj; sourceTree = "<group>"; };
 		3939238F21AB42220015A15F /* DTXRemoteProfilingConnectionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingConnectionManager.h; sourceTree = "<group>"; };
 		3939239021AB42220015A15F /* DTXRemoteProfilingConnectionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRemoteProfilingConnectionManager.m; sourceTree = "<group>"; };
+		393923DB21AD0A320015A15F /* ZZError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZError.h; sourceTree = "<group>"; };
+		393923DC21AD0A320015A15F /* ZZArchiveEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZArchiveEntry.h; sourceTree = "<group>"; };
+		393923DD21AD0A320015A15F /* ZZChannelOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZChannelOutput.h; sourceTree = "<group>"; };
+		393923DE21AD0A320015A15F /* ZZOldArchiveEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZOldArchiveEntry.h; sourceTree = "<group>"; };
+		393923DF21AD0A320015A15F /* ZZNewArchiveEntry.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZNewArchiveEntry.mm; sourceTree = "<group>"; };
+		393923E021AD0A320015A15F /* ZZDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDataProvider.h; sourceTree = "<group>"; };
+		393923E121AD0A320015A15F /* ZZDeflateOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDeflateOutputStream.m; sourceTree = "<group>"; };
+		393923E221AD0A320015A15F /* ZZConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZConstants.h; sourceTree = "<group>"; };
+		393923E321AD0A320015A15F /* ZZArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZArchiveEntryWriter.h; sourceTree = "<group>"; };
+		393923E421AD0A320015A15F /* ZZHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZHeaders.h; sourceTree = "<group>"; };
+		393923E521AD0A320015A15F /* ZZStandardCryptoEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZStandardCryptoEngine.cpp; sourceTree = "<group>"; };
+		393923E621AD0A320015A15F /* ZZStoreOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZStoreOutputStream.h; sourceTree = "<group>"; };
+		393923E721AD0A320015A15F /* ZipZap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipZap.h; sourceTree = "<group>"; };
+		393923E821AD0A320015A15F /* ZZAESDecryptInputStream.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZAESDecryptInputStream.mm; sourceTree = "<group>"; };
+		393923E921AD0A320015A15F /* ZZDataChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDataChannel.h; sourceTree = "<group>"; };
+		393923EA21AD0A320015A15F /* ZZStandardCryptoEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZStandardCryptoEngine.h; sourceTree = "<group>"; };
+		393923EB21AD0A320015A15F /* ZZChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZChannel.h; sourceTree = "<group>"; };
+		393923EC21AD0A320015A15F /* ZZArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZArchive.h; sourceTree = "<group>"; };
+		393923ED21AD0A320015A15F /* ZZArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZArchive.mm; sourceTree = "<group>"; };
+		393923EE21AD0A320015A15F /* ZZDataChannelOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDataChannelOutput.m; sourceTree = "<group>"; };
+		393923EF21AD0A320015A15F /* ZZFileChannelOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZFileChannelOutput.m; sourceTree = "<group>"; };
+		393923F021AD0A320015A15F /* ZZInflateInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZInflateInputStream.m; sourceTree = "<group>"; };
+		393923F121AD0A320015A15F /* ZZFileChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZFileChannel.h; sourceTree = "<group>"; };
+		393923F221AD0A320015A15F /* ZZConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZConstants.m; sourceTree = "<group>"; };
+		393923F321AD0A320015A15F /* ZZDeflateOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDeflateOutputStream.h; sourceTree = "<group>"; };
+		393923F421AD0A320015A15F /* ZZNewArchiveEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZNewArchiveEntry.h; sourceTree = "<group>"; };
+		393923F521AD0A320015A15F /* ZZOldArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZOldArchiveEntryWriter.h; sourceTree = "<group>"; };
+		393923F621AD0A320015A15F /* ZZArchiveEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZArchiveEntry.m; sourceTree = "<group>"; };
+		393923F721AD0A320015A15F /* ZZError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZError.m; sourceTree = "<group>"; };
+		393923F821AD0A320015A15F /* ZZOldArchiveEntryWriter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZOldArchiveEntryWriter.mm; sourceTree = "<group>"; };
+		393923F921AD0A320015A15F /* ZZAESDecryptInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZAESDecryptInputStream.h; sourceTree = "<group>"; };
+		393923FA21AD0A320015A15F /* ZZDataChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDataChannel.m; sourceTree = "<group>"; };
+		393923FB21AD0A320015A15F /* ZZStoreOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZStoreOutputStream.m; sourceTree = "<group>"; };
+		393923FC21AD0A320015A15F /* ZZNewArchiveEntryWriter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZNewArchiveEntryWriter.mm; sourceTree = "<group>"; };
+		393923FD21AD0A320015A15F /* ZZScopeGuard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZScopeGuard.h; sourceTree = "<group>"; };
+		393923FE21AD0A320015A15F /* ZZOldArchiveEntry.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZOldArchiveEntry.mm; sourceTree = "<group>"; };
+		393923FF21AD0A320015A15F /* ZZFileChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZFileChannel.m; sourceTree = "<group>"; };
+		3939240021AD0A320015A15F /* ZZStandardDecryptInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZStandardDecryptInputStream.h; sourceTree = "<group>"; };
+		3939240121AD0A320015A15F /* ZZInflateInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZInflateInputStream.h; sourceTree = "<group>"; };
+		3939240321AD0A320015A15F /* ZZFileChannelOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZFileChannelOutput.h; sourceTree = "<group>"; };
+		3939240421AD0A320015A15F /* ZZStandardDecryptInputStream.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZStandardDecryptInputStream.mm; sourceTree = "<group>"; };
+		3939240521AD0A320015A15F /* ZZDataChannelOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDataChannelOutput.h; sourceTree = "<group>"; };
+		3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZNewArchiveEntryWriter.h; sourceTree = "<group>"; };
 		393E66DD1FC59B730092EE89 /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../Shared/Swiftier.h; sourceTree = "<group>"; };
 		39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSocketConnection.m; sourceTree = "<group>"; };
 		39498C401F1FAE650030B620 /* DTXSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSocketConnection.h; sourceTree = "<group>"; };
@@ -293,7 +316,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3939235521AB34060015A15F /* ZipZap.framework in Frameworks */,
 				39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */,
 				39281E5D1ED70347002CE905 /* libz.tbd in Frameworks */,
 			);
@@ -330,7 +352,7 @@
 		39281E5E1ED70414002CE905 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				3939233C21AB33F20015A15F /* ZipZap */,
+				393923DA21AD0A320015A15F /* ZipZap */,
 				396677B51F1FD2B1002D5E43 /* Logging */,
 				394A09671F012F920030BDB4 /* fishhook */,
 				39281E801ED70A77002CE905 /* DTXZipper.h */,
@@ -347,26 +369,55 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		3939233C21AB33F20015A15F /* ZipZap */ = {
+		393923DA21AD0A320015A15F /* ZipZap */ = {
 			isa = PBXGroup;
 			children = (
-				3939233D21AB33F70015A15F /* ZipZap.xcodeproj */,
+				393923DB21AD0A320015A15F /* ZZError.h */,
+				393923DC21AD0A320015A15F /* ZZArchiveEntry.h */,
+				393923DD21AD0A320015A15F /* ZZChannelOutput.h */,
+				393923DE21AD0A320015A15F /* ZZOldArchiveEntry.h */,
+				393923DF21AD0A320015A15F /* ZZNewArchiveEntry.mm */,
+				393923E021AD0A320015A15F /* ZZDataProvider.h */,
+				393923E121AD0A320015A15F /* ZZDeflateOutputStream.m */,
+				393923E221AD0A320015A15F /* ZZConstants.h */,
+				393923E321AD0A320015A15F /* ZZArchiveEntryWriter.h */,
+				393923E421AD0A320015A15F /* ZZHeaders.h */,
+				393923E521AD0A320015A15F /* ZZStandardCryptoEngine.cpp */,
+				393923E621AD0A320015A15F /* ZZStoreOutputStream.h */,
+				393923E721AD0A320015A15F /* ZipZap.h */,
+				393923E821AD0A320015A15F /* ZZAESDecryptInputStream.mm */,
+				393923E921AD0A320015A15F /* ZZDataChannel.h */,
+				393923EA21AD0A320015A15F /* ZZStandardCryptoEngine.h */,
+				393923EB21AD0A320015A15F /* ZZChannel.h */,
+				393923EC21AD0A320015A15F /* ZZArchive.h */,
+				393923ED21AD0A320015A15F /* ZZArchive.mm */,
+				393923EE21AD0A320015A15F /* ZZDataChannelOutput.m */,
+				393923EF21AD0A320015A15F /* ZZFileChannelOutput.m */,
+				393923F021AD0A320015A15F /* ZZInflateInputStream.m */,
+				393923F121AD0A320015A15F /* ZZFileChannel.h */,
+				393923F221AD0A320015A15F /* ZZConstants.m */,
+				393923F321AD0A320015A15F /* ZZDeflateOutputStream.h */,
+				393923F421AD0A320015A15F /* ZZNewArchiveEntry.h */,
+				393923F521AD0A320015A15F /* ZZOldArchiveEntryWriter.h */,
+				393923F621AD0A320015A15F /* ZZArchiveEntry.m */,
+				393923F721AD0A320015A15F /* ZZError.m */,
+				393923F821AD0A320015A15F /* ZZOldArchiveEntryWriter.mm */,
+				393923F921AD0A320015A15F /* ZZAESDecryptInputStream.h */,
+				393923FA21AD0A320015A15F /* ZZDataChannel.m */,
+				393923FB21AD0A320015A15F /* ZZStoreOutputStream.m */,
+				393923FC21AD0A320015A15F /* ZZNewArchiveEntryWriter.mm */,
+				393923FD21AD0A320015A15F /* ZZScopeGuard.h */,
+				393923FE21AD0A320015A15F /* ZZOldArchiveEntry.mm */,
+				393923FF21AD0A320015A15F /* ZZFileChannel.m */,
+				3939240021AD0A320015A15F /* ZZStandardDecryptInputStream.h */,
+				3939240121AD0A320015A15F /* ZZInflateInputStream.h */,
+				3939240321AD0A320015A15F /* ZZFileChannelOutput.h */,
+				3939240421AD0A320015A15F /* ZZStandardDecryptInputStream.mm */,
+				3939240521AD0A320015A15F /* ZZDataChannelOutput.h */,
+				3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */,
 			);
 			name = ZipZap;
-			sourceTree = "<group>";
-		};
-		3939233E21AB33F70015A15F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3939234821AB33F70015A15F /* ZipZap.framework */,
-				3939234A21AB33F70015A15F /* libZipZap.a */,
-				3939234C21AB33F70015A15F /* ZipZap.framework */,
-				3939234E21AB33F70015A15F /* libZipZap.a */,
-				3939235021AB33F70015A15F /* ZipZap.framework */,
-				3939235221AB33F70015A15F /* libZipZap.a */,
-				3939235421AB33F70015A15F /* ZipZapTests.xctest */,
-			);
-			name = Products;
+			path = ../../../Shared/ZipZap/ZipZap;
 			sourceTree = "<group>";
 		};
 		39498C3E1F1FAE650030B620 /* DTXSocketConnection */ = {
@@ -596,11 +647,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3939240A21AD0A330015A15F /* ZZOldArchiveEntry.h in Headers */,
 				39D8B36F21079CCA000895F7 /* DTXBase.h in Headers */,
 				39B22BE5217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h in Headers */,
 				39D8B31B21077714000895F7 /* DTXEvents.h in Headers */,
 				39D8637F210EFC9600FECB75 /* DTXProfilerAPI.h in Headers */,
 				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
+				3939241621AD0A330015A15F /* ZZStandardCryptoEngine.h in Headers */,
 				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
 				393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */,
 				399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */,
@@ -608,22 +661,43 @@
 				39D40C141ED5B43700157C04 /* NSManagedObject+Additions.h in Headers */,
 				39D205501F03057200830A0D /* DTXLoggingRecorder.h in Headers */,
 				39557CDA1F1F7E8D00FF3187 /* DTXRemoteProfiler.h in Headers */,
+				3939240821AD0A330015A15F /* ZZArchiveEntry.h in Headers */,
 				39ADAE5B1F79FA7700F488A5 /* DTXCustomJSCSupport.h in Headers */,
 				3901A89F1F5D5CA60021916B /* DTXMachUtilities.h in Headers */,
+				3939241221AD0A330015A15F /* ZZStoreOutputStream.h in Headers */,
 				396500F11F2E9E9000DA9530 /* DTXDeviceInfo.h in Headers */,
+				3939241F21AD0A330015A15F /* ZZDeflateOutputStream.h in Headers */,
+				3939241021AD0A330015A15F /* ZZHeaders.h in Headers */,
 				39DA16821F3097780025C492 /* NSDictionary+FakeDecoder.h in Headers */,
 				39B22BE1217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h in Headers */,
+				3939242F21AD0A330015A15F /* ZZFileChannelOutput.h in Headers */,
+				3939240721AD0A330015A15F /* ZZError.h in Headers */,
+				3939243221AD0A330015A15F /* ZZNewArchiveEntryWriter.h in Headers */,
 				39B22BE9217C963A0032F190 /* NSObject+AttachedObjects.h in Headers */,
+				3939242521AD0A330015A15F /* ZZAESDecryptInputStream.h in Headers */,
+				3939242121AD0A330015A15F /* ZZOldArchiveEntryWriter.h in Headers */,
+				3939242021AD0A330015A15F /* ZZNewArchiveEntry.h in Headers */,
 				39D40C0F1ED5B43700157C04 /* DTXInstrumentsModel.h in Headers */,
 				396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */,
 				3939239121AB42220015A15F /* DTXRemoteProfilingConnectionManager.h in Headers */,
+				3939240F21AD0A330015A15F /* ZZArchiveEntryWriter.h in Headers */,
 				39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */,
 				39281E821ED70A77002CE905 /* DTXZipper.h in Headers */,
+				3939243121AD0A330015A15F /* ZZDataChannelOutput.h in Headers */,
+				3939241521AD0A330015A15F /* ZZDataChannel.h in Headers */,
+				3939242D21AD0A330015A15F /* ZZInflateInputStream.h in Headers */,
+				3939241721AD0A330015A15F /* ZZChannel.h in Headers */,
+				3939240E21AD0A330015A15F /* ZZConstants.h in Headers */,
 				39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */,
 				3985048A21A4433E00F04573 /* DTXRemoteProfilingBasics.h in Headers */,
 				394A09651F012F8D0030BDB4 /* fishhook.h in Headers */,
 				3985048E21A4434800F04573 /* DTXFileSystemItem.h in Headers */,
+				3939242921AD0A330015A15F /* ZZScopeGuard.h in Headers */,
+				3939241821AD0A330015A15F /* ZZArchive.h in Headers */,
+				3939240C21AD0A330015A15F /* ZZDataProvider.h in Headers */,
+				3939241D21AD0A330015A15F /* ZZFileChannel.h in Headers */,
 				396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */,
+				3939240921AD0A330015A15F /* ZZChannelOutput.h in Headers */,
 				39D40C121ED5B43700157C04 /* DTXSample+Additions.h in Headers */,
 				3985049121A4435200F04573 /* DTXPasteboardItem.h in Headers */,
 				396EE2C120ADB223006C4C55 /* DTXViewHierarchySnapshotter.h in Headers */,
@@ -631,11 +705,13 @@
 				39F6421B1FDD5DBF00468FED /* DTXLogging.h in Headers */,
 				39E75EBC209C7B8B00C95D15 /* DTXUIPasteboardParser.h in Headers */,
 				39C713401EFFD6FF00C827EB /* DTXReactNativeSampler.h in Headers */,
+				3939241321AD0A330015A15F /* ZipZap.h in Headers */,
 				39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */,
 				39C713451EFFDB2500C827EB /* DTXPollingManager.h in Headers */,
 				39D40C101ED5B43700157C04 /* DTXRecording+Additions.h in Headers */,
 				39D94EF01EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.h in Headers */,
 				3966E1341F1017F900EE76A2 /* DTXAddressInfo.h in Headers */,
+				3939242C21AD0A330015A15F /* ZZStandardDecryptInputStream.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,7 +733,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				3939235721AB340E0015A15F /* PBXTargetDependency */,
 			);
 			name = DTXProfiler;
 			productName = DTXProfiler;
@@ -692,12 +767,6 @@
 			mainGroup = 39D40BEF1ED5ABD200157C04;
 			productRefGroup = 39D40BFA1ED5ABD200157C04 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 3939233E21AB33F70015A15F /* Products */;
-					ProjectRef = 3939233D21AB33F70015A15F /* ZipZap.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				39D40BF81ED5ABD200157C04 /* DTXProfiler */,
@@ -705,58 +774,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		3939234821AB33F70015A15F /* ZipZap.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipZap.framework;
-			remoteRef = 3939234721AB33F70015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939234A21AB33F70015A15F /* libZipZap.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libZipZap.a;
-			remoteRef = 3939234921AB33F70015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939234C21AB33F70015A15F /* ZipZap.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipZap.framework;
-			remoteRef = 3939234B21AB33F70015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939234E21AB33F70015A15F /* libZipZap.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libZipZap.a;
-			remoteRef = 3939234D21AB33F70015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939235021AB33F70015A15F /* ZipZap.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipZap.framework;
-			remoteRef = 3939234F21AB33F70015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939235221AB33F70015A15F /* libZipZap.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libZipZap.a;
-			remoteRef = 3939235121AB33F70015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939235421AB33F70015A15F /* ZipZapTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ZipZapTests.xctest;
-			remoteRef = 3939235321AB33F70015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		39D40BF71ED5ABD200157C04 /* Resources */ = {
@@ -779,7 +796,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
+			shellPath = "/bin/bash -e";
 			shellScript = "UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos OBJROOT=\"${BUILD_ROOT}/iphoneos\" build\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO OBJROOT=\"${BUILD_ROOT}/iphonesimulator\" build\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 3. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n\n# Step 4. Create universal binaries for embedded frameworks if needed\nif [ -d \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks\" ]; then\nfor SUB_FRAMEWORK in $( ls \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks\" ); do\nif [ -d \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/$SUB_FRAMEWORK\" ]; then\necho \"Processing ${SUB_FRAMEWORK} as a dir\"\nBINARY_NAME=\"${SUB_FRAMEWORK%.*}\"\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}/${BINARY_NAME}\"\nelse\necho \"Processing ${SUB_FRAMEWORK} as a file\"\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/Frameworks/${SUB_FRAMEWORK}\"\nfi\ndone\nfi\n\nif [ -d \"${INSTALL_DIR}\" ]; then\nrm -fr \"${INSTALL_DIR}\"\nfi\n\nmkdir -p \"${INSTALL_DIR}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-universal/${PROJECT_NAME}.framework\" ${INSTALL_DIR}\n";
 		};
 		395B5E9320568DCF0013CB75 /* Update Build Numbers */ = {
@@ -806,13 +823,17 @@
 				3985049221A4435200F04573 /* DTXPasteboardItem.m in Sources */,
 				39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */,
 				3922AE021F2B9B960034B1FE /* DTXSourceMapsParser.m in Sources */,
+				3939243021AD0A330015A15F /* ZZStandardDecryptInputStream.mm in Sources */,
 				39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */,
 				3922AE041F2B9B9B0034B1FE /* _DTXBasicSourceMapsConsumer.m in Sources */,
 				39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */,
 				39B22BEA217C963A0032F190 /* NSObject+AttachedObjects.m in Sources */,
+				3939242821AD0A330015A15F /* ZZNewArchiveEntryWriter.mm in Sources */,
 				39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */,
 				396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */,
 				39B22BE2217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m in Sources */,
+				3939241B21AD0A330015A15F /* ZZFileChannelOutput.m in Sources */,
+				3939242421AD0A330015A15F /* ZZOldArchiveEntryWriter.mm in Sources */,
 				39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */,
 				39F6421C1FDD5DBF00468FED /* DTXLogging.m in Sources */,
 				3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */,
@@ -823,37 +844,43 @@
 				39281E831ED70A77002CE905 /* DTXZipper.m in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
 				396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */,
+				3939242B21AD0A330015A15F /* ZZFileChannel.m in Sources */,
+				3939242A21AD0A330015A15F /* ZZOldArchiveEntry.mm in Sources */,
 				39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
+				3939240D21AD0A330015A15F /* ZZDeflateOutputStream.m in Sources */,
 				395B26A12067B12C00FD7368 /* DTXFPSCalculator.m in Sources */,
+				3939241C21AD0A330015A15F /* ZZInflateInputStream.m in Sources */,
 				3901A8A01F5D5CA60021916B /* DTXMachUtilities.c in Sources */,
+				3939242721AD0A330015A15F /* ZZStoreOutputStream.m in Sources */,
 				39C713411EFFD6FF00C827EB /* DTXReactNativeSampler.m in Sources */,
+				3939242221AD0A330015A15F /* ZZArchiveEntry.m in Sources */,
 				39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */,
 				396500F21F2E9E9000DA9530 /* DTXDeviceInfo.m in Sources */,
 				39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */,
 				39D40C151ED5B43700157C04 /* NSManagedObject+Additions.m in Sources */,
 				39D40C131ED5B43700157C04 /* DTXSample+Additions.m in Sources */,
+				3939241A21AD0A330015A15F /* ZZDataChannelOutput.m in Sources */,
+				3939242321AD0A330015A15F /* ZZError.m in Sources */,
+				3939241421AD0A330015A15F /* ZZAESDecryptInputStream.mm in Sources */,
+				3939242621AD0A330015A15F /* ZZDataChannel.m in Sources */,
 				3922AE051F2B9B9B0034B1FE /* _DTXIndexedSourceMapsConsumer.m in Sources */,
+				3939240B21AD0A330015A15F /* ZZNewArchiveEntry.mm in Sources */,
 				394A09661F012F8D0030BDB4 /* fishhook.c in Sources */,
 				39557CDB1F1F7E8D00FF3187 /* DTXRemoteProfiler.m in Sources */,
 				39D40C0E1ED5B43700157C04 /* DTXInstruments.xcdatamodeld in Sources */,
 				399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */,
 				3939239221AB42220015A15F /* DTXRemoteProfilingConnectionManager.m in Sources */,
+				3939241E21AD0A330015A15F /* ZZConstants.m in Sources */,
+				3939241921AD0A330015A15F /* ZZArchive.mm in Sources */,
 				39E75EBD209C7B8B00C95D15 /* DTXUIPasteboardParser.m in Sources */,
 				39DA16831F3097780025C492 /* NSDictionary+FakeDecoder.m in Sources */,
 				39B22BE6217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.m in Sources */,
 				3922AE031F2B9B9B0034B1FE /* _DTXBase64VLQ.m in Sources */,
+				3939241121AD0A330015A15F /* ZZStandardCryptoEngine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		3939235721AB340E0015A15F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "ZipZap (iOS Framework)";
-			targetProxy = 3939235621AB340E0015A15F /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3922F8241F4484DA00F10055 /* Debug */ = {
@@ -934,6 +961,7 @@
 					arm64e,
 				);
 				BITCODE_GENERATION_MODE = bitcode;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = NO;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1090,6 +1118,7 @@
 					arm64e,
 				);
 				BITCODE_GENERATION_MODE = bitcode;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = NO;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1126,6 +1155,7 @@
 					arm64e,
 				);
 				BITCODE_GENERATION_MODE = bitcode;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = NO;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
