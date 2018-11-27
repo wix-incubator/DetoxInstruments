@@ -7,7 +7,7 @@
 //
 
 #import "DTXRemoteProfilingClient.h"
-#import "DTXRemoteProfilingBasics.h"
+#import "DTXProfilingBasics.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import <DTXSourceMaps/DTXSourceMaps.h>

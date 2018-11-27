@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DTXRemoteProfilingBasics.h"
+#import "DTXProfilingBasics.h"
 #import "DTXFileSystemItem.h"
 #import "DTXPasteboardItem.h"
 @import CoreData;

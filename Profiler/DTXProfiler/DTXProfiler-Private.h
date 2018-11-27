@@ -6,7 +6,7 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXRemoteProfilingBasics.h"
+#import "DTXProfilingBasics.h"
 #import <DTXProfiler/DTXProfiler.h>
 #import <pthread.h>
 

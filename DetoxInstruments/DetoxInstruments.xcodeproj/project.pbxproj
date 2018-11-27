@@ -485,6 +485,7 @@
 		3932A0711F0547EF001AC360 /* DTXRNCPUDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNCPUDataProvider.h; sourceTree = "<group>"; };
 		3932A0721F0547EF001AC360 /* DTXRNCPUDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUDataProvider.m; sourceTree = "<group>"; };
 		3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipZap.xcodeproj; path = ../../../Shared/ZipZap/ZipZap.xcodeproj; sourceTree = "<group>"; };
+		3939245521AD51C00015A15F /* DTXProfilingBasics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DTXProfilingBasics.h; path = ../../../../Profiler/DTXProfiler/Model/DTXProfilingBasics.h; sourceTree = "<group>"; };
 		393973BE1EDB02DF0064D4C8 /* DTXInspectorContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXInspectorContentController.h; sourceTree = "<group>"; };
 		393973BF1EDB02DF0064D4C8 /* DTXInspectorContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXInspectorContentController.m; sourceTree = "<group>"; };
 		393973D41EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXSampleGroup+UIExtensions.h"; sourceTree = "<group>"; };
@@ -689,7 +690,6 @@
 		39C646551F249CA100DF0C77 /* DTXRemoteTargetCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteTargetCellView.h; sourceTree = "<group>"; };
 		39C646561F249CA100DF0C77 /* DTXRemoteTargetCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRemoteTargetCellView.m; sourceTree = "<group>"; };
 		39C646681F24A16700DF0C77 /* DTXRemoteTarget-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXRemoteTarget-Private.h"; sourceTree = "<group>"; };
-		39C646691F24CAC800DF0C77 /* DTXRemoteProfilingBasics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingBasics.h; sourceTree = "<group>"; };
 		39C6A8E31EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXManagedPlotControllerGroup.h; sourceTree = "<group>"; };
 		39C6A8E41EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXManagedPlotControllerGroup.m; sourceTree = "<group>"; };
 		39C6A8F31EE1E757000E2EE1 /* DTXPlotTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXPlotTableView.h; sourceTree = "<group>"; };
@@ -1247,7 +1247,7 @@
 		3985048321A3608D00F04573 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				39C646691F24CAC800DF0C77 /* DTXRemoteProfilingBasics.h */,
+				3939245521AD51C00015A15F /* DTXProfilingBasics.h */,
 				399B3FBA1F248C3C00335109 /* DTXRemoteTarget.h */,
 				39C646681F24A16700DF0C77 /* DTXRemoteTarget-Private.h */,
 				399B3FBB1F248C3C00335109 /* DTXRemoteTarget.m */,

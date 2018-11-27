@@ -7,7 +7,7 @@
 //
 
 #import "DTXRemoteTarget-Private.h"
-#import "DTXRemoteProfilingBasics.h"
+#import "DTXProfilingBasics.h"
 #import "DTXProfilingConfiguration.h"
 #import "AutoCoding.h"
 #import "DTXViewHierarchySnapshotter.h"

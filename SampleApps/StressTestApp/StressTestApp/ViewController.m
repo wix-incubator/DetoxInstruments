@@ -257,6 +257,8 @@ os_log_t __log_general;
 
 - (IBAction)bombardEvents:(UIButton*)sender
 {
+	DTXProfilerMarkEvent(@"Bombardment", @"JustAnEvent", DTXEventStatusCancelled, @"Info");
+	
 	NSMutableArray* events = [NSMutableArray new];
 	
 	for(NSUInteger idx = 0; idx < 5000; idx++)

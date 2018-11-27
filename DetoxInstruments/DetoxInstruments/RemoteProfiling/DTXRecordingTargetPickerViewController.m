@@ -9,7 +9,7 @@
 #import "DTXRecordingTargetPickerViewController.h"
 #import "DTXRemoteTarget-Private.h"
 #import "DTXRemoteTargetCellView.h"
-#import "DTXRemoteProfilingBasics.h"
+#import "DTXProfilingBasics.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import "_DTXTargetsOutlineViewContoller.h"
 #import "_DTXProfilingConfigurationViewController.h"

@@ -9,7 +9,7 @@
 #import "DTXRemoteProfilingConnectionManager.h"
 #import "DTXSocketConnection.h"
 #import "DTXRemoteProfiler.h"
-#import "DTXRemoteProfilingBasics.h"
+#import "DTXProfilingBasics.h"
 #import "DTXDeviceInfo.h"
 #import "DTXFileSystemItem.h"
 #import "AutoCoding.h"

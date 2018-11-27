@@ -95,7 +95,7 @@
 		3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */; };
 		396EE2C120ADB223006C4C55 /* DTXViewHierarchySnapshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = 396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */; };
 		396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */; };
-		3985048A21A4433E00F04573 /* DTXRemoteProfilingBasics.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048921A4433E00F04573 /* DTXRemoteProfilingBasics.h */; };
+		3985048A21A4433E00F04573 /* DTXProfilingBasics.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048921A4433E00F04573 /* DTXProfilingBasics.h */; };
 		3985048D21A4434800F04573 /* DTXFileSystemItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3985048B21A4434800F04573 /* DTXFileSystemItem.m */; };
 		3985048E21A4434800F04573 /* DTXFileSystemItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048C21A4434800F04573 /* DTXFileSystemItem.h */; };
 		3985049121A4435200F04573 /* DTXPasteboardItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048F21A4435100F04573 /* DTXPasteboardItem.h */; };
@@ -255,7 +255,7 @@
 		396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXViewHierarchySnapshotter.h; sourceTree = "<group>"; };
 		396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
 		397A01901FA648DF00ABCB87 /* DTX_JSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTX_JSC.framework; path = JSC/DTX_JSC.framework; sourceTree = "<group>"; };
-		3985048921A4433E00F04573 /* DTXRemoteProfilingBasics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXRemoteProfilingBasics.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXRemoteProfilingBasics.h; sourceTree = "<group>"; };
+		3985048921A4433E00F04573 /* DTXProfilingBasics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfilingBasics.h; sourceTree = "<group>"; };
 		3985048B21A4434800F04573 /* DTXFileSystemItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXFileSystemItem.m; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.m; sourceTree = "<group>"; };
 		3985048C21A4434800F04573 /* DTXFileSystemItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXFileSystemItem.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.h; sourceTree = "<group>"; };
 		3985048F21A4435100F04573 /* DTXPasteboardItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXPasteboardItem.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXPasteboardItem.h; sourceTree = "<group>"; };
@@ -443,7 +443,6 @@
 			isa = PBXGroup;
 			children = (
 				39498C3E1F1FAE650030B620 /* DTXSocketConnection */,
-				3985048921A4433E00F04573 /* DTXRemoteProfilingBasics.h */,
 				39557CD81F1F7E8D00FF3187 /* DTXRemoteProfiler.h */,
 				39557CD91F1F7E8D00FF3187 /* DTXRemoteProfiler.m */,
 				3985048C21A4434800F04573 /* DTXFileSystemItem.h */,
@@ -628,6 +627,7 @@
 				39D40C0B1ED5B43700157C04 /* DTXSample+Additions.m */,
 				39D40C0C1ED5B43700157C04 /* NSManagedObject+Additions.h */,
 				39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */,
+				3985048921A4433E00F04573 /* DTXProfilingBasics.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -689,7 +689,7 @@
 				3939241721AD0A330015A15F /* ZZChannel.h in Headers */,
 				3939240E21AD0A330015A15F /* ZZConstants.h in Headers */,
 				39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */,
-				3985048A21A4433E00F04573 /* DTXRemoteProfilingBasics.h in Headers */,
+				3985048A21A4433E00F04573 /* DTXProfilingBasics.h in Headers */,
 				394A09651F012F8D0030BDB4 /* fishhook.h in Headers */,
 				3985048E21A4434800F04573 /* DTXFileSystemItem.h in Headers */,
 				3939242921AD0A330015A15F /* ZZScopeGuard.h in Headers */,

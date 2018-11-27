@@ -10,7 +10,7 @@
 #import "AutoCoding.h"
 #import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
-#import "DTXRemoteProfilingBasics.h"
+#import "DTXProfilingBasics.h"
 #import "DTXRNJSCSourceMapsSupport.h"
 
 DTX_CREATE_LOG(RemoteProfiler);
