@@ -12,6 +12,7 @@
 #import "NSManagedObject+Additions.h"
 #import "DTXProfilingBasics.h"
 #import "DTXRNJSCSourceMapsSupport.h"
+#import "NSManagedObjectContext+PerformQOSBlock.h"
 
 DTX_CREATE_LOG(RemoteProfiler);
 
@@ -28,6 +29,8 @@ DTX_CREATE_LOG(RemoteProfiler);
 @implementation DTXRemoteProfiler
 {
 	DTXSocketConnection* _socketConnection;
+	DTXSampleGroup* _currentGroup;
+	NSManagedObjectContext* _ctx;
 }
 
 - (instancetype)init
@@ -169,6 +172,8 @@ DTX_CREATE_LOG(RemoteProfiler);
 	recordingDict[@"profilingConfiguration"] = configuration;
 	
 	[self _serializeCommandWithSelector:_cmd entityName:recording.entity.name dict:recordingDict additionalParams:nil];
+	
+	_ctx = recording.managedObjectContext;
 }
 
 - (void)finishWithResponseForNetworkSample:(DTXNetworkSample *)networkSample
@@ -197,6 +202,8 @@ DTX_CREATE_LOG(RemoteProfiler);
 {
 	[self _serializeCommandWithSelector:_cmd managedObject:sampleGroup additionalParams:nil];
 	
+	_currentGroup = sampleGroup.parentGroup;
+	
 	[sampleGroup.managedObjectContext deleteObject:sampleGroup];
 	[sampleGroup.managedObjectContext save:NULL];
 }
@@ -204,6 +211,8 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)pushSampleGroup:(DTXSampleGroup *)sampleGroup isRootGroup:(BOOL)isRootGroup
 {
 	[self _serializeCommandWithSelector:_cmd managedObject:sampleGroup additionalParams:@[@(isRootGroup)]];
+	
+	_currentGroup = sampleGroup;
 }
 
 - (void)startRequestWithNetworkSample:(DTXNetworkSample *)networkSample
@@ -251,6 +260,65 @@ DTX_CREATE_LOG(RemoteProfiler);
 	
 	[signpostSample.managedObjectContext deleteObject:signpostSample];
 	[signpostSample.managedObjectContext save:NULL];
+}
+
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace timestamp:(NSDate*)timestamp
+{
+	[_ctx performBlock:^{
+		NSDictionary* preserialized = @{
+										@"__dtx_className": @"DTXSignpostSample",
+										@"__dtx_entityName": @"SignpostSample",
+										@"additionalInfoStart": additionalInfo ?: @"",
+										@"category": category ?: @"",
+										@"duration": @0,
+										@"eventStatus": @0,
+										@"name": name ?: @"",
+										@"parentGroup": self->_currentGroup.sampleIdentifier,
+										@"sampleIdentifier": identifier,
+										@"sampleType": @70,
+										@"timestamp": timestamp,
+										@"uniqueIdentifier": NSUUID.UUID.UUIDString
+										};
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEventIntervalBegin:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo timestamp:(NSDate*)timestamp
+{
+	[_ctx performBlock:^{
+		NSDictionary* preserialized = @{
+										@"__dtx_className": @"DTXSignpostSample",
+										@"__dtx_entityName": @"SignpostSample",
+										@"additionalInfoEnd": additionalInfo ?: @"",
+										@"eventStatus": @(eventStatus),
+										@"endTimestamp": timestamp,
+										@"sampleIdentifier": identifier,
+										};
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEventIntervalEnd:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp
+{
+	[_ctx performBlock:^{
+		NSDictionary* preserialized = @{
+										@"__dtx_className": @"DTXSignpostSample",
+										@"__dtx_entityName": @"SignpostSample",
+										@"additionalInfoStart": additionalInfo ?: @0,
+										@"category": category ?: @0,
+										@"duration": @0,
+										@"isEvent": @1,
+										@"eventStatus": @(eventStatus),
+										@"name": name ?: @0,
+										@"parentGroup": self->_currentGroup.sampleIdentifier,
+										@"sampleIdentifier": NSUUID.UUID.UUIDString,
+										@"sampleType": @70,
+										@"timestamp": timestamp,
+										@"endTimestamp": timestamp,
+										@"uniqueIdentifier": NSUUID.UUID.UUIDString
+										};
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEvent:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
 @end
