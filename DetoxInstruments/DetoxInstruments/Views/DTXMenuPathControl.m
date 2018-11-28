@@ -35,7 +35,7 @@
 		NSUInteger selectedMenuItemIndex = 0;
 		for (NSUInteger menuItemIndex = 0; menuItemIndex < menu.numberOfItems; menuItemIndex++)
 		{
-			if ([[menu itemAtIndex:menuItemIndex] state] == NSOnState)
+			if ([[menu itemAtIndex:menuItemIndex] state] == NSControlStateValueOn)
 			{
 				selectedMenuItemIndex = menuItemIndex;
 				break;

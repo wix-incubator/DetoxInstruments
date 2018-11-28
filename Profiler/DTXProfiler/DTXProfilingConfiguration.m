@@ -9,27 +9,32 @@
 #import "DTXProfilingConfiguration.h"
 #import "AutoCoding.h"
 
+@interface DTXProfilingConfiguration ()
+
+@property (nonatomic, readwrite) NSTimeInterval samplingInterval;
+@property (nonatomic, readwrite) NSUInteger numberOfSamplesBeforeFlushToDisk;
+@property (nonatomic, readwrite) BOOL recordThreadInformation;
+@property (nonatomic, readwrite) BOOL collectStackTraces;
+@property (nonatomic, readwrite) BOOL symbolicateStackTraces;
+@property (nonatomic, readwrite) BOOL collectOpenFileNames;
+@property (nonatomic, readwrite) BOOL recordNetwork;
+@property (nonatomic, readwrite) BOOL recordLocalhostNetwork;
+@property (nonatomic, readwrite) BOOL disableNetworkCache;
+@property (nonatomic, copy, readwrite) NSSet<NSString*>* ignoredEventCategories;
+@property (nonatomic, readwrite) BOOL recordLogOutput;
+@property (nonatomic, readwrite) BOOL profileReactNative;
+@property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
+@property (nonatomic, readwrite) BOOL recordReactNativeTimersAsEvents;
+@property (nonatomic, copy, null_resettable, readwrite) NSURL* recordingFileURL;
+@property (nonatomic, readwrite) NSArray<NSString*>* _ignoredEventCategoriesArray;
+
+@end
+
 @implementation DTXProfilingConfiguration
 {
 @protected
-	NSTimeInterval _samplingInterval;
-	NSUInteger _numberOfSamplesBeforeFlushToDisk;
-	BOOL _collectOpenFileNames;
-	BOOL _recordNetwork;
-	BOOL _recordLocalhostNetwork;
-	BOOL _recordThreadInformation;
-	BOOL _collectStackTraces;
-	BOOL _symbolicateStackTraces;
-	BOOL _recordLogOutput;
-	BOOL _profileReactNative;
-	BOOL _recordReactNativeBridgeData;
-	BOOL _collectJavaScriptStackTraces;
-	BOOL _symbolicateJavaScriptStackTraces;
-	BOOL _prettyPrintJSONOutput;
-	BOOL _disableNetworkCache;
-	BOOL _recordReactNativeTimersAsEvents;
 	NSURL* _nonkvc_recordingFileURL;
-	NSSet* _ignoredEventCategories;
+	NSSet* _nonkvc_ignoredEventCategories;
 }
 
 + (BOOL)supportsSecureCoding
@@ -39,6 +44,7 @@
 
 //Bust be non-kvc compliant so that this property does not end in AutoCoding's dictionaryRepresentation.
 @synthesize recordingFileURL = _nonkvc_recordingFileURL;
+@synthesize ignoredEventCategories = _nonkvc_ignoredEventCategories;
 
 + (instancetype)defaultProfilingConfiguration
 {
@@ -51,7 +57,7 @@
 	rv->_numberOfSamplesBeforeFlushToDisk = 200;
 	rv->_profileReactNative = YES;
 	rv->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
-	rv->_ignoredEventCategories = [NSSet new];
+	rv->_nonkvc_ignoredEventCategories = [NSSet new];
 	
 	return rv;
 }
@@ -70,34 +76,54 @@
 	NSURL* recordingFileURL = [aDecoder decodeObjectForKey:@"recordingFileURL"];
 	if(recordingFileURL)
 	{
-		self->_nonkvc_recordingFileURL = recordingFileURL;
+		_nonkvc_recordingFileURL = recordingFileURL;
 	}
 	else
 	{
-		self->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
+		_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
 	}
+	NSArray* categoriesArray = [aDecoder decodeObjectForKey:@"_ignoredEventCategoriesArray"];
+	_nonkvc_ignoredEventCategories = [NSSet setWithArray:categoriesArray];
 	
 	return self;
 }
 
 - (NSSet<NSString *> *)ignoredEventCategories
 {
-	return _ignoredEventCategories ?: [NSSet new];
+	return _nonkvc_ignoredEventCategories ?: [NSSet new];
 }
 
-- (instancetype)copy
+- (void)setIgnoredEventCategories:(NSSet<NSString *> *)ignoredEventCategories
+{
+	_nonkvc_ignoredEventCategories = [ignoredEventCategories copy];
+}
+
+- (NSArray<NSString *> *)_ignoredEventCategoriesArray
+{
+	return _nonkvc_ignoredEventCategories.allObjects;
+}
+
+- (DTXProfilingConfiguration *)copy
 {
 	return [super copy];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+	DTXProfilingConfiguration* copy = [DTXProfilingConfiguration new];
+	
+	[DTXProfilingConfiguration.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop) {
+		[copy setValue:[self valueForKey:key] forKey:key];
+	}];
+	copy->_nonkvc_recordingFileURL = [self recordingFileURL];
+	copy->_nonkvc_ignoredEventCategories = [self->_nonkvc_ignoredEventCategories copy];
+	
+	return copy;
 }
 
 - (DTXMutableProfilingConfiguration *)mutableCopy
 {
 	return [super mutableCopy];
-}
-
-- (id)copyWithZone:(NSZone *)zone
-{
-	return self;
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone
@@ -108,6 +134,7 @@
 		[copy setValue:[self valueForKey:key] forKey:key];
 	}];
 	copy->_nonkvc_recordingFileURL = [self recordingFileURL];
+	copy->_nonkvc_ignoredEventCategories = [self->_nonkvc_ignoredEventCategories copy];
 	
 	return copy;
 }
@@ -153,94 +180,20 @@
 @implementation DTXMutableProfilingConfiguration
 
 @dynamic samplingInterval;
-- (void)setSamplingInterval:(NSTimeInterval)samplingInterval
-{
-	_samplingInterval = samplingInterval;
-}
-
 @dynamic numberOfSamplesBeforeFlushToDisk;
-- (void)setNumberOfSamplesBeforeFlushToDisk:(NSUInteger)numberOfSamplesBeforeFlushToDisk
-{
-	_numberOfSamplesBeforeFlushToDisk = numberOfSamplesBeforeFlushToDisk;
-}
-
-@dynamic recordNetwork;
-- (void)setRecordNetwork:(BOOL)recordNetwork
-{
-	_recordNetwork = recordNetwork;
-}
-
-@dynamic collectOpenFileNames;
-- (void)setCollectOpenFileNames:(BOOL)collectOpenFileNames
-{
-	_collectOpenFileNames = collectOpenFileNames;
-}
-
-@dynamic recordLocalhostNetwork;
-- (void)setRecordLocalhostNetwork:(BOOL)recordLocalhostNetwork
-{
-	_recordLocalhostNetwork = recordLocalhostNetwork;
-}
-
 @dynamic recordThreadInformation;
-- (void)setRecordThreadInformation:(BOOL)recordThreadInformation
-{
-	_recordThreadInformation = recordThreadInformation;
-}
-
 @dynamic collectStackTraces;
-- (void)setCollectStackTraces:(BOOL)collectStackTraces
-{
-	_collectStackTraces = collectStackTraces;
-}
-
 @dynamic symbolicateStackTraces;
-- (void)setSymbolicateStackTraces:(BOOL)symbolicateStackTraces
-{
-	_symbolicateStackTraces = symbolicateStackTraces;
-}
-
-@dynamic ignoredEventCategories;
-- (void)setIgnoredEventCategories:(NSSet *)ignoredEventCategories
-{
-	_ignoredEventCategories = ignoredEventCategories;
-}
-
-@dynamic recordLogOutput;
-- (void)setRecordLogOutput:(BOOL)recordLogOutput
-{
-	_recordLogOutput = recordLogOutput;
-}
-
-@dynamic profileReactNative;
-- (void)setProfileReactNative:(BOOL)profileReactNative
-{
-	_profileReactNative = profileReactNative;
-}
-
-@dynamic recordingFileURL;
-- (void)_setRecordingFileURL:(NSURL *)recordingFileURL
-{
-	self->_nonkvc_recordingFileURL = recordingFileURL;
-}
-
-@dynamic recordReactNativeBridgeData;
-- (void)setRecordReactNativeBridgeData:(BOOL)recordReactNativeBridgeData
-{
-	self->_recordReactNativeBridgeData = recordReactNativeBridgeData;
-}
-
+@dynamic collectOpenFileNames;
+@dynamic recordNetwork;
+@dynamic recordLocalhostNetwork;
 @dynamic disableNetworkCache;
-- (void)setDisableNetworkCache:(BOOL)disableNetworkCache
-{
-	self->_disableNetworkCache = disableNetworkCache;
-}
-
+@dynamic ignoredEventCategories;
+@dynamic recordLogOutput;
+@dynamic profileReactNative;
+@dynamic recordReactNativeBridgeData;
 @dynamic recordReactNativeTimersAsEvents;
-- (void)setRecordReactNativeTimersAsEvents:(BOOL)recordReactNativeTimersAsEvents
-{
-	self->_recordReactNativeTimersAsEvents = recordReactNativeTimersAsEvents;
-}
+@dynamic recordingFileURL;
 
 - (void)setRecordingFileURL:(NSURL *)recordingFileURL
 {
@@ -265,27 +218,7 @@
 		recordingFileURL = [recordingFileURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:fileName isDirectory:YES];
 	}
 	
-	[self _setRecordingFileURL:recordingFileURL];
-}
-
-+ (instancetype)defaultProfilingConfiguration
-{
-	DTXMutableProfilingConfiguration* rv = [super defaultProfilingConfiguration];
-	rv->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];;
-	
-	return rv;
-}
-
-- (id)copyWithZone:(NSZone *)zone
-{
-	DTXProfilingConfiguration* copy = [DTXProfilingConfiguration new];
-	
-	[DTXProfilingConfiguration.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop) {
-		[copy setValue:[self valueForKey:key] forKey:key];
-	}];
-	copy->_nonkvc_recordingFileURL = [self recordingFileURL];
-	
-	return copy;
+	[super setRecordingFileURL:recordingFileURL];
 }
 
 @end

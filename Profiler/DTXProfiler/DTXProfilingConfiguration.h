@@ -17,8 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DTXProfilingConfiguration : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
-- (instancetype)copy;
-- (__kindof DTXMutableProfilingConfiguration*)mutableCopy;
+- (DTXProfilingConfiguration*)copy;
+- (DTXMutableProfilingConfiguration*)mutableCopy;
 
 /**
  *  Returns a newly created default profiling configuration object.
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  The default value is an empty set.
  */
-@property (nonatomic, readonly) NSSet<NSString*>* ignoredEventCategories;
+@property (nonatomic, copy, null_resettable, readonly) NSSet<NSString*>* ignoredEventCategories;
 
 /**
  *  Record log output during profiling.
@@ -253,7 +253,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  The default value is an empty set.
  */
-@property (nonatomic, readwrite) NSSet<NSString*>* ignoredEventCategories;
+@property (nonatomic, copy, null_resettable, readwrite) NSSet<NSString*>* ignoredEventCategories;
 
 /**
  *  Record log output during profiling.
@@ -285,7 +285,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  The default value is @c false.
  */
-@property (nonatomic, readonly) BOOL recordReactNativeTimersAsEvents;
+@property (nonatomic, readwrite) BOOL recordReactNativeTimersAsEvents;
 
 /* Output Configuration */
 

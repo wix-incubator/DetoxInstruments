@@ -77,7 +77,6 @@
 		3939243021AD0A330015A15F /* ZZStandardDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3939240421AD0A320015A15F /* ZZStandardDecryptInputStream.mm */; };
 		3939243121AD0A330015A15F /* ZZDataChannelOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240521AD0A320015A15F /* ZZDataChannelOutput.h */; };
 		3939243221AD0A330015A15F /* ZZNewArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */; };
-		393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */ = {isa = PBXBuildFile; fileRef = 393E66DD1FC59B730092EE89 /* Swiftier.h */; };
 		39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */; };
 		39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 39498C401F1FAE650030B620 /* DTXSocketConnection.h */; };
 		394A09651F012F8D0030BDB4 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = 394A09631F012F8D0030BDB4 /* fishhook.h */; };
@@ -137,6 +136,7 @@
 		39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */; };
 		39DA16821F3097780025C492 /* NSDictionary+FakeDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39DA16801F3097780025C492 /* NSDictionary+FakeDecoder.h */; };
 		39DA16831F3097780025C492 /* NSDictionary+FakeDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DA16811F3097780025C492 /* NSDictionary+FakeDecoder.m */; };
+		39E2637321AE25A900A21256 /* Swiftier.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E2637221AE25A900A21256 /* Swiftier.h */; };
 		39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */; };
 		39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */; };
 		39E75EBC209C7B8B00C95D15 /* DTXUIPasteboardParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E75EBA209C7B8B00C95D15 /* DTXUIPasteboardParser.h */; };
@@ -234,7 +234,6 @@
 		3939240421AD0A320015A15F /* ZZStandardDecryptInputStream.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZStandardDecryptInputStream.mm; sourceTree = "<group>"; };
 		3939240521AD0A320015A15F /* ZZDataChannelOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDataChannelOutput.h; sourceTree = "<group>"; };
 		3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZNewArchiveEntryWriter.h; sourceTree = "<group>"; };
-		393E66DD1FC59B730092EE89 /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../Shared/Swiftier.h; sourceTree = "<group>"; };
 		39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSocketConnection.m; sourceTree = "<group>"; };
 		39498C401F1FAE650030B620 /* DTXSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSocketConnection.h; sourceTree = "<group>"; };
 		394A09631F012F8D0030BDB4 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = SOURCE_ROOT; };
@@ -301,6 +300,7 @@
 		39DA16801F3097780025C492 /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+FakeDecoder.h"; path = "../../../Shared/NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
 		39DA16811F3097780025C492 /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+FakeDecoder.m"; path = "../../../Shared/NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
 		39E10B69209F42E800CBB71A /* dtx_libproc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dtx_libproc.h; sourceTree = "<group>"; };
+		39E2637221AE25A900A21256 /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../DetoxInstruments/DetoxInstruments/Utilities/Swiftier.h; sourceTree = "<group>"; };
 		39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkRecorder.h; sourceTree = "<group>"; };
 		39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkRecorder.m; sourceTree = "<group>"; };
 		39E75EBA209C7B8B00C95D15 /* DTXUIPasteboardParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXUIPasteboardParser.h; sourceTree = "<group>"; };
@@ -609,7 +609,7 @@
 				39557CD71F1F7E5500FF3187 /* DTXProfiler-Private.h */,
 				39D40C171ED5B43F00157C04 /* DTXProfiler.m */,
 				39D40BFD1ED5ABD200157C04 /* Info.plist */,
-				393E66DD1FC59B730092EE89 /* Swiftier.h */,
+				39E2637221AE25A900A21256 /* Swiftier.h */,
 				396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */,
 				398EC43A207B571C00C55809 /* Version.h */,
 			);
@@ -655,7 +655,6 @@
 				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
 				3939241621AD0A330015A15F /* ZZStandardCryptoEngine.h in Headers */,
 				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
-				393E66DE1FC59B740092EE89 /* Swiftier.h in Headers */,
 				399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */,
 				395B26A02067B12C00FD7368 /* DTXFPSCalculator.h in Headers */,
 				39D40C141ED5B43700157C04 /* NSManagedObject+Additions.h in Headers */,
@@ -666,6 +665,7 @@
 				3901A89F1F5D5CA60021916B /* DTXMachUtilities.h in Headers */,
 				3939241221AD0A330015A15F /* ZZStoreOutputStream.h in Headers */,
 				396500F11F2E9E9000DA9530 /* DTXDeviceInfo.h in Headers */,
+				39E2637321AE25A900A21256 /* Swiftier.h in Headers */,
 				3939241F21AD0A330015A15F /* ZZDeflateOutputStream.h in Headers */,
 				3939241021AD0A330015A15F /* ZZHeaders.h in Headers */,
 				39DA16821F3097780025C492 /* NSDictionary+FakeDecoder.h in Headers */,

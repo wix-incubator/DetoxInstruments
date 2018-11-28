@@ -27,7 +27,9 @@
 	
 	if(readingOptions == NSPasteboardReadingAsKeyedArchive)
 	{
-		return [NSKeyedUnarchiver unarchiveObjectWithData:[item dataForType:type]];
+		NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:[item dataForType:type] error:NULL];
+		unarchiver.requiresSecureCoding = NO;
+		return [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
 	}
 	
 	id postprocessed;
@@ -73,7 +75,7 @@
 				NSImage* image = [self _instanceOfClass:NSImage.class fromPasteboardItem:obj type:type pasteboard:NSPasteboard.generalPasteboard];
 				NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:[image CGImageForProposedRect:NULL context:nil hints:nil]];
 				
-				[pasteboardItem addType:NS(kUTTypeImage) data:[newRep representationUsingType:NSPNGFileType properties:@{}]];
+				[pasteboardItem addType:NS(kUTTypeImage) data:[newRep representationUsingType:NSBitmapImageFileTypePNG properties:@{}]];
 				
 				imageHandled = YES;
 				
@@ -162,8 +164,9 @@
 				}
 				
 				NSColor* color = [self _instanceOfClass:NSColor.class fromPasteboardItem:obj type:type pasteboard:NSPasteboard.generalPasteboard];
+				
 				//Translate color from system color to normal color.
-				color = [color colorUsingColorSpaceName:NSDeviceRGBColorSpace];
+				color = [color colorUsingColorSpace:NSColorSpace.deviceRGBColorSpace];
 				[pasteboardItem addType:DTXColorPasteboardType value:color];
 				colorHandled = YES;
 				

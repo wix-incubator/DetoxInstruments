@@ -9,6 +9,10 @@
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import "AutoCoding.h"
 
+@interface DTXProfilingConfiguration ()
+@property (nonatomic, copy, readwrite) NSSet<NSString*>* ignoredEventCategories;
+@end
+
 @implementation DTXProfilingConfiguration (RemoteProfilingSupport)
 
 - (void)setAsDefaultRemoteProfilingConfiguration
@@ -25,6 +29,9 @@
 	[rv.dictionaryRepresentation enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 		[rv setValue:[NSUserDefaults.standardUserDefaults objectForKey:[NSString stringWithFormat:@"DTXSelectedProfilingConfiguration_%@", key]] forKey:key];
 	}];
+	
+	NSArray* categories = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"] ?: @[];
+	rv.ignoredEventCategories = [NSSet setWithArray:categories];
 	
 	return rv;
 }

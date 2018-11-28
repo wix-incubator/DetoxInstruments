@@ -74,7 +74,7 @@
 {
 	[super setFrame:frame];
 	
-	[self setNeedsDisplay];
+	[self setNeedsDisplay:YES];
 }
 
 - (IBAction)clearFilter:(id)sender

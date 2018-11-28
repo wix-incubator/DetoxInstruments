@@ -301,7 +301,9 @@
 
 - (void)_handleDeviceContainerContents:(NSDictionary*)containerContents
 {
-	_containerContents = [NSKeyedUnarchiver unarchiveObjectWithData:containerContents[@"containerContents"]];
+	NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:containerContents[@"containerContents"] error:NULL];
+	unarchiver.requiresSecureCoding = NO;
+	_containerContents = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
 	
 //	[[NSKeyedArchiver archivedDataWithRootObject:_containerContents] writeToFile:[[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"] stringByAppendingPathComponent:@"../Documentation/Example Recording/Example Management Data/ContainerContents.dat"] atomically:YES];
 	
@@ -389,7 +391,9 @@
 
 - (void)_handlePasteboard:(NSDictionary*)pasteboard
 {
-	_pasteboardContents = [NSKeyedUnarchiver unarchiveObjectWithData:pasteboard[@"pasteboardContents"]];
+	NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:pasteboard[@"pasteboardContents"] error:NULL];
+	unarchiver.requiresSecureCoding = NO;
+	_pasteboardContents = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
 	
 //	[[NSKeyedArchiver archivedDataWithRootObject:_pasteboardContents] writeToFile:[[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"] stringByAppendingPathComponent:@"../Documentation/Example Recording/Example Management Data/Pasteboard.dat"] atomically:YES];
 	
@@ -402,7 +406,7 @@
 - (void)setPasteboardContents:(NSArray<DTXPasteboardItem *> *)pasteboardContents
 {
 	_pasteboardContents = [pasteboardContents copy];
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeSetPasteboard), @"pasteboardContents": [NSKeyedArchiver archivedDataWithRootObject:pasteboardContents]} completionHandler:nil];
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeSetPasteboard), @"pasteboardContents": [NSKeyedArchiver archivedDataWithRootObject:pasteboardContents requiringSecureCoding:YES error:NULL]} completionHandler:nil];
 }
 
 #pragma mark View Hierarchy

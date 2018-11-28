@@ -44,7 +44,8 @@
 @implementation _DTXProfilingConfigurationViewController
 {
 	IBOutlet NSButton* _helpButton;
-	IBOutlet NSTextField* _;
+	IBOutlet NSView* _containerView;
+	IBOutlet NSStackView* _topStackView;
 	
 	BOOL _lastValidationFailed;
 }
@@ -98,6 +99,14 @@
 	
 	self.view.wantsLayer = YES;
 	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	
+	NSLayoutConstraint* bottomConstraint = [_containerView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor];
+	bottomConstraint.priority = NSLayoutPriorityDefaultHigh;
+	
+	[NSLayoutConstraint activateConstraints:@[
+											  [_containerView.heightAnchor constraintEqualToConstant:_topStackView.fittingSize.height],
+											  bottomConstraint
+											  ]];
 }
 
 - (IBAction)_useDefaultConfigurationValueChanged:(NSButton *)sender

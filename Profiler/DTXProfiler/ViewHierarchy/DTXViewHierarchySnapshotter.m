@@ -104,7 +104,7 @@
 			CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
 			NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
 			newRep.size = image.size;
-			data = [newRep representationUsingType:NSPNGFileType properties:@{}];
+			data = [newRep representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
 			
 #endif
 			[aCoder encodeObject:data forKey:key];

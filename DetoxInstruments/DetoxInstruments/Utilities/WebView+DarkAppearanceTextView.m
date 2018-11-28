@@ -9,6 +9,9 @@
 #import "WebView+DarkAppearanceTextView.h"
 @import ObjectiveC;
 
+//For the WebView stuff
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @interface _DTXSparkleWebTextViewScrollView : NSScrollView
 
 @property (nonatomic, copy) NSString *preferencesIdentifier;

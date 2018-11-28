@@ -114,7 +114,7 @@
 
 - (BOOL)_isUserNotifyColorImportant
 {
-	return _userNotifyColor != nil && ([_userNotifyColor.colorSpaceName isEqualToString:@"NSNamedColorSpace"] == NO || [_userNotifyColor.colorNameComponent isEqualToString:@"controlBackgroundColor"] == NO);
+	return _userNotifyColor != nil && (_userNotifyColor.type != NSColorTypeCatalog || [_userNotifyColor.colorNameComponent isEqualToString:@"controlBackgroundColor"] == NO);
 }
 
 - (void)setUserNotifyColor:(NSColor *)userNotifyColor
