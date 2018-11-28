@@ -9,6 +9,8 @@
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
 #import "DevicePreviewImagesDocumentationGeneration.h"
 
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @interface __FAKE_DTXRemoteTarget : NSObject
 
 @property (nonatomic, assign) NSUInteger deviceOSType;

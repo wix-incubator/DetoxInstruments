@@ -4,7 +4,8 @@ pushd .
 cd Documentation/Resources
 for PNG in *.png ;
 do
-pngcrush -reduce -m 123 -ow "$PNG"
+	echo -e "\033[1;34mCrushing $PNG\033[0m"
+	pngcrush -reduce -m 123 -ow "$PNG"
 done ;
 popd
 
@@ -14,17 +15,17 @@ rm -fr "${HTMLDIR}"/Documentation
 mkdir -p "${HTMLDIR}"/Documentation
 cp -R Documentation/Resources "${HTMLDIR}"/Documentation/
 
-pushd .
+pushd . > /dev/null
 cd "${HTMLDIR}"/Documentation/Resources/
 for PNG in *.png ;
 do
-  # convert "$PNG" -flatten -alpha off -resize 50% "$PNG"
-  # pngcrush -reduce -m 123 -ow "$PNG"
-  
-  convert "$PNG" -flatten -alpha off -resize 50% -quality 90 "$PNG".jpg
-  mv -f "$PNG".jpg "$PNG"
+	# convert "$PNG" -flatten -alpha off -resize 50% "$PNG"
+	# pngcrush -reduce -m 123 -ow "$PNG"
+	echo -e "\033[1;34mConverting $PNG\033[0m"
+	convert "$PNG" -flatten -alpha off -resize 50% -quality 90 "$PNG".jpg
+	mv -f "$PNG".jpg "$PNG"
 done ;
-popd
+popd > /dev/null
 
 cp DetoxInstruments/DetoxInstruments/Assets.xcassets/AppIcon.appiconset/1024.png "${HTMLDIR}"/Documentation/Resources/icon_512x512@2x.png
 
@@ -71,12 +72,15 @@ function render_markdown {
   sed -i '' 's/\.md/\.html/' "${TARGET_FILE}"
 }
 
+echo -e "\033[1;34mRendering README.html\033[0m"
 render_markdown "README.md" "$HTMLDIR"/README.html Documentation/Metadata
 
 for MD_FILE in Documentation/*.md; do
   NAME=$(basename "$MD_FILE" .md)
+  echo -e "\033[1;34mRendering $NAME.html\033[0m"
   render_markdown "$MD_FILE" "$HTMLDIR"/Documentation/"$NAME".html Documentation/Metadata
 done
 
+echo -e "\033[1;34mRebuilding Apple Help index\033[0m"
 hiutil -C --anchors -g -vvv -f DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex DetoxInstruments/DetoxInstruments.help -v
 hiutil -F -A -vvv -f DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex

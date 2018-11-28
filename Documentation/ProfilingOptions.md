@@ -34,6 +34,14 @@ The **Record localhost network** option extends the network recording to localho
 
 The **Disable network cache** option controls whether network cache should be disabled for requests the app makes while recording.
 
+### Events
+
+The **Ignored Categories** button presents the **Ignored Events Categories** screen.
+
+![Ignored Events Categories](Resources/ProfilingOptions_IgnoredEventsCategories.png "Ignored Events Categories")
+
+In this screen, you can add Events categories that will be ignored when recording. Use this to save performance and lower clutter. For an in-depth look at the Events instrument, see [Events Instrument](Instrument_Events.md).
+
 ### Log
 
 The **Collect log output** options enables the recording of your app's log output. This can be very useful for cross-referencing your debug log output with profiling samples of your app. This is an inexpensive operation, but depending on the log output amount, may have a slight performance cost.

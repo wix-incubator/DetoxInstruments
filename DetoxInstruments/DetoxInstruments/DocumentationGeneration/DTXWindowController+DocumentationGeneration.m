@@ -19,6 +19,8 @@
 #import "NSAppearance+UIAdditions.h"
 #import "DTXPlotAreaContentController.h"
 
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @interface NSObject ()
 
 - (IBAction)options:(id)sender;
@@ -244,6 +246,32 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	
 	NSWindow* window = self.window.sheets.firstObject;
 	return [window snapshotForCachingDisplay];
+}
+
+- (NSImage*)_snapshotForIgnoredCategories
+{
+	NSArray* oldCategories = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"];
+	[NSUserDefaults.standardUserDefaults setObject:@[@"FirstIgnoredCategory", @"SecondIgnoredCategory"] forKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"];
+	
+	[self _drainLayout];
+	[self _drainLayout];
+	NSViewController* targetPicker = [self.window.sheets.firstObject.contentViewController valueForKey:@"_activeController"];
+	[targetPicker performSegueWithIdentifier:@"PresentIgnoredCategoriesSegue" sender:nil];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	[self _drainLayout];
+	
+	NSWindow* window = self.window.sheets.firstObject.sheets.firstObject;
+	auto rv = [window snapshotForCachingDisplay];
+	
+	[NSUserDefaults.standardUserDefaults setObject:oldCategories forKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"];
+	
+	return rv;
 }
 
 - (NSImage*)_snapshotForTargetSelection

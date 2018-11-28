@@ -31,6 +31,8 @@
 #import "DTXDebugMenuGenerator.h"
 #import "NSImage+UIAdditions.h"
 
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @import ObjectiveC;
 
 static NSBitmapImageRep* __DTXThemeBackgroundRep(NSBitmapImageRep* rep)
@@ -273,6 +275,9 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	
 	rep = (NSBitmapImageRep*)[windowController _snapshotForRecordingSettings].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"ProfilingOptions_ProfilingOptions.png"].path atomically:YES];
+	
+	rep = (NSBitmapImageRep*)[windowController _snapshotForIgnoredCategories].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"ProfilingOptions_IgnoredEventsCategories.png"].path atomically:YES];
 	
 	[newDocument close];
 	
