@@ -24,7 +24,7 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 - (void)connection:(id)arg1 didReceiveResponse:(id)arg2 completion:(id)arg3;
 - (void)connection:(id)arg1 didFinishLoadingWithError:(id)arg2;
 - (void)connection:(id)arg1 didReceiveData:(id)arg2 completion:(id)arg3;
-- (id)initWithOriginalRequest:(id)arg1 updatedRequest:(id)arg2 ident:(unsigned long long)arg3 session:(id)arg4;
+- (id)initWithOriginalRequest:(id)arg1 updatedRequest:(id)arg2 ident:(NSUInteger)arg3 session:(id)arg4;
 
 @end
 
@@ -56,7 +56,7 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	});
 }
 
-- (instancetype)initWithOriginalRequest__dtx:(NSURLRequest*)arg1 updatedRequest:(NSURLRequest*)arg2 ident:(unsigned long long)arg3 session:(id)arg4;
+- (instancetype)initWithOriginalRequest__dtx:(NSURLRequest*)arg1 updatedRequest:(NSURLRequest*)arg2 ident:(NSUInteger)arg3 session:(id)arg4;
 {
 	NSMutableURLRequest* arg1_ = [arg1 mutableCopy];
 	NSMutableURLRequest* arg2_ = [arg2 mutableCopy];
