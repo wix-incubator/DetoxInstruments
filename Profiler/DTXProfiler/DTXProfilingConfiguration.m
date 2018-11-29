@@ -83,7 +83,10 @@
 		_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
 	}
 	NSArray* categoriesArray = [aDecoder decodeObjectForKey:@"_ignoredEventCategoriesArray"];
-	_nonkvc_ignoredEventCategories = [NSSet setWithArray:categoriesArray];
+	if(categoriesArray != nil)
+	{
+		_nonkvc_ignoredEventCategories = [NSSet setWithArray:categoriesArray];
+	}
 	
 	return self;
 }

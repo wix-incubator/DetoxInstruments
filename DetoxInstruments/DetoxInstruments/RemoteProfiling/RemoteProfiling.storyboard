@@ -11,17 +11,17 @@
             <objects>
                 <viewController storyboardIdentifier="_DTXTargetsOutlineViewContoller" id="oEP-Mf-Ucg" customClass="_DTXTargetsOutlineViewContoller" sceneMemberID="viewController">
                     <view key="view" id="YYg-w9-p9Z">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="306"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="317"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" autohidesScrollers="YES" horizontalLineScroll="93" horizontalPageScroll="10" verticalLineScroll="93" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQU-Bz-tCA">
-                                <rect key="frame" x="20" y="1" width="500" height="270"/>
+                                <rect key="frame" x="20" y="1" width="500" height="281"/>
                                 <clipView key="contentView" drawsBackground="NO" id="qgV-SM-Kze">
-                                    <rect key="frame" x="1" y="1" width="498" height="268"/>
+                                    <rect key="frame" x="1" y="1" width="498" height="279"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="90" viewBased="YES" outlineTableColumn="c7g-oF-BMF" id="65u-RA-Spb" customClass="DTXRemoteProfilingSelectionOutlineView">
-                                            <rect key="frame" x="0.0" y="0.0" width="498" height="268"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="498" height="279"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -178,7 +178,7 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="270" id="RuX-fD-Yee"/>
+                                    <constraint firstAttribute="height" constant="281" id="RuX-fD-Yee"/>
                                     <constraint firstAttribute="width" constant="500" id="eTf-bY-xJ8"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="rgI-oP-LZc">
@@ -191,7 +191,7 @@
                                 </scroller>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Ed4-VH-IKz">
-                                <rect key="frame" x="18" y="279" width="149" height="17"/>
+                                <rect key="frame" x="18" y="290" width="149" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select an app to profile:" id="zCb-U1-8nK">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
