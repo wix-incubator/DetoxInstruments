@@ -44,6 +44,11 @@
 
 - (NSImage *)imageTintedWithColor:(NSColor *)tint
 {
+	if(tint.alphaComponent == 0)
+	{
+		return [[NSImage alloc] initWithSize:self.size];
+	}
+	
 	NSImage *image = [self copy];
 	if (tint) {
 		[image lockFocus];

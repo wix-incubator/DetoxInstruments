@@ -222,7 +222,6 @@
 	self.deviceName = deviceInfo[@"deviceName"];
 	self.appName = deviceInfo[@"appName"];
 	self.deviceOS = deviceInfo[@"deviceOS"];
-	//	self.deviceSnapshot = [[NSImage alloc] initWithData:deviceInfo[@"snapshot"]];
 	self.deviceInfo = deviceInfo;
 	
 	_state = DTXRemoteTargetStateDeviceInfoLoaded;

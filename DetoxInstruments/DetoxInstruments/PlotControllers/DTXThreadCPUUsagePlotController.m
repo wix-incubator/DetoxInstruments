@@ -7,6 +7,7 @@
 //
 
 #import "DTXThreadCPUUsagePlotController.h"
+#import "DTXThreadInfo+UIExtensions.h"
 
 @implementation DTXThreadCPUUsagePlotController
 {
@@ -32,7 +33,7 @@
 
 - (NSString *)displayName
 {
-	return _threadInfo.name.length > 0 ? _threadInfo.name : _threadInfo.number == 0 ? NSLocalizedString(@"Main Thread", @"") : [NSString stringWithFormat:NSLocalizedString(@"Thread %@", @""), @(_threadInfo.number)];
+	return _threadInfo.friendlyName;
 }
 
 - (NSString *)toolTip

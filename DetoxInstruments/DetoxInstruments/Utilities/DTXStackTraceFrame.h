@@ -6,12 +6,14 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import AppKit;
 
 @interface DTXStackTraceFrame : NSObject
 
 @property (nonatomic, copy) NSAttributedString* stackFrameText;
+@property (nonatomic, copy) NSAttributedString* stackFrameDetailText;
 @property (nonatomic, copy) NSString* fullStackFrameText;
-@property (nonatomic, copy) NSImage* stackFrameIcon;
+@property (nonatomic, strong) NSImage* stackFrameIcon;
+@property (nonatomic, strong) NSColor* imageTintColor;
 
 @end

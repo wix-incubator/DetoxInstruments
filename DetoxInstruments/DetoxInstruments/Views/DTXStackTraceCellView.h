@@ -16,4 +16,6 @@
 
 @property (nonatomic, copy) NSArray<DTXStackTraceFrame*>* stackFrames;
 
+@property (nonatomic) BOOL selectionDisabled;
+
 @end

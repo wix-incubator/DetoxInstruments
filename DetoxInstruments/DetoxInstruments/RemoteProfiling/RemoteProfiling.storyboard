@@ -242,7 +242,7 @@ DQ
                     </buttonCell>
                 </button>
             </objects>
-            <point key="canvasLocation" x="1040" y="-1469"/>
+            <point key="canvasLocation" x="1038" y="-1465"/>
         </scene>
         <!--Profiling Configuration View Controller-->
         <scene sceneID="AdY-IO-0rj">
@@ -988,7 +988,7 @@ Currently, only one active React Native bridge is supported.</string>
             <objects>
                 <viewController storyboardIdentifier="DTXRecordingTargetChooser" id="6UR-n3-F3i" customClass="DTXRecordingTargetPickerViewController" sceneMemberID="viewController">
                     <view key="view" id="hzm-lQ-Nhr">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="367"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="378"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tRv-QD-HaW">
@@ -1015,10 +1015,10 @@ Gw
                                 </constraints>
                             </stackView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="7GZ-nF-iEl">
-                                <rect key="frame" x="0.0" y="61" width="540" height="306"/>
+                                <rect key="frame" x="0.0" y="61" width="540" height="317"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="540" id="9mE-dr-09C"/>
-                                    <constraint firstAttribute="height" constant="306" id="Xtl-7O-uRN"/>
+                                    <constraint firstAttribute="height" constant="317" id="Xtl-7O-uRN"/>
                                 </constraints>
                             </customView>
                         </subviews>
@@ -1042,7 +1042,7 @@ Gw
                 </viewController>
                 <customObject id="0Dm-R6-VsD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="468" y="-1439"/>
+            <point key="canvasLocation" x="468" y="-1439.5"/>
         </scene>
         <!--Ignored Event Categories-->
         <scene sceneID="Gma-h5-Jhx">

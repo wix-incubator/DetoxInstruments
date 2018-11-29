@@ -8,6 +8,8 @@
 
 #import "DTXStackTraceCellView.h"
 #import "DTXTableRowView.h"
+#import "NSImage+UIAdditions.h"
+#import "DTXTwoLabelsCellView.h"
 
 @interface DTXStackTraceCellView () <NSTableViewDataSource, NSTableViewDelegate>
 
@@ -40,6 +42,11 @@
 	[_stackTraceTableView.enclosingScrollView invalidateIntrinsicContentSize];
 }
 
+- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView
+{
+	return _selectionDisabled == NO;
+}
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
 	return _stackFrames.count;
@@ -52,11 +59,19 @@
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	NSTableCellView* cellView = [tableView makeViewWithIdentifier:@"StackFrameCell" owner:nil];
+	DTXTwoLabelsCellView* cellView = [tableView makeViewWithIdentifier:@"StackFrameCell" owner:nil];
 	
 	cellView.textField.attributedStringValue = _stackFrames[row].stackFrameText;
 	cellView.textField.allowsDefaultTighteningForTruncation = NO;
-	cellView.imageView.image = _stackFrames[row].stackFrameIcon;
+	cellView.detailTextField.attributedStringValue = _stackFrames[row].stackFrameDetailText;
+	__block NSImage* image = _stackFrames[row].stackFrameIcon;
+	NSColor* tintColor = _stackFrames[row].imageTintColor;
+	if(tintColor != nil)
+	{
+		image = [image imageTintedWithColor:tintColor];
+	}
+	cellView.imageView.image = image;
+	[cellView.imageView.layer setNeedsDisplay];
 	cellView.toolTip = _stackFrames[row].fullStackFrameText;
 	
 	return cellView;

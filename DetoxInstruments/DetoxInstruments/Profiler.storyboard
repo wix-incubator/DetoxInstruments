@@ -861,16 +861,24 @@
                                                                                                     </textFieldCell>
                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                     <prototypeCellViews>
-                                                                                                        <tableCellView identifier="StackFrameCell" id="rD4-GI-Ty8">
+                                                                                                        <tableCellView identifier="StackFrameCell" id="rD4-GI-Ty8" customClass="DTXTwoLabelsCellView">
                                                                                                             <rect key="frame" x="1" y="1" width="316" height="12"/>
                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                             <subviews>
-                                                                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCj-0r-N1a">
-                                                                                                                    <rect key="frame" x="24" y="-2" width="286" height="17"/>
+                                                                                                                <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCj-0r-N1a">
+                                                                                                                    <rect key="frame" x="24" y="-2" width="253" height="17"/>
                                                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Table View Cell" allowsEditingTextAttributes="YES" id="jML-Ih-R7D">
                                                                                                                         <font key="font" metaFont="system"/>
                                                                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                    </textFieldCell>
+                                                                                                                </textField>
+                                                                                                                <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="qSE-Fl-CXC">
+                                                                                                                    <rect key="frame" x="273" y="-2" width="37" height="17"/>
+                                                                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="6VC-5w-2hf">
+                                                                                                                        <font key="font" metaFont="system"/>
+                                                                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                                     </textFieldCell>
                                                                                                                 </textField>
                                                                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nuR-qk-EJf">
@@ -880,12 +888,15 @@
                                                                                                             </subviews>
                                                                                                             <constraints>
                                                                                                                 <constraint firstItem="dCj-0r-N1a" firstAttribute="leading" secondItem="nuR-qk-EJf" secondAttribute="trailing" constant="4" id="0Gx-jr-XXA"/>
-                                                                                                                <constraint firstAttribute="trailing" secondItem="dCj-0r-N1a" secondAttribute="trailing" constant="8" id="1rr-3U-rz6"/>
+                                                                                                                <constraint firstAttribute="trailing" secondItem="qSE-Fl-CXC" secondAttribute="trailing" constant="8" id="0YV-Ei-dDR"/>
                                                                                                                 <constraint firstItem="dCj-0r-N1a" firstAttribute="centerY" secondItem="rD4-GI-Ty8" secondAttribute="centerY" id="8V7-WK-y7o"/>
                                                                                                                 <constraint firstItem="nuR-qk-EJf" firstAttribute="centerY" secondItem="rD4-GI-Ty8" secondAttribute="centerY" id="EjQ-ZR-EDS"/>
+                                                                                                                <constraint firstItem="qSE-Fl-CXC" firstAttribute="leading" secondItem="dCj-0r-N1a" secondAttribute="trailing" id="Q2Q-7t-MY6"/>
                                                                                                                 <constraint firstItem="nuR-qk-EJf" firstAttribute="leading" secondItem="rD4-GI-Ty8" secondAttribute="leading" constant="8" id="fQY-FV-ryq"/>
+                                                                                                                <constraint firstItem="qSE-Fl-CXC" firstAttribute="firstBaseline" secondItem="dCj-0r-N1a" secondAttribute="firstBaseline" id="gjm-ZW-6Lq"/>
                                                                                                             </constraints>
                                                                                                             <connections>
+                                                                                                                <outlet property="detailTextField" destination="qSE-Fl-CXC" id="TFp-wP-Kbk"/>
                                                                                                                 <outlet property="imageView" destination="nuR-qk-EJf" id="lj4-3r-cTk"/>
                                                                                                                 <outlet property="textField" destination="dCj-0r-N1a" id="5ld-6b-DB4"/>
                                                                                                             </connections>
@@ -1062,7 +1073,7 @@
                                 <rect key="frame" x="0.0" y="771" width="320" height="29"/>
                                 <subviews>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCX-wo-mYx" customClass="DTXSegmentedView">
-                                        <rect key="frame" x="126" y="3" width="69" height="23"/>
+                                        <rect key="frame" x="125.5" y="3" width="70" height="23"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>

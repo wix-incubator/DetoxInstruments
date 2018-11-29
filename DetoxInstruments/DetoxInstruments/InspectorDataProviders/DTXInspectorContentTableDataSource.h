@@ -43,6 +43,8 @@
 @property (nonatomic, copy) NSArray<DTXStackTraceFrame*>* stackFrames;
 @property (nonatomic, copy) NSArray* objects;
 
+@property (nonatomic) BOOL selectionDisabled;
+
 @end
 
 @interface DTXInspectorContentTableDataSource : NSObject

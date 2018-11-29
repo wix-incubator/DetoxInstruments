@@ -14,10 +14,10 @@
 {
 	if(self.number == 0)
 	{
-		return NSLocalizedString(@"0 (Main Thread)", @"");
+		return NSLocalizedString(@"Main Thread", @"");
 	}
 	
-	return [NSString stringWithFormat:@"%@%@%@", self.name.length == 0 ? NSLocalizedString(@"Thread ", @"") : @"", @(self.number), self.name.length > 0 ? [NSString stringWithFormat:@" (%@)", self.name] : @""];
+	return [NSString stringWithFormat:@"%@%@%@", self.name.length == 0 ? NSLocalizedString(@"Thread ", @"") : @"", @(self.number + 1), self.name.length > 0 ? [NSString stringWithFormat:@" (%@)", self.name] : @""];
 }
 
 @end

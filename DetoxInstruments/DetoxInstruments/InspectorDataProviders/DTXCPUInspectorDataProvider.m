@@ -10,6 +10,9 @@
 #import "DTXPieChartView.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXThreadInfo+UIExtensions.h"
+#import "NSColor+UIAdditions.h"
+#import "NSAppearance+UIAdditions.h"
+#import "NSFormatter+PlotFormatters.h"
 
 @implementation DTXCPUInspectorDataProvider
 
@@ -57,6 +60,7 @@
 					  @"???": @"DBGFrameGeneric",
 					  
 					  @"UIKit": @"DBGFrameAppKit",
+					  @"UIKitCore": @"DBGFrameAppKit",
 					  @"UserNotificationsUI": @"DBGFrameAppKit",
 					  @"AssetsLibrary": @"DBGFrameAppKit",
 					  @"MessageUI": @"DBGFrameAppKit",
@@ -140,6 +144,60 @@
 	return [NSImage imageNamed:imageName];
 }
 
+- (DTXInspectorContent*)_inspectorContentForThreads
+{
+	DTXInspectorContent* stackTrace = [DTXInspectorContent new];
+	
+	NSMutableArray<DTXStackTraceFrame*>* stackFrames = [NSMutableArray new];
+	NSMutableParagraphStyle* par = NSParagraphStyle.defaultParagraphStyle.mutableCopy;
+	par.lineBreakMode = NSLineBreakByTruncatingTail;
+	par.paragraphSpacing = 5.0;
+	par.allowsDefaultTighteningForTruncation = NO;
+	
+	DTXAdvancedPerformanceSample* perfSample = self.sample;
+	
+	NSArray* arrayForStackTrace = self.arrayForStackTrace;
+	if(arrayForStackTrace.count == 0)
+	{
+		arrayForStackTrace = @[@"<No Stack Trace>"];
+	}
+	
+	NSMutableOrderedSet* threadSamples = perfSample.threadSamples.mutableCopy;
+	[threadSamples sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"cpuUsage" ascending:NO]]];
+	
+	
+	__block BOOL hasMore;
+	[threadSamples enumerateObjectsUsingBlock:^(DTXThreadPerformanceSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if(idx > 0 && obj.threadInfo.number != 0 && ((obj.cpuUsage < 0.1 && idx >= 10) || obj.cpuUsage < 0.005))
+		{
+			hasMore = YES;
+			return;
+		}
+		
+		DTXStackTraceFrame* frame = [DTXStackTraceFrame new];
+		frame.stackFrameText = [[NSAttributedString alloc] initWithString:obj.threadInfo.friendlyName attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize]}];
+		frame.stackFrameDetailText = [[NSAttributedString alloc] initWithString:[NSFormatter.dtx_percentFormatter stringFromNumber:@(obj.cpuUsage)] attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize]}];
+		frame.stackFrameIcon = [NSImage imageNamed:@"statusIconFull"];
+		frame.imageTintColor = [NSColor randomColorWithSeed:obj.threadInfo.friendlyName];
+		
+		[stackFrames addObject:frame];
+	}];
+	
+	if(hasMore == YES)
+	{
+		DTXStackTraceFrame* frame = [DTXStackTraceFrame new];
+		frame.stackFrameText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"(%@ %@)", @(threadSamples.count - stackFrames.count), NSLocalizedString(@"more threads", @"")] attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize]}];
+		frame.stackFrameIcon = [NSImage imageNamed:@"statusIconFull"];
+		frame.imageTintColor = NSColor.clearColor;
+		[stackFrames addObject:frame];
+	}
+	
+	stackTrace.stackFrames = stackFrames;
+	stackTrace.selectionDisabled = YES;
+	
+	return stackTrace;
+}
+
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource
 {
 	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
@@ -163,6 +221,8 @@
 	
 	DTXAdvancedPerformanceSample* sample = (id)perfSample;
 	
+	__block DTXThreadInfo* heaviestThread;
+	
 	if(perfSample.recording.dtx_profilingConfiguration.recordThreadInformation && sample.threadSamples.count > 0)
 	{
 		DTXPieChartView* pieChartView = [[DTXPieChartView alloc] initWithFrame:NSMakeRect(0, 0, 300, 100)];
@@ -180,6 +240,7 @@
 			{
 				heaviestThreadIdx = idx;
 				heaviestCPU = obj.cpuUsage;
+				heaviestThread = obj.threadInfo;
 			}
 			
 			[entries addObject:[DTXPieChartEntry entryWithValue:@(obj.cpuUsage > 0 ? obj.cpuUsage : 0.0001) title:obj.threadInfo.friendlyName color:nil]];
@@ -195,12 +256,17 @@
 		pieChartContent.customView = pieChartView;
 		
 		[contentArray addObject:pieChartContent];
+		
+		DTXInspectorContent* threads = [self _inspectorContentForThreads];
+		threads.title = NSLocalizedString(@"Threads", @"");
+		
+		[contentArray addObject:threads];
 	}
 	
 	if(perfSample.recording.dtx_profilingConfiguration.collectStackTraces)
 	{
 		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
-		stackTrace.title = NSLocalizedString(@"Heaviest Stack Trace", @"");
+		stackTrace.title = [NSString stringWithFormat:@"%@—%@", NSLocalizedString(@"Heaviest Stack Trace", @""), heaviestThread.friendlyName];
 		
 		[contentArray addObject:stackTrace];
 	}

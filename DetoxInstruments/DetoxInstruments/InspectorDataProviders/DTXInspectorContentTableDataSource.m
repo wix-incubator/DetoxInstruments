@@ -334,6 +334,7 @@
 	if(content.stackFrames != nil)
 	{
 		[cell setStackFrames:content.stackFrames];
+		[cell setSelectionDisabled:content.selectionDisabled];
 		targetForWindowWideCopy = [cell stackTraceTableView];
 	}
 	
