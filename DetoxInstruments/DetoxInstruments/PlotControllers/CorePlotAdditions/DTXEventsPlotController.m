@@ -76,7 +76,7 @@
 
 - (NSDate*)endTimestampForSample:(DTXSignpostSample*)sample
 {
-	if(sample.duration == 0)
+	if(sample.endTimestamp != nil && sample.duration == 0)
 	{
 		return [sample.timestamp dateByAddingTimeInterval:0.00001];
 	}
