@@ -74,7 +74,7 @@ static NSString* __version =
 	deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"%@ (%@ Simulator)", @""), currentDevice.name, deviceTypeSim];
 #endif
 	deviceDetails[@"deviceOS"] = processInfo.operatingSystemVersionString;
-	deviceDetails[@"deviceOSType"] = 0;
+	deviceDetails[@"deviceOSType"] = @0;
 	deviceDetails[@"devicePhysicalMemory"] = @(processInfo.physicalMemory);
 	deviceDetails[@"deviceProcessorCount"] = @(processInfo.activeProcessorCount);
 	deviceDetails[@"deviceType"] = currentDevice.model;
