@@ -113,6 +113,18 @@
 		397FE8DB1EEE7ED8002200B7 /* DTXCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8DA1EEE7ED8002200B7 /* DTXCPUDataProvider.m */; };
 		3980C0DF2086C75000789E3B /* DetoxInstruments.help in Resources */ = {isa = PBXBuildFile; fileRef = 3980C0C72086C75000789E3B /* DetoxInstruments.help */; };
 		398183DE20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 398183DD20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m */; };
+		3982D85121B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D85021B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m */; };
+		3982D86821B41D35005FCAEF /* DTXMemoryUsageDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D86721B41D35005FCAEF /* DTXMemoryUsageDataExporter.m */; };
+		3982D86B21B41D77005FCAEF /* DTXFPSDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D86A21B41D77005FCAEF /* DTXFPSDataExporter.m */; };
+		3982D86E21B41E25005FCAEF /* DTXDiskActivityDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D86D21B41E25005FCAEF /* DTXDiskActivityDataExporter.m */; };
+		3982D87121B41FE2005FCAEF /* DTXNetworkDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D87021B41FE2005FCAEF /* DTXNetworkDataExporter.m */; };
+		3982D87421B4205C005FCAEF /* DTXSampleDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D87321B4205C005FCAEF /* DTXSampleDataExporter.m */; };
+		3982D87721B4232D005FCAEF /* DTXSignpostDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D87621B4232D005FCAEF /* DTXSignpostDataExporter.m */; };
+		3982D87D21B42733005FCAEF /* DTXAdvancedPerformanceSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D87C21B42733005FCAEF /* DTXAdvancedPerformanceSample+UIExtensions.m */; };
+		3982D88121B42A4B005FCAEF /* DTXRNSampleDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D88021B42A4B005FCAEF /* DTXRNSampleDataExporter.m */; };
+		3982D88421B42A7B005FCAEF /* DTXRNCPUUsageDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D88321B42A7B005FCAEF /* DTXRNCPUUsageDataExporter.m */; };
+		3982D88721B42AC4005FCAEF /* DTXRNBridgeCountersDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D88621B42AC4005FCAEF /* DTXRNBridgeCountersDataExporter.m */; };
+		3982D88A21B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D88921B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.m */; };
 		398741C520A60E52003AB4BD /* DTXPasteboardItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 398741C420A60E52003AB4BD /* DTXPasteboardItem.m */; };
 		3988D2C31EEED5AF0090088E /* DTXMemoryDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3988D2C21EEED5AF0090088E /* DTXMemoryDataProvider.m */; };
 		3988D70120EA4F4000F11F8C /* DTXSignpostNameProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3988D70020EA4F4000F11F8C /* DTXSignpostNameProxy.m */; };
@@ -171,6 +183,9 @@
 		39DF54B120A71431007A30B0 /* DTXNSPasteboardParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF54B020A71431007A30B0 /* DTXNSPasteboardParser.m */; };
 		39E20F5B1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E20F5A1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m */; };
 		39E2636E21AE128800A21256 /* DTXTableEditingArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2636D21AE128800A21256 /* DTXTableEditingArrayController.m */; };
+		39E2642321B02C3000A21256 /* DTXKeyedDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2642221B02C3000A21256 /* DTXKeyedDataExporter.m */; };
+		39E2642621B034D900A21256 /* DTXRecordingDocumentDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2642521B034D900A21256 /* DTXRecordingDocumentDataExporter.m */; };
+		39E2642921B0410800A21256 /* DTXDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2642821B0410800A21256 /* DTXDataExporter.m */; };
 		39E3B7112097A7B6006F9D43 /* DTXPasteboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E3B7102097A7B6006F9D43 /* DTXPasteboardViewController.m */; };
 		39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */; };
 		39EA56A720DFCB9B00600BA7 /* DTXEventsPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA56A620DFCB9B00600BA7 /* DTXEventsPlotController.m */; };
@@ -544,6 +559,7 @@
 		394B42BB1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DTXTargetsOutlineViewContoller.m; sourceTree = "<group>"; };
 		394D9D211EF50A01001220E9 /* DTXNetworkInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkInspectorDataProvider.h; sourceTree = "<group>"; };
 		394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkInspectorDataProvider.m; sourceTree = "<group>"; };
+		3952467621B087EC00D73BCF /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39538D57209B0F48003AF7D3 /* TargetManagement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TargetManagement.storyboard; sourceTree = "<group>"; };
 		39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RemoteProfiling.storyboard; sourceTree = "<group>"; };
 		39538D72209B40F3003AF7D3 /* About.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
@@ -622,6 +638,30 @@
 		3980C0C72086C75000789E3B /* DetoxInstruments.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DetoxInstruments.help; sourceTree = SOURCE_ROOT; };
 		398183DC20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXViewHierarchySnapshotter.h; path = ../../../Profiler/DTXProfiler/ViewHierarchy/DTXViewHierarchySnapshotter.h; sourceTree = "<group>"; };
 		398183DD20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXViewHierarchySnapshotter.m; path = ../../../Profiler/DTXProfiler/ViewHierarchy/DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
+		3982D84F21B3CEC2005FCAEF /* DTXCPUUsageDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCPUUsageDataExporter.h; sourceTree = "<group>"; };
+		3982D85021B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCPUUsageDataExporter.m; sourceTree = "<group>"; };
+		3982D86621B41D35005FCAEF /* DTXMemoryUsageDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMemoryUsageDataExporter.h; sourceTree = "<group>"; };
+		3982D86721B41D35005FCAEF /* DTXMemoryUsageDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXMemoryUsageDataExporter.m; sourceTree = "<group>"; };
+		3982D86921B41D77005FCAEF /* DTXFPSDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXFPSDataExporter.h; sourceTree = "<group>"; };
+		3982D86A21B41D77005FCAEF /* DTXFPSDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXFPSDataExporter.m; sourceTree = "<group>"; };
+		3982D86C21B41E25005FCAEF /* DTXDiskActivityDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDiskActivityDataExporter.h; sourceTree = "<group>"; };
+		3982D86D21B41E25005FCAEF /* DTXDiskActivityDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDiskActivityDataExporter.m; sourceTree = "<group>"; };
+		3982D86F21B41FE2005FCAEF /* DTXNetworkDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkDataExporter.h; sourceTree = "<group>"; };
+		3982D87021B41FE2005FCAEF /* DTXNetworkDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkDataExporter.m; sourceTree = "<group>"; };
+		3982D87221B4205C005FCAEF /* DTXSampleDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSampleDataExporter.h; sourceTree = "<group>"; };
+		3982D87321B4205C005FCAEF /* DTXSampleDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSampleDataExporter.m; sourceTree = "<group>"; };
+		3982D87521B4232D005FCAEF /* DTXSignpostDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostDataExporter.h; sourceTree = "<group>"; };
+		3982D87621B4232D005FCAEF /* DTXSignpostDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostDataExporter.m; sourceTree = "<group>"; };
+		3982D87B21B42733005FCAEF /* DTXAdvancedPerformanceSample+UIExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXAdvancedPerformanceSample+UIExtensions.h"; sourceTree = "<group>"; };
+		3982D87C21B42733005FCAEF /* DTXAdvancedPerformanceSample+UIExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXAdvancedPerformanceSample+UIExtensions.m"; sourceTree = "<group>"; };
+		3982D87F21B42A4B005FCAEF /* DTXRNSampleDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNSampleDataExporter.h; sourceTree = "<group>"; };
+		3982D88021B42A4B005FCAEF /* DTXRNSampleDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNSampleDataExporter.m; sourceTree = "<group>"; };
+		3982D88221B42A7B005FCAEF /* DTXRNCPUUsageDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNCPUUsageDataExporter.h; sourceTree = "<group>"; };
+		3982D88321B42A7B005FCAEF /* DTXRNCPUUsageDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUUsageDataExporter.m; sourceTree = "<group>"; };
+		3982D88521B42AC4005FCAEF /* DTXRNBridgeCountersDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeCountersDataExporter.h; sourceTree = "<group>"; };
+		3982D88621B42AC4005FCAEF /* DTXRNBridgeCountersDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeCountersDataExporter.m; sourceTree = "<group>"; };
+		3982D88821B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeDataDataExporter.h; sourceTree = "<group>"; };
+		3982D88921B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeDataDataExporter.m; sourceTree = "<group>"; };
 		398741AC20A60E52003AB4BD /* DTXPasteboardItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXPasteboardItem.h; sourceTree = "<group>"; };
 		398741C420A60E52003AB4BD /* DTXPasteboardItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXPasteboardItem.m; sourceTree = "<group>"; };
 		3988D2C11EEED5AF0090088E /* DTXMemoryDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMemoryDataProvider.h; sourceTree = "<group>"; };
@@ -690,7 +730,6 @@
 		39C141601F3C55B3008CF5B9 /* DTXTintedImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTintedImageView.h; sourceTree = "<group>"; };
 		39C141611F3C55B3008CF5B9 /* DTXTintedImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTintedImageView.m; sourceTree = "<group>"; };
 		39C48BF220BEF2BA00E6AFC0 /* DTXInstruments.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DTXInstruments.xcdatamodel; sourceTree = "<group>"; };
-		39C51E0A208ED729007AA717 /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39C51E0B208ED729007AA717 /* DTXThreadInfo+UIExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXThreadInfo+UIExtensions.m"; sourceTree = "<group>"; };
 		39C63AF9212396D700946581 /* DTXKeyDownIgnoringTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXKeyDownIgnoringTableView.h; sourceTree = "<group>"; };
 		39C63AFA212396D700946581 /* DTXKeyDownIgnoringTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXKeyDownIgnoringTableView.m; sourceTree = "<group>"; };
@@ -737,6 +776,12 @@
 		39E20F5A1EEEB40700FEEBE3 /* DTXSampleGroupProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSampleGroupProxy.m; sourceTree = "<group>"; };
 		39E2636C21AE128700A21256 /* DTXTableEditingArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXTableEditingArrayController.h; sourceTree = "<group>"; };
 		39E2636D21AE128800A21256 /* DTXTableEditingArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXTableEditingArrayController.m; sourceTree = "<group>"; };
+		39E2642121B02C3000A21256 /* DTXKeyedDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXKeyedDataExporter.h; sourceTree = "<group>"; };
+		39E2642221B02C3000A21256 /* DTXKeyedDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXKeyedDataExporter.m; sourceTree = "<group>"; };
+		39E2642421B034D900A21256 /* DTXRecordingDocumentDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocumentDataExporter.h; sourceTree = "<group>"; };
+		39E2642521B034D900A21256 /* DTXRecordingDocumentDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingDocumentDataExporter.m; sourceTree = "<group>"; };
+		39E2642721B0410800A21256 /* DTXDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDataExporter.h; sourceTree = "<group>"; };
+		39E2642821B0410800A21256 /* DTXDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDataExporter.m; sourceTree = "<group>"; };
 		39E3B70F2097A7B6006F9D43 /* DTXPasteboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPasteboardViewController.h; sourceTree = "<group>"; };
 		39E3B7102097A7B6006F9D43 /* DTXPasteboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPasteboardViewController.m; sourceTree = "<group>"; };
 		39E578E820DA66AD0034560C /* DTXIntervalSamplePlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXIntervalSamplePlotController.h; sourceTree = "<group>"; };
@@ -945,11 +990,13 @@
 				393973E01EDC245C0064D4C8 /* DTXPerformanceSample+UIExtensions.m */,
 				393973F11EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.h */,
 				393973F21EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m */,
-				39C51E0A208ED729007AA717 /* DTXThreadInfo+UIExtensions.h */,
+				3952467621B087EC00D73BCF /* DTXThreadInfo+UIExtensions.h */,
 				39C51E0B208ED729007AA717 /* DTXThreadInfo+UIExtensions.m */,
 				396E7DB220ECCFCB00F6F4DD /* DTXSignpostProtocol.h */,
 				39EA56BF20DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.h */,
 				39EA56C020DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.m */,
+				3982D87B21B42733005FCAEF /* DTXAdvancedPerformanceSample+UIExtensions.h */,
+				3982D87C21B42733005FCAEF /* DTXAdvancedPerformanceSample+UIExtensions.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1255,6 +1302,21 @@
 			name = ViewHierarchy;
 			sourceTree = "<group>";
 		};
+		3982D87E21B429C7005FCAEF /* ReactNative */ = {
+			isa = PBXGroup;
+			children = (
+				3982D87F21B42A4B005FCAEF /* DTXRNSampleDataExporter.h */,
+				3982D88021B42A4B005FCAEF /* DTXRNSampleDataExporter.m */,
+				3982D88221B42A7B005FCAEF /* DTXRNCPUUsageDataExporter.h */,
+				3982D88321B42A7B005FCAEF /* DTXRNCPUUsageDataExporter.m */,
+				3982D88521B42AC4005FCAEF /* DTXRNBridgeCountersDataExporter.h */,
+				3982D88621B42AC4005FCAEF /* DTXRNBridgeCountersDataExporter.m */,
+				3982D88821B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.h */,
+				3982D88921B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.m */,
+			);
+			path = ReactNative;
+			sourceTree = "<group>";
+		};
 		3985048321A3608D00F04573 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1461,6 +1523,34 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		39E2640A21B028DB00A21256 /* DataExporters */ = {
+			isa = PBXGroup;
+			children = (
+				39E2642721B0410800A21256 /* DTXDataExporter.h */,
+				39E2642821B0410800A21256 /* DTXDataExporter.m */,
+				39E2642421B034D900A21256 /* DTXRecordingDocumentDataExporter.h */,
+				39E2642521B034D900A21256 /* DTXRecordingDocumentDataExporter.m */,
+				39E2642121B02C3000A21256 /* DTXKeyedDataExporter.h */,
+				39E2642221B02C3000A21256 /* DTXKeyedDataExporter.m */,
+				3982D87221B4205C005FCAEF /* DTXSampleDataExporter.h */,
+				3982D87321B4205C005FCAEF /* DTXSampleDataExporter.m */,
+				3982D84F21B3CEC2005FCAEF /* DTXCPUUsageDataExporter.h */,
+				3982D85021B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m */,
+				3982D86621B41D35005FCAEF /* DTXMemoryUsageDataExporter.h */,
+				3982D86721B41D35005FCAEF /* DTXMemoryUsageDataExporter.m */,
+				3982D86921B41D77005FCAEF /* DTXFPSDataExporter.h */,
+				3982D86A21B41D77005FCAEF /* DTXFPSDataExporter.m */,
+				3982D86C21B41E25005FCAEF /* DTXDiskActivityDataExporter.h */,
+				3982D86D21B41E25005FCAEF /* DTXDiskActivityDataExporter.m */,
+				3982D86F21B41FE2005FCAEF /* DTXNetworkDataExporter.h */,
+				3982D87021B41FE2005FCAEF /* DTXNetworkDataExporter.m */,
+				3982D87521B4232D005FCAEF /* DTXSignpostDataExporter.h */,
+				3982D87621B4232D005FCAEF /* DTXSignpostDataExporter.m */,
+				3982D87E21B429C7005FCAEF /* ReactNative */,
+			);
+			path = DataExporters;
+			sourceTree = "<group>";
+		};
 		39EBDFAF1ED36D45005D8AB1 = {
 			isa = PBXGroup;
 			children = (
@@ -1491,6 +1581,7 @@
 				398D6EA21EE058F600AA9C11 /* PlotControllers */,
 				3997A8B71EE97FBE0057418B /* DetailControllers */,
 				3902F3541EF50163000CB397 /* InspectorDataProviders */,
+				39E2640A21B028DB00A21256 /* DataExporters */,
 				396202451EF0313900D04E96 /* Views */,
 				3905F4BE1EF83FD4003E08C1 /* Layers */,
 				399A6A9620B2CB13006E711B /* Controllers */,
@@ -1880,6 +1971,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				399B4DCB1ED574AE0098D2AC /* DTXBaseSplitViewController.m in Sources */,
+				3982D88121B42A4B005FCAEF /* DTXRNSampleDataExporter.m in Sources */,
 				39C1415F1F3C47F7008CF5B9 /* DTXStackTraceFrame.m in Sources */,
 				398EC454207BCA1100C55809 /* DTXZipper.m in Sources */,
 				39EA56C420DFEA1800600BA7 /* DTXSignpostDataProvider.m in Sources */,
@@ -1900,6 +1992,7 @@
 				399E73512091BF5E006EAD6E /* DTXLayerView.m in Sources */,
 				39FA40B81F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m in Sources */,
 				3902CB092114976300C49D04 /* DTXBox.m in Sources */,
+				3982D88A21B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.m in Sources */,
 				39B4CA3E1F15C4AD009BD2D2 /* NSString+FileNames.m in Sources */,
 				3932A06F1F054022001AC360 /* DTXRNCPUUsagePlotController.m in Sources */,
 				3904E1551EFABE7600FF2707 /* DTXInstrumentsApplication.m in Sources */,
@@ -1910,11 +2003,13 @@
 				394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */,
 				396A6B381F4ECA7700768536 /* DTXObjectsCellView.m in Sources */,
 				393E17B9207E70A4002E6136 /* _DTXModalProgressIndicatorController.m in Sources */,
+				3982D87721B4232D005FCAEF /* DTXSignpostDataExporter.m in Sources */,
 				396829361F1265C10012CAFB /* DTXMenuPathControl.m in Sources */,
 				399B4DC81ED574410098D2AC /* DTXWindowController.m in Sources */,
 				398741C520A60E52003AB4BD /* DTXPasteboardItem.m in Sources */,
 				393973D61EDC1BDB0064D4C8 /* DTXSampleGroup+UIExtensions.m in Sources */,
 				39F40ABD21202DD600829BA3 /* DTXPlotControllerPickerController.m in Sources */,
+				3982D88421B42A7B005FCAEF /* DTXRNCPUUsageDataExporter.m in Sources */,
 				39EE1F5B1F3E4729002CB6C1 /* DTXRNBridgeDataDataProvider.m in Sources */,
 				3954CAAE20884C6300934BCE /* CCNPreferencesWindowController.m in Sources */,
 				39EFF5F520E90D2C00B5AE75 /* DTXSignpostRootProxy.m in Sources */,
@@ -1924,6 +2019,7 @@
 				397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */,
 				390688DB21177D5000D15C86 /* DTXDebugMenuGenerator.m in Sources */,
 				39C48BF520BEF2BB00E6AFC0 /* DTXInstruments.xcdatamodeld in Sources */,
+				39E2642921B0410800A21256 /* DTXDataExporter.m in Sources */,
 				39008F2A1EF2AB740013B584 /* DTXSegmentedView.m in Sources */,
 				396828EB1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m in Sources */,
 				39F6F6C61F0E3D2400C7F411 /* DTXProfilingConfiguration.m in Sources */,
@@ -1938,6 +2034,7 @@
 				D8243F941F5401530005CF4B /* DTXFilterField.m in Sources */,
 				39EBDFBD1ED36D45005D8AB1 /* DTXApplicationDelegate.m in Sources */,
 				39C72E0A1F28846300FD470E /* DTXRemoteProfilingClient.m in Sources */,
+				3982D87D21B42733005FCAEF /* DTXAdvancedPerformanceSample+UIExtensions.m in Sources */,
 				39FD87DF211A6372007FE6A5 /* NSColor+CompatLayer.m in Sources */,
 				39008F241EF274FD0013B584 /* DTXInspectorTableView.m in Sources */,
 				3943CA851EEEF46F0009AD88 /* NSColor+UIAdditions.m in Sources */,
@@ -1959,6 +2056,8 @@
 				39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */,
 				3903F377208F29D300B73E5D /* DTXDetailController.m in Sources */,
 				3958043A206D36BD00E99909 /* DTXFileSystemItem.m in Sources */,
+				3982D85121B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m in Sources */,
+				3982D86B21B41D77005FCAEF /* DTXFPSDataExporter.m in Sources */,
 				399E0EE61F0EC8000047CF92 /* DTXFPSInspectorDataProvider.m in Sources */,
 				3947158F20A32EDF00A7068A /* NSWindow+Snapshotting.m in Sources */,
 				396755DA20844CC00023D562 /* DTXTwoLabelsCellView.m in Sources */,
@@ -1987,16 +2086,21 @@
 				39A876BA1EED61B800AE62F8 /* DTXScrollView.m in Sources */,
 				398D6EAC1EE0626400AA9C11 /* DTXSamplePlotController.m in Sources */,
 				39E3B7112097A7B6006F9D43 /* DTXPasteboardViewController.m in Sources */,
+				3982D86E21B41E25005FCAEF /* DTXDiskActivityDataExporter.m in Sources */,
 				39C6A9181EE3ADDC000E2EE1 /* DTXFPSPlotController.m in Sources */,
 				3997A8BA1EE980700057418B /* DTXDetailDataProvider.m in Sources */,
 				393F41C21F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m in Sources */,
 				3908CC7921A164850063B9EA /* DTXClickableImageView.m in Sources */,
 				3905F4A91EF7F679003E08C1 /* DTXPlotTypeCellView.m in Sources */,
+				3982D87121B41FE2005FCAEF /* DTXNetworkDataExporter.m in Sources */,
 				3916501A213292D50016A468 /* DTXDocument.m in Sources */,
 				399E0EE91F0EC8960047CF92 /* DTXDiskInspectorDataProvider.m in Sources */,
 				3943CA951EEEFB3F0009AD88 /* DTXDiskDataProvider.m in Sources */,
 				39C6A8F51EE1E757000E2EE1 /* DTXPlotTableView.m in Sources */,
 				396202361EEF4A9C00D04E96 /* DTXCPTRangePlot.m in Sources */,
+				3982D87421B4205C005FCAEF /* DTXSampleDataExporter.m in Sources */,
+				3982D86821B41D35005FCAEF /* DTXMemoryUsageDataExporter.m in Sources */,
+				39E2642321B02C3000A21256 /* DTXKeyedDataExporter.m in Sources */,
 				39EE1F501F3E2AF8002CB6C1 /* DTXSegmentedControl.m in Sources */,
 				397C3F3E1F35555B00BA9159 /* DTXStackedPlotGroup.m in Sources */,
 				3940940E20AB130300667765 /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m in Sources */,
@@ -2009,6 +2113,7 @@
 				399B4DD41ED575780098D2AC /* DTXPlotDetailSplitViewController.m in Sources */,
 				39C6A9341EE3BCCD000E2EE1 /* DTXHighlightingCellView.m in Sources */,
 				3944E3591F4DBA9C001911E8 /* DTXCPTXYAxis.m in Sources */,
+				3982D88721B42AC4005FCAEF /* DTXRNBridgeCountersDataExporter.m in Sources */,
 				393973C01EDB02DF0064D4C8 /* DTXInspectorContentController.m in Sources */,
 				39F6F6CE1F0E400300C7F411 /* NSDictionary+FakeDecoder.m in Sources */,
 				392F09841F168959005ACF8D /* DTXStackTraceCopyDataProvider.m in Sources */,
@@ -2044,6 +2149,7 @@
 				39EE1F5E1F3E489F002CB6C1 /* DTXRNBridgeDataInspectorDataProvider.m in Sources */,
 				3944E3561F4DB80F001911E8 /* DTXCPTScatterPlot.m in Sources */,
 				395F01C31EE7E7AD00695236 /* DTXHeaderView.m in Sources */,
+				39E2642621B034D900A21256 /* DTXRecordingDocumentDataExporter.m in Sources */,
 				39D76E7B2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m in Sources */,
 				3905F4C11EF83FF0003E08C1 /* DTXLineLayer.m in Sources */,
 				399B3FBC1F248C3C00335109 /* DTXRemoteTarget.m in Sources */,

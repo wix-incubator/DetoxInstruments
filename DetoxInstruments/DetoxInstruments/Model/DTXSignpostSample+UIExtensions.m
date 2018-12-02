@@ -44,6 +44,11 @@
 	return self.duration;
 }
 
+- (NSString*)eventTypeString
+{
+	return self.isEvent ? NSLocalizedString(@"Event", @"") : NSLocalizedString(@"Interval", @"");
+}
+
 - (NSString *)eventStatusString
 {
 	if(self.isEvent == NO && self.endTimestamp == nil)
@@ -82,7 +87,7 @@
 		effect = DTXColorEffectPending;
 	}
 	
-	return [NSColor uiColorWithSeed:self.name effect:effect];
+	return [NSColor uiColorWithSeed:self.category effect:effect];
 }
 
 @end

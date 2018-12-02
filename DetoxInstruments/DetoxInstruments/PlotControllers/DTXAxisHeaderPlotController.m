@@ -26,7 +26,7 @@
 
 @synthesize delegate = _delegate;
 @synthesize document = _document;
-@synthesize dataProviderControllers = _dataProviderControllers;
+@dynamic dataProviderControllers;
 
 -(CGFloat)titleSize
 {

@@ -48,14 +48,15 @@
 
 @protocol DTXDetailDataProvider <DTXUIDataFiltering>
 
++ (Class)inspectorDataProviderClass;
+- (Class)dataExporterClass;
+
 @property (nonatomic, strong, readonly) DTXInspectorDataProvider* currentlySelectedInspectorItem;
 @property (nonatomic, weak) id<DTXDetailDataProviderDelegate> delegate;
 
 @end
 
 @interface DTXDetailDataProvider : NSObject <DTXDetailDataProvider>
-
-+ (Class)inspectorDataProviderClass;
 
 - (instancetype)initWithDocument:(DTXRecordingDocument*)document plotController:(id<DTXPlotController>)plotController;
 - (instancetype)init NS_UNAVAILABLE;

@@ -8,12 +8,18 @@
 
 #import "DTXRNBridgeDataDataProvider.h"
 #import "DTXRNBridgeDataInspectorDataProvider.h"
+#import "DTXRNBridgeDataDataExporter.h"
 
 @implementation DTXRNBridgeDataDataProvider
 
 + (Class)inspectorDataProviderClass
 {
 	return [DTXRNBridgeDataInspectorDataProvider class];
+}
+
+- (Class)dataExporterClass
+{
+	return DTXRNBridgeDataDataExporter.class;
 }
 
 - (NSArray<NSNumber *> *)sampleTypes

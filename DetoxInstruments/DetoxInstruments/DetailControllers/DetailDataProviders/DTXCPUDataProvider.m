@@ -9,6 +9,7 @@
 #import "DTXCPUDataProvider.h"
 #import "DTXCPUInspectorDataProvider.h"
 #import "DTXThreadInfo+UIExtensions.h"
+#import "DTXCPUUsageDataExporter.h"
 
 @implementation DTXCPUDataProvider
 
@@ -44,6 +45,11 @@
 	return rv;
 }
 
+- (Class)dataExporterClass
+{
+	return [DTXCPUUsageDataExporter class];
+}
+
 - (NSArray<NSNumber *> *)sampleTypes
 {
 	return @[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)];
@@ -57,24 +63,8 @@
 	}
 	
 	DTXAdvancedPerformanceSample* advPerf = item;
-	
-	__block DTXThreadInfo* heaviestThread = nil;
-	__block double heaviestCPU = -1;
-	
-	[advPerf.threadSamples enumerateObjectsUsingBlock:^(DTXThreadPerformanceSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if(obj.cpuUsage > heaviestCPU)
-		{
-			heaviestThread = obj.threadInfo;
-			heaviestCPU = obj.cpuUsage;
-		}
-	}];
-	
-	if(heaviestThread == nil)
-	{
-		return @"<?>";
-	}
-	
-	return heaviestThread.friendlyName;
+
+	return advPerf.heaviestThreadName ?: @"<?>";
 }
 
 - (NSColor*)textColorForItem:(id)item

@@ -70,6 +70,11 @@
 	[_detailDataProvider selectSample:sample];
 }
 
+- (DTXDataExporter*)dataExporter
+{
+	return [[_detailDataProvider.dataExporterClass alloc] initWithDocument:_detailDataProvider.document];
+}
+
 #pragma mark DTXDetailDataProviderDelegate
 
 - (void)dataProvider:(id<DTXDetailDataProvider>)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item;

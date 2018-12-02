@@ -12,12 +12,18 @@
 #import "DTXDetailOutlineView.h"
 #import "DTXEventInspectorDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
+#import "DTXSignpostDataExporter.h"
 
 @implementation DTXSignpostDataProvider
 
 + (Class)inspectorDataProviderClass
 {
 	return [DTXEventInspectorDataProvider class];
+}
+
+- (Class)dataExporterClass
+{
+	return DTXSignpostDataExporter.class;
 }
 
 - (void)setManagedOutlineView:(NSOutlineView *)managedOutlineView
@@ -174,7 +180,7 @@
 			}
 			return [[NSFormatter dtx_durationFormatter] stringFromTimeInterval:signpostSample.duration];
 		case 1:
-			return signpostSample.isEvent ? NSLocalizedString(@"Event", @"") : NSLocalizedString(@"Interval", @"");
+			return signpostSample.eventTypeString;
 		case 2:
 			return signpostSample.category;
 		case 3:

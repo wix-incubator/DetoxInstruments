@@ -40,7 +40,7 @@
 	
 	NSTimeInterval ti = eventSample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 	
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Type", @"") description:eventSample.isEvent ? NSLocalizedString(@"Event", @"") : NSLocalizedString(@"Interval", @"")]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Type", @"") description:eventSample.eventTypeString]];
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Category", @"") description:eventSample.category]];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Name", @"") description:eventSample.name]];

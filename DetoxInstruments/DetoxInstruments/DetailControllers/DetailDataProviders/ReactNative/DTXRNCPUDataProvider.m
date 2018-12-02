@@ -8,12 +8,18 @@
 
 #import "DTXRNCPUDataProvider.h"
 #import "DTXRNCPUInspectorDataProvider.h"
+#import "DTXRNCPUUsageDataExporter.h"
 
 @implementation DTXRNCPUDataProvider
 
 + (Class)inspectorDataProviderClass
 {
 	return [DTXRNCPUInspectorDataProvider class];
+}
+
+- (Class)dataExporterClass
+{
+	return DTXRNCPUUsageDataExporter.class;
 }
 
 - (NSArray<NSNumber *> *)sampleTypes

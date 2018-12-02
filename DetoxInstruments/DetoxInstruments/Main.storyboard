@@ -240,11 +240,24 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zXX-Dq-JIz"/>
-                                        <menuItem title="Export Data As..." id="Cef-qI-in7">
+                                        <menuItem title="Export" id="QcB-62-0gt">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="_export:" target="Ady-hI-5gd" id="1yz-zd-fuZ"/>
-                                            </connections>
+                                            <menu key="submenu" title="Export" id="Oxv-bH-9r1">
+                                                <items>
+                                                    <menuItem title="Recording Data As..." id="TaW-ZT-B4J">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="_export:" target="Ady-hI-5gd" id="icM-Qe-en5"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Current Instrument Data as CSV" id="61E-z8-537">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="_exportInstrumentCSV:" target="Ady-hI-5gd" id="wgo-KL-8Vk"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -652,7 +665,7 @@ CA
                     </constraints>
                 </customView>
             </objects>
-            <point key="canvasLocation" x="-631" y="-1719"/>
+            <point key="canvasLocation" x="-577" y="-1646"/>
         </scene>
     </scenes>
     <resources>

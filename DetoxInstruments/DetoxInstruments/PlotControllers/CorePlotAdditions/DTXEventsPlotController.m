@@ -11,8 +11,17 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXSignpostDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
+#import "DTXDetailController.h"
 
 @implementation DTXEventsPlotController
+
+- (NSArray<DTXDetailController *> *)dataProviderControllers
+{
+	DTXDetailController* detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+	detailController.detailDataProvider = [[self.class.UIDataProviderClass alloc] initWithDocument:self.document plotController:self];
+	
+	return @[detailController];
+}
 
 + (Class)UIDataProviderClass
 {

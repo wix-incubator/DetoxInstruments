@@ -57,6 +57,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	return nil;
 }
 
+- (Class)dataExporterClass
+{
+	return nil;
+}
+
 - (instancetype)initWithDocument:(DTXRecordingDocument*)document plotController:(id<DTXPlotController>)plotController
 {
 	self = [super init];

@@ -29,6 +29,11 @@
 	return [DTXLogLineInspectorDataProvider class];
 }
 
+- (Class)dataExporterClass
+{
+	return nil;
+}
+
 + (NSFont*)fontForObjectDisplay
 {
 	static NSFont* font;
@@ -64,12 +69,7 @@
 - (void)setManagedTableView:(NSTableView *)managedTableView
 {
 	_managedTableView = managedTableView;
-	
-//	if(_document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
-	{
-		_managedTableView.usesAutomaticRowHeights = YES;
-	}
-	
+	_managedTableView.usesAutomaticRowHeights = YES;
 	[_managedTableView layoutSubtreeIfNeeded];
 	
 	if(_document.recordings.count != 0)

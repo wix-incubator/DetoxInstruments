@@ -62,7 +62,6 @@
 
 @synthesize delegate = _delegate;
 @synthesize document = _document;
-@synthesize dataProviderControllers = _dataProviderControllers;
 @synthesize sampleClickDelegate = _sampleClickDelegate;
 @synthesize parentPlotController = _parentPlotController;
 
@@ -95,7 +94,7 @@
 	return self;
 }
 
-- (NSArray<DTXDetailController *> *)dataProviderControllers
+- (NSArray<DTXDetailController*>*)dataProviderControllers
 {
 	DTXDetailController* detailController = [_scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
 	detailController.detailDataProvider = [[self.class.UIDataProviderClass alloc] initWithDocument:_document plotController:self];

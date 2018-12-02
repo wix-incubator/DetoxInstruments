@@ -13,6 +13,8 @@
 #import "DTXInspectorContentController.h"
 #import "DTXWindowController.h"
 @import QuartzCore;
+#import "DTXRecordingDocumentDataExporter.h"
+#import "DTXDetailController.h"
 
 static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
 static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollapsed";
@@ -56,7 +58,21 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 {
 	if(menuItem.action == @selector(_export:))
 	{
-		return ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateSavedToDisk;
+		return ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateLiveRecordingFinished;
+	}
+	
+	if(menuItem.action == @selector(_exportInstrumentCSV:))
+	{
+		NSString* detailTitle = _detailContentController.activeDetailController.displayName;
+		NSString* instrumentTitle = nil;
+		if([_detailContentController.activeDetailController isKindOfClass:NSClassFromString(@"DTXLogDetailController")] == NO)
+		{
+			instrumentTitle = _detailContentController.managingPlotController.displayName;
+		}
+		
+		menuItem.title = [NSString stringWithFormat:@"%@%@ %@ %@", NSLocalizedString(@"Export", @""), instrumentTitle ? [NSString stringWithFormat:@" %@", instrumentTitle] : @"", detailTitle, NSLocalizedString(@"As CSV", @"")];
+		
+		return ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateLiveRecordingFinished && _detailContentController.activeDetailController.dataExporter != nil;
 	}
 	
 	return menuItem.action == @selector(toggleBottom:) || menuItem.action == @selector(selectExtendedDetail:) || menuItem.action == @selector(selectProfilingInfo:);
@@ -244,14 +260,8 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 			NSData* data = nil;
 			NSError* error = nil;
 			
-			if(_formatPopupButton.selectedTag == 0)
-			{
-				data = [NSPropertyListSerialization dataWithPropertyList:[((DTXRecordingDocument*)self.document).recordings valueForKey:@"cleanDictionaryRepresentationForPropertyList"] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
-			}
-			else
-			{
-				data = [NSJSONSerialization dataWithJSONObject:[((DTXRecordingDocument*)self.document).recordings valueForKey:@"cleanDictionaryRepresentationForJSON"] options:NSJSONWritingPrettyPrinted error:&error];
-			}
+			DTXRecordingDocumentDataExporter* exporter = [[DTXRecordingDocumentDataExporter alloc] initWithDocument:self.document];
+			data = [exporter exportDataWithType:(DTXDataExportType)_formatPopupButton.selectedTag error:&error];
 			
 			if(data != nil)
 			{
@@ -261,6 +271,43 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 			{
 				[self presentError:error modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
 			}
+		}
+		
+		_exportPanel = nil;
+	}];
+}
+
+- (IBAction)_exportInstrumentCSV:(id)sender
+{
+	DTXDataExporter* exporter = _detailContentController.activeDetailController.dataExporter;
+	NSError* error;
+	NSData* csvData = [exporter exportDataWithType:DTXDataExportTypeCSV error:&error];
+	if(csvData == nil)
+	{
+		[self presentError:error modalForWindow:self.view.window delegate:nil didPresentSelector:nil contextInfo:nil];
+		return;
+	}
+	
+	_exportPanel = [NSSavePanel new];
+	_exportPanel.allowedFileTypes = @[NS(kUTTypeCommaSeparatedText)];
+	_exportPanel.allowsOtherFileTypes = NO;
+	_exportPanel.canCreateDirectories = YES;
+	_exportPanel.treatsFilePackagesAsDirectories = NO;
+	_exportPanel.nameFieldLabel = NSLocalizedString(@"Export Data", @"");
+	_exportPanel.nameFieldStringValue = [self.document displayName].lastPathComponent.stringByDeletingPathExtension;
+	
+	[_exportPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
+		[_exportPanel orderOut:nil];
+		
+		if(result != NSModalResponseOK)
+		{
+			_exportPanel = nil;
+			return;
+		}
+		
+		@autoreleasepool
+		{
+			[csvData writeToURL:_exportPanel.URL atomically:YES];
 		}
 		
 		_exportPanel = nil;

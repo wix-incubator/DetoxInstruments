@@ -14,3 +14,4 @@
 #import "DTXNetworkData+CoreDataProperties.h"
 #import "DTXLogSample+CoreDataProperties.h"
 #import "DTXThreadInfo+UIExtensions.h"
+#import "DTXAdvancedPerformanceSample+UIExtensions.h"

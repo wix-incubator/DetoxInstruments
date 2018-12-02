@@ -255,9 +255,6 @@
 {
 	[self removeHighlight];
 	
-	__block NSUInteger section = NSNotFound;
-	__block NSUInteger item = NSNotFound;
-	
 	NSIndexPath* ip = _sampleMapping[sample.sampleIdentifier];
 	NSUInteger indexOfIndexPath = [_indexPathIndexMapping[ip] unsignedIntegerValue];
 	

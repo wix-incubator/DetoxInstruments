@@ -25,4 +25,6 @@
 @property (nonatomic, weak) id<DTXDetailContentControllerDelegate> delegate;
 @property (nonatomic, weak) id<DTXPlotController> managingPlotController;
 
+@property (nonatomic, strong, readonly) DTXDetailController* activeDetailController;
+
 @end

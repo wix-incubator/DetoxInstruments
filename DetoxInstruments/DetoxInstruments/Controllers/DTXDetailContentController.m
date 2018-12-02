@@ -26,7 +26,6 @@
 	DTXLogDetailController* _logDetailController;
 	
 	NSArray<DTXDetailController*>* _cachedDetailControllers;
-	DTXDetailController* _activeDetailController;
 }
 
 @end

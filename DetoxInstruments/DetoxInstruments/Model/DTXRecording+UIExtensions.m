@@ -26,7 +26,7 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 		fr.fetchLimit = 1;
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		
-		obj = [[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
+		obj = [(DTXSample*)[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
 		if(obj == nil)
 		{
 			obj = self.startTimestamp;
@@ -48,7 +48,7 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 		fr.fetchLimit = 1;
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
 		
-		obj = [[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
+		obj = [(DTXSample*)[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject timestamp];
 		
 		if(obj == nil)
 		{

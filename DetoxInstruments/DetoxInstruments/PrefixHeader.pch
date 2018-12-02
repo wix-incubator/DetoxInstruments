@@ -11,5 +11,6 @@
 
 #import "Swiftier.h"
 #import "NSMapTable+Subscripting.h"
+#import "DTXInstrumentsModelUIExtensions.h"
 
 #endif /* PrefixHeader_pch */

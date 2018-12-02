@@ -8,12 +8,18 @@
 
 #import "DTXNetworkDataProvider.h"
 #import "DTXNetworkInspectorDataProvider.h"
+#import "DTXNetworkDataExporter.h"
 
 @implementation DTXNetworkDataProvider
 
 + (Class)inspectorDataProviderClass
 {
 	return [DTXNetworkInspectorDataProvider class];
+}
+
+- (Class)dataExporterClass
+{
+	return DTXNetworkDataExporter.class;
 }
 
 - (NSArray<DTXColumnInformation *> *)columns

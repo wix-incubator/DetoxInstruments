@@ -11,6 +11,8 @@
 
 @class DTXDetailController;
 
+@class DTXDataExporter;
+
 @protocol DTXDetailControllerDelegate
 
 - (void)detailController:(DTXDetailController*)detailController didSelectInspectorItem:(DTXInspectorDataProvider*)item;
@@ -20,6 +22,7 @@
 @interface DTXDetailController : NSViewController <DTXDetailDataProviderDelegate, DTXWindowWideCopyHanler>
 
 @property (nonatomic, strong) DTXDetailDataProvider* detailDataProvider;
+@property (nonatomic, copy, readonly) DTXDataExporter* dataExporter;
 @property (nonatomic, weak) id<DTXDetailControllerDelegate> delegate;
 
 @property (nonatomic, assign, readonly) BOOL supportsDataFiltering;

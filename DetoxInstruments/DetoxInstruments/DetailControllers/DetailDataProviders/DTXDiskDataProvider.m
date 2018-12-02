@@ -8,12 +8,18 @@
 
 #import "DTXDiskDataProvider.h"
 #import "DTXDiskInspectorDataProvider.h"
+#import "DTXDiskActivityDataExporter.h"
 
 @implementation DTXDiskDataProvider
 
 + (Class)inspectorDataProviderClass
 {
 	return [DTXDiskInspectorDataProvider class];
+}
+
+- (Class)dataExporterClass
+{
+	return DTXDiskActivityDataExporter.class;
 }
 
 - (NSArray<DTXColumnInformation *> *)columns
