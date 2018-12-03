@@ -396,21 +396,21 @@
 {
 	_savedPlotRange = plotRange;
 	
+	_ignoringPlotRangeNotifications = YES;
 	if(update)
 	{
 		[_headerPlotController setPlotRange:plotRange];
-		
 		[_touchBarPlotController setPlotRange:plotRange];
-		
 		[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 			[obj setPlotRange:plotRange];
 		}];
 	}
+	_ignoringPlotRangeNotifications = NO;
 	
 	if(notify)
 	{
 		CGFloat proportion = _savedPlotRange.lengthDouble / _savedGlobalPlotRange.lengthDouble;
-		CGFloat value = _savedPlotRange.locationDouble / _savedGlobalPlotRange.lengthDouble;
+		CGFloat value = _savedPlotRange.locationDouble / (_savedGlobalPlotRange.lengthDouble - _savedPlotRange.lengthDouble);
 		
 		[self.delegate managedPlotControllerGroup:self didScrollToProportion:proportion value:value];
 	}
@@ -419,15 +419,6 @@
 - (void)setLocalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
 {
 	[self _resetSavedPlotRange:[CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)] updatePlotControllers:NO notifyDelegate:YES];
-	
-	_ignoringPlotRangeNotifications = YES;
-	[_headerPlotController setPlotRange:_savedPlotRange];
-	[_touchBarPlotController setPlotRange:_savedPlotRange];
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
-		[obj setPlotRange:_savedPlotRange];
-	}];
-	
-	_ignoringPlotRangeNotifications = NO;
 }
 
 - (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
@@ -464,6 +455,8 @@
 
 - (void)scrollToValue:(CGFloat)value
 {
+	value = value - (value * _savedPlotRange.lengthDouble / _savedGlobalPlotRange.lengthDouble);
+	
 	CPTPlotRange* newPlotRange = [CPTPlotRange plotRangeWithLocation:@(value * _savedGlobalPlotRange.lengthDouble) length:_savedPlotRange.length];
 	
 	[self _resetSavedPlotRange:newPlotRange updatePlotControllers:YES notifyDelegate:YES];
