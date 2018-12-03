@@ -177,7 +177,7 @@
 		DTXStackTraceFrame* frame = [DTXStackTraceFrame new];
 		frame.stackFrameText = [[NSAttributedString alloc] initWithString:obj.threadInfo.friendlyName attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize]}];
 		frame.stackFrameDetailText = [[NSAttributedString alloc] initWithString:[NSFormatter.dtx_percentFormatter stringFromNumber:@(obj.cpuUsage)] attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize]}];
-		frame.stackFrameIcon = [NSImage imageNamed:@"statusIconFull"];
+		frame.stackFrameIcon = [NSImage imageNamed:@"color_indicator"];
 		frame.imageTintColor = [NSColor randomColorWithSeed:obj.threadInfo.friendlyName];
 		
 		[stackFrames addObject:frame];
@@ -187,7 +187,7 @@
 	{
 		DTXStackTraceFrame* frame = [DTXStackTraceFrame new];
 		frame.stackFrameText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"(%@ %@)", @(threadSamples.count - stackFrames.count), NSLocalizedString(@"more threads", @"")] attributes:@{NSParagraphStyleAttributeName: par, NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize]}];
-		frame.stackFrameIcon = [NSImage imageNamed:@"statusIconFull"];
+		frame.stackFrameIcon = [NSImage imageNamed:@"color_indicator"];
 		frame.imageTintColor = NSColor.clearColor;
 		[stackFrames addObject:frame];
 	}
