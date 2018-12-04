@@ -46,6 +46,8 @@
 
 - (DTXProfilingTargetManagementWindowController*)_openManagementWindowController;
 
+- (NSSize)_plotDetailsSplitViewControllerSize;
+
 @end
 
 #endif

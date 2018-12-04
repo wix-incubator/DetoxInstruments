@@ -20,12 +20,13 @@ Detox Instruments supports profiling the following metrics:
   * Disk Activity (Reads and Writes, Open File Names)
 * Network Activity
   * Full Request and Response Header and Data Collection and Inspection
+* Developer Events
 * Log Output Recording
 * React Native Profiling
   * JavaScript Thread CPU Load
   * Bridge Call Counters
   * Bridge Data Counters
-    * Bridge Data Collection **(Coming Soon)**
+  * Bridge Data Collection
 
 For a list of available instruments and their description, see [Available Instruments](Documentation/AvailableInstruments.md).
 
@@ -73,6 +74,8 @@ Once you've installed Detox Instruments and integrated the Profiler framework wi
 
 After launching Detox Instruments or selecting **File** ➔ **New Recording...**, you will be presented with an app selection dialog, displaying a list of available apps to profile. Launch your app on your mobile device or simulator and your app will appear in the list.
 
+See [App Discovery](Documentation/AppDiscovery.md) for more information and troubleshooting.
+
 ![App Discovered](Documentation/Resources/Readme_Discovered.png "App Discovered")
 
 To start profiling, select your app and click on the Profile button. 
@@ -83,7 +86,7 @@ To configure profiling options, such as sampling frequency and recording feature
 
 ![App Management](Documentation/Resources/Management_All.png "App Management")
 
-To manage your app, click on the gear (![Gear Button](Documentation/Resources/gear.png)) button in the app selection dialog. You can manage multiple apps at the same time. For an in-depth look at app management, see [App Management](Documentation/AppManagement.md).
+To manage your app, click on the **Manage** button (![Gear Button](Documentation/Resources/Button_Manage.png)) in the app selection dialog. You can manage multiple apps at the same time. For an in-depth look at app management, see [App Management](Documentation/AppManagement.md).
 
 #### The Recording Document
 

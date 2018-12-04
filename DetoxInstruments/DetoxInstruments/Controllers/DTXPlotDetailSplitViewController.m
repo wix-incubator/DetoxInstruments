@@ -70,7 +70,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 			instrumentTitle = _detailContentController.managingPlotController.displayName;
 		}
 		
-		menuItem.title = [NSString stringWithFormat:@"%@%@ %@ %@", NSLocalizedString(@"Export", @""), instrumentTitle ? [NSString stringWithFormat:@" %@", instrumentTitle] : @"", detailTitle, NSLocalizedString(@"As CSV", @"")];
+		menuItem.title = [NSString stringWithFormat:@"%@%@ %@", instrumentTitle ? [NSString stringWithFormat:@"%@ ", instrumentTitle] : @"", detailTitle, NSLocalizedString(@"As CSV", @"")];
 		
 		return ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateLiveRecordingFinished && _detailContentController.activeDetailController.dataExporter != nil;
 	}

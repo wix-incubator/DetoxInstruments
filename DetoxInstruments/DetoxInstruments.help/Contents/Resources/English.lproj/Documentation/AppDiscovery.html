@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="AppleTitle" content="App Discovery" />
+<title>App Discovery</title>
+<meta name="description" content="Detox Instruments uses zero-configuration networking (Bonjour) to discover apps suitable for profiling. This requires no configuration by you under normal circumstances." /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
+</style>
+<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+h1 { text-align: center; margin-left: -16px; margin-right: -16px; padding-bottom: 20px; background: linear-gradient(to bottom, #ffffff 0%,#f3f2f3 100%); }
+img { max-width: 100%; height: auto; }
+pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
+blockquote { border-left-color: rgb(245, 242, 240); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+ul { padding-left: 1.3em; }
+</style>
+<title>Detox Instruments Help</title></head><body>
+<h1>
+<a name="user-content-app-discovery" class="anchor" href="#app-discovery"><span class="octicon octicon-link"></span></a>App Discovery</h1>
+<p>Detox Instruments uses zero-configuration networking (Bonjour) to discover apps suitable for profiling. This requires no configuration by you under normal circumstances.</p>
+<p>The following resources discuss in detail what zero-configuration networking is:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Bonjour_(software)" rel="nofollow">Bonjour (software)</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2011/211/" rel="nofollow">Bonjour Network Discovery and Connectivity</a></li>
+</ul>
+<p>Starting Detox Instruments and starting a new recording, you will be presented with the App selection dialog:</p>
+<p><a href="Resources/Readme_Discovered.png" target="_blank"><img src="Resources/Readme_Discovered.png" alt="App Discovered" title="App Discovered" style="max-width:100%;" /></a></p>
+<p>This dialog displays a list of applications which can be profiled by Detox Instruments. The list will populate and update automatically over time.</p>
+<h3>
+<a name="user-content-troubleshooting" class="anchor" href="#troubleshooting"><span class="octicon octicon-link"></span></a>Troubleshooting</h3>
+<p>If your app does not appear in the app selection dialog, the following tips will help you troubleshoot.</p>
+<ul>
+<li>Make sure you have integrated your app with the Profiler framework. See <a href="Documentation/XcodeIntegrationGuide.html">Profiler Framework Integration Guide</a> for more information.</li>
+<li>Devices should be connected on the same network (Wi-Fi, LAN for macOS &amp; Simulators or Lightning cable for direct connection)</li>
+<li>Security software, such as Antivirus and Firewall applications, may interfere with Bonjour; please consult the software manual or contact your system administrator</li>
+<li>Corporate networks may block or otherwise prevent Bonjour from working; please contact your system administrator
+<ul>
+<li>As a workaround, you can connect your device locally to your Mac using a Lightning cable, which will create a Bonjour-supported direct connection.</li>
+</ul>
+</li>
+</ul>
+</body></html>

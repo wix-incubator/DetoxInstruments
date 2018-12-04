@@ -13,6 +13,8 @@
 	IBOutlet NSLayoutConstraint* _constraint;
 	IBOutlet NSButton* _selectButton;
 	IBOutlet NSButton* _optionsButton;
+	
+	IBOutlet NSButton* _helpButton;
 }
 
 @property (nonatomic, strong, readwrite) IBOutlet NSOutlineView* outlineView;
@@ -24,6 +26,11 @@
 - (NSArray<NSButton *> *)actionButtons
 {
 	return @[_selectButton, _optionsButton];
+}
+
+- (NSArray<NSButton *> *)moreButtons
+{
+	return @[_helpButton];
 }
 
 - (void)viewDidLoad

@@ -55,7 +55,7 @@
 	_tableView.enclosingScrollView.contentInsets = NSEdgeInsetsMake(0, 0, 20, 0);
 	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, 210.5, -20, 0);
 	
-	[(DTXScrollView*)_tableView.enclosingScrollView setHorizontalScrollerKnobProportion:1.0 value:0.0];
+	[(DTXScrollView*)_tableView.enclosingScrollView setHorizontalScrollerKnobProportion:0.0 value:0.0];
 	
 	_tableView.enclosingScrollView.autohidesScrollers = NO;
 	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.target = self;
@@ -64,6 +64,8 @@
 
 - (void)_horizontalScrollerDidScroll:(NSScroller*)sender
 {
+	[self.delegate contentControllerDidDisableNowFollowing:self];
+	
 	[_plotGroup scrollToValue:sender.doubleValue];
 }
 
@@ -94,6 +96,11 @@
 
 - (void)_documentStateDidChangeNotification:(NSNotification*)note
 {
+	if(self.document.documentState == DTXRecordingDocumentStateLiveRecording)
+	{
+		self.nowModeEnabled = YES;
+	}
+	
 	_plotGroup = nil;
 	
 	if(self.document.recordings.count == 0)
@@ -125,12 +132,12 @@
 	
 	if(self.document.documentState < DTXRecordingDocumentStateLiveRecordingFinished)
 	{
-		[_plotGroup setGlobalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[NSDate distantFuture]];
-		[_plotGroup setLocalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[self.document.firstRecording.defactoStartTimestamp dateByAddingTimeInterval:120]];
+		[_plotGroup setGlobalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[self.document.firstRecording.defactoStartTimestamp dateByAddingTimeInterval:20] ignoreSmaller:NO];
+		[_plotGroup setLocalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[self.document.firstRecording.defactoStartTimestamp dateByAddingTimeInterval:20]];
 	}
 	else
 	{
-		[_plotGroup setGlobalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:self.document.lastRecording.defactoEndTimestamp];
+		[_plotGroup setGlobalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:self.document.lastRecording.defactoEndTimestamp ignoreSmaller:NO];
 		[_plotGroup setLocalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:self.document.lastRecording.defactoEndTimestamp];
 	}
 	
@@ -196,15 +203,30 @@
 	[_plotGroup zoomToFitAllData];
 }
 
+- (void)setNowModeEnabled:(BOOL)enabled
+{
+	[self willChangeValueForKey:@"nowModeEnabled"];
+	_nowModeEnabled = enabled;
+	[self didChangeValueForKey:@"nowModeEnabled"];
+	
+	if(_nowModeEnabled == YES)
+	{
+		[_plotGroup scrollToDataEnd];
+	}
+}
+
 - (void)_documentDefactoEndTimestampDidChange:(NSNotification*)note
 {
-	if(self.document.documentState < DTXRecordingDocumentStateLiveRecordingFinished)
-	{
-		return;
-	}
+	NSDate* startTimestamp = [note.object firstRecording].defactoStartTimestamp;
+	NSDate* endTimestamp = [note.object lastRecording].defactoEndTimestamp;
 	
-	[_plotGroup setGlobalStartTimestamp:[note.object recording].defactoStartTimestamp endTimestamp:[note.object recording].defactoEndTimestamp];
-	[_plotGroup setLocalStartTimestamp:[note.object recording].defactoStartTimestamp endTimestamp:[note.object recording].defactoEndTimestamp];
+	[_plotGroup setGlobalStartTimestamp:startTimestamp endTimestamp:endTimestamp ignoreSmaller:YES];
+	[_plotGroup setDataStartTimestamp:startTimestamp endTimestamp:endTimestamp];
+	
+	if(_nowModeEnabled)
+	{
+		[_plotGroup scrollToDataEnd];
+	}
 }
 
 - (void)presentPlotControllerPickerFromView:(NSView*)view
@@ -222,9 +244,14 @@
 
 #pragma mark DTXManagedPlotControllerGroupDelegate
 
-- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didScrollToProportion:(CGFloat)proportion value:(CGFloat)value
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group updateScrollerToProportion:(CGFloat)proportion value:(CGFloat)value initiatedByUser:(BOOL)initiatedByUser
 {
 	[(DTXScrollView*)_tableView.enclosingScrollView setHorizontalScrollerKnobProportion:proportion value:value];
+	
+	if(initiatedByUser)
+	{
+		[self.delegate contentControllerDidDisableNowFollowing:self];
+	}
 }
 
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup *)group didSelectPlotController:(id<DTXPlotController>)plotController

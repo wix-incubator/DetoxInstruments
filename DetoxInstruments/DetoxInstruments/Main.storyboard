@@ -62,7 +62,23 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="_stopRecordingButtonPressed:" target="lYN-De-XWI" id="kxe-7p-ckd"/>
+                                            <action selector="_stopRecording:" target="lYN-De-XWI" id="kxe-7p-ckd"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="4834CB46-721A-4593-9A1B-90013F62E20B" label="" paletteLabel="" image="NowTemplateOn" id="Vld-fV-nQU">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="38" height="27"/>
+                                    <size key="maxSize" width="38" height="28"/>
+                                    <button key="view" toolTip="Follow most recent samples" verticalHuggingPriority="750" id="5Or-4p-97g">
+                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NowTemplateOn" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LJL-Ug-6bF">
+                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="_toggleNowMode:" target="qp4-hX-WKE" id="8gF-xd-Lq8"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
@@ -78,7 +94,7 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="_flagButtonPressed:" target="lYN-De-XWI" id="BNt-h9-iLL"/>
+                                            <action selector="_addFlag:" target="qp4-hX-WKE" id="Gks-dW-eCe"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
@@ -103,8 +119,8 @@
                             <defaultToolbarItems>
                                 <toolbarItem reference="PQK-tc-eSX"/>
                                 <toolbarItem reference="Mgt-46-7Hh"/>
+                                <toolbarItem reference="Vld-fV-nQU"/>
                                 <toolbarItem reference="kVe-S3-yGd"/>
-                                <toolbarItem reference="fBO-X4-GkR"/>
                                 <toolbarItem reference="N0I-Xm-YUa"/>
                                 <toolbarItem reference="kVe-S3-yGd"/>
                                 <toolbarItem reference="Onx-le-cmY"/>
@@ -118,6 +134,7 @@
                     <connections>
                         <outlet property="_flagButton" destination="hsw-RF-kd0" id="1Ab-Hc-Cmv"/>
                         <outlet property="_layoutSegmentControl" destination="exo-S1-QJq" id="Qxw-Un-xuG"/>
+                        <outlet property="_nowButton" destination="5Or-4p-97g" id="XKr-0f-773"/>
                         <outlet property="_stopRecordingButton" destination="aub-nx-8CB" id="pf7-9g-1Ji"/>
                         <outlet property="_titleLabelContainer" destination="T7S-3q-2aZ" id="4Xt-Wt-O9d"/>
                         <segue destination="U0P-Vs-3Mc" kind="relationship" relationship="window.shadowedContentViewController" id="otc-m8-0Xa"/>
@@ -125,7 +142,7 @@
                 </windowController>
                 <customObject id="qp4-hX-WKE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-577" y="-1075"/>
+            <point key="canvasLocation" x="-595" y="-1062"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="d07-vh-RcC">
@@ -250,7 +267,7 @@
                                                             <action selector="_export:" target="Ady-hI-5gd" id="icM-Qe-en5"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Current Instrument Data as CSV" id="61E-z8-537">
+                                                    <menuItem title="Instrument Data As CSV" id="61E-z8-537">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="_exportInstrumentCSV:" target="Ady-hI-5gd" id="wgo-KL-8Vk"/>
@@ -532,6 +549,13 @@ CA
                                                 <action selector="fitAllData:" target="Ady-hI-5gd" id="yg4-df-9K6"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="wxx-Ko-OoF"/>
+                                        <menuItem title="Follow Most Recent Samples" state="on" keyEquivalent="n" identifier="NowModeMenuItem" id="utu-vV-BeP">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="_toggleNowMode:" target="Ady-hI-5gd" id="KNT-bk-35g"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -665,12 +689,13 @@ CA
                     </constraints>
                 </customView>
             </objects>
-            <point key="canvasLocation" x="-577" y="-1646"/>
+            <point key="canvasLocation" x="-595" y="-1804"/>
         </scene>
     </scenes>
     <resources>
         <image name="Bottom" width="18" height="14"/>
         <image name="NSPrivateChaptersTemplate" width="14" height="13"/>
+        <image name="NowTemplateOn" width="13" height="13"/>
         <image name="Right" width="18" height="14"/>
         <image name="flag" width="12" height="15"/>
         <image name="stopRecording" width="12" height="12"/>

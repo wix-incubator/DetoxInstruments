@@ -2,6 +2,8 @@
 
 Detox Instruments includes a set of app management utilities for managing your app's settings and resources. Use these utilities to share information between your mac and your app on your device. You can manage several apps at the same time and share information between them.
 
+To manage your app, click on the **Manage** button (![Gear Button](Resources/Button_Manage.png)) in the app selection dialog.
+
 ### Container Files
 
 ![Container Files](Resources/Management_ContainerFiles.png)

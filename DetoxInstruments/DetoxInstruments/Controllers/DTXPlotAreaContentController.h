@@ -16,6 +16,7 @@
 
 - (void)reloadTouchBar;
 - (void)contentController:(DTXPlotAreaContentController*)cc updatePlotController:(id<DTXPlotController>)plotController;
+- (void)contentControllerDidDisableNowFollowing:(DTXPlotAreaContentController*)cc;
 
 @end
 
@@ -26,6 +27,8 @@
 - (void)fitAllData;
 
 - (void)presentPlotControllerPickerFromView:(NSView*)view;
+
+@property (nonatomic) BOOL nowModeEnabled;
 
 @property (nonatomic, strong) DTXRecordingDocument* document;
 @property (nonatomic, weak) id<DTXPlotAreaContentControllerDelegate> delegate;

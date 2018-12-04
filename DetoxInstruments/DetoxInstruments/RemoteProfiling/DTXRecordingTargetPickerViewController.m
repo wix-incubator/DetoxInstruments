@@ -22,7 +22,8 @@
 	IBOutlet NSView* _containerView;
 	IBOutlet NSLayoutConstraint* _containerConstraint;
 	
-	IBOutlet NSStackView* _actionButtonStackView;
+	IBOutlet NSStackView* _actionButtonsStackView;
+	IBOutlet NSStackView* _moreButtonsStackView;
 	
 	_DTXTargetsOutlineViewContoller* _outlineController;
 	NSOutlineView* _outlineView;
@@ -96,6 +97,7 @@
 	_workQueue = dispatch_queue_create("com.wix.DTXRemoteProfiler", qosAttribute);
 	
 	_browser = [NSNetServiceBrowser new];
+//	_browser.includesPeerToPeer = YES;
 	_browser.delegate = self;
 	
 	_targetManagementControllers = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
@@ -160,19 +162,38 @@
 {
 	[provider.actionButtons enumerateObjectsUsingBlock:^(NSButton * _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
 		button.translatesAutoresizingMaskIntoConstraints = NO;
-		[_actionButtonStackView insertArrangedSubview:button atIndex:0];
+		[_actionButtonsStackView insertArrangedSubview:button atIndex:0];
 		if(button.bezelStyle != NSBezelStyleHelpButton && [button.title isEqualToString:@"Refresh"] == NO)
 		{
 			[NSLayoutConstraint activateConstraints:@[[button.widthAnchor constraintEqualToAnchor:_cancelButton.widthAnchor]]];
 		}
 	}];
+	
+	if([provider respondsToSelector:@selector(moreButtons)])
+	{
+		[provider.moreButtons enumerateObjectsUsingBlock:^(NSButton * _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
+			button.translatesAutoresizingMaskIntoConstraints = NO;
+			[_moreButtonsStackView addArrangedSubview:button];
+			if(button.bezelStyle != NSBezelStyleHelpButton && [button.title isEqualToString:@"Refresh"] == NO)
+			{
+				[NSLayoutConstraint activateConstraints:@[[button.widthAnchor constraintEqualToAnchor:_cancelButton.widthAnchor]]];
+			}
+		}];
+	}
 }
 
 - (void)_removeActionButtonsWithProvider:(id<_DTXActionButtonProvider>)provider
 {
 	[provider.actionButtons enumerateObjectsUsingBlock:^(NSButton * _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
-		[_actionButtonStackView removeView:button];
+		[_actionButtonsStackView removeView:button];
 	}];
+	
+	if([provider respondsToSelector:@selector(moreButtons)])
+	{
+		[provider.moreButtons enumerateObjectsUsingBlock:^(NSButton * _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
+			[_moreButtonsStackView removeView:button];
+		}];
+	}
 }
 
 - (void)_transitionToController:(NSViewController<_DTXActionButtonProvider>*)controller

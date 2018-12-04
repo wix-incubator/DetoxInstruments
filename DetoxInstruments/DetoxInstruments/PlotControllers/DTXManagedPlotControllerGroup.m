@@ -19,7 +19,7 @@
 	NSMutableArray<id<DTXPlotController>>* _visiblePlotControllers;
 	NSMapTable<id<DTXPlotController>, NSMutableArray<id<DTXPlotController>>*>* _childrenMap;
 	
-	BOOL _ignoringPlotRangeNotifications;
+	NSUInteger _ignoringPlotRangeNotificationsCount;
 	DTXTimelineIndicatorView* _timelineView;
 	CPTPlotRange* _savedPlotRange;
 	CPTPlotRange* _savedGlobalPlotRange;
@@ -27,6 +27,8 @@
 	CPTPlotRange* _savedHighlightRange;
 	
 	id<DTXPlotController> _currentlySelectedPlotController;
+	
+	NSTimeInterval _savedDataEnd;
 }
 
 @property (nonatomic, strong) NSOutlineView* hostingOutlineView;
@@ -392,11 +394,11 @@
 	}];
 }
 
-- (void)_resetSavedPlotRange:(CPTPlotRange*)plotRange updatePlotControllers:(BOOL)update notifyDelegate:(BOOL)notify
+- (void)_resetSavedPlotRange:(CPTPlotRange*)plotRange updatePlotControllers:(BOOL)update notifyDelegate:(BOOL)notify byUser:(BOOL)byUser
 {
 	_savedPlotRange = plotRange;
 	
-	_ignoringPlotRangeNotifications = YES;
+	_ignoringPlotRangeNotificationsCount ++;
 	if(update)
 	{
 		[_headerPlotController setPlotRange:plotRange];
@@ -405,34 +407,62 @@
 			[obj setPlotRange:plotRange];
 		}];
 	}
-	_ignoringPlotRangeNotifications = NO;
+	_ignoringPlotRangeNotificationsCount --;
 	
 	if(notify)
 	{
-		CGFloat proportion = _savedPlotRange.lengthDouble / _savedGlobalPlotRange.lengthDouble;
-		CGFloat value = _savedPlotRange.locationDouble / (_savedGlobalPlotRange.lengthDouble - _savedPlotRange.lengthDouble);
-		
-		[self.delegate managedPlotControllerGroup:self didScrollToProportion:proportion value:value];
+		[self _updateDelegateForScrollerChangeByUser:byUser];
 	}
 }
 
-- (void)setLocalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
+- (void)_updateDelegateForScrollerChangeByUser:(BOOL)byUser
 {
-	[self _resetSavedPlotRange:[CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)] updatePlotControllers:NO notifyDelegate:YES];
+	CGFloat proportion = _savedPlotRange.lengthDouble / _savedGlobalPlotRange.lengthDouble;
+	CGFloat value = _savedPlotRange.locationDouble / (_savedGlobalPlotRange.lengthDouble - _savedPlotRange.lengthDouble);
+	
+	NSEventType type = _hostingOutlineView.window.currentEvent.type;
+	BOOL isUserEvent = type == NSEventTypeMagnify || type == NSEventTypeLeftMouseDragged || type == NSEventTypeScrollWheel;
+	
+	[self.delegate managedPlotControllerGroup:self updateScrollerToProportion:proportion value:value initiatedByUser:isUserEvent && byUser];
 }
 
-- (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
+- (void)setDataStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp
 {
-	_savedGlobalPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)];
+	_savedDataEnd = endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate;
+}
+
+- (void)scrollToDataEnd
+{
+	NSTimeInterval length = _savedPlotRange.lengthDouble;
+	[self _resetSavedPlotRange:[CPTPlotRange plotRangeWithLocation:@(_savedDataEnd - length) length:@(length)] updatePlotControllers:YES notifyDelegate:YES byUser:NO];
+}
+
+- (void)setLocalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp
+{
+	[self _resetSavedPlotRange:[CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)] updatePlotControllers:NO notifyDelegate:YES byUser:NO];
+}
+
+- (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp ignoreSmaller:(BOOL)ignoreSmaller
+{
+	NSTimeInterval length = endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate;
 	
-	_ignoringPlotRangeNotifications = YES;
+	if(ignoreSmaller == YES && length < _savedGlobalPlotRange.lengthDouble)
+	{
+		return;
+	}
+	
+	_savedGlobalPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(length)];
+	
+	_ignoringPlotRangeNotificationsCount ++;
 	[_headerPlotController setGlobalPlotRange:_savedGlobalPlotRange];
 	[_touchBarPlotController setGlobalPlotRange:_savedGlobalPlotRange];
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		[obj setGlobalPlotRange:_savedGlobalPlotRange];
 	}];
 
-	_ignoringPlotRangeNotifications = NO;
+	_ignoringPlotRangeNotificationsCount --;
+	
+	[self _updateDelegateForScrollerChangeByUser:NO];
 }
 
 - (void)zoomIn
@@ -459,7 +489,7 @@
 	
 	CPTPlotRange* newPlotRange = [CPTPlotRange plotRangeWithLocation:@(value * _savedGlobalPlotRange.lengthDouble) length:_savedPlotRange.length];
 	
-	[self _resetSavedPlotRange:newPlotRange updatePlotControllers:YES notifyDelegate:YES];
+	[self _resetSavedPlotRange:newPlotRange updatePlotControllers:YES notifyDelegate:YES byUser:NO];
 }
 
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc
@@ -497,14 +527,14 @@ static BOOL __uglyHackTODOFixThis()
 
 - (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange
 {
-	if(_ignoringPlotRangeNotifications || __uglyHackTODOFixThis())
+	if(_ignoringPlotRangeNotificationsCount > 0 || __uglyHackTODOFixThis())
 	{
 		return;
 	}
 	
-	_ignoringPlotRangeNotifications = YES;
+	_ignoringPlotRangeNotificationsCount ++;
 	
-	[self _resetSavedPlotRange:plotRange updatePlotControllers:NO notifyDelegate:YES];
+	[self _resetSavedPlotRange:plotRange updatePlotControllers:NO notifyDelegate:YES byUser:YES];
 	
 	if(pc != _headerPlotController)
 	{
@@ -525,7 +555,7 @@ static BOOL __uglyHackTODOFixThis()
 		[obj setPlotRange:plotRange];
 	}];
 	
-	_ignoringPlotRangeNotifications = NO;
+	_ignoringPlotRangeNotificationsCount --;
 }
 
 - (void)plotController:(id<DTXPlotController>)pc didHighlightAtSampleTime:(NSTimeInterval)sampleTime

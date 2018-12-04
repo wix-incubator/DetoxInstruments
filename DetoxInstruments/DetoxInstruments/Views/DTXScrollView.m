@@ -102,6 +102,13 @@
 
 - (void)_animateKnobIfNeeded
 {
+	if(self.knobProportion == 0.0)
+	{
+		[self setOverlayScrollerKnobAlpha:0.0];
+		
+		return;
+	}
+	
 	if(self.scrollerStyle == NSScrollerStyleLegacy)
 	{
 		[self setOverlayScrollerKnobAlpha:1.0];

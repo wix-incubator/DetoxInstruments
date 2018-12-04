@@ -13,7 +13,7 @@
 
 @protocol DTXManagedPlotControllerGroupDelegate <NSObject>
 
-- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didScrollToProportion:(CGFloat)proportion value:(CGFloat)value;
+- (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group updateScrollerToProportion:(CGFloat)proportion value:(CGFloat)value initiatedByUser:(BOOL)initiatedByUser;
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didSelectPlotController:(id<DTXPlotController>)plotController;
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didHidePlotController:(id<DTXPlotController>)plotController;
 - (void)managedPlotControllerGroup:(DTXManagedPlotControllerGroup*)group didShowPlotController:(id<DTXPlotController>)plotController;
@@ -48,10 +48,12 @@
 
 //Group plot range control
 - (void)setLocalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
-- (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
+- (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp ignoreSmaller:(BOOL)ignoreSmaller;
 - (void)zoomIn;
 - (void)zoomOut;
 - (void)zoomToFitAllData;
 - (void)scrollToValue:(CGFloat)value;
+- (void)setDataStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
+- (void)scrollToDataEnd;
 
 @end

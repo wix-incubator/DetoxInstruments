@@ -37,7 +37,7 @@ Samples will be highlighted in yellow (warning 1) when:
 
 ### Inspector Pane
 
-For each sample, the inspector pane shows the time of the sample and the CPU usage. If the **Record thread information** profiling option was enabled during recording, the inspector pane will display a threads breakdown pie chart. If the **Collect stack traces** profiling option was enabled during recording, the inspector pane will display the heaviest thread's stack trace.
+For each sample, the inspector pane shows the time of the sample and the CPU usage. If the **Record thread information** profiling option was enabled during recording, the inspector pane will display a threads breakdown pie chart and a list of the most active threads. If the **Collect stack traces** profiling option was enabled during recording, the inspector pane will display the heaviest thread's stack trace.
 
 ![CPU Usage Inspector Pane](Resources/Instrument_CPUUsage_InspectorPane.png "CPU Usage Inspector Pane")
 

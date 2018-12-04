@@ -56,6 +56,8 @@ static NSDictionary<NSNumber*, NSString*>* __appleHighlightColorMapping;
 static NSNumber* __defaultSample;
 static NSNumber* __defaultSampleRN;
 static const CGFloat __inspectorPaneOverviewImagePadding = 35;
+static const CGFloat __inspectorPercentage = 0.76;
+static const CGFloat __inspectorLowkeyPercentage = 0.45;
 
 @implementation DTXApplicationDelegate (DocumentationGeneration)
 
@@ -117,19 +119,19 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		
 		__classToNameMapping = @{
 								 NSStringFromClass(DTXCPUUsagePlotController.class): @{@"name": @"CPUUsage", @"inspectorSample": @166, @"includeInRecordingDocumentInspectorPane": @0},
-								 NSStringFromClass(DTXDiskReadWritesPlotController.class): @{@"name": @"DiskActivity", @"displaySample": @199},
-								 NSStringFromClass(DTXFPSPlotController.class): @{@"name": @"FPS"},
-								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @175},
+								 NSStringFromClass(DTXDiskReadWritesPlotController.class): @{@"name": @"DiskActivity", @"displaySample": @199, @"lowkeyInspector": @YES},
+								 NSStringFromClass(DTXFPSPlotController.class): @{@"name": @"FPS", @"lowkeyInspector": @YES},
+								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @175, @"lowkeyInspector": @YES},
 								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"inspectorSample": @24, @"displaySample": @175, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
-								 NSStringFromClass(DTXEventsPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@4, @0, @3]},
+								 NSStringFromClass(DTXEventsPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@4, @0, @3], @"lowkeyInspector": @YES},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
 								 };
 		
 		__classToNameRNMapping = @{
-								   NSStringFromClass(DTXRNCPUUsagePlotController.class): @{@"name": @"RNJSThread"},
-								   NSStringFromClass(DTXRNBridgeCountersPlotController.class): @{@"name": @"RNBridgeCounters"},
-								   NSStringFromClass(DTXRNBridgeDataTransferPlotController.class): @{@"name": @"RNBridgeData"},
+								   NSStringFromClass(DTXRNCPUUsagePlotController.class): @{@"name": @"RNJSThread", @"lowkeyInspector": @YES},
+								   NSStringFromClass(DTXRNBridgeCountersPlotController.class): @{@"name": @"RNBridgeCounters", @"lowkeyInspector": @YES},
+								   NSStringFromClass(DTXRNBridgeDataTransferPlotController.class): @{@"name": @"RNBridgeData", @"lowkeyInspector": @YES},
 								   };
 		
 		__defaultSample = @22;
@@ -215,6 +217,59 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		return;
 	}
 	
+	NSBitmapImageRep* rep;
+	
+	NSSize buttonImageExportSize = NSMakeSize(8, 8);
+	
+	NSImage* img = [[NSImage imageNamed:@"stopRecording"] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Stop.png"].path atomically:YES];
+	
+	img = [[NSImage imageNamed:@"flag"] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Flag.png"].path atomically:YES];
+	
+	img = [[NSImage imageNamed:@"NowTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Follow.png"].path atomically:YES];
+	
+	img = [[NSImage imageNamed:@"NSActionTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Manage.png"].path atomically:YES];
+	
+	img = [[NSImage imageNamed:@"NSPrivateChaptersTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Customize.png"].path atomically:YES];
+	
+	img = [[NSImage imageNamed:@"Bottom"] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_DetailsPane.png"].path atomically:YES];
+	
+	img = [[NSImage imageNamed:@"Right"] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_InspectorPane.png"].path atomically:YES];
+	
 	NSDocument* newDocument = [NSDocumentController.sharedDocumentController openUntitledDocumentAndDisplay:YES error:NULL];
 	DTXWindowController* windowController = newDocument.windowControllers.firstObject;
 	
@@ -227,7 +282,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	[self _createConsoleMenuScreenshotWithWindowController:windowController];
 	[self _createBridgeDataMenuScreenshotWithWindowController:windowController];
 	
-	NSBitmapImageRep* rep = (NSBitmapImageRep*)[windowController _snapshotForTargetSelection].representations.firstObject;
+	rep = (NSBitmapImageRep*)[windowController _snapshotForTargetSelection].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Discovered.png"].path atomically:YES];
 	
 	rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
@@ -323,13 +378,10 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		[windowController _deselectAnyPlotControllers];
 		[windowController _selectSampleAtIndex:175 forPlotControllerClass:DTXMemoryUsagePlotController.class];
 		
-		//		NSAppearance* desiredAppearance = NSApp.effectiveAppearance;
-		//		NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
-		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
 		[[__DTXThemeBackgroundRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
 		
-		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, 511)];
+		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, windowController._plotDetailsSplitViewControllerSize.height * __inspectorPercentage)];
 		
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 			[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage mapping:__classToNameMapping];
@@ -416,6 +468,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 		NSInteger displaySample = [info[@"displaySample"] ?: __defaultSample integerValue];
 		NSInteger inspectorSample = [info[@"inspectorSample"] ?: __defaultSample integerValue];
 		CGFloat scrollPercentage = [info[@"scrollPercentage"] ?: @0.5 doubleValue];
+		BOOL lowkeyInspector = [info[@"lowkeyInspector"] boolValue];
 		
 		[windowController _deselectAnyPlotControllers];
 		[windowController _selectSampleAtIndex:displaySample forPlotControllerClass:cls];
@@ -449,7 +502,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 			[windowController _selectSampleAtIndex:inspectorSample forPlotControllerClass:cls];
 		}
 		
-		[windowController _setBottomSplitAtPercentage:0.6];
+		[windowController _setBottomSplitAtPercentage:lowkeyInspector ? __inspectorLowkeyPercentage : __inspectorPercentage];
 		[windowController _selectExtendedDetailInspector];
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForInspectorPane].representations.firstObject;
@@ -458,7 +511,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 	else
 	{
 		[windowController _selectProfilingInfoInspector];
-		[windowController _setBottomSplitAtPercentage:0.6];
+		[windowController _setBottomSplitAtPercentage:__inspectorPercentage];
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForInspectorPane].representations.firstObject;
 	}

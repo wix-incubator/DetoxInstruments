@@ -15,8 +15,11 @@ The toolbar allows you to stop data profiling, add flags to the recording, displ
 It includes the following main elements:
 
 * **Profiling controls:** Allow you to stop data collection and add a flag
+  * The **Stop** button (![Stop Button](Resources/Button_Stop.png)) stops the recording
+  * The **Flag** button (![Flag Button](Resources/Button_Flag.png)) adds a flag sample in the recording
+  * The **Follow most recent samples** button (![Follow Button](Resources/Button_Follow.png)) controls whether Detox Instruments follows the latest samples as they become available
 * **Activity viewer:** Shows information about the current recording document
-* **Customization button:** Customize the list of visible instruments in the timeline pane.
+* **Customization button (![Customize Button](Resources/Button_Customize.png)):** Customize the list of visible instruments in the timeline pane.
 * **View buttons:** Hide or show the detail pane and inspector.
 
 ### Timeline Pane

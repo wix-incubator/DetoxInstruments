@@ -266,7 +266,7 @@
 	if(perfSample.recording.dtx_profilingConfiguration.collectStackTraces && [perfSample threadSamples].count > 0)
 	{
 		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
-		stackTrace.title = [NSString stringWithFormat:@"%@—%@", NSLocalizedString(@"Heaviest Stack Trace", @""), heaviestThread.friendlyName];
+		stackTrace.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Heaviest Stack Trace", @""), heaviestThread.friendlyName];
 		
 		[contentArray addObject:stackTrace];
 	}

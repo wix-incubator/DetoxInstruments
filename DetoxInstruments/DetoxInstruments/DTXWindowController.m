@@ -29,6 +29,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	
 	__weak IBOutlet NSButton* _stopRecordingButton;
 	__weak IBOutlet NSButton* _flagButton;
+	__weak IBOutlet NSButton* _nowButton;
 	
 	DTXPlotDetailSplitViewController* _plotDetailsSplitViewController;
 	DTXDetailInspectorSplitViewController* _detailInspectorSplitViewController;
@@ -160,26 +161,19 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	
 	_flagButton.enabled = [(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
 	_flagButton.hidden = !_flagButton.enabled;
+	
+	_nowButton.enabled = [(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
+	_nowButton.hidden = !_nowButton.enabled;
 }
 
-- (IBAction)_stopRecordingButtonPressed:(id)sender
+- (IBAction)_stopRecording:(id)sender
 {
 	[(DTXRecordingDocument*)self.document stopLiveRecording];
 }
 
-- (IBAction)_flagButtonPressed:(id)sender
+- (IBAction)_addFlag:(id)sender
 {
 	[(DTXRecordingDocument*)self.document addTag];
-}
-
-- (IBAction)_pushGroupButtonPressed:(id)sender
-{
-	[(DTXRecordingDocument*)self.document pushGroup];
-}
-
-- (IBAction)_popGroupButtonPressed:(id)sender
-{
-	[(DTXRecordingDocument*)self.document popGroup];
 }
 
 - (IBAction)zoomIn:(id)sender
@@ -210,6 +204,29 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	[self reloadTouchBar];
 }
 
+- (IBAction)_toggleNowMode:(NSControl*)sender
+{
+	[self _setNowModeEnabled:!_plotContentController.nowModeEnabled];
+}
+
+- (void)_setNowModeEnabled:(BOOL)enabled
+{
+	[_plotContentController setNowModeEnabled:enabled];
+	_nowButton.state = enabled ? NSControlStateValueOn : NSControlStateValueOff;
+	[self _resetNowModeButtonImage];
+}
+
+- (void)_resetNowModeButtonImage
+{
+	NSString* imageName = [NSString stringWithFormat:@"NowTemplate%@", _nowButton.state == NSControlStateValueOn ? @"On" : @""];
+	_nowButton.image = [NSImage imageNamed:imageName];
+}
+
+- (void)contentControllerDidDisableNowFollowing:(DTXPlotAreaContentController*)cc
+{
+	[self _setNowModeEnabled:NO];
+}
+
 - (void)reloadTouchBar
 {
 	NSTouchBar *bar = [[NSTouchBar alloc] init];
@@ -224,10 +241,28 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 - (void)bottomController:(DTXDetailContentController*)bc updateWithInspectorProvider:(DTXInspectorDataProvider*)inspectorProvider
 {
 	_inspectorContentController.moreInfoDataProvider = inspectorProvider;
+	
+	if(inspectorProvider != nil)
+	{
+		[self _setNowModeEnabled:NO];
+	}
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+	if(menuItem.action == @selector(_toggleNowMode:))
+	{
+		if([self.document documentState] != DTXRecordingDocumentStateLiveRecording)
+		{
+			menuItem.hidden = YES;
+			return NO;
+		}
+		
+		menuItem.state = _plotContentController.nowModeEnabled ? NSControlStateValueOn : NSControlStateValueOff;
+		
+		return YES;
+	}
+	
 	if(menuItem.action == @selector(_toggleTitleVisibility:))
 	{
 		menuItem.title = self.window.titleVisibility == NSWindowTitleHidden ? NSLocalizedString(@"Show Window Title", @"") : NSLocalizedString(@"Hide Window Title", @"");

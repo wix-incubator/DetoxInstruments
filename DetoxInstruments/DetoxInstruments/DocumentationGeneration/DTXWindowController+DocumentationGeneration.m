@@ -337,6 +337,9 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	[[self valueForKey:@"flagButton"] setEnabled:recordingButtonsVisible];
 	[[self valueForKey:@"flagButton"] setHidden:!recordingButtonsVisible];
 	
+	[[self valueForKey:@"nowButton"] setEnabled:recordingButtonsVisible];
+	[[self valueForKey:@"nowButton"] setHidden:!recordingButtonsVisible];
+	
 	if(recordingButtonsVisible)
 	{
 		[[self valueForKey:@"_titleTextField"] setStringValue:[NSString stringWithFormat:@"%@ | %@", @"Example App", @"Recording..."]];
@@ -369,6 +372,11 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	NSArray* detailContentControllers = [self valueForKeyPath:@"detailContentController.cachedDetailControllers"];
 	
 	[[self valueForKeyPath:@"detailContentController"] _activateDetailProviderController:detailContentControllers[idx]];
+}
+
+- (NSSize)_plotDetailsSplitViewControllerSize
+{
+	return [[self valueForKey:@"_plotDetailsSplitViewController"] view].bounds.size;
 }
 
 @end

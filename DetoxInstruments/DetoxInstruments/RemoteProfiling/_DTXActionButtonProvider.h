@@ -12,4 +12,7 @@
 
 @property (nonatomic, copy, readonly) NSArray<NSButton*>* actionButtons;
 
+@optional
+@property (nonatomic, copy, readonly) NSArray<NSButton*>* moreButtons;
+
 @end

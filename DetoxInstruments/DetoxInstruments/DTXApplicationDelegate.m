@@ -130,6 +130,11 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	DTXGoToHelpPage(@"ProfilingOptions");
 }
 
+- (IBAction)helpProfilingDiscovery:(id)sender
+{
+	DTXGoToHelpPage(@"AppDiscovery");
+}
+
 - (IBAction)helpIgnoreCategories:(id)sender
 {
 	DTXGoToHelpPage(@"ProfilingOptions");
