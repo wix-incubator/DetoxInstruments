@@ -161,15 +161,14 @@ os_log_t __log_general;
 	DTXEventIdentifier indexEvent = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Index", nil);
 	
 	[[session dataTaskWithURL:[NSURL URLWithString:@"https://jsonplaceholder.typicode.com/photos"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+		
+		DTXProfilerMarkEventIntervalEnd(indexEvent, error ? DTXEventStatusError : DTXEventStatusCompleted, error.localizedDescription);
+		os_signpost_interval_end(__log_network, nwIndex, "Requesting Index");
+		
 		if(error)
 		{
-			DTXProfilerMarkEventIntervalEnd(indexEvent, DTXEventStatusError, error.localizedDescription);
-			os_signpost_interval_end(__log_network, nwIndex, "Requesting Index");
 			return;
 		}
-		
-		DTXProfilerMarkEventIntervalEnd(indexEvent, DTXEventStatusCompleted, nil);
-		os_signpost_interval_end(__log_network, nwIndex, "Requesting Index");
 		
 		NSArray* arr = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
 		__block NSUInteger executedRequests = 0;
@@ -186,15 +185,15 @@ os_log_t __log_general;
 			DTXEventIdentifier itemRequest = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Item", obj[@"thumbnailUrl"]);
 			
 			[[session dataTaskWithURL:[NSURL URLWithString:obj[@"thumbnailUrl"]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+				
+				DTXProfilerMarkEventIntervalEnd(itemRequest, error ? DTXEventStatusError : DTXEventStatusCompleted, error.localizedDescription);
+				os_signpost_interval_end(__log_network, nwItem, "Requesting Item");
+				
 				if(error)
 				{
-					DTXProfilerMarkEventIntervalEnd(itemRequest, DTXEventStatusError, error.localizedDescription);
-					os_signpost_interval_end(__log_network, nwItem, "Requesting Item");
 					return;
 				}
-				
-				DTXProfilerMarkEventIntervalEnd(itemRequest, DTXEventStatusCompleted, nil);
-				os_signpost_interval_end(__log_network, nwItem, "Requesting Item");
+
 				NSLog(@"Got data with length: %@", @(data.length));
 			}] resume];
 		}];
