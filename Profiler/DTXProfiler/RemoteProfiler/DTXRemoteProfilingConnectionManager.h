@@ -19,6 +19,7 @@
 
 @interface DTXRemoteProfilingConnectionManager : NSObject
 
+@property (nonatomic, readonly, getter=isProfiling) BOOL profiling;
 @property (nonatomic, weak) id<DTXRemoteProfilingConnectionManagerDelegate> delegate;
 
 - (instancetype)initWithInputStream:(NSInputStream*)inputStream outputStream:(NSOutputStream*)outputStream;

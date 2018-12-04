@@ -41,6 +41,15 @@ static DTXRemoteProfilingManager* __sharedManager;
 - (void)_applicationInBackground
 {
 	[self _stopPublishing];
+	
+	[_connections enumerateObjectsUsingBlock:^(DTXRemoteProfilingConnectionManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if(obj.isProfiling)
+		{
+			return;
+		}
+		
+		[obj abortConnectionAndProfiling];
+	}];
 }
 
 - (void)_applicationInForeground

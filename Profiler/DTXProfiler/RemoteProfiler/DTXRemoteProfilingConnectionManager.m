@@ -96,6 +96,11 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	}];
 }
 
+- (BOOL)isProfiling
+{
+	return _remoteProfiler != nil;
+}
+
 - (void)abortConnectionAndProfiling
 {
 	self->_aborted = YES;
