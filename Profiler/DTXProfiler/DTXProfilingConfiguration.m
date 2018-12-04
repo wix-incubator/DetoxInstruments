@@ -182,6 +182,8 @@
 
 @implementation DTXMutableProfilingConfiguration
 
+@dynamic defaultProfilingConfiguration, defaultProfilingConfigurationForRemoteProfiling;
+
 @dynamic samplingInterval;
 @dynamic numberOfSamplesBeforeFlushToDisk;
 @dynamic recordThreadInformation;

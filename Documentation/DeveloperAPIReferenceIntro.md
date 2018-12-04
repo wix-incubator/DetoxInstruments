@@ -12,6 +12,10 @@ For React Native apps, you need to install the **detox-instruments-react-native-
 npm install detox-instruments-react-native-utils --save-prod
 ```
 
+### Programatic Profiler Recordings
+
+For Objective C and Swift code, see [Profiler API Reference for Objective C & Swift](DeveloperAPIReferenceProfilerObjCSwift.md)
+
 ### Events
 
 The Events instrument lets you add lightweight instrumentation to your code for collection and visualization by Detox Instruments. You can specify interesting periods of time ('intervals') and single points in time ('events'). Each event can be marked as completed or errored, or as 12 different general-purpose categories, each displayed with its own color in the timeline pane.

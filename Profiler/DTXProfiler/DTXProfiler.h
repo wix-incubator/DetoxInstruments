@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DTXProfiler : NSObject
 
+/**
+ *  The version string of the Profiler framework.
+ */
 @property (class, nonatomic, readonly, copy) NSString* version;
 
 /**

@@ -11,8 +11,14 @@
 
 #import <DTXProfiler/DTXBase.h>
 
+/*!
+ Event identifier
+ */
 typedef NSString * DTXEventIdentifier;
 
+/*!
+ The status of the event
+ */
 typedef NS_ENUM(NSUInteger, DTXEventStatus) {
 	DTXEventStatusCompleted,
 	DTXEventStatusError,

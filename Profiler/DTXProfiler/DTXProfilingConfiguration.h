@@ -21,14 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (DTXMutableProfilingConfiguration*)mutableCopy;
 
 /**
- *  Returns a newly created default profiling configuration object.
+ *  A newly created default profiling configuration object.
  */
-+ (instancetype)defaultProfilingConfiguration;
+@property (class, nonatomic, strong, readonly) DTXProfilingConfiguration* defaultProfilingConfiguration;
 
 /**
- *  Returns a newly created default profiling configuration object fore remote profiling.
+ *  A newly created default profiling configuration object fore remote profiling.
  */
-+ (instancetype)defaultProfilingConfigurationForRemoteProfiling;
+@property (class, nonatomic, strong, readonly) DTXProfilingConfiguration* defaultProfilingConfigurationForRemoteProfiling;
 
 // Sampling Configuration
 
@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL recordReactNativeBridgeData;
 
 /**
- *  Record React Native timers (created using @c setTimeout() in Java Script) as events.
+ *  Record React Native timers (created using @c setTimeout() in JavaScript) as events.
  *
  *  The default value is @c false.
  */
@@ -157,9 +157,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  The extension of the recording package is always @c .dtxprof.
  *
- *  If set to @c nil, the value will reset to the default value.
+ *  If set to @c nil, the URL will reset to the default value.
  *
- *  The default value is a file name with the date and time of the recording, in the documents folder of the device.
+ *  The default value is a file name with the date and time of the recording, in the documents folder of the profiled app.
  */
 @property (nonatomic, copy, null_resettable, readonly) NSURL* recordingFileURL;
 
@@ -171,6 +171,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  Profiling configuration object for the Profiler.
  */
 @interface DTXMutableProfilingConfiguration : DTXProfilingConfiguration
+
+/**
+ *  A newly created default profiling configuration object.
+ */
+@property (class, nonatomic, strong, readonly) DTXMutableProfilingConfiguration* defaultProfilingConfiguration;
+
+/**
+ *  A newly created default profiling configuration object fore remote profiling.
+ */
+@property (class, nonatomic, strong, readonly) DTXMutableProfilingConfiguration* defaultProfilingConfigurationForRemoteProfiling;
 
 /**
  *  The sampling interval of the Profiler.
@@ -280,7 +290,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
 
 /**
- *  Record React Native timers (created using @c setTimeout() in Java Script) as events.
+ *  Record React Native timers (created using @c setTimeout() in JavaScript) as events.
  *  Timers will appear as interval events in the Events instrument.
  *
  *  The default value is @c false.
@@ -298,9 +308,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  The extension of the recording package is always @c .dtxprof.
  *
- *  If set to @c nil, the value will reset to the default value.
+ *  If set to @c nil, the URL will reset to the default value.
  *
- *  The default value is a file name with the date and time of the recording, in the documents folder of the device.
+ *  The default value is a file name with the date and time of the recording, in the documents folder of the profiled app.
  */
 @property (nonatomic, copy, null_resettable, readwrite) NSURL* recordingFileURL;
 

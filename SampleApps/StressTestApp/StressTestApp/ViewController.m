@@ -282,7 +282,7 @@ os_log_t __log_general;
 	[[NSURLCache sharedURLCache] setMemoryCapacity:0];
 	
 	__block DTXProfiler* __profiler = [DTXProfiler new];
-	DTXMutableProfilingConfiguration* conf = [DTXMutableProfilingConfiguration defaultProfilingConfiguration];
+	DTXMutableProfilingConfiguration* conf = DTXMutableProfilingConfiguration.defaultProfilingConfiguration;
 	conf.samplingInterval = 0.25;
 	conf.recordThreadInformation = YES;
 	conf.collectStackTraces = YES;
