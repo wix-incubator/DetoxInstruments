@@ -38,6 +38,9 @@ static void* __symbols[DTXMaxFrames];
 	BOOL _collectStackTraces;
 	BOOL _collectThreadInfo;
 	BOOL _collectOpenFiles;
+	
+	uint64_t _initialDiskReads;
+	uint64_t _initialDiskWrites;
 }
 
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration
@@ -51,6 +54,8 @@ static void* __symbols[DTXMaxFrames];
 		_collectOpenFiles = configuration.collectOpenFileNames;
 		
 		self.fpsCalculator = [DTXFPSCalculator new];
+		
+		_DTXDiskUsage(&_initialDiskReads, &_initialDiskWrites);
 	}
 	
 	return self;
@@ -63,16 +68,19 @@ static void* __symbols[DTXMaxFrames];
 	self.currentFPS = self.fpsCalculator.fps;
 	
 	// Update CPU measurements
-	self.currentCPU = self.cpu;
+	self.currentCPU = _DTXCPUUsage(_collectThreadInfo);
 	
 	// Update memory measurements
-	self.currentMemory = self.memory;
+	self.currentMemory = _DTXMemoryUsage();
 	
-	uint64_t dr = self.diskReads;
+	uint64_t dr, dw;
+	_DTXDiskUsage(&dr, &dw);
+	dr -= _initialDiskReads;
+	dw -= _initialDiskWrites;
+	
 	self.currentDiskReadsDelta = dr - _currentDiskReads;
 	self.currentDiskReads = dr;
 	
-	uint64_t dw = self.diskWrites;
 	self.currentDiskWritesDelta = dw - _currentDiskWrites;
 	self.currentDiskWrites = dw;
 	
@@ -104,7 +112,8 @@ static void* __symbols[DTXMaxFrames];
 
 #pragma mark - CPU
 
-- (DTXCPUMeasurement*)cpu
+DTX_ALWAYS_INLINE
+static DTXCPUMeasurement* _DTXCPUUsage(BOOL collectThreadInfo)
 {
 	task_info_data_t task_info_data;
 	mach_msg_type_number_t task_info_count = TASK_INFO_MAX;
@@ -150,7 +159,7 @@ static void* __symbols[DTXMaxFrames];
 //		{
 			total_cpu += (thread_extended_info->pth_cpu_usage / (double)TH_USAGE_SCALE);
 			
-			if(_collectThreadInfo)
+			if(collectThreadInfo)
 			{
 				DTXThreadMeasurement* thread = [DTXThreadMeasurement new];
 				thread.machThread = thread_list[thread_idx];
@@ -187,7 +196,8 @@ static void* __symbols[DTXMaxFrames];
 
 #pragma mark - Memory
 
-- (uint64_t)memory
+DTX_ALWAYS_INLINE
+static uint64_t _DTXMemoryUsage(void)
 {
 	struct task_vm_info task_vm_info;
 	mach_msg_type_number_t vmInfoCount = sizeof(task_vm_info);
@@ -197,28 +207,18 @@ static void* __symbols[DTXMaxFrames];
 
 #pragma mark - Disk IO
 
-- (uint64_t)diskReads
+DTX_ALWAYS_INLINE
+static void _DTXDiskUsage(uint64_t* reads, uint64_t* writes)
 {
 	struct rusage_info_v3 usage_info;
-	
 	if(proc_pid_rusage([NSProcessInfo processInfo].processIdentifier, RUSAGE_INFO_V3, (rusage_info_t*)&usage_info) != KERN_SUCCESS)
 	{
-		return 0;
+		*reads = 0;
+		*writes = 0;
 	}
 	
-	return usage_info.ri_diskio_bytesread;
-}
-
-- (uint64_t)diskWrites
-{
-	struct rusage_info_v3 usage_info;
-	
-	if(proc_pid_rusage([NSProcessInfo processInfo].processIdentifier, RUSAGE_INFO_V3, (rusage_info_t*)&usage_info) != KERN_SUCCESS)
-	{
-		return 0;
-	}
-	
-	return usage_info.ri_diskio_byteswritten;
+	*reads = usage_info.ri_diskio_bytesread;
+	*writes = usage_info.ri_diskio_byteswritten;
 }
 
 - (NSArray<NSString*>*)openFiles
