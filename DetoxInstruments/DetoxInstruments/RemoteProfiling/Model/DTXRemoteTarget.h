@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 @property (nonatomic, assign, readonly) NSUInteger deviceOSType;
 @property (nonatomic, copy, readonly) NSString* appName;
 @property (nonatomic, copy, readonly) NSString* deviceName;
-@property (nonatomic, copy, readonly) NSString* deviceOS;
+@property (nonatomic, copy, readonly) NSString* devicePresentable;
 @property (nonatomic, copy, readonly) NSImage* deviceSnapshot;
 @property (nonatomic, copy, readonly) NSDictionary* deviceInfo;
 @property (nonatomic, strong, readonly) NSImage* screenSnapshot;

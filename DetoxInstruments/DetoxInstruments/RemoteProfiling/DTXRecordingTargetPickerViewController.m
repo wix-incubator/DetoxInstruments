@@ -403,27 +403,6 @@
 	[_targetManagementControllers removeAllObjects];
 }
 
-#pragma mark NSNetServiceBrowserDelegate
-
-- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didFindService:(NSNetService *)service moreComing:(BOOL)moreComing
-{
-	service.delegate = self;
-	
-	DTXRemoteTarget* target = [DTXRemoteTarget new];
-	[self _addTarget:target forService:service];
-	
-	[service resolveWithTimeout:10];
-}
-
-- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing
-{
-	DTXRemoteTarget* target = [_serviceToTargetMapping objectForKey:service];
-	if(target.state < 1)
-	{
-		[self _removeTargetForService:service];
-	}
-}
-
 #pragma mark NSOutlineViewDataSource
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item
@@ -478,12 +457,33 @@
 	_outlineController.selectButton.enabled = hasSelection && hasCompatibleVersion;
 }
 
+#pragma mark NSNetServiceBrowserDelegate
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didFindService:(NSNetService *)service moreComing:(BOOL)moreComing
+{
+	service.delegate = self;
+	
+	DTXRemoteTarget* target = [DTXRemoteTarget new];
+	target.delegate = self;
+	[self _addTarget:target forService:service];
+	
+	[service resolveWithTimeout:2];
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing
+{
+	DTXRemoteTarget* target = [_serviceToTargetMapping objectForKey:service];
+	if(target.state < DTXRemoteTargetStateResolved)
+	{
+		[self _removeTargetForService:service];
+	}
+}
+
 #pragma mark NSNetServiceDelegate
 
 - (void)netServiceDidResolveAddress:(NSNetService *)sender
 {
 	DTXRemoteTarget* target = [_serviceToTargetMapping objectForKey:sender];
-	target.delegate = self;
 	
 	[target _connectWithHostName:sender.hostName port:sender.port workQueue:_workQueue];
 	

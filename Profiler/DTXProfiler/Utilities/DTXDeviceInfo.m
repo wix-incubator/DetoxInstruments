@@ -23,7 +23,13 @@ static NSString* __version =
 	
 	uname(&systemInfo);
 	
-	return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+	return [NSString stringWithCString:systemInfo
+#if ! TARGET_OS_SIMULATOR
+			.machine
+#else
+			.nodename
+#endif
+							  encoding:NSUTF8StringEncoding];
 }
 
 + (NSString *)_bundleName
@@ -58,6 +64,8 @@ static NSString* __version =
 	return [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
 }
 
+extern id MGCopyAnswer(NSString *inKey);
+
 + (NSDictionary*)deviceInfo
 {
 	NSProcessInfo* processInfo = [NSProcessInfo processInfo];
@@ -69,41 +77,34 @@ static NSString* __version =
 #if ! TARGET_OS_SIMULATOR
 	deviceDetails[@"deviceName"] = currentDevice.name;
 #else
-	NSString* deviceTypeSim = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
-	
-	deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"%@ (%@ Simulator)", @""), currentDevice.name, deviceTypeSim];
+	if(processInfo.operatingSystemVersion.majorVersion < 12)
+	{
+		deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"Simulator (%@)", @""), MGCopyAnswer(@"ComputerName")];
+	}
+	else
+	{
+		deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"%@ (%@)", @""), currentDevice.name, MGCopyAnswer(@"ComputerName")];
+	}
 #endif
 	deviceDetails[@"deviceOS"] = processInfo.operatingSystemVersionString;
 	deviceDetails[@"deviceOSType"] = @0;
 	deviceDetails[@"devicePhysicalMemory"] = @(processInfo.physicalMemory);
 	deviceDetails[@"deviceProcessorCount"] = @(processInfo.activeProcessorCount);
 	deviceDetails[@"deviceType"] = currentDevice.model;
+	deviceDetails[@"deviceMarketingName"] = MGCopyAnswer(@"marketing-name");
 	deviceDetails[@"deviceResolution"] = NSStringFromCGSize(UIScreen.mainScreen.currentMode.size);
 	deviceDetails[@"processIdentifier"] = @(processInfo.processIdentifier);
 	deviceDetails[@"hasReactNative"] = @([DTXReactNativeSampler reactNativeInstalled]);
 	deviceDetails[@"profilerVersion"] = __version;
 	
 #if ! TARGET_OS_SIMULATOR
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-	SEL selector = NSSelectorFromString(@"deviceInfoForKey:");
-	
-	if (![currentDevice respondsToSelector:selector])
-	{
-		selector = NSSelectorFromString(@"_deviceInfoForKey:");
-	}
-	
-	if ([currentDevice respondsToSelector:selector])
-	{
-		deviceDetails[@"deviceColor"] = [currentDevice performSelector:selector withObject:@"DeviceColor"];
-		deviceDetails[@"deviceEnclosureColor"] = [currentDevice performSelector:selector withObject:@"DeviceEnclosureColor"];
-	}
-#pragma clang diagnostic pop
-	
+	deviceDetails[@"deviceColor"] = MGCopyAnswer(@"DeviceColor");
+	deviceDetails[@"deviceEnclosureColor"] = MGCopyAnswer(@"DeviceEnclosureColor");
 	deviceDetails[@"machineName"] = self._machineName;
 #else
 	deviceDetails[@"deviceColor"] = @"1";
 	deviceDetails[@"deviceEnclosureColor"] = @"1";
+	NSString* deviceTypeSim = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
 	deviceDetails[@"machineName"] = deviceTypeSim;
 #endif
 	

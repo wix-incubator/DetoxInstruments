@@ -285,7 +285,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 		
 		NSData* png = UIImagePNGRepresentation(snapshotImage);
 		
-		NSMutableDictionary* cmd = [[DTXDeviceInfo deviceInfo] mutableCopy];
+		NSMutableDictionary* cmd = [NSMutableDictionary new];
 		cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeLoadScreenSnapshot);
 		cmd[@"screenSnapshot"] = png;
 		

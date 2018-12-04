@@ -16,7 +16,7 @@
 @property (nonatomic, assign) NSUInteger deviceOSType;
 @property (nonatomic, copy) NSString* appName;
 @property (nonatomic, copy) NSString* deviceName;
-@property (nonatomic, copy) NSString* deviceOS;
+@property (nonatomic, copy) NSString* devicePresentable;
 @property (nonatomic, copy) NSImage* screenSnapshot;
 @property (nonatomic, copy) NSDictionary* deviceInfo;
 
@@ -87,10 +87,9 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 - (void)_addFakeTarget
 {
 	fakeTarget = [__FAKE_DTXRemoteTarget new];
-	fakeTarget.deviceOS = 0;
 	fakeTarget.appName = @"Example App";
-	fakeTarget.deviceName = @"iPhone XS Max";
-	fakeTarget.deviceOS = @"Version 12.1 (Build 16A405)";
+	fakeTarget.deviceName = @"Leo Natan's iPhone";
+	fakeTarget.devicePresentable = @"iPhone XS Max, iOS 12.1 (Build 16A405)";
 	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.4", @"machineName": @"iPhone11,6"};
 	fakeTarget.screenSnapshot = __DTXiPhoneXSMaxScreenshot();
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
@@ -100,10 +99,9 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	[self _addTarget:(id)fakeTarget forService:(id)[NSObject new]];
 	
 	__FAKE_DTXRemoteTarget* fakeTarget = [__FAKE_DTXRemoteTarget new];
-	fakeTarget.deviceOS = 0;
 	fakeTarget.appName = @"Another App";
-	fakeTarget.deviceName = @"iPad Pro";
-	fakeTarget.deviceOS = @"Version 12.1 (Build 16A405)";
+	fakeTarget.deviceName = @"Development iPad Pro";
+	fakeTarget.devicePresentable = @"iPad Pro, iOS 12.1 (Build 16A405)";
 	fakeTarget.deviceInfo = @{@"profilerVersion": @"200.0", @"machineName": @"iPad5.3", @"deviceEnclosureColor": @2};
 	fakeTarget.screenSnapshot = __DTXiPadScreenshot();
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;

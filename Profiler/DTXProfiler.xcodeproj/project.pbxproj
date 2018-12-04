@@ -136,6 +136,7 @@
 		39D94EF11EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */; };
 		39DA16821F3097780025C492 /* NSDictionary+FakeDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39DA16801F3097780025C492 /* NSDictionary+FakeDecoder.h */; };
 		39DA16831F3097780025C492 /* NSDictionary+FakeDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DA16811F3097780025C492 /* NSDictionary+FakeDecoder.m */; };
+		39DBFD7F21B6203A0031B153 /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 39DBFD7E21B6203A0031B153 /* libMobileGestalt.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		39E2637321AE25A900A21256 /* Swiftier.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E2637221AE25A900A21256 /* Swiftier.h */; };
 		39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */; };
 		39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */; };
@@ -299,6 +300,7 @@
 		39D94EEF1EF6CECF00E7DA1F /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
 		39DA16801F3097780025C492 /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+FakeDecoder.h"; path = "../../../Shared/NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
 		39DA16811F3097780025C492 /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+FakeDecoder.m"; path = "../../../Shared/NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
+		39DBFD7E21B6203A0031B153 /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
 		39E10B69209F42E800CBB71A /* dtx_libproc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dtx_libproc.h; sourceTree = "<group>"; };
 		39E2637221AE25A900A21256 /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../DetoxInstruments/DetoxInstruments/Utilities/Swiftier.h; sourceTree = "<group>"; };
 		39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkRecorder.h; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39DBFD7F21B6203A0031B153 /* libMobileGestalt.tbd in Frameworks */,
 				39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */,
 				39281E5D1ED70347002CE905 /* libz.tbd in Frameworks */,
 			);
@@ -341,6 +344,7 @@
 		39281E5B1ED70346002CE905 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				39DBFD7E21B6203A0031B153 /* libMobileGestalt.tbd */,
 				3933E1361F7A31B40081F82F /* QuartzCore.framework */,
 				3933E1341F7A319F0081F82F /* UIKit.framework */,
 				3933E1321F7A31950081F82F /* CoreData.framework */,

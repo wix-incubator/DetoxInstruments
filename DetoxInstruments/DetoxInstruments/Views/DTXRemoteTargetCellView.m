@@ -97,7 +97,7 @@
 		{
 			self.title1Field.stringValue = target.appName;
 			self.title2Field.stringValue = target.deviceName;
-			self.title3Field.stringValue = [NSString stringWithFormat:@"iOS %@", [target.deviceOS stringByReplacingOccurrencesOfString:@"Version " withString:@""]];
+			self.title3Field.stringValue = target.devicePresentable;
 			[self.progressIndicator stopAnimation:nil];
 			self.progressIndicator.hidden = YES;
 			

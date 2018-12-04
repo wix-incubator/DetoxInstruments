@@ -221,7 +221,15 @@
 {
 	self.deviceName = deviceInfo[@"deviceName"];
 	self.appName = deviceInfo[@"appName"];
-	self.deviceOS = deviceInfo[@"deviceOS"];
+	NSString* marketingName = deviceInfo[@"deviceMarketingName"];
+	if(marketingName)
+	{
+		self.devicePresentable = [NSString stringWithFormat:@"%@, iOS %@", marketingName, [deviceInfo[@"deviceOS"] stringByReplacingOccurrencesOfString:@"Version " withString:@""]];
+	}
+	else
+	{
+		self.devicePresentable = [NSString stringWithFormat:@"iOS %@", [deviceInfo[@"deviceOS"] stringByReplacingOccurrencesOfString:@"Version " withString:@""]];
+	}
 	self.deviceInfo = deviceInfo;
 	
 	_state = DTXRemoteTargetStateDeviceInfoLoaded;
