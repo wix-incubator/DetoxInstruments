@@ -14,6 +14,8 @@ npm install detox-instruments-react-native-utils --save-prod
 
 ### Programatic Profiler Recordings
 
+In addition to profiling your app live with Detox Instruments, you can start recordings in code for finer-grained control and testing scenarios where live recording is not applicable, such as app launch. This can be achieved with the Profiler API.
+
 For Objective C and Swift code, see [Profiler API Reference for Objective C & Swift](DeveloperAPIReferenceProfilerObjCSwift.md)
 
 ### Events
