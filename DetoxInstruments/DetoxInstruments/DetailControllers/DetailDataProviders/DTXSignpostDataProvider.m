@@ -26,6 +26,19 @@
 	return DTXSignpostDataExporter.class;
 }
 
+- (NSString *)displayName
+{
+	return NSLocalizedString(@"Summary", @"");;
+}
+
+- (NSImage *)displayIcon
+{
+	NSImage* image = [NSImage imageNamed:@"samples_nonflat"];
+	image.size = NSMakeSize(16, 16);
+	
+	return image;
+}
+
 - (void)setManagedOutlineView:(NSOutlineView *)managedOutlineView
 {
 	[self _enableOutlineRespectIfNeededForOutlineView:managedOutlineView];
@@ -37,17 +50,17 @@
 {
 	if([outlineView respondsToSelector:@selector(setRespectsOutlineCellFraming:)])
 	{
-		[(DTXDetailOutlineView*)outlineView setRespectsOutlineCellFraming:self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished];
+		[(DTXDetailOutlineView*)outlineView setRespectsOutlineCellFraming:YES];
 	}
 }
 
-- (NSArray<DTXColumnInformation*>*)_columnsAtRest
+- (NSArray<DTXColumnInformation *> *)columns
 {
 	DTXColumnInformation* name = [DTXColumnInformation new];
 	name.title = NSLocalizedString(@"Category / Name", @"");
 	name.minWidth = 320;
 	
-	const CGFloat durationMinWidth = 75;
+	const CGFloat durationMinWidth = 80;
 	
 	DTXColumnInformation* count = [DTXColumnInformation new];
 	count.title = NSLocalizedString(@"Count", @"");
@@ -80,49 +93,12 @@
 	return @[name, count, timestamp, duration, minDuration, avgDuration, maxDuration, status];
 }
 
-- (NSArray<DTXColumnInformation*>*)_columnsLiveRecording
-{
-	const CGFloat durationMinWidth = 75;
-	
-	DTXColumnInformation* duration = [DTXColumnInformation new];
-	duration.title = NSLocalizedString(@"Duration", @"");
-	duration.minWidth = durationMinWidth;
-	
-	DTXColumnInformation* type = [DTXColumnInformation new];
-	type.title = NSLocalizedString(@"Type", @"");
-	type.minWidth = durationMinWidth;
-	
-	DTXColumnInformation* category = [DTXColumnInformation new];
-	category.title = NSLocalizedString(@"Category", @"");
-	category.minWidth = 200;
-	
-	DTXColumnInformation* name = [DTXColumnInformation new];
-	name.title = NSLocalizedString(@"Name", @"");
-	name.minWidth = 300;
-	
-	DTXColumnInformation* status = [DTXColumnInformation new];
-	status.title = NSLocalizedString(@"Status", @"");
-	status.minWidth = 100;
-	
-	return @[duration, type, category, name, status];
-}
-
-- (NSArray<DTXColumnInformation *> *)columns
-{
-	if(self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
-	{
-		return self._columnsAtRest;
-	}
-	
-	return self._columnsLiveRecording;
-}
-
 - (NSArray<NSNumber *> *)sampleTypes
 {
 	return @[@(DTXSampleTypeSignpost)];
 }
 
-- (NSString*)_formattedStringValueAtRestForItem:(id)item column:(NSUInteger)column
+- (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column
 {
 	id<DTXSignpost> signpostSample = item;
 	DTXSignpostSample* realSignpostSample = (id)signpostSample;
@@ -165,44 +141,6 @@
 		default:
 			return nil;
 	}
-}
-
-- (NSString*)_formattedStringValueLiveRecordForItem:(id)item column:(NSUInteger)column
-{
-	DTXSignpostSample* signpostSample = item;
-	
-	switch(column)
-	{
-		case 0:
-			if(signpostSample.isEvent || signpostSample.endTimestamp == nil)
-			{
-				return @"—";
-			}
-			return [[NSFormatter dtx_durationFormatter] stringFromTimeInterval:signpostSample.duration];
-		case 1:
-			return signpostSample.eventTypeString;
-		case 2:
-			return signpostSample.category;
-		case 3:
-			return signpostSample.name;
-		case 4:
-		{
-			return signpostSample.eventStatusString;
-		}
-		default:
-			return nil;
-	}
-
-}
-
-- (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column
-{
-	if(self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
-	{
-		return [self _formattedStringValueAtRestForItem:item column:column];
-	}
-	
-	return [self _formattedStringValueLiveRecordForItem:item column:column];
 }
 
 - (NSColor *)backgroundRowColorForItem:(id)item
@@ -251,12 +189,7 @@
 
 - (DTXSampleContainerProxy *)rootSampleContainerProxy
 {
-	if(self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
-	{
-		return [[DTXSignpostRootProxy alloc] initWithManagedObjectContext:self.document.firstRecording.managedObjectContext outlineView:self.managedOutlineView];
-	}
-	
-	return [super rootSampleContainerProxy];
+	return [[DTXSignpostRootProxy alloc] initWithManagedObjectContext:self.document.firstRecording.managedObjectContext outlineView:self.managedOutlineView];
 }
 
 - (BOOL)showsTimestampColumn

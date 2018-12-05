@@ -10,6 +10,7 @@
 #import "NSColor+UIAdditions.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXSignpostDataProvider.h"
+#import "DTXSignpostFlatDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXDetailController.h"
 
@@ -17,10 +18,22 @@
 
 - (NSArray<DTXDetailController *> *)dataProviderControllers
 {
-	DTXDetailController* detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
-	detailController.detailDataProvider = [[self.class.UIDataProviderClass alloc] initWithDocument:self.document plotController:self];
+	NSMutableArray* rv = [NSMutableArray new];
 	
-	return @[detailController];
+	DTXDetailController* flatController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+	flatController.detailDataProvider = [[DTXSignpostFlatDataProvider alloc] initWithDocument:self.document plotController:self];
+	
+	[rv addObject:flatController];
+	
+	if(self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
+	{
+		DTXDetailController* detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+		detailController.detailDataProvider = [[DTXSignpostDataProvider alloc] initWithDocument:self.document plotController:self];
+		
+		[rv insertObject:detailController atIndex:0];
+	}
+	
+	return rv;
 }
 
 + (Class)UIDataProviderClass
