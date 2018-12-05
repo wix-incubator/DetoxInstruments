@@ -12,6 +12,9 @@
 #import "DTXTwoLabelsCellView.h"
 
 @interface DTXStackTraceCellView () <NSTableViewDataSource, NSTableViewDelegate>
+{
+	NSMenu* _rightClickMenu;
+}
 
 @property (nonatomic, weak, readwrite) IBOutlet NSTableView* stackTraceTableView;
 
@@ -32,6 +35,8 @@
 	_stackTraceTableView.dataSource = self;
 	_stackTraceTableView.delegate = self;
 	_stackTraceTableView.usesAutomaticRowHeights = NO;
+	
+	_rightClickMenu = _stackTraceTableView.menu;
 }
 
 - (void)setStackFrames:(NSArray<DTXStackTraceFrame *> *)stackFrames
@@ -40,6 +45,13 @@
 	
 	[_stackTraceTableView reloadData];
 	[_stackTraceTableView.enclosingScrollView invalidateIntrinsicContentSize];
+}
+
+- (void)setSelectionDisabled:(BOOL)selectionDisabled
+{
+	_selectionDisabled = selectionDisabled;
+	
+	_stackTraceTableView.menu = _selectionDisabled == YES ? nil : _rightClickMenu;
 }
 
 - (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView
