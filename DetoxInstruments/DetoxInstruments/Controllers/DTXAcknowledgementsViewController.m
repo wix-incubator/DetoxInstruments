@@ -13,7 +13,8 @@
 
 @implementation DTXAcknowledgementsViewController
 {
-	IBOutlet __weak WKWebView* _webView;
+//	IBOutlet __weak WKWebView* _webView;
+	IBOutlet __weak NSTextView* _textView;
 	NSURL* _htmlURL;
 }
 
@@ -23,20 +24,15 @@
 	
 	_htmlURL = [[NSBundle mainBundle] URLForResource:@"Acknowledgements" withExtension:@"html"];
 	
-	[_webView loadFileURL:_htmlURL allowingReadAccessToURL:_htmlURL];
-	_webView.navigationDelegate = self;
-}
-
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
-{
-	if([navigationAction.request.URL isEqualTo:_htmlURL])
-	{
-		decisionHandler(WKNavigationActionPolicyAllow);
-		return;
-	}
+	NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithData:[NSData dataWithContentsOfURL:_htmlURL] options:@{NSDocumentTypeDocumentOption: NSHTMLTextDocumentType, NSCharacterEncodingDocumentOption: @(NSUTF8StringEncoding)} documentAttributes:nil error:NULL];
+	[str addAttributes:@{NSForegroundColorAttributeName: NSColor.textColor} range:NSMakeRange(0, str.length)];
 	
-	[[NSWorkspace sharedWorkspace] openURL:navigationAction.request.URL];
-	decisionHandler(WKNavigationActionPolicyCancel);
+	[str enumerateAttributesInRange:NSMakeRange(0, str.length) options:0 usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+		NSLog(@"%@", attrs);
+	}];
+	
+	[_textView.textStorage appendAttributedString:str];
+	_textView.textContainerInset = NSMakeSize(20, 20);
 }
 
 @end

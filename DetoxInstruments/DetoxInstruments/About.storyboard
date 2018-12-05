@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bf6-yZ-a8A">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bf6-yZ-a8A">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
-        <plugIn identifier="com.apple.WebKit2IBPlugin" version="14313.13.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -31,25 +30,40 @@ DQ
                                     <action selector="dismissController:" target="IFz-vT-Tif" id="bdf-Ag-q8W"/>
                                 </connections>
                             </button>
-                            <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G4y-1X-Fgc">
+                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F8b-rP-DYr">
                                 <rect key="frame" x="0.0" y="61" width="716" height="368"/>
-                                <wkWebViewConfiguration key="configuration" suppressesIncrementalRendering="YES">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences" javaScriptCanOpenWindowsAutomatically="NO" javaScriptEnabled="NO"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="H5t-9D-Q0h">
+                                    <rect key="frame" x="0.0" y="0.0" width="716" height="368"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="gUN-eQ-kxs">
+                                            <rect key="frame" x="0.0" y="0.0" width="716" height="368"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="716" height="368"/>
+                                            <size key="maxSize" width="716" height="10000000"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="gMc-0k-64O">
+                                    <rect key="frame" x="700" y="0.0" width="16" height="368"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="G4y-1X-Fgc" firstAttribute="leading" secondItem="6nN-pc-lID" secondAttribute="leading" id="MyX-i4-qu5"/>
+                            <constraint firstAttribute="trailing" secondItem="F8b-rP-DYr" secondAttribute="trailing" id="1FV-Fl-nEC"/>
+                            <constraint firstItem="F8b-rP-DYr" firstAttribute="leading" secondItem="6nN-pc-lID" secondAttribute="leading" id="3qB-Lh-4vF"/>
+                            <constraint firstItem="vj0-PU-j0i" firstAttribute="top" secondItem="F8b-rP-DYr" secondAttribute="bottom" constant="20" id="Vnf-oa-GkC"/>
                             <constraint firstAttribute="trailing" secondItem="vj0-PU-j0i" secondAttribute="trailing" constant="20" id="cYp-ri-n1g"/>
-                            <constraint firstItem="vj0-PU-j0i" firstAttribute="top" secondItem="G4y-1X-Fgc" secondAttribute="bottom" constant="20" id="fdO-AM-pe6"/>
+                            <constraint firstItem="F8b-rP-DYr" firstAttribute="top" secondItem="6nN-pc-lID" secondAttribute="top" id="ldE-fd-SEo"/>
                             <constraint firstAttribute="bottom" secondItem="vj0-PU-j0i" secondAttribute="bottom" constant="20" id="pDt-Sg-ioa"/>
-                            <constraint firstAttribute="trailing" secondItem="G4y-1X-Fgc" secondAttribute="trailing" id="rED-rv-gc7"/>
-                            <constraint firstItem="G4y-1X-Fgc" firstAttribute="top" secondItem="6nN-pc-lID" secondAttribute="top" id="x6R-r6-a1s"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="_webView" destination="G4y-1X-Fgc" id="XjT-6P-wyW"/>
+                        <outlet property="_textView" destination="gUN-eQ-kxs" id="U7T-Ds-WB6"/>
                     </connections>
                 </viewController>
                 <customObject id="ij2-NW-1MZ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -164,7 +178,7 @@ DQ
                                         <constraint firstItem="7DH-4e-CoZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5Jd-qH-cgz" secondAttribute="bottom" constant="20" id="zAy-5Q-8DH"/>
                                     </constraints>
                                 </view>
-                                <color key="fillColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <color key="fillColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </box>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5nb-xv-6Gd">
                                 <rect key="frame" x="35" y="41" width="128" height="128"/>
@@ -199,6 +213,6 @@ DQ
         </scene>
     </scenes>
     <resources>
-        <image name="NSApplicationIcon" width="128" height="128"/>
+        <image name="NSApplicationIcon" width="32" height="32"/>
     </resources>
 </document>
