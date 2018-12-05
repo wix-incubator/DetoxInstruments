@@ -8,8 +8,16 @@
 
 #import "DTXKeyedDataExporter.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "DTXRecording+UIExtensions.h"
+
+static NSCharacterSet* _disallowedinCSV;
 
 @implementation DTXKeyedDataExporter
+
++(void)load
+{
+	_disallowedinCSV = [NSCharacterSet characterSetWithCharactersInString:@"\r\n,\""];
+}
 
 - (NSArray<NSString *> *)exportedKeyPaths
 {
@@ -26,10 +34,31 @@
 	return nil;
 }
 
-- (NSString*)_descriptionForObject:(id)object keyPath:(NSString*)keyPath
+- (NSString*)_descriptionForObject:(id)object keyPath:(NSString*)keyPath exportType:(DTXDataExportType)exportType
 {
+	if(object == nil)
+	{
+		return @"";
+	}
+	
+	if([object isKindOfClass:NSString.class])
+	{
+		if(exportType == DTXDataExportTypeCSV && [object rangeOfCharacterFromSet:_disallowedinCSV].location != NSNotFound)
+		{
+			return @"<>";
+		}
+		
+		return object;
+	}
+	
 	if([object isKindOfClass:NSDate.class])
 	{
+		if([keyPath isEqualToString:@"timestamp"] || [keyPath isEqualToString:@"endTimestamp"] || [keyPath isEqualToString:@"responseTimestamp"])
+		{
+			NSTimeInterval ti = [object timeIntervalSinceDate:self.document.firstRecording.defactoStartTimestamp];
+			return [NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)];
+		}
+		
 		return [NSDateFormatter localizedStringFromDate:object dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterLongStyle];
 	}
 	
@@ -67,7 +96,7 @@
 		NSArray* keys = self.exportedKeyPaths;
 		[keys enumerateObjectsUsingBlock:^(NSString* _Nonnull keyPath, NSUInteger idx, BOOL * _Nonnull stop) {
 			NSObject* value = [sample valueForKeyPath:keyPath];
-			[rv appendData:[[NSString stringWithFormat:@"\"%@\"", [self _descriptionForObject:value keyPath:keyPath]] dataUsingEncoding:NSUTF8StringEncoding]];
+			[rv appendData:[[NSString stringWithFormat:@"\"%@\"", [self _descriptionForObject:value keyPath:keyPath exportType:DTXDataExportTypeCSV]] dataUsingEncoding:NSUTF8StringEncoding]];
 			if(idx < keys.count - 1)
 			{
 				[rv appendData:[@"," dataUsingEncoding:NSUTF8StringEncoding]];

@@ -22,12 +22,12 @@
 
 - (NSArray<NSString *> *)exportedKeyPaths
 {
-	return @[@"timestamp", @"endTimestamp", @"duration", @"eventTypeString", @"category", @"name", @"eventStatusString"];
+	return @[@"timestamp", @"endTimestamp", @"duration", @"eventTypeString", @"category", @"name", @"eventStatusString", @"additionalInfoStart", @"additionalInfoEnd"];
 }
 
 - (NSArray<NSString *> *)titles
 {
-	return @[@"Start Time", @"End Time", @"Duration", @"Type", @"Category", @"Name", @"Event Status"];
+	return @[@"Start Time", @"End Time", @"Duration", @"Type", @"Category", @"Name", @"Event Status", @"Additional Info—Start", @"Additional Info—End"];
 }
 
 @end
