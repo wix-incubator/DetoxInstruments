@@ -618,7 +618,7 @@
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="DTXTimestampColumn" editable="NO" width="72" minWidth="72" maxWidth="100000" id="Ucy-DC-qWV">
+                                        <tableColumn identifier="DTXTimestampColumn" editable="NO" width="80" minWidth="80" maxWidth="100000" id="Ucy-DC-qWV">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -631,11 +631,11 @@
                                             </textFieldCell>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="DTXTextCell" id="uVT-Pq-fD5">
-                                                    <rect key="frame" x="11" y="1" width="72" height="17"/>
+                                                    <rect key="frame" x="11" y="1" width="80" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Gr8-OD-wPL">
-                                                            <rect key="frame" x="0.0" y="2" width="72" height="14"/>
+                                                            <rect key="frame" x="0.0" y="2" width="80" height="14"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="Vpf-2H-hHC">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -654,11 +654,11 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="DTXRightAlignedTextCell" id="RJm-8G-Usz">
-                                                    <rect key="frame" x="11" y="21" width="72" height="17"/>
+                                                    <rect key="frame" x="11" y="21" width="80" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="HPy-jP-jY0">
-                                                            <rect key="frame" x="0.0" y="2" width="72" height="14"/>
+                                                            <rect key="frame" x="0.0" y="2" width="80" height="14"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" id="UWW-E5-3ih">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1073,7 +1073,7 @@
                                 <rect key="frame" x="0.0" y="771" width="320" height="29"/>
                                 <subviews>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCX-wo-mYx" customClass="DTXSegmentedView">
-                                        <rect key="frame" x="125.5" y="3" width="70" height="23"/>
+                                        <rect key="frame" x="126" y="3" width="69" height="23"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>

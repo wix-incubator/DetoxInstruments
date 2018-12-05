@@ -87,19 +87,19 @@
 	
 	if(eventSample.isEvent == NO)
 	{
-		if(eventSample.additionalInfoStart != nil)
+		if(eventSample.additionalInfoStart.length > 0)
 		{
 			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:eventSample.additionalInfoStart]];
 		}
 		
-		if(eventSample.additionalInfoEnd != nil)
+		if(eventSample.additionalInfoEnd.length > 0)
 		{
 			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:eventSample.additionalInfoEnd]];
 		}
 	}
 	else
 	{
-		if(eventSample.additionalInfoStart != nil)
+		if(eventSample.additionalInfoStart.length > 0)
 		{
 			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Info", @"") description:eventSample.additionalInfoStart]];
 		}
