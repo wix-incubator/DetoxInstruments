@@ -33,6 +33,11 @@
 	return self;
 }
 
+- (NSString*)_usStringFromTimeInterval:(NSTimeInterval)ti
+{
+	return [NSString stringWithFormat:@"%@μs", [_numberFormatter stringFromNumber:@(ti * 1000000)]];
+}
+
 - (NSString*)_msStringFromTimeInterval:(NSTimeInterval)ti
 {
 	return [NSString stringWithFormat:@"%@ms", [_numberFormatter stringFromNumber:@(ti * 1000)]];
@@ -40,6 +45,11 @@
 
 - (NSString*)stringFromTimeInterval:(NSTimeInterval)ti
 {
+	if(ti < 0.001)
+	{
+		return [self _usStringFromTimeInterval:ti];
+	}
+		
 	if(ti < 1.0)
 	{
 		return [self _msStringFromTimeInterval:ti];
@@ -95,8 +105,8 @@
 		_numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
 		_numberFormatter.minimumIntegerDigits = 0;
 		_numberFormatter.maximumIntegerDigits = 0;
-		_numberFormatter.minimumFractionDigits = 3;
-		_numberFormatter.maximumFractionDigits = 3;
+		_numberFormatter.minimumFractionDigits = 5;
+		_numberFormatter.maximumFractionDigits = 5;
 		
 		self.maxMinutesZeroPadding = 2;
 	}
