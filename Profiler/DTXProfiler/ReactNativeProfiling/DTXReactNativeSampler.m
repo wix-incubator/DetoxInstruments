@@ -76,6 +76,58 @@ static void installDTXNativeLoggingHook(JSContext* ctx)
 	};
 }
 
+DTX_ALWAYS_INLINE
+inline static void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers, BOOL useNativeTimestamp)
+{
+	NSString* identifier = sample[@"identifier"];
+	NSUInteger type = [sample[@"type"] unsignedIntegerValue];
+	NSDate* timestamp = useNativeTimestamp ? [NSDate date] : [NSDate dateWithTimeIntervalSince1970:[sample[@"timestamp"] doubleValue] / 1000];
+	NSDictionary<NSString*, id>* params = sample[@"params"];
+	BOOL isFromTimer = [sample[@"isFromJSTimer"] boolValue];
+	
+	if(isFromTimer == YES && allowJSTimers == NO)
+	{
+		return;
+	}
+	
+	NSDate* date = NSDate.date;
+	NSTimeInterval ti = CACurrentMediaTime() * 1000;
+	
+	NSLog(@"%.25f %.25f %.25f", date.timeIntervalSinceReferenceDate, date.timeIntervalSince1970, ti);
+	
+	switch (type) {
+		case 0:
+		{
+			id additionalInfo = params[@"2"];
+			if(additionalInfo == NS(kCFNull))
+			{
+				additionalInfo = nil;
+			}
+			__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], additionalInfo, [params[@"3"] boolValue], [params[@"4"] componentsSeparatedByString:@"\n"]);
+		}	break;
+		case 1:
+		{
+			id additionalInfo = params[@"1"];
+			if(additionalInfo == NS(kCFNull))
+			{
+				additionalInfo = nil;
+			}
+			__DTXProfilerMarkEventIntervalEnd(timestamp, identifier, [params[@"0"] unsignedIntegerValue], additionalInfo);
+		}	break;
+		case 10:
+		{
+			id additionalInfo = params[@"3"];
+			if(additionalInfo == NS(kCFNull))
+			{
+				additionalInfo = nil;
+			}
+			__DTXProfilerMarkEventIdentifier(identifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] unsignedIntegerValue], additionalInfo);
+		}	break;
+		default:
+			break;
+	}
+}
+
 static void installDTXSignpostHook(JSContext* ctx)
 {
 	ctx[@"__dtx_getEventsSettings_v1"] = ^ NSDictionary* () {
@@ -90,31 +142,18 @@ static void installDTXSignpostHook(JSContext* ctx)
 			
 			for(NSDictionary<NSString*, id>* sample in samples)
 			{
-				NSString* identifier = sample[@"identifier"];
-				NSUInteger type = [sample[@"type"] unsignedIntegerValue];
-				NSDate* timestamp = [NSDate dateWithTimeIntervalSince1970:[sample[@"timestamp"] doubleValue] / 1000];
-				NSDictionary<NSString*, id>* params = sample[@"params"];
-				BOOL isFromTimer = [sample[@"isFromJSTimer"] boolValue];
-				
-				if(isFromTimer == YES && allowJSTimers == NO)
-				{
-					continue;
-				}
-				
-				switch (type) {
-					case 0:
-						__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], params[@"2"], [params[@"3"] boolValue], [params[@"4"] componentsSeparatedByString:@"\n"]);
-						break;
-					case 1:
-						__DTXProfilerMarkEventIntervalEnd(timestamp, identifier, [params[@"0"] unsignedIntegerValue], params[@"1"]);
-						break;
-					case 10:
-						__DTXProfilerMarkEventIdentifier(identifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] unsignedIntegerValue], params[@"3"]);
-						break;
-					default:
-						break;
-				}
+				__insertEventFromJS(sample, allowJSTimers, NO);
 			}
+		});
+	};
+	
+	ctx[@"__dtx_markEvent_v2"] = ^ (NSDictionary<NSString*, id>* sample)
+	{
+		dispatch_async(__eventDispatchQueue, ^{
+			DTXProfilingConfiguration* config = __DTXProfilerGetActiveConfiguration();
+			BOOL allowJSTimers = config.recordReactNativeTimersAsEvents;
+			
+			__insertEventFromJS(sample, allowJSTimers, YES);
 		});
 	};
 }

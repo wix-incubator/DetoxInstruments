@@ -109,9 +109,10 @@ DTX_CREATE_LOG(RemoteProfiler);
 	NSMutableDictionary* cmd = [@{@"cmdType": @(DTXRemoteProfilingCommandTypeProfilingStoryEvent), @"entityName": entityName, @"selector": NSStringFromSelector(selector), @"object": obj} mutableCopy];
 	cmd[@"additionalParams"] = additionalParams;
 	
-	NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
+	NSError* err;
+	NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:&err];
 	
-	NSAssert(plistData != nil, @"Unable to encode data to property list.");
+	NSAssert(plistData != nil, @"Unable to encode data to property list: %@", err.localizedDescription);
 	
 	[_socketConnection writeData:plistData completionHandler:^(NSError * _Nullable error) {
 		if(error)

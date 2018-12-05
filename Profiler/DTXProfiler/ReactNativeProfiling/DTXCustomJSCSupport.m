@@ -25,7 +25,7 @@ static CFBundleRef __DTXGetCustomJSCBundle()
 	dispatch_once(&onceToken, ^{
 		NSURL* thisFrameworkURL = [NSBundle bundleForClass:NSClassFromString(@"DTXReactNativeSampler")].bundleURL;
 		NSURL* jscFrameworkURL = [thisFrameworkURL URLByAppendingPathComponent:@"DTX_JSC.framework"];
-		bundle = CFBundleCreate(kCFAllocatorDefault, (__bridge CFURLRef)jscFrameworkURL);
+		bundle = CFBundleCreate(kCFAllocatorDefault, CF(jscFrameworkURL));
 	});
 	
 	return bundle;
@@ -64,7 +64,7 @@ BOOL DTXLoadJSCWrapper(DTXJSCWrapper* output)
 	if(bundle == NULL)
 	{
 		//Use the system JSC bundle if no custom bundle exists.
-		bundle = CFBundleCreate(kCFAllocatorDefault, (__bridge CFURLRef)[NSBundle bundleForClass:[JSContext class]].bundleURL);
+		bundle = CFBundleCreate(kCFAllocatorDefault, CF([NSBundle bundleForClass:[JSContext class]].bundleURL));
 	}
 	
 	CFErrorRef error = NULL;

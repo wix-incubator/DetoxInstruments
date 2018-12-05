@@ -149,7 +149,7 @@
         </attribute>
         <attribute name="sampleIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="parentGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SampleGroup" inverseName="samples" inverseEntity="SampleGroup" syncable="YES">
             <userInfo>
                 <entry key="includeKeyPathInDictionaryRepresentation" value="sampleIdentifier"/>
