@@ -98,4 +98,9 @@
 	return sample.plotControllerColor;
 }
 
+- (CGLineCap)lineCapForSample:(__kindof DTXSample*)sample
+{
+	return [sample isEvent] ? kCGLineCapRound : kCGLineCapButt;
+}
+
 @end

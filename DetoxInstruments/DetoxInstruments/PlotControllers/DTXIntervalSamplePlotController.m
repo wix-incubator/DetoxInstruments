@@ -218,7 +218,7 @@
 		// Add line style
 		CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
 		lineStyle.lineWidth = self.isForTouchBar ? 1.5 : 5.0;
-		lineStyle.lineCap = kCGLineCapButt;//self.isForTouchBar ? kCGLineCapButt : kCGLineCapRound;
+		lineStyle.lineCap = kCGLineCapButt;
 		_plot.barLineStyle = lineStyle;
 		
 		// Bar properties
@@ -497,6 +497,8 @@
 	NSIndexPath* indexPath = _sampleIndices[idx];
 	DTXSample* sample = _mergedSamples[indexPath.section].samples[indexPath.item];
 	
+	lineStyle.lineCap = [self lineCapForSample:sample];
+	
 	NSColor* lineColor = [self colorForSample:sample];
 	
 	if(_selectedIndex == idx)
@@ -522,6 +524,11 @@
 - (NSColor*)colorForSample:(DTXSample*)sample
 {
 	return nil;
+}
+
+- (CGLineCap)lineCapForSample:(__kindof DTXSample*)sample
+{
+	return kCGLineCapButt;
 }
 
 - (NSArray<NSSortDescriptor *> *)sortDescriptors
