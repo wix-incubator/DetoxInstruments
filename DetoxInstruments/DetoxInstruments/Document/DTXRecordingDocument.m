@@ -442,7 +442,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
 {
 #ifndef CLI
-	if(self.documentState < DTXRecordingDocumentStateLiveRecordingFinished)
+	if(self.documentState == DTXRecordingDocumentStateLiveRecording)
 	{
 		[self stopLiveRecording];
 	}
@@ -482,8 +482,11 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 
 - (void)stopLiveRecording
 {
-	dispatch_block_cancel(_pendingCancelBlock);
-	_pendingCancelBlock = nil;
+	if(_pendingCancelBlock != nil)
+	{
+		dispatch_block_cancel(_pendingCancelBlock);
+		_pendingCancelBlock = nil;
+	}
 	
 	[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
 	
