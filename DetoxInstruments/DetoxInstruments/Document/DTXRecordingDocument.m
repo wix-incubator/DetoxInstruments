@@ -488,9 +488,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		_pendingCancelBlock = nil;
 	}
 	
-	[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
-	
-	[_remoteProfilingClient.target stopProfiling];
+	[_remoteProfilingClient stopProfiling];
 }
 
 - (void)_workspaceWillSleepNotification
@@ -499,14 +497,6 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	{
 		[self stopLiveRecording];
 	}
-}
-
-#pragma mark DTXRemoteTargetDelegate
-
-- (void)connectionDidCloseForProfilingTarget:(DTXRemoteTarget *)target {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self remoteProfilingClientDidStopRecording:_remoteProfilingClient];
-	});
 }
 
 #pragma mark DTXRemoteProfilingClientDelegate
@@ -561,8 +551,6 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 {
 	[self updateChangeCount:NSChangeDone];
 	
-	[_remoteProfilingClient stopWithCompletionHandler:nil];
-	
 	[_container.viewContext performBlock:^{
 		if(self.lastRecording == nil)
 		{
@@ -606,7 +594,6 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 {
 	[self.windowControllers.firstObject.window.contentViewController dismissViewController:picker];
 	
-	target.delegate = self;
 	[self _prepareForRemoteProfilingRecordingWithTarget:target profilingConfiguration:configuration];
 }
 #endif

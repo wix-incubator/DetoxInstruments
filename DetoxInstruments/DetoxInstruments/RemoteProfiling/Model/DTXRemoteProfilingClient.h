@@ -34,6 +34,6 @@
 - (instancetype)initWithProfilingTarget:(DTXRemoteTarget*)target managedObjectContext:(NSManagedObjectContext*)ctx;
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
-- (void)stopWithCompletionHandler:(void (^)(void))completionHandler;
+- (void)stopProfiling;
 
 @end

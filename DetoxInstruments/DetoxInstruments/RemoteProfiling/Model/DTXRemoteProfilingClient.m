@@ -13,16 +13,40 @@
 #import <DTXSourceMaps/DTXSourceMaps.h>
 #import <pthread.h>
 
-@interface DTXRemoteProfilingClient ()
+#define SET_RECORDING SET_VALUE(_isRecording,YES)
+#define SET_NOT_RECORDING SET_VALUE(_isRecording,NO)
+#define REQUIRE_RECORDING REQUIRE_VALUE(_isRecording,YES)
+
+#define SET_ACCEPTING SET_VALUE(_isAcceptingOpportunisticSamples,YES)
+#define SET_NOT_ACCEPTING SET_VALUE(_isAcceptingOpportunisticSamples,NO)
+#define REQUIRE_ACCEPTING REQUIRE_VALUE(_isAcceptingOpportunisticSamples,YES)
+
+#define SET_VALUE(ARG, VAL) \
+pthread_mutex_lock(&ARG##Mutex); \
+ARG = VAL; \
+pthread_mutex_unlock(&ARG##Mutex);
+
+#define REQUIRE_VALUE(ARG, VAL) {\
+pthread_mutex_lock(&ARG##Mutex); \
+BOOL ___##ARG = ARG; \
+pthread_mutex_unlock(&ARG##Mutex); \
+if(___##ARG != VAL) { /*NSLog(@"🤷‍♂️ Ignoring");*/ \
+return; }\
+}
+
+@interface DTXRemoteProfilingClient () <DTXRemoteTargetDelegate>
 {
+	pthread_mutex_t _isRecordingMutex;
+	BOOL _isRecording;
+	
+	pthread_mutex_t _isAcceptingOpportunisticSamplesMutex;
+	BOOL _isAcceptingOpportunisticSamples;
+	
 	DTXRecording* _recording;
 	DTXSampleGroup* _currentSampleGroup;
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
 	
-	dispatch_queue_t _aggregationCollectionQueue;
-	dispatch_source_t _aggregationCollectionSource;
-	
-	pthread_mutex_t _opportunisticSourceMutext;
+	pthread_mutex_t _opportunisticSourceMutex;
 	NSMutableDictionary<NSString*, NSMutableDictionary*>* _opportunisticSamples;
 	NSMutableDictionary<NSString*, NSDictionary*>* _opportunisticUpdates;
 	dispatch_queue_t _opportunisticQueue;
@@ -43,16 +67,14 @@
 	if(self)
 	{
 		_target = target;
+		_target.delegate = self;
 		_managedObjectContext = ctx;
 		
 		_target.managedObjectContext = ctx;
 		_target.storyDecoder = self;
 		
-		dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-		_aggregationCollectionQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingAggregation", qosAttribute);
-		
-		_opportunisticQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingOpportunisticSamples", qosAttribute);
-		pthread_mutex_init(&_opportunisticSourceMutext, NULL);
+		pthread_mutex_init(&_opportunisticSourceMutex, NULL);
+		pthread_mutex_init(&_isRecordingMutex, NULL);
 		
 		_opportunisticSamples = [NSMutableDictionary new];
 		_opportunisticUpdates = [NSMutableDictionary new];
@@ -63,7 +85,13 @@
 
 - (void)_resetOpportunisticSamplesTimer
 {
-	pthread_mutex_lock(&_opportunisticSourceMutext);
+	pthread_mutex_lock(&_opportunisticSourceMutex);
+	if(_opportunisticQueue == nil)
+	{
+		pthread_mutex_unlock(&_opportunisticSourceMutex);
+		return;
+	}
+	
 	if(_opportunisticSource)
 	{
 		dispatch_source_cancel(_opportunisticSource);
@@ -74,86 +102,111 @@
 	uint64_t interval = 0.5 * NSEC_PER_SEC;
 	dispatch_source_set_timer(_opportunisticSource, dispatch_time(DISPATCH_TIME_NOW, interval), interval, interval);
 	dispatch_source_set_event_handler(_opportunisticSource, ^{
-		pthread_mutex_lock(&_opportunisticSourceMutext);
+		pthread_mutex_lock(&_opportunisticSourceMutex);
 		if(_opportunisticSource)
 		{
 			dispatch_source_cancel(_opportunisticSource);
 			_opportunisticSource = nil;
 		}
-		pthread_mutex_unlock(&_opportunisticSourceMutext);
+		pthread_mutex_unlock(&_opportunisticSourceMutex);
 		
-		[_managedObjectContext performBlockAndWait:^{
-			for(NSString* sampleIdentifier in _opportunisticSamples)
-			{
-				NSMutableDictionary* sample = _opportunisticSamples[sampleIdentifier];
-				NSEntityDescription* entityDescription = [NSClassFromString(sample[@"__dtx_className"]) entity];
-				
-				id parent = sample[@"parent"];
-				sample[@"parent"] = nil;
-				
-				[self _addSample:sample entityDescription:entityDescription inParent:parent];
-			}
-			
-			[_opportunisticSamples removeAllObjects];
-			
-			NSArray* allUpdates = _opportunisticUpdates.allKeys;
-			
-			NSFetchRequest* fr = [DTXSample fetchRequest];
-			fr.predicate = [NSPredicate predicateWithFormat:@"sampleIdentifier in %@", allUpdates];
-			NSArray* samples = [_managedObjectContext executeFetchRequest:fr error:NULL];
-			
-			for(DTXSample* sample in samples)
-			{
-				NSDictionary* update = _opportunisticUpdates[sample.sampleIdentifier];
-				[sample updateWithPropertyListDictionaryRepresentation:update];
-			}
-			
-			[_opportunisticUpdates removeAllObjects];
-		}];
+		[self _flushPendingOpportunisticSamplesAndUpdates];
 	});
 	
 	dispatch_resume(_opportunisticSource);
-	pthread_mutex_unlock(&_opportunisticSourceMutext);
+	pthread_mutex_unlock(&_opportunisticSourceMutex);
 }
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration
 {
+	SET_RECORDING
+	SET_ACCEPTING
+	
+	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
+	_opportunisticQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingOpportunisticSamples", qosAttribute);
+	
 	_threads = [NSMutableDictionary new];
 	[_target startProfilingWithConfiguration:configuration];
-	
-	_aggregationCollectionSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _aggregationCollectionQueue);
-	uint64_t interval = configuration.samplingInterval * NSEC_PER_SEC;
-	dispatch_source_set_timer(_aggregationCollectionSource, dispatch_time(interval, 0), interval, interval);
-	dispatch_source_set_event_handler(_aggregationCollectionSource, ^{
-		[_managedObjectContext performBlockAndWait:^{
-			@try
-			{
-				[_managedObjectContext save:NULL];
-				
-				if(_recording.managedObjectContext.insertedObjects > 0)
-				{
-					[self.delegate remoteProfilingClientDidChangeDatabase:self];
-				}
-			}
-			@catch(NSException* ex) {}
-		}];
-	});
-	
-	dispatch_resume(_aggregationCollectionSource);
 }
 
-- (void)stopWithCompletionHandler:(void (^)(void))completionHandler
+- (void)stopProfiling
 {
-	dispatch_cancel(_aggregationCollectionSource);
+	SET_NOT_ACCEPTING
 	
-	if(completionHandler)
+	pthread_mutex_lock(&_opportunisticSourceMutex);
+	if(_opportunisticSource != nil)
 	{
-		completionHandler();
+		dispatch_cancel(_opportunisticSource);
+		
+		[self _flushPendingOpportunisticSamplesAndUpdates];
 	}
+	_opportunisticQueue = nil;
+	pthread_mutex_unlock(&_opportunisticSourceMutex);
+	
+	SET_NOT_RECORDING
+	
+	[_target stopProfiling];
+	
+	[self.delegate remoteProfilingClientDidStopRecording:self];
 }
 
-- (void)_addSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription inParent:(DTXSampleGroup*)parent
+- (void)_addOpportunisticSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
 {
+	REQUIRE_ACCEPTING
+	
+	NSMutableDictionary* mutableSample = sampleDict.mutableCopy;
+	
+	mutableSample[@"parent"] = _currentSampleGroup;
+	_opportunisticSamples[mutableSample[@"sampleIdentifier"]] = mutableSample;
+	
+	[self _resetOpportunisticSamplesTimer];
+}
+
+- (void)_addOpportunisticUpdate:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
+{
+	REQUIRE_ACCEPTING
+	
+	_opportunisticUpdates[sampleDict[@"sampleIdentifier"]] = sampleDict;
+	
+	[self _resetOpportunisticSamplesTimer];
+}
+
+- (void)_flushPendingOpportunisticSamplesAndUpdates
+{
+	[_managedObjectContext performBlock:^{
+		for(NSString* sampleIdentifier in _opportunisticSamples)
+		{
+			NSMutableDictionary* sample = _opportunisticSamples[sampleIdentifier];
+			NSEntityDescription* entityDescription = [NSClassFromString(sample[@"__dtx_className"]) entity];
+			
+			id parent = sample[@"parent"];
+			sample[@"parent"] = nil;
+			
+			[self _addSample:sample entityDescription:entityDescription inParent:parent saveContext:NO];
+		}
+		
+		[_opportunisticSamples removeAllObjects];
+		
+		NSArray* allUpdates = _opportunisticUpdates.allKeys;
+		
+		NSFetchRequest* fr = [DTXSample fetchRequest];
+		fr.predicate = [NSPredicate predicateWithFormat:@"sampleIdentifier in %@", allUpdates];
+		NSArray* samples = [_managedObjectContext executeFetchRequest:fr error:NULL];
+		
+		for(DTXSample* sample in samples)
+		{
+			NSDictionary* update = _opportunisticUpdates[sample.sampleIdentifier];
+			[sample updateWithPropertyListDictionaryRepresentation:update];
+		}
+		
+		[_opportunisticUpdates removeAllObjects];
+	}];
+}
+
+- (void)_addSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription inParent:(DTXSampleGroup*)parent saveContext:(BOOL)saveContext
+{
+	REQUIRE_RECORDING
+	
 	Class cls = NSClassFromString(entityDescription.managedObjectClassName);
 	__kindof DTXSample* sample = [[cls alloc] initWithPropertyListDictionaryRepresentation:sampleDict context:_managedObjectContext];
 	
@@ -170,23 +223,21 @@
 	}
 	
 	[self _addSampleObject:sample inParent:parent];
+	
+	if(saveContext)
+	{
+		[self _saveContext];
+	}
 }
 
-- (void)_addOpportunisticSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
+- (void)_saveContext
 {
-	NSMutableDictionary* mutableSample = sampleDict.mutableCopy;
+	[_managedObjectContext save:NULL];
 	
-	mutableSample[@"parent"] = _currentSampleGroup;
-	_opportunisticSamples[mutableSample[@"sampleIdentifier"]] = mutableSample;
-	
-	[self _resetOpportunisticSamplesTimer];
-}
-
-- (void)_addOpportunisticUpdate:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
-{
-	_opportunisticUpdates[sampleDict[@"sampleIdentifier"]] = sampleDict;
-	
-	[self _resetOpportunisticSamplesTimer];
+	if(_recording.managedObjectContext.insertedObjects > 0)
+	{
+		[self.delegate remoteProfilingClientDidChangeDatabase:self];
+	}
 }
 
 - (void)_addSampleObject:(DTXSample*)sample inParent:(DTXSampleGroup*)parent
@@ -213,6 +264,14 @@
 	return thread;
 }
 
+#pragma mark DTXRemoteTargetDelegate
+
+- (void)connectionDidCloseForProfilingTarget:(DTXRemoteTarget *)target
+{
+	_target = nil;
+	[self.delegate remoteProfilingClientDidStopRecording:self];
+}
+
 #pragma mark DTXProfilerStoryDecoder
 
 - (void)willDecodeStoryEvent {}
@@ -226,22 +285,22 @@
 
 - (void)addLogSample:(NSDictionary *)logSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:logSample entityDescription:entityDescription inParent:nil];
+	[self _addSample:logSample entityDescription:entityDescription inParent:nil saveContext:YES];
 }
 
 - (void)addPerformanceSample:(NSDictionary *)perfrmanceSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:perfrmanceSample entityDescription:entityDescription inParent:nil];
+	[self _addSample:perfrmanceSample entityDescription:entityDescription inParent:nil saveContext:YES];
 }
 
 - (void)addRNPerformanceSample:(NSDictionary *)rnPerfrmanceSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:rnPerfrmanceSample entityDescription:entityDescription inParent:nil];
+	[self _addSample:rnPerfrmanceSample entityDescription:entityDescription inParent:nil saveContext:YES];
 }
 
 - (void)addTagSample:(NSDictionary *)tag entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:tag entityDescription:entityDescription inParent:nil];
+	[self _addSample:tag entityDescription:entityDescription inParent:nil saveContext:YES];
 }
 
 - (void)createRecording:(NSDictionary *)recording entityDescription:(NSEntityDescription *)entityDescription
@@ -268,7 +327,7 @@
 
 - (void)addRNBridgeDataSample:(NSDictionary*)rbBridgeDataSample entityDescription:(NSEntityDescription*)entityDescription
 {
-	[self _addSample:rbBridgeDataSample entityDescription:entityDescription inParent:nil];
+	[self _addSample:rbBridgeDataSample entityDescription:entityDescription inParent:nil saveContext:YES];
 }
 
 - (void)popSampleGroup:(NSDictionary *)sampleGroup entityDescription:(NSEntityDescription *)entityDescription
@@ -287,7 +346,7 @@
 		_recording.rootSampleGroup = sampleGroupObj;
 		
 		//Save parent context here so it propagates to the view context and the recording is discovered on the view thread.
-		[_managedObjectContext save:NULL];
+		[self _saveContext];
 		
 		[self.delegate remoteProfilingClient:self didCreateRecording:_recording];
 	}
@@ -310,7 +369,10 @@
 	
 	if(stopRecording.boolValue)
 	{
-		[self.delegate remoteProfilingClientDidStopRecording:self];
+		//We already notified the delegate, just perform last save.
+		[self _saveContext];
+		
+		_target = nil;
 	}
 }
 
@@ -333,7 +395,6 @@
 {
 	[_managedObjectContext performBlock:block];
 }
-
 
 - (void)performBlockAndWait:(void (^)(void))block
 {
