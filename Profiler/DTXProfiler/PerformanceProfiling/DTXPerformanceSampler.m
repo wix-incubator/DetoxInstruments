@@ -137,9 +137,11 @@ static DTXCPUMeasurement* _DTXCPUUsage(BOOL collectThreadInfo)
 	
 	double max_cpu = -1;
 	DTXThreadMeasurement* heaviestThread;
+	NSInteger heaviestThreadIdx = -1;
 	
 	mach_port_t thread_self = mach_thread_self();
 	
+	NSInteger counter_idx = 0;
 	for (mach_msg_type_number_t thread_idx = 0; thread_idx < thread_count; thread_idx++)
 	{
 		if(thread_list[thread_idx] == thread_self)
@@ -181,15 +183,18 @@ static DTXCPUMeasurement* _DTXCPUUsage(BOOL collectThreadInfo)
 				{
 					max_cpu = thread.cpu;
 					heaviestThread = thread;
+					heaviestThreadIdx = counter_idx;
 				}
 			}
 //		}
+		counter_idx += 1;
 	}
 	vm_deallocate(mach_task_self(), (vm_offset_t)thread_list, thread_count * sizeof(thread_t));
 	
 	rv.threads = threads;
 	rv.totalCPU = total_cpu;
 	rv.heaviestThread = heaviestThread;
+	rv.heaviestThreadIdx = heaviestThreadIdx;
 	
 	return rv;
 }

@@ -306,7 +306,9 @@ DTX_CREATE_LOG(Profiler);
 //			[self _symbolicateRemainingJavaScriptStackTracesInternal];
 //		}
 		
-		[self->_backgroundContext save:NULL];
+		NSError* err;
+		
+		[self->_backgroundContext save:&err];
 		
 		[self _closeContainerInternal];
 		
@@ -319,7 +321,7 @@ DTX_CREATE_LOG(Profiler);
 		
 		if(handler != nil)
 		{
-			handler(nil);
+			handler(err);
 		}
 	}];
 }
@@ -507,16 +509,16 @@ DTX_CREATE_LOG(Profiler);
 //	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[_currentRecording dictionaryRepresentationForJSON] options:jsonOptions error:NULL];
 //	NSURL* jsonURL = [_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.json"];
 //	[jsonData writeToURL:jsonURL atomically:YES];
-	
-	NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:[_currentRecording dictionaryRepresentationForPropertyList] format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
-	NSURL* plistURL = [_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.plist"];
-	[plistData writeToURL:plistURL atomically:YES];
+//
+//	NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:[_currentRecording dictionaryRepresentationForPropertyList] format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
+//	NSURL* plistURL = [_currentProfilingConfiguration.recordingFileURL URLByAppendingPathComponent:@"_dtx_recording.plist"];
+//	[plistData writeToURL:plistURL atomically:YES];
 	
 	[_container.persistentStoreCoordinator.persistentStores.copy enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[self->_container.persistentStoreCoordinator removePersistentStore:obj error:NULL];
 	}];
 	
-	DTXWriteZipFileWithDirectoryURL([_currentProfilingConfiguration.recordingFileURL URLByAppendingPathExtension:@"zip"], _currentProfilingConfiguration.recordingFileURL);
+//	DTXWriteZipFileWithDirectoryURL([_currentProfilingConfiguration.recordingFileURL URLByAppendingPathExtension:@"zip"], _currentProfilingConfiguration.recordingFileURL);
 }
 
 - (void)performanceSamplerDidPoll:(DTXPerformanceSampler*)performanceSampler
@@ -588,6 +590,8 @@ DTX_CREATE_LOG(Profiler);
 			
 			if(self->_currentProfilingConfiguration.collectStackTraces)
 			{
+				[perfSample setHeaviestThreadIdx:@(cpu.heaviestThreadIdx)];
+				[perfSample setHeaviestThread:@([perfSample threadSamples][cpu.heaviestThreadIdx].threadInfo.number)];
 				[perfSample setHeaviestStackTrace:stackTrace];
 				[perfSample setStackTraceIsSymbolicated:NO];
 			}
@@ -728,6 +732,7 @@ DTX_CREATE_LOG(Profiler);
 		}
 		
 		networkSample.responseTimestamp = timestamp;
+		networkSample.duration = [timestamp timeIntervalSinceDate:networkSample.timestamp];
 		
 		networkSample.responseError = error.localizedDescription;
 		networkSample.responseMIMEType = response.MIMEType;

@@ -271,6 +271,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 		
 		NSMutableDictionary* preserialized = @{
 											   @"responseTimestamp": timestamp,
+											   @"duration": @([timestamp timeIntervalSinceDate:request[@"timestamp"]]),
 											   }.mutableCopy;
 		
 		if(error.localizedDescription.length > 0)
@@ -403,10 +404,9 @@ DTX_CREATE_LOG(RemoteProfiler);
 			return;
 		}
 		
-		NSDictionary* preserialized = @{
+		NSMutableDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",
-										@"additionalInfoStart": additionalInfo ?: @"",
 										@"category": category ?: @"",
 										@"duration": @0,
 										@"eventStatus": @0,
@@ -416,7 +416,12 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"sampleType": @70,
 										@"timestamp": timestamp,
 										@"uniqueIdentifier": NSUUID.UUID.UUIDString
-										};
+										}.mutableCopy;
+		
+		if(additionalInfo.length > 0)
+		{
+			preserialized[@"additionalInfoStart"] = additionalInfo;
+		}
 		
 		self->_pendingEvents[identifier] = preserialized;
 		
@@ -434,15 +439,21 @@ DTX_CREATE_LOG(RemoteProfiler);
 			return;
 		}
 		
-		NSDictionary* preserialized = @{
+		NSMutableDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",
-										@"additionalInfoEnd": additionalInfo ?: @"",
 										@"eventStatus": @(eventStatus),
 										@"endTimestamp": timestamp,
 										@"sampleIdentifier": identifier,
 										@"duration": @([timestamp timeIntervalSinceDate:event[@"timestamp"]]),
-										};
+										}.mutableCopy;
+		
+		if(additionalInfo.length > 0)
+		{
+			preserialized[@"additionalInfoEnd"] = additionalInfo;
+		}
+		
+		
 		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEventIntervalEnd:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
 		
 		[self->_pendingEvents removeObjectForKey:identifier];
@@ -458,7 +469,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 			return;
 		}
 		
-		NSDictionary* preserialized = @{
+		NSMutableDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",
 										@"additionalInfoStart": additionalInfo ?: @0,
@@ -473,7 +484,13 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"timestamp": timestamp,
 										@"endTimestamp": timestamp,
 										@"uniqueIdentifier": NSUUID.UUID.UUIDString
-										};
+										}.mutableCopy;
+		
+		if(additionalInfo.length > 0)
+		{
+			preserialized[@"additionalInfoStart"] = additionalInfo;
+		}
+		
 		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEvent:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }

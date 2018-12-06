@@ -24,6 +24,7 @@
 @interface DTXCPUMeasurement : NSObject
 
 @property (nonatomic) double totalCPU;
+@property (nonatomic) NSUInteger heaviestThreadIdx;
 @property (nonatomic) NSArray<DTXThreadMeasurement*>* threads;
 @property (nonatomic) DTXThreadMeasurement* heaviestThread;
 
