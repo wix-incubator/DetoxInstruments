@@ -146,7 +146,7 @@ os_log_t __log_general;
 - (IBAction)startNetworkRequestsTapped:(id)sender
 {
 	NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-	config.HTTPMaximumConnectionsPerHost = 2;
+	config.HTTPMaximumConnectionsPerHost = 200;
 	if(_useProtocolSwitch.isOn)
 	{
 		NSMutableArray* protocols = config.protocolClasses.mutableCopy;
@@ -290,6 +290,7 @@ os_log_t __log_general;
 	conf.recordLogOutput = YES;
 	conf.collectOpenFileNames = YES;
 	conf.recordNetwork = YES;
+	conf.disableNetworkCache = YES;
 #if TARGET_OS_SIMULATOR
 	conf.recordingFileURL = [[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSRCROOT"]] URLByAppendingPathComponent:@"../../Documentation/Example Recording/example.dtxprof"].URLByStandardizingPath;
 #endif
@@ -329,7 +330,7 @@ os_log_t __log_general;
 		});
 		
 		const NSTimeInterval scrollDelta = 1.0;
-		CGFloat scrollModifier = 2.0;
+		CGFloat scrollModifier = 3.0;
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
