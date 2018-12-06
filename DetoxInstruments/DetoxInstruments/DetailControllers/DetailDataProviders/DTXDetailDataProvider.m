@@ -12,7 +12,7 @@
 #import "DTXInstrumentsModel.h"
 #import "DTXInstrumentsModelUIExtensions.h"
 #import "DTXSampleGroup+UIExtensions.h"
-#import "DTXSampleGroupProxy.h"
+#import "DTXEntitySampleContainerProxy.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXPlotController.h"
 #import "DTXFilteredDataProvider.h"
@@ -115,8 +115,13 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		return;
 	}
 	
+	[self setupContainerProxies];
+	
 	NSTableColumn* timestampColumn = [_managedOutlineView tableColumnWithIdentifier:@"DTXTimestampColumn"];
 	timestampColumn.hidden = self.showsTimestampColumn == NO;
+	
+	timestampColumn.sortDescriptorPrototype = self.rootGroupProxy.supportsSorting ? [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES] : nil;
+	
 //	_managedOutlineView.outlineTableColumn = timestampColumn;
 	
 	_columns = self.columns;
@@ -124,6 +129,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	[_columns enumerateObjectsUsingBlock:^(DTXColumnInformation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSTableColumn* column = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
 		column.title = obj.title;
+		
+		if(self.rootGroupProxy.supportsSorting)
+		{
+			column.sortDescriptorPrototype = obj.sortDescriptor;
+		}
 		
 		if(idx == _columns.count - 1 && obj.automaticallyGrowsWithTable)
 		{
@@ -151,7 +161,10 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	_managedOutlineView.intercellSpacing = NSMakeSize(15, 1);
 	_managedOutlineView.headerView = self.showsHeaderView ? [NSTableHeaderView new] : nil;
 	
-	[self setupContainerProxies];
+	_managedOutlineView.delegate = self;
+	_managedOutlineView.dataSource = self;
+	
+	[_managedOutlineView scrollRowToVisible:0];
 	
 	if(_document.documentState == DTXRecordingDocumentStateLiveRecording)
 	{
@@ -189,18 +202,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	_rootGroupProxy = self.rootSampleContainerProxy;
 	[_rootGroupProxy reloadData];
-	
-	_managedOutlineView.delegate = self;
-	_managedOutlineView.dataSource = self;
-	
-//	[_managedOutlineView expandItem:nil expandChildren:YES];
-	
-	[_managedOutlineView scrollRowToVisible:0];
 }
 
 - (DTXSampleContainerProxy*)rootSampleContainerProxy
 {
-	return [[DTXSampleGroupProxy alloc] initWithSampleTypes:self.sampleTypes outlineView:_managedOutlineView managedObjectContext:_document.firstRecording.managedObjectContext];
+	return [[DTXEntitySampleContainerProxy alloc] initWithOutlineView:_managedOutlineView sampleClass:self.sampleClass managedObjectContext:_document.firstRecording.managedObjectContext];
 }
 
 - (BOOL)showsHeaderView
@@ -213,9 +219,9 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	return YES;
 }
 
-- (NSArray<NSNumber* /*DTXSampleType*/>* )sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypeUnknown)];
+	return nil;
 }
 
 - (NSArray<NSString *> *)filteredAttributes
@@ -289,7 +295,9 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
 {
-	return [item isKindOfClass:DTXTag.class] || ([item isKindOfClass:DTXSampleGroupProxy.class] && [item wantsStandardGroupDisplay]);
+	return NO;
+	
+//	return [item isKindOfClass:DTXTag.class] || ([item isKindOfClass:DTXSampleGroupProxy.class] && [item wantsStandardGroupDisplay]);
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
@@ -390,6 +398,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	rowView.item = item;
 	
 	return rowView;
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView sortDescriptorsDidChange:(NSArray<NSSortDescriptor *> *)oldDescriptors
+{
+	[self.rootGroupProxy sortWithSortDescriptors:outlineView.sortDescriptors];
 }
 
 NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
@@ -579,7 +592,7 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	
 	if(_filteredDataProvider == nil)
 	{
-		_filteredDataProvider = [[DTXFilteredDataProvider alloc] initWithDocument:self.document managedOutlineView:_managedOutlineView sampleTypes:self.sampleTypes filteredAttributes:self.filteredAttributes];
+		_filteredDataProvider = [[DTXFilteredDataProvider alloc] initWithDocument:self.document managedOutlineView:_managedOutlineView sampleClass:self.sampleClass filteredAttributes:self.filteredAttributes];
 		_managedOutlineView.dataSource = _filteredDataProvider;
 	}
 	

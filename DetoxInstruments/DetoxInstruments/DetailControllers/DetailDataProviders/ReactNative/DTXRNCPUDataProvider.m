@@ -22,14 +22,14 @@
 	return DTXRNCPUUsageDataExporter.class;
 }
 
-- (NSArray<NSNumber *> *)sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypeReactNativePerformanceType)];
+	return DTXReactNativePeroformanceSample.class;
 }
 
 - (NSString*)titleOfCPUHeader
 {
-	return NSLocalizedString(@"JavaScript Thread", @"");
+	return NSLocalizedString(@"JavaScript Thread CPU Usage", @"");
 }
 
 - (BOOL)showsHeaviestThreadColumn

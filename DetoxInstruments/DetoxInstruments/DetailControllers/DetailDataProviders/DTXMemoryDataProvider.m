@@ -28,18 +28,19 @@
 	info.title = NSLocalizedString(@"Memory Usage", @"");
 	info.minWidth = 75;
 	info.automaticallyGrowsWithTable = YES;
+	info.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"memoryUsage" ascending:YES];
 	
 	return @[info];
 }
 
-- (NSArray<NSNumber *> *)sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)];
+	return DTXAdvancedPerformanceSample.class;
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 {
-	return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item memoryUsage])];
+	return [NSFormatter.dtx_memoryFormatter stringForObjectValue:@([(DTXPerformanceSample*)item memoryUsage])];
 }
 
 @end

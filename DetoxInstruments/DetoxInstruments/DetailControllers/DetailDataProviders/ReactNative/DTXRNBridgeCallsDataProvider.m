@@ -22,28 +22,32 @@
 	return DTXRNBridgeCountersDataExporter.class;
 }
 
-- (NSArray<NSNumber *> *)sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypeReactNativePerformanceType)];
+	return DTXReactNativePeroformanceSample.class;
 }
 
 - (NSArray<DTXColumnInformation *> *)columns
 {
 	DTXColumnInformation* reads = [DTXColumnInformation new];
 	reads.title = NSLocalizedString(@"N → JS (Total)", @"");
-	reads.minWidth = 80;
+	reads.minWidth = 90;
+	reads.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"bridgeNToJSCallCount" ascending:YES];
 	
 	DTXColumnInformation* writes = [DTXColumnInformation new];
 	writes.title = NSLocalizedString(@"JS → N (Total)", @"");
-	writes.minWidth = 80;
+	writes.minWidth = 90;
+	writes.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"bridgeJSToNCallCount" ascending:YES];
 	
 	DTXColumnInformation* readsDelta = [DTXColumnInformation new];
 	readsDelta.title = NSLocalizedString(@"N → JS (Delta)", @"");
-	readsDelta.minWidth = 80;
+	readsDelta.minWidth = 90;
+	readsDelta.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"bridgeNToJSCallCountDelta" ascending:YES];
 	
 	DTXColumnInformation* writesDelta = [DTXColumnInformation new];
 	writesDelta.title = NSLocalizedString(@"JS → N (Delta)", @"");
-	writesDelta.minWidth = 80;
+	writesDelta.minWidth = 90;
+	writesDelta.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"bridgeJSToNCallCountDelta" ascending:YES];
 	
 	return @[readsDelta, writesDelta, reads, writes];
 }

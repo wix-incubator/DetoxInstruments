@@ -14,8 +14,20 @@
 
 - (NSString*)heaviestThreadName
 {
-	NSNumber* maxThreadCPU = [self valueForKeyPath:@"threadSamples.@max.cpuUsage"];
-	return [self.threadSamples filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"cpuUsage == %@", maxThreadCPU]].firstObject.threadInfo.friendlyName;
+	if(self.heaviestThreadIdx == nil)
+	{
+		//Legacy for old recordings.
+		NSNumber* maxThreadCPU = [self valueForKeyPath:@"threadSamples.@max.cpuUsage"];
+		return [self.threadSamples filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"cpuUsage == %@", maxThreadCPU]].firstObject.threadInfo.friendlyName;
+	}
+	
+	NSInteger idx = self.heaviestThreadIdx.integerValue;
+	if(idx == -1)
+	{
+		return nil;
+	}
+	
+	return self.threadSamples[idx].threadInfo.friendlyName;
 }
 
 @end

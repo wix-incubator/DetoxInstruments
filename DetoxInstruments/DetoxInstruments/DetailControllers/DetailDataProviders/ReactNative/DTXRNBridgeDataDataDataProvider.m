@@ -29,9 +29,9 @@
 	return image;
 }
 
-- (NSArray<NSNumber *> *)sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypeReactNativeBridgeDataType)];
+	return DTXReactNativeDataSample.class;
 }
 
 - (NSArray<DTXColumnInformation *> *)columns
@@ -39,10 +39,12 @@
 	DTXColumnInformation* type = [DTXColumnInformation new];
 	type.title = NSLocalizedString(@"Type", @"");
 	type.minWidth = 45;
+	type.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"isFromNative" ascending:YES];
 	
 	DTXColumnInformation* function = [DTXColumnInformation new];
 	function.title = NSLocalizedString(@"Function", @"");
 	function.minWidth = 200;
+	function.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"function" ascending:YES];
 	
 	DTXColumnInformation* arguments = [DTXColumnInformation new];
 	arguments.title = NSLocalizedString(@"Data", @"");

@@ -20,7 +20,7 @@
 	BOOL _updatesExperiencedErrors;
 }
 
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document managedOutlineView:(NSOutlineView*)managedOutlineView sampleTypes:(NSArray<NSNumber *> *)sampleTypes filteredAttributes:(NSArray<NSString *> *)filteredAttributes
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document managedOutlineView:(NSOutlineView*)managedOutlineView sampleClass:(Class)sampleClass filteredAttributes:(NSArray<NSString*>*)filteredAttributes
 {
 	self = [super init];
 	
@@ -28,7 +28,7 @@
 	{
 		_document = document;
 		_managedOutlineView = managedOutlineView;
-		_sampleTypes = sampleTypes;
+		_sampleClass = sampleClass;
 		_filteredAttributes = filteredAttributes;
 	}
 	
@@ -39,12 +39,9 @@
 {
 	if(_frc == nil)
 	{
-		NSParameterAssert(self.sampleTypes.count == 1);
+		NSParameterAssert(self.sampleClass != nil);
 		
-		NSFetchRequest* fr = [NSFetchRequest new];
-		Class cls = [DTXSample classFromSampleType:self.sampleTypes.firstObject.unsignedIntegerValue];
-		NSString* entityName = [NSStringFromClass(cls) substringFromIndex:3];
-		fr.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:_document.firstRecording.managedObjectContext];
+		NSFetchRequest* fr = [self.sampleClass fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		
 		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];

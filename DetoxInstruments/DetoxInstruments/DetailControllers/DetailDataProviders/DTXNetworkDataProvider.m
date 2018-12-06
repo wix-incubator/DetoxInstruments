@@ -26,27 +26,31 @@
 {
 	DTXColumnInformation* duration = [DTXColumnInformation new];
 	duration.title = NSLocalizedString(@"Duration", @"");
-	duration.minWidth = 65;
+	duration.minWidth = 70;
+	duration.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"duration" ascending:YES];
 	
 	DTXColumnInformation* size = [DTXColumnInformation new];
 	size.title = NSLocalizedString(@"Transferred", @"");
-	size.minWidth = 60;
+	size.minWidth = 70;
+	size.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"totalDataLength" ascending:YES];
 	
 	DTXColumnInformation* responseCode = [DTXColumnInformation new];
 	responseCode.title = NSLocalizedString(@"Status Code", @"");
-	responseCode.minWidth = 60;
+	responseCode.minWidth = 70;
+	responseCode.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"responseStatusCode" ascending:YES];
 	
 	DTXColumnInformation* url = [DTXColumnInformation new];
 	url.title = NSLocalizedString(@"URL", @"");
 //	url.minWidth = 355;
 	url.automaticallyGrowsWithTable = YES;
+	url.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"url" ascending:YES];
 	
 	return @[duration, size, responseCode, url];
 }
 
-- (NSArray<NSNumber *> *)sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypeNetwork)];
+	return DTXNetworkSample.class;
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;

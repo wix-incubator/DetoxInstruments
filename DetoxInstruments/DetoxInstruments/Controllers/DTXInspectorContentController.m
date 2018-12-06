@@ -156,7 +156,7 @@ inline static NSString* __DTXStringFromBoolean(BOOL b)
 		
 		content = [NSMutableArray new];
 		
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Sampling Interval", @"") description:[NSFormatter.dtx_highPrecisionDurationFormatter stringFromTimeInterval:configuration.samplingInterval]]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Sampling Interval", @"") description:[NSFormatter.dtx_durationFormatter stringFromTimeInterval:configuration.samplingInterval]]];
 		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Thread Information", @"") description:__DTXStringFromBoolean(configuration.recordThreadInformation)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Stack Traces", @"") description:__DTXStringFromBoolean(configuration.collectStackTraces)]];

@@ -41,7 +41,7 @@
 	return self;
 }
 
-- (void)reloadData
+- (void)prepareData
 {
 	NSFetchRequest* fr = self.fetchRequest;
 	NSManagedObjectContext* ctx = self.managedObjectContext;
@@ -54,6 +54,11 @@
 	_fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:ctx sectionNameKeyPath:nil cacheName:nil];
 	_fetchedResultsController.delegate = self;
 	[_fetchedResultsController performFetch:NULL];
+}
+
+- (void)reloadData
+{
+	[self prepareData];
 	
 	_isDataLoaded = YES;
 }
@@ -68,6 +73,18 @@
 	_isDataLoaded = NO;
 	
 	_fetchedResultsController = nil;
+}
+
+- (BOOL)supportsSorting
+{
+	return NO;
+}
+
+- (void)sortWithSortDescriptors:(NSArray<NSSortDescriptor*>*)sortDescriptors
+{
+	_fetchedResultsController.fetchRequest.sortDescriptors = sortDescriptors;
+	[_fetchedResultsController performFetch:NULL];
+	[_outlineView reloadData];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller

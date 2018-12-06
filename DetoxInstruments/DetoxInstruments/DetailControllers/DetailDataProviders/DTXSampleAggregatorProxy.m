@@ -29,7 +29,7 @@
 	return self;
 }
 
-- (void)reloadData
+- (void)prepareData
 {
 	NSFetchRequest* fr = [self _fetchRequestForAggregatesWithDictionaryResult:YES];
 	id categories = [_managedObjectContext executeFetchRequest:fr error:NULL];
@@ -41,7 +41,7 @@
 		_proxyMapping[obj] = [self objectForSample:obj];
 	}];
 	
-	[super reloadData];
+	[super prepareData];
 }
 
 - (NSFetchRequest *)fetchRequest
@@ -73,9 +73,7 @@
 }
 
 - (void)handleSampleInserts:(NSArray *)inserts updates:(NSArray *)updates shouldReloadProxy:(BOOL *)reloadProxy
-{
-	
-}
+{}
 
 - (NSUInteger)samplesCount
 {

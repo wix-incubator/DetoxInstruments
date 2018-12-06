@@ -53,29 +53,34 @@
 	DTXColumnInformation* duration = [DTXColumnInformation new];
 	duration.title = NSLocalizedString(@"Duration", @"");
 	duration.minWidth = durationMinWidth;
+	duration.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"duration" ascending:YES];
 	
 	DTXColumnInformation* type = [DTXColumnInformation new];
 	type.title = NSLocalizedString(@"Type", @"");
 	type.minWidth = durationMinWidth;
+	type.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"isEvent" ascending:YES];
 	
 	DTXColumnInformation* category = [DTXColumnInformation new];
 	category.title = NSLocalizedString(@"Category", @"");
 	category.minWidth = 200;
+	category.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES];
 	
 	DTXColumnInformation* name = [DTXColumnInformation new];
 	name.title = NSLocalizedString(@"Name", @"");
 	name.minWidth = 300;
+	name.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
 	
 	DTXColumnInformation* status = [DTXColumnInformation new];
 	status.title = NSLocalizedString(@"Status", @"");
 	status.minWidth = 100;
+	status.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"eventStatus" ascending:YES];
 	
 	return @[duration, type, category, name, status];
 }
 
-- (NSArray<NSNumber *> *)sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypeSignpost)];
+	return DTXSignpostSample.class;
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column

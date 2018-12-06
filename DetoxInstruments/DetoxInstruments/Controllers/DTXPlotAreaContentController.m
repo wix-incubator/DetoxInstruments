@@ -132,8 +132,8 @@
 	
 	if(self.document.documentState < DTXRecordingDocumentStateLiveRecordingFinished)
 	{
-		[_plotGroup setGlobalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[self.document.firstRecording.defactoStartTimestamp dateByAddingTimeInterval:20] ignoreSmaller:NO];
-		[_plotGroup setLocalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[self.document.firstRecording.defactoStartTimestamp dateByAddingTimeInterval:20]];
+		[_plotGroup setGlobalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[self.document.firstRecording.defactoStartTimestamp dateByAddingTimeInterval:30] ignoreSmaller:NO];
+		[_plotGroup setLocalStartTimestamp:self.document.firstRecording.defactoStartTimestamp endTimestamp:[self.document.firstRecording.defactoStartTimestamp dateByAddingTimeInterval:30]];
 	}
 	else
 	{

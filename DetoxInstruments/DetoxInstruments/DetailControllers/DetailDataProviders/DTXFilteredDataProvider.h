@@ -12,13 +12,13 @@
 
 @interface DTXFilteredDataProvider : NSObject <NSOutlineViewDataSource>
 
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document managedOutlineView:(NSOutlineView*)managedOutlineView sampleTypes:(NSArray<NSNumber* /* DTXSampleType */>*)sampleTypes filteredAttributes:(NSArray<NSString*>*)filteredAttributes;
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document managedOutlineView:(NSOutlineView*)managedOutlineView sampleClass:(Class)sampleClass filteredAttributes:(NSArray<NSString*>*)filteredAttributes;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
 @property (nonatomic, strong, readonly) DTXRecordingDocument* document;
 @property (nonatomic, weak, readonly) NSOutlineView* managedOutlineView;
-@property (nonatomic, strong, readonly) NSArray<NSNumber* /* DTXSampleType */>* sampleTypes;
+@property (nonatomic, strong, readonly) Class sampleClass;
 @property (nonatomic, strong, readonly) NSArray<NSString*>* filteredAttributes;
 
 - (void)filterSamplesWithPredicate:(NSPredicate*)predicate;

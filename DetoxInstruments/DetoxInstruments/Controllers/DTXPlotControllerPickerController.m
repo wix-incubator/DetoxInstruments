@@ -25,7 +25,7 @@
 	[_tableView reloadData];
 	[_tableView layoutSubtreeIfNeeded];
 	
-	[self.view setFrame:NSMakeRect(0, 0, self.view.frame.size.width, MIN(590, _tableView.bounds.size.height))];
+	[self.view setFrame:NSMakeRect(0, 0, self.view.frame.size.width, MIN(440, _tableView.bounds.size.height))];
 }
 
 - (void)viewWillDisappear

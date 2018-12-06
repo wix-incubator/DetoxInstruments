@@ -28,18 +28,19 @@
 	info.title = NSLocalizedString(@"FPS", @"");
 	info.minWidth = 20;
 	info.automaticallyGrowsWithTable = YES;
+	info.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"fps" ascending:YES];
 	
 	return @[info];
 }
 
-- (NSArray<NSNumber *> *)sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)];
+	return DTXAdvancedPerformanceSample.class;
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 {
-	return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item fps])];
+	return [NSFormatter.dtx_stringFormatter stringForObjectValue:@([(DTXPerformanceSample*)item fps])];
 }
 
 - (NSColor*)textColorForItem:(id)item

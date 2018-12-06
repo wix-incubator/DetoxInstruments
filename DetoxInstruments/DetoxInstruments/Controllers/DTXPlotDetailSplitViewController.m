@@ -72,7 +72,11 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		
 		menuItem.title = [NSString stringWithFormat:@"%@%@ %@", instrumentTitle ? [NSString stringWithFormat:@"%@ ", instrumentTitle] : @"", detailTitle, NSLocalizedString(@"As CSV", @"")];
 		
-		return ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateLiveRecordingFinished && _detailContentController.activeDetailController.dataExporter != nil;
+		BOOL enabled = ((DTXRecordingDocument*)self.document).documentState >= DTXRecordingDocumentStateLiveRecordingFinished && _detailContentController.activeDetailController.dataExporter != nil;
+		
+		menuItem.hidden = enabled == NO;
+		
+		return enabled;
 	}
 	
 	return menuItem.action == @selector(toggleBottom:) || menuItem.action == @selector(selectExtendedDetail:) || menuItem.action == @selector(selectProfilingInfo:);

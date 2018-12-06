@@ -629,6 +629,7 @@
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="timestamp"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="DTXTextCell" id="uVT-Pq-fD5">
                                                     <rect key="frame" x="11" y="1" width="80" height="17"/>

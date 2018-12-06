@@ -29,7 +29,11 @@
 - (instancetype)initWithOutlineView:(NSOutlineView*)outlineView isRoot:(BOOL)root managedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 - (BOOL)isDataLoaded;
 - (void)reloadData;
+- (void)prepareData;
 - (void)unloadData;
+
+- (BOOL)supportsSorting;
+- (void)sortWithSortDescriptors:(NSArray<NSSortDescriptor*>*)sortDescriptors;
 
 - (void)handleSampleInserts:(NSArray*)inserts updates:(NSArray*)updates shouldReloadProxy:(BOOL*)reloadProxy;
 

@@ -93,9 +93,9 @@
 	return @[name, count, timestamp, duration, minDuration, avgDuration, maxDuration, status];
 }
 
-- (NSArray<NSNumber *> *)sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypeSignpost)];
+	return DTXSignpostSample.class;
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column

@@ -25,6 +25,7 @@
 	DTXColumnInformation* info = [DTXColumnInformation new];
 	info.title = self.titleOfCPUHeader;
 	info.minWidth = 70;
+	info.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"cpuUsage" ascending:YES];
 	
 	[rv addObject:info];
 	
@@ -34,6 +35,7 @@
 	   heaviestThread.title = NSLocalizedString(@"Heaviest Thread", @"");
 	   heaviestThread.minWidth = 300;
 	   heaviestThread.automaticallyGrowsWithTable = YES;
+	   heaviestThread.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"heaviestThread" ascending:YES];
 	   
 	   [rv addObject:heaviestThread];
    }
@@ -50,10 +52,15 @@
 	return [DTXCPUUsageDataExporter class];
 }
 
-- (NSArray<NSNumber *> *)sampleTypes
+- (Class)sampleClass
 {
-	return @[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)];
+	return DTXAdvancedPerformanceSample.class;
 }
+
+//- (NSArray<NSNumber *> *)sampleTypes
+//{
+//	return @[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)];
+//}
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 {

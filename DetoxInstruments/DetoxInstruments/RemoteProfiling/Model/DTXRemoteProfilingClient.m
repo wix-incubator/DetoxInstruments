@@ -232,7 +232,8 @@ return; }\
 
 - (void)_saveContext
 {
-	[_managedObjectContext save:NULL];
+	NSError* err;
+	[_managedObjectContext save:&err];
 	
 	if(_recording.managedObjectContext.insertedObjects > 0)
 	{
@@ -269,7 +270,9 @@ return; }\
 - (void)connectionDidCloseForProfilingTarget:(DTXRemoteTarget *)target
 {
 	_target = nil;
-	[self.delegate remoteProfilingClientDidStopRecording:self];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.delegate remoteProfilingClientDidStopRecording:self];
+	});
 }
 
 #pragma mark DTXProfilerStoryDecoder

@@ -37,9 +37,9 @@
 	return self;
 }
 
-- (void)reloadData
+- (void)prepareData
 {
-	[super reloadData];
+	[super prepareData];
 	
 	[self _reloadDurations];
 }
