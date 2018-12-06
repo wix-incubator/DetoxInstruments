@@ -989,6 +989,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release_External;
 		};
@@ -1148,6 +1149,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -1183,6 +1185,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
 		};
