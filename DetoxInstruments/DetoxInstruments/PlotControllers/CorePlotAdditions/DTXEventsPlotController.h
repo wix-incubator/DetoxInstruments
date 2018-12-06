@@ -8,10 +8,6 @@
 
 #import "DTXIntervalSamplePlotController.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface DTXEventsPlotController : DTXIntervalSamplePlotController
 
 @end
-
-NS_ASSUME_NONNULL_END
