@@ -22,6 +22,5 @@
 + (NSNumberFormatter*)dtx_percentFormatter;
 + (DTXSecondsFormatter*)dtx_secondsFormatter;
 + (NSDateComponentsFormatter*)dtx_durationFormatter;
-+ (NSDateComponentsFormatter *)dtx_highPrecisionDurationFormatter;
 
 @end
