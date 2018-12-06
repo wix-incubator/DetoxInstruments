@@ -150,7 +150,7 @@ static DTXCPUMeasurement* _DTXCPUUsage(BOOL collectThreadInfo)
 		mach_msg_type_number_t thread_info_count = THREAD_INFO_MAX;
 		if (thread_info(thread_list[thread_idx], THREAD_EXTENDED_INFO, (thread_info_t)thread_info_data, &thread_info_count) != KERN_SUCCESS)
 		{
-			return nil;
+			continue;
 		}
 		
 		thread_extended_info_t thread_extended_info = (thread_extended_info_t)thread_info_data;
