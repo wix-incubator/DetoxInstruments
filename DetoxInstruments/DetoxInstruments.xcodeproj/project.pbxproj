@@ -2336,6 +2336,8 @@
 				PRODUCT_NAME = "Detox Instruments";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_SWIFT_SYMBOLS = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2367,6 +2369,8 @@
 				PRODUCT_NAME = "Detox Instruments";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_SWIFT_SYMBOLS = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
