@@ -281,6 +281,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	[self _createConsoleMenuScreenshotWithWindowController:windowController];
 	[self _createBridgeDataMenuScreenshotWithWindowController:windowController];
+	[self _createEventsDetailMenuScreenshotWithWindowController:windowController];
 	
 	rep = (NSBitmapImageRep*)[windowController _snapshotForTargetSelection].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Discovered.png"].path atomically:YES];
@@ -386,6 +387,8 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 			[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage mapping:__classToNameMapping];
 		}];
+		
+		[self _createEventsListScreenshotsForWindowController:windowController];
 		
 		[inspectorPaneOverviewImage lockFocus];
 		rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, inspectorPaneOverviewImage.size}];
@@ -557,6 +560,30 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	rep = (NSBitmapImageRep*)[windowController _snapshotForInspectorPane].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_InspectorPane_BridgeData.png", name]].path atomically:YES];
+}
+
+- (void)_createEventsListScreenshotsForWindowController:(DTXWindowController*)windowController
+{
+	NSBitmapImageRep* rep;
+	
+	Class cls = DTXEventsPlotController.class;
+	NSString* name = @"Events";
+	
+	[windowController _deselectAnyPlotControllers];
+	[windowController _selectSampleAtIndex:[__defaultSample integerValue] forPlotControllerClass:cls];
+	
+	[windowController _selectPlotControllerOfClass:cls];
+	
+	[windowController _deselectAnyDetail];
+	
+	[windowController _setBottomSplitAtPercentage:0.5];
+	[windowController _scrollBottomPaneToPercentage:0.5];
+	
+	[windowController _selectDetailPaneIndex:1];
+	
+	rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
+	
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_DetailPane_List.png", name]].path atomically:YES];
 }
 
 - (NSImage*)_exampleImageWithExistingRep:(NSBitmapImageRep*)rep
@@ -795,6 +822,75 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Instrument_RNBridgeData_Menu.png"].path atomically:YES];
 }
+
+- (void)_createEventsDetailMenuScreenshotWithWindowController:(DTXWindowController*)windowController
+{
+	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
+	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
+	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.visualEffectView.layer.borderColor = [NSColor.windowFrameColor colorWithAlphaComponent:0.25].CGColor;
+		menu.visualEffectView.layer.borderWidth = 1;
+	}
+	menu.visualEffectView.layer.masksToBounds = YES;
+	
+	menu.view.wantsLayer = YES;
+	menu.view.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.view.layer.borderColor = [NSColor.blackColor colorWithAlphaComponent:0.85].CGColor;
+	}
+	else
+	{
+		menu.view.layer.borderColor = NSColor.lightGrayColor.CGColor;
+	}
+	menu.view.layer.borderWidth = 0.5;
+	menu.view.layer.masksToBounds = YES;
+	
+	menu.firstImageTextField.stringValue = @"Summary";
+	menu.firstImageView.image = [NSImage imageNamed:@"samples_nonflat"];
+	menu.firstImageView.image.size = NSMakeSize(16, 16);
+	menu.secondImageTextField.stringValue = @"List";
+	menu.secondImageView.image = [NSImage imageNamed:@"samples"];
+	menu.secondImageView.image.size = NSMakeSize(16, 16);
+	
+	if(NSApp.effectiveAppearance.isDarkAppearance == NO)
+	{
+		if (@available(macOS 10.14, *)) {
+			menu.secondImageView.contentTintColor = NSColor.whiteColor;
+		}
+	}
+	
+	menu.chevronImageView.hidden = YES;
+	
+	[windowController.window.contentView addSubview:menu.view];
+	[windowController _drainLayout];
+	
+	NSBitmapImageRep* consoleMenuRep = (id)[menu.view snapshotForCachingDisplay].representations.firstObject;
+	
+	[menu.view removeFromSuperview];
+	
+	NSImage* consoleMenuImage = [[NSImage alloc] initWithSize:NSMakeSize(858, 82)];
+	[consoleMenuImage lockFocus];
+	
+	NSShadow* shadow = [NSShadow new];
+	shadow.shadowOffset = NSMakeSize(0, -4);
+	shadow.shadowBlurRadius = 16.0;
+	shadow.shadowColor = [NSColor.blackColor colorWithAlphaComponent:0.25];
+	[shadow set];
+	
+	NSRect centered = (NSRect){93, 20, consoleMenuRep.size};
+	[consoleMenuRep drawInRect:centered fromRect:(NSRect){0, 0, centered.size} operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	consoleMenuRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, consoleMenuImage.size}];
+	
+	[consoleMenuImage unlockFocus];
+	
+	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Instrument_Events_Menu.png"].path atomically:YES];
+}
+
 
 @end
 

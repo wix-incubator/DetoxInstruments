@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="AppleTitle" content="DTXProfiler" />
+<title>DTXProfiler</title>
+<meta name="description" content="Profiler objects are used to record profiling sessions." /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
+</style>
+<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+h1 { text-align: center; margin-left: -16px; margin-right: -16px; padding-bottom: 20px; background: linear-gradient(to bottom, #ffffff 0%,#f3f2f3 100%); }
+img { max-width: 100%; height: auto; }
+pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
+blockquote { border-left-color: rgb(245, 242, 240); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+ul { padding-left: 1.3em; }
+</style>
+<title>Detox Instruments Help</title></head><body>
+<h1>
+<a name="user-content-dtxprofiler" class="anchor" href="#dtxprofiler"><span class="octicon octicon-link"></span></a><code>DTXProfiler</code>
+</h1>
+<p>Profiler objects are used to record profiling sessions.
+Profiling configuration is achieved through <code>DTXProfilingConfiguration</code> instances.</p>
+<h3>
+<a name="user-content-declaration" class="anchor" href="#declaration"><span class="octicon octicon-link"></span></a>Declaration</h3>
+<div class="highlight highlight-source-objc"><pre><span class="pl-k">@interface</span> <span class="pl-en">DTXProfiler</span> : <span class="pl-e">NSObject</span></pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">open</span> <span class="pl-k">class</span> <span class="pl-en">DTXProfiler</span> : <span class="pl-e">NSObject</span></pre></div>
+<h3>
+<a name="user-content-methods" class="anchor" href="#methods"><span class="octicon octicon-link"></span></a>Methods</h3>
+<h4>
+<a name="user-content-startprofilingwithconfiguration" class="anchor" href="#startprofilingwithconfiguration"><span class="octicon octicon-link"></span></a><code>startProfilingWithConfiguration:</code>
+</h4>
+<p>Starts a profiling recording with the provided configuration.</p>
+<h5>
+<a name="user-content-declaration-1" class="anchor" href="#declaration-1"><span class="octicon octicon-link"></span></a>Declaration</h5>
+<div class="highlight highlight-source-objc"><pre>- (<span class="pl-k">void</span>)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">open</span> <span class="pl-k">func</span> <span class="pl-en">startProfiling</span>(<span class="pl-en">with</span> <span class="pl-smi">configuration</span>: DTXProfilingConfiguration)</pre></div>
+<h5>
+<a name="user-content-parameters" class="anchor" href="#parameters"><span class="octicon octicon-link"></span></a>Parameters</h5>
+<h6>
+<a name="user-content-configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a><code>configuration</code>
+</h6>
+<p>The configuration to use for profiling.</p>
+<h4>
+<a name="user-content-continueprofilingwithconfiguration" class="anchor" href="#continueprofilingwithconfiguration"><span class="octicon octicon-link"></span></a><code>continueProfilingWithConfiguration:</code>
+</h4>
+<p>Continues an existing profiling recording with the provided configuration, or if one does not exist, starts a new profiling recording.
+If a recording is continued, the previous configuration is used.</p>
+<h5>
+<a name="user-content-declaration-2" class="anchor" href="#declaration-2"><span class="octicon octicon-link"></span></a>Declaration</h5>
+<div class="highlight highlight-source-objc"><pre>- (<span class="pl-k">void</span>)continueProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">open</span> <span class="pl-k">func</span> <span class="pl-en">continueProfiling</span>(<span class="pl-en">with</span> <span class="pl-smi">configuration</span>: DTXProfilingConfiguration)</pre></div>
+<h5>
+<a name="user-content-parameters-1" class="anchor" href="#parameters-1"><span class="octicon octicon-link"></span></a>Parameters</h5>
+<h6>
+<a name="user-content-configuration-1" class="anchor" href="#configuration-1"><span class="octicon octicon-link"></span></a><code>configuration</code>
+</h6>
+<p>The configuration to use for profiling.</p>
+<h4>
+<a name="user-content-stopprofilingwithcompletionhandler" class="anchor" href="#stopprofilingwithcompletionhandler"><span class="octicon octicon-link"></span></a><code>stopProfilingWithCompletionHandler:</code>
+</h4>
+<p>Stops the profiling recording.
+If a completion handler is provided, it is called after the recording is saved to disk.
+In most cases, this is called soon after calling <code>stopProfilingWithCompletionHandler:</code>,
+however there may be cases when the stop operation may take a while to complete.
+The completion handler is called on a background queue.</p>
+<h5>
+<a name="user-content-declaration-3" class="anchor" href="#declaration-3"><span class="octicon octicon-link"></span></a>Declaration</h5>
+<div class="highlight highlight-source-objc"><pre>- (<span class="pl-k">void</span>)stopProfilingWithCompletionHandler:(<span class="pl-k">void</span>(^ __nullable)(<span class="pl-c1">NSError</span>* __nullable error))completionHandler;</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">open</span> <span class="pl-k">func</span> <span class="pl-en">stopProfiling</span>(<span class="pl-smi"><span class="pl-en">completionHandler</span></span>: ((<span class="pl-c1">Error</span><span class="pl-k">?</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span>)<span class="pl-k">?</span> <span class="pl-k">=</span> <span class="pl-c1">nil</span>)</pre></div>
+<h5>
+<a name="user-content-parameters-2" class="anchor" href="#parameters-2"><span class="octicon octicon-link"></span></a>Parameters</h5>
+<h6>
+<a name="user-content-completionhandler" class="anchor" href="#completionhandler"><span class="octicon octicon-link"></span></a><code>completionHandler</code>
+</h6>
+<p>Completion handler called after the recording is saved to disk.</p>
+<h3>
+<a name="user-content-properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Properties</h3>
+<h4>
+<a name="user-content-isrecording" class="anchor" href="#isrecording"><span class="octicon octicon-link"></span></a><code>isRecording</code>
+</h4>
+<p>A Boolean value indicating whether there is currently a recording in progress.</p>
+<h4>
+<a name="user-content-profilingconfiguration" class="anchor" href="#profilingconfiguration"><span class="octicon octicon-link"></span></a><code>profilingConfiguration</code>
+</h4>
+<p>The profiling configuration provided to <code>startProfilingWithConfiguration:</code>. Will be null before calling that method.</p>
+</body></html>

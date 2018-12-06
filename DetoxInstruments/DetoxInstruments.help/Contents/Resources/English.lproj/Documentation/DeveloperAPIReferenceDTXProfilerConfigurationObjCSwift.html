@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="AppleTitle" content="DTXProfilingConfiguration/DTXMutableProfilingConfiguration" />
+<title>DTXProfilingConfiguration/DTXMutableProfilingConfiguration</title>
+<meta name="description" content="Profiling configuration object for the Profiler." /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
+</style>
+<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+h1 { text-align: center; margin-left: -16px; margin-right: -16px; padding-bottom: 20px; background: linear-gradient(to bottom, #ffffff 0%,#f3f2f3 100%); }
+img { max-width: 100%; height: auto; }
+pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
+blockquote { border-left-color: rgb(245, 242, 240); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+ul { padding-left: 1.3em; }
+</style>
+<title>Detox Instruments Help</title></head><body>
+<h1>
+<a name="user-content-dtxprofilingconfigurationdtxmutableprofilingconfiguration" class="anchor" href="#dtxprofilingconfigurationdtxmutableprofilingconfiguration"><span class="octicon octicon-link"></span></a><code>DTXProfilingConfiguration</code>/<code>DTXMutableProfilingConfiguration</code>
+</h1>
+<p>Profiling configuration object for the Profiler.</p>
+<h3>
+<a name="user-content-declaration" class="anchor" href="#declaration"><span class="octicon octicon-link"></span></a>Declaration</h3>
+<div class="highlight highlight-source-objc"><pre><span class="pl-k">@interface</span> <span class="pl-en">DTXProfilingConfiguration</span> : <span class="pl-e">NSObject</span> &lt;<span class="pl-c1">NSCopying</span>, <span class="pl-c1">NSMutableCopying</span>, <span class="pl-c1">NSSecureCoding</span>&gt;
+
+<span class="pl-k">@interface</span> <span class="pl-en">DTXMutableProfilingConfiguration</span> : <span class="pl-e">DTXProfilingConfiguration</span></pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">open</span> <span class="pl-k">class</span> <span class="pl-en">DTXProfilingConfiguration</span> : <span class="pl-e">NSObject</span>, <span class="pl-e">NSCopying</span>, <span class="pl-e">NSMutableCopying</span>, <span class="pl-e">NSSecureCoding</span>
+
+open class DTXMutableProfilingConfiguration : <span class="pl-e">DTXProfilingConfiguration</span></pre></div>
+<h3>
+<a name="user-content-properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Properties</h3>
+<h4>
+<a name="user-content-defaultprofilingconfigurationdefault" class="anchor" href="#defaultprofilingconfigurationdefault"><span class="octicon octicon-link"></span></a><code>defaultProfilingConfiguration</code>/<code>default</code>
+</h4>
+<p>A newly created default profiling configuration object.</p>
+<h4>
+<a name="user-content-samplinginterval" class="anchor" href="#samplinginterval"><span class="octicon octicon-link"></span></a><code>samplingInterval</code>
+</h4>
+<p>The sampling interval of the Profiler.
+The default value is <code>1.0</code>.</p>
+<h4>
+<a name="user-content-numberofsamplesbeforeflushtodisk" class="anchor" href="#numberofsamplesbeforeflushtodisk"><span class="octicon octicon-link"></span></a><code>numberOfSamplesBeforeFlushToDisk</code>
+</h4>
+<p>The minimum number of samples to keep in memory before flushing to disk.
+Larger number of samples in memory will improve performance at the cost of memory use.
+The default value is <code>200</code>.</p>
+<h4>
+<a name="user-content-recordthreadinformation" class="anchor" href="#recordthreadinformation"><span class="octicon octicon-link"></span></a><code>recordThreadInformation</code>
+</h4>
+<p>Record thread information during profiling.
+The default value is <code>true</code>.</p>
+<h4>
+<a name="user-content-collectstacktraces" class="anchor" href="#collectstacktraces"><span class="octicon octicon-link"></span></a><code>collectStackTraces</code>
+</h4>
+<p>Symbolicate stack traces at runtime.
+Symbolicating stack traces may introduce some performance hit.
+The default value is <code>false</code>.</p>
+<h4>
+<a name="user-content-symbolicatestacktraces" class="anchor" href="#symbolicatestacktraces"><span class="octicon octicon-link"></span></a><code>symbolicateStackTraces</code>
+</h4>
+<p>Symbolicate stack traces at runtime.
+Symbolicating stack traces may introduce some performance hit.
+The default value is <code>false</code>.</p>
+<h4>
+<a name="user-content-collectopenfilenames" class="anchor" href="#collectopenfilenames"><span class="octicon octicon-link"></span></a><code>collectOpenFileNames</code>
+</h4>
+<p>Collect the names of open files for each sample.
+The default value is <code>false</code>.</p>
+<h4>
+<a name="user-content-recordnetwork" class="anchor" href="#recordnetwork"><span class="octicon octicon-link"></span></a><code>recordNetwork</code>
+</h4>
+<p>Record network requests during profiling.
+The default value is <code>true</code>.</p>
+<h4>
+<a name="user-content-recordlocalhostnetwork" class="anchor" href="#recordlocalhostnetwork"><span class="octicon octicon-link"></span></a><code>recordLocalhostNetwork</code>
+</h4>
+<p>Record localhost network requests during profiling.
+Only relevant if <code>recordNetwork</code> is set to <code>true</code>.
+The default value is <code>false</code>.</p>
+<h4>
+<a name="user-content-disablenetworkcache" class="anchor" href="#disablenetworkcache"><span class="octicon octicon-link"></span></a><code>disableNetworkCache</code>
+</h4>
+<p>Disables cache for network requests.
+The default value is <code>false.</code></p>
+<h4>
+<a name="user-content-ignoredeventcategories" class="anchor" href="#ignoredeventcategories"><span class="octicon octicon-link"></span></a><code>ignoredEventCategories</code>
+</h4>
+<p>A set of categories to ignore when profiling.
+Use this property to prevent clutter in the Events instrument.
+The default value is an empty set.</p>
+<h4>
+<a name="user-content-recordlogoutput" class="anchor" href="#recordlogoutput"><span class="octicon octicon-link"></span></a><code>recordLogOutput</code>
+</h4>
+<p>Record log output during profiling.
+The default value is <code>true</code>.</p>
+<h4>
+<a name="user-content-profilereactnative" class="anchor" href="#profilereactnative"><span class="octicon octicon-link"></span></a><code>profileReactNative</code>
+</h4>
+<p>Profile React Native application.
+Currently, only one active React Native bridge is supported.
+The default value is <code>true</code>.</p>
+<h4>
+<a name="user-content-recordreactnativebridgedata" class="anchor" href="#recordreactnativebridgedata"><span class="octicon octicon-link"></span></a><code>recordReactNativeBridgeData</code>
+</h4>
+<p>Record React Native bridge data during profiling.
+The default value is <code>false</code>.</p>
+<h4>
+<a name="user-content-recordreactnativetimersasevents" class="anchor" href="#recordreactnativetimersasevents"><span class="octicon octicon-link"></span></a><code>recordReactNativeTimersAsEvents</code>
+</h4>
+<p>Record React Native timers (created using <code>setTimeout()</code> in JavaScript) as events.
+The default value is <code>false</code>.</p>
+<h4>
+<a name="user-content-recordingfileurl" class="anchor" href="#recordingfileurl"><span class="octicon octicon-link"></span></a><code>recordingFileURL</code>
+</h4>
+<p>The recording file URL to save to.
+If this URL is a directory URL, a new recording will be created in that directory with the date and time of the recording.
+If the URL is a file URL, a new recording will be created with that name.
+The extension of the recording package is always <code>.dtxprof</code>.
+If set to <code>nil</code>, the URL will reset to the default value.
+The default value is a file name with the date and time of the recording, in the documents folder of the profiled app.</p>
+</body></html>

@@ -14,11 +14,23 @@ Events appear as segmented lines on the timeline in the timeline pane. Concurren
 
 ### Detail Pane
 
-The detail pane displays all your events, grouped by categories and their names. For groups, you can see the number of events, the total duration of all events in the group as well as min/avg/max duration.
+The detail pane displays all your events. Samples will be highlighted in red (warning 3) when you set the event status to 'Error'.
+
+From the navigation bar, you can display events in summary or list.
+
+![Events Detail Menu](Resources/Instrument_Events_Menu.png "Events Detail Menu")
+
+#### Summary
+
+Events will be grouped by categories and their names. For groups, you can see the number of events, the total duration of all events in the group as well as min/avg/max duration.
 
 ![Events Detail Pane](Resources/Instrument_Events_DetailPane.png "Events Detail Pane")
 
-Samples will be highlighted in red (warning 3) when you set the event status to 'Error'.
+#### List
+
+Events will be displayed in a list.
+
+![Instrument_Events_DetailPane_List](Resources/Instrument_Events_DetailPane_List.png)
 
 ### Inspector Pane
 

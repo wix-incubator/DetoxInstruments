@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="AppleTitle" content="Profiler API Reference for Objective C & Swift" />
+<title>Profiler API Reference for Objective C & Swift</title>
+<meta name="description" content="In addition to profiling your app live with Detox Instruments, you can start recordings in code for finer-grained control and testing scenarios where live recording is not applicable, such as app launch. This can be achieved with the Profiler API." /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
+</style>
+<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+h1 { text-align: center; margin-left: -16px; margin-right: -16px; padding-bottom: 20px; background: linear-gradient(to bottom, #ffffff 0%,#f3f2f3 100%); }
+img { max-width: 100%; height: auto; }
+pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
+blockquote { border-left-color: rgb(245, 242, 240); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+ul { padding-left: 1.3em; }
+</style>
+<title>Detox Instruments Help</title></head><body>
+<h1>
+<a name="user-content-profiler-api-reference-for-objective-c--swift" class="anchor" href="#profiler-api-reference-for-objective-c--swift"><span class="octicon octicon-link"></span></a>Profiler API Reference for Objective C &amp; Swift</h1>
+<p>In addition to profiling your app live with Detox Instruments, you can start recordings in code for finer-grained control and testing scenarios where live recording is not applicable, such as app launch. This can be achieved with the Profiler API.</p>
+<p>Before using the provided developer APIs, first complete the <a href="XcodeIntegrationGuide.html">Profiler Framework Integration Guide</a>.</p>
+<h4>
+<a name="user-content-usage-example" class="anchor" href="#usage-example"><span class="octicon octicon-link"></span></a>Usage Example</h4>
+<div class="highlight highlight-source-objc"><pre>#<span class="pl-k">import</span> <span class="pl-s"><span class="pl-pds">&lt;</span>DTXProfiler/DTXProfiler.h<span class="pl-pds">&gt;</span></span>
+
+DTXMutableProfilingConfiguration* configuration = DTXMutableProfilingConfiguration.defaultProfilingConfiguration;
+configuration.recordingFileURL = <span class="pl-c"><span class="pl-c">//</span>Set the recording document URL here</span>
+
+DTXProfiler* profiler = [[DTXProfiler <span class="pl-c1">alloc</span>] <span class="pl-c1">init</span>];
+[profiler <span class="pl-c1">startProfilingWithConfiguration:</span>configuration];
+<span class="pl-c"><span class="pl-c">//</span>...</span>
+[profiler <span class="pl-c1">stopProfilingWithCompletionHandler:</span> ^(<span class="pl-c1">NSError</span>* error) {
+	<span class="pl-c1">NSLog</span>(<span class="pl-s"><span class="pl-pds">@"</span>Finished recording with <span class="pl-c1">%@</span>.<span class="pl-pds">"</span></span>, error.<span class="pl-smi">localizedDescription</span> ?: <span class="pl-s"><span class="pl-pds">@"</span>no error<span class="pl-pds">"</span></span>);
+}];</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">import</span> <span class="pl-en">DTXProfiler</span>
+
+<span class="pl-k">let</span> configuration <span class="pl-k">=</span> DTXMutableProfilingConfiguration.<span class="pl-c1">default</span>()
+		configuration.<span class="pl-smi">recordingFileURL</span> <span class="pl-k">=</span> <span class="pl-c"><span class="pl-c">//</span>Set the recording document URL here</span>
+<span class="pl-c"></span>
+<span class="pl-k">let</span> profiler <span class="pl-k">=</span> <span class="pl-c1">DTXProfiler</span>()
+		profiler.<span class="pl-c1">startProfiling</span>(<span class="pl-c1">with</span>: configuration)
+<span class="pl-c"><span class="pl-c">//</span>...</span>
+<span class="pl-c"></span>profiler.<span class="pl-smi">stopProfiling</span> { error <span class="pl-k">in</span>
+			<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Finished profiling with <span class="pl-pse">\(</span><span class="pl-s1">error<span class="pl-k">?</span>.<span class="pl-smi">localizedDescription</span> <span class="pl-k">??</span> <span class="pl-s"><span class="pl-pds">"</span>no error<span class="pl-pds">"</span></span></span><span class="pl-pse"><span class="pl-s1">)</span></span>.<span class="pl-pds">"</span></span>)
+		}</pre></div>
+<h2>
+<a name="user-content-classes" class="anchor" href="#classes"><span class="octicon octicon-link"></span></a>Classes</h2>
+<p><a href="DeveloperAPIReferenceDTXProfilerConfigurationObjCSwift.html"><code>DTXProfilingConfiguration</code> &amp; <code>DTXMutableProfilingConfiguration</code></a></p>
+<p><a href="DeveloperAPIReferenceDTXProfilerObjCSwift.html"><code>DTXProfiler</code></a></p>
+</body></html>
