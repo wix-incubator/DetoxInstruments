@@ -44,6 +44,8 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	__weak DTXRecordingTargetPickerViewController* _recordingTargetPicker;
 	DTXRemoteProfilingClient* _remoteProfilingClient;
 	dispatch_block_t _pendingCancelBlock;
+	
+	id _liveRecordingActivity;
 #endif
 }
 
@@ -491,21 +493,12 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	[_remoteProfilingClient stopProfiling];
 }
 
-- (void)_workspaceWillSleepNotification
-{
-	if(self.documentState == DTXRecordingDocumentStateLiveRecording)
-	{
-		[self stopLiveRecording];
-	}
-}
-
 #pragma mark DTXRemoteProfilingClientDelegate
 
 - (void)remoteProfilingClient:(DTXRemoteProfilingClient *)client didCreateRecording:(DTXRecording *)recording
 {
 	NSManagedObjectID* recordingID = recording.objectID;
 	__weak auto weakSelf = self;
-	[NSWorkspace.sharedWorkspace.notificationCenter addObserver:self selector:@selector(_workspaceWillSleepNotification) name:NSWorkspaceWillSleepNotification object:nil];
 	_pendingCancelBlock = dispatch_block_create_with_qos_class(DISPATCH_BLOCK_ENFORCE_QOS_CLASS, QOS_CLASS_USER_INTERACTIVE, 0, ^{
 		__strong auto strongSelf = weakSelf;
 		if(strongSelf == nil)
@@ -522,6 +515,8 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_DTXCurrentRecordingTimeLimit() * NSEC_PER_SEC)), dispatch_get_main_queue(), _pendingCancelBlock);
 	
 	[_container.viewContext performBlock:^{
+		_liveRecordingActivity = [NSProcessInfo.processInfo beginActivityWithOptions:NSActivityUserInitiated reason:@"Live Recroding"];
+		
 		DTXRecording* recording = [_container.viewContext existingObjectWithID:recordingID error:NULL];
 		
 		[_recordings addObject:recording];
@@ -550,6 +545,11 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 - (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient *)client
 {
 	[self updateChangeCount:NSChangeDone];
+	if(_liveRecordingActivity)
+	{
+		[NSProcessInfo.processInfo endActivity:_liveRecordingActivity];
+		_liveRecordingActivity = nil;
+	}
 	
 	[_container.viewContext performBlock:^{
 		if(self.lastRecording == nil)

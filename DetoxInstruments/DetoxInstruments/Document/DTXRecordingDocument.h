@@ -39,9 +39,7 @@ typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 
 #ifndef CLI
 @property (nonatomic, strong, readonly) DTXSourceMapsParser* sourceMapsParser;
-#endif
 
-#ifndef CLI
 + (void)clearLastOpenedVersionAndReopenDocumentAtURL:(NSURL*)URL;
 
 - (void)readyForRecordingIfNeeded;
