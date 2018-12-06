@@ -42,7 +42,14 @@
 		NSParameterAssert(self.sampleClass != nil);
 		
 		NSFetchRequest* fr = [self.sampleClass fetchRequest];
-		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+		
+		NSArray* sortDescriptors = _managedOutlineView.sortDescriptors;
+		if(sortDescriptors.count == 0)
+		{
+			sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+		}
+		
+		fr.sortDescriptors = sortDescriptors;
 		
 		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 		_frc.delegate = self;
@@ -71,6 +78,13 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
 	return NO;
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView sortDescriptorsDidChange:(NSArray<NSSortDescriptor *> *)oldDescriptors
+{
+	_frc.fetchRequest.sortDescriptors = outlineView.sortDescriptors;
+	[_frc performFetch:NULL];
+	[outlineView reloadData];
 }
 
 #pragma mark NSFetchedResultsControllerDelegate

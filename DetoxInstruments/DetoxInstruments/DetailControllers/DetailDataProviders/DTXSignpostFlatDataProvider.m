@@ -62,12 +62,12 @@
 	
 	DTXColumnInformation* category = [DTXColumnInformation new];
 	category.title = NSLocalizedString(@"Category", @"");
-	category.minWidth = 200;
+	category.minWidth = 155;
 	category.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES];
 	
 	DTXColumnInformation* name = [DTXColumnInformation new];
 	name.title = NSLocalizedString(@"Name", @"");
-	name.minWidth = 300;
+	name.minWidth = 155;
 	name.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
 	
 	DTXColumnInformation* status = [DTXColumnInformation new];
@@ -75,7 +75,17 @@
 	status.minWidth = 100;
 	status.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"eventStatus" ascending:YES];
 	
-	return @[duration, type, category, name, status];
+	DTXColumnInformation* moreInfo1 = [DTXColumnInformation new];
+	moreInfo1.title = NSLocalizedString(@"Additional Info (Start)", @"");
+	moreInfo1.minWidth = 155;
+	moreInfo1.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoStart" ascending:YES];
+	
+	DTXColumnInformation* moreInfo2 = [DTXColumnInformation new];
+	moreInfo2.title = NSLocalizedString(@"Additional Info (End)", @"");
+	moreInfo2.minWidth = 155;
+	moreInfo2.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoEnd" ascending:YES];
+	
+	return @[duration, type, status, category, name, moreInfo1, moreInfo2];
 }
 
 - (Class)sampleClass
@@ -98,13 +108,16 @@
 		case 1:
 			return signpostSample.eventTypeString;
 		case 2:
-			return signpostSample.category;
-		case 3:
-			return signpostSample.name;
-		case 4:
-		{
 			return signpostSample.eventStatusString;
-		}
+		case 3:
+			return signpostSample.category;
+		case 4:
+			return signpostSample.name;
+		case 5:
+			return signpostSample.additionalInfoStart;
+		case 6:
+			return signpostSample.additionalInfoEnd;
+		case 7:
 		default:
 			return nil;
 	}

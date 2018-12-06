@@ -115,7 +115,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		return;
 	}
 	
-	[self setupContainerProxies];
+	[self setupContainerProxiesReloadOutline:NO];
 	
 	NSTableColumn* timestampColumn = [_managedOutlineView tableColumnWithIdentifier:@"DTXTimestampColumn"];
 	timestampColumn.hidden = self.showsTimestampColumn == NO;
@@ -190,10 +190,10 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		return;
 	}
 	
-	[self setupContainerProxies];
+	[self setupContainerProxiesReloadOutline:YES];
 }
 
-- (void)setupContainerProxies
+- (void)setupContainerProxiesReloadOutline:(BOOL)reloadOutline
 {
 	if(_document.documentState < DTXRecordingDocumentStateLiveRecording)
 	{
@@ -202,6 +202,12 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	_rootGroupProxy = self.rootSampleContainerProxy;
 	[_rootGroupProxy reloadData];
+	
+	if(reloadOutline)
+	{
+		_managedOutlineView.delegate = self;
+		_managedOutlineView.dataSource = self;
+	}
 }
 
 - (DTXSampleContainerProxy*)rootSampleContainerProxy
@@ -583,7 +589,7 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	if(filter.length == 0)
 	{
 		_filteredDataProvider = nil;
-		[self setupContainerProxies];
+		[self setupContainerProxiesReloadOutline:YES];
 		[_managedOutlineView scrollRowToVisible:0];
 		return;
 	}

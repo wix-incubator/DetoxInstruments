@@ -21,7 +21,14 @@
 		_sampleClass = sampleClass;
 		_fetchRequest = [_sampleClass fetchRequest];
 		_fetchRequest.predicate = [NSPredicate predicateWithFormat:@"hidden == NO"];
-		_fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+		
+		NSArray* sortDescriptors = outlineView.sortDescriptors;
+		if(sortDescriptors.count == 0)
+		{
+			sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+		}
+		
+		_fetchRequest.sortDescriptors = sortDescriptors;
 		
 		outlineView.sortDescriptors = _fetchRequest.sortDescriptors;
 	}

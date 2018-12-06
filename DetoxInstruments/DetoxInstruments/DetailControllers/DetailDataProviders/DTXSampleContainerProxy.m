@@ -44,6 +44,12 @@
 - (void)prepareData
 {
 	NSFetchRequest* fr = self.fetchRequest;
+	
+	NSArray* sortDescriptors = _outlineView.sortDescriptors;
+	if(sortDescriptors.count > 0)
+	{
+		fr.sortDescriptors = sortDescriptors;
+	}
 	NSManagedObjectContext* ctx = self.managedObjectContext;
 	
 	if(fr == nil || ctx == nil)
