@@ -156,16 +156,19 @@
 	
 	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	
-	_requiresCustomHorizontalScrollerManagement = YES;
-	
-	_horizontalScroller = [DTXScroller new];
-	_horizontalScroller.enabled = YES;
-	_horizontalScroller.alphaValue = 0.0;
-	[_horizontalScroller _setIsHorizontal:YES];
-	[_horizontalScroller setOverlayScrollerTrackAlpha:0.0];
-	_horizontalScroller.scrollerStyle = [NSScroller preferredScrollerStyle];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_scrollerStyleDidChange_DTX) name:NSPreferredScrollerStyleDidChangeNotification object:nil];
+
+	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion >= 14)
+	{
+		_requiresCustomHorizontalScrollerManagement = YES;
+		
+		_horizontalScroller = [DTXScroller new];
+		_horizontalScroller.enabled = YES;
+		_horizontalScroller.alphaValue = 0.0;
+		[_horizontalScroller _setIsHorizontal:YES];
+		[_horizontalScroller setOverlayScrollerTrackAlpha:0.0];
+		_horizontalScroller.scrollerStyle = [NSScroller preferredScrollerStyle];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_scrollerStyleDidChange_DTX) name:NSPreferredScrollerStyleDidChangeNotification object:nil];
+	}
 	
 	self.horizontalScroller.alphaValue = 0.0;
 	
