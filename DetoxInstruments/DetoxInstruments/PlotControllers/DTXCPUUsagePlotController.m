@@ -32,6 +32,11 @@
 	return [NSImage imageNamed:@"CPUUsage"];
 }
 
+- (NSString *)helpTopicName
+{
+	return @"CPUUsage";
+}
+
 - (NSArray<NSString*>*)sampleKeys
 {
 	return @[@"cpuUsage"];

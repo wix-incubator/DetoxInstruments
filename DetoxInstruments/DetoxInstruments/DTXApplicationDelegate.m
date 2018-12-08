@@ -146,6 +146,11 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	DTXGoToHelpPage(@"AppManagement");
 }
 
+- (IBAction)showDocumentHelp:(id)sender
+{
+	DTXGoToHelpPage(@"RecordingDocument");
+}
+
 - (IBAction)revealProfilerFramework:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[[NSBundle mainBundle].bundleURL URLByAppendingPathComponent:@"Contents/SharedSupport/ProfilerFramework/DTXProfiler.framework"]]];
@@ -204,12 +209,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	if(menuItem.action == @selector(checkForUpdates:))
 	{
 		BOOL canCheckForUpdates = [self updaterMayCheckForUpdates:_updater];
-
-		if(canCheckForUpdates == NO)
-		{
-			menuItem.title = NSLocalizedString(@"Updates Disabled for This App Instance", @"");
-		}
-
+		menuItem.hidden = canCheckForUpdates == NO;
+		
 		return canCheckForUpdates;
 	}
 

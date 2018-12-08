@@ -52,6 +52,7 @@
 @property (nonatomic, strong, readonly) NSFont* titleFont;
 @property (nonatomic, strong, readonly) NSArray<NSString*>* legendTitles;
 @property (nonatomic, strong, readonly) NSArray<NSColor*>* legendColors;
+@property (nonatomic, strong, readonly) NSString* helpTopicName;
 
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;
 

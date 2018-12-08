@@ -64,6 +64,7 @@
 @synthesize document = _document;
 @synthesize sampleClickDelegate = _sampleClickDelegate;
 @synthesize parentPlotController = _parentPlotController;
+@dynamic helpTopicName;
 
 + (Class)graphHostingViewClass
 {

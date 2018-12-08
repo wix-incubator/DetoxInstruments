@@ -27,6 +27,11 @@
 	return NSLocalizedString(@"The Disk Activity instrument captures information about the profiled app's disk reads and writes.", @"");
 }
 
+- (NSString *)helpTopicName
+{
+	return @"DiskActivity";
+}
+
 - (NSImage*)displayIcon
 {
 	return [NSImage imageNamed:@"DiskActivity"];

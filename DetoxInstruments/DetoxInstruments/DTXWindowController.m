@@ -18,6 +18,8 @@
 
 @import QuartzCore;
 
+extern OSStatus DTXGoToHelpPage(NSString* pagePath);
+
 static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility";
 
 @interface DTXWindowController () <DTXPlotAreaContentControllerDelegate, DTXDetailContentControllerDelegate>
@@ -250,6 +252,23 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+	if(menuItem.action == @selector(_showInstrumentHelp:))
+	{
+		BOOL enabled = _detailContentController.managingPlotController != nil;
+		
+		if(enabled)
+		{
+			menuItem.title = [NSString stringWithFormat:@"%@ %@", _detailContentController.managingPlotController.displayName, NSLocalizedString(@"Instrument Help", @"")];
+		}
+		
+		if(menuItem.tag != 1)
+		{
+			menuItem.hidden = enabled == NO;
+		}
+		
+		return enabled;
+	}
+	
 	if(menuItem.action == @selector(_toggleNowMode:))
 	{
 		if([self.document documentState] != DTXRecordingDocumentStateLiveRecording)
@@ -281,6 +300,13 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	}
 	
 	return NO;
+}
+
+- (IBAction)_showInstrumentHelp:(id)sender
+{
+	NSString* instrumentHelpTopic = [NSString stringWithFormat:@"Instrument_%@", _detailContentController.managingPlotController.helpTopicName];
+	
+	DTXGoToHelpPage(instrumentHelpTopic);
 }
 
 - (void)_resetWindowTitles

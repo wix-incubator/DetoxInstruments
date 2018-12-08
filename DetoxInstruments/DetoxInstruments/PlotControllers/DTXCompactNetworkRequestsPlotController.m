@@ -38,6 +38,11 @@
 	return [NSImage imageNamed:@"NetworkActivity"];
 }
 
+- (NSString *)helpTopicName
+{
+	return @"NetworkActivity";
+}
+
 - (NSArray<NSString*>*)sampleKeys
 {
 	return @[@"totalDataLength"];

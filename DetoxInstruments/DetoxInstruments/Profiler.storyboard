@@ -506,7 +506,7 @@
         <scene sceneID="vXB-zT-sZf">
             <objects>
                 <viewController storyboardIdentifier="DTXLogDetailController" id="a9F-qw-Y3o" customClass="DTXLogDetailController" sceneMemberID="viewController">
-                    <scrollView key="view" wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="nSe-hh-Z2i" customClass="DTXScrollView">
+                    <scrollView key="view" wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" id="nSe-hh-Z2i">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="7qk-vh-lmX">
@@ -585,7 +585,7 @@
         <scene sceneID="Jk1-tP-8WB">
             <objects>
                 <viewController storyboardIdentifier="DTXOutlineDetailController" id="Ybs-ui-apR" customClass="DTXOutlineDetailController" sceneMemberID="viewController">
-                    <scrollView key="view" wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="CdH-GL-l82" customClass="DTXScrollView">
+                    <scrollView key="view" wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" id="CdH-GL-l82">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="t1C-zD-puQ">

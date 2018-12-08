@@ -12,7 +12,7 @@
                 <windowController storyboardIdentifier="InstrumentsWindowController" id="lYN-De-XWI" customClass="DTXWindowController" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="preferred" id="uNJ-Rb-xBj">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <rect key="contentRect" x="196" y="239" width="1280" height="800"/>
+                        <rect key="contentRect" x="196" y="238" width="1280" height="801"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
                         <value key="minSize" type="size" width="985" height="500"/>
                         <toolbar key="toolbar" implicitIdentifier="1C34E879-7A07-4888-BB7B-DD6473703286" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="jlq-hP-7af">
@@ -142,7 +142,7 @@
                 </windowController>
                 <customObject id="qp4-hX-WKE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-595" y="-1062"/>
+            <point key="canvasLocation" x="-595" y="-1062.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="d07-vh-RcC">
@@ -593,9 +593,27 @@ CA
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="vpB-5Z-oKT"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Detox Instruments Help" hidden="YES" keyEquivalent="/" allowsKeyEquivalentWhenHidden="YES" id="YJl-NU-z6b">
+                                        <menuItem title="Detox Instruments Help" tag="1" hidden="YES" keyEquivalent="/" allowsKeyEquivalentWhenHidden="YES" id="YJl-NU-z6b">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="5bU-Jk-f2G"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="The Recording Document Help" id="9XZ-aa-B3C">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="showDocumentHelp:" target="Voe-Tx-rLC" id="aUM-wJ-E0A"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Current Instrument Help" keyEquivalent="?" id="Lrz-0s-2Nu">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="_showInstrumentHelp:" target="Ady-hI-5gd" id="3Ol-zN-f5t"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Current Instrument Help" tag="1" hidden="YES" keyEquivalent="/" allowsKeyEquivalentWhenHidden="YES" id="nWn-7R-yhw">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="_showInstrumentHelp:" target="Ady-hI-5gd" id="bd1-a9-xuV"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="MBf-uM-ubB"/>

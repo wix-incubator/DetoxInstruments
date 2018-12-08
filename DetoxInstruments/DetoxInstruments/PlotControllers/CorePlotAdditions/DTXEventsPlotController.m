@@ -11,6 +11,7 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXSignpostDataProvider.h"
 #import "DTXSignpostFlatDataProvider.h"
+#import "DTXSignpostNestedDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXDetailController.h"
 
@@ -66,6 +67,11 @@
 	return [NSImage imageNamed:@"Events"];
 }
 
+- (NSString *)helpTopicName
+{
+	return @"Events";
+}
+
 - (NSArray<NSString*>*)plotTitles
 {
 	return @[NSLocalizedString(@"URL", @"")];
@@ -98,12 +104,7 @@
 
 - (NSDate*)endTimestampForSample:(DTXSignpostSample*)sample
 {
-	if(sample.endTimestamp != nil && sample.duration == 0)
-	{
-		return [sample.timestamp dateByAddingTimeInterval:0.00001];
-	}
-	
-	return sample.endTimestamp ?: [sample.timestamp dateByAddingTimeInterval:1];
+	return sample.defactoEndTimestamp;
 }
 
 - (NSColor*)colorForSample:(DTXSignpostSample*)sample

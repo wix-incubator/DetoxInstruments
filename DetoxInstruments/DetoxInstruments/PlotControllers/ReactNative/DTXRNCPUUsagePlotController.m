@@ -31,6 +31,11 @@
 	return NSLocalizedString(@"The JavaScript Thread instrument captures information about the CPU load of the profiled app's JavaScript thread.", @"");
 }
 
+- (NSString *)helpTopicName
+{
+	return @"JavaScriptThread";
+}
+
 - (NSImage*)displayIcon
 {
 	return [NSImage imageNamed:@"CPUUsage"];

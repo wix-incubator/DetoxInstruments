@@ -54,6 +54,11 @@
 	return NSLocalizedString(@"The Bridge Data instrument captures information about React Native bridge data passed in the profiled app.", @"");
 }
 
+- (NSString *)helpTopicName
+{
+	return @"BridgeData";
+}
+
 - (NSImage*)displayIcon
 {
 	return [NSImage imageNamed:@"RNBridgeData"];

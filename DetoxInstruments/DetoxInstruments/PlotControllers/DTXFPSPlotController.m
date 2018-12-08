@@ -21,6 +21,11 @@
 	return NSLocalizedString(@"FPS", @"");
 }
 
+- (NSString *)helpTopicName
+{
+	return @"FPS";
+}
+
 - (NSString *)toolTip
 {
 	return NSLocalizedString(@"The FPS instrument captures information about the frame-rate of the profiled app's user interface.", @"");

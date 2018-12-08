@@ -31,6 +31,11 @@
 	return NSLocalizedString(@"The Bridge Counters instrument captures information about React Native bridge calls made by the profiled app.", @"");
 }
 
+- (NSString *)helpTopicName
+{
+	return @"BridgeCounters";
+}
+
 - (NSImage*)displayIcon
 {
 	return [NSImage imageNamed:@"RNBridgeCounters"];
