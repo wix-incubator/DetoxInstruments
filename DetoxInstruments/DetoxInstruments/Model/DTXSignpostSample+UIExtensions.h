@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)eventTypeString;
 - (NSString*)eventStatusString;
 - (NSColor*)plotControllerColor;
+- (NSDate*)defactoEndTimestamp;
 
 @end
 

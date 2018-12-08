@@ -18,10 +18,13 @@
 @synthesize avgDuration=_avgDuration;
 @synthesize maxDuration=_maxDuration;
 @synthesize stddevDuration=_stddevDuration;
+@synthesize timestamp=_timestamp;
+@synthesize endTimestamp=_endTimestamp;
+@synthesize isEvent=_isEvent;
 
 - (instancetype)initWithCategory:(NSString*)category managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView
 {
-	self = [super initWithKeyPath:@"name" isRoot:NO managedObjectContext:managedObjectContext outlineView:outlineView];
+	self = [super initWithKeyPath:@"name" outlineView:outlineView managedObjectContext:managedObjectContext isRoot:NO];
 	
 	if(self)
 	{
@@ -48,7 +51,7 @@
 
 - (NSPredicate *)predicateForAggregator
 {
-	return [NSPredicate predicateWithFormat:@"category == %@", _category];
+	return [NSPredicate predicateWithFormat:@"category == %@ && hidden == NO", _category];
 }
 
 - (NSUInteger)count
@@ -79,23 +82,45 @@
 	avg.expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForKeyPath:@"duration"]]];
 	avg.expressionResultType = NSDoubleAttributeType;
 	
-	NSExpressionDescription* stddev = [NSExpressionDescription new];
-	stddev.name = @"duration";
-	stddev.expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForKeyPath:@"duration"]]];
-	stddev.expressionResultType = NSDoubleAttributeType;
-	
 	NSExpressionDescription* max = [NSExpressionDescription new];
 	max.name = @"max";
 	max.expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForKeyPath:@"duration"]]];
 	max.expressionResultType = NSDoubleAttributeType;
 	
-	fr.propertiesToFetch = @[min, avg, stddev, max];
-	NSDictionary<NSString*, NSNumber*>* results = [self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject;
+	NSExpressionDescription* minTimestamp = [NSExpressionDescription new];
+	minTimestamp.name = @"timestamp";
+	minTimestamp.expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
+	minTimestamp.expressionResultType = NSDateAttributeType;
 	
-	_duration = results[@"duration"].doubleValue;
-	_minDuration = results[@"min"].doubleValue;
-	_avgDuration = results[@"avg"].doubleValue;
-	_maxDuration = results[@"max"].doubleValue;
+	NSExpressionDescription* maxTimestamp = [NSExpressionDescription new];
+	maxTimestamp.name = @"endTimestamp";
+	maxTimestamp.expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForKeyPath:@"endTimestamp"]]];
+	maxTimestamp.expressionResultType = NSDateAttributeType;
+	
+	NSExpressionDescription* countAll = [NSExpressionDescription new];
+	countAll.name = @"countAll";
+	countAll.expression = [NSExpression expressionForFunction:@"count:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
+	countAll.expressionResultType = NSInteger64AttributeType;
+	
+	NSExpressionDescription* countIsEvent = [NSExpressionDescription new];
+	countIsEvent.name = @"countIsEvent";
+	countIsEvent.expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForKeyPath:@"isEvent"]]];
+	countIsEvent.expressionResultType = NSInteger64AttributeType;
+	
+	fr.propertiesToFetch = @[min, avg, max, minTimestamp, maxTimestamp, countAll, countIsEvent];
+	NSDictionary<NSString*, id>* results = [self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject;
+	
+	_minDuration = [results[@"min"] doubleValue];
+	_avgDuration = [results[@"avg"] doubleValue];
+	_maxDuration = [results[@"max"] doubleValue];
+	_timestamp = results[@"timestamp"];
+	_endTimestamp = results[@"endTimestamp"];
+	_duration = [_endTimestamp timeIntervalSinceDate:_timestamp];
+	
+	NSUInteger count = [results[@"countAll"] unsignedIntegerValue];
+	NSUInteger countSome = [results[@"countIsEvent"] unsignedIntegerValue];
+	
+	_isEvent = count == countSome;
 }
 
 - (DTXRecording*)recording
@@ -120,19 +145,12 @@
 
 - (NSDate *)closeTimestamp
 {
-	DTXSignpostSample* sample = self.fetchedResultsController.fetchedObjects.lastObject;
-	
-	return sample.endTimestamp;
+	return _endTimestamp;
 }
 
-- (BOOL)isGroup
+- (BOOL)isExpandable
 {
 	return YES;
-}
-
-- (BOOL)isEvent
-{
-	return NO;
 }
 
 @end

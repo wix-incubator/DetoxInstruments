@@ -78,6 +78,7 @@
 @property (nonatomic, readonly) BOOL showsHeaderView;
 @property (nonatomic, strong, readonly) NSArray<DTXColumnInformation*>* columns;
 @property (nonatomic, readonly) BOOL showsTimestampColumn;
+@property (nonatomic, readonly) BOOL supportsSorting;
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 - (NSColor*)textColorForItem:(id)item;

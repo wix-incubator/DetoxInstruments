@@ -12,6 +12,6 @@
 
 @property (nonatomic, strong, readonly) Class sampleClass;
 
-- (instancetype)initWithOutlineView:(NSOutlineView *)outlineView sampleClass:(Class)sampleClass managedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+- (instancetype)initWithOutlineView:(NSOutlineView *)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext sampleClass:(Class)sampleClass;
 
 @end

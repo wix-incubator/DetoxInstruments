@@ -25,9 +25,8 @@
 }
 
 @dynamic fetchRequest;
-@dynamic name;
 
-- (instancetype)initWithOutlineView:(NSOutlineView*)outlineView isRoot:(BOOL)root managedObjectContext:(NSManagedObjectContext *)managedObjectContext
+- (instancetype)initWithOutlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext isRoot:(BOOL)root
 {
 	self = [super init];
 	
@@ -58,7 +57,10 @@
 	}
 	
 	_fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:ctx sectionNameKeyPath:nil cacheName:nil];
-	_fetchedResultsController.delegate = self;
+	if(fr.resultType == NSManagedObjectResultType)
+	{
+		_fetchedResultsController.delegate = self;
+	}
 	[_fetchedResultsController performFetch:NULL];
 }
 
@@ -79,11 +81,6 @@
 	_isDataLoaded = NO;
 	
 	_fetchedResultsController = nil;
-}
-
-- (BOOL)supportsSorting
-{
-	return NO;
 }
 
 - (void)sortWithSortDescriptors:(NSArray<NSSortDescriptor*>*)sortDescriptors
@@ -166,6 +163,11 @@
 	}
 }
 
+- (BOOL)isExpandable
+{
+	return YES;
+}
+
 - (NSUInteger)samplesCount
 {
 	return _fetchedResultsController.fetchedObjects.count;
@@ -196,16 +198,6 @@
 - (BOOL)wantsStandardGroupDisplay
 {
 	return NO;
-}
-
-- (NSDate *)timestamp
-{
-	return [(DTXSample*)_fetchedResultsController.fetchedObjects.firstObject timestamp];
-}
-
-- (NSDate *)closeTimestamp
-{
-	return [(DTXSample*)_fetchedResultsController.fetchedObjects.lastObject timestamp];
 }
 
 @end

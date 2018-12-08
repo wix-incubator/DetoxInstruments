@@ -1,20 +1,20 @@
 //
-//  DTXSignpostRootProxy.m
+//  DTXSignpostSummaryRootProxy.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 7/1/18.
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
-#import "DTXSignpostRootProxy.h"
+#import "DTXSignpostSummaryRootProxy.h"
 #import "DTXSignpostCategoryProxy.h"
 #import "DTXSignpostSample+UIExtensions.h"
 
-@implementation DTXSignpostRootProxy
+@implementation DTXSignpostSummaryRootProxy
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView
 {
-	self = [super initWithKeyPath:@"category" isRoot:YES managedObjectContext:managedObjectContext outlineView:outlineView];
+	self = [super initWithKeyPath:@"category" outlineView:outlineView managedObjectContext:managedObjectContext isRoot:YES];
 	
 	if(self)
 	{

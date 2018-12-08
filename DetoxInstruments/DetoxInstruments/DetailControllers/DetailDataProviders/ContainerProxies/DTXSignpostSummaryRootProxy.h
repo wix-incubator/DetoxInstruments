@@ -1,5 +1,5 @@
 //
-//  DTXSignpostRootProxy.h
+//  DTXSignpostSummaryRootProxy.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 7/1/18.
@@ -8,7 +8,7 @@
 
 #import "DTXSampleAggregatorProxy.h"
 
-@interface DTXSignpostRootProxy : DTXSampleAggregatorProxy
+@interface DTXSignpostSummaryRootProxy : DTXSampleAggregatorProxy
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView;
 

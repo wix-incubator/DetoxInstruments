@@ -1,20 +1,21 @@
 //
-//  DTXSignpostFlatDataProvider.m
+//  DTXSignpostNestedDataProvider.m
 //  DetoxInstruments
 //
-//  Created by Leo Natan (Wix) on 12/5/18.
+//  Created by Leo Natan (Wix) on 12/6/18.
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
-#import "DTXSignpostFlatDataProvider.h"
+#import "DTXSignpostNestedDataProvider.h"
 #import "DTXSignpostSummaryRootProxy.h"
 #import "DTXSignpostProtocol.h"
 #import "DTXDetailOutlineView.h"
 #import "DTXEventInspectorDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXSignpostDataExporter.h"
+#import "DTXSignpostNestedRootProxy.h"
 
-@implementation DTXSignpostFlatDataProvider
+@implementation DTXSignpostNestedDataProvider
 
 + (Class)inspectorDataProviderClass
 {
@@ -28,7 +29,15 @@
 
 - (NSString *)displayName
 {
-	return NSLocalizedString(@"List", @"");;
+	return NSLocalizedString(@"Nested", @"");;
+}
+
+- (NSImage *)displayIcon
+{
+	NSImage* image = [NSImage imageNamed:@"samples_nested"];
+	image.size = NSMakeSize(16, 16);
+	
+	return image;
 }
 
 - (void)setManagedOutlineView:(NSOutlineView *)managedOutlineView
@@ -42,7 +51,7 @@
 {
 	if([outlineView respondsToSelector:@selector(setRespectsOutlineCellFraming:)])
 	{
-		[(DTXDetailOutlineView*)outlineView setRespectsOutlineCellFraming:NO];
+		[(DTXDetailOutlineView*)outlineView setRespectsOutlineCellFraming:YES];
 	}
 }
 
@@ -52,18 +61,13 @@
 	
 	DTXColumnInformation* start = [DTXColumnInformation new];
 	start.title = NSLocalizedString(@"Start", @"");
-	start.minWidth = durationMinWidth;
+	start.minWidth = 200;
 	start.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES];
 	
 	DTXColumnInformation* duration = [DTXColumnInformation new];
 	duration.title = NSLocalizedString(@"Duration", @"");
 	duration.minWidth = durationMinWidth;
 	duration.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"duration" ascending:YES];
-	
-	DTXColumnInformation* type = [DTXColumnInformation new];
-	type.title = NSLocalizedString(@"Type", @"");
-	type.minWidth = durationMinWidth;
-	type.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"isEvent" ascending:YES];
 	
 	DTXColumnInformation* category = [DTXColumnInformation new];
 	category.title = NSLocalizedString(@"Category", @"");
@@ -75,11 +79,6 @@
 	name.minWidth = 165;
 	name.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
 	
-	DTXColumnInformation* status = [DTXColumnInformation new];
-	status.title = NSLocalizedString(@"Status", @"");
-	status.minWidth = 100;
-	status.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"eventStatus" ascending:YES];
-	
 	DTXColumnInformation* moreInfo1 = [DTXColumnInformation new];
 	moreInfo1.title = NSLocalizedString(@"Additional Info (Start)", @"");
 	moreInfo1.minWidth = 155;
@@ -90,7 +89,7 @@
 	moreInfo2.minWidth = 155;
 	moreInfo2.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoEnd" ascending:YES];
 	
-	return @[start, duration, type, status, category, name, moreInfo1, moreInfo2];
+	return @[start, duration, category, name, moreInfo1, moreInfo2];
 }
 
 - (Class)sampleClass
@@ -116,16 +115,12 @@
 			}
 			return [[NSFormatter dtx_durationFormatter] stringFromTimeInterval:signpostSample.duration];
 		case 2:
-			return signpostSample.eventTypeString;
-		case 3:
-			return signpostSample.eventStatusString;
-		case 4:
 			return signpostSample.category;
-		case 5:
+		case 3:
 			return signpostSample.name;
-		case 6:
+		case 4:
 			return signpostSample.additionalInfoStart;
-		case 7:
+		case 5:
 			return signpostSample.additionalInfoEnd;
 		default:
 			return nil;
@@ -168,7 +163,12 @@
 
 - (BOOL)supportsDataFiltering
 {
-	return YES;
+	return NO;
+}
+
+- (BOOL)supportsSorting
+{
+	return NO;
 }
 
 - (BOOL)showsTimestampColumn
@@ -183,7 +183,7 @@
 
 - (DTXSampleContainerProxy *)rootSampleContainerProxy
 {
-	return [super rootSampleContainerProxy];
+	return [[DTXSignpostNestedRootProxy alloc] initWithOutlineView:self.managedOutlineView managedObjectContext:self.document.firstRecording.managedObjectContext sampleClass:DTXSignpostSample.class];
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "DTXSignpostDataProvider.h"
-#import "DTXSignpostRootProxy.h"
+#import "DTXSignpostSummaryRootProxy.h"
 #import "DTXSignpostProtocol.h"
 #import "DTXDetailOutlineView.h"
 #import "DTXEventInspectorDataProvider.h"
@@ -103,12 +103,12 @@
 	id<DTXSignpost> signpostSample = item;
 	DTXSignpostSample* realSignpostSample = (id)signpostSample;
 	
-	if(signpostSample.isGroup == NO && column != 0 && column != 2 && column != 3 && column != 7)
+	if(signpostSample.isExpandable == NO && column != 0 && column != 2 && column != 3 && column != 7)
 	{
 		return @"—";
 	}
 	
-	if(signpostSample.isGroup == YES && column == 7)
+	if(signpostSample.isExpandable == YES && column == 7)
 	{
 		return @"—";
 	}
@@ -125,16 +125,28 @@
 			return [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		}
 		case 3:
-			if(signpostSample.isGroup == NO && (realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil))
+			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
 			{
 				return @"—";
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.duration];
 		case 4:
+			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
+			{
+				return @"—";
+			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.minDuration];
 		case 5:
+			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
+			{
+				return @"—";
+			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.avgDuration];
 		case 6:
+			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
+			{
+				return @"—";
+			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.maxDuration];
 		case 7:
 			return realSignpostSample.eventStatusString;
@@ -152,7 +164,7 @@
 		return NSColor.warning3Color;
 	}
 	
-	if(sample.isGroup == NO && sample.endTimestamp == nil)
+	if(sample.isExpandable == NO && sample.endTimestamp == nil)
 	{
 		return NSColor.warningColor;
 	}
@@ -169,7 +181,7 @@
 		return NSLocalizedString(@"Event error", @"");
 	}
 	
-	if(sample.isGroup == NO && sample.endTimestamp == nil)
+	if(sample.isExpandable == NO && sample.endTimestamp == nil)
 	{
 		return NSLocalizedString(@"Incomplete event", @"");
 	}
@@ -182,6 +194,11 @@
 	return YES;
 }
 
+- (BOOL)supportsSorting
+{
+	return NO;
+}
+
 - (NSArray<NSString *> *)filteredAttributes
 {
 	return @[@"category", @"name", @"additionalInfoStart", @"additionalInfoEnd"];
@@ -189,7 +206,7 @@
 
 - (DTXSampleContainerProxy *)rootSampleContainerProxy
 {
-	return [[DTXSignpostRootProxy alloc] initWithManagedObjectContext:self.document.firstRecording.managedObjectContext outlineView:self.managedOutlineView];
+	return [[DTXSignpostSummaryRootProxy alloc] initWithManagedObjectContext:self.document.firstRecording.managedObjectContext outlineView:self.managedOutlineView];
 }
 
 - (BOOL)showsTimestampColumn

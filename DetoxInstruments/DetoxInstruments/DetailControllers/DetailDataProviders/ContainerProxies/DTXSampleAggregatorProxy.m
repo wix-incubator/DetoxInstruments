@@ -14,16 +14,13 @@
 	NSMapTable<NSString*, DTXSampleContainerProxy*>* _proxyMapping;
 }
 
-@synthesize managedObjectContext=_managedObjectContext;
-
-- (instancetype)initWithKeyPath:(NSString*)keyPath isRoot:(BOOL)root managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView;
+- (instancetype)initWithKeyPath:(NSString*)keyPath outlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext*)managedObjectContext isRoot:(BOOL)root
 {
-	self = [super initWithOutlineView:outlineView isRoot:root managedObjectContext:managedObjectContext];
+	self = [super initWithOutlineView:outlineView managedObjectContext:managedObjectContext isRoot:root];
 	
 	if(self)
 	{
 		_keyPath = keyPath;
-		_managedObjectContext = managedObjectContext;
 	}
 	
 	return self;
@@ -31,10 +28,9 @@
 
 - (void)prepareData
 {
-	NSFetchRequest* fr = [self _fetchRequestForAggregatesWithDictionaryResult:YES];
-	id categories = [_managedObjectContext executeFetchRequest:fr error:NULL];
+	[super prepareData];
 	
-	_aggregates = [categories valueForKey:self.keyPath];
+	_aggregates = [self.fetchedResultsController.fetchedObjects valueForKey:self.keyPath];
 	_proxyMapping = [NSMapTable strongToStrongObjectsMapTable];
 	
 	[_aggregates enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -46,7 +42,7 @@
 
 - (NSFetchRequest *)fetchRequest
 {
-	return [self _fetchRequestForAggregatesWithDictionaryResult:NO];
+	return [self _fetchRequestForAggregatesWithDictionaryResult:YES];
 }
 
 - (NSFetchRequest*)_fetchRequestForAggregatesWithDictionaryResult:(BOOL)dictionaryResult

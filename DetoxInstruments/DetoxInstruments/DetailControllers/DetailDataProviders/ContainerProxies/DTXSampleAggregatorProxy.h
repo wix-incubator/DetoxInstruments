@@ -13,10 +13,9 @@
 @interface DTXSampleAggregatorProxy : DTXSampleContainerProxy
 
 @property (nonatomic, strong, readonly) NSString* keyPath;
-@property (nonatomic, strong, readonly) NSManagedObjectContext* managedObjectContext;
 @property (nonatomic, strong, readonly) Class sampleClass;
 @property (nonatomic, strong, readonly) NSPredicate* predicateForAggregator;
 
-- (instancetype)initWithKeyPath:(NSString*)keyPath isRoot:(BOOL)root managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView;
+- (instancetype)initWithKeyPath:(NSString*)keyPath outlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext*)managedObjectContext isRoot:(BOOL)root;
 
 @end

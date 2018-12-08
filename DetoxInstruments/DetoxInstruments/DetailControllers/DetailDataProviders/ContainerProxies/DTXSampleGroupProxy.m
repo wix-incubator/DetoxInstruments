@@ -11,16 +11,16 @@
 
 @interface DTXSampleGroupProxy ()
 {
-	NSString* _name;
 	NSMapTable<DTXSampleGroup*, DTXSampleGroupProxy*>* _groupToProxyMapping;
 }
+
+@property (nonatomic, strong, readwrite) NSString* name;
+@property (nonatomic, strong, readwrite) NSDate* timestamp;
+@property (nonatomic, strong, readwrite) NSDate* closeTimestamp;
 
 @end
 
 @implementation DTXSampleGroupProxy
-
-- (void)setName:(NSString *)name { _name = name; }
-- (NSString *)name { return _name; }
 
 - (id)objectForSample:(id)sample
 {
@@ -32,7 +32,7 @@
 		
 		if(groupProxy == nil)
 		{
-			groupProxy = [[DTXSampleGroupProxy alloc] initWithSampleTypes:self.sampleTypes isRoot:NO outlineView:self.outlineView managedObjectContext:self.managedObjectContext];
+			groupProxy = [[DTXSampleGroupProxy alloc] initWithOutlineView:self.outlineView managedObjectContext:self.managedObjectContext isRoot:NO sampleTypes:self.sampleTypes];
 			groupProxy.name = sampleGroup.name;
 			groupProxy.timestamp = sampleGroup.timestamp;
 			groupProxy.closeTimestamp = sampleGroup.closeTimestamp;
@@ -47,14 +47,14 @@
 	}
 }
 
-- (instancetype)initWithSampleTypes:(NSArray<NSNumber*>*)sampleTypes outlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext
+- (instancetype)initWithOutlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext sampleTypes:(NSArray<NSNumber*>*)sampleTypes;
 {
-	return [self initWithSampleTypes:sampleTypes isRoot:YES outlineView:outlineView managedObjectContext:managedObjectContext];
+	return [self initWithOutlineView:outlineView managedObjectContext:managedObjectContext isRoot:YES sampleTypes:sampleTypes];
 }
 
-- (instancetype)initWithSampleTypes:(NSArray<NSNumber*>*)sampleTypes isRoot:(BOOL)isRoot outlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext
+- (instancetype)initWithOutlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext isRoot:(BOOL)isRoot sampleTypes:(NSArray<NSNumber*>*)sampleTypes
 {
-	self = [super initWithOutlineView:outlineView isRoot:isRoot managedObjectContext:managedObjectContext];
+	self = [super initWithOutlineView:outlineView managedObjectContext:managedObjectContext isRoot:isRoot];
 	if(self)
 	{
 		_sampleTypes = sampleTypes;

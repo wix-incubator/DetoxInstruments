@@ -19,6 +19,7 @@
 #import "NSView+UIAdditions.h"
 #import "DTXSampleAggregatorProxy.h"
 #import "DTXRecording+UIExtensions.h"
+#import "DTXSampleGroupProxy.h"
 
 const CGFloat DTXAutomaticColumnWidth = -1.0;
 
@@ -120,7 +121,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	NSTableColumn* timestampColumn = [_managedOutlineView tableColumnWithIdentifier:@"DTXTimestampColumn"];
 	timestampColumn.hidden = self.showsTimestampColumn == NO;
 	
-	timestampColumn.sortDescriptorPrototype = self.rootGroupProxy.supportsSorting ? [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES] : nil;
+	timestampColumn.sortDescriptorPrototype = self.supportsSorting ? [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES] : nil;
 	
 //	_managedOutlineView.outlineTableColumn = timestampColumn;
 	
@@ -130,7 +131,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		NSTableColumn* column = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
 		column.title = obj.title;
 		
-		if(self.rootGroupProxy.supportsSorting)
+		if(self.supportsSorting)
 		{
 			column.sortDescriptorPrototype = obj.sortDescriptor;
 		}
@@ -212,7 +213,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (DTXSampleContainerProxy*)rootSampleContainerProxy
 {
-	return [[DTXEntitySampleContainerProxy alloc] initWithOutlineView:_managedOutlineView sampleClass:self.sampleClass managedObjectContext:_document.firstRecording.managedObjectContext];
+	return [[DTXEntitySampleContainerProxy alloc] initWithOutlineView:_managedOutlineView managedObjectContext:_document.firstRecording.managedObjectContext sampleClass:self.sampleClass];
 }
 
 - (BOOL)showsHeaderView
@@ -247,8 +248,8 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item
 {
-	DTXSampleContainerProxy* proxy = _rootGroupProxy;
-	if([item isKindOfClass:[DTXSampleContainerProxy class]])
+	id<DTXSampleGroupProxy> proxy = _rootGroupProxy;
+	if(item != nil)
 	{
 		proxy = item;
 	}
@@ -284,14 +285,15 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(nullable id)item
 {
-	DTXSampleContainerProxy* currentGroup = _rootGroupProxy;
-	if([item isKindOfClass:[DTXSampleContainerProxy class]])
+	id<DTXSampleGroupProxy> currentGroup = _rootGroupProxy;
+	if(item != nil)
 	{
 		currentGroup = item;
 	}
 	
 	id child = [currentGroup sampleAtIndex:index];
-	if([child isKindOfClass:DTXSampleContainerProxy.class])
+	
+	if([child conformsToProtocol:@protocol(DTXSampleGroupDynamicDataLoadingProxy)])
 	{
 		[child reloadData];
 	}
@@ -308,13 +310,14 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-	return [item isKindOfClass:[DTXSampleContainerProxy class]];
+	return [item conformsToProtocol:@protocol(DTXSampleGroupProxy)] && [item isExpandable];
 }
 
 - (void)_updateRowView:(DTXTableRowView*)rowView withItem:(id)item
 {
 	[rowView setUserNotifyTooltip:nil];
-	if([item isKindOfClass:[DTXSampleContainerProxy class]] || [item isKindOfClass:[DTXTag class]])
+	
+	if([item conformsToProtocol:@protocol(DTXSampleGroupProxy)] || [item isKindOfClass:[DTXTag class]])
 	{
 		rowView.userNotifyColor = NSColor.controlBackgroundColor;
 	}
@@ -322,14 +325,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	{
 		rowView.userNotifyColor = [self backgroundRowColorForItem:item];
 		[rowView setUserNotifyTooltip:[self statusTooltipforItem:item]];
-		
-//		BOOL hasParentGroup = [item respondsToSelector:@selector(parentGroup)];
-//		if(hasParentGroup && [rowView.userNotifyColor isEqualTo:NSColor.controlBackgroundColor] && [item parentGroup] != _document.recording.rootSampleGroup)
-//		{
-//			CGFloat fraction = MIN(0.03 + (DTXDepthOfSample(item, _document.recording.rootSampleGroup) / 30.0), 0.3);
-//
-//			rowView.userNotifyColor = [NSColor.controlBackgroundColor interpolateToValue:[NSColor colorWithRed:150.0f/255.0f green:194.0f/255.0f blue:254.0f/255.0f alpha:1.0] progress:fraction];
-//		}
 	}
 }
 
@@ -339,6 +334,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	{
 		return nil;
 	}
+	
 	
 	DTXTableRowView* rowView = (id)[outlineView rowViewAtRow:[outlineView rowForItem:item] makeIfNecessary:YES];
 	
@@ -350,7 +346,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 							 
 		cellView.textField.stringValue = [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
 		cellView.textField.font = [self _monospacedNumbersFontForFont:cellView.textField.font bold:NO];
-		cellView.textField.textColor = [item isKindOfClass:[DTXSampleContainerProxy class]] ? NSColor.labelColor : [self textColorForItem:item];
+		cellView.textField.textColor = [item conformsToProtocol:@protocol(DTXSampleGroupProxy)] ? NSColor.labelColor : [self textColorForItem:item];
 		
 		[self _updateRowView:rowView withItem:item];
 		
@@ -365,14 +361,14 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	NSTableCellView* cellView = [outlineView makeViewWithIdentifier:@"DTXTextCell" owner:nil];
 	
 	BOOL wantsStandardGroup = NO;
-	if([item isKindOfClass:DTXSampleContainerProxy.class])
+	if([item conformsToProtocol:@protocol(DTXSampleGroupProxy)])
 	{
 		wantsStandardGroup = [item wantsStandardGroupDisplay];
 	}
 	
-	if(wantsStandardGroup && [item isKindOfClass:DTXSampleContainerProxy.class])
+	if(wantsStandardGroup && [item isKindOfClass:DTXSampleGroupProxy.class])
 	{
-		cellView.textField.stringValue = ((DTXSampleContainerProxy*)item).name;
+		cellView.textField.stringValue = ((DTXSampleGroupProxy*)item).name;
 		cellView.textField.textColor = NSColor.labelColor;
 	}
 	else if([item isMemberOfClass:[DTXTag class]])
@@ -518,7 +514,7 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 		}
 		else
 		{
-			DTXSampleContainerProxy* groupProxy = item;
+			DTXSampleGroupProxy* groupProxy = item;
 			
 			NSDate* groupCloseTimestamp = groupProxy.closeTimestamp ?: [item recording].endTimestamp;
 			
@@ -607,6 +603,11 @@ NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
 	[_managedOutlineView expandItem:nil expandChildren:YES];
 	
 	[_managedOutlineView scrollRowToVisible:0];
+}
+
+- (BOOL)supportsSorting
+{
+	return YES;
 }
 
 @end

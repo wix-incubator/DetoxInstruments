@@ -15,7 +15,10 @@
 
 @property (nonatomic, strong, readonly) DTXSampleGroup* sampleGroup;
 @property (nonatomic, strong, readonly) NSArray<NSNumber*>* sampleTypes;
+@property (nonatomic, strong, readonly) NSString* name;
+@property (nonatomic, strong, readonly) NSDate* timestamp;
+@property (nonatomic, strong, readonly) NSDate* closeTimestamp;
 
-- (instancetype)initWithSampleTypes:(NSArray<NSNumber*>*)sampleTypes outlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+- (instancetype)initWithOutlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext sampleTypes:(NSArray<NSNumber*>*)sampleTypes;
 
 @end

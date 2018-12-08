@@ -12,12 +12,14 @@
 
 @synthesize fetchRequest=_fetchRequest;
 
-- (instancetype)initWithOutlineView:(NSOutlineView *)outlineView sampleClass:(Class)sampleClass managedObjectContext:(NSManagedObjectContext *)managedObjectContext
+- (instancetype)initWithOutlineView:(NSOutlineView *)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext sampleClass:(Class)sampleClass
 {
-	self = [super initWithOutlineView:outlineView isRoot:YES managedObjectContext:managedObjectContext];
+	self = [super initWithOutlineView:outlineView managedObjectContext:managedObjectContext isRoot:YES];
 	
 	if(self)
 	{
+		NSParameterAssert(sampleClass != nil);
+		
 		_sampleClass = sampleClass;
 		_fetchRequest = [_sampleClass fetchRequest];
 		_fetchRequest.predicate = [NSPredicate predicateWithFormat:@"hidden == NO"];
@@ -36,13 +38,10 @@
 	return self;
 }
 
-- (BOOL)supportsSorting
-{
-	return YES;
-}
-
 - (NSFetchRequest *)fetchRequest
 {
+	NSParameterAssert(_fetchRequest != nil);
+	
 	return _fetchRequest;
 }
 
