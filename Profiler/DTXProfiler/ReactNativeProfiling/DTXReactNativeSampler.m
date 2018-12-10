@@ -90,11 +90,6 @@ inline static void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL
 		return;
 	}
 	
-	NSDate* date = NSDate.date;
-	NSTimeInterval ti = CACurrentMediaTime() * 1000;
-	
-	NSLog(@"%.25f %.25f %.25f", date.timeIntervalSinceReferenceDate, date.timeIntervalSince1970, ti);
-	
 	switch (type) {
 		case 0:
 		{
