@@ -33,10 +33,10 @@
 		
 		[rv insertObject:detailController atIndex:0];
 		
-		detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
-		detailController.detailDataProvider = [[DTXSignpostNestedDataProvider alloc] initWithDocument:self.document plotController:self];
-		
-		[rv addObject:detailController];
+//		detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+//		detailController.detailDataProvider = [[DTXSignpostNestedDataProvider alloc] initWithDocument:self.document plotController:self];
+//		
+//		[rv addObject:detailController];
 	}
 	
 	return rv;
