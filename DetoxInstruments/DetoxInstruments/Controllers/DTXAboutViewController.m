@@ -23,7 +23,7 @@
 - (void)viewDidLoad
 {
 	self.applicationIconImageView.image = [DTXAboutViewController _bestIcon];
-	self.applicationTitleTextField.stringValue = @"Detox Instruments";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	self.applicationTitleTextField.stringValue = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 	self.applicationVersionTextField.stringValue = [NSString stringWithFormat:@"%@ %@ (%@)", NSLocalizedString(@"Version", @""), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
 	self.applicationDateTextField.stringValue = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Built on", @""),[NSDateFormatter localizedStringFromDate:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DTXBuildDate"] dateStyle:NSDateFormatterFullStyle timeStyle:NSDateFormatterShortStyle]];
 	self.applicationCopyrightTextField.stringValue = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"];
