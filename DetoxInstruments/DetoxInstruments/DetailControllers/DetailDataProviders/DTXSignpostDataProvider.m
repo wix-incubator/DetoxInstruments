@@ -90,7 +90,17 @@
 	status.title = NSLocalizedString(@"Status", @"");
 	status.minWidth = 100;
 	
-	return @[name, count, timestamp, duration, minDuration, avgDuration, maxDuration, status];
+	DTXColumnInformation* moreInfo1 = [DTXColumnInformation new];
+	moreInfo1.title = NSLocalizedString(@"Additional Info (Start)", @"");
+	moreInfo1.minWidth = 320;
+	moreInfo1.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoStart" ascending:YES];
+	
+	DTXColumnInformation* moreInfo2 = [DTXColumnInformation new];
+	moreInfo2.title = NSLocalizedString(@"Additional Info (End)", @"");
+	moreInfo2.minWidth = 320;
+	moreInfo2.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoEnd" ascending:YES];
+	
+	return @[name, count, timestamp, duration, minDuration, avgDuration, maxDuration, status, moreInfo1, moreInfo2];
 }
 
 - (Class)sampleClass
@@ -103,15 +113,15 @@
 	id<DTXSignpost> signpostSample = item;
 	DTXSignpostSample* realSignpostSample = (id)signpostSample;
 	
-	if(signpostSample.isExpandable == NO && column != 0 && column != 2 && column != 3 && column != 7)
-	{
-		return @"—";
-	}
+//	if(signpostSample.isExpandable == NO && column != 0 && column != 2 && column != 3 && column != 7)
+//	{
+//		return @"—";
+//	}
 	
-	if(signpostSample.isExpandable == YES && column == 7)
-	{
-		return @"—";
-	}
+//	if(signpostSample.isExpandable == YES && column == 7)
+//	{
+//		return @"—";
+//	}
 	
 	switch (column)
 	{
@@ -149,7 +159,23 @@
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.maxDuration];
 		case 7:
+			if(realSignpostSample.isExpandable)
+			{
+				return @"—";
+			}
 			return realSignpostSample.eventStatusString;
+		case 8:
+			if(realSignpostSample.isExpandable)
+			{
+				return @"—";
+			}
+			return realSignpostSample.additionalInfoStart;
+		case 9:
+			if(realSignpostSample.isExpandable)
+			{
+				return @"—";
+			}
+			return realSignpostSample.additionalInfoEnd;
 		default:
 			return nil;
 	}

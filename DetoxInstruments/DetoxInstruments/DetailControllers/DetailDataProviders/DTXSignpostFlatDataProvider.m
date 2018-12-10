@@ -67,12 +67,12 @@
 	
 	DTXColumnInformation* category = [DTXColumnInformation new];
 	category.title = NSLocalizedString(@"Category", @"");
-	category.minWidth = 130;
+	category.minWidth = 165;
 	category.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES];
 	
 	DTXColumnInformation* name = [DTXColumnInformation new];
 	name.title = NSLocalizedString(@"Name", @"");
-	name.minWidth = 165;
+	name.minWidth = 280;
 	name.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
 	
 	DTXColumnInformation* status = [DTXColumnInformation new];
@@ -82,12 +82,12 @@
 	
 	DTXColumnInformation* moreInfo1 = [DTXColumnInformation new];
 	moreInfo1.title = NSLocalizedString(@"Additional Info (Start)", @"");
-	moreInfo1.minWidth = 155;
+	moreInfo1.minWidth = 280;
 	moreInfo1.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoStart" ascending:YES];
 	
 	DTXColumnInformation* moreInfo2 = [DTXColumnInformation new];
 	moreInfo2.title = NSLocalizedString(@"Additional Info (End)", @"");
-	moreInfo2.minWidth = 155;
+	moreInfo2.minWidth = 280;
 	moreInfo2.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoEnd" ascending:YES];
 	
 	return @[start, duration, type, status, category, name, moreInfo1, moreInfo2];
