@@ -56,6 +56,21 @@
 
 - (void)_reloadDurations
 {
+	if(self.fetchedResultsController.fetchedObjects.count == 1)
+	{
+		DTXSignpostSample* sample = self.fetchedResultsController.fetchedObjects.firstObject;
+		
+		_minDuration = sample.duration;
+		_avgDuration = sample.duration;
+		_maxDuration = sample.duration;
+		_timestamp = sample.timestamp;
+		_endTimestamp = sample.endTimestamp;
+		_duration = sample.duration;
+		_isEvent = sample.isEvent;
+		
+		return;
+	}
+	
 	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
 	fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[[NSPredicate predicateWithFormat:@"endTimestamp != nil"], _fetchRequest.predicate]];
 	fr.resultType = NSDictionaryResultType;
