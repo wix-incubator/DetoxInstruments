@@ -127,19 +127,29 @@
 			
 			NSButton* previewButton = [NSButton new];
 			previewButton.bezelStyle = NSBezelStyleRounded;
+			previewButton.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
 			previewButton.title = NSLocalizedString(@"Open", @"");
 			previewButton.target = self;
 			previewButton.action = @selector(open:);
-			[previewButton sizeToFit];
+			previewButton.translatesAutoresizingMaskIntoConstraints = NO;
 			
 			NSButton* saveButton = [NSButton new];
 			saveButton.bezelStyle = NSBezelStyleRounded;
+			saveButton.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
 			saveButton.title = NSLocalizedString(@"Save As…", @"");
 			saveButton.target = self;
 			saveButton.action = @selector(saveAs:);
-			[saveButton sizeToFit];
+			saveButton.translatesAutoresizingMaskIntoConstraints = NO;
 			
-			responsePreview.buttons = @[previewButton, saveButton];
+			NSButton* shareButton = [NSButton new];
+			[shareButton sendActionOn:NSEventMaskLeftMouseDown];
+			shareButton.bezelStyle = NSBezelStyleRounded;
+			shareButton.image = [NSImage imageNamed:NSImageNameShareTemplate];
+			shareButton.target = self;
+			shareButton.action = @selector(share:);
+			shareButton.translatesAutoresizingMaskIntoConstraints = NO;
+			
+			responsePreview.buttons = @[previewButton, saveButton, shareButton];
 			
 			[contentArray addObject:responsePreview];
 		}
@@ -184,6 +194,12 @@
 	[self saveAs:sender inWindow:[sender window]];
 }
 
+- (IBAction)share:(id)sender
+{
+	NSSharingServicePicker* picker = [[NSSharingServicePicker alloc] initWithItems:@[self._prepareTempFile]];
+	[picker showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSRectEdgeMaxY];
+}
+
 - (void)copy:(id)sender targetView:(__kindof NSView *)targetView
 {
 	DTXNetworkSample* networkSample = self.sample;
@@ -225,13 +241,20 @@
 	return fileName;
 }
 
-- (IBAction)open:(id)sender
+- (NSURL*)_prepareTempFile
 {
 	NSString* fileName = self._bestGuessFileName;
 	NSURL* target = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:fileName];
 	
 	DTXNetworkSample* networkSample = self.sample;
 	[networkSample.responseData.data writeToURL:target atomically:YES];
+	
+	return target;
+}
+
+- (IBAction)open:(id)sender
+{
+	NSURL* target = self._prepareTempFile;
 	
 	[NSWorkspace.sharedWorkspace openURL:target];
 }

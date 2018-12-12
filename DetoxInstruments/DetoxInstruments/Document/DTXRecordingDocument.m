@@ -493,6 +493,11 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	[_remoteProfilingClient stopProfiling];
 }
 
+- (BOOL)allowsDocumentSharing
+{
+	return self.documentState >= DTXRecordingDocumentStateLiveRecordingFinished;
+}
+
 #pragma mark DTXRemoteProfilingClientDelegate
 
 - (void)remoteProfilingClient:(DTXRemoteProfilingClient *)client didCreateRecording:(DTXRecording *)recording

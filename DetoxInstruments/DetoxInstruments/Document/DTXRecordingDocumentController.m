@@ -18,7 +18,7 @@
 
 - (BOOL)allowsAutomaticShareMenu
 {
-	return NO;
+	return YES;
 }
 
 - (NSArray<NSString *> *)documentClassNames

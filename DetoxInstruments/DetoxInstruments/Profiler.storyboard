@@ -773,7 +773,7 @@
                                                                                     <outlet property="menu" destination="eL9-So-c4L" id="JUA-cm-KRW"/>
                                                                                 </connections>
                                                                             </textField>
-                                                                            <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b2f-pc-oQ1">
+                                                                            <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b2f-pc-oQ1">
                                                                                 <rect key="frame" x="160" y="0.0" width="0.0" height="8"/>
                                                                             </stackView>
                                                                         </subviews>
