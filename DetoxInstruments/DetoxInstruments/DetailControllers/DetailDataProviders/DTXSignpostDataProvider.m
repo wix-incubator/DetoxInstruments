@@ -60,7 +60,7 @@
 	name.title = NSLocalizedString(@"Category / Name", @"");
 	name.minWidth = 320;
 	
-	const CGFloat durationMinWidth = 80;
+	const CGFloat durationMinWidth = 90;
 	
 	DTXColumnInformation* count = [DTXColumnInformation new];
 	count.title = NSLocalizedString(@"Count", @"");
@@ -68,7 +68,7 @@
 	
 	DTXColumnInformation* timestamp = [DTXColumnInformation new];
 	timestamp.title = NSLocalizedString(@"Start", @"");
-	timestamp.minWidth = durationMinWidth;
+	timestamp.minWidth = 80;
 	
 	DTXColumnInformation* duration = [DTXColumnInformation new];
 	duration.title = NSLocalizedString(@"Duration", @"");

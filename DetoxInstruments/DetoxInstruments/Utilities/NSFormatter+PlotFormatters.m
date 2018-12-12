@@ -34,9 +34,15 @@
 	return [NSString stringWithFormat:@"%@μs", [_numberFormatter stringFromNumber:@(ti * 1000000)]];
 }
 
-- (NSString*)_msStringFromTimeInterval:(NSTimeInterval)ti
+- (NSString*)_msStringFromTimeInterval:(NSTimeInterval)ti round:(BOOL)roundMs
 {
-	return [NSString stringWithFormat:@"%@ms", [_numberFormatter stringFromNumber:@(ti * 1000)]];
+	ti *= 1000;
+	if(roundMs)
+	{
+		ti = round(ti);
+	}
+	
+	return [NSString stringWithFormat:@"%@ms", [_numberFormatter stringFromNumber:@(ti)]];
 }
 
 - (NSString*)_hmsmsStringFromTimeInterval:(NSTimeInterval)ti
@@ -46,6 +52,8 @@
 	double hours = floor(ti / 3600);
 	double minutes = floor(fmod(ti / 60, 60));
 	double seconds = fmod(ti, 60);
+	double secondsRound = floor(fmod(ti, 60));
+	double ms = ti - floor(ti);
 	
 	if(hours > 0)
 	{
@@ -62,14 +70,33 @@
 		[rv appendFormat:@"%@m", [_numberFormatter stringFromNumber:@(minutes)]];
 	}
 	
-	if(seconds > 0)
+	if(rv.length == 0)
 	{
-		if(rv.length != 0)
+		if(seconds > 0)
+		{
+			if(rv.length != 0)
+			{
+				[rv appendString:@" "];
+			}
+			
+			[rv appendFormat:@"%@s", [_numberFormatter stringFromNumber:@(seconds)]];
+		}
+	}
+	else
+	{
+		if(secondsRound > 0)
 		{
 			[rv appendString:@" "];
+			
+			[rv appendFormat:@"%@s", [_numberFormatter stringFromNumber:@(secondsRound)]];
 		}
 		
-		[rv appendFormat:@"%@s", [_numberFormatter stringFromNumber:@(seconds)]];
+		if(ms > 0)
+		{
+			[rv appendString:@" "];
+			
+			[rv appendString:[self _msStringFromTimeInterval:ms round:YES]];
+		}
 	}
 	
 	return rv;
@@ -84,7 +111,7 @@
 		
 	if(ti < 1.0)
 	{
-		return [self _msStringFromTimeInterval:ti];
+		return [self _msStringFromTimeInterval:ti round:NO];
 	}
 	
 	return [self _hmsmsStringFromTimeInterval:ti];

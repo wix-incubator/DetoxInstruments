@@ -26,7 +26,7 @@
 {
 	DTXColumnInformation* duration = [DTXColumnInformation new];
 	duration.title = NSLocalizedString(@"Duration", @"");
-	duration.minWidth = 70;
+	duration.minWidth = 90;
 	duration.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"duration" ascending:YES];
 	
 	DTXColumnInformation* size = [DTXColumnInformation new];

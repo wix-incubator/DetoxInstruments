@@ -48,11 +48,11 @@
 
 - (NSArray<DTXColumnInformation *> *)columns
 {
-	const CGFloat durationMinWidth = 80;
+	const CGFloat durationMinWidth = 90;
 	
 	DTXColumnInformation* start = [DTXColumnInformation new];
 	start.title = NSLocalizedString(@"Start", @"");
-	start.minWidth = durationMinWidth;
+	start.minWidth = 80;
 	start.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES];
 	
 	DTXColumnInformation* duration = [DTXColumnInformation new];
@@ -62,7 +62,7 @@
 	
 	DTXColumnInformation* type = [DTXColumnInformation new];
 	type.title = NSLocalizedString(@"Type", @"");
-	type.minWidth = durationMinWidth;
+	type.minWidth = 80;
 	type.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"isEvent" ascending:YES];
 	
 	DTXColumnInformation* category = [DTXColumnInformation new];

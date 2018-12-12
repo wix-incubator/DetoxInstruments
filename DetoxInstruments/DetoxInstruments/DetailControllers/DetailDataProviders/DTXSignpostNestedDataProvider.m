@@ -57,7 +57,7 @@
 
 - (NSArray<DTXColumnInformation *> *)columns
 {
-	const CGFloat durationMinWidth = 80;
+	const CGFloat durationMinWidth = 90;
 	
 	DTXColumnInformation* start = [DTXColumnInformation new];
 	start.title = NSLocalizedString(@"Start", @"");
