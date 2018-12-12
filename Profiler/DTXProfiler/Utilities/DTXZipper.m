@@ -96,6 +96,8 @@ BOOL DTXWriteZipFileWithDirectoryURL(NSURL* zipURL, NSURL* directoryURL)
 
 BOOL DTXExtractZipToURL(NSURL* zipURL, NSURL* targetURL)
 {
+	[NSFileManager.defaultManager createDirectoryAtURL:targetURL withIntermediateDirectories:YES attributes:nil error:NULL];
+	
 	ZZArchive* archive = [ZZArchive archiveWithURL:zipURL error:NULL];
 	
 	[archive.entries enumerateObjectsUsingBlock:^(ZZArchiveEntry * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
