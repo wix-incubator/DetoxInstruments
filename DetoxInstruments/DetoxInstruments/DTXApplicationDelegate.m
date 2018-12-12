@@ -10,7 +10,7 @@
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import "DTXRecordingDocument.h"
 #import "DTXAboutWindowController.h"
-//#import "CCNPreferencesWindowController.h"
+#import "DTXColorTryoutsWindow.h"
 
 @import Carbon;
 @import Sparkle;
@@ -47,8 +47,6 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 @interface DTXApplicationDelegate () <SUUpdaterDelegate>
 {
-//	CCNPreferencesWindowController* _preferencesWindowController;
-	
 	__weak IBOutlet NSMenu *_appMenu;
 	__weak IBOutlet NSMenuItem *_aboutMenuItem;
 	__weak IBOutlet NSMenuItem *_hideMenuItem;
@@ -57,6 +55,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	__strong IBOutlet SUUpdater* _updater;
 	
 	DTXAboutWindowController* _aboutWindowController;
+	
+	DTXColorTryoutsWindowController* _colorPlaygroundController;
 }
 
 @end
@@ -71,20 +71,28 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	_aboutMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"About %@", @""), actualName];
 	_hideMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Hide %@", @""), actualName];
 	_quitMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Quit %@", @""), actualName];
-	
-	_aboutWindowController = [NSStoryboard storyboardWithName:@"About" bundle:NSBundle.mainBundle].instantiateInitialController;
 }
 
 - (IBAction)showAboutWindow:(id)sender
 {
-	if(_aboutWindowController.window.isVisible)
+	if(_aboutWindowController != nil)
 	{
-		[_aboutWindowController.window orderFrontRegardless];
+		[_aboutWindowController showWindow:nil];
 		return;
 	}
 	
+	_aboutWindowController = [NSStoryboard storyboardWithName:@"About" bundle:NSBundle.mainBundle].instantiateInitialController;
 	[_aboutWindowController showWindow:nil];
 	[_aboutWindowController.window center];
+	
+	__block id observer;
+	observer = [NSNotificationCenter.defaultCenter addObserverForName:NSWindowWillCloseNotification object:_aboutWindowController.window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+		
+		_aboutWindowController = nil;
+		
+		[NSNotificationCenter.defaultCenter removeObserver:observer];
+		observer = nil;
+	}];
 }
 
 - (void)verifyLldbInitIsNotBroken
@@ -161,6 +169,29 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/issues"]];
 }
 
+- (IBAction)showColorPlayground:(id)sender
+{
+	if(_colorPlaygroundController != nil)
+	{
+		[_colorPlaygroundController showWindow:nil];
+		return;
+	}
+	
+	_colorPlaygroundController = [DTXColorTryoutsWindowController new];
+	[[[NSNib alloc] initWithNibNamed:@"DTXColorTryoutsWindow" bundle:[NSBundle bundleForClass:DTXColorTryoutsWindow.class]] instantiateWithOwner:_colorPlaygroundController topLevelObjects:nil];
+	
+	[_colorPlaygroundController showWindow:nil];
+	
+	__block id observer;
+	observer = [NSNotificationCenter.defaultCenter addObserverForName:NSWindowWillCloseNotification object:_colorPlaygroundController.window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+		
+		_colorPlaygroundController = nil;
+		
+		[NSNotificationCenter.defaultCenter removeObserver:observer];
+		observer = nil;
+	}];
+}
+
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
 	NSMutableArray<DTXRecordingDocument*>* recordingDocuments = [NSMutableArray new];
@@ -178,28 +209,12 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 			[obj stopLiveRecording];
 		}];
 		
-		dispatch_async(dispatch_get_main_queue(), ^{
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[sender terminate:nil];
 		});
 		
 		return NSTerminateCancel;
 	}
-	
-//	if(recordingDocuments.count > 0)
-//	{
-//		NSAlert* alert = [NSAlert new];
-//		alert.alertStyle = NSAlertStyleCritical;
-//		alert.messageText = [NSString localizedStringWithFormat:NSLocalizedString(@"There are %d recordings in progress.", @""), recordingDocuments.count];
-//		alert.informativeText = NSLocalizedString(@"Quitting will abort any ongoing recordings.", @"");
-//		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
-//		[alert addButtonWithTitle:NSLocalizedString(@"Quit", @"")];
-//
-//		[alert beginSheetModalForWindow:sender.keyWindow completionHandler:^(NSModalResponse returnCode) {
-//			[sender replyToApplicationShouldTerminate:returnCode == NSAlertSecondButtonReturn];
-//		}];
-//
-//		return NSTerminateLater;
-//	}
 	
 	return NSTerminateNow;
 }
@@ -212,6 +227,15 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		menuItem.hidden = canCheckForUpdates == NO;
 		
 		return canCheckForUpdates;
+	}
+	
+	if(menuItem.action == @selector(showColorPlayground:))
+	{
+#ifndef DEBUG
+		menuItem.hidden = YES;
+#endif
+		
+		return YES;
 	}
 
 	return [NSApp validateMenuItem:menuItem];;

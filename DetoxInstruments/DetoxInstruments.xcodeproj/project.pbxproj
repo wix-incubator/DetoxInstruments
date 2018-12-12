@@ -203,6 +203,8 @@
 		39EBDFC61ED36D45005D8AB1 /* DTXRecordingDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDFC51ED36D45005D8AB1 /* DTXRecordingDocument.m */; };
 		39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */; };
 		39EC15B31F20A243007EBE22 /* DTXRecordingDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EC15B21F20A243007EBE22 /* DTXRecordingDocumentController.m */; };
+		39ED0C5B21C13F3C0026E306 /* DTXColorTryoutsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39ED0C5A21C13F3C0026E306 /* DTXColorTryoutsWindow.xib */; };
+		39ED0C7121C1402B0026E306 /* DTXColorTryoutsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39ED0C7021C1402B0026E306 /* DTXColorTryoutsWindow.m */; };
 		39EE1F501F3E2AF8002CB6C1 /* DTXSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EE1F4F1F3E2AF8002CB6C1 /* DTXSegmentedControl.m */; };
 		39EE1F551F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EE1F541F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.m */; };
 		39EE1F581F3E4411002CB6C1 /* DTXRNBridgeCallsDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EE1F571F3E4411002CB6C1 /* DTXRNBridgeCallsDataProvider.m */; };
@@ -821,6 +823,9 @@
 		39EBDFCC1ED36D45005D8AB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39EC15B11F20A243007EBE22 /* DTXRecordingDocumentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocumentController.h; sourceTree = "<group>"; };
 		39EC15B21F20A243007EBE22 /* DTXRecordingDocumentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingDocumentController.m; sourceTree = "<group>"; };
+		39ED0C5A21C13F3C0026E306 /* DTXColorTryoutsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DTXColorTryoutsWindow.xib; sourceTree = "<group>"; };
+		39ED0C6F21C1402B0026E306 /* DTXColorTryoutsWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXColorTryoutsWindow.h; sourceTree = "<group>"; };
+		39ED0C7021C1402B0026E306 /* DTXColorTryoutsWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXColorTryoutsWindow.m; sourceTree = "<group>"; };
 		39EE1F4E1F3E2AF8002CB6C1 /* DTXSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSegmentedControl.h; sourceTree = "<group>"; };
 		39EE1F4F1F3E2AF8002CB6C1 /* DTXSegmentedControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSegmentedControl.m; sourceTree = "<group>"; };
 		39EE1F531F3E439D002CB6C1 /* DTXRNBridgeCallsInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeCallsInspectorDataProvider.h; sourceTree = "<group>"; };
@@ -949,6 +954,9 @@
 		391958DF20A205FD00BD9C75 /* DocumentationGeneration */ = {
 			isa = PBXGroup;
 			children = (
+				39ED0C5A21C13F3C0026E306 /* DTXColorTryoutsWindow.xib */,
+				39ED0C6F21C1402B0026E306 /* DTXColorTryoutsWindow.h */,
+				39ED0C7021C1402B0026E306 /* DTXColorTryoutsWindow.m */,
 				390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */,
 				390688D921177D5000D15C86 /* DTXDebugMenuGenerator.h */,
 				390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */,
@@ -1922,6 +1930,7 @@
 				39725F8E21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist in Resources */,
 				399B4DCD1ED574E70098D2AC /* Profiler.storyboard in Resources */,
 				39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */,
+				39ED0C5B21C13F3C0026E306 /* DTXColorTryoutsWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2038,6 +2047,7 @@
 				394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */,
 				396A6B381F4ECA7700768536 /* DTXObjectsCellView.m in Sources */,
 				393E17B9207E70A4002E6136 /* _DTXModalProgressIndicatorController.m in Sources */,
+				39ED0C7121C1402B0026E306 /* DTXColorTryoutsWindow.m in Sources */,
 				3982D87721B4232D005FCAEF /* DTXSignpostDataExporter.m in Sources */,
 				396829361F1265C10012CAFB /* DTXMenuPathControl.m in Sources */,
 				399B4DC81ED574410098D2AC /* DTXWindowController.m in Sources */,

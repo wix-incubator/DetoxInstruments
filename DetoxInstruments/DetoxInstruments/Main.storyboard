@@ -575,6 +575,12 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
+                                        <menuItem title="Colors Playground" keyEquivalent="C" allowsKeyEquivalentWhenHidden="YES" id="HGJ-bl-Epv">
+                                            <connections>
+                                                <action selector="showColorPlayground:" target="Voe-Tx-rLC" id="EhP-3d-zWd"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="kMa-9L-LJ6"/>
                                         <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -707,7 +713,7 @@ CA
                     </constraints>
                 </customView>
             </objects>
-            <point key="canvasLocation" x="-595" y="-1804"/>
+            <point key="canvasLocation" x="-557" y="-1901"/>
         </scene>
     </scenes>
     <resources>
