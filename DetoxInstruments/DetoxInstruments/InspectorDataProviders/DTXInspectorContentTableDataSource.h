@@ -41,7 +41,8 @@
 @property (nonatomic, strong) NSImage* image;
 @property (nonatomic, strong) NSView* customView;
 @property (nonatomic, copy) NSArray<DTXStackTraceFrame*>* stackFrames;
-@property (nonatomic, copy) NSArray* objects;
+@property (nonatomic, copy) NSArray<NSButton*>* buttons;
+@property (nonatomic, copy) NSArray<id>* objects;
 
 @property (nonatomic) BOOL selectionDisabled;
 

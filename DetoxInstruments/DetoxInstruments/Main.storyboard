@@ -175,7 +175,7 @@
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
                                         <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
-                                        <menuItem title="Check for Updates..." id="1Pd-40-g1P">
+                                        <menuItem title="Check for Updates…" id="1Pd-40-g1P">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="checkForUpdates:" target="Ady-hI-5gd" id="WWN-1b-Rv3"/>
@@ -217,7 +217,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="New Recording..." enabled="NO" keyEquivalent="n" id="Was-JA-tGl">
+                                        <menuItem title="New Recording…" enabled="NO" keyEquivalent="n" id="Was-JA-tGl">
                                             <connections>
                                                 <action selector="newDocument:" target="Ady-hI-5gd" id="KQl-pA-1dH"/>
                                             </connections>
@@ -261,7 +261,7 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Export" id="Oxv-bH-9r1">
                                                 <items>
-                                                    <menuItem title="Recording Data As..." id="TaW-ZT-B4J">
+                                                    <menuItem title="Recording Data As…" id="TaW-ZT-B4J">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="_export:" target="Ady-hI-5gd" id="icM-Qe-en5"/>

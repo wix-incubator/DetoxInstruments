@@ -342,7 +342,7 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	
 	if(recordingButtonsVisible)
 	{
-		[[self valueForKey:@"_titleTextField"] setStringValue:[NSString stringWithFormat:@"%@ | %@", @"Example App", @"Recording..."]];
+		[[self valueForKey:@"_titleTextField"] setStringValue:[NSString stringWithFormat:@"%@ | %@", @"Example App", @"Recording…"]];
 	}
 	else
 	{

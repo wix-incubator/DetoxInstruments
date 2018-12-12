@@ -748,11 +748,11 @@
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView identifier="DTXTextViewCellView" wantsLayer="YES" id="YPm-q9-ZMZ" customClass="DTXTextViewCellView">
-                                                                        <rect key="frame" x="1" y="1" width="319" height="47"/>
+                                                                        <rect key="frame" x="1" y="1" width="319" height="53"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tkT-q6-qqx">
-                                                                                <rect key="frame" x="1" y="30" width="317" height="14"/>
+                                                                                <rect key="frame" x="1" y="36" width="317" height="14"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="14" id="adf-Us-PGp"/>
                                                                                 </constraints>
@@ -763,7 +763,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-Wz-uMT">
-                                                                                <rect key="frame" x="13" y="10" width="293" height="13"/>
+                                                                                <rect key="frame" x="13" y="16" width="293" height="13"/>
                                                                                 <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="BME-dP-HVL">
                                                                                     <font key="font" metaFont="system" size="10"/>
                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -773,23 +773,30 @@
                                                                                     <outlet property="menu" destination="eL9-So-c4L" id="JUA-cm-KRW"/>
                                                                                 </connections>
                                                                             </textField>
+                                                                            <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b2f-pc-oQ1">
+                                                                                <rect key="frame" x="160" y="0.0" width="0.0" height="8"/>
+                                                                            </stackView>
                                                                         </subviews>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="bottom" secondItem="DbA-Wz-uMT" secondAttribute="bottom" constant="10" id="5jm-F8-VMi"/>
                                                                             <constraint firstItem="tkT-q6-qqx" firstAttribute="top" secondItem="YPm-q9-ZMZ" secondAttribute="top" constant="3" id="6wC-DH-LWt"/>
+                                                                            <constraint firstItem="b2f-pc-oQ1" firstAttribute="centerX" secondItem="YPm-q9-ZMZ" secondAttribute="centerX" id="EwU-jv-lyt"/>
                                                                             <constraint firstItem="DbA-Wz-uMT" firstAttribute="leading" secondItem="YPm-q9-ZMZ" secondAttribute="leading" constant="15" id="Pw0-Wv-vlG"/>
+                                                                            <constraint firstItem="b2f-pc-oQ1" firstAttribute="top" secondItem="DbA-Wz-uMT" secondAttribute="bottom" constant="8" id="Q8X-I9-461"/>
                                                                             <constraint firstAttribute="trailing" secondItem="DbA-Wz-uMT" secondAttribute="trailing" constant="15" id="Tp9-ed-67N"/>
                                                                             <constraint firstAttribute="trailing" secondItem="tkT-q6-qqx" secondAttribute="trailing" constant="3" id="Wo5-yT-HzD"/>
+                                                                            <constraint firstAttribute="bottom" secondItem="b2f-pc-oQ1" secondAttribute="bottom" id="ZiD-kX-Kjb"/>
                                                                             <constraint firstItem="DbA-Wz-uMT" firstAttribute="top" secondItem="tkT-q6-qqx" secondAttribute="bottom" constant="7" id="d9L-7u-vbd"/>
                                                                             <constraint firstItem="tkT-q6-qqx" firstAttribute="leading" secondItem="YPm-q9-ZMZ" secondAttribute="leading" constant="3" id="k1k-hP-xNo"/>
                                                                         </constraints>
                                                                         <connections>
+                                                                            <outlet property="buttonsStackView" destination="b2f-pc-oQ1" id="KrE-fO-m7j"/>
+                                                                            <outlet property="buttonsStackViewConstraint" destination="ZiD-kX-Kjb" id="35l-ug-3mM"/>
                                                                             <outlet property="contentTextField" destination="DbA-Wz-uMT" id="HEq-cJ-akg"/>
                                                                             <outlet property="textField" destination="tkT-q6-qqx" id="Emi-gh-kWo"/>
                                                                         </connections>
                                                                     </tableCellView>
                                                                     <tableCellView identifier="DTXViewCellView" id="VKZ-2K-nnS" customClass="DTXViewCellView">
-                                                                        <rect key="frame" x="1" y="50" width="319" height="90"/>
+                                                                        <rect key="frame" x="1" y="56" width="319" height="90"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Ka-XU-m0k">
@@ -822,7 +829,7 @@
                                                                         </connections>
                                                                     </tableCellView>
                                                                     <tableCellView identifier="DTXStackTraceCellView" wantsLayer="YES" id="Xgw-EY-kS3" customClass="DTXStackTraceCellView">
-                                                                        <rect key="frame" x="1" y="142" width="319" height="48"/>
+                                                                        <rect key="frame" x="1" y="148" width="319" height="48"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CJz-rq-Vqj">
@@ -937,7 +944,7 @@
                                                                         </connections>
                                                                     </tableCellView>
                                                                     <tableCellView identifier="DTXObjectsCellView" wantsLayer="YES" id="5FU-Tu-4px" customClass="DTXObjectsCellView">
-                                                                        <rect key="frame" x="1" y="192" width="319" height="48"/>
+                                                                        <rect key="frame" x="1" y="198" width="319" height="48"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CL2-q5-92z">
@@ -1074,7 +1081,7 @@
                                 <rect key="frame" x="0.0" y="771" width="320" height="29"/>
                                 <subviews>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCX-wo-mYx" customClass="DTXSegmentedView">
-                                        <rect key="frame" x="126" y="3" width="68" height="23"/>
+                                        <rect key="frame" x="126" y="3" width="69" height="23"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -1117,7 +1124,7 @@
                                 <action selector="copyFromContext:" target="WQC-Xf-VdA" id="ZCQ-Tn-pnX"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Save As..." id="6U6-aP-ing">
+                        <menuItem title="Save As…" id="6U6-aP-ing">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="saveAsFromContext:" target="WQC-Xf-VdA" id="uQQ-h7-piM"/>

@@ -8,6 +8,7 @@
 
 #import "DTXDeviceSnapshotManager.h"
 #import "NSImage+UIAdditions.h"
+#import "NSURL+UIAdditions.h"
 @import AVFoundation;
 @import CommonCrypto.CommonDigest;
 @import QuickLook;
@@ -71,7 +72,7 @@ static NSData* __DTXSHADataOfString(NSString* string)
 	[ctx flushGraphics];
 	[NSGraphicsContext restoreGraphicsState];
 	
-	NSURL *temporaryURL = [[NSFileManager.defaultManager URLForDirectory:NSItemReplacementDirectory inDomain:NSUserDomainMask appropriateForURL:[NSURL fileURLWithPath:@"/"] create:YES error:NULL] URLByAppendingPathComponent:@"Screenshot.png"];
+	NSURL *temporaryURL = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:@"Screenshot.png"];
 	
 	[[bmp representationUsingType:NSBitmapImageFileTypePNG properties:@{}] writeToURL:temporaryURL atomically:YES];
 	

@@ -12,6 +12,7 @@
 #import "NSColor+UIAdditions.h"
 #import <CoreServices/CoreServices.h>
 #import "NSString+FileNames.h"
+#import "NSURL+UIAdditions.h"
 
 @implementation DTXNetworkInspectorDataProvider
 
@@ -20,7 +21,7 @@
 	DTXNetworkSample* networkSample = self.sample;
 	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL);
 	
-	BOOL rv = UTI != NULL ? UTTypeConformsTo(UTI, kUTTypeImage) : NO;
+	BOOL rv = UTI != NULL ? UTTypeConformsTo(UTI, kUTTypeScalableVectorGraphics) == NO && UTTypeConformsTo(UTI, kUTTypeImage) : NO;
 	
 	if(UTI != NULL)
 	{
@@ -120,9 +121,25 @@
 		if(image)
 		{
 			DTXInspectorContent* responsePreview = [DTXInspectorContent new];
-			responsePreview.title = NSLocalizedString(@"Preview", @"");
+			responsePreview.title = NSLocalizedString(@"Response Preview", @"");
 			responsePreview.image = image;
 			responsePreview.setupForWindowWideCopy = YES;
+			
+			NSButton* previewButton = [NSButton new];
+			previewButton.bezelStyle = NSBezelStyleRounded;
+			previewButton.title = NSLocalizedString(@"Open", @"");
+			previewButton.target = self;
+			previewButton.action = @selector(open:);
+			[previewButton sizeToFit];
+			
+			NSButton* saveButton = [NSButton new];
+			saveButton.bezelStyle = NSBezelStyleRounded;
+			saveButton.title = NSLocalizedString(@"Save As…", @"");
+			saveButton.target = self;
+			saveButton.action = @selector(saveAs:);
+			[saveButton sizeToFit];
+			
+			responsePreview.buttons = @[previewButton, saveButton];
 			
 			[contentArray addObject:responsePreview];
 		}
@@ -162,6 +179,11 @@
 	return YES;
 }
 
+- (IBAction)saveAs:(id)sender
+{
+	[self saveAs:sender inWindow:[sender window]];
+}
+
 - (void)copy:(id)sender targetView:(__kindof NSView *)targetView
 {
 	DTXNetworkSample* networkSample = self.sample;
@@ -180,10 +202,9 @@
 	}
 }
 
-- (void)saveAs:(id)sender inWindow:(NSWindow*)window
+- (NSString*)_bestGuessFileName
 {
 	DTXNetworkSample* networkSample = self.sample;
-	
 	NSString* fileName = networkSample.url.lastPathComponent;
 	
 	if(fileName.length == 0)
@@ -200,6 +221,26 @@
 	}
 	
 	fileName = fileName.stringBySanitizingForFileName;
+	
+	return fileName;
+}
+
+- (IBAction)open:(id)sender
+{
+	NSString* fileName = self._bestGuessFileName;
+	NSURL* target = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:fileName];
+	
+	DTXNetworkSample* networkSample = self.sample;
+	[networkSample.responseData.data writeToURL:target atomically:YES];
+	
+	[NSWorkspace.sharedWorkspace openURL:target];
+}
+
+- (void)saveAs:(id)sender inWindow:(NSWindow*)window
+{
+	DTXNetworkSample* networkSample = self.sample;
+	
+	NSString* fileName = self._bestGuessFileName;
 	
 	NSSavePanel* panel = [NSSavePanel savePanel];
 	[panel setNameFieldStringValue:fileName];

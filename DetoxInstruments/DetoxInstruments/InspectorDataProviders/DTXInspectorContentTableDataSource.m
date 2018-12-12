@@ -388,6 +388,26 @@
 		[tableView.window.windowController setTargetForCopy:targetForWindowWideCopy];
 	}
 	
+	if([cell respondsToSelector:@selector(buttonsStackViewConstraint)])
+	{
+		if(content.buttons.count > 0)
+		{
+			[cell buttonsStackViewConstraint].constant = 8;
+			[content.buttons enumerateObjectsUsingBlock:^(NSButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				[[cell buttonsStackView] addArrangedSubview:obj];
+			}];
+			
+			if([[cell buttonsStackView] fittingSize].width > 320)
+			{
+				[cell buttonsStackView].orientation = NSUserInterfaceLayoutOrientationVertical;
+			}
+		}
+		else
+		{
+			[cell buttonsStackViewConstraint].constant = 0;
+		}
+	}
+	
 	return cell;
 }
 

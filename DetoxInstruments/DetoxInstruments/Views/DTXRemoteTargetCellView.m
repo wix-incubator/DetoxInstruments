@@ -88,7 +88,7 @@
 		case DTXRemoteTargetStateDiscovered:
 		case DTXRemoteTargetStateResolved:
 			self.title1Field.stringValue = @"";
-			self.title2Field.stringValue = target.state == DTXRemoteTargetStateDiscovered ? NSLocalizedString(@"Resolving...", @"") : NSLocalizedString(@"Loading...", @"");
+			self.title2Field.stringValue = target.state == DTXRemoteTargetStateDiscovered ? NSLocalizedString(@"Resolving…", @"") : NSLocalizedString(@"Loading…", @"");
 			self.title3Field.stringValue = @"";
 			[self.progressIndicator startAnimation:nil];
 			self.progressIndicator.hidden = NO;

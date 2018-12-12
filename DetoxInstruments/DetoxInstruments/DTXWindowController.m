@@ -143,7 +143,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 		}
 		else if(document.documentState == DTXRecordingDocumentStateLiveRecording)
 		{
-			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.firstRecording.appName, NSLocalizedString(@"Recording...", @"")];
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.firstRecording.appName, NSLocalizedString(@"Recording…", @"")];
 		}
 		else
 		{
