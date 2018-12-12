@@ -57,11 +57,6 @@
 	return DTXAdvancedPerformanceSample.class;
 }
 
-//- (NSArray<NSNumber *> *)sampleTypes
-//{
-//	return @[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)];
-//}
-
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
 {
 	if(column == 0)

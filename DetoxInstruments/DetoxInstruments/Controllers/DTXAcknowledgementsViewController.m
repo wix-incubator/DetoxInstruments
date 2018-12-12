@@ -27,10 +27,6 @@
 	NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithData:[NSData dataWithContentsOfURL:_htmlURL] options:@{NSDocumentTypeDocumentOption: NSHTMLTextDocumentType, NSCharacterEncodingDocumentOption: @(NSUTF8StringEncoding)} documentAttributes:nil error:NULL];
 	[str addAttributes:@{NSForegroundColorAttributeName: NSColor.textColor} range:NSMakeRange(0, str.length)];
 	
-	[str enumerateAttributesInRange:NSMakeRange(0, str.length) options:0 usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-		NSLog(@"%@", attrs);
-	}];
-	
 	[_textView.textStorage appendAttributedString:str];
 	_textView.textContainerInset = NSMakeSize(20, 20);
 }

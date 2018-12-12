@@ -72,7 +72,6 @@
 @property (nonatomic, strong, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
 
-//@property (nonatomic, strong, readonly) NSArray<NSNumber* /*DTXSampleType*/>* sampleTypes;
 @property (nonatomic, strong, readonly) Class sampleClass;
 @property (nonatomic, strong, readonly) NSArray<NSString*>* filteredAttributes;
 @property (nonatomic, readonly) BOOL showsHeaderView;

@@ -407,16 +407,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	[self.rootGroupProxy sortWithSortDescriptors:outlineView.sortDescriptors];
 }
 
-NSUInteger DTXDepthOfSample(DTXSample* sample, DTXSampleGroup* rootSampleGroup)
-{
-	if(sample.parentGroup == nil || sample.parentGroup == rootSampleGroup)
-	{
-		return 0;
-	}
-	
-	return MIN(1 + DTXDepthOfSample(sample.parentGroup, rootSampleGroup), 20);
-}
-
 - (BOOL)_findSample:(DTXSample*)sample inContainerProxy:(DTXSampleContainerProxy*)containerProxy traversalChain:(NSMutableArray*)chain
 {
 	[chain addObject:containerProxy];
