@@ -131,31 +131,6 @@
 	return self.fetchedResultsController.fetchedObjects.count;
 }
 
-- (NSDate *)closeTimestamp
-{
-	return _endTimestamp;
-}
-
-- (DTXRecording*)recording
-{
-	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
-	fr.predicate = _fetchRequest.predicate;
-	NSArray<DTXSample*>* events = [self.fetchedResultsController.managedObjectContext executeFetchRequest:fr error:NULL];
-	
-	DTXRecording* rv = events.firstObject.recording;
-	
-	for(DTXSample* sample in events)
-	{
-		DTXRecording* pending = sample.recording;
-		if([pending.startTimestamp compare:rv.startTimestamp] == NSOrderedDescending)
-		{
-			rv = pending;
-		}
-	}
-	
-	return rv;
-}
-
 - (BOOL)isExpandable
 {
 	return YES;

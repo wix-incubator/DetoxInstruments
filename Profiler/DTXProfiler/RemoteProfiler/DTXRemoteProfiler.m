@@ -29,7 +29,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 @implementation DTXRemoteProfiler
 {
 	DTXSocketConnection* _socketConnection;
-	DTXSampleGroup* _currentGroup;
 	NSManagedObjectContext* _ctx;
 	
 	NSMutableDictionary<NSString*, id>* _pendingEvents;
@@ -146,7 +145,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"__dtx_className": @"DTXLogSample",
 										@"__dtx_entityName": @"LogSample",
 										@"line": line ?: @"",
-										@"parentGroup": self->_currentGroup.sampleIdentifier,
 										@"sampleIdentifier": NSUUID.UUID.UUIDString,
 										@"sampleType": @100,
 										@"timestamp": timestamp,
@@ -214,7 +212,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 											   @"__dtx_entityName": @"NetworkSample",
 											   @"sampleIdentifier": NSUUID.UUID.UUIDString,
 											   @"sampleType": @50,
-											   @"parentGroup": self->_currentGroup.sampleIdentifier,
 											   @"timestamp": timestamp,
 											   @"uniqueIdentifier": uniqueIdentifier,
 											   @"url": request.URL.absoluteString,
@@ -344,7 +341,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 	NSMutableDictionary* preserialized = @{
 									@"__dtx_className": @"DTXReactNativeDataSample",
 									@"__dtx_entityName": @"ReactNativeDataSample",
-									@"parentGroup": _currentGroup.sampleIdentifier,
 									@"sampleIdentifier": NSUUID.UUID.UUIDString,
 									@"sampleType": @10001,
 									@"timestamp": timestamp,
@@ -358,23 +354,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 	}
 	
 	[self _serializeCommandWithSelector:NSSelectorFromString(@"addRNBridgeDataSample:") entityName:@"ReactNativeDataSample" dict:preserialized additionalParams:nil];
-}
-
-- (void)popSampleGroup:(DTXSampleGroup *)sampleGroup
-{
-	[self _serializeCommandWithSelector:_cmd managedObject:sampleGroup additionalParams:nil];
-	
-	_currentGroup = sampleGroup.parentGroup;
-	
-	[sampleGroup.managedObjectContext deleteObject:sampleGroup];
-	[sampleGroup.managedObjectContext save:NULL];
-}
-
-- (void)pushSampleGroup:(DTXSampleGroup *)sampleGroup isRootGroup:(BOOL)isRootGroup
-{
-	[self _serializeCommandWithSelector:_cmd managedObject:sampleGroup additionalParams:@[@(isRootGroup)]];
-	
-	_currentGroup = sampleGroup;
 }
 
 - (void)updateRecording:(DTXRecording *)recording stopRecording:(BOOL)stopRecording
@@ -411,7 +390,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"duration": @0,
 										@"eventStatus": @0,
 										@"name": name ?: @"",
-										@"parentGroup": self->_currentGroup.sampleIdentifier,
 										@"sampleIdentifier": identifier,
 										@"sampleType": @70,
 										@"timestamp": timestamp,
@@ -478,7 +456,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"isEvent": @1,
 										@"eventStatus": @(eventStatus),
 										@"name": name ?: @0,
-										@"parentGroup": self->_currentGroup.sampleIdentifier,
 										@"sampleIdentifier": NSUUID.UUID.UUIDString,
 										@"sampleType": @70,
 										@"timestamp": timestamp,

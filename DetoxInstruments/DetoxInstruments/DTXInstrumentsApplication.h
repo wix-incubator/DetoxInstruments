@@ -10,4 +10,6 @@
 
 @interface DTXInstrumentsApplication : NSApplication
 
+- (NSString*)applicationVersion;
+
 @end

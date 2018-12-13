@@ -132,11 +132,6 @@
         <attribute name="profilingConfiguration" optional="YES" attributeType="Transformable" customClassName="NSDictionary" syncable="YES"/>
         <attribute name="recordingOptions" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="startTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="rootSampleGroup" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SampleGroup" inverseName="recording" inverseEntity="SampleGroup" syncable="YES">
-            <userInfo>
-                <entry key="includeInDictionaryRepresentation" value="YES"/>
-            </userInfo>
-        </relationship>
         <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="recording" inverseEntity="ThreadInfo" syncable="YES">
             <userInfo>
                 <entry key="includeInDictionaryRepresentation" value="YES"/>
@@ -153,21 +148,6 @@
         <attribute name="sampleIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="parentGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SampleGroup" inverseName="samples" inverseEntity="SampleGroup" syncable="YES">
-            <userInfo>
-                <entry key="includeKeyPathInDictionaryRepresentation" value="sampleIdentifier"/>
-            </userInfo>
-        </relationship>
-    </entity>
-    <entity name="SampleGroup" representedClassName="DTXSampleGroup" parentEntity="Tag" syncable="YES" codeGenerationType="class">
-        <attribute name="closeTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="recording" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recording" inverseName="rootSampleGroup" inverseEntity="Recording" syncable="YES"/>
-        <relationship name="samples" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sample" inverseName="parentGroup" inverseEntity="Sample" syncable="YES">
-            <userInfo>
-                <entry key="includeInDictionaryRepresentation" value="YES"/>
-                <entry key="sortArrayByKeyPath" value="timestamp"/>
-            </userInfo>
-        </relationship>
     </entity>
     <entity name="SignpostSample" representedClassName="DTXSignpostSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="additionalInfoEnd" optional="YES" attributeType="String" syncable="YES"/>
@@ -221,9 +201,8 @@
         <element name="ReactNativeBridgeData" positionX="-27" positionY="135" width="128" height="105"/>
         <element name="ReactNativeDataSample" positionX="-18" positionY="144" width="128" height="90"/>
         <element name="ReactNativePeroformanceSample" positionX="-27" positionY="135" width="128" height="210"/>
-        <element name="Recording" positionX="-27" positionY="45" width="128" height="375"/>
-        <element name="Sample" positionX="-63" positionY="-18" width="128" height="120"/>
-        <element name="SampleGroup" positionX="-45" positionY="0" width="128" height="90"/>
+        <element name="Recording" positionX="-27" positionY="45" width="128" height="360"/>
+        <element name="Sample" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="SignpostSample" positionX="-27" positionY="135" width="128" height="225"/>
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
         <element name="ThreadInfo" positionX="-27" positionY="135" width="128" height="105"/>

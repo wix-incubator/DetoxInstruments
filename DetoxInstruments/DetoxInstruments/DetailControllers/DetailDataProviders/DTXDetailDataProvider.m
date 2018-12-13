@@ -11,7 +11,6 @@
 #import "DTXTableRowView.h"
 #import "DTXInstrumentsModel.h"
 #import "DTXInstrumentsModelUIExtensions.h"
-#import "DTXSampleGroup+UIExtensions.h"
 #import "DTXEntitySampleContainerProxy.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXPlotController.h"
@@ -19,7 +18,7 @@
 #import "NSView+UIAdditions.h"
 #import "DTXSampleAggregatorProxy.h"
 #import "DTXRecording+UIExtensions.h"
-#import "DTXSampleGroupProxy.h"
+#import "DTXSignpostProtocol.h"
 
 const CGFloat DTXAutomaticColumnWidth = -1.0;
 
@@ -366,12 +365,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		wantsStandardGroup = [item wantsStandardGroupDisplay];
 	}
 	
-	if(wantsStandardGroup && [item isKindOfClass:DTXSampleGroupProxy.class])
-	{
-		cellView.textField.stringValue = ((DTXSampleGroupProxy*)item).name;
-		cellView.textField.textColor = NSColor.labelColor;
-	}
-	else if([item isMemberOfClass:[DTXTag class]])
+	if([item isMemberOfClass:[DTXTag class]])
 	{
 		cellView.textField.stringValue = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Tag", @""),((DTXTag*)item).name];
 		cellView.textField.textColor = NSColor.labelColor;
@@ -504,9 +498,9 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		}
 		else
 		{
-			DTXSampleGroupProxy* groupProxy = item;
+			id<DTXSignpost> groupProxy = item;
 			
-			NSDate* groupCloseTimestamp = groupProxy.closeTimestamp ?: [item recording].endTimestamp;
+			NSDate* groupCloseTimestamp = groupProxy.endTimestamp ?: [item recording].endTimestamp;
 			
 			CPTPlotRange* groupRange = [CPTPlotRange plotRangeWithLocation:@(groupProxy.timestamp.timeIntervalSinceReferenceDate - _document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate) length:@(groupCloseTimestamp.timeIntervalSinceReferenceDate - groupProxy.timestamp.timeIntervalSinceReferenceDate)];
 			[_plotController highlightRange:groupRange];

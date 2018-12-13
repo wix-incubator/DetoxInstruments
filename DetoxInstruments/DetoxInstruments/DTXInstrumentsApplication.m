@@ -9,16 +9,30 @@
 #import "DTXInstrumentsApplication.h"
 #import "DTXRecordingDocument.h"
 
+DTXInstrumentsApplication* DTXApp;
+
 @implementation DTXInstrumentsApplication
 
 - (instancetype)init
 {
-	return [super init];
+	self = [super init];
+	
+	if(self)
+	{
+		DTXApp = self;
+	}
+	
+	return self;
 }
 
 - (BOOL)sendAction:(SEL)action to:(id)target from:(id)sender
 {
 	return [super sendAction:action to:target from:sender];
+}
+
+- (NSString *)applicationVersion
+{
+	return [NSString stringWithFormat:@"%@.%@", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
 }
 
 @end

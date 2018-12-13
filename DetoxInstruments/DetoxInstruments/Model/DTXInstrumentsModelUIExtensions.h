@@ -8,10 +8,10 @@
 
 #import "DTXInstrumentsModel.h"
 #import "DTXSample+UIExtensions.h"
-#import "DTXSampleGroup+UIExtensions.h"
 #import "DTXPerformanceSample+UIExtensions.h"
 #import "DTXNetworkSample+UIExtensions.h"
 #import "DTXNetworkData+CoreDataProperties.h"
 #import "DTXLogSample+CoreDataProperties.h"
+#import "DTXTag+CoreDataProperties.h"
 #import "DTXThreadInfo+UIExtensions.h"
 #import "DTXAdvancedPerformanceSample+UIExtensions.h"

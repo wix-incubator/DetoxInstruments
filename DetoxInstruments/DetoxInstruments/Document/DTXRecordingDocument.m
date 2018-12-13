@@ -248,11 +248,6 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	return _recordings.lastObject;
 }
 
-- (NSString*)_versionForFlag
-{
-	return [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-}
-
 + (void)clearLastOpenedVersionAndReopenDocumentAtURL:(NSURL*)URL
 {
 	NSURL* versionFlagURL = [URL URLByAppendingPathComponent:@"lastOpenedVersion.txt"];
@@ -273,7 +268,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		return NO;
 	}
 	
-	NSString* currentVersion = self._versionForFlag;
+	NSString* currentVersion = DTXApp.applicationVersion;
 	
 	NSURL* versionFlagURL = [url URLByAppendingPathComponent:@"lastOpenedVersion.txt"];
 	
@@ -470,16 +465,6 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 - (void)addTag
 {
 	[_remoteProfilingClient.target addTagWithName:[NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle]];
-}
-
-- (void)pushGroup
-{
-	[_remoteProfilingClient.target pushSampleGroupWithName:[NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle]];
-}
-
-- (void)popGroup
-{
-	[_remoteProfilingClient.target popSampleGroup];
 }
 
 - (void)stopLiveRecording

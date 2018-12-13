@@ -6,6 +6,8 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
+#if 0
+
 #import "DTXSampleGroupProxy.h"
 #import "DTXSampleGroup+UIExtensions.h"
 
@@ -84,3 +86,5 @@
 }
 
 @end
+
+#endif

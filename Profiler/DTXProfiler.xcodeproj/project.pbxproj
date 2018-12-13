@@ -77,6 +77,8 @@
 		3939243021AD0A330015A15F /* ZZStandardDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3939240421AD0A320015A15F /* ZZStandardDecryptInputStream.mm */; };
 		3939243121AD0A330015A15F /* ZZDataChannelOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240521AD0A320015A15F /* ZZDataChannelOutput.h */; };
 		3939243221AD0A330015A15F /* ZZNewArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */; };
+		393DED4C21C25ABD006EB765 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 393DED4A21C25ABD006EB765 /* NSMapTable+Subscripting.h */; };
+		393DED4D21C25ABD006EB765 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 393DED4B21C25ABD006EB765 /* NSMapTable+Subscripting.m */; };
 		39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */; };
 		39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 39498C401F1FAE650030B620 /* DTXSocketConnection.h */; };
 		394A09651F012F8D0030BDB4 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = 394A09631F012F8D0030BDB4 /* fishhook.h */; };
@@ -235,6 +237,8 @@
 		3939240421AD0A320015A15F /* ZZStandardDecryptInputStream.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZStandardDecryptInputStream.mm; sourceTree = "<group>"; };
 		3939240521AD0A320015A15F /* ZZDataChannelOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDataChannelOutput.h; sourceTree = "<group>"; };
 		3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZNewArchiveEntryWriter.h; sourceTree = "<group>"; };
+		393DED4A21C25ABD006EB765 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMapTable+Subscripting.h"; path = "../../../DetoxInstruments/DetoxInstruments/Utilities/NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
+		393DED4B21C25ABD006EB765 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMapTable+Subscripting.m"; path = "../../../DetoxInstruments/DetoxInstruments/Utilities/NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
 		39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSocketConnection.m; sourceTree = "<group>"; };
 		39498C401F1FAE650030B620 /* DTXSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSocketConnection.h; sourceTree = "<group>"; };
 		394A09631F012F8D0030BDB4 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = SOURCE_ROOT; };
@@ -260,7 +264,6 @@
 		3985048C21A4434800F04573 /* DTXFileSystemItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXFileSystemItem.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.h; sourceTree = "<group>"; };
 		3985048F21A4435100F04573 /* DTXPasteboardItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXPasteboardItem.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXPasteboardItem.h; sourceTree = "<group>"; };
 		3985049021A4435100F04573 /* DTXPasteboardItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXPasteboardItem.m; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXPasteboardItem.m; sourceTree = "<group>"; };
-		398EC43A207B571C00C55809 /* Version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPerformanceSampler.h; sourceTree = "<group>"; };
 		399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPerformanceSampler.m; sourceTree = "<group>"; };
 		39ADAE591F79FA7700F488A5 /* DTXCustomJSCSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCustomJSCSupport.h; sourceTree = "<group>"; };
@@ -369,6 +372,8 @@
 				396500F01F2E9E9000DA9530 /* DTXDeviceInfo.m */,
 				39B22BE7217C963A0032F190 /* NSObject+AttachedObjects.h */,
 				39B22BE8217C963A0032F190 /* NSObject+AttachedObjects.m */,
+				393DED4A21C25ABD006EB765 /* NSMapTable+Subscripting.h */,
+				393DED4B21C25ABD006EB765 /* NSMapTable+Subscripting.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -615,7 +620,6 @@
 				39D40BFD1ED5ABD200157C04 /* Info.plist */,
 				39E2637221AE25A900A21256 /* Swiftier.h */,
 				396677BB1F1FDB1B002D5E43 /* DTXProfiler.pch */,
-				398EC43A207B571C00C55809 /* Version.h */,
 			);
 			path = DTXProfiler;
 			sourceTree = "<group>";
@@ -689,6 +693,7 @@
 				39281E821ED70A77002CE905 /* DTXZipper.h in Headers */,
 				3939243121AD0A330015A15F /* ZZDataChannelOutput.h in Headers */,
 				3939241521AD0A330015A15F /* ZZDataChannel.h in Headers */,
+				393DED4C21C25ABD006EB765 /* NSMapTable+Subscripting.h in Headers */,
 				3939242D21AD0A330015A15F /* ZZInflateInputStream.h in Headers */,
 				3939241721AD0A330015A15F /* ZZChannel.h in Headers */,
 				3939240E21AD0A330015A15F /* ZZConstants.h in Headers */,
@@ -749,7 +754,7 @@
 		39D40BF01ED5ABD200157C04 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
 					3922F8231F4484DA00F10055 = {
@@ -815,7 +820,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "shortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\n\necho \"@\\\"${shortVersion}\\\"\" > DTXProfiler/Version.h\n\nif [ \"${CONFIGURATION}\" = \"Release_External\" ]; then\nexit 0\nfi\n\n#Xcode calls this script twice for each SDK (iphoneos & iphonesimulatoros)\nif [ \"${SDK_NAME}\" = \"iphoneos11.2\" ]; then\nexit 0\nfi\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n";
+			shellScript = "shortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\n\nif [ \"${CONFIGURATION}\" = \"Release_External\" ]; then\nexit 0\nfi\n\n#Xcode calls this script twice for each SDK (iphoneos & iphonesimulatoros)\nif [ \"${SDK_NAME}\" = \"iphoneos11.2\" ]; then\nexit 0\nfi\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/../DetoxInstruments/DetoxInstruments/Info.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -857,6 +862,7 @@
 				3901A8A01F5D5CA60021916B /* DTXMachUtilities.c in Sources */,
 				3939242721AD0A330015A15F /* ZZStoreOutputStream.m in Sources */,
 				39C713411EFFD6FF00C827EB /* DTXReactNativeSampler.m in Sources */,
+				393DED4D21C25ABD006EB765 /* NSMapTable+Subscripting.m in Sources */,
 				3939242221AD0A330015A15F /* ZZArchiveEntry.m in Sources */,
 				39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */,
 				396500F21F2E9E9000DA9530 /* DTXDeviceInfo.m in Sources */,

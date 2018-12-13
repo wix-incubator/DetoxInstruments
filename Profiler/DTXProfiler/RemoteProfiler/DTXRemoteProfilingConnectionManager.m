@@ -145,15 +145,12 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 				NSString* name = cmd[@"name"];
 				[self->_remoteProfiler _addTag:name timestamp:NSDate.date];
 			}	break;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 			case DTXRemoteProfilingCommandTypePushGroup:
-			{
-				NSString* name = cmd[@"name"];
-				[self->_remoteProfiler _pushSampleGroupWithName:name timestamp:NSDate.date];
-			}	break;
 			case DTXRemoteProfilingCommandTypePopGroup:
-			{
-				[self->_remoteProfiler _popSampleGroupWithTimestamp:NSDate.date];
-			}	break;
+				break;
+#pragma clang diagnostic pop
 			case DTXRemoteProfilingCommandTypeStopProfiling:
 			{
 				[self->_remoteProfiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
@@ -229,6 +226,8 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 			{
 				[self _sendViewHierarchy];
 			}	break;
+			default:
+				break;
 		}
 		
 		[self _nextCommand];

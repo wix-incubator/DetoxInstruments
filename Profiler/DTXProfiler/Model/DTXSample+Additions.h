@@ -37,6 +37,4 @@ typedef NS_ENUM(NSUInteger, DTXSampleType) {
 
 + (Class)classFromSampleType:(DTXSampleType)type;
 
-@property (nonatomic, strong, readonly) DTXRecording* recording;
-
 @end

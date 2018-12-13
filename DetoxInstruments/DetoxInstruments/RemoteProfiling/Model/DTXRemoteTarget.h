@@ -65,8 +65,6 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 - (void)loadScreenSnapshot;
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
 - (void)addTagWithName:(NSString*)name;
-- (void)pushSampleGroupWithName:(NSString*)name;
-- (void)popSampleGroup;
 - (void)stopProfiling;
 
 @property (nonatomic, strong, readonly) DTXFileSystemItem* containerContents;

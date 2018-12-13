@@ -22,7 +22,6 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 		__classTypeMapping = @{NSStringFromClass([DTXPerformanceSample class]): @(DTXSampleTypePerformance),
 							   NSStringFromClass([DTXAdvancedPerformanceSample class]): @(DTXSampleTypeAdvancedPerformance),
 							   NSStringFromClass([DTXThreadPerformanceSample class]): @(DTXSampleTypeThreadPerformance),
-							   NSStringFromClass([DTXSampleGroup class]): @(DTXSampleTypeGroup),
 							   NSStringFromClass([DTXNetworkSample class]): @(DTXSampleTypeNetwork),
 							   NSStringFromClass([DTXTag class]): @(DTXSampleTypeTag),
 							   NSStringFromClass([DTXLogSample class]): @(DTXSampleTypeLog),
@@ -33,7 +32,6 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 		__typeClassMapping = @{@(DTXSampleTypePerformance): ([DTXPerformanceSample class]),
 							   @(DTXSampleTypeAdvancedPerformance): ([DTXAdvancedPerformanceSample class]),
 							   @(DTXSampleTypeThreadPerformance): ([DTXThreadPerformanceSample class]),
-							   @(DTXSampleTypeGroup): ([DTXSampleGroup class]),
 							   @(DTXSampleTypeNetwork): ([DTXNetworkSample class]),
 							   @(DTXSampleTypeTag): ([DTXTag class]),
 							   @(DTXSampleTypeLog): ([DTXLogSample class]),
@@ -56,27 +54,6 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 	self.sampleIdentifier = [NSUUID UUID].UUIDString;
 	self.timestamp = [NSDate date];
 	self.sampleType = [__classTypeMapping[NSStringFromClass(self.class)] unsignedIntegerValue];
-}
-
-- (DTXRecording *)recording
-{
-	if([self isKindOfClass:[DTXSampleGroup class]])
-	{
-		[self willAccessValueForKey:@"recording"];
-		id rv = [self primitiveValueForKey:@"recording"];
-		[self didAccessValueForKey:@"recording"];
-		
-		return rv;
-	}
-	
-	DTXSampleGroup* rootGroup = self.parentGroup;
-	
-	while(rootGroup.parentGroup != nil)
-	{
-		rootGroup = rootGroup.parentGroup;
-	}
-	
-	return rootGroup.recording;
 }
 
 @end

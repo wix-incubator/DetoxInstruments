@@ -6,6 +6,8 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
+#if 0
+
 #import <Foundation/Foundation.h>
 #import "DTXSampleContainerProxy.h"
 #import "DTXInstrumentsModel.h"
@@ -22,3 +24,5 @@
 - (instancetype)initWithOutlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext sampleTypes:(NSArray<NSNumber*>*)sampleTypes;
 
 @end
+
+#endif

@@ -56,7 +56,8 @@
 		return NSLocalizedString(@"Pending", @"");
 	}
 	
-	switch (self.eventStatus) {
+	switch (self.eventStatus)
+	{
 		case DTXEventStatusPrivateCancelled:
 			return NSLocalizedString(@"Cancelled", @"");
 		case DTXEventStatusPrivateError:

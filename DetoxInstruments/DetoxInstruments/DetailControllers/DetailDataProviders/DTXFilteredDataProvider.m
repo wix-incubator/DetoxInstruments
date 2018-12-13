@@ -7,7 +7,6 @@
 //
 
 #import "DTXFilteredDataProvider.h"
-#import "DTXSampleGroup+UIExtensions.h"
 #import "DTXInstrumentsModel.h"
 
 @interface DTXFilteredDataProvider () <NSFetchedResultsControllerDelegate>

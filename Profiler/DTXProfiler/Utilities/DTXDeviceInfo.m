@@ -11,10 +11,6 @@
 @import UIKit;
 @import Darwin;
 
-static NSString* __version =
-#include "version.h"
-;
-
 @implementation DTXDeviceInfo
 
 + (NSString*)_machineName
@@ -95,7 +91,9 @@ extern id MGCopyAnswer(NSString *inKey);
 	deviceDetails[@"deviceResolution"] = NSStringFromCGSize(UIScreen.mainScreen.currentMode.size);
 	deviceDetails[@"processIdentifier"] = @(processInfo.processIdentifier);
 	deviceDetails[@"hasReactNative"] = @([DTXReactNativeSampler reactNativeInstalled]);
-	deviceDetails[@"profilerVersion"] = __version;
+	
+	NSString* version = [NSString stringWithFormat:@"%@.%@", [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+	deviceDetails[@"profilerVersion"] = version;
 	
 #if ! TARGET_OS_SIMULATOR
 	deviceDetails[@"deviceColor"] = MGCopyAnswer(@"DeviceColor");

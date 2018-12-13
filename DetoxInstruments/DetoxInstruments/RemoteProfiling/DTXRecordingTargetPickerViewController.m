@@ -340,7 +340,7 @@
 	[informativeText appendString:NSLocalizedString(@"The profiler version of this app is incompatible with the current version of Detox Instruments.", @"")];
 	[informativeText appendFormat:@"\n\n"];
 	[informativeText appendFormat:@"%@: %@\n", NSLocalizedString(@"Profiler framework version", @""), target.deviceInfo[@"profilerVersion"]];
-	[informativeText appendFormat:@"%@: %@.%@", NSLocalizedString(@"Detox Instruments version", @""), [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+	[informativeText appendFormat:@"%@: %@", NSLocalizedString(@"Detox Instruments version", @""), DTXApp.applicationVersion];
 	
 	alert.informativeText = informativeText;
 	

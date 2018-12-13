@@ -35,7 +35,7 @@
 	
 	NSMutableArray* contentArray = @[request].mutableCopy;
 	
-	if(perfSample.recording.dtx_profilingConfiguration.collectOpenFileNames)
+	if(self.document.firstRecording.dtx_profilingConfiguration.collectOpenFileNames)
 	{
 		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
 		stackTrace.title = NSLocalizedString(@"Open Files", @"");
@@ -101,7 +101,7 @@
 
 - (BOOL)canCopy
 {
-	return self.sample.recording.dtx_profilingConfiguration.collectOpenFileNames;
+	return self.document.firstRecording.dtx_profilingConfiguration.collectOpenFileNames;
 }
 
 - (void)copy:(id)sender targetView:(__kindof NSView *)targetView

@@ -191,14 +191,18 @@
 				break;
 			case DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration:
 			case DTXRemoteProfilingCommandTypeAddTag:
-			case DTXRemoteProfilingCommandTypePushGroup:
-			case DTXRemoteProfilingCommandTypePopGroup:
 			case DTXRemoteProfilingCommandTypeDeleteContainerIten:
 			case DTXRemoteProfilingCommandTypePutContainerItem:
 			case DTXRemoteProfilingCommandTypeChangeUserDefaultsItem:
 			case DTXRemoteProfilingCommandTypeSetCookies:
 			case DTXRemoteProfilingCommandTypeSetPasteboard:
 				break;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+			case DTXRemoteProfilingCommandTypePushGroup:
+			case DTXRemoteProfilingCommandTypePopGroup:
+				break;
+#pragma clang diagnostic pop
 		}
 		
 		[weakSelf _readNextCommand];
@@ -273,8 +277,7 @@
 		profilerVersion = @"0";
 	}
 	
-	NSString* instrumentsVersion = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-	
+	NSString* instrumentsVersion = DTXApp.applicationVersion;
 	return [instrumentsVersion compare:profilerVersion options:NSNumericSearch] != NSOrderedAscending;
 }
 
@@ -448,16 +451,6 @@
 - (void)addTagWithName:(NSString*)name
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeAddTag), @"name": name} completionHandler:nil];
-}
-
-- (void)pushSampleGroupWithName:(NSString *)name
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePushGroup), @"name": name} completionHandler:nil];
-}
-
-- (void)popSampleGroup
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypePopGroup)} completionHandler:nil];
 }
 
 - (void)stopProfiling

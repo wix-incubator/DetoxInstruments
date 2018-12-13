@@ -11,5 +11,8 @@
 
 #import "DTXLogging.h"
 #import "Swiftier.h"
+#ifdef __OBJC__
+#import "NSMapTable+Subscripting.h"
+#endif
 
 #endif /* DTXProfiler_pch */

@@ -44,8 +44,6 @@ typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 
 - (void)readyForRecordingIfNeeded;
 - (void)addTag;
-- (void)pushGroup;
-- (void)popGroup;
 - (void)stopLiveRecording;
 #endif
 

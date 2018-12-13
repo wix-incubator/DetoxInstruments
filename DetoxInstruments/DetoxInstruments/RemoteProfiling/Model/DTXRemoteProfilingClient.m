@@ -43,7 +43,6 @@ return; }\
 	BOOL _isAcceptingOpportunisticSamples;
 	
 	DTXRecording* _recording;
-	DTXSampleGroup* _currentSampleGroup;
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
 	
 	pthread_mutex_t _opportunisticSourceMutex;
@@ -156,7 +155,6 @@ return; }\
 	
 	NSMutableDictionary* mutableSample = sampleDict.mutableCopy;
 	
-	mutableSample[@"parent"] = _currentSampleGroup;
 	_opportunisticSamples[mutableSample[@"sampleIdentifier"]] = mutableSample;
 	
 	[self _resetOpportunisticSamplesTimer];
@@ -179,10 +177,7 @@ return; }\
 			NSMutableDictionary* sample = _opportunisticSamples[sampleIdentifier];
 			NSEntityDescription* entityDescription = [NSClassFromString(sample[@"__dtx_className"]) entity];
 			
-			id parent = sample[@"parent"];
-			sample[@"parent"] = nil;
-			
-			[self _addSample:sample entityDescription:entityDescription inParent:parent saveContext:NO];
+			[self _addSample:sample entityDescription:entityDescription saveContext:NO];
 		}
 		
 		[_opportunisticSamples removeAllObjects];
@@ -203,7 +198,7 @@ return; }\
 	}];
 }
 
-- (void)_addSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription inParent:(DTXSampleGroup*)parent saveContext:(BOOL)saveContext
+- (void)_addSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription saveContext:(BOOL)saveContext
 {
 	REQUIRE_RECORDING
 	
@@ -222,8 +217,6 @@ return; }\
 		}
 	}
 	
-	[self _addSampleObject:sample inParent:parent];
-	
 	if(saveContext)
 	{
 		[self _saveContext];
@@ -239,16 +232,6 @@ return; }\
 	{
 		[self.delegate remoteProfilingClientDidChangeDatabase:self];
 	}
-}
-
-- (void)_addSampleObject:(DTXSample*)sample inParent:(DTXSampleGroup*)parent
-{
-	if(parent == nil)
-	{
-		parent = _currentSampleGroup;
-	}
-	
-	sample.parentGroup = parent;
 }
 
 - (DTXThreadInfo*)_threadWithNumber:(NSNumber*)threadNumber
@@ -288,22 +271,22 @@ return; }\
 
 - (void)addLogSample:(NSDictionary *)logSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:logSample entityDescription:entityDescription inParent:nil saveContext:YES];
+	[self _addSample:logSample entityDescription:entityDescription saveContext:YES];
 }
 
 - (void)addPerformanceSample:(NSDictionary *)perfrmanceSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:perfrmanceSample entityDescription:entityDescription inParent:nil saveContext:YES];
+	[self _addSample:perfrmanceSample entityDescription:entityDescription saveContext:YES];
 }
 
 - (void)addRNPerformanceSample:(NSDictionary *)rnPerfrmanceSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:rnPerfrmanceSample entityDescription:entityDescription inParent:nil saveContext:YES];
+	[self _addSample:rnPerfrmanceSample entityDescription:entityDescription saveContext:YES];
 }
 
 - (void)addTagSample:(NSDictionary *)tag entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:tag entityDescription:entityDescription inParent:nil saveContext:YES];
+	[self _addSample:tag entityDescription:entityDescription saveContext:YES];
 }
 
 - (void)createRecording:(NSDictionary *)recording entityDescription:(NSEntityDescription *)entityDescription
@@ -313,6 +296,11 @@ return; }\
 	
 	NSAssert(_recording == nil, @"A recording already exists");
 	_recording = recordingObj;
+	
+	//Save parent context here so it propagates to the view context and the recording is discovered on the view thread.
+	[self _saveContext];
+	
+	[self.delegate remoteProfilingClient:self didCreateRecording:_recording];
 }
 
 - (void)createdOrUpdatedThreadInfo:(NSDictionary *)threadInfo entityDescription:(NSEntityDescription *)entityDescription
@@ -330,35 +318,7 @@ return; }\
 
 - (void)addRNBridgeDataSample:(NSDictionary*)rbBridgeDataSample entityDescription:(NSEntityDescription*)entityDescription
 {
-	[self _addSample:rbBridgeDataSample entityDescription:entityDescription inParent:nil saveContext:YES];
-}
-
-- (void)popSampleGroup:(NSDictionary *)sampleGroup entityDescription:(NSEntityDescription *)entityDescription
-{
-	[_currentSampleGroup updateWithPropertyListDictionaryRepresentation:sampleGroup];
-	NSAssert(_currentSampleGroup.parentGroup != nil, @"Cannot pop the root sample group");
-	_currentSampleGroup = _currentSampleGroup.parentGroup;
-}
-
-- (void)pushSampleGroup:(NSDictionary *)sampleGroup isRootGroup:(NSNumber *)root entityDescription:(NSEntityDescription *)entityDescription
-{
-	DTXSampleGroup* sampleGroupObj = [[DTXSampleGroup alloc] initWithPropertyListDictionaryRepresentation:sampleGroup context:_managedObjectContext];
-	
-	if(root.boolValue)
-	{
-		_recording.rootSampleGroup = sampleGroupObj;
-		
-		//Save parent context here so it propagates to the view context and the recording is discovered on the view thread.
-		[self _saveContext];
-		
-		[self.delegate remoteProfilingClient:self didCreateRecording:_recording];
-	}
-	else
-	{
-		[self _addSampleObject:sampleGroupObj inParent:nil];
-	}
-	
-	_currentSampleGroup = sampleGroupObj;
+	[self _addSample:rbBridgeDataSample entityDescription:entityDescription saveContext:YES];
 }
 
 - (void)startRequestWithNetworkSample:(NSDictionary *)networkSample entityDescription:(NSEntityDescription *)entityDescription

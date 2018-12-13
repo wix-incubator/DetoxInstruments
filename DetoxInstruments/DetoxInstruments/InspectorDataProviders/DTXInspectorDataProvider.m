@@ -7,6 +7,7 @@
 //
 
 #import "DTXInspectorDataProvider.h"
+#import "DTXSignpostProtocol.h"
 
 @implementation DTXInspectorDataProvider
 
@@ -85,7 +86,7 @@
 
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource
 {
-	DTXSampleGroup* proxy = (id)self.sample;
+	id<DTXSignpost> proxy = (id)self.sample;
 	
 	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
 	
@@ -100,7 +101,7 @@
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
 	
-	ti = [proxy.closeTimestamp ?: proxy.recording.endTimestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
+	ti = [proxy.endTimestamp ?: self.document.lastRecording.endTimestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
 	

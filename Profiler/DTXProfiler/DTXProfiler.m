@@ -57,10 +57,10 @@ DTX_CREATE_LOG(Profiler);
 	NSManagedObjectContext* _backgroundContext;
 	
 	DTXRecording* _currentRecording;
-	DTXSampleGroup* _rootSampleGroup;
-	DTXSampleGroup* _currentSampleGroup;
 	
 	NSMutableArray<DTXSample*>* _pendingSamples;
+	NSMapTable<NSString*, DTXNetworkSample*>* _pendingNetworkSamples;
+	NSMapTable<NSString*, DTXSignpostSample*>* _pendingSignpostSamples;
 	
 	NSMutableDictionary<NSNumber*, DTXThreadInfo*>* _threads;
 	
@@ -129,6 +129,8 @@ DTX_CREATE_LOG(Profiler);
 	_currentProfilingConfiguration = [configuration copy];
 	
 	_pendingSamples = [NSMutableArray new];
+	_pendingNetworkSamples = [NSMapTable strongToStrongObjectsMapTable];
+	_pendingSignpostSamples = [NSMapTable strongToStrongObjectsMapTable];
 	
 	_threads = [NSMutableDictionary new];
 	
@@ -173,13 +175,6 @@ DTX_CREATE_LOG(Profiler);
 			}];
 			
 			[self->_profilerStoryListener createRecording:self->_currentRecording];
-			
-			self->_rootSampleGroup = [[DTXSampleGroup alloc] initWithContext:self->_backgroundContext];
-			self->_rootSampleGroup.name = @"DTXRoot";
-			self->_rootSampleGroup.recording = self->_currentRecording;
-			self->_currentSampleGroup = self->_rootSampleGroup;
-			
-			[self->_profilerStoryListener pushSampleGroup:self->_rootSampleGroup isRootGroup:YES];
 			
 			__weak __typeof(self) weakSelf = self;
 			
@@ -266,7 +261,6 @@ DTX_CREATE_LOG(Profiler);
 		perfSample = [[DTXPerformanceSample alloc] initWithContext:self->_backgroundContext];
 	}
 	
-	perfSample.parentGroup = self->_currentRecording.rootSampleGroup;
 	perfSample.timestamp = timestamp;
 	perfSample.hidden = YES;
 	
@@ -326,36 +320,6 @@ DTX_CREATE_LOG(Profiler);
 	}];
 }
 
-- (void)_pushSampleGroupWithName:(NSString*)name timestamp:(NSDate*)timestamp
-{
-	DTX_IGNORE_NOT_RECORDING
-	
-	[_backgroundContext performBlock:^{
-		DTX_IGNORE_NOT_RECORDING
-		DTXSampleGroup* newGroup = [[DTXSampleGroup alloc] initWithContext:self->_backgroundContext];
-		newGroup.timestamp = timestamp;
-		newGroup.name = name;
-		newGroup.parentGroup = self->_currentSampleGroup;
-		[self->_profilerStoryListener pushSampleGroup:newGroup isRootGroup:NO];
-		self->_currentSampleGroup = newGroup;
-	} qos:QOS_CLASS_USER_INTERACTIVE];
-}
-
-- (void)_popSampleGroupWithTimestamp:(NSDate *)timestamp
-{
-	DTX_IGNORE_NOT_RECORDING
-	
-	[_backgroundContext performBlock:^{
-		DTX_IGNORE_NOT_RECORDING
-		
-		NSAssert(self->_currentSampleGroup.parentGroup != nil, @"Cannot pop the root sample group");
-		
-		self->_currentSampleGroup.closeTimestamp = timestamp;
-		[self->_profilerStoryListener popSampleGroup:self->_currentSampleGroup];
-		self->_currentSampleGroup = self->_currentSampleGroup.parentGroup;
-	} qos:QOS_CLASS_USER_INTERACTIVE];
-}
-
 - (void)_addTag:(NSString*)_tag timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
@@ -365,7 +329,6 @@ DTX_CREATE_LOG(Profiler);
 		
 		DTXTag* tag = [[DTXTag alloc] initWithContext:self->_backgroundContext];
 		tag.timestamp = timestamp;
-		tag.parentGroup = self->_currentSampleGroup;
 		tag.name = _tag;
 		
 		[self->_profilerStoryListener addTagSample:tag];
@@ -388,7 +351,6 @@ DTX_CREATE_LOG(Profiler);
 		
 		DTXLogSample* log = [[DTXLogSample alloc] initWithContext:self->_backgroundContext];
 		log.timestamp = timestamp;
-		log.parentGroup = self->_currentSampleGroup;
 		log.line = line;
 		log.objects = objects;
 		[self->_profilerStoryListener addLogSample:log];
@@ -412,14 +374,16 @@ DTX_CREATE_LOG(Profiler);
 		signpostSample.timestamp = timestamp;
 		signpostSample.uniqueIdentifier = identifier;
 		signpostSample.category = category;
-		signpostSample.name = [name copy];
-		signpostSample.additionalInfoStart = [additionalInfo copy];
-		signpostSample.parentGroup = self->_currentSampleGroup;
+		signpostSample.name = name;
+		signpostSample.additionalInfoStart = additionalInfo;
+//		signpostSample.parentGroup = self->_currentSampleGroup;
 		signpostSample.isTimer = isTimer;
 		signpostSample.stackTrace = stackTrace;
 		signpostSample.stackTraceIsSymbolicated = NO;
 		
 		[self->_profilerStoryListener markEventIntervalBegin:signpostSample];
+		
+		self->_pendingSignpostSamples[identifier] = signpostSample;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
@@ -430,18 +394,17 @@ DTX_CREATE_LOG(Profiler);
 	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		NSFetchRequest* fr = [DTXSignpostSample fetchRequest];
-		fr.predicate = [NSPredicate predicateWithFormat:@"uniqueIdentifier == %@", identifier];
-		DTXSignpostSample* signpostSample = [self->_backgroundContext executeFetchRequest:fr error:NULL].firstObject;
+		DTXSignpostSample* signpostSample = self->_pendingSignpostSamples[identifier];
 		if(signpostSample == nil)
 		{
 			return;
 		}
+		[self->_pendingSignpostSamples removeObjectForKey:identifier];
 
 		signpostSample.endTimestamp = timestamp;
 		signpostSample.duration = [signpostSample.endTimestamp timeIntervalSinceDate:signpostSample.timestamp];
 		signpostSample.eventStatus = eventStatus;
-		signpostSample.additionalInfoEnd = [additionalInfo copy];
+		signpostSample.additionalInfoEnd = additionalInfo;
 		
 		[self->_profilerStoryListener markEventIntervalEnd:signpostSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -460,11 +423,10 @@ DTX_CREATE_LOG(Profiler);
 		
 		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
 		signpostSample.timestamp = timestamp;
-		signpostSample.parentGroup = self->_currentSampleGroup;
 		signpostSample.uniqueIdentifier = identifier;
 		signpostSample.category = category;
-		signpostSample.name = [name copy];
-		signpostSample.additionalInfoStart = [additionalInfo copy];
+		signpostSample.name = name;
+		signpostSample.additionalInfoStart = additionalInfo;
 		signpostSample.eventStatus = eventStatus;
 		signpostSample.endTimestamp = signpostSample.timestamp;
 		signpostSample.isEvent = YES;
@@ -478,10 +440,8 @@ DTX_CREATE_LOG(Profiler);
 	[_backgroundContext save:NULL];
 	
 	for (DTXSample* obj in _pendingSamples) {
-		[self->_backgroundContext refreshObject:obj mergeChanges:YES];
+		[self->_backgroundContext refreshObject:obj mergeChanges:NO];
 	}
-	
-	[_backgroundContext refreshObject:_currentSampleGroup mergeChanges:YES];
 	
 	[_pendingSamples removeAllObjects];
 }
@@ -597,8 +557,6 @@ DTX_CREATE_LOG(Profiler);
 			}
 		}
 		
-		perfSample.parentGroup = self->_currentSampleGroup;
-		
 		[self->_profilerStoryListener addPerformanceSample:perfSample];
 		
 		[self _addPendingSampleInternal:perfSample];
@@ -641,8 +599,6 @@ DTX_CREATE_LOG(Profiler);
 		
 		rnPerfSample.stackTrace = stackTrace;
 		rnPerfSample.stackTraceIsSymbolicated = isSymbolicated;
-		
-		rnPerfSample.parentGroup = self->_currentSampleGroup;
 		
 		[self->_profilerStoryListener addRNPerformanceSample:rnPerfSample];
 		
@@ -700,9 +656,9 @@ DTX_CREATE_LOG(Profiler);
 		}
 		networkSample.requestDataLength = request.HTTPBody.length + request.allHTTPHeaderFields.description.length;
 		
-		networkSample.parentGroup = self->_currentSampleGroup;
-		
 		[self->_profilerStoryListener startRequestWithNetworkSample:networkSample];
+		
+		self->_pendingNetworkSamples[networkSample.uniqueIdentifier] = networkSample;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
@@ -723,13 +679,12 @@ DTX_CREATE_LOG(Profiler);
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		NSFetchRequest* fr = [DTXNetworkSample fetchRequest];
-		fr.predicate = [NSPredicate predicateWithFormat:@"uniqueIdentifier == %@", uniqueIdentifier];
-		DTXNetworkSample* networkSample = [self->_backgroundContext executeFetchRequest:fr error:NULL].firstObject;
+		DTXNetworkSample* networkSample = self->_pendingNetworkSamples[uniqueIdentifier];
 		if(networkSample == nil)
 		{
 			return;
 		}
+		[self->_pendingNetworkSamples removeObjectForKey:uniqueIdentifier];
 		
 		networkSample.responseTimestamp = timestamp;
 		networkSample.duration = [timestamp timeIntervalSinceDate:networkSample.timestamp];
@@ -782,8 +737,6 @@ DTX_CREATE_LOG(Profiler);
 		bridgeData.exception = exception;
 		
 		rnDataSample.data = bridgeData;
-		
-		rnDataSample.parentGroup = self->_currentSampleGroup;
 		
 		[self->_profilerStoryListener addRNBridgeDataSample:rnDataSample];
 		

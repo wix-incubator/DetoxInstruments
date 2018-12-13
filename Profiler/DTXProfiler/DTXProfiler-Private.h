@@ -22,8 +22,6 @@ extern NSMutableSet<DTXProfiler*>* __activeProfilers;
 
 //Private methods called from external API per active profiler.
 
-- (void)_pushSampleGroupWithName:(NSString*)name timestamp:(NSDate*)timestamp;
-- (void)_popSampleGroupWithTimestamp:(NSDate*)timestamp;
 - (void)_addTag:(NSString*)tag timestamp:(NSDate*)timestamp;
 - (void)_addLogLine:(NSString*)line timestamp:(NSDate*)timestamp;
 - (void)_addLogLine:(NSString *)line objects:(NSArray *)objects timestamp:(NSDate*)timestamp;
@@ -79,22 +77,6 @@ inline void __DTXProfilerEnumerateWithBlock(void (^block)(DTXProfiler* profiler)
 	}
 	
 	pthread_mutex_unlock(&__active_profilers_mutex);
-}
-
-DTX_ALWAYS_INLINE
-inline void __DTXProfilerPushSampleGroup(NSDate* timestamp, NSString* name)
-{
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
-		[profiler _pushSampleGroupWithName:name timestamp:timestamp];
-	});
-}
-
-DTX_ALWAYS_INLINE
-inline void __DTXProfilerPopSampleGroup(NSDate* timestamp)
-{
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
-		[profiler _popSampleGroupWithTimestamp:timestamp];
-	});
 }
 
 DTX_ALWAYS_INLINE

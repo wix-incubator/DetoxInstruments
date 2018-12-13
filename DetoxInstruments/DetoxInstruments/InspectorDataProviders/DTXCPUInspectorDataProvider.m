@@ -223,7 +223,7 @@
 	
 	__block DTXThreadInfo* heaviestThread;
 	
-	if(perfSample.recording.dtx_profilingConfiguration.recordThreadInformation && sample.threadSamples.count > 0)
+	if(self.document.firstRecording.dtx_profilingConfiguration.recordThreadInformation && sample.threadSamples.count > 0)
 	{
 		DTXPieChartView* pieChartView = [[DTXPieChartView alloc] initWithFrame:NSMakeRect(0, 0, 300, 100)];
 		NSMutableArray<DTXPieChartEntry*>* entries = NSMutableArray.new;
@@ -263,7 +263,7 @@
 		[contentArray addObject:threads];
 	}
 	
-	if(perfSample.recording.dtx_profilingConfiguration.collectStackTraces && [perfSample threadSamples].count > 0)
+	if(self.document.firstRecording.dtx_profilingConfiguration.collectStackTraces && [perfSample threadSamples].count > 0)
 	{
 		DTXInspectorContent* stackTrace = [self inspectorContentForStackTrace];
 		stackTrace.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Heaviest Stack Trace", @""), heaviestThread.friendlyName];

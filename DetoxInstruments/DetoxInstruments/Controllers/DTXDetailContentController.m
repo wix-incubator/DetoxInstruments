@@ -8,7 +8,6 @@
 
 #import "DTXDetailContentController.h"
 #import "DTXRecordingDocument.h"
-#import "DTXSampleGroup+UIExtensions.h"
 #import "DTXInstrumentsModelUIExtensions.h"
 #import "DTXLogDetailController.h"
 #import "DTXMenuPathControl.h"

@@ -8,7 +8,7 @@
 
 #import "NSManagedObject+Additions.h"
 #import "DTXSample+Additions.h"
-#import "DTXSampleGroup+CoreDataClass.h"
+#import "DTXTag+CoreDataClass.h"
 #import "DTXRecording+Additions.h"
 #import "DTXPerformanceSample+CoreDataClass.h"
 #import "DTXAdvancedPerformanceSample+CoreDataClass.h"
