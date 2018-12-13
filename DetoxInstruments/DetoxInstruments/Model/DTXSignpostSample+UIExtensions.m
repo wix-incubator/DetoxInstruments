@@ -88,7 +88,7 @@
 		effect = DTXColorEffectPending;
 	}
 	
-	return [NSColor uiColorWithSeed:self.category effect:effect];
+	return [NSColor uiColorWithSeed:self.name effect:effect];
 }
 
 - (NSDate*)defactoEndTimestamp
