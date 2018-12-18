@@ -951,7 +951,7 @@
 			path = Layers;
 			sourceTree = "<group>";
 		};
-		391958DF20A205FD00BD9C75 /* DocumentationGeneration */ = {
+		391958DF20A205FD00BD9C75 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
 				39ED0C5A21C13F3C0026E306 /* DTXColorTryoutsWindow.xib */,
@@ -970,7 +970,7 @@
 				396CC43A20AB07E300756459 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.m */,
 				39725FA721A0CDEA001D6BFD /* DevicePreviewImagesDocumentationGeneration.h */,
 			);
-			path = DocumentationGeneration;
+			path = Debug;
 			sourceTree = "<group>";
 		};
 		3919DF781FA6342900F47DD6 /* SourceMaps */ = {
@@ -1644,7 +1644,7 @@
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
 				39487CB81F435F090063E66D /* SharedSupport */,
 				39FD87D9211A62E1007FE6A5 /* CompatLayer */,
-				391958DF20A205FD00BD9C75 /* DocumentationGeneration */,
+				391958DF20A205FD00BD9C75 /* Debug */,
 			);
 			path = DetoxInstruments;
 			sourceTree = "<group>";

@@ -271,6 +271,13 @@
 
 - (BOOL)isCompatibleWithInstruments
 {
+#if DEBUG
+	if([NSUserDefaults.standardUserDefaults boolForKey:@"DTXDebugIgnoreIncompatibleProfilers"] == YES)
+	{
+		return YES;
+	}
+#endif
+	
 	NSString* profilerVersion = self.deviceInfo[@"profilerVersion"];
 	if(profilerVersion == nil)
 	{

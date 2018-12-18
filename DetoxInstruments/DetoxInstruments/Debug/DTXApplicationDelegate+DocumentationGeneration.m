@@ -112,6 +112,13 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		[self _addColorsToMenuItem:lightAppearance];
 		[debugMenu addItem:lightAppearance];
 		
+		[debugMenu addItem:[NSMenuItem separatorItem]];
+		
+		NSMenuItem* ignoreVersion = [NSMenuItem new];
+		ignoreVersion.title = @"Ignore Incompatible Profiler Versions";
+		[ignoreVersion bind:NSValueBinding toObject:NSUserDefaults.standardUserDefaults withKeyPath:@"DTXDebugIgnoreIncompatibleProfilers" options:nil];
+		[debugMenu addItem:ignoreVersion];
+		
 		NSMenuItem* debugMenuItem = [NSMenuItem new];
 		debugMenuItem.submenu = debugMenu;
 		
