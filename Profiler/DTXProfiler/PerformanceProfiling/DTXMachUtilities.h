@@ -8,6 +8,4 @@
 
 #import <mach/mach.h>
 
-#define DTXMaxFrames 2048
-
-int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** symbols);
+int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** buffer, int size);

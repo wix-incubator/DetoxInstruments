@@ -16,6 +16,7 @@
 @implementation DTXThreadMeasurement @end
 @implementation DTXCPUMeasurement @end
 
+#define DTXMaxFrames 2048
 static void* __symbols[DTXMaxFrames];
 
 @interface DTXPerformanceSampler ()
@@ -99,7 +100,7 @@ static void* __symbols[DTXMaxFrames];
 		NSMutableArray* mutableSymbolsArray = [NSMutableArray new];
 		int symbolCount = 0;
 		
-		symbolCount = DTXCallStackSymbolsForMachThread(heaviestThread, __symbols);
+		symbolCount = DTXCallStackSymbolsForMachThread(heaviestThread, __symbols, DTXMaxFrames);
 		
 		for(int idx = 0; idx < symbolCount; idx++)
 		{

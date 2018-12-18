@@ -7,6 +7,7 @@
 //
 
 #import "DTXMachUtilities.h"
+#import "DTXBase.h"
 #import <execinfo.h>
 
 //More info here:
@@ -65,34 +66,45 @@ typedef struct DTXStackFrameEntry
 	const uintptr_t return_address;
 } DTXStackFrameEntry;
 
-inline static bool __DTXFillThreadStateIntoMachineContext(thread_t thread, _STRUCT_MCONTEXT *machineContext)
+DTX_ALWAYS_INLINE
+static bool __DTXFillThreadStateIntoMachineContext(thread_t thread, _STRUCT_MCONTEXT *machineContext)
 {
 	mach_msg_type_number_t state_count = DTX_THREAD_STATE_COUNT;
 	return thread_get_state(thread, DTX_THREAD_STATE, (thread_state_t)&machineContext->__ss, &state_count) == KERN_SUCCESS;
 }
 
-inline static void* __DTXReadFramePointerRegister(mcontext_t const machineContext)
+DTX_ALWAYS_INLINE
+static void* __DTXReadFramePointerRegister(mcontext_t const machineContext)
 {
 	return DTX_MACHINE_CONTEXT_GET_FRAME_POINTER(machineContext);
 }
 
-inline static void* __DTXReadInstructionAddressRegister(mcontext_t const machineContext)
+DTX_ALWAYS_INLINE
+static void* __DTXReadInstructionAddressRegister(mcontext_t const machineContext)
 {
 	return DTX_MACHINE_CONTEXT_GET_PROGRAM_COUNTER(machineContext);
 }
 
-inline static void* __DTXReadLinkRegister(mcontext_t const machineContext)
+DTX_ALWAYS_INLINE
+static void* __DTXReadLinkRegister(mcontext_t const machineContext)
 {
 	return DTX_MACHINE_CONTEXT_GET_LINK_REGISTER(machineContext);
 }
 
-inline static kern_return_t __DTXReadMemorySafely(const void *const src, void *const dst, const size_t numBytes)
+DTX_ALWAYS_INLINE
+static kern_return_t __DTXReadMemorySafely(const void *const src, void *const dst, const size_t numBytes)
 {
 	vm_size_t bytesCopied = 0;
 	return vm_read_overwrite(mach_task_self(), (vm_address_t)src, (vm_size_t)numBytes, (vm_address_t)dst, &bytesCopied);
 }
 
-int __DTXCallStackSymbolsForMacThreadInternal(thread_act_t thread, void** symbols)
+int __DTXCallStackSymbolsForMacThreadInternal_modern(thread_act_t thread, void** symbols, int size)
+{
+	return 0;
+}
+
+DTX_ALWAYS_INLINE
+int __DTXCallStackSymbolsForMacThreadInternal(thread_act_t thread, void** buffer, int size)
 {
 	int count = 0;
 	
@@ -103,30 +115,31 @@ int __DTXCallStackSymbolsForMacThreadInternal(thread_act_t thread, void** symbol
 	}
 	
 	void* instructionAddress = __DTXReadInstructionAddressRegister(&machineContext);
-	symbols[count++] = instructionAddress;
+	buffer[count++] = instructionAddress;
 	
 	void* linkRegister = __DTXReadLinkRegister(&machineContext);
 	if (linkRegister)
 	{
-		symbols[count++] = linkRegister;
+		buffer[count++] = linkRegister;
 	}
 	
 	DTXStackFrameEntry frame = {0};
 	const void* framePtr = __DTXReadFramePointerRegister(&machineContext);
+	
 	if(framePtr == 0 || __DTXReadMemorySafely((void *)framePtr, &frame, sizeof(frame)) != KERN_SUCCESS)
 	{
 		return 0;
 	}
-	
-	while(count < DTXMaxFrames)
+
+	while(count < size)
 	{
 		void* addr = (void*)frame.return_address;
 		if(frame.return_address == 0 || frame.previous == 0 || __DTXReadMemorySafely(frame.previous, &frame, sizeof(frame)) != KERN_SUCCESS)
 		{
 			break;
 		}
-		
-		symbols[count++] = (void*)DTX_INSTRUCTION_FROM_RETURN_ADDRESS((uintptr_t)addr);
+
+		buffer[count++] = (void*)DTX_INSTRUCTION_FROM_RETURN_ADDRESS((uintptr_t)addr);
 	}
 	
 	if(instructionAddress == 0)
@@ -137,21 +150,21 @@ int __DTXCallStackSymbolsForMacThreadInternal(thread_act_t thread, void** symbol
 	return count;
 }
 
-int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** symbols)
+int DTXCallStackSymbolsForMachThread(thread_act_t thread, void** buffer, int size)
 {
 	int symbolCount = 0;
 	if(thread != mach_thread_self())
 	{
 		if(thread_suspend(thread) == KERN_SUCCESS)
 		{
-			symbolCount = __DTXCallStackSymbolsForMacThreadInternal(thread, symbols);
+			symbolCount = __DTXCallStackSymbolsForMacThreadInternal(thread, buffer, size);
 			thread_resume(thread);
 			return symbolCount;
 		}
 	}
 	else
 	{
-		symbolCount = backtrace(symbols, DTXMaxFrames);
+		symbolCount = backtrace(buffer, size);
 	}
 	
 	return symbolCount;
