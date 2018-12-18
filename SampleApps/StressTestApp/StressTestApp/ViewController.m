@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "AppURLProtocol.h"
 #import "AppDelegate.h"
+#import <StressTestApp-Swift.h>
 
 #import <DTXProfiler/DTXProfiler.h>
 
@@ -95,45 +96,12 @@ os_log_t __log_general;
 
 - (IBAction)_slowMyDeviceTapped:(id)sender
 {
-	os_signpost_id_t slowFg = os_signpost_id_generate(__log_cpu_stress);
-	os_signpost_interval_begin(__log_cpu_stress, slowFg, "Slow Foreground");
-	DTXEventIdentifier slowForeground = DTXProfilerMarkEventIntervalBegin(@"CPU Stress", @"Slow Foreground", nil);
-	
-	NSDate* before = [NSDate date];
-	
-	while([before timeIntervalSinceNow] > -5)
-	{
-		//These are a torture test for Detox Instruments performance profiling.
-		
-//		os_signpost_event_emit(__log_cpu_stress, OS_SIGNPOST_ID_EXCLUSIVE, "Slow Foreground Inside While");
-//		DTXProfilerMarkEvent(@"CPU Stress", @"Slow Foreground Inside While", DTXEventStatusCategory1, nil);
-	}
-	
-	DTXProfilerMarkEventIntervalEnd(slowForeground, DTXEventStatusCompleted, nil);
-	os_signpost_interval_end(__log_cpu_stress, slowFg, "Slow Foreground");
+	[SwiftSlower slowOnMainThreadWithLog:__log_cpu_stress];
 }
 
 - (IBAction)_slowMyBackgroundTapped:(id)sender
 {
-	os_signpost_id_t slowBg = os_signpost_id_generate(__log_cpu_stress);
-	os_signpost_interval_begin(__log_cpu_stress, slowBg, "Slow Background");
-	
-	DTXEventIdentifier slowBackground = DTXProfilerMarkEventIntervalBegin(@"CPU Stress", @"Slow Background", nil);
-	
-	NSDate* before = [NSDate date];
-	
-	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-		while([before timeIntervalSinceNow] > -10)
-		{
-			//These are a torture test for Detox Instruments performance profiling.
-			
-//			os_signpost_event_emit(__log_cpu_stress, OS_SIGNPOST_ID_EXCLUSIVE, "Slow Background Inside While");
-//			DTXProfilerMarkEvent(@"CPU Stress", @"Slow Background Inside While", DTXEventStatusCategory1, nil);
-		}
-		
-		DTXProfilerMarkEventIntervalEnd(slowBackground, DTXEventStatusCompleted, nil);
-		os_signpost_interval_end(__log_cpu_stress, slowBg, "Slow Background");
-	});
+	[SwiftSlower slowOnBackgroundThreadWithLog:__log_cpu_stress];
 }
 
 - (IBAction)_clearCookies:(id)sender

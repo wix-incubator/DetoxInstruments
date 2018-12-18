@@ -10,12 +10,23 @@
 #include <dlfcn.h>
 #include <cxxabi.h>
 
+static char* (*__dtx_swift_demangle)(const char *mangledName,
+									 size_t mangledNameLength,
+									 char *outputBuffer,
+									 size_t *outputBufferSize,
+									 uint32_t flags);
+
 @implementation DTXAddressInfo
 {
 	Dl_info _info;
 }
 
 @synthesize image, symbol, offset, address;
+
++ (void)load
+{
+	__dtx_swift_demangle = (char*(*)(const char *, size_t, char *, size_t *, uint32_t))dlsym(RTLD_DEFAULT, "swift_demangle");
+}
 
 - (instancetype)initWithAddress:(NSUInteger)_address
 {
@@ -50,16 +61,36 @@
 	if(_info.dli_sname != NULL)
 	{
 		int status = -1;
-		char* demangled = abi::__cxa_demangle(_info.dli_sname, NULL, NULL, &status);
-		NSString* tmpSymbol = nil;
+		char* demangled = abi::__cxa_demangle(_info.dli_sname, nullptr, nullptr, &status);
+		BOOL shouldFree = NO;
+		
 		if(demangled)
 		{
-			tmpSymbol = [NSString stringWithUTF8String:demangled];
-			free(demangled);
+			shouldFree = YES;
 		}
 		else
 		{
-			tmpSymbol = [NSString stringWithUTF8String:_info.dli_sname];
+			if(__dtx_swift_demangle)
+			{
+				demangled = __dtx_swift_demangle(_info.dli_sname, strlen(_info.dli_sname), nullptr, nullptr, 0);
+				if(demangled)
+				{
+					shouldFree = YES;
+				}
+			}
+		}
+		
+		if(demangled == nullptr)
+		{
+			demangled = (char *)_info.dli_sname;
+			shouldFree = NO;
+		}
+		
+		NSString* tmpSymbol = [NSString stringWithUTF8String:demangled];
+		
+		if(shouldFree)
+		{
+			free(demangled);
 		}
 		
 		return tmpSymbol;
