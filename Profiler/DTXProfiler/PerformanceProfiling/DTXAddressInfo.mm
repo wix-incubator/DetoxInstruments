@@ -61,23 +61,13 @@ static char* (*__dtx_swift_demangle)(const char *mangledName,
 	if(_info.dli_sname != NULL)
 	{
 		int status = -1;
-		char* demangled = abi::__cxa_demangle(_info.dli_sname, nullptr, nullptr, &status);
+		char* demangled = nullptr;
 		BOOL shouldFree = NO;
 		
-		if(demangled)
+		if((demangled = abi::__cxa_demangle(_info.dli_sname, nullptr, nullptr, &status)) != nullptr ||
+		   (__dtx_swift_demangle && (demangled = __dtx_swift_demangle(_info.dli_sname, strlen(_info.dli_sname), nullptr, nullptr, 0)) != nullptr))
 		{
 			shouldFree = YES;
-		}
-		else
-		{
-			if(__dtx_swift_demangle)
-			{
-				demangled = __dtx_swift_demangle(_info.dli_sname, strlen(_info.dli_sname), nullptr, nullptr, 0);
-				if(demangled)
-				{
-					shouldFree = YES;
-				}
-			}
 		}
 		
 		if(demangled == nullptr)
