@@ -22,3 +22,5 @@ If your app does not appear in the app selection dialog, the following tips will
 - Security software, such as Antivirus and Firewall applications, may interfere with Bonjour; please consult the software manual or contact your system administrator
 - Corporate networks may block or otherwise prevent Bonjour from working; please contact your system administrator
   - As a workaround, you can connect your device locally to your Mac using a Lightning cable, which will create a Bonjour-supported direct connection.
+- Under extreme cases, Bonjour may stop working for certain devices. Resetting network settings in **Settings > General > Reset > Reset Network Settings** is known to help.
+  - > **Note:** This will reset all your network settings, including wi-fi passwords, proxy configurations, VPNs, DNS settings, etc. Perform this step with care.
