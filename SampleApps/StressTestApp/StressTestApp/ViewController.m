@@ -13,6 +13,8 @@
 
 #import <DTXProfiler/DTXProfiler.h>
 
+#define DTX_DEBUG_EVENTS_CREATE_RECORDING 0
+
 os_log_t __log_disk;
 os_log_t __log_network;
 os_log_t __log_general;
@@ -222,21 +224,45 @@ os_log_t __log_general;
 
 - (IBAction)bombardEvents:(UIButton*)sender
 {
-	DTXProfilerMarkEvent(@"Bombardment", @"JustAnEvent", DTXEventStatusCancelled, @"Info");
+	os_signpost_id_t test = os_signpost_id_generate(__log_general);
+	os_signpost_interval_begin(__log_general, test, "Events Bombardment");
 	
-	NSMutableArray* events = [NSMutableArray new];
+#if DTX_DEBUG_EVENTS_CREATE_RECORDING
+	DTXMutableProfilingConfiguration* config = [DTXMutableProfilingConfiguration defaultProfilingConfiguration];
+	config.samplingInterval = 0.25;
+	config.numberOfSamplesBeforeFlushToDisk = 1000;
 	
-	for(NSUInteger idx = 0; idx < 5000; idx++)
-	{
-		id event = DTXProfilerMarkEventIntervalBegin(@"Bombardment", [NSString stringWithFormat:@"%@", @(idx % 10)], [NSString stringWithFormat:@"%@", @(idx)]);
-		[events addObject:event];
-	}
+	__block DTXProfiler* profiler = [DTXProfiler new];
+	[profiler startProfilingWithConfiguration:config];
 	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		[events enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			DTXProfilerMarkEventIntervalEnd(obj, DTXEventStatusCompleted, nil);
-		}];
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+#endif
+		DTXProfilerMarkEvent(@"Bombardment", @"JustAnEvent", DTXEventStatusCancelled, @"Info");
+		
+		NSMutableArray* events = [NSMutableArray new];
+		
+		for(NSUInteger idx = 0; idx < 5000; idx++)
+		{
+			id event = DTXProfilerMarkEventIntervalBegin(@"Bombardment", [NSString stringWithFormat:@"%@", @(idx % 10)], [NSString stringWithFormat:@"%@", @(idx)]);
+			[events addObject:event];
+		}
+
+#if DTX_DEBUG_EVENTS_CREATE_RECORDING
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[events enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				DTXProfilerMarkEventIntervalEnd(obj, DTXEventStatusCompleted, nil);
+			}];
+			
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[profiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
+					profiler = nil;
+					
+					os_signpost_interval_end(__log_general, test, "Starting Bombardment");
+				}];
+			});
+		});
 	});
+	#endif
 }
 
 - (IBAction)startDemoTapped:(UIButton*)sender
