@@ -259,7 +259,10 @@ static NSDateFormatter* __iso8601DateFormatter;
 			}
 		}
 		
-		[self setValue:obj forKey:key];
+		if(self.entity.propertiesByName[key])
+		{
+			[self setValue:obj forKey:key];
+		}
 	}];
 }
 
