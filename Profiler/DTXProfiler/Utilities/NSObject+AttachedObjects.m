@@ -11,12 +11,12 @@
 
 @implementation NSObject (AttachedObjects)
 
-- (void)dtx_attachObject:(nullable id)value forKey:(void*)key;
+- (void)dtx_attachObject:(nullable id)value forKey:(const void*)key;
 {
 	objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (nullable id)dtx_attachedObjectForKey:(void*)key;
+- (nullable id)dtx_attachedObjectForKey:(const void*)key;
 {
 	return objc_getAssociatedObject(self, key);
 }

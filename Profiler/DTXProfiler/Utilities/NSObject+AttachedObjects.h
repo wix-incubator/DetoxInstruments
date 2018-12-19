@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSObject (AttachedObjects)
 
-- (void)dtx_attachObject:(nullable id)value forKey:(void*)key;
-- (nullable id)dtx_attachedObjectForKey:(void*)key;
+- (void)dtx_attachObject:(nullable id)value forKey:(const void*)key;
+- (nullable id)dtx_attachedObjectForKey:(const void*)key;
 
 @end
 
