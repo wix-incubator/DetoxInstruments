@@ -11,8 +11,10 @@ import os
 import DTXProfiler
 
 public class SwiftSlower: NSObject {
-	@objc public class func slowOnMainThread(log: OSLog) {
-		let slowFg = OSSignpostID(log: log)
+	private static var log = OSLog(subsystem: "com.LeoNatan.StressTestApp", category: "CPU Stress")
+	
+	@objc public class func slowOnMainThread() {
+		let slowFg = OSSignpostID(log: SwiftSlower.log)
 		os_signpost(.begin, log: log, name: "Slow Foreground", signpostID: slowFg)
 		let slowForeground = DTXProfilerMarkEventIntervalBegin("CPU Stress", "Slow Foreground", nil);
 		
@@ -26,8 +28,8 @@ public class SwiftSlower: NSObject {
 		os_signpost(.end, log: log, name: "Slow Foreground", signpostID: slowFg)
 	}
 	
-	@objc public class func slowOnBackgroundThread(log: OSLog) {
-		let slowBg = OSSignpostID(log: log)
+	@objc public class func slowOnBackgroundThread() {
+		let slowBg = OSSignpostID(log: SwiftSlower.log)
 		os_signpost(.begin, log: log, name: "Slow Background", signpostID: slowBg)
 		
 		let slowBackground = DTXProfilerMarkEventIntervalBegin("CPU Stress", "Slow Background", nil);

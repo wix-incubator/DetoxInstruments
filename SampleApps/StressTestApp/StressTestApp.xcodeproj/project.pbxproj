@@ -131,6 +131,7 @@
 				39432AE61F55B7AC00468DB7 /* AppURLDemo */,
 				39EBDF1A1ED2DEA2005D8AB1 /* AppDelegate.h */,
 				39EBDF1B1ED2DEA2005D8AB1 /* AppDelegate.m */,
+				393DED9721C9B5AB006EB765 /* SwiftSlower.swift */,
 				39EBDF1D1ED2DEA2005D8AB1 /* ViewController.h */,
 				39EBDF1E1ED2DEA2005D8AB1 /* ViewController.m */,
 				3978000B1EEB0038002BDEFB /* WebViewController.h */,
@@ -140,8 +141,6 @@
 				39EBDF231ED2DEA2005D8AB1 /* Assets.xcassets */,
 				39EBDF281ED2DEA2005D8AB1 /* Info.plist */,
 				39EBDF171ED2DEA2005D8AB1 /* Supporting Files */,
-				393DED9721C9B5AB006EB765 /* SwiftSlower.swift */,
-				393DED9621C9B5AA006EB765 /* StressTestApp-Bridging-Header.h */,
 			);
 			path = StressTestApp;
 			sourceTree = "<group>";
@@ -149,6 +148,7 @@
 		39EBDF171ED2DEA2005D8AB1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				393DED9621C9B5AA006EB765 /* StressTestApp-Bridging-Header.h */,
 				39EBDF181ED2DEA2005D8AB1 /* main.m */,
 			);
 			name = "Supporting Files";

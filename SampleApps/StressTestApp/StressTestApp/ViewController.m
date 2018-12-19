@@ -14,7 +14,6 @@
 #import <DTXProfiler/DTXProfiler.h>
 
 os_log_t __log_disk;
-os_log_t __log_cpu_stress;
 os_log_t __log_network;
 os_log_t __log_general;
 
@@ -33,7 +32,6 @@ os_log_t __log_general;
 + (void)load
 {
 	__log_disk = os_log_create("com.LeoNatan.StressTestApp", "Disk");
-	__log_cpu_stress = os_log_create("com.LeoNatan.StressTestApp", "CPU Stress");
 	__log_network = os_log_create("com.LeoNatan.StressTestApp", "Network");
 	__log_general = os_log_create("com.LeoNatan.StressTestApp", "Stress Test App");
 }
@@ -96,12 +94,12 @@ os_log_t __log_general;
 
 - (IBAction)_slowMyDeviceTapped:(id)sender
 {
-	[SwiftSlower slowOnMainThreadWithLog:__log_cpu_stress];
+	[SwiftSlower slowOnMainThread];
 }
 
 - (IBAction)_slowMyBackgroundTapped:(id)sender
 {
-	[SwiftSlower slowOnBackgroundThreadWithLog:__log_cpu_stress];
+	[SwiftSlower slowOnBackgroundThread];
 }
 
 - (IBAction)_clearCookies:(id)sender
