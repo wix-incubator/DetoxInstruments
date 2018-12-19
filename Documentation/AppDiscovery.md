@@ -17,7 +17,7 @@ This dialog displays a list of applications which can be profiled by Detox Instr
 
 If your app does not appear in the app selection dialog, the following tips will help you troubleshoot.
 
-- Make sure you have integrated your app with the Profiler framework. See [Profiler Framework Integration Guide](Documentation/XcodeIntegrationGuide.md) for more information.
+- Make sure you have integrated your app with the Profiler framework. See [Profiler Framework Integration Guide](/Documentation/XcodeIntegrationGuide.md) for more information.
 - Devices should be connected on the same network (Wi-Fi, LAN for macOS & Simulators or Lightning cable for direct connection)
 - Security software, such as Antivirus and Firewall applications, may interfere with Bonjour; please consult the software manual or contact your system administrator
 - Corporate networks may block or otherwise prevent Bonjour from working; please contact your system administrator
