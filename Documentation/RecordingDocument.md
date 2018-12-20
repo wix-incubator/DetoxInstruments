@@ -48,11 +48,18 @@ The detail pane displays the data associated with the current recording for the 
 
 ![Detail Pane](Resources/RecordingDocument_DetailPane.png "Detail Pane")
 
-The navigation bar at the top of the detail pane displays the icon of the currently selected instrument and the detail type list. You can switch between the instrument data and the console output by clicking the icon view and selecting **Console**.
+##### Navigation Bar
 
-![Timeline Pane](Resources/RecordingDocument_DetailPane_Console.png "Timeline Pane")
+The navigation bar at the top of the detail pane helps you browse through collected data. You can use the navigation bar to switch between types of data.
 
-The collected data area shows you all of the data for the selected instrument, typically in tabular format. The content displayed here varies significantly from instrument to instrument. For example, the CPU instrument displays usage and thread information while the network instrument displays network requests.
+- **Instrument**: Icon and name of the currently selected instrument in the timeline pane. You can switch between the instrument and the console output by clicking the instrument and selecting **Console**.
+- **Detail type list**: Allows you to navigate between different types of data. The options displayed here vary, depending on the actively selected instrument. For many instruments, the list includes things like a summary of data, a call tree, and a console.
+
+![Console](Resources/RecordingDocument_DetailPane_Console.png "Console")
+
+##### Collected Data Area
+
+The collected data area shows you all of the data for the selected instrument and detail type, typically in tabular format. The content displayed here varies significantly from instrument to instrument. For example, the CPU instrument displays usage and thread information while the network instrument displays network requests.
 
 Some select instruments, as well as the console view, display a filter field at the bottom, allowing you to filter collected data for a specific term.
 
