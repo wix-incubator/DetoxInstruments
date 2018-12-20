@@ -180,6 +180,11 @@
 		[_plotGroup addPlotController:[[DTXRNBridgeDataTransferPlotController alloc] initWithDocument:self.document]];
 	}
 	
+	if(_plotGroup.visiblePlotControllers.count == 0)
+	{
+		[_plotGroup resetPlotControllerVisibility];
+	}
+	
 	//This fixes an issue where the main content table does not size correctly.
 	NSRect rect = self.view.window.frame;
 	rect.size.width += 1;
@@ -329,6 +334,11 @@
 			
 			return NO;
 		}];
+		
+		if(_plotGroup.visiblePlotControllers.count == 0)
+		{
+			return nil;
+		}
 		
 		id<DTXPlotController> plotController = _plotGroup.visiblePlotControllers[idx];
 		
