@@ -59,6 +59,8 @@
 
 @interface DTXDetailDataProvider : NSObject <DTXDetailDataProvider>
 
+@property (nonatomic, class, copy, readonly) NSString* defaultDetailDataProviderIdentifier;
+
 - (instancetype)initWithDocument:(DTXRecordingDocument*)document plotController:(id<DTXPlotController>)plotController;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -69,6 +71,7 @@
 
 @property (nonatomic, strong, readonly) DTXSampleContainerProxy* rootGroupProxy;
 
+@property (nonatomic, strong, readonly) NSString* identifier;
 @property (nonatomic, strong, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* displayIcon;
 

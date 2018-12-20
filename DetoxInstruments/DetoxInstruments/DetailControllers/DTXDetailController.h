@@ -21,6 +21,8 @@
 
 @interface DTXDetailController : NSViewController <DTXDetailDataProviderDelegate, DTXWindowWideCopyHanler>
 
+@property (nonatomic, class, copy, readonly) NSString* defaultDetailControllerIdentifier;
+
 @property (nonatomic, strong) DTXDetailDataProvider* detailDataProvider;
 @property (nonatomic, copy, readonly) DTXDataExporter* dataExporter;
 @property (nonatomic, weak) id<DTXDetailControllerDelegate> delegate;
@@ -30,6 +32,7 @@
 - (void)filterSamples:(NSString*)filter;
 - (void)selectSample:(DTXSample*)sample;
 
+@property (nonatomic, copy, readonly) NSString* identifier;
 @property (nonatomic, copy, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* smallDisplayIcon;
 

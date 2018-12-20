@@ -23,16 +23,6 @@
 	_outlineView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
-- (NSString *)displayName
-{
-	return self.detailDataProvider.displayName;
-}
-
-- (NSImage *)smallDisplayIcon
-{
-	return self.detailDataProvider.displayIcon;
-}
-
 - (void)setDetailDataProvider:(DTXDetailDataProvider *)detailDataProvider
 {
 	super.detailDataProvider = detailDataProvider;

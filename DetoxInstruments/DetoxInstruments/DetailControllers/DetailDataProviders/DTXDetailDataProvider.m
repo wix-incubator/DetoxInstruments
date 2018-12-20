@@ -75,6 +75,16 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	return self;
 }
 
++ (NSString *)defaultDetailDataProviderIdentifier
+{
+	return @"Samples";
+}
+
+- (NSString *)identifier
+{
+	return DTXDetailDataProvider.defaultDetailDataProviderIdentifier;
+}
+
 - (NSString *)displayName
 {
 	return NSLocalizedString(@"Samples", @"");;

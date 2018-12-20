@@ -27,6 +27,11 @@
 	return DTXSignpostDataExporter.class;
 }
 
+- (NSString *)identifier
+{
+	return @"Nested";
+}
+
 - (NSString *)displayName
 {
 	return NSLocalizedString(@"Nested", @"");;

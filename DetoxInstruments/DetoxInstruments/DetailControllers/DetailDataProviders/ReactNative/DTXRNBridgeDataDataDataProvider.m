@@ -16,6 +16,11 @@
 	return [DTXRNBridgeDataDataInspectorDataProvider class];
 }
 
+- (NSString *)identifier
+{
+	return @"BridgeData";
+}
+
 - (NSString *)displayName
 {
 	return NSLocalizedString(@"Bridge Data", @"");

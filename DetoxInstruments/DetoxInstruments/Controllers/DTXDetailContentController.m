@@ -76,7 +76,24 @@
 	
 	_managingPlotController.sampleClickDelegate = self;
 	
-	[self _activateDetailProviderController:_cachedDetailControllers.firstObject];
+	NSString* cachedIdentifier = [self.document objectForPreferenceKey:__DTXDetailControllerCacheKeyForObject(_managingPlotController)];
+	DTXDetailController* controllerToActivate = nil;
+	NSUInteger idx = cachedIdentifier == nil ? NSNotFound : [_cachedDetailControllers indexOfObjectPassingTest:^BOOL(DTXDetailController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		BOOL didFind = [obj.identifier isEqualToString:cachedIdentifier];
+		*stop = didFind;
+		
+		return didFind;
+	}];
+	if(idx == NSNotFound)
+	{
+		controllerToActivate = _cachedDetailControllers.firstObject;
+	}
+	else
+	{
+		controllerToActivate = _cachedDetailControllers[idx];
+	}
+	
+	[self _activateDetailProviderController:controllerToActivate];
 }
 
 - (BOOL)_isLogShown
@@ -175,6 +192,11 @@
 	[self _setupConstraintsForMiddleView:_activeDetailController.view];
 }
 
+static NSString* __DTXDetailControllerCacheKeyForObject(id<NSObject> object)
+{
+	return [NSString stringWithFormat:@"SelectedDetailController_%@", NSStringFromClass(object.class)];
+}
+
 - (void)_activateDetailProviderController:(DTXDetailController*)dataProviderController
 {
 	if(_activeDetailController == dataProviderController)
@@ -204,6 +226,20 @@
 	
 	[self _updatePathControlItems];
 	[self _updateBottomViewVisibility];
+	
+	if(dataProviderController != _logDetailController)
+	{
+		NSString* key = __DTXDetailControllerCacheKeyForObject(self.managingPlotController);
+		
+		if([dataProviderController.identifier isEqualToString:DTXDetailController.defaultDetailControllerIdentifier])
+		{
+			[self.document setObject:nil forPreferenceKey:key];
+		}
+		else
+		{
+			[self.document setObject:dataProviderController.identifier forPreferenceKey:key];
+		}
+	}
 }
 
 - (IBAction)_selectDetailProviderControllerFromMenuItem:(NSMenuItem*)sender

@@ -75,6 +75,26 @@
 	return [[_detailDataProvider.dataExporterClass alloc] initWithDocument:_detailDataProvider.document];
 }
 
++ (NSString *)defaultDetailControllerIdentifier
+{
+	return DTXDetailDataProvider.defaultDetailDataProviderIdentifier;
+}
+
+- (NSString *)identifier
+{
+	return self.detailDataProvider.identifier;
+}
+
+- (NSString *)displayName
+{
+	return self.detailDataProvider.displayName;
+}
+
+- (NSImage *)smallDisplayIcon
+{
+	return self.detailDataProvider.displayIcon;
+}
+
 #pragma mark DTXDetailDataProviderDelegate
 
 - (void)dataProvider:(id<DTXDetailDataProvider>)provider didSelectInspectorItem:(DTXInspectorDataProvider*)item;

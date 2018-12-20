@@ -26,6 +26,11 @@
 	return DTXSignpostDataExporter.class;
 }
 
+- (NSString *)identifier
+{
+	return @"List";
+}
+
 - (NSString *)displayName
 {
 	return NSLocalizedString(@"List", @"");;
