@@ -12,10 +12,15 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if [ ! "$BRANCH" = "master" ]; then
 	printf >&2 "\033[1;31mNot on master branch, performing a dry run.\033[0m\n"
+	DRY_RUN="1"
 else 
 	if [ "$1" = "--dry" ]; then
 		DRY_RUN=$1
 	fi
+fi
+
+if [ "$1" = "--nodocs" ]; then
+	NO_DOCS="1"
 fi
 
 if [ ! -z "$DRY_RUN" ]; then
@@ -51,10 +56,12 @@ if [ -z "$DRY_RUN" ]; then
 	fi
 fi
 
-echo -e "\033[1;34mUpdating acknowledgements and Apple Help\033[0m"
+if [ -z "$NO_DOCS" ]; then
+	echo -e "\033[1;34mUpdating acknowledgements and Apple Help\033[0m"
 
-./updateAcknowledgements.sh
-./updateHelp.sh || :
+	./updateAcknowledgements.sh
+	./updateHelp.sh || :
+fi
 
 echo -e "\033[1;34mBuilding archive and exporting\033[0m"
 
