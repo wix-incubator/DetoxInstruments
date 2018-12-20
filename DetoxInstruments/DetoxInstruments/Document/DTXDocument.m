@@ -36,7 +36,14 @@
 
 - (void)_persistCachedPreferences
 {
-	[_cachedPreferences writeToURL:self._preferencesURL error:NULL];
+	NSURL* urlToPersist = self._preferencesURL;
+	
+	if(urlToPersist == nil)
+	{
+		return;
+	}
+	
+	[_cachedPreferences writeToURL:urlToPersist error:NULL];
 }
 
 - (id)objectForPreferenceKey:(NSString *)key
@@ -65,6 +72,7 @@
 	[super setAutosavedContentsFileURL:autosavedContentsFileURL];
 	
 	[self _reloadCachedPreferencesIfNeeded];
+	[self _persistCachedPreferences];
 }
 
 - (void)setFileURL:(NSURL *)fileURL
@@ -72,6 +80,7 @@
 	[super setFileURL:fileURL];
 	
 	[self _reloadCachedPreferencesIfNeeded];
+	[self _persistCachedPreferences];
 }
 
 @end

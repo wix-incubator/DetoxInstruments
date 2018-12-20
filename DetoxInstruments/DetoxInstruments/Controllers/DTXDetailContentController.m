@@ -76,6 +76,11 @@
 	
 	_managingPlotController.sampleClickDelegate = self;
 	
+	if(_managingPlotController == nil)
+	{
+		return;
+	}
+	
 	NSString* cachedIdentifier = [self.document objectForPreferenceKey:__DTXDetailControllerCacheKeyForObject(_managingPlotController)];
 	DTXDetailController* controllerToActivate = nil;
 	NSUInteger idx = cachedIdentifier == nil ? NSNotFound : [_cachedDetailControllers indexOfObjectPassingTest:^BOOL(DTXDetailController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
