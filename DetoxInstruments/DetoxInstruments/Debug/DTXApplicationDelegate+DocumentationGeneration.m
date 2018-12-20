@@ -6,7 +6,7 @@
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
-#ifdef DEBUG
+#if DEBUG
 
 #import "DTXApplicationDelegate+DocumentationGeneration.h"
 #import "DTXWindowController+DocumentationGeneration.h"
@@ -34,6 +34,26 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 @import ObjectiveC;
+
+@interface NSNetServiceBrowser (DTXDebug) @end
+@implementation NSNetServiceBrowser (DTXDebug)
+
+- (void)__dtx_searchForServicesOfType:(NSString *)type inDomain:(NSString *)domainString
+{
+}
+
++ (void)__dtx_applyDebugIgnore
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		Method m1 = class_getInstanceMethod(self, @selector(searchForServicesOfType:inDomain:));
+		Method m2 = class_getInstanceMethod(self, @selector(__dtx_searchForServicesOfType:inDomain:));
+		
+		method_exchangeImplementations(m1, m2);
+	});
+}
+
+@end
 
 static NSBitmapImageRep* __DTXThemeBackgroundRep(NSBitmapImageRep* rep)
 {
@@ -201,28 +221,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 
 - (void)__generate
 {
-	__block NSScreen* retinaScreen = nil;
-	
-	[NSScreen.screens enumerateObjectsUsingBlock:^(NSScreen * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if(obj.backingScaleFactor >= 2)
-		{
-			*stop = YES;
-			retinaScreen = obj;
-		}
-	}];
-	
-	if(retinaScreen == nil)
-	{
-		NSBeep();
-		
-		NSAlert *errorAlert = [[NSAlert alloc] init];
-		errorAlert.alertStyle = NSAlertStyleCritical;
-		errorAlert.messageText = @"No retina screen found";
-		errorAlert.informativeText = @"Screenshots must be generated on a retina screen.";
-		[errorAlert runModal];
-		
-		return;
-	}
+	[NSNetServiceBrowser __dtx_applyDebugIgnore];
 	
 	NSBitmapImageRep* rep;
 	
@@ -280,7 +279,6 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	NSDocument* newDocument = [NSDocumentController.sharedDocumentController openUntitledDocumentAndDisplay:YES error:NULL];
 	DTXWindowController* windowController = newDocument.windowControllers.firstObject;
 	
-	[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen];
 	[windowController.window makeKeyAndOrderFront:nil];
 	[windowController _setWindowSize:NSMakeSize(1344, 945)];
 	[windowController _setBottomSplitAtPercentage:0.53];
@@ -349,7 +347,6 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		DTXWindowController* windowController = document.windowControllers.firstObject;
 		[[document valueForKeyPath:@"recordings.@firstObject"] setValue:@"Example App" forKeyPath:@"appName"];
 		[windowController _setRecordingButtonsVisible:NO];
-		[windowController.window setFrame:[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen] display:YES];
 		[windowController.window makeKeyAndOrderFront:nil];
 		[windowController _setWindowSize:NSMakeSize(1344, 945)];
 		[windowController _setBottomSplitAtPercentage:0.53];
@@ -419,9 +416,9 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/exampleRN.dtxprof"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
 			
 			DTXWindowController* windowController = document.windowControllers.firstObject;
+			
 			[[document valueForKeyPath:@"recordings.@firstObject"] setValue:@"Example RN App" forKeyPath:@"appName"];
 			[windowController _setRecordingButtonsVisible:NO];
-			[windowController.window setFrame:[windowController.window constrainFrameRect:windowController.window.frame toScreen:retinaScreen] display:YES];
 			[windowController.window makeKeyAndOrderFront:nil];
 			[windowController _setWindowSize:NSMakeSize(1344, 945)];
 			[windowController _setBottomSplitAtPercentage:0.53];
