@@ -213,6 +213,12 @@ static JSValueRef __dtx_JSObjectCallAsFunction(JSContextRef ctx, JSObjectRef obj
 	for(size_t i = 0; i < argumentCount; i++)
 	{
 		NSString* str = DTXJSValueJSONStringToNSString(ctx, arguments[i]);
+		
+		if(str == nil)
+		{
+			continue;
+		}
+		
 		atomic_fetch_add(&__bridgeNToJSDataSize, str.length);
 		[args addObject:str];
 	}
@@ -259,20 +265,28 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 			atomic_fetch_add(&__bridgeJSToNCallCount, 1);
 
 			JSValueRef* arguments = malloc(sizeof(JSValueRef) * [__jscWrapper.JSContext currentArguments].count);
+			dtx_defer {
+				free(arguments);
+			};
 			
 			NSMutableArray* args = [NSMutableArray new];
 
 			NSUInteger idx = 0;
 			for(JSValue* obj in [__jscWrapper.JSContext currentArguments])
 			{
+				arguments[idx] = [obj JSValueRef];
+				idx += 1;
+				
 				NSString* str = DTXJSValueJSONStringToNSString(ctx, [obj JSValueRef]);
+				
+				if(str.length == 0)
+				{
+					continue;
+				}
+				
 				atomic_fetch_add(&__bridgeJSToNDataSize, str.length);
 				
 				[args addObject:str];
-				
-				arguments[idx] = [obj JSValueRef];
-				
-				idx += 1;
 			}
 
 			NSString* rvStr;
@@ -296,8 +310,6 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 //			}
 			
 			__DTXProfilerAddRNBridgeDataCapture(str, args, rvStr, exc, NO);
-
-			free(arguments);
 
 			JSValue *rv = [__jscWrapper.JSValue valueWithJSValueRef:rvRef inContext:[__jscWrapper.JSContext currentContext]];
 			return rv;
