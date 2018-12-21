@@ -34,7 +34,7 @@ Clicking on any point in the timeline will select the closest recorded data samp
 
 ![Timeline Pane](Resources/RecordingDocument_TimelinePane.png "Timeline Pane")
 
-##### Customization
+#### Customization
 
 Clicking the **Customization button** in the window toolbar will display a list of all the available instruments in the current document.
 
@@ -48,7 +48,7 @@ The detail pane displays the data associated with the current recording for the 
 
 ![Detail Pane](Resources/RecordingDocument_DetailPane.png "Detail Pane")
 
-##### Navigation Bar
+#### Navigation Bar
 
 The navigation bar at the top of the detail pane helps you browse through collected data. You can use the navigation bar to switch between types of data.
 
@@ -57,7 +57,7 @@ The navigation bar at the top of the detail pane helps you browse through collec
 
 ![Console](Resources/RecordingDocument_DetailPane_Console.png "Console")
 
-##### Collected Data Area
+#### Collected Data Area
 
 The collected data area shows you all of the data for the selected instrument and detail type, typically in tabular format. The content displayed here varies significantly from instrument to instrument. For example, the CPU instrument displays usage and thread information while the network instrument displays network requests.
 
@@ -69,11 +69,11 @@ This pane contains instrument-specific additional information that may be useful
 
 ![Inspector Pane](Resources/RecordingDocument_InspectorPane.png "Inspector Pane")
 
-##### Extended Detail
+#### Extended Detail
 
 For some instruments, the extended detail area in the inspector pane shows additional information about the sample currently selected in the detail pane. This extended detail information can include a description, the time when the information was recorded, a stack trace for a sample from the CPU instrument or response and request data for a Network Activity sample.
 
-##### Recording Info
+#### Recording Info
 
 The recording info area includes information about the recording and the profiling options which were used for the recording.
 
