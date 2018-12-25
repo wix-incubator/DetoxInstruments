@@ -510,7 +510,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		{
 			id<DTXSignpost> groupProxy = item;
 			
-			NSDate* groupCloseTimestamp = groupProxy.endTimestamp ?: [item recording].endTimestamp;
+			NSDate* groupCloseTimestamp = groupProxy.endTimestamp ?: [groupProxy.timestamp dateByAddingTimeInterval:1];
 			
 			CPTPlotRange* groupRange = [CPTPlotRange plotRangeWithLocation:@(groupProxy.timestamp.timeIntervalSinceReferenceDate - _document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate) length:@(groupCloseTimestamp.timeIntervalSinceReferenceDate - groupProxy.timestamp.timeIntervalSinceReferenceDate)];
 			[_plotController highlightRange:groupRange];

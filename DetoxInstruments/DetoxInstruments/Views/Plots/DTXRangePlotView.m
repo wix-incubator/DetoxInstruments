@@ -163,13 +163,19 @@
 {
 	_cachedIntrinsicContentSize = NSMakeSize(NSViewNoIntrinsicMetric, (self.lineHeight + self.lineSpacing) * _totalHeightLines + self.lineHeight + self.insets.bottom + self.insets.top);
 	
-	[super invalidateIntrinsicContentSize];
+//	[super invalidateIntrinsicContentSize];
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[super invalidateIntrinsicContentSize];
+		});
+	});
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	CFTimeInterval start = CACurrentMediaTime();
-	NSUInteger linesDrawn = 0;
+//	CFTimeInterval start = CACurrentMediaTime();
+//	NSUInteger linesDrawn = 0;
 	
 	CPTPlotRange* globalXRange = self.globalPlotRange;
 	CPTPlotRange* xRange = self.plotRange;
@@ -179,7 +185,7 @@
 	NSParameterAssert(xRange != nil);
 	
 	CGRect selfBounds = self.bounds;
-	double viewHeightRatio = selfBounds.size.height / self.intrinsicContentSize.height;
+	double viewHeightRatio = MIN(1.0, selfBounds.size.height / self.intrinsicContentSize.height);
 	double lineHeight = viewHeightRatio * self.lineHeight;
 	double topInset = viewHeightRatio * self.insets.top;
 	double spacing = viewHeightRatio * (self.lineHeight + self.lineSpacing);
@@ -202,8 +208,8 @@
 		
 		for(DTXRange* line in [_distinctColorLines objectForKey:distinctColor])
 		{
-			NSTimeInterval start = MAX(dirtyRect.origin.x, offset + line.start * graphViewRatio);
-			NSTimeInterval end = MIN(dirtyRect.size.width, offset + line.end * graphViewRatio);
+			double start = MAX(dirtyRect.origin.x, offset + line.start * graphViewRatio);
+			double end = MIN(dirtyRect.size.width, offset + line.end * graphViewRatio);
 			CGFloat height = spacing * line.height + lineHeight / 2.0 + topInset;
 			
 			//Out of bounds lines should not be drawn
@@ -219,7 +225,7 @@
 			{
 				CGContextMoveToPoint(ctx, start, height);
 				CGContextAddLineToPoint(ctx, end, height);
-				linesDrawn++;
+//				linesDrawn++;
 				didAddLine = YES;
 			}
 			else
@@ -238,8 +244,10 @@
 		}
 	}
 	
-	CFTimeInterval end = CACurrentMediaTime();
-	NSLog(@"Took %fs to render %lu lines", end - start, linesDrawn);
+	[super drawRect:dirtyRect];
+	
+//	CFTimeInterval end = CACurrentMediaTime();
+//	NSLog(@"Took %fs to render %lu lines", end - start, linesDrawn);
 }
 
 - (void)_clicked:(NSClickGestureRecognizer*)cgr

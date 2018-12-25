@@ -435,7 +435,7 @@
 - (void)scrollToDataEnd
 {
 	NSTimeInterval length = _savedPlotRange.lengthDouble;
-	[self _resetSavedPlotRange:[CPTPlotRange plotRangeWithLocation:@(_savedDataEnd - length) length:@(length)] updatePlotControllers:YES notifyDelegate:YES byUser:NO];
+	[self _resetSavedPlotRange:[CPTPlotRange plotRangeWithLocation:@(MAX(0, _savedDataEnd - length)) length:@(length)] updatePlotControllers:YES notifyDelegate:YES byUser:NO];
 }
 
 - (void)setLocalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp

@@ -482,9 +482,12 @@
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
 		[weakSelf updateLayerHandler];
 		
-		[weakSelf.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			[obj reloadData];
-		}];
+		if(weakSelf.usesInternalPlots == NO)
+		{
+			[weakSelf.plots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				[obj reloadData];
+			}];
+		}
 	};
 }
 
@@ -927,7 +930,7 @@
 		plotSpace.yRange = newYRange;
 	}
 	
-	[self reloadHighlight];
+//	[self reloadHighlight];
 }
 
 - (NSString *)displayName

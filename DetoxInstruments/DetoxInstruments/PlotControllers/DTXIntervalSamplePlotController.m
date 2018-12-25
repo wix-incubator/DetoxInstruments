@@ -46,22 +46,12 @@
 	NSFetchedResultsController<DTXSample*>* _frc;
 	
 	DTXRangePlotView* _plotView;
-	CPTRangePlot* _plot;
 	
 	NSMutableArray<_DTXSampleGroup*>* _mergedSamples;
 	NSMutableArray<NSIndexPath*>* _sampleIndices;
 	NSMapTable<NSString*, NSIndexPath*>* _sampleMapping;
 	NSMapTable<NSIndexPath*, NSNumber*>* _indexPathIndexMapping;
 	NSUInteger _selectedIndex;
-	
-	CPTPlotSpaceAnnotation* _shadowHighlightAnnotation;
-	DTXLineLayer* _shadowLineLayer;
-	NSTimeInterval _shadowHighlightedSampleTime;
-	
-	CPTPlotSpaceAnnotation* _secondShadowHighlightAnnotation;
-	DTXLineLayer* _secondShadowLineLayer;
-	
-	CPTPlotRange* _highlightedRange;
 }
 @end
 
@@ -110,21 +100,24 @@
 	[_plotView reloadData];
 }
 
-- (void)updateLayerHandler
+- (void)_updateAnnotationColors:(NSArray<DTXPlotViewAnnotation*>*)annotations
 {
-	[self _updateShadowLineColor];
+	[annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull annotation, NSUInteger idx, BOOL * _Nonnull stop) {
+		if(self.wrapperView.effectiveAppearance.isDarkAppearance)
+		{
+			annotation.color = NSColor.whiteColor;
+		}
+		else
+		{
+			annotation.color = self.plotColors.firstObject;
+		}
+	}];
 }
 
-- (void)_updateShadowLineColor
+- (void)updateLayerHandler
 {
-	if(self.wrapperView.effectiveAppearance.isDarkAppearance)
-	{
-		_secondShadowLineLayer.lineColors = _shadowLineLayer.lineColors = @[NSColor.whiteColor];
-	}
-	else
-	{
-		_secondShadowLineLayer.lineColors = _shadowLineLayer.lineColors = self.plotColors;
-	}
+	[self _updateAnnotationColors:_plotView.annotations];
+	_plotView.annotations = _plotView.annotations;
 }
 
 - (NSMutableArray<_DTXSampleGroup*>*)_mergedSamples
@@ -256,17 +249,14 @@
 	if(_selectedIndex != NSNotFound)
 	{
 		[_plotView reloadRangeAtIndex:_selectedIndex];
-		[_plot reloadDataInIndexRange:NSMakeRange(_selectedIndex, 1)];
 		if(prevSelectedIndex != NSNotFound)
 		{
 			[_plotView reloadRangeAtIndex:prevSelectedIndex];
-			[_plot reloadDataInIndexRange:NSMakeRange(prevSelectedIndex, 1)];
 		}
 	}
 	else
 	{
 		[_plotView reloadData];
-		[_plot reloadData];
 	}
 	
 	NSTimeInterval sampleTime = sample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
@@ -276,24 +266,6 @@
 	CPTPlotRange* range = [CPTPlotRange plotRangeWithLocation:@(timestamp) length:@(responseTimestamp - timestamp)];
 	[self.delegate plotController:self didHighlightRange:range];
 	
-//	[self.delegate plotController:self didHighlightAtSampleTime:sampleTime];
-	
-	_shadowHighlightedSampleTime = sampleTime;
-	
-	if(self.graph == nil)
-	{
-		return;
-	}
-	
-//	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
-//	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-//	[self _updateShadowLineColor];
-//	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
-//	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
-//	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
-//
-//	[self.graph addAnnotation:_shadowHighlightAnnotation];
-	
 	[self _highlightRange:range nofityDelegate:NO removePreviousHighlight:NO];
 }
 
@@ -301,21 +273,13 @@
 {
 	[self removeHighlight];
 	
-	_shadowHighlightedSampleTime = sampleTime;
+	DTXPlotViewAnnotation* annotation = [DTXPlotViewAnnotation new];
+	annotation.position = sampleTime;
 	
-	if(self.graph == nil)
-	{
-		return;
-	}
+	NSArray* annotations = @[annotation];
+	[self _updateAnnotationColors:annotations];
 	
-	_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
-	_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-	[self _updateShadowLineColor];
-	_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
-	_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
-	_shadowHighlightAnnotation.anchorPlotPoint = @[@(sampleTime), @(- self.rangeInsets.top)];
-	
-	[self.graph addAnnotation:_shadowHighlightAnnotation];
+	_plotView.annotations = annotations;
 }
 
 - (void)highlightRange:(CPTPlotRange*)range
@@ -335,34 +299,32 @@
 		[self removeHighlight];
 	}
 	
-	_highlightedRange = range;
-	
-	if(self.graph)
+	DTXPlotViewAnnotation* annotation1 = [DTXPlotViewAnnotation new];
+	annotation1.position = range.locationDouble;
+	annotation1.color = NSColor.textColor;
+	if(self.isForTouchBar == NO)
 	{
-		_shadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
-		_shadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-		if(self.isForTouchBar == NO)
-		{
-			_shadowLineLayer.opacity = 0.3;
-		}
-		_shadowHighlightAnnotation.contentLayer = _shadowLineLayer;
-		_shadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
-		_shadowHighlightAnnotation.anchorPlotPoint = @[range.location, @(- self.rangeInsets.top)];
-		
-		_secondShadowHighlightAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:self.graph.defaultPlotSpace anchorPlotPoint:@[@0, @0]];
-		_secondShadowLineLayer = [[DTXLineLayer alloc] initWithFrame:CGRectMake(0, 0, 15, self.requiredHeight + self.rangeInsets.bottom + self.rangeInsets.top)];
-		if(self.isForTouchBar == NO)
-		{
-			_secondShadowLineLayer.opacity = 0.3;
-		}
-		_secondShadowHighlightAnnotation.contentLayer = _secondShadowLineLayer;
-		_secondShadowHighlightAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
-		_secondShadowHighlightAnnotation.anchorPlotPoint = @[@(range.locationDouble + range.lengthDouble), @(- self.rangeInsets.top)];
-		
-		[self _updateShadowLineColor];
-		[self.graph addAnnotation:_shadowHighlightAnnotation];
-		[self.graph addAnnotation:_secondShadowHighlightAnnotation];
+		annotation1.opacity = 0.3;
 	}
+	
+	NSMutableArray* annotations = [NSMutableArray arrayWithObject:annotation1];
+	
+	if(range.length)
+	{
+		DTXPlotViewAnnotation* annotation2 = [DTXPlotViewAnnotation new];
+		annotation2.position = range.locationDouble + range.lengthDouble;
+		annotation2.color = NSColor.textColor;
+		if(self.isForTouchBar == NO)
+		{
+			annotation2.opacity = 0.3;
+		}
+		
+		[annotations addObject:annotation2];
+	}
+	
+	[self _updateAnnotationColors:annotations];
+	
+	_plotView.annotations = annotations;
 	
 	if(notifyDelegate)
 	{
@@ -373,23 +335,7 @@
 
 - (void)removeHighlight
 {
-	if(_shadowHighlightAnnotation && _shadowHighlightAnnotation.annotationHostLayer != nil)
-	{
-		[self.graph removeAnnotation:_shadowHighlightAnnotation];
-	}
-	
-	_shadowLineLayer = nil;
-	_shadowHighlightAnnotation = nil;
-	
-	if(_secondShadowHighlightAnnotation && _secondShadowHighlightAnnotation.annotationHostLayer != nil)
-	{
-		[self.graph removeAnnotation:_secondShadowHighlightAnnotation];
-	}
-	
-	_secondShadowLineLayer = nil;
-	_secondShadowHighlightAnnotation = nil;
-	
-	_shadowHighlightedSampleTime = 0.0;
+	_plotView.annotations = nil;
 	
 	if(_selectedIndex != NSNotFound)
 	{
@@ -397,38 +343,11 @@
 		_selectedIndex = NSNotFound;
 		
 		[_plotView reloadRangeAtIndex:prevSelectedIndex];
-		[_plot reloadDataInIndexRange:NSMakeRange(prevSelectedIndex, 1)];
-		
-//		[self.graph.allPlots.firstObject reloadData];
 	}
-
-	_highlightedRange = nil;
 }
 
 - (void)reloadHighlight
 {
-	if(_shadowHighlightedSampleTime != 0.0)
-	{
-		[self shadowHighlightAtSampleTime:_shadowHighlightedSampleTime];
-	}
-	else if(_highlightedRange)
-	{
-		[self highlightRange:_highlightedRange];
-	}
-}
-
-- (CGFloat)requiredHeight
-{
-	if(_plotView)
-	{
-		return _plotView.fittingSize.height;
-	}
-	
-	NSEdgeInsets rangeInsets = self.rangeInsets;
-	//The higher the number, the more spaced vertically the requests are.
-	CGFloat f = self._mergedSamples.count * 9 + rangeInsets.top + rangeInsets.bottom;
-	
-	return MAX(f, super.requiredHeight);
 }
 
 - (BOOL)isStepped
@@ -488,29 +407,8 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	CGFloat oldHeight = self.requiredHeight;
-
 	[self _prepareMergedSamples];
 	[_plotView reloadData];
-	[_plot reloadData];
-	CPTPlotRange* range = [_plot plotRangeForCoordinate:CPTCoordinateY];
-	range = [self finessedPlotYRangeForPlotYRange:range];
-
-	CPTXYPlotSpace* plotSpace = (id)self.graph.defaultPlotSpace;
-	[self setValue:range forKey:@"_globalYRange"];
-	plotSpace.globalYRange = plotSpace.yRange = range;
-
-	CGFloat newHeight = self.requiredHeight;
-
-	if(newHeight != oldHeight)
-	{
-		//Because of macOS bugs, delay the height change notification to next runloop.
-		dispatch_async(dispatch_get_main_queue(), ^{
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[self.delegate requiredHeightChangedForPlotController:self];
-			});
-		});
-	}
 }
 
 - (void)_selectSampleAtIndex:(NSUInteger)idx
@@ -585,120 +483,6 @@
 
 - (void)plotView:(DTXRangePlotView *)plotView didClickRangeAtIndex:(NSUInteger)idx
 {
-	[self _selectSampleAtIndex:idx];
-}
-
-#pragma mark Core Plot Support
-
-- (void)setupPlotsForGraph
-{
-	[super setupPlotsForGraph];
-	
-	self.hostingView.flipped = YES;
-}
-
-- (NSArray<CPTPlot *> *)plots
-{
-	if(_plot == nil)
-	{
-		// Create a plot that uses the data source method
-		_plot = [[DTXCPTRangePlot alloc] init];
-		_plot.identifier = @"Date Plot";
-		
-		// Add line style
-		CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
-		lineStyle.lineWidth = self.isForTouchBar ? 1.5 : 5.0;
-		lineStyle.lineCap = kCGLineCapButt;
-		_plot.barLineStyle = lineStyle;
-		
-		// Bar properties
-		_plot.barWidth = 0.0;
-		_plot.gapWidth = 0.0;
-		_plot.gapHeight = 0.0;
-		
-		_plot.dataSource = self;
-		//		_plot.delegate = self;
-	}
-	
-	return @[_plot];
-}
-
--(NSUInteger)numberOfRecordsForPlot:(nonnull CPTPlot *)plot
-{
-	return _sampleIndices.count;
-}
-
--(id)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
-{
-	NSIndexPath* indexPath = _sampleIndices[index];
-	
-	DTXSample* sample = self._mergedSamples[indexPath.section].samples[indexPath.item];
-	
-	NSTimeInterval timestamp = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate];
-	NSTimeInterval responseTimestamp = [[self endTimestampForSample:sample] timeIntervalSinceReferenceDate]  - [self.document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate];
-	NSTimeInterval range = responseTimestamp - timestamp;
-	NSTimeInterval avg = (timestamp + responseTimestamp) / 2;
-	
-	CGFloat ratio = 1.0;
-	//	if(self.isForTouchBar)
-	//	{
-	//		ratio = self.wrapperView.bounds.size.height / self.requiredHeight;
-	//	}
-	
-	switch (fieldEnum)
-	{
-		case CPTRangePlotFieldX:
-			return @(avg);
-		case CPTRangePlotFieldY:
-			return @(ratio * (indexPath.section * 3));
-		case CPTRangePlotFieldLeft:
-		case CPTRangePlotFieldRight:
-			return @(range / 2.0);
-		case CPTRangePlotFieldHigh:
-			return @0;//@3.25;
-		case CPTRangePlotFieldLow:
-			return @0;// @-3.25;
-		default:
-			return @0;
-	}
-}
-
--(nullable CPTLineStyle *)barLineStyleForRangePlot:(nonnull CPTRangePlot *)plot recordIndex:(NSUInteger)idx
-{
-	CPTMutableLineStyle* lineStyle = [plot.barLineStyle mutableCopy];
-	
-	NSIndexPath* indexPath = _sampleIndices[idx];
-	DTXSample* sample = _mergedSamples[indexPath.section].samples[indexPath.item];
-	
-	lineStyle.lineCap = [self lineCapForSample:sample];
-	
-	NSColor* lineColor = [self colorForSample:sample];
-	
-	if(_selectedIndex == idx)
-	{
-		lineStyle.lineWidth = 6.5;
-	}
-	
-	if(_selectedIndex == idx)
-	{
-		lineColor = [lineColor interpolateToValue:NSColor.blackColor progress:0.35];
-	}
-	
-	lineStyle.lineColor = [CPTColor colorWithCGColor:lineColor.CGColor];
-	
-	return lineStyle;
-}
-
-
-#pragma mark CPTRangePlotDelegate
-
--(void)rangePlot:(nonnull CPTRangePlot *)plot rangeWasSelectedAtRecordIndex:(NSUInteger)idx withEvent:(nonnull CPTNativeEvent *)event
-{
-	if(event.type != NSEventTypeLeftMouseUp)
-	{
-		return;
-	}
-	
 	[self _selectSampleAtIndex:idx];
 }
 

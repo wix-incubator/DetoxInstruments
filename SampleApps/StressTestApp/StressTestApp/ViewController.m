@@ -247,12 +247,11 @@ os_log_t __log_general;
 			[events addObject:event];
 		}
 
-#if DTX_DEBUG_EVENTS_CREATE_RECORDING
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[events enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 				DTXProfilerMarkEventIntervalEnd(obj, DTXEventStatusCompleted, nil);
 			}];
-			
+#if DTX_DEBUG_EVENTS_CREATE_RECORDING
 			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 				[profiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
 					profiler = nil;
@@ -260,9 +259,11 @@ os_log_t __log_general;
 					os_signpost_interval_end(__log_general, test, "Starting Bombardment");
 				}];
 			});
+#endif
 		});
+#if DTX_DEBUG_EVENTS_CREATE_RECORDING
 	});
-	#endif
+#endif
 }
 
 - (IBAction)startDemoTapped:(UIButton*)sender

@@ -9,6 +9,17 @@
 #import "DTXPlotView.h"
 @import QuartzCore;
 
+@implementation DTXPlotViewAnnotation
+
+- (instancetype)init
+{
+	self = [super init];
+	if(self) { _opacity = 1.0; _color = NSColor.textColor; }
+	return self;
+}
+
+@end
+
 @interface DTXPlotView () <NSGestureRecognizerDelegate> @end
 
 @implementation DTXPlotView
@@ -51,7 +62,7 @@
 
 - (void)setGlobalPlotRange:(CPTPlotRange *)globalXRange
 {
-	_globalPlotRange = globalXRange.copy;
+	_globalPlotRange = globalXRange;
 	
 	[self setNeedsDisplay:YES];
 }
@@ -63,7 +74,7 @@
 
 - (void)_setPlotRange:(CPTPlotRange *)xRange notifyDelegate:(BOOL)notify
 {
-	_plotRange = xRange.copy;
+	_plotRange = xRange;
 	
 	[self setNeedsDisplay:YES];
 	
@@ -71,6 +82,13 @@
 	{
 		[self.delegate plotViewDidChangePlotRange:self];
 	}
+}
+
+- (void)setAnnotations:(NSArray<DTXPlotViewAnnotation *> *)annotations
+{
+	_annotations = annotations;
+	
+	[self setNeedsDisplay:YES];
 }
 
 - (void)reloadData
@@ -205,6 +223,39 @@
 	CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
 	
 	[self scalePlotRange:scale atPoint:point];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+	NSArray* annotations = self.annotations;
+	
+	if(annotations.count == 0)
+	{
+		return;
+	}
+	
+	CPTPlotRange* xRange = self.plotRange;
+	CGRect selfBounds = self.bounds;
+	CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
+	CGFloat offset = - graphViewRatio * xRange.locationDouble;
+	
+	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
+	CGContextSetLineWidth(ctx, 1);
+	CGContextSetLineCap(ctx, kCGLineCapButt);
+	CGContextSetAllowsAntialiasing(ctx, NO);
+	CGContextSetShouldAntialias(ctx, NO);
+	
+	for (DTXPlotViewAnnotation* annotation in annotations)
+	{
+		CGContextSetStrokeColorWithColor(ctx, [annotation.color colorWithAlphaComponent:annotation.opacity].CGColor);
+		
+		double start = offset + annotation.position * graphViewRatio;
+		
+		CGContextMoveToPoint(ctx, start, 0);
+		CGContextAddLineToPoint(ctx, start, self.bounds.size.width);
+		
+		CGContextStrokePath(ctx);
+	}
 }
 
 @end

@@ -9,6 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import <CorePlot/CPTMutablePlotRange.h>
 
+@interface DTXPlotViewAnnotation : NSObject
+
+@property (nonatomic) double position;
+@property (nonatomic, strong) NSColor* color;
+@property (nonatomic) double opacity;
+
+@end
+
 @class DTXPlotView;
 
 @protocol DTXPlotViewDelegate <NSObject>
@@ -30,9 +38,10 @@
 
 @property (nonatomic) NSEdgeInsets insets;
 
+@property (nonatomic, strong) NSArray<DTXPlotViewAnnotation*>* annotations;
+
 @property (nonatomic, copy) CPTPlotRange *plotRange;
 @property (nonatomic, copy) CPTPlotRange *globalPlotRange;
-
 - (void)scalePlotRange:(double)scale atPoint:(CGPoint)point;
 
 - (void)reloadData;
