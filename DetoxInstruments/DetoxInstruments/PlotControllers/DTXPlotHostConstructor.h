@@ -14,13 +14,23 @@
 @interface DTXPlotHostConstructor : NSObject
 
 @property (nonatomic, strong, readonly) DTXLayerView* wrapperView;
-@property (nonatomic, strong, readonly) __kindof DTXGraphHostingView* hostingView;
-@property (nonatomic, strong, readonly) CPTGraph* graph;
 @property (nonatomic, readonly) BOOL isForTouchBar;
 
 - (void)setUpWithView:(NSView *)view;
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets isForTouchBar:(BOOL)isForTouchBar;
-- (void)setupPlotsForGraph;
 - (void)didFinishViewSetup;
+
+- (BOOL)usesInternalPlots;
+
+#pragma mark Internal Plot Support
+
+@property (nonatomic, strong, readonly) NSStackView* plotStackView;
+- (void)setupPlotViews;
+
+#pragma mark Core Plot Support
+
+@property (nonatomic, strong, readonly) __kindof DTXGraphHostingView* hostingView;
+@property (nonatomic, strong, readonly) CPTGraph* graph;
+- (void)setupPlotsForGraph;
 
 @end

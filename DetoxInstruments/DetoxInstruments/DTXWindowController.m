@@ -90,9 +90,9 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	[self _fixUpRecordingButtons];
 	
 	_plotDetailsSplitViewController.document = self.document;
-	_plotContentController.document = self.document;
-	_detailContentController.document = self.document;
 	_inspectorContentController.document = self.document;
+	_detailContentController.document = self.document;
+	_plotContentController.document = self.document;
 	
 	if(_titleTextField == nil)
 	{

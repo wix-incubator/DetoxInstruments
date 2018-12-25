@@ -55,8 +55,6 @@
 	_tableView.enclosingScrollView.contentInsets = NSEdgeInsetsMake(0, 0, 20, 0);
 	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, 210.5, -20, 0);
 	
-	[(DTXScrollView*)_tableView.enclosingScrollView setHorizontalScrollerKnobProportion:0.0 value:0.0];
-	
 	_tableView.enclosingScrollView.autohidesScrollers = NO;
 	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.target = self;
 	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.action = @selector(_horizontalScrollerDidScroll:);

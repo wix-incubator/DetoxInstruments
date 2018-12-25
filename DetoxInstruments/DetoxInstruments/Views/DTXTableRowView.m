@@ -10,7 +10,6 @@
 #import "NSColor+UIAdditions.h"
 #import "NSImage+UIAdditions.h"
 #import "NSAppearance+UIAdditions.h"
-@import LNInterpolation;
 
 @interface NSTableRowView ()
 

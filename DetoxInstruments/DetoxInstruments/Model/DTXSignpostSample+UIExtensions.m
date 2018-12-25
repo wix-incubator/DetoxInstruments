@@ -93,11 +93,6 @@
 
 - (NSDate*)defactoEndTimestamp
 {
-	if(self.endTimestamp != nil && self.duration == 0)
-	{
-		return [self.timestamp dateByAddingTimeInterval:0.00001];
-	}
-	
 	return self.endTimestamp ?: [self.timestamp dateByAddingTimeInterval:1];
 }
 

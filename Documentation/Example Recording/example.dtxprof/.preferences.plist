@@ -8,10 +8,16 @@
 	<dict>
 		<key>DTXCPUUsagePlotController</key>
 		<true/>
+		<key>DTXCompactNetworkRequestsPlotController</key>
+		<false/>
+		<key>DTXDiskReadWritesPlotController</key>
+		<false/>
+		<key>DTXEventsPlotController</key>
+		<true/>
 		<key>DTXFPSPlotController</key>
-		<true/>
+		<false/>
 		<key>DTXMemoryUsagePlotController</key>
-		<true/>
+		<false/>
 	</dict>
 </dict>
 </plist>

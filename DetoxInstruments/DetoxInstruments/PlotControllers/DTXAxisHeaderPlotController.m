@@ -45,6 +45,11 @@
 	return self;
 }
 
+- (BOOL)usesInternalPlots
+{
+	return NO;
+}
+
 - (void)setupPlotsForGraph
 {
 	// Setup scatter plot space

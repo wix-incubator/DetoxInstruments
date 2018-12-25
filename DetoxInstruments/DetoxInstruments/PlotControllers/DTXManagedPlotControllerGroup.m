@@ -63,6 +63,7 @@
 		_hostingOutlineView.indentationMarkerFollowsCell = NO;
 		_hostingOutlineView.dataSource = self;
 		_hostingOutlineView.delegate = self;
+		_hostingOutlineView.usesAutomaticRowHeights = YES;
 		
 		_timelineView = [DTXTimelineIndicatorView new];
 		_timelineView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -468,19 +469,19 @@
 - (void)zoomIn
 {
 	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
-	[_managedPlotControllers.firstObject zoomIn];
+	[_visiblePlotControllers.firstObject zoomIn];
 }
 
 - (void)zoomOut
 {
 	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
-	[_managedPlotControllers.firstObject zoomOut];
+	[_visiblePlotControllers.firstObject zoomOut];
 }
 
 - (void)zoomToFitAllData
 {
 	//Zooming in or out one plot controller will propagate to others using the plotController:didChangeToPlotRange: delegate method.
-	[_managedPlotControllers.firstObject zoomToFitAllData];
+	[_visiblePlotControllers.firstObject zoomToFitAllData];
 }
 
 - (void)scrollToValue:(CGFloat)value
@@ -494,6 +495,11 @@
 
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc
 {
+	if([_hostingOutlineView selectedRow] == [_hostingOutlineView rowForItem:pc])
+	{
+		return;
+	}
+	
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		if(obj == pc)
 		{
@@ -697,10 +703,10 @@ static BOOL __uglyHackTODOFixThis()
 	return nil;
 }
 
-- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
-{
-	return [item requiredHeight];
-}
+//- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
+//{
+//	return [item requiredHeight];
+//}
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {

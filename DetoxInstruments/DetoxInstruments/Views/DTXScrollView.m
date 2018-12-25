@@ -77,8 +77,6 @@
 
 - (void)_resetStyles
 {
-	self.enabled = YES;
-
 	if(self.scrollerStyle == NSScrollerStyleOverlay)
 	{
 		[self setOverlayScrollerTrackAlpha:0.0];
@@ -162,7 +160,7 @@
 		_requiresCustomHorizontalScrollerManagement = YES;
 		
 		_horizontalScroller = [DTXScroller new];
-		_horizontalScroller.enabled = YES;
+		_horizontalScroller.enabled = NO;
 		_horizontalScroller.alphaValue = 0.0;
 		[_horizontalScroller _setIsHorizontal:YES];
 		[_horizontalScroller setOverlayScrollerTrackAlpha:0.0];
@@ -185,6 +183,8 @@
 	_horizontalScroller.alphaValue = 1.0;
 	
 	_requiresCustomHorizontalScrollerManagement = YES;
+	
+	_horizontalScroller.enabled = YES;
 	
 	_knobProportion = proportion;
 	_knobValue = value;

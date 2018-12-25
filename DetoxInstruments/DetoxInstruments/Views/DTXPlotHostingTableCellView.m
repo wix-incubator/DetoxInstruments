@@ -33,4 +33,9 @@
 	[_plotController setUpWithView:self];
 }
 
+- (NSSize)intrinsicContentSize
+{
+	return NSMakeSize(-1, 80);
+}
+
 @end

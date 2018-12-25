@@ -11,8 +11,9 @@
 #import <CorePlot/CorePlot.h>
 #import "DTXRecordingDocument.h"
 #import "DTXPlotController.h"
+#import "DTXPlotView.h"
 
-@interface DTXSamplePlotController : DTXPlotHostConstructor <DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
+@interface DTXSamplePlotController : DTXPlotHostConstructor <DTXPlotViewDelegate, DTXPlotController, CPTScatterPlotDataSource, CPTBarPlotDataSource, CPTPlotSpaceDelegate>
 
 @property (nonatomic, strong, readonly) NSStoryboard* scene;
 
@@ -23,8 +24,11 @@
 - (NSArray*)samplesForPlotIndex:(NSUInteger)index;
 - (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates forPlotAtIndex:(NSUInteger)index;
 
+- (NSArray<__kindof DTXPlotView*>*)plotViews;
+
 - (NSArray<__kindof CPTPlot*>*)plots;
 - (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph;
+
 - (NSArray<NSString*>*)sampleKeys;
 - (NSArray<NSString*>*)propertiesToFetch;
 - (NSArray<NSString*>*)relationshipsToFetch;

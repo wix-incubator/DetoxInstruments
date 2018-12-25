@@ -1,0 +1,210 @@
+//
+//  DTXPlotView.m
+//  DetoxInstruments
+//
+//  Created by Leo Natan (Wix) on 12/24/18.
+//  Copyright © 2018 Wix. All rights reserved.
+//
+
+#import "DTXPlotView.h"
+@import QuartzCore;
+
+@interface DTXPlotView () <NSGestureRecognizerDelegate> @end
+
+@implementation DTXPlotView
+{
+	BOOL _mouseClicked;
+	NSClickGestureRecognizer* _cgr;
+}
+
+- (instancetype)initWithFrame:(NSRect)frameRect
+{
+	self = [super initWithFrame:frameRect];
+	
+	if(self)
+	{
+		_cgr = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_clicked:)];
+		_cgr.delegate = self;
+		[self addGestureRecognizer:_cgr];
+	}
+	
+	return self;
+}
+
+- (BOOL)gestureRecognizer:(NSGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(NSGestureRecognizer *)otherGestureRecognizer
+{
+	return YES;
+}
+
+- (void)_clicked:(NSClickGestureRecognizer*)cgr
+{
+	
+}
+
+- (void)setInsets:(NSEdgeInsets)insets
+{
+	_insets = insets;
+	
+	[self invalidateIntrinsicContentSize];
+	[self setNeedsDisplay:YES];
+}
+
+- (void)setGlobalPlotRange:(CPTPlotRange *)globalXRange
+{
+	_globalPlotRange = globalXRange.copy;
+	
+	[self setNeedsDisplay:YES];
+}
+
+- (void)setPlotRange:(CPTPlotRange *)xRange
+{
+	[self _setPlotRange:xRange notifyDelegate:NO];
+}
+
+- (void)_setPlotRange:(CPTPlotRange *)xRange notifyDelegate:(BOOL)notify
+{
+	_plotRange = xRange.copy;
+	
+	[self setNeedsDisplay:YES];
+	
+	if(notify)
+	{
+		[self.delegate plotViewDidChangePlotRange:self];
+	}
+}
+
+- (void)reloadData
+{
+	if(self.dataSource == nil)
+	{
+		return;
+	}
+	
+	_isDataLoaded = YES;
+	
+	[self setNeedsDisplay:YES];
+}
+
+- (void)setDataSource:(id<DTXPlotViewDataSource>)dataSource
+{
+	_dataSource = dataSource;
+	
+	if(_isDataLoaded)
+	{
+		[self reloadData];
+	}
+}
+
+- (void)_scrollPlorRangeWithDelta:(double)delta
+{
+	if(delta == 0)
+	{
+		return;
+	}
+	
+	CPTMutablePlotRange* xRange = [self.plotRange mutableCopy];
+	CGFloat selfWidth = self.bounds.size.width;
+	
+	double previousLocation = xRange.locationDouble;
+	
+	double maxLocation = self.globalPlotRange.lengthDouble - xRange.lengthDouble;
+	
+	xRange.locationDouble = MIN(maxLocation, MAX(0, xRange.locationDouble - xRange.lengthDouble * delta / selfWidth));
+	
+	if(xRange.locationDouble != previousLocation)
+	{
+		[self _setPlotRange:xRange notifyDelegate:YES];
+	}
+}
+
+- (void)scalePlotRange:(double)scale atPoint:(CGPoint)point
+{
+	if(scale <= 1.e-6)
+	{
+		return;
+	}
+	
+	CPTMutablePlotRange* xRange = [self.plotRange mutableCopy];
+	
+	CGFloat selfWidth = self.bounds.size.width;
+	
+	double previousLocation = xRange.locationDouble;
+	double previousLength = xRange.lengthDouble;
+	
+	double pointOnGraph = previousLocation + point.x * xRange.lengthDouble / selfWidth;
+	
+	xRange.lengthDouble = MIN(self.globalPlotRange.lengthDouble, xRange.lengthDouble / scale);
+	
+	double newLocationX = 0;
+	double oldFirstLengthX = pointOnGraph - xRange.minLimitDouble;
+	double newFirstLengthX = oldFirstLengthX / scale;
+	newLocationX = pointOnGraph - newFirstLengthX;
+	
+	double maxLocation = self.globalPlotRange.lengthDouble - xRange.lengthDouble;
+	xRange.locationDouble = MIN(maxLocation, MAX(0, newLocationX));
+	
+	if(xRange.locationDouble != previousLocation || xRange.lengthDouble != previousLength)
+	{
+		[self _setPlotRange:xRange notifyDelegate:YES];
+	}
+}
+
++ (id)defaultAnimationForKey:(NSString *)key
+{
+	if([key isEqualToString:@"plotRange"])
+	{
+		return [CABasicAnimation animation];
+	}
+	
+	return [super defaultAnimationForKey:key];
+}
+
+-(BOOL)acceptsFirstMouse:(nullable NSEvent *)theEvent
+{
+	return YES;
+}
+
+- (void)mouseDown:(NSEvent *)event
+{
+	_mouseClicked = YES;
+	
+	[NSCursor.closedHandCursor push];
+}
+
+- (void)mouseDragged:(NSEvent *)event
+{
+	if(_mouseClicked == NO)
+	{
+		return;
+	}
+	
+	[self _scrollPlorRangeWithDelta:event.deltaX];
+}
+
+- (void)mouseUp:(NSEvent *)event
+{
+	[NSCursor.closedHandCursor pop];
+	
+	_mouseClicked = NO;
+}
+
+-(void)scrollWheel:(nonnull NSEvent *)event
+{
+	if(fabs(event.scrollingDeltaY) > fabs(event.scrollingDeltaX))
+	{
+		[self.nextResponder scrollWheel:event];
+		return;
+	}
+	
+	[self _scrollPlorRangeWithDelta:event.scrollingDeltaX];
+}
+
+-(void)magnifyWithEvent:(nonnull NSEvent *)event
+{
+	CGFloat scale = event.magnification + CPTFloat(1.0);
+	CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
+	
+	[self scalePlotRange:scale atPoint:point];
+}
+
+@end

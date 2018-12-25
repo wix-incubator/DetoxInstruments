@@ -8,12 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface DTXClassSelectionButton : NSButton
 
 @property (nonatomic, strong) Class selectionClass;
 
 @end
-
-NS_ASSUME_NONNULL_END

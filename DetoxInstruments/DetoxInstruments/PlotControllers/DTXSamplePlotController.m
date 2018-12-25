@@ -370,22 +370,45 @@
 	return YES;
 }
 
-- (void)setupPlotsForGraph
+- (BOOL)usesInternalPlots
 {
-	[self prepareSamples];
+	return NO;
+}
+
+- (void)setupPlotViews
+{
+	NSArray<__kindof DTXPlotView*>* plotViews = self.plotViews;
 	
-	NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(clickedByClickGestureRegonizer:)];
-	[self.hostingView addGestureRecognizer:clickGestureRecognizer];
-	if(self.wantsGestureRecognizerForPlots == NO)
+	CPTPlotRange *globalXRange;
+	if(_pendingGlobalXPlotRange)
 	{
-		clickGestureRecognizer.delaysPrimaryMouseButtonEvents = NO;
-		clickGestureRecognizer.delaysSecondaryMouseButtonEvents = NO;
-		clickGestureRecognizer.delaysOtherMouseButtonEvents = NO;
+		globalXRange = _pendingGlobalXPlotRange;
+		_pendingGlobalXPlotRange = nil;
+	}
+	else
+	{
+		globalXRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.lastRecording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate])];
 	}
 	
-	NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:self.hostingView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
-	[self.hostingView addTrackingArea:tracker];
+	CPTPlotRange* xRange = globalXRange;
+	if(_pendingXPlotRange)
+	{
+		xRange = _pendingXPlotRange;
+		_pendingXPlotRange = nil;
+	}
 	
+	for (__kindof DTXPlotView* plotView in plotViews) {
+		plotView.globalPlotRange = globalXRange;
+		plotView.plotRange = xRange;
+		plotView.insets = self.rangeInsets;
+		plotView.delegate = self;
+		
+		[self.plotStackView addArrangedSubview:plotView];
+	}
+}
+
+- (void)setupPlotsForGraph
+{
 	self.graph.plotAreaFrame.plotGroup = [[DTXStackedPlotGroup alloc] initForTouchBar:self.isForTouchBar];
 	
 	self.graph.axisSet = nil;
@@ -435,6 +458,25 @@
 		plotSpace.xRange = _pendingXPlotRange;
 		_pendingXPlotRange = nil;
 	}
+}
+
+- (void)didFinishViewSetup
+{
+	[super didFinishViewSetup];
+	
+	[self prepareSamples];
+	
+	NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(clickedByClickGestureRegonizer:)];
+	[self.wrapperView addGestureRecognizer:clickGestureRecognizer];
+	if(self.wantsGestureRecognizerForPlots == NO)
+	{
+		clickGestureRecognizer.delaysPrimaryMouseButtonEvents = NO;
+		clickGestureRecognizer.delaysSecondaryMouseButtonEvents = NO;
+		clickGestureRecognizer.delaysOtherMouseButtonEvents = NO;
+	}
+	
+	NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:self.wrapperView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
+	[self.wrapperView addTrackingArea:tracker];
 	
 	__weak auto weakSelf = self;
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
@@ -444,6 +486,11 @@
 			[obj reloadData];
 		}];
 	};
+}
+
+- (NSArray<__kindof DTXPlotView*>*)plotViews
+{
+	return nil;
 }
 
 - (NSArray<__kindof CPTPlot *> *)plots
@@ -511,6 +558,11 @@
 	return newRange;
 }
 
+- (void)plotViewDidChangePlotRange:(DTXPlotView *)plotView
+{
+	[_delegate plotController:self didChangeToPlotRange:plotView.plotRange];
+}
+
 -(void)plotSpace:(nonnull CPTPlotSpace *)space didChangePlotRangeForCoordinate:(CPTCoordinate)coordinate
 {
 	if(self.graph == nil || coordinate != CPTCoordinateX)
@@ -528,6 +580,12 @@
 	{
 		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
 	}
+	else if(self.plotStackView)
+	{
+		for (DTXPlotView* plotView in self.plotViews) {
+			plotView.globalPlotRange = globalPlotRange;
+		}
+	}
 	else
 	{
 		_pendingGlobalXPlotRange = globalPlotRange;
@@ -540,6 +598,12 @@
 	{
 		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setXRange:plotRange];
 	}
+	else if(self.plotStackView)
+	{
+		for (DTXPlotView* plotView in self.plotViews) {
+			plotView.plotRange = plotRange;
+		}
+	}
 	else
 	{
 		_pendingXPlotRange = plotRange;
@@ -548,7 +612,13 @@
 
 - (void)_zoomToScale:(CGFloat)scale
 {
-	[self.graph.defaultPlotSpace scaleBy:scale aboutPoint:CGPointMake(CGRectGetMidX(self.hostingView.bounds), CGRectGetMidY(self.hostingView.bounds))];
+	CGPoint pt = CGPointMake(CGRectGetMidX(self.wrapperView.bounds), CGRectGetMidY(self.wrapperView.bounds));
+	
+	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj scalePlotRange:scale atPoint:pt];
+	}];
+	
+	[self.graph.defaultPlotSpace scaleBy:scale aboutPoint:pt];
 }
 
 - (void)zoomIn
@@ -563,6 +633,10 @@
 
 - (void)zoomToFitAllData
 {
+	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		obj.plotRange = obj.globalPlotRange;
+	}];
+	
 	[self.graph.defaultPlotSpace scaleToFitEntirePlots:_plots];
 }
 
