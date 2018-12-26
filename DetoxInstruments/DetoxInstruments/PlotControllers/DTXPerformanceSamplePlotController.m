@@ -61,6 +61,24 @@
 			*stop = YES;
 			return;
 		}
+		
+#if 0
+		if([self.className isEqualToString:@"DTXCPUUsagePlotController"])
+		{
+			NSMutableDictionary* points = [NSMutableDictionary new];
+			NSMutableArray* pts = [NSMutableArray new];
+			
+			[frc.fetchedObjects enumerateObjectsUsingBlock:^(DTXAdvancedPerformanceSample* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				NSDictionary* point = @{@"position": @([[obj valueForKeyPath:@"timestamp.timeIntervalSinceReferenceDate"] doubleValue] - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate), @"value": [obj valueForKey:@"cpuUsage"]};
+				[pts addObject:point];
+			}];
+			
+			points[@"points"] = pts;
+			points[@"length"] = @(self.document.lastRecording.endTimestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate);
+			
+			[points writeToFile:@"/Users/lnatan/Desktop/points.plist" atomically:YES];
+		}
+#endif
 	}];
 	
 	_frcsPrepared = _frcs.count == self.sampleKeys.count;
