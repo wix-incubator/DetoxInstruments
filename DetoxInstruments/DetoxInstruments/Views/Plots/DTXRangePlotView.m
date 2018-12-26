@@ -43,7 +43,7 @@
 //		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 //		self.layerContentsPlacement = NSViewLayerContentsPlacementLeft;
 		_lineHeight = 5.0;
-		_lineSpacing = 5.0;
+		_lineSpacing = 4.0;
 		self.insets = NSEdgeInsetsMake(5, 0, 5, 0);
 	}
 	
