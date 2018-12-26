@@ -31,6 +31,7 @@
 
 @property (nonatomic, strong, readonly) __kindof DTXGraphHostingView* hostingView;
 @property (nonatomic, strong, readonly) CPTGraph* graph;
+@property (nonatomic, readonly) CGFloat requiredHeight;
 - (void)setupPlotsForGraph;
 
 @end

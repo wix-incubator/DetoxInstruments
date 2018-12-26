@@ -10,6 +10,8 @@
 
 @implementation DTXPlotHostConstructor
 
+@dynamic requiredHeight;
+
 - (void)setUpWithView:(NSView *)view
 {
 	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 1, 0) isForTouchBar:NO];
@@ -38,6 +40,9 @@
 			_plotStackView.orientation = NSUserInterfaceLayoutOrientationVertical;
 			_plotStackView.distribution = NSStackViewDistributionFill;
 			_plotStackView.spacing = 0;
+			
+			[_plotStackView setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
+			[_plotStackView setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
 			
 			if(isForTouchBar)
 			{
@@ -86,6 +91,7 @@
 			[_wrapperView addSubview:_hostingView];
 			
 			[NSLayoutConstraint activateConstraints:@[
+													  [_hostingView.heightAnchor constraintEqualToConstant:self.requiredHeight],
 													  [_wrapperView.topAnchor constraintEqualToAnchor:_hostingView.topAnchor],
 													  [_wrapperView.leadingAnchor constraintEqualToAnchor:_hostingView.leadingAnchor],
 													  [_wrapperView.trailingAnchor constraintEqualToAnchor:_hostingView.trailingAnchor],

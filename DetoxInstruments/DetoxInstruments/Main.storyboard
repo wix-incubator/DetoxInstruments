@@ -267,7 +267,7 @@
                                                             <action selector="_export:" target="Ady-hI-5gd" id="icM-Qe-en5"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Instrument Data As CSV" id="61E-z8-537">
+                                                    <menuItem title="Instrument Data As CSV..." id="61E-z8-537">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="_exportInstrumentCSV:" target="Ady-hI-5gd" id="wgo-KL-8Vk"/>
@@ -275,6 +275,13 @@
                                                     </menuItem>
                                                 </items>
                                             </menu>
+                                            <connections>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasSavedDocumentWindowOpen" id="cBY-be-ncM">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -500,6 +507,11 @@ CA
                                         <menuItem title="Detail" keyEquivalent="d" id="5Zl-Qn-tkd">
                                             <connections>
                                                 <action selector="toggleBottom:" target="Ady-hI-5gd" id="mMf-bu-zsz"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="jF7-0T-Suk">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Inspectors" id="tJ7-pW-fNr">
@@ -518,6 +530,13 @@ CA
                                                     </menuItem>
                                                 </items>
                                             </menu>
+                                            <connections>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="Bqc-Nj-vR5">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="Ndo-b7-ZLV"/>
                                         <menuItem title="Full Screen" keyEquivalent="f" id="R5w-vi-5el">
@@ -536,20 +555,47 @@ CA
                                         <menuItem title="Zoom In" keyEquivalent="+" id="Ytd-Va-2ao">
                                             <connections>
                                                 <action selector="zoomIn:" target="Ady-hI-5gd" id="cTy-GI-X3f"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="gIL-If-ej6">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Zoom Out" keyEquivalent="-" id="Nh0-Mb-yDO">
                                             <connections>
                                                 <action selector="zoomOut:" target="Ady-hI-5gd" id="BGG-zZ-cox"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="q2M-8e-9wp">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Fit All Recorded Data" keyEquivalent="z" id="Ft3-OF-bIv">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="fitAllData:" target="Ady-hI-5gd" id="yg4-df-9K6"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="GJv-se-4ee">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wxx-Ko-OoF"/>
+                                        <menuItem title="Show Timeline Labels" keyEquivalent="l" identifier="ShowSampleLabels" id="IFp-xu-wKG">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="M71-1d-0HY">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="Cwl-eS-uXO" name="value" keyPath="values.DTXPlotSettingsDisplayLabels" id="NuC-a3-eHa"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="7yg-ym-SoN"/>
                                         <menuItem title="Follow Most Recent Samples" state="on" keyEquivalent="n" identifier="NowModeMenuItem" id="utu-vV-BeP">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
@@ -608,6 +654,26 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="showDocumentHelp:" target="Voe-Tx-rLC" id="aUM-wJ-E0A"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAnyDocumentWindowOpen" id="Mv2-Nq-UyL">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="App Discovery Help" id="ZUf-0g-k7D">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="showDiscoveryHelp:" target="Voe-Tx-rLC" id="SMJ-rq-gpX"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden2" keyPath="hasNoDocumentWindowOpen" previousBinding="9gw-ml-ppW" id="ONj-VY-Ozk">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="9gw-ml-ppW"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Current Instrument Help" keyEquivalent="?" id="Lrz-0s-2Nu">
@@ -642,7 +708,7 @@ CA
                                                 <action selector="openGitHubPage:" target="Voe-Tx-rLC" id="AXj-Sv-uH2"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Report An Issue" id="rAe-sN-djN">
+                                        <menuItem title="Report an Issue..." id="rAe-sN-djN">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="openIssuesPage:" target="Voe-Tx-rLC" id="uwD-dY-cY7"/>
@@ -712,8 +778,9 @@ CA
                         <constraint firstItem="6TD-ro-Yv4" firstAttribute="leading" secondItem="A51-6N-F8J" secondAttribute="trailing" constant="8" id="gQJ-wn-GrM"/>
                     </constraints>
                 </customView>
+                <userDefaultsController representsSharedInstance="YES" id="Cwl-eS-uXO"/>
             </objects>
-            <point key="canvasLocation" x="-557" y="-1901"/>
+            <point key="canvasLocation" x="-632" y="-1955"/>
         </scene>
     </scenes>
     <resources>

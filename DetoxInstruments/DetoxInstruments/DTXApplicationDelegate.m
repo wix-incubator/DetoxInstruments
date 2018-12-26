@@ -62,6 +62,14 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 @end
 
 @implementation DTXApplicationDelegate
+{
+	BOOL _hasNoDocumentWindowOpen;
+	BOOL _hasAnyDocumentWindowOpen;
+	BOOL _hasNewRecordingDocumentWindowOpen;
+	BOOL _hasAtLeastRecordingDocumentWindowOpen;
+	BOOL _hasRecordingDocumentWindowOpen;
+	BOOL _hasSavedDocumentWindowOpen;
+}
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
@@ -71,6 +79,38 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	_aboutMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"About %@", @""), actualName];
 	_hideMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Hide %@", @""), actualName];
 	_quitMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Quit %@", @""), actualName];
+	
+	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_updateFromMainWindow) name:NSWindowDidBecomeMainNotification object:nil];
+	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_updateFromMainWindow) name:NSWindowDidResignMainNotification object:nil];
+	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_updateFromMainWindow) name:DTXRecordingDocumentStateDidChangeNotification object:nil];
+}
+
+- (void)_updateFromMainWindow
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		DTXRecordingDocument* doc = [NSDocumentController.sharedDocumentController documentForWindow:NSApp.mainWindow];
+		
+		[self willChangeValueForKey:@"hasNoDocumentWindowOpen"];
+		[self willChangeValueForKey:@"hasAnyDocumentWindowOpen"];
+		[self willChangeValueForKey:@"hasNewRecordingDocumentWindowOpen"];
+		[self willChangeValueForKey:@"hasAtLeastRecordingDocumentWindowOpen"];
+		[self willChangeValueForKey:@"hasRecordingDocumentWindowOpen"];
+		[self willChangeValueForKey:@"hasSavedDocumentWindowOpen"];
+		
+		_hasNoDocumentWindowOpen = doc == nil;
+		_hasAnyDocumentWindowOpen = doc != nil;
+		_hasNewRecordingDocumentWindowOpen = doc != nil && doc.documentState == DTXRecordingDocumentStateNew;
+		_hasAtLeastRecordingDocumentWindowOpen = doc.documentState >= DTXRecordingDocumentStateLiveRecording;
+		_hasRecordingDocumentWindowOpen = doc.documentState == DTXRecordingDocumentStateLiveRecording;
+		_hasSavedDocumentWindowOpen = doc.documentState >= DTXRecordingDocumentStateLiveRecordingFinished;
+		
+		[self didChangeValueForKey:@"hasNoDocumentWindowOpen"];
+		[self didChangeValueForKey:@"hasAnyDocumentWindowOpen"];
+		[self didChangeValueForKey:@"hasNewRecordingDocumentWindowOpen"];
+		[self didChangeValueForKey:@"hasAtLeastRecordingDocumentWindowOpen"];
+		[self didChangeValueForKey:@"hasRecordingDocumentWindowOpen"];
+		[self didChangeValueForKey:@"hasSavedDocumentWindowOpen"];
+	});
 }
 
 - (IBAction)showAboutWindow:(id)sender
@@ -95,11 +135,6 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	}];
 }
 
-- (void)verifyLldbInitIsNotBroken
-{
-	
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXProfilingConfigurationUseDefaultConfiguration": @YES}];
@@ -117,11 +152,6 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
 	
-}
-
-- (void)applicationDidBecomeActive:(NSNotification *)notification
-{
-	[self verifyLldbInitIsNotBroken];
 }
 
 - (IBAction)openGitHubPage:(id)sender
@@ -159,6 +189,11 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	DTXGoToHelpPage(@"RecordingDocument");
 }
 
+- (IBAction)showDiscoveryHelp:(id)sender
+{
+	DTXGoToHelpPage(@"AppDiscovery");
+}
+
 - (IBAction)revealProfilerFramework:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[[NSBundle mainBundle].bundleURL URLByAppendingPathComponent:@"Contents/SharedSupport/ProfilerFramework/DTXProfiler.framework"]]];
@@ -166,7 +201,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (IBAction)openIssuesPage:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/issues"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/wix/DetoxInstruments/issues/new/choose"]];
 }
 
 - (IBAction)showColorPlayground:(id)sender
@@ -231,11 +266,25 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	
 	if(menuItem.action == @selector(showColorPlayground:))
 	{
-#ifndef DEBUG
+#if ! DEBUG
 		menuItem.hidden = YES;
 #endif
 		
 		return YES;
+	}
+	
+	if(menuItem.action == @selector(_showInstrumentHelp:))
+	{
+		menuItem.hidden = YES;
+		
+		return NO;
+	}
+	
+	if(menuItem.action == @selector(_toggleNowMode:))
+	{
+		menuItem.hidden = YES;
+		
+		return NO;
 	}
 
 	return [NSApp validateMenuItem:menuItem];;
@@ -251,6 +300,16 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 - (BOOL)updaterMayCheckForUpdates:(SUUpdater *)updater
 {
 	return [NSBundle.mainBundle.bundlePath containsString:@"node_modules/"] == NO;
+}
+
+#pragma mark Empty Menu Selectors
+
+- (IBAction)_showInstrumentHelp:(id)sender
+{
+}
+
+- (IBAction)_toggleNowMode:(NSControl*)sender
+{
 }
 
 @end

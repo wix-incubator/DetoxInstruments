@@ -197,7 +197,7 @@
 
 - (CGFloat)requiredHeight
 {
-	return 18;
+	return 20;
 }
 
 - (NSArray<NSColor *> *)legendColors

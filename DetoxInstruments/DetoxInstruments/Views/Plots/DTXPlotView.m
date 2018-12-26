@@ -37,6 +37,11 @@
 		_cgr = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_clicked:)];
 		_cgr.delegate = self;
 		[self addGestureRecognizer:_cgr];
+		
+		[self setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
+		[self setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
+		
+		_minimumHeight = -1;
 	}
 	
 	return self;
@@ -50,6 +55,14 @@
 - (void)_clicked:(NSClickGestureRecognizer*)cgr
 {
 	
+}
+
+- (void)setMinimumHeight:(CGFloat)minimumHeight
+{
+	_minimumHeight = minimumHeight;
+	
+	[self invalidateIntrinsicContentSize];
+	[self setNeedsDisplay:YES];
 }
 
 - (void)setInsets:(NSEdgeInsets)insets

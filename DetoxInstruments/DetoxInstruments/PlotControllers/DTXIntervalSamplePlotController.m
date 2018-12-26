@@ -74,6 +74,14 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	if(_plotView)
+	{
+		[NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:@"DTXPlotSettingsDisplayLabels"];
+	}
+}
+
 - (BOOL)usesInternalPlots
 {
 	return YES;
@@ -391,9 +399,9 @@
 	return nil;
 }
 
-- (CGLineCap)lineCapForSample:(__kindof DTXSample*)sample
+- (NSString*)titleForSample:(__kindof DTXSample*)sample
 {
-	return kCGLineCapButt;
+	return nil;
 }
 
 - (NSArray<NSSortDescriptor *> *)sortDescriptors
@@ -432,6 +440,18 @@
 
 #pragma mark Internal Plots
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+	if(self.isForTouchBar)
+	{
+		return;
+	}
+	
+	BOOL wantsTitles = [NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"];
+	_plotView.lineHeight = wantsTitles ? 3.0 : DTXRangePlotViewDefaultLineHeight;
+	_plotView.drawTitles = wantsTitles;
+}
+
 - (NSArray<DTXPlotView *> *)plotViews
 {
 	if(_plotView == nil)
@@ -443,6 +463,8 @@
 		}
 		_plotView.translatesAutoresizingMaskIntoConstraints = NO;
 		_plotView.dataSource = self;
+		
+		[NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"DTXPlotSettingsDisplayLabels" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial) context:NULL];
 	}
 	
 	return @[_plotView];
@@ -466,6 +488,7 @@
 	rv.start = [sample.timestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate];
 	rv.end = [[self endTimestampForSample:sample] timeIntervalSinceReferenceDate]  - [self.document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate];
 	rv.height = indexPath.section;
+	rv.title = [self titleForSample:sample];
 	
 	NSColor* lineColor = [self colorForSample:sample];
 	

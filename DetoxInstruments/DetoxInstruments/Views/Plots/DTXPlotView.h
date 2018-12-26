@@ -37,6 +37,7 @@
 @property (nonatomic, weak) id<DTXPlotViewDataSource> dataSource;
 
 @property (nonatomic) NSEdgeInsets insets;
+@property (nonatomic) CGFloat minimumHeight;
 
 @property (nonatomic, strong) NSArray<DTXPlotViewAnnotation*>* annotations;
 

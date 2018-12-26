@@ -8,6 +8,9 @@
 
 #import "DTXRangePlotView.h"
 
+const CGFloat DTXRangePlotViewDefaultLineHeight = 6.0;
+const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
+
 @implementation DTXRange
 
 - (NSString *)description
@@ -26,6 +29,9 @@
 	NSMutableArray* _lines;
 	
 	NSSize _cachedIntrinsicContentSize;
+	
+	NSDictionary* _stringDrawingAttributes;
+	NSSize _fontCharacterSize;
 }
 
 @dynamic delegate;
@@ -42,9 +48,11 @@
 		//For furure live resize support.
 //		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 //		self.layerContentsPlacement = NSViewLayerContentsPlacementLeft;
-		_lineHeight = 5.0;
-		_lineSpacing = 4.0;
+		_lineHeight = DTXRangePlotViewDefaultLineHeight;
+		_lineSpacing = DTXRangePlotViewDefaultLineSpacing;
 		self.insets = NSEdgeInsetsMake(5, 0, 5, 0);
+		
+		[self setDrawTitles:NO];
 	}
 	
 	return self;
@@ -59,6 +67,29 @@
 //{
 //	return YES;
 //}
+
+- (void)setDrawTitles:(BOOL)drawTitles
+{
+	_drawTitles = drawTitles;
+	
+	if(_drawTitles)
+	{
+		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		style.lineBreakMode = NSLineBreakByTruncatingTail;
+		style.allowsDefaultTighteningForTruncation = NO;
+		
+		_stringDrawingAttributes = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:NSFont.smallSystemFontSize], NSForegroundColorAttributeName: NSColor.controlBackgroundColor, NSParagraphStyleAttributeName: style};
+		_fontCharacterSize = [@"A" sizeWithAttributes:_stringDrawingAttributes];
+	}
+	else
+	{
+		_stringDrawingAttributes = nil;
+		_fontCharacterSize = CGSizeZero;
+	}
+	
+	[self invalidateIntrinsicContentSize];
+	[self setNeedsDisplay:YES];
+}
 
 - (void)setLineHeight:(double)lineHeight
 {
@@ -156,9 +187,9 @@
 	{
 		CGRect selfBounds = self.bounds;
 		double viewHeightRatio = MIN(1.0, selfBounds.size.height / self.intrinsicContentSize.height);
-		double lineHeight = viewHeightRatio * self.lineHeight;
+		double lineHeight = viewHeightRatio * (_lineHeight + _fontCharacterSize.height);
 		double topInset = viewHeightRatio * self.insets.top;
-		double spacing = viewHeightRatio * (self.lineHeight + self.lineSpacing);
+		double spacing = viewHeightRatio * (_lineHeight + _fontCharacterSize.height + _lineSpacing);
 		
 		CGFloat graphViewRatio = selfBounds.size.width / self.plotRange.lengthDouble;
 		CGFloat offset = - graphViewRatio * self.plotRange.locationDouble;
@@ -186,7 +217,7 @@
 
 - (void)invalidateIntrinsicContentSize
 {
-	_cachedIntrinsicContentSize = NSMakeSize(NSViewNoIntrinsicMetric, (self.lineHeight + self.lineSpacing) * _totalHeightLines + self.lineHeight + self.insets.bottom + self.insets.top);
+	_cachedIntrinsicContentSize = NSMakeSize(NSViewNoIntrinsicMetric, MAX(self.minimumHeight, (_lineHeight + _fontCharacterSize.height + _lineSpacing) * _totalHeightLines + self.lineHeight + _fontCharacterSize.height + self.insets.bottom + self.insets.top));
 	
 	[super invalidateIntrinsicContentSize];
 	
@@ -211,9 +242,10 @@
 	
 	CGRect selfBounds = self.bounds;
 	double viewHeightRatio = MIN(1.0, selfBounds.size.height / self.intrinsicContentSize.height);
-	double lineHeight = viewHeightRatio * self.lineHeight;
+	double lineHeight = viewHeightRatio * (_lineHeight + _fontCharacterSize.height);
+	double lineHeightWithoutText = viewHeightRatio * (_lineHeight);
 	double topInset = viewHeightRatio * self.insets.top;
-	double spacing = viewHeightRatio * (self.lineHeight + self.lineSpacing);
+	double spacing = viewHeightRatio * (_lineHeight  + _fontCharacterSize.height + _lineSpacing);
 	
 	CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
 	CGFloat offset = - graphViewRatio * xRange.locationDouble;
@@ -226,13 +258,18 @@
 	
 	for (NSColor* distinctColor in _distinctColors)
 	{
-		CGContextSetStrokeColorWithColor(ctx, [distinctColor CGColor]);
-		CGContextSetFillColorWithColor(ctx, [distinctColor CGColor]);
+		if(_drawTitles == NO)
+		{
+			CGContextSetStrokeColorWithColor(ctx, [distinctColor CGColor]);
+			CGContextSetFillColorWithColor(ctx, [distinctColor CGColor]);
+		}
 		
 //		BOOL didAddLine = NO;
 		
 		for(DTXRange* line in [_distinctColorLines objectForKey:distinctColor])
 		{
+			NSString* title = line.title;
+			
 			double start = MAX(dirtyRect.origin.x, offset + line.start * graphViewRatio);
 			double end = MIN(dirtyRect.origin.x + dirtyRect.size.width, offset + line.end * graphViewRatio);
 			CGFloat height = spacing * line.height + lineHeight / 2.0 + topInset;
@@ -248,15 +285,33 @@
 			
 			if(start != end)
 			{
+				if(_drawTitles == YES)
+				{
+					CGContextSetStrokeColorWithColor(ctx, [distinctColor CGColor]);
+				}
+				
 				CGContextMoveToPoint(ctx, start, height);
 				CGContextAddLineToPoint(ctx, end, height);
 //				linesDrawn++;
 //				didAddLine = YES;
 				CGContextStrokePath(ctx);
+				
+				if(_drawTitles == YES && title.length > 0)
+				{
+					double spaceToCheck = MIN(5, title.length) * _fontCharacterSize.width;
+					if(end - start > spaceToCheck + lineHeight / 2)
+					{
+						[title drawInRect:NSMakeRect(start + lineHeight / 4, height - _fontCharacterSize.height / 2.0 - 1.5, end - start - lineHeight / 2, _fontCharacterSize.height) withAttributes:_stringDrawingAttributes];
+					}
+				}
 			}
 			else
 			{
-				CGContextFillEllipseInRect(ctx, CGRectMake(start - lineHeight / 2, height - lineHeight / 2, lineHeight, lineHeight));
+				if(_drawTitles == YES)
+				{
+					CGContextSetFillColorWithColor(ctx, [distinctColor CGColor]);
+				}
+				CGContextFillEllipseInRect(ctx, CGRectMake(start - lineHeightWithoutText / 2, height - lineHeight / 2, lineHeightWithoutText, lineHeight));
 			}
 		}
 		
@@ -278,9 +333,9 @@
 
 	CGRect selfBounds = self.bounds;
 	double viewHeightRatio = selfBounds.size.height / self.intrinsicContentSize.height;
-	double lineHeight = viewHeightRatio * self.lineHeight;
+	double lineHeight = viewHeightRatio * (_lineHeight + _fontCharacterSize.height);
 	double topInset = viewHeightRatio * self.insets.top;
-	double spacing = viewHeightRatio * (self.lineHeight + self.lineSpacing);
+	double spacing = viewHeightRatio * (_lineHeight + _fontCharacterSize.height + _lineSpacing);
 	
 	CPTPlotRange* xRange = self.plotRange;
 	double previousLocation = xRange.locationDouble;

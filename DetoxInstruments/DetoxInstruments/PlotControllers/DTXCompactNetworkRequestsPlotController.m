@@ -89,5 +89,10 @@
 	return lineColor;
 }
 
+- (NSString*)titleForSample:(DTXNetworkSample*)sample
+{
+	return sample.url;
+}
+
 @end
 

@@ -117,9 +117,16 @@
 	return sample.plotControllerColor;
 }
 
-- (CGLineCap)lineCapForSample:(__kindof DTXSample*)sample
+- (NSString*)titleForSample:(DTXSignpostSample*)sample
 {
-	return [sample isEvent] ? kCGLineCapRound : kCGLineCapButt;
+	NSMutableString* rv = sample.name.mutableCopy;
+	
+	if(sample.additionalInfoStart.length > 0)
+	{
+		[rv appendFormat:@"(%@)", sample.additionalInfoStart];
+	}
+	
+	return rv;
 }
 
 @end

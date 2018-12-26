@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSDate*)endTimestampForSample:(__kindof DTXSample*)sample;
 - (NSColor*)colorForSample:(__kindof DTXSample*)sample;
-- (CGLineCap)lineCapForSample:(__kindof DTXSample*)sample;
+- (NSString*)titleForSample:(__kindof DTXSample*)sample;
 + (Class)classForIntervalSamples;
 - (NSArray<NSSortDescriptor*>*)sortDescriptors;
 

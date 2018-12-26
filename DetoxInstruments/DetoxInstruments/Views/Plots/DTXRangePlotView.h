@@ -8,12 +8,16 @@
 
 #import "DTXPlotView.h"
 
+extern const CGFloat DTXRangePlotViewDefaultLineHeight;
+extern const CGFloat DTXRangePlotViewDefaultLineSpacing;
+
 @interface DTXRange : NSObject
 
 @property (nonatomic) CGFloat start;
 @property (nonatomic) CGFloat end;
 @property (nonatomic) CGFloat height;
 @property (nonatomic, strong) NSColor* color;
+@property (nonatomic, strong) NSString* title;
 
 @end
 
@@ -38,6 +42,8 @@
 
 @property (nonatomic) double lineHeight;
 @property (nonatomic) double lineSpacing;
+
+@property (nonatomic, getter = drawsTitles) BOOL drawTitles;
 
 - (void)reloadRangeAtIndex:(NSUInteger)idx;
 

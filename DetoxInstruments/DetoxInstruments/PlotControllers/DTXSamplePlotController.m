@@ -402,6 +402,7 @@
 		plotView.plotRange = xRange;
 		plotView.insets = self.rangeInsets;
 		plotView.delegate = self;
+		plotView.minimumHeight = 80;
 		
 		[self.plotStackView addArrangedSubview:plotView];
 	}
