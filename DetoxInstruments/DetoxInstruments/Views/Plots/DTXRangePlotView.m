@@ -199,8 +199,8 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	CFTimeInterval start = CACurrentMediaTime();
-	NSUInteger linesDrawn = 0;
+//	CFTimeInterval start = CACurrentMediaTime();
+//	NSUInteger linesDrawn = 0;
 	
 	CPTPlotRange* globalXRange = self.globalPlotRange;
 	CPTPlotRange* xRange = self.plotRange;
@@ -268,8 +268,8 @@
 	
 	[super drawRect:dirtyRect];
 	
-	CFTimeInterval end = CACurrentMediaTime();
-	NSLog(@"Took %fs to render %lu lines", end - start, linesDrawn);
+//	CFTimeInterval end = CACurrentMediaTime();
+//	NSLog(@"Took %fs to render %lu lines", end - start, linesDrawn);
 }
 
 - (void)_clicked:(NSClickGestureRecognizer*)cgr
@@ -281,11 +281,9 @@
 	double lineHeight = viewHeightRatio * self.lineHeight;
 	double topInset = viewHeightRatio * self.insets.top;
 	double spacing = viewHeightRatio * (self.lineHeight + self.lineSpacing);
-	double spacingRatio = spacing / lineHeight;
 	
 	CPTPlotRange* xRange = self.plotRange;
 	double previousLocation = xRange.locationDouble;
-	double previousLength = xRange.lengthDouble;
 	
 	double pointOnGraph = previousLocation + clickPoint.x * xRange.lengthDouble / selfBounds.size.width;
 	
