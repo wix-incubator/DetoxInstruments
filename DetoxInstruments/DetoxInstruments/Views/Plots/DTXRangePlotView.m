@@ -39,6 +39,9 @@
 	{
 		self.wantsLayer = YES;
 		self.layer.drawsAsynchronously = YES;
+		//For furure live resize support.
+//		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+//		self.layerContentsPlacement = NSViewLayerContentsPlacementLeft;
 		_lineHeight = 5.0;
 		_lineSpacing = 5.0;
 		self.insets = NSEdgeInsetsMake(5, 0, 5, 0);
@@ -52,10 +55,10 @@
 	return YES;
 }
 
-- (BOOL)canDrawConcurrently
-{
-	return YES;
-}
+//- (BOOL)canDrawConcurrently
+//{
+//	return YES;
+//}
 
 - (void)setLineHeight:(double)lineHeight
 {
@@ -92,9 +95,10 @@
 
 - (void)reloadData
 {
-	CFTimeInterval start = CACurrentMediaTime();
+//	CFTimeInterval start = CACurrentMediaTime();
 	
-	@autoreleasepool {
+	@autoreleasepool
+	{
 		double oldHeight = _totalHeightLines;
 		_totalHeightLines = 0;
 		
@@ -126,13 +130,13 @@
 		}
 	}
 	
-	CFTimeInterval end = CACurrentMediaTime();
-	NSLog(@"Took %@s to reload data", @(end - start));
+//	CFTimeInterval end = CACurrentMediaTime();
+//	NSLog(@"Took %@s to reload data", @(end - start));
 }
 
 - (void)reloadRangeAtIndex:(NSUInteger)idx
 {
-	CFTimeInterval start = CACurrentMediaTime();
+//	CFTimeInterval start = CACurrentMediaTime();
 	
 	DTXRange* sample = _lines[idx];
 	DTXRange* newSample = [self.dataSource plotView:self rangeAtIndex:idx];
@@ -148,10 +152,31 @@
 	[linesForColor removeObject:sample];
 	[self _insertSample:newSample atIndex:idx];
 	
+	if(sample.start == newSample.start && sample.end == newSample.end && sample.height == newSample.height)
+	{
+		CGRect selfBounds = self.bounds;
+		double viewHeightRatio = MIN(1.0, selfBounds.size.height / self.intrinsicContentSize.height);
+		double lineHeight = viewHeightRatio * self.lineHeight;
+		double topInset = viewHeightRatio * self.insets.top;
+		double spacing = viewHeightRatio * (self.lineHeight + self.lineSpacing);
+		
+		CGFloat graphViewRatio = selfBounds.size.width / self.plotRange.lengthDouble;
+		CGFloat offset = - graphViewRatio * self.plotRange.locationDouble;
+		
+		double start = offset + newSample.start * graphViewRatio;
+		double end = offset + newSample.end * graphViewRatio;
+		CGFloat height = spacing * newSample.height + lineHeight / 2.0 + topInset;
+		
+		//Only draw the area around the sample.
+		[self setNeedsDisplayInRect:NSMakeRect(start, height - lineHeight / 2.0, end - start, lineHeight)];
+		
+		return;
+	}
+	
 	[self setNeedsDisplay:YES];
 	
-	CFTimeInterval end = CACurrentMediaTime();
-	NSLog(@"Took %@s to reload sample", @(end - start));
+//	CFTimeInterval end = CACurrentMediaTime();
+//	NSLog(@"Took %@s to reload sample", @(end - start));
 }
 
 - (NSSize)intrinsicContentSize
@@ -163,7 +188,7 @@
 {
 	_cachedIntrinsicContentSize = NSMakeSize(NSViewNoIntrinsicMetric, (self.lineHeight + self.lineSpacing) * _totalHeightLines + self.lineHeight + self.insets.bottom + self.insets.top);
 	
-//	[super invalidateIntrinsicContentSize];
+	[super invalidateIntrinsicContentSize];
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		dispatch_async(dispatch_get_main_queue(), ^{
@@ -174,8 +199,8 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-//	CFTimeInterval start = CACurrentMediaTime();
-//	NSUInteger linesDrawn = 0;
+	CFTimeInterval start = CACurrentMediaTime();
+	NSUInteger linesDrawn = 0;
 	
 	CPTPlotRange* globalXRange = self.globalPlotRange;
 	CPTPlotRange* xRange = self.plotRange;
@@ -196,15 +221,15 @@
 	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
 	CGContextSetLineWidth(ctx, lineHeight);
 	CGContextSetLineCap(ctx, kCGLineCapButt);
-	CGContextSetAllowsAntialiasing(ctx, NO);
-	CGContextSetShouldAntialias(ctx, NO);
+//	CGContextSetAllowsAntialiasing(ctx, NO);
+//	CGContextSetShouldAntialias(ctx, NO);
 	
 	for (NSColor* distinctColor in _distinctColors)
 	{
 		CGContextSetStrokeColorWithColor(ctx, [distinctColor CGColor]);
 		CGContextSetFillColorWithColor(ctx, [distinctColor CGColor]);
 		
-		BOOL didAddLine = NO;
+//		BOOL didAddLine = NO;
 		
 		for(DTXRange* line in [_distinctColorLines objectForKey:distinctColor])
 		{
@@ -226,28 +251,25 @@
 				CGContextMoveToPoint(ctx, start, height);
 				CGContextAddLineToPoint(ctx, end, height);
 //				linesDrawn++;
-				didAddLine = YES;
+//				didAddLine = YES;
+				CGContextStrokePath(ctx);
 			}
 			else
 			{
-				CGContextSetAllowsAntialiasing(ctx, YES);
-				CGContextSetShouldAntialias(ctx, YES);
 				CGContextFillEllipseInRect(ctx, CGRectMake(start - lineHeight / 2, height - lineHeight / 2, lineHeight, lineHeight));
-				CGContextSetAllowsAntialiasing(ctx, NO);
-				CGContextSetShouldAntialias(ctx, NO);
 			}
 		}
 		
-		if(didAddLine)
-		{
-			CGContextStrokePath(ctx);
-		}
+//		if(didAddLine)
+//		{
+//			CGContextStrokePath(ctx);
+//		}
 	}
 	
 	[super drawRect:dirtyRect];
 	
-//	CFTimeInterval end = CACurrentMediaTime();
-//	NSLog(@"Took %fs to render %lu lines", end - start, linesDrawn);
+	CFTimeInterval end = CACurrentMediaTime();
+	NSLog(@"Took %fs to render %lu lines", end - start, linesDrawn);
 }
 
 - (void)_clicked:(NSClickGestureRecognizer*)cgr

@@ -500,15 +500,6 @@
 		return;
 	}
 	
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
-		if(obj == pc)
-		{
-			return;
-		}
-		
-		[obj removeHighlight];
-	}];
-	
 	[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_hostingOutlineView rowForItem:pc]] byExtendingSelection:NO];
 	[_hostingOutlineView.window makeFirstResponder:_hostingOutlineView];
 }

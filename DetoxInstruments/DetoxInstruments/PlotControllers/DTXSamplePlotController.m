@@ -471,8 +471,6 @@
 	if(self.wantsGestureRecognizerForPlots == NO)
 	{
 		clickGestureRecognizer.delaysPrimaryMouseButtonEvents = NO;
-		clickGestureRecognizer.delaysSecondaryMouseButtonEvents = NO;
-		clickGestureRecognizer.delaysOtherMouseButtonEvents = NO;
 	}
 	
 	NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:self.wrapperView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
@@ -837,7 +835,7 @@
 
 - (void)removeHighlight
 {
-	[self _removeHighlightNotifyDelegate:YES];
+	[self _removeHighlightNotifyDelegate:NO];
 }
 
 - (void)_removeHighlightNotifyDelegate:(BOOL)notify

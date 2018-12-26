@@ -228,7 +228,7 @@
 
 - (BOOL)wantsGestureRecognizerForPlots
 {
-	return NO;
+	return YES;
 }
 
 - (void)mouseMoved:(NSEvent *)event
@@ -426,8 +426,10 @@
 	NSIndexPath* indexPath = _sampleIndices[idx];
 	DTXSample* sample = self._mergedSamples[indexPath.section].samples[indexPath.item];
 	
-	[self highlightSample:sample];
-	[self.sampleClickDelegate plotController:self didClickOnSample:sample];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self highlightSample:sample];
+		[self.sampleClickDelegate plotController:self didClickOnSample:sample];
+	});
 }
 
 #pragma mark Internal Plots

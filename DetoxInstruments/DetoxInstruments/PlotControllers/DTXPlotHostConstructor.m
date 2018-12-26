@@ -12,7 +12,7 @@
 
 - (void)setUpWithView:(NSView *)view
 {
-	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 0, 0) isForTouchBar:NO];
+	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 1, 0) isForTouchBar:NO];
 }
 
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets isForTouchBar:(BOOL)isForTouchBar
@@ -99,8 +99,8 @@
 	[NSLayoutConstraint activateConstraints:@[
 											  [view.topAnchor constraintEqualToAnchor:_wrapperView.topAnchor constant:-insets.top],
 											  [view.leadingAnchor constraintEqualToAnchor:_wrapperView.leadingAnchor constant:-insets.left],
-											  [view.trailingAnchor constraintEqualToAnchor:_wrapperView.trailingAnchor constant:-insets.right],
-											  [view.bottomAnchor constraintEqualToAnchor:_wrapperView.bottomAnchor constant:-insets.bottom]
+											  [view.trailingAnchor constraintEqualToAnchor:_wrapperView.trailingAnchor constant:insets.right],
+											  [view.bottomAnchor constraintEqualToAnchor:_wrapperView.bottomAnchor constant:insets.bottom]
 											  ]];
 	
 	[self didFinishViewSetup];

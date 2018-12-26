@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>SelectedDetailController_DTXEventsPlotController</key>
+	<string>List</string>
 	<key>plotControllerVisibility</key>
 	<dict>
 		<key>DTXCPUUsagePlotController</key>
@@ -9,13 +11,13 @@
 		<key>DTXCompactNetworkRequestsPlotController</key>
 		<true/>
 		<key>DTXDiskReadWritesPlotController</key>
-		<false/>
+		<true/>
 		<key>DTXEventsPlotController</key>
 		<true/>
 		<key>DTXFPSPlotController</key>
-		<false/>
+		<true/>
 		<key>DTXMemoryUsagePlotController</key>
-		<false/>
+		<true/>
 	</dict>
 </dict>
 </plist>

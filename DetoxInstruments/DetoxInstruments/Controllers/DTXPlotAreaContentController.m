@@ -142,7 +142,7 @@
 	_tableView.intercellSpacing = NSMakeSize(1, 0);
 	
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document];
-	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 209.5, 0, 0) isForTouchBar:NO];
+	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 210, 0, 0) isForTouchBar:NO];
 
 	[_plotGroup setHeaderPlotController:headerPlotController];
 

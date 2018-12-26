@@ -13,7 +13,9 @@
 - (void)drawSelectionInRect:(NSRect)dirtyRect
 {
 	[self.selectionColor setFill];
-	[[NSBezierPath bezierPathWithRect:NSMakeRect(dirtyRect.origin.x, dirtyRect.origin.y, 210.5, dirtyRect.size.height - 1)] fill];
+	
+	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
+	CGContextFillRect(ctx, CGRectMake(0, dirtyRect.origin.y, 210.5, dirtyRect.origin.y + dirtyRect.size.height));
 }
 
 - (BOOL)wantsUpdateLayer
@@ -25,14 +27,13 @@
 {
 	[super drawRect:dirtyRect];
 	
-	NSBezierPath* line = [NSBezierPath bezierPath];
+	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
 	
-	[line moveToPoint:NSMakePoint(210.5, 0)];
-	[line lineToPoint:NSMakePoint(210.5, self.bounds.size.height)];
-	
-	line.lineWidth = 1.0;
 	[NSColor.gridColor set];
-	[line stroke];
+	CGContextSetLineWidth(ctx, 1);
+	CGContextMoveToPoint(ctx, 210.5, dirtyRect.origin.y);
+	CGContextAddLineToPoint(ctx, 210.5, dirtyRect.origin.y + dirtyRect.size.height);
+	CGContextStrokePath(ctx);
 }
 
 - (void)awakeFromNib
