@@ -209,14 +209,14 @@
 		for(DTXRange* line in [_distinctColorLines objectForKey:distinctColor])
 		{
 			double start = MAX(dirtyRect.origin.x, offset + line.start * graphViewRatio);
-			double end = MIN(dirtyRect.size.width, offset + line.end * graphViewRatio);
+			double end = MIN(dirtyRect.origin.x + dirtyRect.size.width, offset + line.end * graphViewRatio);
 			CGFloat height = spacing * line.height + lineHeight / 2.0 + topInset;
 			
 			//Out of bounds lines should not be drawn
 			if(height < dirtyRect.origin.y ||
 			   height > dirtyRect.origin.y + dirtyRect.size.height ||
 			   end < dirtyRect.origin.x ||
-			   start > dirtyRect.size.width)
+			   start > dirtyRect.origin.x + dirtyRect.size.width)
 			{
 				continue;
 			}

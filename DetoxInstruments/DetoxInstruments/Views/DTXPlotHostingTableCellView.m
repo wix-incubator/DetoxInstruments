@@ -35,7 +35,7 @@
 
 - (NSSize)intrinsicContentSize
 {
-	return NSMakeSize(-1, 80);
+	return NSMakeSize(NSViewNoIntrinsicMetric, _plotController.requiredHeight);
 }
 
 @end

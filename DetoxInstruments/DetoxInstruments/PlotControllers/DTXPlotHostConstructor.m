@@ -39,6 +39,13 @@
 			_plotStackView.distribution = NSStackViewDistributionFill;
 			_plotStackView.spacing = 0;
 			
+			if(isForTouchBar)
+			{
+				[NSLayoutConstraint activateConstraints:@[
+														  [_plotStackView.heightAnchor constraintEqualToConstant:30],
+														  ]];
+			}
+			
 			[_wrapperView addSubview:_plotStackView];
 			
 			[NSLayoutConstraint activateConstraints:@[

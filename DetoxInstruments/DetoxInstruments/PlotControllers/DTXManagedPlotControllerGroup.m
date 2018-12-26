@@ -513,16 +513,6 @@
 	[_hostingOutlineView.window makeFirstResponder:_hostingOutlineView];
 }
 
-- (void)requiredHeightChangedForPlotController:(id<DTXPlotController>)pc
-{
-	if(pc == _touchBarPlotController)
-	{
-		return;
-	}
-	
-	[_hostingOutlineView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[_hostingOutlineView rowForItem:pc]]];
-}
-
 #pragma mark DTXPlotControllerDelegate
 
 static BOOL __uglyHackTODOFixThis()

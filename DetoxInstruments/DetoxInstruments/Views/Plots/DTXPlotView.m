@@ -182,6 +182,29 @@
 	return YES;
 }
 
+- (void)touchesBeganWithEvent:(NSEvent *)event
+{
+	_mouseClicked = YES;
+}
+
+- (void)touchesMovedWithEvent:(NSEvent *)event
+{
+	CGPoint now = [event.allTouches.anyObject locationInView:self];
+	CGPoint prev = [event.allTouches.anyObject previousLocationInView:self];
+	
+	[self _scrollPlorRangeWithDelta:now.x - prev.x];
+}
+
+- (void)touchesEndedWithEvent:(NSEvent *)event
+{
+	_mouseClicked = NO;
+}
+
+- (void)touchesCancelledWithEvent:(NSEvent *)event
+{
+	_mouseClicked = NO;
+}
+
 - (void)mouseDown:(NSEvent *)event
 {
 	_mouseClicked = YES;
@@ -251,8 +274,13 @@
 		
 		double start = offset + annotation.position * graphViewRatio;
 		
-		CGContextMoveToPoint(ctx, start, 0);
-		CGContextAddLineToPoint(ctx, start, self.bounds.size.width);
+		if(start < dirtyRect.origin.x || start > dirtyRect.origin.x + dirtyRect.size.width)
+		{
+			continue;
+		}
+		
+		CGContextMoveToPoint(ctx, start, dirtyRect.origin.y);
+		CGContextAddLineToPoint(ctx, start, dirtyRect.origin.y + dirtyRect.size.height);
 		
 		CGContextStrokePath(ctx);
 	}
