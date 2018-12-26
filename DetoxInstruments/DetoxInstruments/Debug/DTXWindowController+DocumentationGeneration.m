@@ -20,6 +20,7 @@
 #import "DTXPlotAreaContentController.h"
 
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wincomplete-implementation"
 
 @interface NSObject ()
 
@@ -94,6 +95,18 @@
 	
 	return [[hostingOutline rowViewAtRow:[hostingOutline rowForItem:plotController] makeIfNecessary:NO] snapshotForCachingDisplay];
 }
+
+- (NSImage*)_snapshotForOnlyPlotOfPlotControllerOfClass:(Class)cls
+{
+	[self _drainLayout];
+	id plotController = [self _plotControllerForClass:cls];
+	NSOutlineView* hostingOutline = [self valueForKeyPath:@"plotContentController.tableView"];
+	
+	NSView* cell = [hostingOutline rowViewAtRow:[hostingOutline rowForItem:plotController] makeIfNecessary:NO].subviews.lastObject;
+	
+	return [cell snapshotForCachingDisplay];
+}
+
 
 - (NSImage*)_snapshotForTimeline;
 {

@@ -55,6 +55,17 @@
 
 @end
 
+static NSBitmapImageRep* __DTXCroppedRep(NSBitmapImageRep* rep, NSEdgeInsets insets)
+{
+	NSImage* rvImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width - insets.left - insets.right, rep.size.height - insets.bottom - insets.top)];
+	[rvImage lockFocus];
+	[rep drawInRect:(NSRect){0, 0, rvImage.size} fromRect:NSMakeRect(insets.left, insets.bottom, rvImage.size.width, rvImage.size.height) operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, rvImage.size}];
+	[rvImage unlockFocus];
+	
+	return rep;
+}
+
 static NSBitmapImageRep* __DTXThemeBackgroundRep(NSBitmapImageRep* rep)
 {
 	NSImage* rvImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, rep.size.height)];
@@ -342,6 +353,9 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	[newDocument close];
 	
+	BOOL oldVal = [NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"];
+	[NSUserDefaults.standardUserDefaults setBool:NO forKey:@"DTXPlotSettingsDisplayLabels"];
+	
 	[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/example.dtxprof"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
 		
 		DTXWindowController* windowController = document.windowControllers.firstObject;
@@ -386,7 +400,22 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		rep = (NSBitmapImageRep*)[windowController _snapshotForTimeline].representations.firstObject;
 		[[__DTXThemeBackgroundRep(rep) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane.png"].path atomically:YES];
 		
+		[NSUserDefaults.standardUserDefaults setBool:YES forKey:@"DTXPlotSettingsDisplayLabels"];
+		
 		NSImage* inspectorPaneOverviewImage = [[NSImage alloc] initWithSize:NSMakeSize(320 * 3 + __inspectorPaneOverviewImagePadding * 6, windowController._plotDetailsSplitViewControllerSize.height * __inspectorPercentage)];
+		
+		[windowController zoomIn:nil];
+		[windowController zoomIn:nil];
+		[windowController zoomIn:nil];
+		[windowController zoomIn:nil];
+		
+		[windowController _deselectAnyPlotControllers];
+		rep = (NSBitmapImageRep*)[windowController _snapshotForOnlyPlotOfPlotControllerOfClass:DTXCompactNetworkRequestsPlotController.class].representations.firstObject;
+		[[__DTXThemeBackgroundRep(__DTXCroppedRep(rep, NSEdgeInsetsMake(0, 0, 3 * rep.size.height / 4, 0))) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane_Labels.png"].path atomically:YES];
+		
+		[windowController fitAllData:nil];
+		
+		[NSUserDefaults.standardUserDefaults setBool:NO forKey:@"DTXPlotSettingsDisplayLabels"];
 		
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 			[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage mapping:__classToNameMapping];
@@ -455,6 +484,8 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 			[windowController close];
 			[document close];
 			[NSUserDefaults.standardUserDefaults synchronize];
+			
+			[NSUserDefaults.standardUserDefaults setBool:oldVal forKey:@"DTXPlotSettingsDisplayLabels"];
 			
 			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 				[NSUserDefaults.standardUserDefaults synchronize];

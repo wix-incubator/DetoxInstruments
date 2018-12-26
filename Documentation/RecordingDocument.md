@@ -34,6 +34,10 @@ Clicking on any point in the timeline will select the closest recorded data samp
 
 ![Timeline Pane](Resources/RecordingDocument_TimelinePane.png "Timeline Pane")
 
+You can enable timeline labels for range graphs by selecting **View** ➔ **Show Timeline Labels** or press **⌃⌘L**.
+
+![Timeline Labels](Resources/RecordingDocument_TimelinePane_Labels.png "Timeline Labels")
+
 #### Customization
 
 Clicking the **Customization button** in the window toolbar will display a list of all the available instruments in the current document.

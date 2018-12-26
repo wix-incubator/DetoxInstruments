@@ -18,6 +18,7 @@
 - (void)_deselectAnyPlotControllers;
 - (void)_selectPlotControllerOfClass:(Class)cls;
 - (NSImage*)_snapshotForPlotControllerOfClass:(Class)cls;
+- (NSImage*)_snapshotForOnlyPlotOfPlotControllerOfClass:(Class)cls;
 - (NSImage*)_snapshotForTimeline;
 - (void)_setBottomSplitAtPercentage:(CGFloat)percentage;
 - (void)_deselectAnyDetail;
@@ -47,6 +48,10 @@
 - (DTXProfilingTargetManagementWindowController*)_openManagementWindowController;
 
 - (NSSize)_plotDetailsSplitViewControllerSize;
+
+- (IBAction)zoomIn:(id)sender;
+- (IBAction)zoomOut:(id)sender;
+- (IBAction)fitAllData:(id)sender;
 
 @end
 
