@@ -20,6 +20,9 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
+**Crash dump**
+If your issue is a crash, please provide a crash dump or a stack trace.
+
 **Mac (please complete the following information):**
  - Model: [e.g. MacBook Pro 2018]
  - OS: [e.g. macOS 10.14.1]
