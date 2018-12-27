@@ -25,15 +25,39 @@
 	return self;
 }
 
--(void)scrollWheel:(nonnull NSEvent *)theEvent
+- (void)_scrollPlorRangeWithDelta:(double)delta
 {
-	if(fabs(theEvent.scrollingDeltaY) > fabs(theEvent.scrollingDeltaX))
+	if(delta == 0)
 	{
-		[self.nextResponder scrollWheel:theEvent];
 		return;
 	}
 	
-	[super scrollWheel:theEvent];
+	CPTXYPlotSpace* plotSpace = (id)self.hostedGraph.defaultPlotSpace;
+	
+	CPTMutablePlotRange* xRange = [plotSpace.xRange mutableCopy];
+	CGFloat selfWidth = self.bounds.size.width;
+	
+	double previousLocation = xRange.locationDouble;
+	
+	double maxLocation = plotSpace.globalXRange.lengthDouble - xRange.lengthDouble;
+	
+	xRange.locationDouble = MIN(maxLocation, MAX(0, xRange.locationDouble - xRange.lengthDouble * delta / selfWidth));
+	
+	if(xRange.locationDouble != previousLocation)
+	{
+		plotSpace.xRange = xRange;
+	}
+}
+
+-(void)scrollWheel:(nonnull NSEvent *)event
+{
+	if(fabs(event.scrollingDeltaY) > fabs(event.scrollingDeltaX))
+	{
+		[self.nextResponder scrollWheel:event];
+		return;
+	}
+	
+	[self _scrollPlorRangeWithDelta:event.scrollingDeltaX];
 }
 
 @end
