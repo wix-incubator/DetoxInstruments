@@ -29,6 +29,8 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
-	<false/>
+	<true/>
+	<key>MetalPrefersLowPowerGPU</key>
+	<true/>
 </dict>
 </plist>

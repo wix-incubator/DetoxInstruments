@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,11 +11,11 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="DrawTest" id="1Xt-HY-uBw">
+                            <menuItem title="SKTest" id="1Xt-HY-uBw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="DrawTest" systemMenu="apple" id="uQy-DD-JDr">
+                                <menu key="submenu" title="SKTest" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About DrawTest" id="5kV-Vb-QxS">
+                                        <menuItem title="About GameTemplate" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
@@ -30,7 +29,7 @@
                                             <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
-                                        <menuItem title="Hide DrawTest" keyEquivalent="h" id="Olw-nP-bQN">
+                                        <menuItem title="Hide GameTemplate" keyEquivalent="h" id="Olw-nP-bQN">
                                             <connections>
                                                 <action selector="hide:" target="Ady-hI-5gd" id="PnN-Uc-m68"/>
                                             </connections>
@@ -48,7 +47,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                                        <menuItem title="Quit DrawTest" keyEquivalent="q" id="4sb-4s-VLi">
+                                        <menuItem title="Quit GameTemplate" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
                                             </connections>
@@ -661,7 +660,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
-                                        <menuItem title="DrawTest Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="GameTemplate Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
@@ -685,7 +684,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="SKTest" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -695,7 +694,7 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="JgS-YN-KUq" kind="relationship" relationship="window.shadowedContentViewController" id="7Ou-0L-23m"/>
+                        <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -703,88 +702,53 @@
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="noi-vW-y5j">
+        <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="JgS-YN-KUq" customClass="ViewController" sceneMemberID="viewController">
-                    <view key="view" id="5zT-tA-vxk">
+                <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
+                    <customView key="view" id="YMA-kV-XjR">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q57-0n-6da">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                                <clipView key="contentView" id="L87-q0-QnY">
-                                    <rect key="frame" x="1" y="1" width="448" height="298"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Oq5-AI-3UI">
-                                            <rect key="frame" x="0.0" y="0.0" width="448" height="298"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <size key="intercellSpacing" width="3" height="2"/>
-                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
-                                            <tableColumns>
-                                                <tableColumn width="445" maxWidth="1000000" id="Tnb-MW-TN5">
-                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="smallSystem"/>
-                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                    </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="neG-Kp-XeO">
-                                                        <font key="font" metaFont="system"/>
-                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                    <prototypeCellViews>
-                                                        <tableCellView identifier="Cell" id="Xiv-6W-ayT">
-                                                            <rect key="frame" x="1" y="1" width="445" height="17"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <subviews>
-                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="O9f-dH-LN3" customClass="PointsView">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="445" height="17"/>
-                                                                </customView>
-                                                            </subviews>
-                                                            <constraints>
-                                                                <constraint firstItem="O9f-dH-LN3" firstAttribute="leading" secondItem="Xiv-6W-ayT" secondAttribute="leading" id="APG-vP-B4G"/>
-                                                                <constraint firstAttribute="bottom" secondItem="O9f-dH-LN3" secondAttribute="bottom" id="VoS-DO-VKm"/>
-                                                                <constraint firstAttribute="trailing" secondItem="O9f-dH-LN3" secondAttribute="trailing" id="dtw-zq-PUA"/>
-                                                                <constraint firstItem="O9f-dH-LN3" firstAttribute="top" secondItem="Xiv-6W-ayT" secondAttribute="top" id="ubQ-5X-Tnn"/>
-                                                            </constraints>
-                                                        </tableCellView>
-                                                    </prototypeCellViews>
-                                                </tableColumn>
-                                            </tableColumns>
-                                            <connections>
-                                                <outlet property="dataSource" destination="JgS-YN-KUq" id="MMZ-0d-cqd"/>
-                                                <outlet property="delegate" destination="JgS-YN-KUq" id="naq-i6-wk1"/>
-                                            </connections>
-                                        </tableView>
-                                    </subviews>
-                                </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="2p2-hW-0fZ">
-                                    <rect key="frame" x="1" y="263" width="442" height="16"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="IQF-TQ-2EN">
-                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                            </scrollView>
+                            <view wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m2S-Jp-Qdl" customClass="FuckOff">
+                                <rect key="frame" x="0.0" y="220" width="450" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="Aiw-1W-e2z"/>
+                                </constraints>
+                            </view>
+                            <view wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nD1-f7-lKc" customClass="FuckOff">
+                                <rect key="frame" x="0.0" y="140" width="450" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="1YX-84-BZ5"/>
+                                </constraints>
+                            </view>
+                            <view wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3eL-Jj-uem" customClass="FuckOff">
+                                <rect key="frame" x="0.0" y="60" width="450" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="yDL-MB-6c0"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="q57-0n-6da" firstAttribute="leading" secondItem="5zT-tA-vxk" secondAttribute="leading" id="Ep1-eJ-brS"/>
-                            <constraint firstAttribute="bottom" secondItem="q57-0n-6da" secondAttribute="bottom" id="ajP-9A-Zo7"/>
-                            <constraint firstItem="q57-0n-6da" firstAttribute="top" secondItem="5zT-tA-vxk" secondAttribute="top" id="jVg-bn-C47"/>
-                            <constraint firstAttribute="trailing" secondItem="q57-0n-6da" secondAttribute="trailing" id="tMg-vx-s6f"/>
+                            <constraint firstItem="3eL-Jj-uem" firstAttribute="top" secondItem="nD1-f7-lKc" secondAttribute="bottom" id="2BP-hh-skm"/>
+                            <constraint firstItem="3eL-Jj-uem" firstAttribute="leading" secondItem="YMA-kV-XjR" secondAttribute="leading" id="9yF-Kh-iVp"/>
+                            <constraint firstItem="m2S-Jp-Qdl" firstAttribute="leading" secondItem="YMA-kV-XjR" secondAttribute="leading" id="I0f-yS-epp"/>
+                            <constraint firstAttribute="trailing" secondItem="3eL-Jj-uem" secondAttribute="trailing" id="NqP-lS-iK7"/>
+                            <constraint firstItem="nD1-f7-lKc" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="bottom" id="fe3-KL-aDP"/>
+                            <constraint firstItem="m2S-Jp-Qdl" firstAttribute="top" secondItem="YMA-kV-XjR" secondAttribute="top" id="iAc-eo-4Jo"/>
+                            <constraint firstAttribute="trailing" secondItem="nD1-f7-lKc" secondAttribute="trailing" id="qWv-zy-O8L"/>
+                            <constraint firstAttribute="trailing" secondItem="m2S-Jp-Qdl" secondAttribute="trailing" id="u97-Vg-DaD"/>
+                            <constraint firstItem="nD1-f7-lKc" firstAttribute="leading" secondItem="YMA-kV-XjR" secondAttribute="leading" id="yTk-x2-2G4"/>
                         </constraints>
-                    </view>
+                    </customView>
                     <connections>
-                        <outlet property="_tableView" destination="Oq5-AI-3UI" id="9mp-8d-ZoB"/>
+                        <outlet property="skView" destination="m2S-Jp-Qdl" id="qux-te-cT3"/>
+                        <outlet property="skView2" destination="nD1-f7-lKc" id="NUZ-Ok-Nha"/>
+                        <outlet property="skView3" destination="3eL-Jj-uem" id="MRF-8m-XKu"/>
                     </connections>
                 </viewController>
-                <customObject id="dEV-RC-B5d" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="411" y="707"/>
+            <point key="canvasLocation" x="75" y="817"/>
         </scene>
     </scenes>
 </document>

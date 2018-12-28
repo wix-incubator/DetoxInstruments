@@ -28,7 +28,7 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return 3;
+	return 150;
 }
 
 - (nullable id)tableView:(NSTableView *)tableView objectValueForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row
@@ -38,7 +38,9 @@
 
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	return [tableView makeViewWithIdentifier:@"Cell" owner:nil];
+	NSView* v = [tableView makeViewWithIdentifier:@"Cell" owner:nil];
+	
+	return v;
 }
 
 @end

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		393B2B0021CEF69200F2BC74 /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 393B2AFF21CEF69200F2BC74 /* DrawingView.m */; };
+		394CD5E621D389A600154CBE /* PointsDataset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 394CD5E521D389A600154CBE /* PointsDataset.plist */; };
+		3967E46721D38923009B33A1 /* PointsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3967E46621D38923009B33A1 /* PointsView.m */; };
 		3978A59421D0A25A00B739E2 /* Dataset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3978A59321D0A25900B739E2 /* Dataset.plist */; };
 		397FF7DE21CBCF3B007BE2A0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FF7DD21CBCF3B007BE2A0 /* AppDelegate.m */; };
 		397FF7E121CBCF3B007BE2A0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FF7E021CBCF3B007BE2A0 /* ViewController.m */; };
@@ -19,6 +21,9 @@
 /* Begin PBXFileReference section */
 		393B2AFE21CEF69200F2BC74 /* DrawingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawingView.h; sourceTree = "<group>"; };
 		393B2AFF21CEF69200F2BC74 /* DrawingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrawingView.m; sourceTree = "<group>"; };
+		394CD5E521D389A600154CBE /* PointsDataset.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PointsDataset.plist; sourceTree = "<group>"; };
+		3967E46521D38923009B33A1 /* PointsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PointsView.h; sourceTree = "<group>"; };
+		3967E46621D38923009B33A1 /* PointsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PointsView.m; sourceTree = "<group>"; };
 		3978A59321D0A25900B739E2 /* Dataset.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Dataset.plist; sourceTree = "<group>"; };
 		397FF7D921CBCF3B007BE2A0 /* DrawTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DrawTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		397FF7DC21CBCF3B007BE2A0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -74,6 +79,9 @@
 				3978A59321D0A25900B739E2 /* Dataset.plist */,
 				393B2AFE21CEF69200F2BC74 /* DrawingView.h */,
 				393B2AFF21CEF69200F2BC74 /* DrawingView.m */,
+				394CD5E521D389A600154CBE /* PointsDataset.plist */,
+				3967E46521D38923009B33A1 /* PointsView.h */,
+				3967E46621D38923009B33A1 /* PointsView.m */,
 			);
 			path = DrawTest;
 			sourceTree = "<group>";
@@ -140,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				394CD5E621D389A600154CBE /* PointsDataset.plist in Resources */,
 				3978A59421D0A25A00B739E2 /* Dataset.plist in Resources */,
 				397FF7E321CBCF3C007BE2A0 /* Assets.xcassets in Resources */,
 				397FF7E621CBCF3C007BE2A0 /* Main.storyboard in Resources */,
@@ -157,6 +166,7 @@
 				397FF7E921CBCF3C007BE2A0 /* main.m in Sources */,
 				397FF7DE21CBCF3B007BE2A0 /* AppDelegate.m in Sources */,
 				393B2B0021CEF69200F2BC74 /* DrawingView.m in Sources */,
+				3967E46721D38923009B33A1 /* PointsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
