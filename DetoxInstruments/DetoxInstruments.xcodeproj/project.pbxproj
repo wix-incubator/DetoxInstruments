@@ -107,8 +107,8 @@
 		39782CDC1FC590DB0034D70A /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782CD41FC590D90034D70A /* NSManagedObject+Additions.m */; };
 		39782CDD1FC590DB0034D70A /* DTXSample+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782CD51FC590D90034D70A /* DTXSample+Additions.m */; };
 		39782CDE1FC590DB0034D70A /* DTXRecording+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782CD81FC590DA0034D70A /* DTXRecording+Additions.m */; };
-		3978A58F21D09C3B00B739E2 /* DTXPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978A58E21D09C3B00B739E2 /* DTXPlotView.m */; settings = {COMPILER_FLAGS = "-Os"; }; };
-		3978A59221D09C7600B739E2 /* DTXRangePlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978A59121D09C7600B739E2 /* DTXRangePlotView.m */; settings = {COMPILER_FLAGS = "-Os"; }; };
+		3978A58F21D09C3B00B739E2 /* DTXPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978A58E21D09C3B00B739E2 /* DTXPlotView.m */; };
+		3978A59221D09C7600B739E2 /* DTXRangePlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978A59121D09C7600B739E2 /* DTXRangePlotView.m */; };
 		3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978FFE21EEAD06C002BDEFB /* DTXGraphHostingView.m */; };
 		397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */; };
 		397C3F3E1F35555B00BA9159 /* DTXStackedPlotGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */; };

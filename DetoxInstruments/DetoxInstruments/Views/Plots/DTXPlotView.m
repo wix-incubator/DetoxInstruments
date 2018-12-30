@@ -9,6 +9,16 @@
 #import "DTXPlotView.h"
 @import QuartzCore;
 
+@interface DTXNoAnimationLayer : CALayer @end
+@implementation DTXNoAnimationLayer
+
+-(id<CAAction>)actionForKey:(nonnull NSString *)aKey
+{
+	return nil;
+}
+
+@end
+
 @implementation DTXPlotViewAnnotation
 
 - (instancetype)init
@@ -20,12 +30,17 @@
 
 @end
 
+@implementation DTXPlotViewLineAnnotation @end
+@implementation DTXPlotViewRangeAnnotation @end
+
 @interface DTXPlotView () <NSGestureRecognizerDelegate> @end
 
 @implementation DTXPlotView
 {
 	BOOL _mouseClicked;
 	NSClickGestureRecognizer* _cgr;
+	
+	NSArray<CALayer*>* _annotationLayers;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect
@@ -90,6 +105,7 @@
 	_plotRange = xRange;
 	
 	[self setNeedsDisplay:YES];
+	[self _updateAnnotationLayers];
 	
 	if(notify)
 	{
@@ -97,11 +113,94 @@
 	}
 }
 
+- (CALayer*)_layerForAnnotation:(DTXPlotViewAnnotation*)annotation
+{
+	CALayer* layer = DTXNoAnimationLayer.layer;
+	layer.backgroundColor = annotation.color.CGColor;
+	layer.opacity = annotation.opacity;
+	[self.layer addSublayer:layer];
+	return layer;
+}
+
 - (void)setAnnotations:(NSArray<DTXPlotViewAnnotation *> *)annotations
 {
+	[_annotationLayers enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj removeFromSuperlayer];
+	}];
+	
 	_annotations = annotations;
 	
-	[self setNeedsDisplay:YES];
+	NSMutableArray* layers = [NSMutableArray new];
+	for (DTXPlotViewAnnotation* annotation in annotations)
+	{
+		[layers addObject:[self _layerForAnnotation:annotation]];
+	}
+	
+	_annotationLayers = layers;
+	
+	[self _updateAnnotationLayers];
+}
+
+- (void)layout
+{
+	[super layout];
+	
+	[self _updateAnnotationLayers];
+}
+
+- (void)_updateAnnotationLayers
+{
+	if(self.annotations.count == 0)
+	{
+		return;
+	}
+	
+	CGRect selfBounds = self.bounds;
+	if(CGRectEqualToRect(selfBounds, CGRectZero))
+	{
+		return;
+	}
+	
+	[self.annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull annotation, NSUInteger idx, BOOL * _Nonnull stop) {
+		CALayer* layer = _annotationLayers[idx];
+
+		CPTPlotRange* xRange = self.plotRange;
+		
+		CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
+		CGFloat offset = - graphViewRatio * xRange.locationDouble;
+		
+		if(annotation.class == DTXPlotViewLineAnnotation.class)
+		{
+			DTXPlotViewLineAnnotation* line = (DTXPlotViewLineAnnotation*)annotation;
+			CGFloat position = floor(offset + graphViewRatio * line.position);
+			
+			if(position < selfBounds.origin.x || position > selfBounds.origin.x + selfBounds.size.width)
+			{
+				layer.hidden = YES;
+			}
+			else
+			{
+				layer.hidden = NO;
+				layer.frame = CGRectMake(position, 0, 1, selfBounds.size.height);
+			}
+		}
+		else if(annotation.class == DTXPlotViewRangeAnnotation.class)
+		{
+			DTXPlotViewRangeAnnotation* range = (DTXPlotViewRangeAnnotation*)annotation;
+			CGFloat start = range.start == DBL_MIN ? 0 : offset + graphViewRatio * range.start;
+			CGFloat end = range.end == DBL_MAX ? selfBounds.size.width : offset + graphViewRatio * range.end;
+			
+			if(end < selfBounds.origin.x || start > selfBounds.origin.x + selfBounds.size.width)
+			{
+				layer.hidden = YES;
+			}
+			else
+			{
+				layer.hidden = NO;
+				layer.frame = CGRectMake(start, 0, end - start, selfBounds.size.height);
+			}
+		}
+	}];
 }
 
 - (void)reloadData
@@ -259,44 +358,6 @@
 	CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
 	
 	[self scalePlotRange:scale atPoint:point];
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-	NSArray* annotations = self.annotations;
-	
-	if(annotations.count == 0)
-	{
-		return;
-	}
-	
-	CPTPlotRange* xRange = self.plotRange;
-	CGRect selfBounds = self.bounds;
-	CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
-	CGFloat offset = - graphViewRatio * xRange.locationDouble;
-	
-	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
-	CGContextSetLineWidth(ctx, 1);
-	CGContextSetLineCap(ctx, kCGLineCapButt);
-	CGContextSetAllowsAntialiasing(ctx, NO);
-	CGContextSetShouldAntialias(ctx, NO);
-	
-	for (DTXPlotViewAnnotation* annotation in annotations)
-	{
-		CGContextSetStrokeColorWithColor(ctx, [annotation.color colorWithAlphaComponent:annotation.opacity].CGColor);
-		
-		double start = offset + annotation.position * graphViewRatio;
-		
-		if(start < dirtyRect.origin.x || start > dirtyRect.origin.x + dirtyRect.size.width)
-		{
-			continue;
-		}
-		
-		CGContextMoveToPoint(ctx, start, dirtyRect.origin.y);
-		CGContextAddLineToPoint(ctx, start, dirtyRect.origin.y + dirtyRect.size.height);
-		
-		CGContextStrokePath(ctx);
-	}
 }
 
 @end

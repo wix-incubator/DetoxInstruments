@@ -11,11 +11,24 @@
 
 @interface DTXPlotViewAnnotation : NSObject
 
-@property (nonatomic) double position;
 @property (nonatomic, strong) NSColor* color;
 @property (nonatomic) double opacity;
 
 @end
+
+@interface DTXPlotViewLineAnnotation : DTXPlotViewAnnotation
+
+@property (nonatomic) double position;
+
+@end
+
+@interface DTXPlotViewRangeAnnotation : DTXPlotViewAnnotation
+
+@property (nonatomic) double start;
+@property (nonatomic) double end;
+
+@end
+
 
 @class DTXPlotView;
 

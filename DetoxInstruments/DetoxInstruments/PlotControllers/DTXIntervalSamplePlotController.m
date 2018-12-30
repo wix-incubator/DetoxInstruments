@@ -72,6 +72,8 @@
 	if(self)
 	{
 		_selectedIndex = NSNotFound;
+		
+		[self plotViews];
 	}
 	
 	return self;
@@ -284,7 +286,7 @@
 {
 	[self removeHighlight];
 	
-	DTXPlotViewAnnotation* annotation = [DTXPlotViewAnnotation new];
+	DTXPlotViewLineAnnotation* annotation = [DTXPlotViewLineAnnotation new];
 	annotation.position = sampleTime;
 	
 	NSArray* annotations = @[annotation];
@@ -310,7 +312,7 @@
 		[self removeHighlight];
 	}
 	
-	DTXPlotViewAnnotation* annotation1 = [DTXPlotViewAnnotation new];
+	DTXPlotViewLineAnnotation* annotation1 = [DTXPlotViewLineAnnotation new];
 	annotation1.position = range.locationDouble;
 	annotation1.color = NSColor.textColor;
 	if(self.isForTouchBar == NO)
@@ -322,7 +324,7 @@
 	
 	if(range.length)
 	{
-		DTXPlotViewAnnotation* annotation2 = [DTXPlotViewAnnotation new];
+		DTXPlotViewLineAnnotation* annotation2 = [DTXPlotViewLineAnnotation new];
 		annotation2.position = range.locationDouble + range.lengthDouble;
 		annotation2.color = NSColor.textColor;
 		if(self.isForTouchBar == NO)
