@@ -256,8 +256,6 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	NSLog(@"menuItem: %@", menuItem);
-	
 	if(menuItem.action == @selector(checkForUpdates:))
 	{
 		BOOL canCheckForUpdates = [self updaterMayCheckForUpdates:_updater];
