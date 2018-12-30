@@ -58,6 +58,12 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 		_lineSpacing = DTXRangePlotViewDefaultLineSpacing;
 		self.insets = NSEdgeInsetsMake(5, 0, 5, 0);
 		
+		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		style.lineBreakMode = NSLineBreakByTruncatingTail;
+		style.allowsDefaultTighteningForTruncation = NO;
+		
+		_stringDrawingAttributes = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:NSFont.smallSystemFontSize], NSParagraphStyleAttributeName: style};
+		
 		[self setDrawTitles:NO];
 	}
 	
@@ -80,16 +86,10 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 	
 	if(_drawTitles)
 	{
-		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		style.lineBreakMode = NSLineBreakByTruncatingTail;
-		style.allowsDefaultTighteningForTruncation = NO;
-		
-		_stringDrawingAttributes = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:NSFont.smallSystemFontSize], NSParagraphStyleAttributeName: style};
 		_fontCharacterSize = [@"A" sizeWithAttributes:_stringDrawingAttributes];
 	}
 	else
 	{
-		_stringDrawingAttributes = nil;
 		_fontCharacterSize = CGSizeZero;
 	}
 	
