@@ -221,6 +221,7 @@ static NSString* __DTXDetailControllerCacheKeyForObject(id<NSObject> object)
 		return;
 	}
 	
+	DTXDetailController* oldActiveDetailController = _activeDetailController;
 	_activeDetailController = dataProviderController;
 	_activeDetailController.delegate = self;
 
@@ -231,6 +232,8 @@ static NSString* __DTXDetailControllerCacheKeyForObject(id<NSObject> object)
 	
 	[self _updatePathControlItems];
 	[self _updateBottomViewVisibility];
+	
+	BOOL shouldClearFilter = YES;
 	
 	if(dataProviderController != _logDetailController)
 	{
@@ -244,6 +247,20 @@ static NSString* __DTXDetailControllerCacheKeyForObject(id<NSObject> object)
 		{
 			[self.document setObject:dataProviderController.identifier forPreferenceKey:key];
 		}
+		
+		if(oldActiveDetailController != _logDetailController && dataProviderController.detailDataProvider.plotController == oldActiveDetailController.detailDataProvider.plotController)
+		{
+			shouldClearFilter = NO;
+			[dataProviderController continueFilteringWithFilteredDataProvider:oldActiveDetailController.filteredDataProvider];
+		}
+	}
+	
+	if(shouldClearFilter)
+	{
+		[oldActiveDetailController continueFilteringWithFilteredDataProvider:nil];
+		
+		[_searchField clearFilter];
+		[_searchField resignFirstResponder];
 	}
 }
 

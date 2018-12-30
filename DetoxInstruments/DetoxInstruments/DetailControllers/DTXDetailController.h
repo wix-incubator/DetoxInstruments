@@ -30,6 +30,10 @@
 @property (nonatomic, assign, readonly) BOOL supportsDataFiltering;
 - (void)updateViewWithInsets:(NSEdgeInsets)insets;
 - (void)filterSamples:(NSString*)filter;
+
+@property (nonatomic, strong, readonly) DTXFilteredDataProvider* filteredDataProvider;
+- (void)continueFilteringWithFilteredDataProvider:(DTXFilteredDataProvider*)filteredDataProvider;
+
 - (void)selectSample:(DTXSample*)sample;
 
 @property (nonatomic, copy, readonly) NSString* identifier;

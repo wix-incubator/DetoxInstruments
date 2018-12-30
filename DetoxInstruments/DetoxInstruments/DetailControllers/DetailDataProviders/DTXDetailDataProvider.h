@@ -37,6 +37,11 @@
 - (void)filterSamplesWithFilter:(NSString*)filter;
 - (NSPredicate*)predicateForFilter:(NSString*)filter;
 
+@optional
+
+@property (nonatomic, strong, readonly) DTXFilteredDataProvider* filteredDataProvider;
+- (void)continueFilteringWithFilteredDataProvider:(DTXFilteredDataProvider*)filteredDataProvider;
+
 @end
 
 @protocol DTXDetailDataProvider;

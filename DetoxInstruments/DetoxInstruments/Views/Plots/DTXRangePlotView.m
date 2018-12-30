@@ -300,6 +300,7 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 			
 			if(start != end)
 			{
+				CGContextSetAllowsAntialiasing(ctx, distinctColor.alphaComponent == 1.0);
 				CGContextMoveToPoint(ctx, start, height);
 				CGContextAddLineToPoint(ctx, end, height);
 //				linesDrawn++;
@@ -312,6 +313,7 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 					if(end - start > spaceToCheck + lineHeight / 2)
 					{
 						CGContextSaveGState(ctx);
+						CGContextSetAllowsAntialiasing(ctx, YES);
 						[line.titleToDraw drawInRect:NSMakeRect(start + lineHeight / 4, height - _fontCharacterSize.height / 2.0 - 1.5, end - start - lineHeight / 2, _fontCharacterSize.height)];
 						CGContextRestoreGState(ctx);
 					}
@@ -319,7 +321,7 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 			}
 			else
 			{
-				CGContextSetFillColorWithColor(ctx, [distinctColor CGColor]);
+				CGContextSetAllowsAntialiasing(ctx, YES);
 				CGContextFillEllipseInRect(ctx, CGRectMake(start - lineHeightWithoutText / 2, height - lineHeight / 2, lineHeightWithoutText, lineHeight));
 			}
 		}

@@ -54,6 +54,24 @@
 	[self.detailDataProvider filterSamplesWithFilter:filter];
 }
 
+- (DTXFilteredDataProvider *)filteredDataProvider
+{
+	if([self.detailDataProvider respondsToSelector:@selector(filteredDataProvider)])
+	{
+		return self.detailDataProvider.filteredDataProvider;
+	}
+	
+	return nil;
+}
+
+- (void)continueFilteringWithFilteredDataProvider:(DTXFilteredDataProvider*)filteredDataProvider
+{
+	if([self.detailDataProvider respondsToSelector:@selector(continueFilteringWithFilteredDataProvider:)])
+	{
+		[self.detailDataProvider continueFilteringWithFilteredDataProvider:filteredDataProvider];
+	}
+}
+
 - (void)loadProviderWithDocument:(DTXRecordingDocument*)document detailDataProviderClass:(Class)detailDataProviderClass
 {
 	

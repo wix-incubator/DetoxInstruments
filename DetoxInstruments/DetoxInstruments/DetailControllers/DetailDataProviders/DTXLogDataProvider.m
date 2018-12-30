@@ -12,6 +12,7 @@
 @import ObjectiveC;
 #import "DTXLogLineInspectorDataProvider.h"
 #import "NSView+UIAdditions.h"
+#import "DTXFilteredDataProvider.h"
 
 @interface DTXLogDataProvider() <NSTableViewDataSource, NSTableViewDelegate, NSFetchedResultsControllerDelegate>
 {

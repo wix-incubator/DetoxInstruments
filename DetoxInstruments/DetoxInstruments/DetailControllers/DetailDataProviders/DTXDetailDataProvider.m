@@ -344,7 +344,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		return nil;
 	}
 	
-	
 	DTXTableRowView* rowView = (id)[outlineView rowViewAtRow:[outlineView rowForItem:item] makeIfNecessary:YES];
 	
 	if([tableColumn.identifier isEqualToString:@"DTXTimestampColumn"])
@@ -581,6 +580,10 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		_filteredDataProvider = nil;
 		[self setupContainerProxiesReloadOutline:YES];
 		[_managedOutlineView scrollRowToVisible:0];
+		if([_plotController respondsToSelector:@selector(setFilteredDataProvider:)])
+		{
+			[_plotController setFilteredDataProvider:nil];
+		}
 		return;
 	}
 	
@@ -590,12 +593,37 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	{
 		_filteredDataProvider = [[DTXFilteredDataProvider alloc] initWithDocument:self.document managedOutlineView:_managedOutlineView sampleClass:self.sampleClass filteredAttributes:self.filteredAttributes];
 		_managedOutlineView.dataSource = _filteredDataProvider;
+		[_plotController setFilteredDataProvider:_filteredDataProvider];
 	}
 	
 	[_filteredDataProvider filterSamplesWithPredicate:[self predicateForFilter:filter]];
 	[_managedOutlineView reloadData];
 	[_managedOutlineView expandItem:nil expandChildren:YES];
 	
+	[_managedOutlineView scrollRowToVisible:0];
+}
+
+- (DTXFilteredDataProvider *)filteredDataProvider
+{
+	return _filteredDataProvider;
+}
+
+- (void)continueFilteringWithFilteredDataProvider:(DTXFilteredDataProvider*)filteredDataProvider;
+{
+	_filteredDataProvider = filteredDataProvider;
+	if([_plotController respondsToSelector:@selector(setFilteredDataProvider:)])
+	{
+		[_plotController setFilteredDataProvider:_filteredDataProvider];
+	}
+	
+	if(filteredDataProvider == nil)
+	{
+		return;
+	}
+	
+	_managedOutlineView.dataSource = _filteredDataProvider;
+	
+	[_managedOutlineView reloadData];
 	[_managedOutlineView scrollRowToVisible:0];
 }
 

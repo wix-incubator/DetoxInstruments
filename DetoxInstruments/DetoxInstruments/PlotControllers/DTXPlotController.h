@@ -10,7 +10,7 @@
 #import <CorePlot/CorePlot.h>
 #import "DTXRecordingDocument.h"
 
-@class DTXDetailController;
+@class DTXDetailController, DTXFilteredDataProvider;
 
 @protocol DTXPlotController;
 
@@ -82,5 +82,7 @@
 - (void)removeHighlight;
 
 @property (nonatomic, assign, readonly) BOOL canReceiveFocus;
+
+@property (nonatomic, weak) DTXFilteredDataProvider* filteredDataProvider;
 
 @end

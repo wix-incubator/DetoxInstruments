@@ -16,6 +16,7 @@
 #import "NSAppearance+UIAdditions.h"
 #import <LNInterpolation/Color+Interpolation.h>
 #import "DTXRangePlotView.h"
+#import "DTXFilteredDataProvider.h"
 //@import os.signpost;
 
 @interface _DTXSampleGroup : NSObject
@@ -41,7 +42,7 @@
 
 @end
 
-@interface DTXIntervalSamplePlotController () <DTXRangePlotViewDelegate, DTXRangePlotViewDataSource, CPTRangePlotDataSource, CPTRangePlotDelegate, NSFetchedResultsControllerDelegate>
+@interface DTXIntervalSamplePlotController () <DTXRangePlotViewDelegate, DTXRangePlotViewDataSource, CPTRangePlotDataSource, CPTRangePlotDelegate, NSFetchedResultsControllerDelegate, DTXFilteredDataProviderDelegate>
 {
 	NSFetchedResultsController<DTXSample*>* _frc;
 	
@@ -52,6 +53,8 @@
 	NSMapTable<NSString*, NSIndexPath*>* _sampleMapping;
 	NSMapTable<NSIndexPath*, NSNumber*>* _indexPathIndexMapping;
 	NSUInteger _selectedIndex;
+	
+	DTXFilteredDataProvider* _filteredDataProvider;
 }
 @end
 
@@ -343,6 +346,11 @@
 
 - (void)removeHighlight
 {
+	[self _removeHighlightNotifyDelegate:NO];
+}
+
+- (void)_removeHighlightNotifyDelegate:(BOOL)notify
+{
 	_plotView.annotations = nil;
 	
 	if(_selectedIndex != NSNotFound)
@@ -352,10 +360,11 @@
 		
 		[_plotView reloadRangeAtIndex:prevSelectedIndex];
 	}
-}
-
-- (void)reloadHighlight
-{
+	
+	if(notify)
+	{
+		[self.delegate plotControllerDidRemoveHighlight:self];
+	}
 }
 
 - (NSEdgeInsets)rangeInsets
@@ -388,6 +397,38 @@
 	return nil;
 }
 
+@synthesize filteredDataProvider;
+- (void)setFilteredDataProvider:(DTXFilteredDataProvider *)filteredDataProvider
+{
+	if(_filteredDataProvider == filteredDataProvider)
+	{
+		return;
+	}
+	
+	_filteredDataProvider = filteredDataProvider;
+	_filteredDataProvider.delegate = self;
+	
+	if(_filteredDataProvider == nil)
+	{
+		[self _resetAfterFilter];
+	}
+}
+
+- (void)_resetAfterFilter
+{
+	[self _removeHighlightNotifyDelegate:YES];
+	[self.delegate plotControllerDidRemoveHighlight:self];
+	
+	[_plotView reloadData];
+}
+
+#pragma mark DTXFilteredDataProviderDelegate
+
+- (void)filteredDataProviderDidFilter:(DTXFilteredDataProvider*)fdp
+{
+	[self _resetAfterFilter];
+}
+
 #pragma mark NSFetchedResultsControllerDelegate
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
@@ -410,6 +451,11 @@
 	
 	NSIndexPath* indexPath = _sampleIndices[idx];
 	DTXSample* sample = self._mergedSamples[indexPath.section].samples[indexPath.item];
+	
+	if(_filteredDataProvider && [_filteredDataProvider.filteredObjectIDs containsObject:sample.objectID] == NO)
+	{
+		return;
+	}
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self highlightSample:sample];
@@ -486,6 +532,12 @@
 		{
 			rv.titleColor = [rv.color darkerColorWithModifier:0.85];
 		}
+	}
+
+	if(_filteredDataProvider && [_filteredDataProvider.filteredObjectIDs containsObject:sample.objectID] == NO)
+	{
+		rv.color = [rv.color colorWithAlphaComponent:0.1];
+		rv.titleColor = [rv.titleColor colorWithAlphaComponent:0.1];
 	}
 	
 	return rv;
