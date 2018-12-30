@@ -73,10 +73,16 @@
 	
 	content = [NSMutableArray new];
 	
+	BOOL wasError = networkSample.responseError.length > 0;
+	
 	if(networkSample.responseTimestamp == nil || networkSample.responseStatusCode == 0)
 	{
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:@"−"]];
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description:NSLocalizedString(@"Pending", @"") color:NSColor.warning3Color]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description: wasError ? NSLocalizedString(@"Error", @"") : NSLocalizedString(@"Pending", @"") color:NSColor.warning3Color]];
+		if(wasError)
+		{
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Error", @"") description:networkSample.responseError]];
+		}
 		response.content = content;
 		
 		[contentArray addObject:response];
@@ -92,7 +98,7 @@
 		NSString* status = [NSString stringWithFormat:@"%@%@", @(networkSample.responseStatusCode), networkSample.responseStatusCodeString ? [NSString stringWithFormat:@" (%@)", networkSample.responseStatusCodeString] : @""];
 		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description:status color:networkSample.responseStatusCode < 200 || networkSample.responseStatusCode >= 400 ? NSColor.warning3Color : NSColor.labelColor]];
-		if(networkSample.responseError != nil)
+		if(wasError)
 		{
 			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Error", @"") description:networkSample.responseError]];
 		}

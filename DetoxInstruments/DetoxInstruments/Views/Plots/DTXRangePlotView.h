@@ -18,6 +18,7 @@ extern const CGFloat DTXRangePlotViewDefaultLineSpacing;
 @property (nonatomic) CGFloat height;
 @property (nonatomic, strong) NSColor* color;
 @property (nonatomic, strong) NSString* title;
+@property (nonatomic, strong) NSColor* titleColor;
 
 @end
 

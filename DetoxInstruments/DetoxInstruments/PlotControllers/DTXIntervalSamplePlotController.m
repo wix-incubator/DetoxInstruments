@@ -126,6 +126,8 @@
 {
 	[self _updateAnnotationColors:_plotView.annotations];
 	_plotView.annotations = _plotView.annotations;
+	
+	[_plotView reloadData];
 }
 
 - (NSMutableArray<_DTXSampleGroup*>*)_mergedSamples
@@ -356,16 +358,6 @@
 {
 }
 
-- (BOOL)isStepped
-{
-	return YES;
-}
-
-- (CGFloat)yRangeMultiplier;
-{
-	return 1;
-}
-
 - (NSEdgeInsets)rangeInsets
 {
 	if(self.isForTouchBar)
@@ -374,19 +366,6 @@
 	}
 	
 	return NSEdgeInsetsMake(5, 0, 5, 0);
-}
-
-- (CPTPlotRange*)finessedPlotYRangeForPlotYRange:(CPTPlotRange*)yRange;
-{
-	NSEdgeInsets insets = self.rangeInsets;
-	
-	CPTMutablePlotRange* rv = [yRange mutableCopy];
-	
-	CGFloat initial = rv.location.doubleValue;
-	rv.location = @(-insets.bottom);
-	rv.length = @((initial + rv.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier);
-	
-	return rv;
 }
 
 - (NSDate*)endTimestampForSample:(DTXSample*)sample
@@ -490,14 +469,24 @@
 	rv.height = indexPath.section;
 	rv.title = [self titleForSample:sample];
 	
-	NSColor* lineColor = [self colorForSample:sample];
+	rv.color = [self colorForSample:sample];
 	
 	if(_selectedIndex == idx)
 	{
-		lineColor = [lineColor interpolateToValue:NSColor.blackColor progress:0.35];
+		rv.color = [rv.color interpolateToValue:NSColor.blackColor progress:0.35];
+		rv.titleColor = NSColor.whiteColor;
 	}
-	
-	rv.color = lineColor;
+	else
+	{
+		if(rv.color.isDarkColor)
+		{
+			rv.titleColor = [rv.color lighterColorWithModifier:0.85];
+		}
+		else
+		{
+			rv.titleColor = [rv.color darkerColorWithModifier:0.85];
+		}
+	}
 	
 	return rv;
 }

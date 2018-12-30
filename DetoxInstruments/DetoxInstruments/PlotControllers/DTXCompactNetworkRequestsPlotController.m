@@ -81,7 +81,7 @@
 		lineColor = NSColor.warning2Color;
 	}
 	
-	if(sample.responseError)
+	if(sample.responseError.length > 0)
 	{
 		lineColor = NSColor.warning3Color;
 	}

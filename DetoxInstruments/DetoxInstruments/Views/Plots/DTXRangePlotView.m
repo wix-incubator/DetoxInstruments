@@ -11,6 +11,12 @@
 const CGFloat DTXRangePlotViewDefaultLineHeight = 6.0;
 const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 
+@interface DTXRange ()
+
+@property (nonatomic, strong) NSAttributedString* titleToDraw;
+
+@end
+
 @implementation DTXRange
 
 - (NSString *)description
@@ -78,7 +84,7 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 		style.lineBreakMode = NSLineBreakByTruncatingTail;
 		style.allowsDefaultTighteningForTruncation = NO;
 		
-		_stringDrawingAttributes = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:NSFont.smallSystemFontSize], NSForegroundColorAttributeName: NSColor.controlBackgroundColor, NSParagraphStyleAttributeName: style};
+		_stringDrawingAttributes = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:NSFont.smallSystemFontSize], NSParagraphStyleAttributeName: style};
 		_fontCharacterSize = [@"A" sizeWithAttributes:_stringDrawingAttributes];
 	}
 	else
@@ -107,7 +113,7 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 	[self setNeedsDisplay:YES];
 }
 
-- (void)_insertSample:(DTXRange*)sample atIndex:(NSUInteger)idx
+- (void)_insertRange:(DTXRange*)sample atIndex:(NSUInteger)idx
 {
 	_lines[idx] = sample;
 	
@@ -122,6 +128,26 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 	}
 	
 	[linesForColor addObject:sample];
+}
+
+- (void)_prepareRangeForUsage:(DTXRange*)range
+{
+	if(range.color == nil)
+	{
+		range.color = NSColor.textColor;
+	}
+	
+	if(range.title.length > 0)
+	{
+		if(range.titleColor == nil)
+		{
+			range.titleColor = NSColor.textBackgroundColor;
+		}
+		
+		NSMutableDictionary* attrs = [_stringDrawingAttributes mutableCopy];
+		attrs[NSForegroundColorAttributeName] = range.titleColor;
+		range.titleToDraw = [[NSAttributedString alloc] initWithString:range.title attributes:attrs];
+	}
 }
 
 - (void)reloadData
@@ -141,16 +167,13 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 		
 		for(NSUInteger idx = 0; idx < count; idx++)
 		{
-			DTXRange* sample = [self.dataSource plotView:self rangeAtIndex:idx];
+			DTXRange* range = [self.dataSource plotView:self rangeAtIndex:idx];
 			
-			NSParameterAssert(sample != nil);
+			NSParameterAssert(range != nil);
 			
-			if(sample.color == nil)
-			{
-				sample.color = NSColor.textColor;
-			}
+			[self _prepareRangeForUsage:range];
 			
-			[self _insertSample:sample atIndex:idx];
+			[self _insertRange:range atIndex:idx];
 		}
 		
 		[super reloadData];
@@ -169,21 +192,18 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 {
 //	CFTimeInterval start = CACurrentMediaTime();
 	
-	DTXRange* sample = _lines[idx];
-	DTXRange* newSample = [self.dataSource plotView:self rangeAtIndex:idx];
+	DTXRange* range = _lines[idx];
+	DTXRange* newRange = [self.dataSource plotView:self rangeAtIndex:idx];
 	
-	NSParameterAssert(newSample != nil);
+	NSParameterAssert(newRange != nil);
 	
-	if(newSample.color == nil)
-	{
-		newSample.color = NSColor.textColor;
-	}
+	[self _prepareRangeForUsage:newRange];
 
-	NSMutableSet* linesForColor = [_distinctColorLines objectForKey:sample.color];
-	[linesForColor removeObject:sample];
-	[self _insertSample:newSample atIndex:idx];
+	NSMutableSet* linesForColor = [_distinctColorLines objectForKey:range.color];
+	[linesForColor removeObject:range];
+	[self _insertRange:newRange atIndex:idx];
 	
-	if(sample.start == newSample.start && sample.end == newSample.end && sample.height == newSample.height)
+	if(range.start == newRange.start && range.end == newRange.end && range.height == newRange.height)
 	{
 		CGRect selfBounds = self.bounds;
 		double viewHeightRatio = MIN(1.0, selfBounds.size.height / self.intrinsicContentSize.height);
@@ -194,9 +214,9 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 		CGFloat graphViewRatio = selfBounds.size.width / self.plotRange.lengthDouble;
 		CGFloat offset = - graphViewRatio * self.plotRange.locationDouble;
 		
-		double start = offset + newSample.start * graphViewRatio;
-		double end = offset + newSample.end * graphViewRatio;
-		CGFloat height = spacing * newSample.height + lineHeight / 2.0 + topInset;
+		double start = offset + newRange.start * graphViewRatio;
+		double end = offset + newRange.end * graphViewRatio;
+		CGFloat height = spacing * newRange.height + lineHeight / 2.0 + topInset;
 		
 		//Only draw the area around the sample.
 		[self setNeedsDisplayInRect:NSMakeRect(start, height - lineHeight / 2.0, end - start, lineHeight)];
@@ -253,16 +273,11 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
 	CGContextSetLineWidth(ctx, lineHeight);
 	CGContextSetLineCap(ctx, kCGLineCapButt);
-//	CGContextSetAllowsAntialiasing(ctx, NO);
-//	CGContextSetShouldAntialias(ctx, NO);
 	
 	for (NSColor* distinctColor in _distinctColors)
 	{
-		if(_drawTitles == NO)
-		{
-			CGContextSetStrokeColorWithColor(ctx, [distinctColor CGColor]);
-			CGContextSetFillColorWithColor(ctx, [distinctColor CGColor]);
-		}
+		CGContextSetStrokeColorWithColor(ctx, [distinctColor CGColor]);
+		CGContextSetFillColorWithColor(ctx, [distinctColor CGColor]);
 		
 //		BOOL didAddLine = NO;
 		
@@ -285,11 +300,6 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 			
 			if(start != end)
 			{
-				if(_drawTitles == YES)
-				{
-					CGContextSetStrokeColorWithColor(ctx, [distinctColor CGColor]);
-				}
-				
 				CGContextMoveToPoint(ctx, start, height);
 				CGContextAddLineToPoint(ctx, end, height);
 //				linesDrawn++;
@@ -301,16 +311,15 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 					double spaceToCheck = MIN(5, title.length) * _fontCharacterSize.width;
 					if(end - start > spaceToCheck + lineHeight / 2)
 					{
-						[title drawInRect:NSMakeRect(start + lineHeight / 4, height - _fontCharacterSize.height / 2.0 - 1.5, end - start - lineHeight / 2, _fontCharacterSize.height) withAttributes:_stringDrawingAttributes];
+						CGContextSaveGState(ctx);
+						[line.titleToDraw drawInRect:NSMakeRect(start + lineHeight / 4, height - _fontCharacterSize.height / 2.0 - 1.5, end - start - lineHeight / 2, _fontCharacterSize.height)];
+						CGContextRestoreGState(ctx);
 					}
 				}
 			}
 			else
 			{
-				if(_drawTitles == YES)
-				{
-					CGContextSetFillColorWithColor(ctx, [distinctColor CGColor]);
-				}
+				CGContextSetFillColorWithColor(ctx, [distinctColor CGColor]);
 				CGContextFillEllipseInRect(ctx, CGRectMake(start - lineHeightWithoutText / 2, height - lineHeight / 2, lineHeightWithoutText, lineHeight));
 			}
 		}

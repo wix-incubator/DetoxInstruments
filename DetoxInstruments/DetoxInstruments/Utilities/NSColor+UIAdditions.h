@@ -42,8 +42,14 @@ typedef NS_ENUM(NSUInteger, DTXColorEffect) {
 
 @interface NSColor (UIAdditions)
 
+@property (nonatomic, strong, readonly) NSColor* invertedColor;
+@property (nonatomic, readonly) BOOL isDarkColor;
+
 - (NSColor*)deeperColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier;
 - (NSColor*)shallowerColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier;
+
+- (NSColor*)darkerColorWithModifier:(CGFloat)modifier;
+- (NSColor*)lighterColorWithModifier:(CGFloat)modifier;
 
 + (NSColor*)randomColorWithSeed:(NSString*)seed;
 

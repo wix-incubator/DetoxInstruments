@@ -88,6 +88,11 @@
 {
 	DTXNetworkSample* sample = item;
 	
+	if(sample.responseError.length > 0)
+	{
+		return NSColor.warning3Color;
+	}
+	
 	if(sample.responseStatusCode == 0)
 	{
 		return NSColor.warningColor;
@@ -97,17 +102,17 @@
 		return NSColor.warning2Color;
 	}
 	
-	if(sample.responseError)
-	{
-		return NSColor.warning3Color;
-	}
-	
 	return NSColor.successColor;
 }
 
 - (NSString*)statusTooltipforItem:(id)item
 {
 	DTXNetworkSample* sample = item;
+	
+	if(sample.responseError.length > 0)
+	{
+		return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Error:", @""), sample.responseError];
+	}
 	
 	if(sample.responseStatusCode == 0)
 	{
@@ -118,12 +123,7 @@
 		return [NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"HTTP error", @""), @(sample.responseStatusCode)];
 	}
 	
-	if(sample.responseError)
-	{
-		return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Error:", @""), sample.responseError];
-	}
-	
-	return [NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Success", @""), @(sample.responseStatusCode)];;
+	return [NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Success", @""), @(sample.responseStatusCode)];
 }
 
 - (BOOL)supportsDataFiltering

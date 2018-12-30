@@ -67,35 +67,17 @@ DTX_NAMED_COLOR_IMPL(pasteboardTypeTextColor)
 	return [self interpolateToValue:modifierColor progress:modifier];
 }
 
-/*
- - (NSColor*)deeperColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier
- {
- CGFloat h,s,b,a;
- 
- NSAppearance* current = NSAppearance.currentAppearance;
- NSAppearance.currentAppearance = appearance;
- [[self colorUsingColorSpace:NSColorSpace.deviceRGBColorSpace] getHue:&h saturation:&s brightness:&b alpha:&a];
- NSAppearance.currentAppearance = current;
- 
- s *= 1.5;
- 
- return [NSColor colorWithHue:h saturation:s brightness:b alpha:a];
- }
- 
- - (NSColor*)shallowerColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier
- {
- CGFloat h,s,b,a;
- 
- NSAppearance* current = NSAppearance.currentAppearance;
- NSAppearance.currentAppearance = appearance;
- [[self colorUsingColorSpace:NSColorSpace.deviceRGBColorSpace] getHue:&h saturation:&s brightness:&b alpha:&a];
- NSAppearance.currentAppearance = current;
- 
- s *= 0.5;
- 
- return [NSColor colorWithHue:h saturation:s brightness:b alpha:a];
- }
- */
+- (NSColor*)darkerColorWithModifier:(CGFloat)modifier
+{
+	NSColor* modifierColor = NSColor.blackColor;
+	return [self interpolateToValue:modifierColor progress:modifier];
+}
+
+- (NSColor*)lighterColorWithModifier:(CGFloat)modifier
+{
+	NSColor* modifierColor = NSColor.whiteColor;
+	return [self interpolateToValue:modifierColor progress:modifier];
+}
 
 + (NSColor*)randomColorWithSeed:(NSString*)seed;
 {
@@ -150,6 +132,36 @@ DTX_NAMED_COLOR_IMPL(pasteboardTypeTextColor)
 	s = l > 0 ? 2 * t / b : 0;
 	
 	return [NSColor colorWithHue:h saturation:s brightness:b alpha:1.0];
+}
+
+- (NSColor *)invertedColor
+{
+	CGFloat r,g,b,a;
+	[[self colorUsingColorSpace:NSColorSpace.deviceRGBColorSpace] getRed:&r green:&g blue:&b alpha:&a];	
+	return [NSColor colorWithRed:1.0 - r green:1.0 - g blue:1.0 - b alpha:a];
+}
+
+- (BOOL)isDarkColor
+{
+	size_t count = CGColorGetNumberOfComponents(self.CGColor);
+	const CGFloat *componentColors = CGColorGetComponents(self.CGColor);
+	
+	CGFloat darknessScore = 0;
+	if(count == 2)
+	{
+		darknessScore = (((componentColors[0] * 255) * 299) + ((componentColors[0] * 255) * 587) + ((componentColors[0] * 255) * 114)) / 1000;
+	}
+	else if(count == 4)
+	{
+		darknessScore = (((componentColors[0] * 255) * 299) + ((componentColors[1] * 255) * 587) + ((componentColors[2] * 255) * 114)) / 1000;
+	}
+	
+	if (darknessScore >= 125)
+	{
+		return NO;
+	}
+	
+	return YES;
 }
 
 @end
