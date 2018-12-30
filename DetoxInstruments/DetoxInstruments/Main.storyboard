@@ -587,12 +587,7 @@ CA
                                         <menuItem title="Show Timeline Labels" keyEquivalent="l" identifier="ShowSampleLabels" id="IFp-xu-wKG">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
-                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="M71-1d-0HY">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
-                                                <binding destination="Cwl-eS-uXO" name="value" keyPath="values.DTXPlotSettingsDisplayLabels" id="NuC-a3-eHa"/>
+                                                <action selector="toggleShowTimelineLabels:" target="Voe-Tx-rLC" id="ni0-Dd-aJY"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="7yg-ym-SoN"/>
@@ -665,6 +660,7 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="showDiscoveryHelp:" target="Voe-Tx-rLC" id="SMJ-rq-gpX"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="9gw-ml-ppW"/>
                                                 <binding destination="Voe-Tx-rLC" name="hidden2" keyPath="hasNoDocumentWindowOpen" previousBinding="9gw-ml-ppW" id="ONj-VY-Ozk">
                                                     <dictionary key="options">
                                                         <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -673,7 +669,6 @@ CA
                                                         <integer key="NSNullPlaceholder" value="-1"/>
                                                     </dictionary>
                                                 </binding>
-                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="9gw-ml-ppW"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Current Instrument Help" keyEquivalent="?" id="Lrz-0s-2Nu">

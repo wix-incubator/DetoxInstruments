@@ -256,6 +256,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+	NSLog(@"menuItem: %@", menuItem);
+	
 	if(menuItem.action == @selector(checkForUpdates:))
 	{
 		BOOL canCheckForUpdates = [self updaterMayCheckForUpdates:_updater];
@@ -269,6 +271,22 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 #if ! DEBUG
 		menuItem.hidden = YES;
 #endif
+		
+		return YES;
+	}
+	
+	if(menuItem.action == @selector(toggleShowTimelineLabels:))
+	{
+		if(_hasAtLeastRecordingDocumentWindowOpen == NO)
+		{
+			menuItem.hidden = YES;
+			
+			return NO;
+		}
+		
+		BOOL toggled = [NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"];
+		
+		menuItem.title =  toggled ? NSLocalizedString(@"Hide Timeline Labels", @"") : NSLocalizedString(@"Show Timeline Labels", @"");
 		
 		return YES;
 	}
@@ -293,6 +311,11 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 - (IBAction)checkForUpdates:(id)sender
 {
 	[_updater checkForUpdates:sender];
+}
+
+- (IBAction)toggleShowTimelineLabels:(id)sender
+{
+	[NSUserDefaults.standardUserDefaults setBool:![NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"] forKey:@"DTXPlotSettingsDisplayLabels"];
 }
 
 #pragma mark SUUpdaterDelegate
