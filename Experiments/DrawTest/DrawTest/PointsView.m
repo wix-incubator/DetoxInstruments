@@ -29,7 +29,7 @@
 	_maxHeight = [[_points valueForKeyPath:@"@max.value"] doubleValue];
 	_length = [_points.lastObject[@"position"] doubleValue];
 	
-	for(NSUInteger idx = 0; idx < 0; idx++)
+	for(NSUInteger idx = 0; idx < 50; idx++)
 	{
 		[points enumerateObjectsUsingBlock:^(NSDictionary* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			NSDictionary* point = @{@"value": obj[@"value"], @"position": @([obj[@"position"] doubleValue] + _length)};
@@ -51,10 +51,7 @@
 
 - (NSSize)intrinsicContentSize
 {
-	NSTableView* tv = (id)[[[self superview] superview] superview];
-	NSInteger row = [tv rowForView:self];
-	
-	return NSMakeSize(NSViewNoIntrinsicMetric, row == 0 ? 80 : 22);
+	return NSMakeSize(NSViewNoIntrinsicMetric, 80);
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -86,7 +83,7 @@
 //	DTX_ADD_POINT(first, path, awaiting);
 	linesDrawn+=1;
 	
-	NSUInteger test = floor(MAX(1.0, _points.count / (selfBounds.size.width * 0.25)));
+	NSUInteger test = 1;//floor(MAX(1.0, _points.count / (selfBounds.size.width * 0.25)));
 	NSLog(@"test: %lu", test);
 	
 	for(NSUInteger idx = 0; idx < _points.count; idx += test)

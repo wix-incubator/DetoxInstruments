@@ -740,7 +740,7 @@
                                                             <rect key="frame" x="1" y="1" width="445" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="O9f-dH-LN3" customClass="PointsView">
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="O9f-dH-LN3" customClass="LayerDraw">
                                                                     <rect key="frame" x="0.0" y="0.0" width="445" height="17"/>
                                                                 </customView>
                                                             </subviews>

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "396B087C21D4C138008CAEC3"
-               BuildableName = "SKTest.app"
-               BlueprintName = "SKTest"
-               ReferencedContainer = "container:SKTest.xcodeproj">
+               BlueprintIdentifier = "397FF7D821CBCF3B007BE2A0"
+               BuildableName = "DrawTest.app"
+               BlueprintName = "DrawTest"
+               ReferencedContainer = "container:DrawTest.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "396B087C21D4C138008CAEC3"
-            BuildableName = "SKTest.app"
-            BlueprintName = "SKTest"
-            ReferencedContainer = "container:SKTest.xcodeproj">
+            BlueprintIdentifier = "397FF7D821CBCF3B007BE2A0"
+            BuildableName = "DrawTest.app"
+            BlueprintName = "DrawTest"
+            ReferencedContainer = "container:DrawTest.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -55,17 +55,37 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "396B087C21D4C138008CAEC3"
-            BuildableName = "SKTest.app"
-            BlueprintName = "SKTest"
-            ReferencedContainer = "container:SKTest.xcodeproj">
+            BlueprintIdentifier = "397FF7D821CBCF3B007BE2A0"
+            BuildableName = "DrawTest.app"
+            BlueprintName = "DrawTest"
+            ReferencedContainer = "container:DrawTest.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "CG_NUMERICS_SHOW_BACKTRACE"
+            key = "CG_CONTEXT_SHOW_BACKTRACE"
             value = ""
-            isEnabled = "YES">
+            isEnabled = "NO">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CA_LAYER_SURFACE"
+            value = "1"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CA_COLOR_FLUSH"
+            value = "1"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CA_COLOR_OFFSCREEN"
+            value = "1"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CA_COLOR_OPAQUE"
+            value = "1"
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>
@@ -81,10 +101,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "396B087C21D4C138008CAEC3"
-            BuildableName = "SKTest.app"
-            BlueprintName = "SKTest"
-            ReferencedContainer = "container:SKTest.xcodeproj">
+            BlueprintIdentifier = "397FF7D821CBCF3B007BE2A0"
+            BuildableName = "DrawTest.app"
+            BlueprintName = "DrawTest"
+            ReferencedContainer = "container:DrawTest.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

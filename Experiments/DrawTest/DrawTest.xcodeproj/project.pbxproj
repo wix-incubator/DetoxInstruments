@@ -16,6 +16,10 @@
 		397FF7E321CBCF3C007BE2A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397FF7E221CBCF3C007BE2A0 /* Assets.xcassets */; };
 		397FF7E621CBCF3C007BE2A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 397FF7E421CBCF3C007BE2A0 /* Main.storyboard */; };
 		397FF7E921CBCF3C007BE2A0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FF7E821CBCF3C007BE2A0 /* main.m */; };
+		398EDB7B21D6F59900BBBAD2 /* LayerDraw.m in Sources */ = {isa = PBXBuildFile; fileRef = 398EDB7A21D6F59900BBBAD2 /* LayerDraw.m */; };
+		39E88C6321D7132600339954 /* SceneDraw.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E88C6221D7132600339954 /* SceneDraw.m */; };
+		39E88C6621D7B17E00339954 /* ShapeLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E88C6521D7B17E00339954 /* ShapeLayerView.m */; };
+		39E88C6F21D7C22500339954 /* PointsDataset2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39E88C6E21D7C22500339954 /* PointsDataset2.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +39,13 @@
 		397FF7E721CBCF3C007BE2A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		397FF7E821CBCF3C007BE2A0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		397FF7EA21CBCF3C007BE2A0 /* DrawTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DrawTest.entitlements; sourceTree = "<group>"; };
+		398EDB7921D6F59900BBBAD2 /* LayerDraw.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LayerDraw.h; sourceTree = "<group>"; };
+		398EDB7A21D6F59900BBBAD2 /* LayerDraw.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LayerDraw.m; sourceTree = "<group>"; wrapsLines = 1; };
+		39E88C6121D7132600339954 /* SceneDraw.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDraw.h; sourceTree = "<group>"; };
+		39E88C6221D7132600339954 /* SceneDraw.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDraw.m; sourceTree = "<group>"; };
+		39E88C6421D7B17E00339954 /* ShapeLayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShapeLayerView.h; sourceTree = "<group>"; };
+		39E88C6521D7B17E00339954 /* ShapeLayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShapeLayerView.m; sourceTree = "<group>"; };
+		39E88C6E21D7C22500339954 /* PointsDataset2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PointsDataset2.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +91,15 @@
 				393B2AFE21CEF69200F2BC74 /* DrawingView.h */,
 				393B2AFF21CEF69200F2BC74 /* DrawingView.m */,
 				394CD5E521D389A600154CBE /* PointsDataset.plist */,
+				39E88C6E21D7C22500339954 /* PointsDataset2.plist */,
 				3967E46521D38923009B33A1 /* PointsView.h */,
 				3967E46621D38923009B33A1 /* PointsView.m */,
+				398EDB7921D6F59900BBBAD2 /* LayerDraw.h */,
+				398EDB7A21D6F59900BBBAD2 /* LayerDraw.m */,
+				39E88C6121D7132600339954 /* SceneDraw.h */,
+				39E88C6221D7132600339954 /* SceneDraw.m */,
+				39E88C6421D7B17E00339954 /* ShapeLayerView.h */,
+				39E88C6521D7B17E00339954 /* ShapeLayerView.m */,
 			);
 			path = DrawTest;
 			sourceTree = "<group>";
@@ -149,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				394CD5E621D389A600154CBE /* PointsDataset.plist in Resources */,
+				39E88C6F21D7C22500339954 /* PointsDataset2.plist in Resources */,
 				3978A59421D0A25A00B739E2 /* Dataset.plist in Resources */,
 				397FF7E321CBCF3C007BE2A0 /* Assets.xcassets in Resources */,
 				397FF7E621CBCF3C007BE2A0 /* Main.storyboard in Resources */,
@@ -162,9 +181,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39E88C6321D7132600339954 /* SceneDraw.m in Sources */,
 				397FF7E121CBCF3B007BE2A0 /* ViewController.m in Sources */,
 				397FF7E921CBCF3C007BE2A0 /* main.m in Sources */,
 				397FF7DE21CBCF3B007BE2A0 /* AppDelegate.m in Sources */,
+				39E88C6621D7B17E00339954 /* ShapeLayerView.m in Sources */,
+				398EDB7B21D6F59900BBBAD2 /* LayerDraw.m in Sources */,
 				393B2B0021CEF69200F2BC74 /* DrawingView.m in Sources */,
 				3967E46721D38923009B33A1 /* PointsView.m in Sources */,
 			);
