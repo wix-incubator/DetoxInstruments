@@ -61,4 +61,8 @@
 - (void)reloadData;
 @property (nonatomic) BOOL isDataLoaded;
 
+@property (getter=isFlipped, readwrite) BOOL flipped;
+
+@property (nonatomic) NSUInteger plotIndex;
+
 @end

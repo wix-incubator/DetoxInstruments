@@ -42,7 +42,7 @@
 
 @end
 
-@interface DTXIntervalSamplePlotController () <DTXRangePlotViewDelegate, DTXRangePlotViewDataSource, CPTRangePlotDataSource, CPTRangePlotDelegate, NSFetchedResultsControllerDelegate, DTXFilteredDataProviderDelegate>
+@interface DTXIntervalSamplePlotController () <DTXRangePlotViewDelegate, DTXRangePlotViewDataSource, NSFetchedResultsControllerDelegate, DTXFilteredDataProviderDelegate>
 {
 	NSFetchedResultsController<DTXSample*>* _frc;
 	
@@ -109,28 +109,6 @@
 	[_frc performFetch:NULL];
 	
 	[self _prepareMergedSamples];
-	
-	[_plotView reloadData];
-}
-
-- (void)_updateAnnotationColors:(NSArray<DTXPlotViewAnnotation*>*)annotations
-{
-	[annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull annotation, NSUInteger idx, BOOL * _Nonnull stop) {
-		if(self.wrapperView.effectiveAppearance.isDarkAppearance)
-		{
-			annotation.color = NSColor.whiteColor;
-		}
-		else
-		{
-			annotation.color = self.plotColors.firstObject;
-		}
-	}];
-}
-
-- (void)updateLayerHandler
-{
-	[self _updateAnnotationColors:_plotView.annotations];
-	_plotView.annotations = _plotView.annotations;
 	
 	[_plotView reloadData];
 }
@@ -251,9 +229,16 @@
 	
 }
 
+- (CPTPlotRange*)plotRangeForSample:(DTXSample*) sample
+{
+	NSTimeInterval timestamp =  sample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
+	NSTimeInterval responseTimestamp = [self endTimestampForSample:sample].timeIntervalSinceReferenceDate  - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
+	return [CPTPlotRange plotRangeWithLocation:@(timestamp) length:@(responseTimestamp - timestamp)];
+}
+
 - (void)highlightSample:(DTXSample*)sample
 {
-	[self removeHighlight];
+	[super highlightSample:sample];
 	
 	NSIndexPath* ip = _sampleMapping[sample.sampleIdentifier];
 	NSUInteger indexOfIndexPath = [_indexPathIndexMapping[ip] unsignedIntegerValue];
@@ -261,100 +246,19 @@
 	NSUInteger prevSelectedIndex = _selectedIndex;
 	_selectedIndex = indexOfIndexPath;
 	
+	if(prevSelectedIndex != NSNotFound)
+	{
+		[_plotView reloadRangeAtIndex:prevSelectedIndex];
+	}
+	
 	if(_selectedIndex != NSNotFound)
 	{
 		[_plotView reloadRangeAtIndex:_selectedIndex];
-		if(prevSelectedIndex != NSNotFound)
-		{
-			[_plotView reloadRangeAtIndex:prevSelectedIndex];
-		}
-	}
-	else
-	{
-		[_plotView reloadData];
-	}
-	
-	NSTimeInterval timestamp =  sample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
-	NSTimeInterval responseTimestamp = [self endTimestampForSample:sample].timeIntervalSinceReferenceDate  - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
-	CPTPlotRange* range = [CPTPlotRange plotRangeWithLocation:@(timestamp) length:@(responseTimestamp - timestamp)];
-	[self.delegate plotController:self didHighlightRange:range];
-	
-	[self _highlightRange:range nofityDelegate:NO removePreviousHighlight:NO];
-}
-
-- (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime
-{
-	[self removeHighlight];
-	
-	DTXPlotViewLineAnnotation* annotation = [DTXPlotViewLineAnnotation new];
-	annotation.position = sampleTime;
-	
-	NSArray* annotations = @[annotation];
-	[self _updateAnnotationColors:annotations];
-	
-	_plotView.annotations = annotations;
-}
-
-- (void)highlightRange:(CPTPlotRange*)range
-{
-	[self _highlightRange:range nofityDelegate:YES removePreviousHighlight:YES];
-}
-
-- (void)shadowHighlightRange:(CPTPlotRange*)range
-{
-	[self _highlightRange:range nofityDelegate:NO removePreviousHighlight:YES];
-}
-
-- (void)_highlightRange:(CPTPlotRange*)range nofityDelegate:(BOOL)notifyDelegate removePreviousHighlight:(BOOL)removePreviousHighlight
-{
-	if(removePreviousHighlight)
-	{
-		[self removeHighlight];
-	}
-	
-	DTXPlotViewLineAnnotation* annotation1 = [DTXPlotViewLineAnnotation new];
-	annotation1.position = range.locationDouble;
-	annotation1.color = NSColor.textColor;
-	if(self.isForTouchBar == NO)
-	{
-		annotation1.opacity = 0.3;
-	}
-	
-	NSMutableArray* annotations = [NSMutableArray arrayWithObject:annotation1];
-	
-	if(range.length)
-	{
-		DTXPlotViewLineAnnotation* annotation2 = [DTXPlotViewLineAnnotation new];
-		annotation2.position = range.locationDouble + range.lengthDouble;
-		annotation2.color = NSColor.textColor;
-		if(self.isForTouchBar == NO)
-		{
-			annotation2.opacity = 0.3;
-		}
-		
-		[annotations addObject:annotation2];
-	}
-	
-	[self _updateAnnotationColors:annotations];
-	
-	_plotView.annotations = annotations;
-	
-	if(notifyDelegate)
-	{
-		[self.delegate plotController:self didHighlightRange:range];
 	}
 }
-
 
 - (void)removeHighlight
 {
-	[self _removeHighlightNotifyDelegate:NO];
-}
-
-- (void)_removeHighlightNotifyDelegate:(BOOL)notify
-{
-	_plotView.annotations = nil;
-	
 	if(_selectedIndex != NSNotFound)
 	{
 		NSUInteger prevSelectedIndex = _selectedIndex;
@@ -363,10 +267,7 @@
 		[_plotView reloadRangeAtIndex:prevSelectedIndex];
 	}
 	
-	if(notify)
-	{
-		[self.delegate plotControllerDidRemoveHighlight:self];
-	}
+	[super removeHighlight];
 }
 
 - (NSEdgeInsets)rangeInsets
@@ -418,7 +319,7 @@
 
 - (void)_resetAfterFilter
 {
-	[self _removeHighlightNotifyDelegate:YES];
+	[self removeHighlight];
 	[self.delegate plotControllerDidRemoveHighlight:self];
 	
 	[_plotView reloadData];
@@ -475,7 +376,7 @@
 	}
 	
 	BOOL wantsTitles = [NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"];
-	_plotView.lineHeight = wantsTitles ? 3.0 : DTXRangePlotViewDefaultLineHeight;
+	_plotView.lineWidth = wantsTitles ? 3.0 : DTXRangePlotViewDefaultLineWidth;
 	_plotView.drawTitles = wantsTitles;
 }
 
@@ -488,6 +389,11 @@
 		{
 			_plotView.lineSpacing = 0.0;
 		}
+		else
+		{
+			_plotView.minimumHeight = 80;
+		}
+		
 		_plotView.translatesAutoresizingMaskIntoConstraints = NO;
 		_plotView.dataSource = self;
 		
@@ -504,9 +410,9 @@
 	return _sampleIndices.count;
 }
 
-- (DTXRange *)plotView:(DTXRangePlotView *)plotView rangeAtIndex:(NSUInteger)idx
+- (DTXRangePlotViewRange *)plotView:(DTXRangePlotView *)plotView rangeAtIndex:(NSUInteger)idx
 {
-	DTXRange* rv = [DTXRange new];
+	DTXRangePlotViewRange* rv = [DTXRangePlotViewRange new];
 	
 	NSIndexPath* indexPath = _sampleIndices[idx];
 	

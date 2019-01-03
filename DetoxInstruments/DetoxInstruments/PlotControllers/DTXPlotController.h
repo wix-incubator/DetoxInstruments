@@ -18,7 +18,6 @@
 
 - (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange;
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc;
-- (void)plotController:(id<DTXPlotController>)pc didHighlightAtSampleTime:(NSTimeInterval)sampleTime;
 - (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(CPTPlotRange*)highlightRange;
 - (void)plotControllerDidRemoveHighlight:(id<DTXPlotController>)pc;
 
@@ -76,8 +75,6 @@
 @property (nonatomic, weak) id<DTXPlotControllerSampleClickHandlingDelegate> sampleClickDelegate;
 
 - (void)highlightSample:(id)sample;
-- (void)shadowHighlightAtSampleTime:(NSTimeInterval)sampleTime;
-- (void)highlightRange:(CPTPlotRange*)range;
 - (void)shadowHighlightRange:(CPTPlotRange*)range;
 - (void)removeHighlight;
 

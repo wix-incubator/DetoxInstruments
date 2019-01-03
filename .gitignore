@@ -72,3 +72,5 @@ Distribution/DetoxInstruments*.zip
 Distribution/Export
 Distribution/_tmp_release_notes.md
 yarn.lock
+/Documentation/Example Recording/exampleRN.dtxprof/.preferences.plist
+/Documentation/Example Recording/example.dtxprof/.preferences.plist

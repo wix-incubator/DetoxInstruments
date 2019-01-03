@@ -13,6 +13,7 @@
 		3902CB092114976300C49D04 /* DTXBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3902CB082114976300C49D04 /* DTXBox.m */; };
 		3902F3461EF4F2BF000CB397 /* DTXLogDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3902F3451EF4F2BF000CB397 /* DTXLogDataProvider.m */; };
 		3902F3571EF503DD000CB397 /* DTXInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3902F3561EF503DD000CB397 /* DTXInspectorDataProvider.m */; };
+		390350D321DA1EC0001AA3E6 /* DTXPlotStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 390350D221DA1EC0001AA3E6 /* DTXPlotStackView.m */; };
 		3903F377208F29D300B73E5D /* DTXDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3903F376208F29D300B73E5D /* DTXDetailController.m */; };
 		3903F37A208F38E500B73E5D /* DTXLogDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3903F379208F38E500B73E5D /* DTXLogDetailController.m */; };
 		3903F37D208F4C3700B73E5D /* DTXOutlineDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3903F37C208F4C3700B73E5D /* DTXOutlineDetailController.m */; };
@@ -196,6 +197,7 @@
 		39E3B7112097A7B6006F9D43 /* DTXPasteboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E3B7102097A7B6006F9D43 /* DTXPasteboardViewController.m */; };
 		39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */; };
 		39E70FD821B9620900272188 /* DTXEntitySampleContainerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E70FD721B9620900272188 /* DTXEntitySampleContainerProxy.m */; };
+		39E88CA521D9132100339954 /* DTXScatterPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E88CA421D9132100339954 /* DTXScatterPlotView.m */; };
 		39EA56C120DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA56C020DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.m */; };
 		39EA56C420DFEA1800600BA7 /* DTXSignpostDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA56C320DFEA1800600BA7 /* DTXSignpostDataProvider.m */; };
 		39EA56ED20E02E4B00600BA7 /* NSAppearance+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA56D420E02E4B00600BA7 /* NSAppearance+UIAdditions.m */; };
@@ -459,6 +461,9 @@
 		3902F3451EF4F2BF000CB397 /* DTXLogDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLogDataProvider.m; sourceTree = "<group>"; };
 		3902F3551EF503DD000CB397 /* DTXInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXInspectorDataProvider.h; sourceTree = "<group>"; };
 		3902F3561EF503DD000CB397 /* DTXInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXInspectorDataProvider.m; sourceTree = "<group>"; };
+		390350D121DA1EC0001AA3E6 /* DTXPlotStackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotStackView.h; sourceTree = "<group>"; };
+		390350D221DA1EC0001AA3E6 /* DTXPlotStackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotStackView.m; sourceTree = "<group>"; };
+		390350D421DA1F2E001AA3E6 /* DTXScatterPlotView-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXScatterPlotView-Private.h"; sourceTree = "<group>"; };
 		3903F375208F29D300B73E5D /* DTXDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDetailController.h; sourceTree = "<group>"; };
 		3903F376208F29D300B73E5D /* DTXDetailController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDetailController.m; sourceTree = "<group>"; };
 		3903F378208F38E500B73E5D /* DTXLogDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLogDetailController.h; sourceTree = "<group>"; };
@@ -784,6 +789,7 @@
 		39D76E7A2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXUserDefaultsViewController.m; sourceTree = "<group>"; };
 		39D76E7C2086B6F00033BDE2 /* DTXProfilingTargetManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilingTargetManagement.h; sourceTree = "<group>"; };
 		39D76E9B2086B83B0033BDE2 /* LNPropertyListEditor.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNPropertyListEditor.xcodeproj; path = LNPropertyListEditor/LNPropertyListEditor/LNPropertyListEditor.xcodeproj; sourceTree = SOURCE_ROOT; };
+		39D9861021DD794100AFC48B /* DTXPlotView-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXPlotView-Private.h"; sourceTree = "<group>"; };
 		39DABB8F21BAEB8D002653EE /* DTXSignpostNestedRootProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostNestedRootProxy.h; sourceTree = "<group>"; };
 		39DABB9021BAEB8D002653EE /* DTXSignpostNestedRootProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostNestedRootProxy.m; sourceTree = "<group>"; };
 		39DABB9321BAFF33002653EE /* DTXSignpostCategoryProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostCategoryProxy.m; sourceTree = "<group>"; };
@@ -811,6 +817,8 @@
 		39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXIntervalSamplePlotController.m; sourceTree = "<group>"; };
 		39E70FD621B9620900272188 /* DTXEntitySampleContainerProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEntitySampleContainerProxy.h; sourceTree = "<group>"; };
 		39E70FD721B9620900272188 /* DTXEntitySampleContainerProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXEntitySampleContainerProxy.m; sourceTree = "<group>"; };
+		39E88CA321D9132100339954 /* DTXScatterPlotView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXScatterPlotView.h; sourceTree = "<group>"; };
+		39E88CA421D9132100339954 /* DTXScatterPlotView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXScatterPlotView.m; sourceTree = "<group>"; };
 		39EA56BF20DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXSignpostSample+UIExtensions.h"; sourceTree = "<group>"; };
 		39EA56C020DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXSignpostSample+UIExtensions.m"; sourceTree = "<group>"; };
 		39EA56C220DFEA1800600BA7 /* DTXSignpostDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostDataProvider.h; sourceTree = "<group>"; };
@@ -1318,9 +1326,15 @@
 			isa = PBXGroup;
 			children = (
 				3978A58D21D09C3B00B739E2 /* DTXPlotView.h */,
+				39D9861021DD794100AFC48B /* DTXPlotView-Private.h */,
 				3978A58E21D09C3B00B739E2 /* DTXPlotView.m */,
 				3978A59021D09C7600B739E2 /* DTXRangePlotView.h */,
 				3978A59121D09C7600B739E2 /* DTXRangePlotView.m */,
+				39E88CA321D9132100339954 /* DTXScatterPlotView.h */,
+				390350D421DA1F2E001AA3E6 /* DTXScatterPlotView-Private.h */,
+				39E88CA421D9132100339954 /* DTXScatterPlotView.m */,
+				390350D121DA1EC0001AA3E6 /* DTXPlotStackView.h */,
+				390350D221DA1EC0001AA3E6 /* DTXPlotStackView.m */,
 			);
 			path = Plots;
 			sourceTree = "<group>";
@@ -1998,7 +2012,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n# If a code signing identity is not specified, use ad hoc signing\nIDENTITY=\"-\"\nfi\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n";
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n# If a code signing identity is not specified, use ad hoc signing\nIDENTITY=\"-\"\nfi\necho codesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\necho codesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n";
 			showEnvVarsInLog = 0;
 		};
 		398922FC1F3F2EA600129537 /* Update Build Numbers */ = {
@@ -2113,6 +2127,7 @@
 				39EE1F581F3E4411002CB6C1 /* DTXRNBridgeCallsDataProvider.m in Sources */,
 				3972E67C2069544900F099DE /* DTXAcknowledgementsViewController.m in Sources */,
 				399E733420919A52006EAD6E /* DTXPlotRowView.m in Sources */,
+				39E88CA521D9132100339954 /* DTXScatterPlotView.m in Sources */,
 				3939248721ADF4600015A15F /* NSMapTable+Subscripting.m in Sources */,
 				3940940D20AB130000667765 /* DTXWindowController+DocumentationGeneration.m in Sources */,
 				394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */,
@@ -2170,6 +2185,7 @@
 				3943CA951EEEFB3F0009AD88 /* DTXDiskDataProvider.m in Sources */,
 				39C6A8F51EE1E757000E2EE1 /* DTXPlotTableView.m in Sources */,
 				396202361EEF4A9C00D04E96 /* DTXCPTRangePlot.m in Sources */,
+				390350D321DA1EC0001AA3E6 /* DTXPlotStackView.m in Sources */,
 				3982D87421B4205C005FCAEF /* DTXSampleDataExporter.m in Sources */,
 				3982D86821B41D35005FCAEF /* DTXMemoryUsageDataExporter.m in Sources */,
 				39E2642321B02C3000A21256 /* DTXKeyedDataExporter.m in Sources */,
@@ -2277,7 +2293,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -2306,7 +2322,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2333,7 +2349,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -2361,7 +2377,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;

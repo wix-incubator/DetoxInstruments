@@ -23,7 +23,6 @@
 	DTXTimelineIndicatorView* _timelineView;
 	CPTPlotRange* _savedPlotRange;
 	CPTPlotRange* _savedGlobalPlotRange;
-	NSNumber* _savedHighlight;
 	CPTPlotRange* _savedHighlightRange;
 	
 	id<DTXPlotController> _currentlySelectedPlotController;
@@ -123,11 +122,6 @@
 		[_touchBarPlotController setPlotRange:_savedPlotRange];
 	}
 	
-	if(_savedHighlight)
-	{
-		[_touchBarPlotController shadowHighlightAtSampleTime:_savedHighlight.doubleValue];
-	}
-	
 	if(_savedHighlightRange)
 	{
 		[_touchBarPlotController shadowHighlightRange:_savedHighlightRange];
@@ -184,11 +178,6 @@
 	if(_savedPlotRange)
 	{
 		[plotController setPlotRange:_savedPlotRange];
-	}
-	
-	if(_savedHighlight)
-	{
-		[plotController shadowHighlightAtSampleTime:_savedHighlight.doubleValue];
 	}
 	
 	if(_savedHighlightRange)
@@ -506,15 +495,9 @@
 
 #pragma mark DTXPlotControllerDelegate
 
-static BOOL __uglyHackTODOFixThis()
-{
-	//TODO: Fix
-	return [[[NSThread callStackSymbols] description] containsString:@"CPTAnimation"];
-}
-
 - (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange
 {
-	if(_ignoringPlotRangeNotificationsCount > 0 || __uglyHackTODOFixThis())
+	if(_ignoringPlotRangeNotificationsCount > 0)
 	{
 		return;
 	}
@@ -545,28 +528,6 @@ static BOOL __uglyHackTODOFixThis()
 	_ignoringPlotRangeNotificationsCount --;
 }
 
-- (void)plotController:(id<DTXPlotController>)pc didHighlightAtSampleTime:(NSTimeInterval)sampleTime
-{
-	_savedHighlight = @(sampleTime);
-	
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
-		if(obj == pc)
-		{
-			return;
-		}
-		
-		if([obj respondsToSelector:@selector(shadowHighlightAtSampleTime:)])
-		{
-			[obj shadowHighlightAtSampleTime:sampleTime];
-		}
-	}];
-	
-	if([_touchBarPlotController respondsToSelector:@selector(shadowHighlightAtSampleTime:)])
-	{
-		[_touchBarPlotController shadowHighlightAtSampleTime:sampleTime];
-	}
-}
-
 - (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(CPTPlotRange*)highlightRange
 {
 	_savedHighlightRange = highlightRange;
@@ -577,13 +538,13 @@ static BOOL __uglyHackTODOFixThis()
 			return;
 		}
 		
-		if([obj respondsToSelector:@selector(shadowHighlightAtSampleTime:)])
+		if([obj respondsToSelector:@selector(shadowHighlightRange:)])
 		{
 			[obj shadowHighlightRange:highlightRange];
 		}
 	}];
 	
-	if([_touchBarPlotController respondsToSelector:@selector(shadowHighlightAtSampleTime:)])
+	if([_touchBarPlotController respondsToSelector:@selector(shadowHighlightRange:)])
 	{
 		[_touchBarPlotController shadowHighlightRange:highlightRange];
 	}
@@ -591,7 +552,6 @@ static BOOL __uglyHackTODOFixThis()
 
 - (void)plotControllerDidRemoveHighlight:(id<DTXPlotController>)pc
 {
-	_savedHighlight = nil;
 	_savedHighlightRange = nil;
 	
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {

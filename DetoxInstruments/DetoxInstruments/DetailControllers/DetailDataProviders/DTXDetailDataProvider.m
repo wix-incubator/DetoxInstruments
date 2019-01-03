@@ -501,19 +501,8 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	if(_ignoresSelections == NO)
 	{
-		if([item isKindOfClass:[DTXSampleContainerProxy class]] == NO)
-		{
-			[_plotController highlightSample:item];
-		}
-		else
-		{
-			id<DTXSignpost> groupProxy = item;
-			
-			NSDate* groupCloseTimestamp = groupProxy.endTimestamp ?: [groupProxy.timestamp dateByAddingTimeInterval:1];
-			
-			CPTPlotRange* groupRange = [CPTPlotRange plotRangeWithLocation:@(groupProxy.timestamp.timeIntervalSinceReferenceDate - _document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate) length:@(groupCloseTimestamp.timeIntervalSinceReferenceDate - groupProxy.timestamp.timeIntervalSinceReferenceDate)];
-			[_plotController highlightRange:groupRange];
-		}
+		//TODO: Handle ranges again, sorry!
+		[_plotController highlightSample:item];
 	}
 	
 	//These are to fix a scrolling bug in the outline view.

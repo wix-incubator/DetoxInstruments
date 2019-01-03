@@ -6,13 +6,28 @@
 //  Copyright © 2018 Wix. All rights reserved.
 //
 
-#import "DTXPlotView.h"
+#import "DTXPlotView-Private.h"
+#import "NSAppearance+UIAdditions.h"
 @import QuartzCore;
 
-@interface DTXNoAnimationLayer : CALayer @end
-@implementation DTXNoAnimationLayer
+@implementation _DTXDrawingZone
 
--(id<CAAction>)actionForKey:(nonnull NSString *)aKey
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p> type: %@ start: %.5f next: %p", self.className, self, @(_drawingType), _start, _nextZone];
+}
+
+@end
+
+@interface _DTXAnnotationBox : NSBox @end
+@implementation _DTXAnnotationBox
+
+- (BOOL)acceptsFirstResponder
+{
+	return NO;
+}
+
+- (NSView *)hitTest:(NSPoint)aPoint
 {
 	return nil;
 }
@@ -40,8 +55,12 @@
 	BOOL _mouseClicked;
 	NSClickGestureRecognizer* _cgr;
 	
-	NSArray<CALayer*>* _annotationLayers;
+	NSArray<NSView*>* _annotationViews;
+	
+	BOOL _hasRangeAnnotations;
 }
+
+@synthesize flipped=_flipped;
 
 - (instancetype)initWithFrame:(NSRect)frameRect
 {
@@ -57,8 +76,8 @@
 		[self setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
 		
 		_minimumHeight = -1;
-	}
 	
+	}
 	return self;
 }
 
@@ -113,32 +132,70 @@
 	}
 }
 
-- (CALayer*)_layerForAnnotation:(DTXPlotViewAnnotation*)annotation
+- (NSView*)_viewForAnnotation:(DTXPlotViewAnnotation*)annotation
 {
-	CALayer* layer = DTXNoAnimationLayer.layer;
-	layer.backgroundColor = annotation.color.CGColor;
-	layer.opacity = annotation.opacity;
-	[self.layer addSublayer:layer];
-	return layer;
+	NSView* rv;
+	
+//	if([annotation isKindOfClass:DTXPlotViewRangeAnnotation.class])
+//	{
+////		NSVisualEffectView* ev = [NSVisualEffectView new];
+////		ev.wantsLayer = YES;
+////		if (@available(macOS 10.14, *)) {
+////			ev.material = NSVisualEffectMaterialContentBackground;
+////		} else {
+////			ev.material = NSVisualEffectMaterialAppearanceBased;
+////		}
+////
+////		rv = ev;
+//	}
+//	else
+//	{
+		rv = [NSView new];
+		rv.wantsLayer = YES;
+		[self.effectiveAppearance performBlockAsCurrentAppearance:^{
+			rv.layer.backgroundColor = annotation.color.CGColor;
+		}];
+//	}
+	
+	rv.layer.opacity = annotation.opacity;
+	
+	rv.translatesAutoresizingMaskIntoConstraints = NO;
+	[self addSubview:rv];
+	
+	return rv;
+}
+
+- (BOOL)_hasRangeAnnotations
+{
+	return _hasRangeAnnotations;
 }
 
 - (void)setAnnotations:(NSArray<DTXPlotViewAnnotation *> *)annotations
 {
-	[_annotationLayers enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[obj removeFromSuperlayer];
+	_hasRangeAnnotations = NO;
+	
+	[_annotationViews enumerateObjectsUsingBlock:^(NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj removeFromSuperviewWithoutNeedingDisplay];
 	}];
 	
 	_annotations = annotations;
 	
-	NSMutableArray* layers = [NSMutableArray new];
+	NSMutableArray* views = [NSMutableArray new];
 	for (DTXPlotViewAnnotation* annotation in annotations)
 	{
-		[layers addObject:[self _layerForAnnotation:annotation]];
+		[views addObject:[self _viewForAnnotation:annotation]];
+		
+		if([annotation isKindOfClass:DTXPlotViewRangeAnnotation.class])
+		{
+			_hasRangeAnnotations = YES;
+		}
 	}
 	
-	_annotationLayers = layers;
+	_annotationViews = views;
 	
 	[self _updateAnnotationLayers];
+	
+	[self setNeedsDisplay:YES];
 }
 
 - (void)layout
@@ -162,7 +219,7 @@
 	}
 	
 	[self.annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull annotation, NSUInteger idx, BOOL * _Nonnull stop) {
-		CALayer* layer = _annotationLayers[idx];
+		NSView* view = _annotationViews[idx];
 
 		CPTPlotRange* xRange = self.plotRange;
 		
@@ -176,28 +233,34 @@
 			
 			if(position < selfBounds.origin.x || position > selfBounds.origin.x + selfBounds.size.width)
 			{
-				layer.hidden = YES;
+				view.hidden = YES;
 			}
 			else
 			{
-				layer.hidden = NO;
-				layer.frame = CGRectMake(position, 0, 1, selfBounds.size.height);
+				view.hidden = NO;
+				view.frame = CGRectMake(position, 0, 1, selfBounds.size.height);
 			}
 		}
 		else if(annotation.class == DTXPlotViewRangeAnnotation.class)
 		{
 			DTXPlotViewRangeAnnotation* range = (DTXPlotViewRangeAnnotation*)annotation;
-			CGFloat start = range.start == DBL_MIN ? 0 : offset + graphViewRatio * range.start;
-			CGFloat end = range.end == DBL_MAX ? selfBounds.size.width : offset + graphViewRatio * range.end;
 			
-			if(end < selfBounds.origin.x || start > selfBounds.origin.x + selfBounds.size.width)
+			CGRect innerBounds = selfBounds;// [self.enclosingScrollView convertRect:selfBounds fromView:self];
+			
+			CGFloat start = MAX(innerBounds.origin.x, innerBounds.origin.x + floor(range.start == DBL_MIN ? 0 : offset + graphViewRatio * range.start));
+			CGFloat end = MIN(innerBounds.origin.x + innerBounds.size.width, innerBounds.origin.x + ceil(range.end == DBL_MAX ? innerBounds.size.width : offset + graphViewRatio * range.end));
+			
+			if(end < innerBounds.origin.x || start > innerBounds.origin.x + innerBounds.size.width)
 			{
-				layer.hidden = YES;
+				if(view.isHidden == NO)
+				{
+					view.hidden = YES;
+				}
 			}
 			else
 			{
-				layer.hidden = NO;
-				layer.frame = CGRectMake(start, 0, end - start, selfBounds.size.height);
+				view.hidden = NO;
+				view.frame = CGRectMake(start, 0, end - start, selfBounds.size.height);
 			}
 		}
 	}];

@@ -10,6 +10,7 @@
 #import "DTXLayerView.h"
 #import "DTXGraphHostingView.h"
 #import "DTXTouchBarGraphHostingView.h"
+#import "DTXPlotStackView.h"
 
 @interface DTXPlotHostConstructor : NSObject
 
@@ -24,7 +25,7 @@
 
 #pragma mark Internal Plot Support
 
-@property (nonatomic, strong, readonly) NSStackView* plotStackView;
+@property (nonatomic, strong, readonly) DTXPlotStackView* plotStackView;
 - (void)setupPlotViews;
 
 #pragma mark Core Plot Support

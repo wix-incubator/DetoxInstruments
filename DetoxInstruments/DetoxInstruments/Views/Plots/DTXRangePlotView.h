@@ -8,10 +8,10 @@
 
 #import "DTXPlotView.h"
 
-extern const CGFloat DTXRangePlotViewDefaultLineHeight;
+extern const CGFloat DTXRangePlotViewDefaultLineWidth;
 extern const CGFloat DTXRangePlotViewDefaultLineSpacing;
 
-@interface DTXRange : NSObject
+@interface DTXRangePlotViewRange : NSObject
 
 @property (nonatomic) CGFloat start;
 @property (nonatomic) CGFloat end;
@@ -32,7 +32,7 @@ extern const CGFloat DTXRangePlotViewDefaultLineSpacing;
 
 @protocol DTXRangePlotViewDataSource <DTXPlotViewDataSource>
 
-- (DTXRange*)plotView:(DTXRangePlotView*)plotView rangeAtIndex:(NSUInteger)idx;
+- (DTXRangePlotViewRange*)plotView:(DTXRangePlotView*)plotView rangeAtIndex:(NSUInteger)idx;
 
 @end
 
@@ -41,7 +41,7 @@ extern const CGFloat DTXRangePlotViewDefaultLineSpacing;
 @property (nonatomic, weak) id<DTXRangePlotViewDelegate> delegate;
 @property (nonatomic, weak) id<DTXRangePlotViewDataSource> dataSource;
 
-@property (nonatomic) double lineHeight;
+@property (nonatomic) double lineWidth;
 @property (nonatomic) double lineSpacing;
 
 @property (nonatomic, getter = drawsTitles) BOOL drawTitles;

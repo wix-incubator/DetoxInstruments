@@ -35,10 +35,10 @@
 		
 		if(usesInternalPlots)
 		{
-			_plotStackView = [NSStackView new];
+			_plotStackView = [DTXPlotStackView new];
 			_plotStackView.translatesAutoresizingMaskIntoConstraints = NO;
 			_plotStackView.orientation = NSUserInterfaceLayoutOrientationVertical;
-			_plotStackView.distribution = NSStackViewDistributionFill;
+			_plotStackView.distribution = NSStackViewDistributionFillEqually;
 			_plotStackView.spacing = 0;
 			
 			[_plotStackView setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
