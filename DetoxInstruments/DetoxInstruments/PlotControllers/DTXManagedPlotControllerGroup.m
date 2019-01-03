@@ -12,6 +12,7 @@
 #import "DTXPlotTypeCellView.h"
 #import "DTXPlotHostingTableCellView.h"
 #import "NSColor+UIAdditions.h"
+#import "DTXPlotController-Private.h"
 
 @interface DTXManagedPlotControllerGroup () <DTXPlotControllerDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
@@ -554,22 +555,16 @@
 {
 	_savedHighlightRange = nil;
 	
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotControllerPrivate> obj) {
 		if(obj == pc)
 		{
 			return;
 		}
 		
-		if([obj respondsToSelector:@selector(removeHighlight)])
-		{
-			[obj removeHighlight];
-		}
+		[obj _removeHighlightNotifyingDelegate:NO];
 	}];
 	
-	if([_touchBarPlotController respondsToSelector:@selector(removeHighlight)])
-	{
-		[_touchBarPlotController removeHighlight];
-	}
+	[(id<DTXPlotControllerPrivate>)_touchBarPlotController _removeHighlightNotifyingDelegate:NO];
 }
 
 #pragma mark NSOutlineView Data Source & Delegate
@@ -656,8 +651,8 @@
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
-		[obj removeHighlight];
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotControllerPrivate> obj) {
+		[obj _removeHighlightNotifyingDelegate:NO];
 	}];
 	
 	id<DTXPlotController> plotController = [_hostingOutlineView itemAtRow:_hostingOutlineView.selectedRow];

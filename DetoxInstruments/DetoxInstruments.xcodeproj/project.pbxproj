@@ -790,6 +790,8 @@
 		39D76E7C2086B6F00033BDE2 /* DTXProfilingTargetManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilingTargetManagement.h; sourceTree = "<group>"; };
 		39D76E9B2086B83B0033BDE2 /* LNPropertyListEditor.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNPropertyListEditor.xcodeproj; path = LNPropertyListEditor/LNPropertyListEditor/LNPropertyListEditor.xcodeproj; sourceTree = SOURCE_ROOT; };
 		39D9861021DD794100AFC48B /* DTXPlotView-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXPlotView-Private.h"; sourceTree = "<group>"; };
+		39D9862921DE301900AFC48B /* DTXPlotController-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXPlotController-Private.h"; sourceTree = "<group>"; };
+		39D9863D21DE320700AFC48B /* DTXSamplePlotController-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXSamplePlotController-Private.h"; sourceTree = "<group>"; };
 		39DABB8F21BAEB8D002653EE /* DTXSignpostNestedRootProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostNestedRootProxy.h; sourceTree = "<group>"; };
 		39DABB9021BAEB8D002653EE /* DTXSignpostNestedRootProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostNestedRootProxy.m; sourceTree = "<group>"; };
 		39DABB9321BAFF33002653EE /* DTXSignpostCategoryProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostCategoryProxy.m; sourceTree = "<group>"; };
@@ -1466,11 +1468,13 @@
 			children = (
 				3948D91A1F56048D005EB5AD /* CorePlotAdditions */,
 				398D6EA61EE060A300AA9C11 /* DTXPlotController.h */,
+				39D9862921DE301900AFC48B /* DTXPlotController-Private.h */,
 				399E73562091D1B0006EAD6E /* DTXPlotHostConstructor.h */,
 				399E73572091D1B0006EAD6E /* DTXPlotHostConstructor.m */,
 				39C6A9031EE37E57000E2EE1 /* DTXAxisHeaderPlotController.h */,
 				39C6A9041EE37E57000E2EE1 /* DTXAxisHeaderPlotController.m */,
 				398D6EAA1EE0626400AA9C11 /* DTXSamplePlotController.h */,
+				39D9863D21DE320700AFC48B /* DTXSamplePlotController-Private.h */,
 				398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */,
 				39C6A9101EE3A2BC000E2EE1 /* DTXPerformanceSamplePlotController.h */,
 				39C6A9111EE3A2BC000E2EE1 /* DTXPerformanceSamplePlotController.m */,

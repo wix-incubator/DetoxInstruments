@@ -12,15 +12,26 @@
 
 @dynamic requiredHeight;
 
-- (void)setUpWithView:(NSView *)view
+- (instancetype)initForTouchBar:(BOOL)isForTouchBar
 {
-	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 1, 0) isForTouchBar:NO];
+	self = [super init];
+	
+	if(self)
+	{
+		_isForTouchBar = isForTouchBar;
+	}
+	
+	return self;
 }
 
-- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets isForTouchBar:(BOOL)isForTouchBar
+
+- (void)setUpWithView:(NSView *)view
 {
-	_isForTouchBar = isForTouchBar;
-	
+	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 1, 0)];
+}
+
+- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets
+{
 	if(_wrapperView)
 	{
 		[_wrapperView removeFromSuperview];
@@ -44,7 +55,7 @@
 			[_plotStackView setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
 			[_plotStackView setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
 			
-			if(isForTouchBar)
+			if(_isForTouchBar)
 			{
 				[NSLayoutConstraint activateConstraints:@[
 														  [_plotStackView.heightAnchor constraintEqualToConstant:30],
@@ -64,7 +75,7 @@
 		}
 		else
 		{
-			_hostingView = [[isForTouchBar ? DTXTouchBarGraphHostingView.class : DTXGraphHostingView.class alloc] initWithFrame:view.bounds];
+			_hostingView = [[_isForTouchBar ? DTXTouchBarGraphHostingView.class : DTXGraphHostingView.class alloc] initWithFrame:view.bounds];
 			_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
 			
 			_graph = [[CPTXYGraph alloc] initWithFrame:_hostingView.bounds];

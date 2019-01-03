@@ -6,7 +6,7 @@
 //  Copyright © 2017 Wix. All rights reserved.
 //
 
-#import "DTXSamplePlotController.h"
+#import "DTXSamplePlotController-Private.h"
 #import "DTXGraphHostingView.h"
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
@@ -48,15 +48,16 @@
 	return nil;
 }
 
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document isForTouchBar:(BOOL)isForTouchBar
 {
-	self = [super init];
+	self = [super initForTouchBar:isForTouchBar];
 
 	if(self)
 	{
 		_document = document;
 		_scene = [NSStoryboard storyboardWithName:@"Profiler" bundle:nil];
 		
+		[self plotViews];
 	}
 	
 	return self;
@@ -144,20 +145,6 @@
 //	}
 }
 
-- (void)clickedByClickGestureRegonizer:(NSClickGestureRecognizer*)cgr
-{
-	if(self.canReceiveFocus == NO)
-	{
-		return;
-	}
-	
-	[self.delegate plotControllerUserDidClickInPlotBounds:self];
-	
-	if(self.wantsGestureRecognizerForPlots == NO)
-	{
-		return;
-	}
-	
 	//TODO: Fix
 	
 //	if([self.graph.allPlots.firstObject isKindOfClass:[CPTScatterPlot class]])
@@ -203,20 +190,6 @@
 //
 //		[self.sampleClickDelegate plotController:(id)self.parentPlotController ?: self didClickOnSample:sample];
 //	}
-}
-
-- (CPTPlotRange*)finessedPlotYRangeForPlotYRange:(CPTPlotRange*)yRange;
-{
-	NSEdgeInsets insets = self.rangeInsets;
-	
-	CPTMutablePlotRange* rv = [yRange mutableCopy];
-	
-	CGFloat initial = rv.location.doubleValue;
-	rv.location = @(-insets.bottom);
-	rv.length = @((initial + rv.length.doubleValue + insets.top + insets.bottom) * self.yRangeMultiplier * self.sampleKeys.count);
-	
-	return rv;
-}
 
 - (void)updateLayerHandler
 {
@@ -240,7 +213,8 @@
 			}
 			
 			obj.lineColor = lineColor;
-			obj.lineWidth = isDark ? 1.1 : 1.0;
+			CGFloat maxWidth = isDark ? 1.5 : 1.0;
+			obj.lineWidth = isTouchBar ? 0.0 : MAX(1.0, maxWidth / self.wrapperView.layer.contentsScale);
 			
 			NSColor* startColor;
 			NSColor* endColor;
@@ -275,11 +249,6 @@
 		[self _updateAnnotationColors:obj.annotations forPlotIndex:idx];
 		obj.annotations = obj.annotations;
 	}];
-}
-
-- (BOOL)wantsGestureRecognizerForPlots
-{
-	return YES;
 }
 
 - (BOOL)usesInternalPlots
@@ -324,13 +293,6 @@
 	[super didFinishViewSetup];
 	
 	[self prepareSamples];
-	
-	NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(clickedByClickGestureRegonizer:)];
-	[self.wrapperView addGestureRecognizer:clickGestureRecognizer];
-	if(self.wantsGestureRecognizerForPlots == NO)
-	{
-		clickGestureRecognizer.delaysPrimaryMouseButtonEvents = NO;
-	}
 	
 	NSTrackingArea* tracker = [[NSTrackingArea alloc] initWithRect:self.wrapperView.bounds options:NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
 	[self.wrapperView addTrackingArea:tracker];
@@ -428,7 +390,7 @@
 
 - (void)_highlightRange:(CPTPlotRange*)range isShadow:(BOOL)isShadow nofityDelegate:(BOOL)notifyDelegate
 {
-	[self removeHighlight];
+	[self _removeHighlightNotifyingDelegate:NO];
 	
 	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSMutableArray* annotations = [NSMutableArray new];
@@ -490,11 +452,19 @@
 
 - (void)removeHighlight
 {
+	[self _removeHighlightNotifyingDelegate:YES];
+}
+
+- (void)_removeHighlightNotifyingDelegate:(BOOL)notify;
+{
 	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		obj.annotations = nil;
 	}];
 	
-//	[self.delegate plotControllerDidRemoveHighlight:self];
+	if(notify)
+	{
+		[self.delegate plotControllerDidRemoveHighlight:self];
+	}
 }
 
 - (void)_updateAnnotationColors:(NSArray<DTXPlotViewAnnotation*>*)annotations forPlotIndex:(NSUInteger)plotIdx
@@ -602,9 +572,14 @@
 	return @[];
 }
 
-- (CGFloat)yRangeMultiplier;
+- (CGFloat)plotHeightMultiplier;
 {
 	return self.isForTouchBar ? 1.0 : 1.15;
+}
+
+- (CGFloat)minimumValueForPlotHeight
+{
+	return 0.0;
 }
 
 - (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph
@@ -661,7 +636,7 @@
 		DTXScatterPlotView* scatterPlotView = [[DTXScatterPlotView alloc] initWithFrame:CGRectZero];
 		scatterPlotView.plotIndex = idx;
 		
-		scatterPlotView.minimumValueForPlotHeight = 1.0;
+		scatterPlotView.minimumValueForPlotHeight = self.minimumValueForPlotHeight;
 		scatterPlotView.stepped = self.isStepped;
 		scatterPlotView.dataSource = self;
 		
@@ -670,7 +645,7 @@
 			scatterPlotView.flipped = YES;
 		}
 		
-		scatterPlotView.plotHeightMultiplier = self.yRangeMultiplier;
+		scatterPlotView.plotHeightMultiplier = self.plotHeightMultiplier;
 		
 		[rv addObject:scatterPlotView];
 	}];

@@ -10,8 +10,8 @@
 
 @interface DTXThreadCPUUsagePlotController : DTXCPUUsagePlotController
 
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document NS_UNAVAILABLE;
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document threadInfo:(DTXThreadInfo*)threadInfo;
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document isForTouchBar:(BOOL)isForTouchBar NS_UNAVAILABLE;
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document threadInfo:(DTXThreadInfo*)threadInfo isForTouchBar:(BOOL)isForTouchBar;
 
 @end
 	

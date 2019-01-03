@@ -141,12 +141,12 @@
 	
 	_tableView.intercellSpacing = NSMakeSize(1, 0);
 	
-	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document];
-	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 210, 0, 0) isForTouchBar:NO];
+	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document isForTouchBar:NO];
+	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 210, 0, 0)];
 
 	[_plotGroup setHeaderPlotController:headerPlotController];
 
-	_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document];
+	_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO];
 	[_plotGroup addPlotController:_cpuPlotController];
 
 	NSFetchRequest* fr = [DTXThreadInfo fetchRequest];
@@ -160,22 +160,22 @@
 	if(threads.count > 0)
 	{
 		[threads enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj] toPlotController:_cpuPlotController];
+			[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj isForTouchBar:NO] toPlotController:_cpuPlotController];
 		}];
 	}
 
-	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.document]];
-	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.document]];
-	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.document]];
+	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	
-	[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.document]];
-	[_plotGroup addPlotController:[[DTXEventsPlotController alloc] initWithDocument:self.document]];
+	[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+	[_plotGroup addPlotController:[[DTXEventsPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	
 	if(self.document.firstRecording.hasReactNative && self.document.firstRecording.dtx_profilingConfiguration.profileReactNative)
 	{
-		[_plotGroup addPlotController:[[DTXRNCPUUsagePlotController alloc] initWithDocument:self.document]];
-		[_plotGroup addPlotController:[[DTXRNBridgeCountersPlotController alloc] initWithDocument:self.document]];
-		[_plotGroup addPlotController:[[DTXRNBridgeDataTransferPlotController alloc] initWithDocument:self.document]];
+		[_plotGroup addPlotController:[[DTXRNCPUUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+		[_plotGroup addPlotController:[[DTXRNBridgeCountersPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+		[_plotGroup addPlotController:[[DTXRNBridgeDataTransferPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	}
 	
 	if(_plotGroup.visiblePlotControllers.count == 0)
@@ -301,7 +301,7 @@
 	[_insertedCPUThreads sortUsingDescriptors:controller.fetchRequest.sortDescriptors];
 	
 	[_insertedCPUThreads enumerateObjectsUsingBlock:^(DTXThreadInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj] toPlotController:_cpuPlotController];
+		[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj isForTouchBar:NO] toPlotController:_cpuPlotController];
 	}];
 }
 
@@ -340,7 +340,7 @@
 		
 		id<DTXPlotController> plotController = _plotGroup.visiblePlotControllers[idx];
 		
-		_touchBarPlotController = [[_touchBarPlotControllerClass alloc] initWithDocument:self.document];
+		_touchBarPlotController = [[_touchBarPlotControllerClass alloc] initWithDocument:self.document isForTouchBar:YES];
 		[_touchBarPlotController requiredHeight];
 		_touchBarPlotController.parentPlotController = plotController;
 		_touchBarPlotController.sampleClickDelegate = _selectedPlotController.sampleClickDelegate;
@@ -353,12 +353,8 @@
 		DTXLayerView* customView = [DTXLayerView new];
 		customView.allowedTouchTypes = NSTouchTypeMaskDirect;
 		
-		[_touchBarPlotController setUpWithView:customView insets:NSEdgeInsetsZero isForTouchBar:YES];
-		
-		NSClickGestureRecognizer* clickGestureRecognizer = [[NSClickGestureRecognizer alloc] initWithTarget:_touchBarPlotController action:@selector(clickedByClickGestureRegonizer:)];
-		clickGestureRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-		[customView addGestureRecognizer:clickGestureRecognizer];
-		
+		[_touchBarPlotController setUpWithView:customView insets:NSEdgeInsetsZero];
+			
 		auto item = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"TouchBarPlotController"];
 		item.view = customView;
 		

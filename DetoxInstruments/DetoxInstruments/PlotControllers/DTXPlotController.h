@@ -29,15 +29,7 @@
 
 @end
 
-@protocol DTXPlotControllerClickHandler <NSObject>
-
-@optional
-
-- (void)clickedByClickGestureRegonizer:(NSClickGestureRecognizer*)cgr;
-
-@end
-
-@protocol DTXPlotController <NSObject, DTXPlotControllerClickHandler>
+@protocol DTXPlotController <NSObject>
 
 @property (nonatomic, strong, readonly) DTXRecordingDocument* document;
 @property (nonatomic, weak) id<DTXPlotControllerDelegate> delegate;
@@ -56,12 +48,12 @@
 
 @property (nonatomic, copy, readonly) NSArray<DTXDetailController*>* dataProviderControllers;
 
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document;
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document isForTouchBar:(BOOL)isForTouchBar;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
 - (void)setUpWithView:(NSView*)view;
-- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets isForTouchBar:(BOOL)isForTouchBar;
+- (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
 
 - (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange;
 - (void)setPlotRange:(CPTPlotRange*)plotRange;

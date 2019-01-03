@@ -17,6 +17,7 @@
 #import <LNInterpolation/Color+Interpolation.h>
 #import "DTXRangePlotView.h"
 #import "DTXFilteredDataProvider.h"
+#import "DTXSamplePlotController-Private.h"
 //@import os.signpost;
 
 @interface _DTXSampleGroup : NSObject
@@ -65,15 +66,13 @@
 	return nil;
 }
 
-- (instancetype)initWithDocument:(DTXRecordingDocument *)document
+- (instancetype)initWithDocument:(DTXRecordingDocument *)document isForTouchBar:(BOOL)isForTouchBar
 {
-	self = [super initWithDocument:document];
+	self = [super initWithDocument:document isForTouchBar:isForTouchBar];
 	
 	if(self)
 	{
 		_selectedIndex = NSNotFound;
-		
-		[self plotViews];
 	}
 	
 	return self;
@@ -257,7 +256,7 @@
 	}
 }
 
-- (void)removeHighlight
+- (void)_removeHighlightNotifyingDelegate:(BOOL)notify
 {
 	if(_selectedIndex != NSNotFound)
 	{
@@ -267,7 +266,7 @@
 		[_plotView reloadRangeAtIndex:prevSelectedIndex];
 	}
 	
-	[super removeHighlight];
+	[super _removeHighlightNotifyingDelegate:notify];
 }
 
 - (NSEdgeInsets)rangeInsets
@@ -320,7 +319,6 @@
 - (void)_resetAfterFilter
 {
 	[self removeHighlight];
-	[self.delegate plotControllerDidRemoveHighlight:self];
 	
 	[_plotView reloadData];
 }
@@ -344,6 +342,18 @@
 {
 	if(self.canReceiveFocus == NO)
 	{
+		id<DTXPlotController> parentThatCan = self;
+		
+		while(parentThatCan != nil && parentThatCan.canReceiveFocus == NO)
+		{
+			parentThatCan = parentThatCan.parentPlotController;
+		}
+		
+		if(parentThatCan != nil)
+		{
+			[self.delegate plotControllerUserDidClickInPlotBounds:parentThatCan];
+		}
+		
 		return;
 	}
 	
@@ -352,18 +362,26 @@
 		return;
 	}
 	
-	NSIndexPath* indexPath = _sampleIndices[idx];
-	DTXSample* sample = self._mergedSamples[indexPath.section].samples[indexPath.item];
+	[self.delegate plotControllerUserDidClickInPlotBounds:self];
 	
-	if(_filteredDataProvider && [_filteredDataProvider.filteredObjectIDs containsObject:sample.objectID] == NO)
+	if(idx == NSNotFound)
 	{
-		return;
+		[self removeHighlight];
+		[self.sampleClickDelegate plotController:self didClickOnSample:nil];
 	}
-	
-	dispatch_async(dispatch_get_main_queue(), ^{
+	else
+	{
+		NSIndexPath* indexPath = _sampleIndices[idx];
+		DTXSample* sample = self._mergedSamples[indexPath.section].samples[indexPath.item];
+		
+		if(_filteredDataProvider && [_filteredDataProvider.filteredObjectIDs containsObject:sample.objectID] == NO)
+		{
+			return;
+		}
+		
 		[self highlightSample:sample];
 		[self.sampleClickDelegate plotController:self didClickOnSample:sample];
-	});
+	}
 }
 
 #pragma mark Internal Plots

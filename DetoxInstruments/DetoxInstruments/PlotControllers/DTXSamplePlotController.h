@@ -33,12 +33,11 @@
 - (BOOL)isStepped;
 
 - (NSEdgeInsets)rangeInsets;
-- (CGFloat)yRangeMultiplier;
+- (CGFloat)plotHeightMultiplier;
+- (CGFloat)minimumValueForPlotHeight;
 
 + (NSFormatter*)formatterForDataPresentation;
 - (id)transformedValueForFormatter:(id)value;
-
-- (BOOL)wantsGestureRecognizerForPlots;
 
 - (void)updateLayerHandler;
 

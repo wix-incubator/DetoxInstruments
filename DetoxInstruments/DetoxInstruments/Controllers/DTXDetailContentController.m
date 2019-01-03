@@ -308,7 +308,7 @@ static NSString* __DTXDetailControllerCacheKeyForObject(id<NSObject> object)
 #pragma mark DTXPlotControllerSampleClickHandlingDelegate
 
 - (void)plotController:(id<DTXPlotController>)pc didClickOnSample:(DTXSample *)sample
-{
+{	
 	[_cachedDetailControllers enumerateObjectsUsingBlock:^(DTXDetailController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[obj selectSample:sample];
 	}];

@@ -123,7 +123,7 @@
 	
 	if(sample.additionalInfoStart.length > 0)
 	{
-		[rv appendFormat:@"(%@)", sample.additionalInfoStart];
+		[rv appendFormat:@" (%@)", sample.additionalInfoStart];
 	}
 	
 	return rv;

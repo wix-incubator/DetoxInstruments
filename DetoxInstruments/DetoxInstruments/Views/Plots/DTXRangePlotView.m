@@ -391,7 +391,7 @@ static inline __attribute__((always_inline)) void __DTXDrawLinesSlowPath(DTXRang
 					}
 				}
 				
-				if(self->_drawTitles == YES && title.length > 0)
+				if(self->_drawTitles == YES && title.length > 0 && distinctColor.alphaComponent == 1.0)
 				{
 					double spaceToCheck = MIN(5, title.length) * self->_fontCharacterSize.width  + lineHeight / 2;
 					
@@ -520,6 +520,10 @@ static inline __attribute__((always_inline)) void __DTXDrawLinesSlowPath(DTXRang
 	if(found == YES)
 	{
 		[self.delegate plotView:self didClickRangeAtIndex:idx];
+	}
+	else
+	{
+		[self.delegate plotView:self didClickRangeAtIndex:NSNotFound];
 	}
 }
 

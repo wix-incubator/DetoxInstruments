@@ -14,9 +14,9 @@
 	DTXThreadInfo* _threadInfo;
 }
 
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document threadInfo:(DTXThreadInfo*)threadInfo
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document threadInfo:(DTXThreadInfo*)threadInfo isForTouchBar:(BOOL)isForTouchBar
 {
-	self = [super initWithDocument:document];
+	self = [super initWithDocument:document isForTouchBar:isForTouchBar];
 	
 	if(self)
 	{

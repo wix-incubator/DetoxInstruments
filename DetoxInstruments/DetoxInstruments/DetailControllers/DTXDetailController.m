@@ -7,6 +7,7 @@
 //
 
 #import "DTXDetailController.h"
+#import "DTXDataExporter.h"
 
 @implementation DTXDetailController
 

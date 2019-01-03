@@ -62,18 +62,9 @@
 	return @(MAX([value doubleValue], 0.0));
 }
 
-- (CPTPlotRange*)finessedPlotYRangeForPlotYRange:(CPTPlotRange*)yRange;
+- (CGFloat)minimumValueForPlotHeight
 {
-	NSEdgeInsets insets = self.rangeInsets;
-	
-	CPTMutablePlotRange* rv = [yRange mutableCopy];
-	
-	//Leo: Not sure why this was set to what it was set. 0.0 works fine.
-	CGFloat initial = 0.0;//yRange.length.doubleValue;
-	rv.location = @(-insets.bottom);
-	rv.length = @((initial + MAX(rv.length.doubleValue, 1.0) + insets.top + insets.bottom) * self.yRangeMultiplier);
-	
-	return rv;
+	return 1.0;
 }
 
 @end

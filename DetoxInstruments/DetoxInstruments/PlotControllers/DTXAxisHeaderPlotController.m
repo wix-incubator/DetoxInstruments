@@ -33,7 +33,7 @@
 	return 0;
 }
 
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document
+- (instancetype)initWithDocument:(DTXRecordingDocument*)document isForTouchBar:(BOOL)isForTouchBar
 {
 	self = [super init];
 	
