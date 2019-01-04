@@ -90,6 +90,8 @@
 		return;
 	}
 	
+	NSGraphicsContext.currentContext.shouldAntialias = NO;
+	
 	NSBezierPath* bp = [NSBezierPath bezierPath];
 	[bp moveToPoint:NSMakePoint(round(_indicatorOffset), 0)];
 	[bp lineToPoint:NSMakePoint(round(_indicatorOffset), self.bounds.size.height)];

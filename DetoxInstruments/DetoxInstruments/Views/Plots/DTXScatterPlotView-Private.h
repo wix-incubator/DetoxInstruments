@@ -17,6 +17,7 @@
 
 @interface DTXScatterPlotView ()
 
+@property (nonatomic) double maxHeight;
 @property (nonatomic, weak) id<DTXPlotHeightSynchronization> heightSynchronizer;
 
 @end

@@ -65,5 +65,6 @@ static inline void __DTXFillZones(DTXPlotView* self, NSMutableArray<_DTXDrawingZ
 @interface DTXPlotView ()
 
 - (BOOL)_hasRangeAnnotations;
+- (void)_clicked:(NSClickGestureRecognizer*)cgr;
 
 @end

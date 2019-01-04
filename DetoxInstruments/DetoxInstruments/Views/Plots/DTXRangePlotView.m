@@ -342,7 +342,8 @@ static inline __attribute__((always_inline)) void __DTXDrawLinesSlowPath(DTXRang
 	
 	for (NSColor* distinctColor in self->_distinctColors)
 	{
-		NSColor* shadedColor = [NSColor.grayColor colorWithAlphaComponent:distinctColor.alphaComponent * 0.2];
+//		[NSColor.systemGrayColor blendedColorWithFraction:lineColor.alphaComponent * 0.5 ofColor:NSColor.controlBackgroundColor];
+		NSColor* shadedColor = [NSColor.systemGrayColor colorWithAlphaComponent:distinctColor.alphaComponent * 0.2];
 		
 		for(DTXRangePlotViewRange* line in [self->_distinctColorLines objectForKey:distinctColor])
 		{
@@ -453,12 +454,16 @@ static inline __attribute__((always_inline)) void __DTXDrawLinesSlowPath(DTXRang
 //	CFTimeInterval start = CACurrentMediaTime();
 //	NSUInteger linesDrawn = 0;
 	
-	NSMutableArray<_DTXDrawingZone*>* zones = [NSMutableArray new];
-	__DTXFillZones(self, zones);
+	NSMutableArray<_DTXDrawingZone*>* zones;
+	if(self._hasRangeAnnotations)
+	{
+		zones = [NSMutableArray new];
+		__DTXFillZones(self, zones);
+	}
 	
 	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
 	
-	if(zones.count == 1)
+	if(zones.count <= 1)
 	{
 		__DTXDrawLinesFastPath(self, ctx, dirtyRect);
 	}

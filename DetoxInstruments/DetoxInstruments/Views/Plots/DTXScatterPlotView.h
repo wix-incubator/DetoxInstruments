@@ -17,6 +17,12 @@
 
 @class DTXScatterPlotView;
 
+@protocol DTXScatterPlotViewDelegate <DTXPlotViewDelegate>
+
+- (void)plotView:(DTXScatterPlotView*)plotView didClickPointAtIndex:(NSUInteger)idx clickPositionInPlot:(double)position valueAtClickPosition:(double)value;
+
+@end
+
 @protocol DTXScatterPlotViewDataSource <DTXPlotViewDataSource>
 
 - (DTXScatterPlotViewPoint*)plotView:(DTXScatterPlotView*)plotView pointAtIndex:(NSUInteger)idx;
@@ -25,6 +31,7 @@
 
 @interface DTXScatterPlotView : DTXPlotView
 
+@property (nonatomic, weak) id<DTXScatterPlotViewDelegate> delegate;
 @property (nonatomic, weak) id<DTXScatterPlotViewDataSource> dataSource;
 
 @property (nonatomic) double lineWidth;

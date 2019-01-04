@@ -33,8 +33,6 @@
 - (BOOL)isStepped;
 
 - (NSEdgeInsets)rangeInsets;
-- (CGFloat)plotHeightMultiplier;
-- (CGFloat)minimumValueForPlotHeight;
 
 + (NSFormatter*)formatterForDataPresentation;
 - (id)transformedValueForFormatter:(id)value;

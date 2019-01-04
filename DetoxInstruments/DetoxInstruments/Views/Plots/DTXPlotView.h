@@ -19,6 +19,10 @@
 @interface DTXPlotViewLineAnnotation : DTXPlotViewAnnotation
 
 @property (nonatomic) double position;
+@property (nonatomic) double value;
+
+@property (nonatomic) bool drawsValue;
+@property (nonatomic, strong) NSColor* valueColor;
 
 @end
 

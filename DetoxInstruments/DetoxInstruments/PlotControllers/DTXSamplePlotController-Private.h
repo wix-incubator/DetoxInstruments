@@ -11,4 +11,6 @@
 
 @interface DTXSamplePlotController () <DTXPlotControllerPrivate>
 
+- (void)_highlightSample:(DTXSample*)sample positionInPlot:(double)position valueAtClickPosition:(double)value;
+
 @end

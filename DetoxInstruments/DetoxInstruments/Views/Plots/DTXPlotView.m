@@ -8,28 +8,16 @@
 
 #import "DTXPlotView-Private.h"
 #import "NSAppearance+UIAdditions.h"
+#import "DTXScatterPlotView-Private.h"
 @import QuartzCore;
+
+static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 
 @implementation _DTXDrawingZone
 
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"<%@: %p> type: %@ start: %.5f next: %p", self.className, self, @(_drawingType), _start, _nextZone];
-}
-
-@end
-
-@interface _DTXAnnotationBox : NSBox @end
-@implementation _DTXAnnotationBox
-
-- (BOOL)acceptsFirstResponder
-{
-	return NO;
-}
-
-- (NSView *)hitTest:(NSPoint)aPoint
-{
-	return nil;
 }
 
 @end
@@ -54,8 +42,6 @@
 {
 	BOOL _mouseClicked;
 	NSClickGestureRecognizer* _cgr;
-	
-	NSArray<NSView*>* _annotationViews;
 	
 	BOOL _hasRangeAnnotations;
 }
@@ -124,45 +110,11 @@
 	_plotRange = xRange;
 	
 	[self setNeedsDisplay:YES];
-	[self _updateAnnotationLayers];
 	
 	if(notify)
 	{
 		[self.delegate plotViewDidChangePlotRange:self];
 	}
-}
-
-- (NSView*)_viewForAnnotation:(DTXPlotViewAnnotation*)annotation
-{
-	NSView* rv;
-	
-//	if([annotation isKindOfClass:DTXPlotViewRangeAnnotation.class])
-//	{
-////		NSVisualEffectView* ev = [NSVisualEffectView new];
-////		ev.wantsLayer = YES;
-////		if (@available(macOS 10.14, *)) {
-////			ev.material = NSVisualEffectMaterialContentBackground;
-////		} else {
-////			ev.material = NSVisualEffectMaterialAppearanceBased;
-////		}
-////
-////		rv = ev;
-//	}
-//	else
-//	{
-		rv = [NSView new];
-		rv.wantsLayer = YES;
-		[self.effectiveAppearance performBlockAsCurrentAppearance:^{
-			rv.layer.backgroundColor = annotation.color.CGColor;
-		}];
-//	}
-	
-	rv.layer.opacity = annotation.opacity;
-	
-	rv.translatesAutoresizingMaskIntoConstraints = NO;
-	[self addSubview:rv];
-	
-	return rv;
 }
 
 - (BOOL)_hasRangeAnnotations
@@ -174,96 +126,17 @@
 {
 	_hasRangeAnnotations = NO;
 	
-	[_annotationViews enumerateObjectsUsingBlock:^(NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[obj removeFromSuperviewWithoutNeedingDisplay];
-	}];
-	
 	_annotations = annotations;
 	
-	NSMutableArray* views = [NSMutableArray new];
 	for (DTXPlotViewAnnotation* annotation in annotations)
 	{
-		[views addObject:[self _viewForAnnotation:annotation]];
-		
 		if([annotation isKindOfClass:DTXPlotViewRangeAnnotation.class])
 		{
 			_hasRangeAnnotations = YES;
 		}
 	}
 	
-	_annotationViews = views;
-	
-	[self _updateAnnotationLayers];
-	
 	[self setNeedsDisplay:YES];
-}
-
-- (void)layout
-{
-	[super layout];
-	
-	[self _updateAnnotationLayers];
-}
-
-- (void)_updateAnnotationLayers
-{
-	if(self.annotations.count == 0)
-	{
-		return;
-	}
-	
-	CGRect selfBounds = self.bounds;
-	if(CGRectEqualToRect(selfBounds, CGRectZero))
-	{
-		return;
-	}
-	
-	[self.annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull annotation, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSView* view = _annotationViews[idx];
-
-		CPTPlotRange* xRange = self.plotRange;
-		
-		CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
-		CGFloat offset = - graphViewRatio * xRange.locationDouble;
-		
-		if(annotation.class == DTXPlotViewLineAnnotation.class)
-		{
-			DTXPlotViewLineAnnotation* line = (DTXPlotViewLineAnnotation*)annotation;
-			CGFloat position = floor(offset + graphViewRatio * line.position);
-			
-			if(position < selfBounds.origin.x || position > selfBounds.origin.x + selfBounds.size.width)
-			{
-				view.hidden = YES;
-			}
-			else
-			{
-				view.hidden = NO;
-				view.frame = CGRectMake(position, 0, 1, selfBounds.size.height);
-			}
-		}
-		else if(annotation.class == DTXPlotViewRangeAnnotation.class)
-		{
-			DTXPlotViewRangeAnnotation* range = (DTXPlotViewRangeAnnotation*)annotation;
-			
-			CGRect innerBounds = selfBounds;// [self.enclosingScrollView convertRect:selfBounds fromView:self];
-			
-			CGFloat start = MAX(innerBounds.origin.x, innerBounds.origin.x + floor(range.start == DBL_MIN ? 0 : offset + graphViewRatio * range.start));
-			CGFloat end = MIN(innerBounds.origin.x + innerBounds.size.width, innerBounds.origin.x + ceil(range.end == DBL_MAX ? innerBounds.size.width : offset + graphViewRatio * range.end));
-			
-			if(end < innerBounds.origin.x || start > innerBounds.origin.x + innerBounds.size.width)
-			{
-				if(view.isHidden == NO)
-				{
-					view.hidden = YES;
-				}
-			}
-			else
-			{
-				view.hidden = NO;
-				view.frame = CGRectMake(start, 0, end - start, selfBounds.size.height);
-			}
-		}
-	}];
 }
 
 - (void)reloadData
@@ -421,6 +294,114 @@
 	CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
 	
 	[self scalePlotRange:scale atPoint:point];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+	[super drawRect:dirtyRect];
+	
+	if(self.annotations.count == 0)
+	{
+		return;
+	}
+	
+	CGRect selfBounds = self.bounds;
+	if(CGRectEqualToRect(selfBounds, CGRectZero))
+	{
+		return;
+	}
+	
+	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
+	CGContextSetLineWidth(ctx, 1);
+	CGContextSetAllowsAntialiasing(ctx, self.window.backingScaleFactor > 1.0);
+	
+	CPTPlotRange* xRange = self.plotRange;
+	
+	CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
+	CGFloat offset = - graphViewRatio * xRange.locationDouble;
+	
+	for (DTXPlotViewAnnotation * _Nonnull annotation in self.annotations)
+	{
+		if(annotation.class == DTXPlotViewLineAnnotation.class)
+		{
+			DTXPlotViewLineAnnotation* line = (DTXPlotViewLineAnnotation*)annotation;
+			CGFloat position = floor(offset + graphViewRatio * line.position);
+			
+			if(position < dirtyRect.origin.x || position > dirtyRect.origin.x + dirtyRect.size.width)
+			{
+				continue;
+			}
+			
+			CGContextSetStrokeColorWithColor(ctx, [line.color colorWithAlphaComponent:line.color.alphaComponent * line.opacity].CGColor);
+			CGContextMoveToPoint(ctx, position, dirtyRect.origin.y);
+			CGContextAddLineToPoint(ctx, position, dirtyRect.origin.y + dirtyRect.size.height);
+			CGContextStrokePath(ctx);
+			
+			if(line.drawsValue && [self isKindOfClass:DTXScatterPlotView.class])
+			{
+				DTXScatterPlotView* scatterPlotView = (id)self;
+				CGFloat graphHeightViewRatio = (selfBounds.size.height - scatterPlotView.insets.top - scatterPlotView.insets.bottom) / (scatterPlotView.maxHeight * scatterPlotView.plotHeightMultiplier);
+				
+				double value = line.value * graphHeightViewRatio;
+				
+				NSLog(@"value: %@ max: %@", @(line.value), @(scatterPlotView.maxHeight));
+				
+				CGContextSetAllowsAntialiasing(ctx, YES);
+				CGContextSetFillColorWithColor(ctx, line.valueColor.CGColor);
+				CGContextSetLineWidth(ctx, 1.5);
+				NSBezierPath* elipse = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(position - __DTXPlotViewAnnotationValueWidth / 2, value - __DTXPlotViewAnnotationValueWidth / 2, __DTXPlotViewAnnotationValueWidth, __DTXPlotViewAnnotationValueWidth)];
+				[elipse fill];
+				[elipse stroke];
+			}
+		}
+	}
+	
+//	[self.annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull annotation, NSUInteger idx, BOOL * _Nonnull stop) {
+//		NSView* view = _annotationViews[idx];
+//
+//		CPTPlotRange* xRange = self.plotRange;
+//
+//		CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
+//		CGFloat offset = - graphViewRatio * xRange.locationDouble;
+//
+//		if(annotation.class == DTXPlotViewLineAnnotation.class)
+//		{
+//			DTXPlotViewLineAnnotation* line = (DTXPlotViewLineAnnotation*)annotation;
+//			CGFloat position = floor(offset + graphViewRatio * line.position);
+//
+//			if(position < selfBounds.origin.x || position > selfBounds.origin.x + selfBounds.size.width)
+//			{
+//				view.hidden = YES;
+//			}
+//			else
+//			{
+//				view.hidden = NO;
+//				view.frame = CGRectMake(position, 0, 1, selfBounds.size.height);
+//			}
+//		}
+//		else if(annotation.class == DTXPlotViewRangeAnnotation.class)
+//		{
+//			DTXPlotViewRangeAnnotation* range = (DTXPlotViewRangeAnnotation*)annotation;
+//
+//			CGRect innerBounds = selfBounds;// [self.enclosingScrollView convertRect:selfBounds fromView:self];
+//
+//			CGFloat start = MAX(innerBounds.origin.x, innerBounds.origin.x + floor(range.start == DBL_MIN ? 0 : offset + graphViewRatio * range.start));
+//			CGFloat end = MIN(innerBounds.origin.x + innerBounds.size.width, innerBounds.origin.x + ceil(range.end == DBL_MAX ? innerBounds.size.width : offset + graphViewRatio * range.end));
+//
+//			if(end < innerBounds.origin.x || start > innerBounds.origin.x + innerBounds.size.width)
+//			{
+//				if(view.isHidden == NO)
+//				{
+//					view.hidden = YES;
+//				}
+//			}
+//			else
+//			{
+//				view.hidden = NO;
+//				view.frame = CGRectMake(start, 0, end - start, selfBounds.size.height);
+//			}
+//		}
+//	}];
 }
 
 @end

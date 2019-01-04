@@ -11,7 +11,6 @@
 @interface DTXScatterPlotView ()
 
 @property (nonatomic, strong) NSMutableArray<DTXScatterPlotViewPoint*>* _points;
-@property (nonatomic) double _maxHeight;
 
 @end
 
@@ -54,6 +53,7 @@ static inline __attribute__((always_inline)) void __DTXFlushPaths(DTXScatterPlot
 	
 	if(drawingType == 1)
 	{
+		
 		fillColor1 = [NSColor.systemGrayColor colorWithAlphaComponent:fillColor1.alphaComponent * 0.2];
 		fillColor2 = [NSColor.systemGrayColor colorWithAlphaComponent:fillColor2.alphaComponent * 0.2];
 	}
@@ -76,7 +76,7 @@ static inline __attribute__((always_inline)) void __DTXFlushPaths(DTXScatterPlot
 	
 	if(drawingType == 1)
 	{
-		lineColor = [lineColor colorWithAlphaComponent:lineColor.alphaComponent * 0.2];
+		lineColor = [NSColor.systemGrayColor colorWithAlphaComponent:lineColor.alphaComponent * 0.5];
 	}
 	
 	if(self.lineWidth > 0.0 && self.lineColor.alphaComponent > 0.0)
@@ -95,7 +95,7 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 {
 	NSMutableArray<DTXScatterPlotViewPoint*>* points = self._points;
 	CPTPlotRange* plotRange = self.plotRange;
-	double maxHeight = (self.heightSynchronizer ? self.heightSynchronizer.maximumPlotHeight : self._maxHeight);
+	double maxHeight = (self.heightSynchronizer ? self.heightSynchronizer.maximumPlotHeight : self.maxHeight);
 	NSEdgeInsets insets = self.insets;
 	BOOL isStepped = self.isStepped;
 	
@@ -249,9 +249,9 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	_DTXLineLayer* _layer;
 }
 
-@dynamic dataSource;
+@dynamic dataSource, delegate;
 @synthesize _points=_points;
-@synthesize _maxHeight=_maxHeight;
+@synthesize maxHeight=_maxHeight;
 
 - (instancetype)initWithFrame:(NSRect)frameRect
 {
@@ -291,14 +291,9 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	if(_layer)
-	{
-		[_layer setNeedsDisplayInRect:dirtyRect];
-		return;
-	}
-	
 	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
 	__DTXDrawPoints(self, ctx);
+	[super drawRect:dirtyRect];
 }
 
 - (void)setLineWidth:(double)lineHeight
@@ -424,6 +419,76 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	
 	//	CFTimeInterval end = CACurrentMediaTime();
 	//	NSLog(@"Took %@s to add %u samples", @(end - start), numberOfPoints);
+}
+
+- (void)_clicked:(NSClickGestureRecognizer *)cgr
+{
+	CGPoint clickPoint = [cgr locationInView:self];
+	
+	double plotClickPosition = self.plotRange.locationDouble + clickPoint.x * self.plotRange.lengthDouble / self.bounds.size.width;
+	
+	DTXScatterPlotViewPoint* testPoint = [DTXScatterPlotViewPoint new];
+	testPoint.x = plotClickPosition;
+	
+	NSUInteger idx = [_points indexOfObject:testPoint inSortedRange:NSMakeRange(0, _points.count) options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(DTXScatterPlotViewPoint*  _Nonnull obj1, DTXScatterPlotViewPoint*  _Nonnull obj2) {
+		if(obj1.x == obj2.x)
+		{
+			return NSOrderedSame;
+		}
+		
+		if(obj1.x < obj2.x)
+		{
+			return NSOrderedAscending;
+		}
+		
+		return NSOrderedDescending;
+	}];
+	
+	double delegateClickPosition = 0;
+	double delegateValue = 0;
+	
+	if(idx == 0)
+	{
+		if(_points.count == 0)
+		{
+			idx = NSNotFound;
+		}
+		else
+		{
+			DTXScatterPlotViewPoint* point = _points[idx];
+			delegateClickPosition = point.x;
+			delegateValue = point.y;
+		}
+	}
+	else if(idx == _points.count)
+	{
+		idx = idx - 1;
+		DTXScatterPlotViewPoint* point = _points[idx];
+		delegateClickPosition = point.x;
+		delegateValue = point.y;
+	}
+	else
+	{
+		DTXScatterPlotViewPoint* point1 = _points[idx - 1];
+		DTXScatterPlotViewPoint* point2 = _points[idx];
+		
+		if(fabs(point1.x - plotClickPosition) < fabs(point2.x - plotClickPosition))
+		{
+			idx = idx - 1;
+		}
+		
+		delegateClickPosition = plotClickPosition;
+		if(self.isStepped)
+		{
+			delegateValue = point1.y;
+		}
+		else
+		{
+			delegateValue = lerp(point1.y, point2.y, (plotClickPosition - point1.x) / (point2.x - point1.x));
+		}
+	}
+	
+	[self.delegate plotView:self didClickPointAtIndex:idx clickPositionInPlot:delegateClickPosition valueAtClickPosition:delegateValue];
 }
 
 @end

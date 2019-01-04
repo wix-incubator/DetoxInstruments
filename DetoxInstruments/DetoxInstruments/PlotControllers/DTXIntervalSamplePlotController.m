@@ -91,6 +91,13 @@
 	return YES;
 }
 
+- (void)updateLayerHandler
+{
+	[_plotView reloadData];
+	
+	[super updateLayerHandler];
+}
+
 - (void)prepareSamples
 {
 	if(_frc != nil)
@@ -338,52 +345,6 @@
 	[_plotView reloadData];
 }
 
-- (void)_selectSampleAtIndex:(NSUInteger)idx
-{
-	if(self.canReceiveFocus == NO)
-	{
-		id<DTXPlotController> parentThatCan = self;
-		
-		while(parentThatCan != nil && parentThatCan.canReceiveFocus == NO)
-		{
-			parentThatCan = parentThatCan.parentPlotController;
-		}
-		
-		if(parentThatCan != nil)
-		{
-			[self.delegate plotControllerUserDidClickInPlotBounds:parentThatCan];
-		}
-		
-		return;
-	}
-	
-	if(self.isForTouchBar)
-	{
-		return;
-	}
-	
-	[self.delegate plotControllerUserDidClickInPlotBounds:self];
-	
-	if(idx == NSNotFound)
-	{
-		[self removeHighlight];
-		[self.sampleClickDelegate plotController:self didClickOnSample:nil];
-	}
-	else
-	{
-		NSIndexPath* indexPath = _sampleIndices[idx];
-		DTXSample* sample = self._mergedSamples[indexPath.section].samples[indexPath.item];
-		
-		if(_filteredDataProvider && [_filteredDataProvider.filteredObjectIDs containsObject:sample.objectID] == NO)
-		{
-			return;
-		}
-		
-		[self highlightSample:sample];
-		[self.sampleClickDelegate plotController:self didClickOnSample:sample];
-	}
-}
-
 #pragma mark Internal Plots
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
@@ -473,7 +434,48 @@
 
 - (void)plotView:(DTXRangePlotView *)plotView didClickRangeAtIndex:(NSUInteger)idx
 {
-	[self _selectSampleAtIndex:idx];
+	if(self.canReceiveFocus == NO)
+	{
+		id<DTXPlotController> parentThatCan = self;
+		
+		while(parentThatCan != nil && parentThatCan.canReceiveFocus == NO)
+		{
+			parentThatCan = parentThatCan.parentPlotController;
+		}
+		
+		if(parentThatCan != nil)
+		{
+			[self.delegate plotControllerUserDidClickInPlotBounds:parentThatCan];
+		}
+		
+		return;
+	}
+	
+	if(self.isForTouchBar)
+	{
+		return;
+	}
+	
+	[self.delegate plotControllerUserDidClickInPlotBounds:self];
+	
+	if(idx == NSNotFound)
+	{
+		[self removeHighlight];
+		[self.sampleClickDelegate plotController:self didClickOnSample:nil];
+	}
+	else
+	{
+		NSIndexPath* indexPath = _sampleIndices[idx];
+		DTXSample* sample = self._mergedSamples[indexPath.section].samples[indexPath.item];
+		
+		if(_filteredDataProvider && [_filteredDataProvider.filteredObjectIDs containsObject:sample.objectID] == NO)
+		{
+			return;
+		}
+		
+		[self highlightSample:sample];
+		[self.sampleClickDelegate plotController:self didClickOnSample:sample];
+	}
 }
 
 @end
