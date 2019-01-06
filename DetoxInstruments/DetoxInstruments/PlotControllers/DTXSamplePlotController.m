@@ -261,7 +261,7 @@
 - (void)zoomToFitAllData
 {
 	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		obj.plotRange = obj.globalPlotRange;
+		[obj scalePlotRange:obj.plotRange.lengthDouble / obj.globalPlotRange.lengthDouble atPoint:NSZeroPoint];
 	}];
 }
 
