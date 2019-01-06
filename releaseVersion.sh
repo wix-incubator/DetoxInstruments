@@ -72,7 +72,7 @@ rm -fr Distribution/*.zip
 rm -fr "${ARCHIVE}"
 rm -fr "${EXPORT_DIR}"
 
-export CODE_SIGNING_REQUIRED=NO && xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" -configuration release archive -archivePath "${ARCHIVE}" DTXBundleName="Detox Instruments" ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon"  | xcpretty
+export CODE_SIGNING_REQUIRED=NO && xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" -configuration release clean archive -archivePath "${ARCHIVE}" DTXBundleName="Detox Instruments" ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon"  | xcpretty
 # xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -exportArchive -archivePath "${ARCHIVE}" -exportOptionsPlist Distribution/exportOptions.plist -exportPath "${EXPORT_DIR}" | xcpretty
 mkdir -p "${EXPORT_DIR}"
 cp -R "${ARCHIVE}"/Products/Applications/*.app "${EXPORT_DIR}"/
