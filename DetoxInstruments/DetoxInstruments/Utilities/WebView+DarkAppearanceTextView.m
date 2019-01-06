@@ -82,17 +82,17 @@
 
 + (void)load
 {
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion < 14)
-		{
-			return;
-		}
-		
-		Method m1 = class_getInstanceMethod(self.class, @selector(initWithCoder:));
-		Method m2 = class_getInstanceMethod(self.class, @selector(_initWithCoder_dtx:));
-		method_exchangeImplementations(m1, m2);
-	});
+//	static dispatch_once_t onceToken;
+//	dispatch_once(&onceToken, ^{
+//		if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion < 14)
+//		{
+//			return;
+//		}
+//		
+//		Method m1 = class_getInstanceMethod(self.class, @selector(initWithCoder:));
+//		Method m2 = class_getInstanceMethod(self.class, @selector(_initWithCoder_dtx:));
+//		method_exchangeImplementations(m1, m2);
+//	});
 }
 
 - (instancetype)_initWithCoder_dtx:(NSCoder *)decoder
