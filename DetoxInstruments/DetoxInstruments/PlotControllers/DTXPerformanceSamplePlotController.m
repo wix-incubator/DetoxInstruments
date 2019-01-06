@@ -228,35 +228,28 @@
 
 - (void)plotView:(DTXScatterPlotView*)plotView didClickPointAtIndex:(NSUInteger)idx clickPositionInPlot:(double)position valueAtClickPosition:(double)value
 {
-	if(self.canReceiveFocus == NO)
+	DTXSamplePlotController* someoneThatCan = self;
+	
+	while(someoneThatCan != nil && someoneThatCan.canReceiveFocus == NO)
 	{
-		id<DTXPlotController> parentThatCan = self;
-		
-		while(parentThatCan != nil && parentThatCan.canReceiveFocus == NO)
-		{
-			parentThatCan = parentThatCan.parentPlotController;
-		}
-		
-		if(parentThatCan != nil)
-		{
-			[self.delegate plotControllerUserDidClickInPlotBounds:parentThatCan];
-		}
-		
-		return;
+		someoneThatCan = (id)someoneThatCan.parentPlotController;
 	}
 	
-	[self.delegate plotControllerUserDidClickInPlotBounds:self];
+	if(someoneThatCan != nil)
+	{
+		[self.delegate plotControllerUserDidClickInPlotBounds:someoneThatCan];
+	}
 	
 	if(idx == NSNotFound)
 	{
-		[self removeHighlight];
-		[self.sampleClickDelegate plotController:self didClickOnSample:nil];
+		[someoneThatCan removeHighlight];
+		[someoneThatCan.sampleClickDelegate plotController:someoneThatCan didClickOnSample:nil];
 	}
 	else
 	{
 		DTXSample* sample = _frcs[plotView.plotIndex].fetchedObjects[idx];
-		[self _highlightSample:sample positionInPlot:position valueAtClickPosition:value];
-		[self.sampleClickDelegate plotController:self didClickOnSample:sample];
+		[someoneThatCan _highlightSample:sample sampleIndex:idx plotIndex:someoneThatCan == self ? plotView.plotIndex : NSNotFound positionInPlot:position valueAtClickPosition:value];
+		[someoneThatCan.sampleClickDelegate plotController:someoneThatCan didClickOnSample:sample];
 	}
 }
 

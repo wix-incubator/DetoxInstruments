@@ -434,24 +434,12 @@
 
 - (void)plotView:(DTXRangePlotView *)plotView didClickRangeAtIndex:(NSUInteger)idx
 {
-	if(self.canReceiveFocus == NO)
+	if(self.isForTouchBar)
 	{
-		id<DTXPlotController> parentThatCan = self;
-		
-		while(parentThatCan != nil && parentThatCan.canReceiveFocus == NO)
-		{
-			parentThatCan = parentThatCan.parentPlotController;
-		}
-		
-		if(parentThatCan != nil)
-		{
-			[self.delegate plotControllerUserDidClickInPlotBounds:parentThatCan];
-		}
-		
 		return;
 	}
 	
-	if(self.isForTouchBar)
+	if(self.canReceiveFocus == NO)
 	{
 		return;
 	}

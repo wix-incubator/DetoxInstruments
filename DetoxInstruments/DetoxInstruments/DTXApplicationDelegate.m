@@ -284,7 +284,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		
 		BOOL toggled = [NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"];
 		
-		menuItem.title =  toggled ? NSLocalizedString(@"Hide Timeline Labels", @"") : NSLocalizedString(@"Show Timeline Labels", @"");
+		menuItem.title =  toggled ? NSLocalizedString(@"Hide Interval Labels", @"") : NSLocalizedString(@"Show Interval Labels", @"");
 		
 		return YES;
 	}

@@ -32,18 +32,18 @@ static inline __attribute__((always_inline)) double __DTXValueAtIndex(NSArray<DT
 	}
 }
 
-static inline __attribute__((always_inline)) void __DTXStartPaths(CGMutablePathRef* closedPath, CGMutablePathRef* openPath, CGFloat position, CGFloat value, BOOL isStepped)
+static inline __attribute__((always_inline)) void __DTXStartPaths(CGMutablePathRef* closedPath, CGMutablePathRef* openPath, NSEdgeInsets insets, BOOL isFlipped, CGFloat position, CGFloat value, BOOL isStepped)
 {
 	*closedPath = CGPathCreateMutable();
 	*openPath = CGPathCreateMutable();
-	CGPathMoveToPoint(*closedPath, NULL, position, 0);
+	CGPathMoveToPoint(*closedPath, NULL, position, __DTXBottomInset(insets, isFlipped));
 	CGPathAddLineToPoint(*closedPath, NULL, position, value);
 	CGPathMoveToPoint(*openPath, NULL, position, value);
 }
 
 static inline __attribute__((always_inline)) void __DTXFlushPaths(DTXScatterPlotView* self, CGContextRef ctx, CGMutablePathRef closedPath, CGMutablePathRef openPath, CGFloat position, NSUInteger drawingType)
 {
-	CGPathAddLineToPoint(closedPath, NULL, position, 0);
+	CGPathAddLineToPoint(closedPath, NULL, position, __DTXBottomInset(self.insets, self.isFlipped));
 	
 	CGContextAddPath(ctx, closedPath);
 	CGContextClip(ctx);
@@ -69,8 +69,12 @@ static inline __attribute__((always_inline)) void __DTXFlushPaths(DTXScatterPlot
 		CGContextSetFillColorWithColor(ctx, fillColor1.CGColor);
 		CGContextFillRect(ctx, self.bounds);
 	}
-	
+
 	CGContextResetClip(ctx);
+	NSRect selfBounds = self.bounds;
+	NSEdgeInsets insets = self.insets;
+	BOOL isFlipped = self.isFlipped;
+	CGContextClipToRect(ctx, NSMakeRect(self.bounds.origin.x, self.bounds.origin.y + __DTXBottomInset(insets, isFlipped), selfBounds.size.width, selfBounds.size.height - insets.bottom - insets.top));
 	
 	NSColor* lineColor = self.lineColor;
 	
@@ -98,6 +102,7 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	double maxHeight = (self.heightSynchronizer ? self.heightSynchronizer.maximumPlotHeight : self.maxHeight);
 	NSEdgeInsets insets = self.insets;
 	BOOL isStepped = self.isStepped;
+	BOOL isFlipped = self.isFlipped;
 	
 	CGRect selfBounds = self.bounds;
 	
@@ -137,7 +142,7 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	
 	DTXScatterPlotViewPoint* point = points[firstPointIdx];
 	double oldPosition = offset + graphViewRatio * point.x;
-	double oldValue = graphHeightViewRatio * point.y;
+	double oldValue = graphHeightViewRatio * point.y + __DTXBottomInset(insets, isFlipped);
 	
 	NSUInteger currentZoneIdx = 0;
 	for(NSUInteger idx = 0; idx < zones.count; idx++)
@@ -151,7 +156,7 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	
 	CGMutablePathRef closedPath;
 	CGMutablePathRef openPath;
-	__DTXStartPaths(&closedPath, &openPath, oldPosition, oldValue, isStepped);
+	__DTXStartPaths(&closedPath, &openPath, insets, isFlipped, oldPosition, oldValue, isStepped);
 	
 	NSUInteger test = ceil(MIN(80, MAX(1.0, (lastPointIdx - firstPointIdx) / (selfBounds.size.width))));
 	
@@ -159,7 +164,7 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	{
 		point = [points objectAtIndex:idx];
 		double nextPosition = offset + graphViewRatio * point.x;
-		double nextValue = __DTXValueAtIndex(points, point, test, idx, graphHeightViewRatio) + insets.bottom;
+		double nextValue = __DTXValueAtIndex(points, point, test, idx, graphHeightViewRatio) + __DTXBottomInset(insets, isFlipped);
 		
 		if(currentZoneIdx < zones.count - 1 && nextPosition > zones[currentZoneIdx + 1].start)
 		{
@@ -173,7 +178,7 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 				CGPathAddLineToPoint(openPath, NULL, midPosition, oldValue);
 				
 				__DTXFlushPaths(self, ctx, closedPath, openPath, midPosition, zones[currentZoneIdx].drawingType);
-				__DTXStartPaths(&closedPath, &openPath, midPosition, oldValue, isStepped);
+				__DTXStartPaths(&closedPath, &openPath, insets, isFlipped, midPosition, oldValue, isStepped);
 				
 				CGPathAddLineToPoint(closedPath, NULL, nextPosition, oldValue);
 				CGPathAddLineToPoint(openPath, NULL, nextPosition, oldValue);
@@ -186,7 +191,7 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 				CGPathAddLineToPoint(openPath, NULL, midPosition, midValue);
 				
 				__DTXFlushPaths(self, ctx, closedPath, openPath, midPosition, zones[currentZoneIdx].drawingType);
-				__DTXStartPaths(&closedPath, &openPath, midPosition, midValue, isStepped);
+				__DTXStartPaths(&closedPath, &openPath, insets, isFlipped, midPosition, midValue, isStepped);
 			}
 			
 			currentZoneIdx++;
@@ -421,31 +426,67 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	//	NSLog(@"Took %@s to add %u samples", @(end - start), numberOfPoints);
 }
 
-- (void)_clicked:(NSClickGestureRecognizer *)cgr
+static inline __attribute__((always_inline)) double __DTXValueAtPosition(DTXScatterPlotView* self, NSArray<DTXScatterPlotViewPoint*>* _points, double plotClickPosition, BOOL isStepped, NSEdgeInsets insets, BOOL isFlipped, double* delegateClickPosition, double* delegateValue)
 {
-	CGPoint clickPoint = [cgr locationInView:self];
+	double pointRange = _points.lastObject.x - _points.firstObject.x;
 	
-	double plotClickPosition = self.plotRange.locationDouble + clickPoint.x * self.plotRange.lengthDouble / self.bounds.size.width;
-	
-	DTXScatterPlotViewPoint* testPoint = [DTXScatterPlotViewPoint new];
-	testPoint.x = plotClickPosition;
-	
-	NSUInteger idx = [_points indexOfObject:testPoint inSortedRange:NSMakeRange(0, _points.count) options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(DTXScatterPlotViewPoint*  _Nonnull obj1, DTXScatterPlotViewPoint*  _Nonnull obj2) {
-		if(obj1.x == obj2.x)
+	NSUInteger idx = 0;
+	if(fabs(_points[self.previousIndexOf].x - plotClickPosition) > pointRange / 4)
+	{
+		DTXScatterPlotViewPoint* testPoint = [DTXScatterPlotViewPoint new];
+		testPoint.x = plotClickPosition;
+
+		idx = [_points indexOfObject:testPoint inSortedRange:NSMakeRange(0, _points.count) options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(DTXScatterPlotViewPoint*  _Nonnull obj1, DTXScatterPlotViewPoint*  _Nonnull obj2) {
+			if(obj1.x == obj2.x)
+			{
+				return NSOrderedSame;
+			}
+
+			if(obj1.x < obj2.x)
+			{
+				return NSOrderedAscending;
+			}
+
+			return NSOrderedDescending;
+		}];
+	}
+	else
+	{
+		if(plotClickPosition <= _points.firstObject.x)
 		{
-			return NSOrderedSame;
+			idx = 0;
 		}
-		
-		if(obj1.x < obj2.x)
+		else if(plotClickPosition >= _points.lastObject.x)
 		{
-			return NSOrderedAscending;
+			idx = _points.count;
 		}
-		
-		return NSOrderedDescending;
-	}];
+		else
+		{
+			idx = self.previousIndexOf;
+			if(plotClickPosition < _points[self.previousIndexOf].x)
+			{
+				while(_points[idx].x > plotClickPosition && idx >= 0)
+				{
+					idx--;
+				}
+			}
+			else
+			{
+				while(_points[idx + 1].x < plotClickPosition && idx < _points.count)
+				{
+					idx++;
+				}
+			}
+			
+			if(idx < _points.count)
+			{
+				idx += 1;
+			}
+		}
+	}
 	
-	double delegateClickPosition = 0;
-	double delegateValue = 0;
+	*delegateClickPosition = 0;
+	*delegateValue = 0;
 	
 	if(idx == 0)
 	{
@@ -456,16 +497,16 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 		else
 		{
 			DTXScatterPlotViewPoint* point = _points[idx];
-			delegateClickPosition = point.x;
-			delegateValue = point.y;
+			*delegateClickPosition = point.x;
+			*delegateValue = point.y;
 		}
 	}
 	else if(idx == _points.count)
 	{
 		idx = idx - 1;
 		DTXScatterPlotViewPoint* point = _points[idx];
-		delegateClickPosition = point.x;
-		delegateValue = point.y;
+		*delegateClickPosition = point.x;
+		*delegateValue = point.y;
 	}
 	else
 	{
@@ -477,16 +518,63 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 			idx = idx - 1;
 		}
 		
-		delegateClickPosition = plotClickPosition;
-		if(self.isStepped)
+		*delegateClickPosition = plotClickPosition;
+		if(isStepped)
 		{
-			delegateValue = point1.y;
+			*delegateValue = point1.y;
 		}
 		else
 		{
-			delegateValue = lerp(point1.y, point2.y, (plotClickPosition - point1.x) / (point2.x - point1.x));
+			*delegateValue = lerp(point1.y, point2.y, (plotClickPosition - point1.x) / (point2.x - point1.x));
 		}
 	}
+	
+	self.previousIndexOf = idx;
+	
+	return idx;
+}
+
+- (double)valueAtPlotPosition:(double)position
+{
+	double throwAwayPosition;
+	double rv;
+	__DTXValueAtPosition(self, _points, position, self.isStepped, self.insets, self.isFlipped, &throwAwayPosition, &rv);
+	
+	return rv;
+}
+
+- (double)valueOfPointIndex:(NSUInteger)idx
+{
+	return _points[idx].y;
+}
+
+- (NSUInteger)indexOfPointAtViewPosition:(CGFloat)viewPosition positionInPlot:(out double *)position valueAtPlotPosition:(out double *)value
+{
+	double plotClickPosition = self.plotRange.locationDouble + viewPosition * self.plotRange.lengthDouble / self.bounds.size.width;
+	
+	double throwAwayPosition;
+	double throwAwayValue;
+
+	if(position == NULL)
+	{
+		position = &throwAwayPosition;
+	}
+	
+	if(value == NULL)
+	{
+		value = &throwAwayValue;
+	}
+	
+	return __DTXValueAtPosition(self, _points, plotClickPosition, self.isStepped, self.insets, self.isFlipped, position, value);
+}
+
+- (void)_clicked:(NSClickGestureRecognizer *)cgr
+{
+	CGPoint clickPoint = [cgr locationInView:self];
+	double delegateClickPosition;
+	double delegateValue;
+	
+	NSUInteger idx = [self indexOfPointAtViewPosition:clickPoint.x positionInPlot:&delegateClickPosition valueAtPlotPosition:&delegateValue];
 	
 	[self.delegate plotView:self didClickPointAtIndex:idx clickPositionInPlot:delegateClickPosition valueAtClickPosition:delegateValue];
 }

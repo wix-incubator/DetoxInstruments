@@ -19,5 +19,6 @@
 
 @property (nonatomic) double maxHeight;
 @property (nonatomic, weak) id<DTXPlotHeightSynchronization> heightSynchronizer;
+@property (nonatomic) NSUInteger previousIndexOf;
 
 @end

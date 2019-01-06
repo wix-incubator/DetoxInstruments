@@ -362,6 +362,7 @@
 
 - (void)addChildPlotController:(id<DTXPlotController>)childPlotController toPlotController:(id<DTXPlotController>)plotController
 {
+	childPlotController.parentPlotController = plotController;
 	NSMutableArray* children = [self _childrenArrayForPlotController:plotController create:YES];
 	[self _insertPlotController:childPlotController afterPlotController:children.lastObject parentPlotController:plotController inCollection:children];
 }

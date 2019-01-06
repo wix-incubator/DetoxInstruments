@@ -16,6 +16,7 @@
 #import "DTXDetailController.h"
 #import "NSAppearance+UIAdditions.h"
 #import "DTXRecording+UIExtensions.h"
+#import "DTXScatterPlotView.h"
 
 @interface DTXSamplePlotController () <CPTScatterPlotDelegate>
 
@@ -27,6 +28,8 @@
 	CPTPlotRange* _pendingXPlotRange;
 	
 	NSStoryboard* _scene;
+	
+	NSArray<DTXPlotViewTextAnnotation*>* _textAnnotations;
 }
 
 @synthesize delegate = _delegate;
@@ -75,71 +78,65 @@
 
 - (void)mouseExited:(NSEvent *)event
 {
-	[self.hostingView removeAllToolTips];
+	[self _updateTextAnnotations:nil];
 }
 
 - (void)mouseMoved:(NSEvent *)event
 {
-	//TODO: Fix
+	NSPoint pointInView = [self.wrapperView convertPoint:[event locationInWindow] fromView:nil];
+
+	NSMutableArray<NSDictionary*>* dataPoints = [NSMutableArray new];
+
+	for(__kindof DTXPlotView* plotView in self.plotViews)
+	{
+		if([plotView isKindOfClass:DTXScatterPlotView.class])
+		{
+			DTXScatterPlotView* scatterPlotView = plotView;
+
+			double position;
+			NSUInteger pointIdx = [scatterPlotView indexOfPointAtViewPosition:pointInView.x positionInPlot:&position valueAtPlotPosition:NULL];
+			double value = [scatterPlotView valueOfPointIndex:pointIdx];
+
+			[dataPoints addObject:@{@"position": @(position), @"value": [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(value)]]}];
+		}
+	}
+
+	if(dataPoints.count != self.plotViews.count)
+	{
+		return;
+	}
+
+	NSMutableArray* textAnnotations = [NSMutableArray new];
+
+	[dataPoints enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull presentable, NSUInteger idx, BOOL * _Nonnull stop) {
+		auto textAnnotation = [DTXPlotViewTextAnnotation new];
+		textAnnotation.position = [presentable[@"position"] doubleValue];
+		textAnnotation.text = presentable[@"value"];
+		textAnnotation.priority = 1000;
+
+		[self _updateAnnotationColors:@[textAnnotation] forPlotIndex:idx];
+
+		[textAnnotations addObject:textAnnotation];
+	}];
+
+	[self _updateTextAnnotations:textAnnotations];
+}
+
+- (void)_updateTextAnnotations:(NSArray*)newTextAnnotations
+{
+	[_textAnnotations enumerateObjectsUsingBlock:^(DTXPlotViewTextAnnotation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		DTXPlotView* plotView = self.plotViews[idx];
+		NSMutableArray* newAnnotations = plotView.annotations.mutableCopy ?: [NSMutableArray new];
+		[newAnnotations removeObject:obj];
+		if(newTextAnnotations)
+		{
+			[newAnnotations addObject:newTextAnnotations[idx]];
+		}
+		
+		plotView.annotations = newAnnotations;
+	}];
 	
-//	CGPoint pointInView = [self.hostingView convertPoint:[event locationInWindow] fromView:nil];
-//
-//	NSMutableArray<NSDictionary<NSString*, NSString*>*>* dataPoints = [NSMutableArray new];
-//
-//	[self.graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//		NSUInteger numberOfRecords = [self numberOfRecordsForPlot:obj];
-//		NSUInteger foundPointIndex = NSNotFound;
-//		CGFloat foundPointDelta = 0;
-//		CGFloat foundPointX = 0;
-//		for(NSUInteger idx = 0; idx < numberOfRecords; idx++)
-//		{
-//			CGPoint pointOfPoint = [obj plotAreaPointOfVisiblePointAtIndex:idx];
-//			if(pointOfPoint.x <= pointInView.x)
-//			{
-//				foundPointIndex = idx;
-//				foundPointDelta = pointInView.x - pointOfPoint.x;
-//				foundPointX = pointOfPoint.x;
-//			}
-//			else
-//			{
-//				break;
-//			}
-//		}
-//
-//		if(foundPointIndex != NSNotFound)
-//		{
-//			id y = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex];
-//			if(self.isStepped == NO && foundPointIndex < numberOfRecords - 1)
-//			{
-//				CGPoint pointOfNextPoint = [obj plotAreaPointOfVisiblePointAtIndex:foundPointIndex + 1];
-//				id nextY = [self numberForPlot:obj field:CPTScatterPlotFieldY recordIndex:foundPointIndex + 1];
-//
-//				y = [y interpolateToValue:nextY progress:foundPointDelta / (pointOfNextPoint.x - foundPointX)];
-//			}
-//
-//			[dataPoints addObject:@{@"title":self.plotTitles[idx], @"data": [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:y]]}];
-//		}
-//	}];
-//
-//	if(dataPoints.count == 0)
-//	{
-//		return;
-//	}
-//
-//	[self.hostingView removeAllToolTips];
-//	if(dataPoints.count == 1)
-//	{
-//		[self.hostingView setToolTip:dataPoints.firstObject[@"data"]];
-//	}
-//	else
-//	{
-//		NSMutableString* tooltip = [NSMutableString new];
-//		[dataPoints enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSString *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//			[tooltip appendString:[NSString stringWithFormat:@"%@: %@\n", obj[@"title"], obj[@"data"]]];
-//		}];
-//
-//		[self.hostingView setToolTip:[tooltip stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]]];
-//	}
+	_textAnnotations = newTextAnnotations;
 }
 
 - (void)updateLayerHandler
@@ -180,11 +177,11 @@
 	for (__kindof DTXPlotView* plotView in plotViews) {
 		plotView.globalPlotRange = globalXRange;
 		plotView.plotRange = xRange;
-		plotView.insets = self.rangeInsets;
 		plotView.delegate = self;
 		
 		[self.plotStackView addArrangedSubview:plotView];
 	}
+	plotViews.lastObject.insets = self.rangeInsets;
 }
 
 - (void)didFinishViewSetup
@@ -279,24 +276,24 @@
 	
 	[self.delegate plotController:self didHighlightRange:range];
 	
-	[self _highlightRange:range isShadow:NO valueAtClickPosition:0 nofityDelegate:NO];
+	[self _highlightRange:range sampleIndex:NSNotFound isShadow:NO plotIndex:NSNotFound valueAtClickPosition:0 nofityDelegate:NO];
 }
 
-- (void)_highlightSample:(DTXSample*)sample positionInPlot:(double)position valueAtClickPosition:(double)value
+- (void)_highlightSample:(DTXSample*)sample sampleIndex:(NSUInteger)sampleIdx plotIndex:(NSUInteger)plotIndex positionInPlot:(double)position valueAtClickPosition:(double)value
 {
 	CPTPlotRange* range = [CPTPlotRange plotRangeWithLocation:@(position) length:@0];
 	
 	[self.delegate plotController:self didHighlightRange:range];
 	
-	[self _highlightRange:range isShadow:NO valueAtClickPosition:value nofityDelegate:NO];
+	[self _highlightRange:range sampleIndex:sampleIdx isShadow:NO plotIndex:plotIndex valueAtClickPosition:value nofityDelegate:NO];
 }
 
 - (void)shadowHighlightRange:(CPTPlotRange*)range
 {
-	[self _highlightRange:range isShadow:YES valueAtClickPosition:0 nofityDelegate:NO];
+	[self _highlightRange:range sampleIndex:NSNotFound isShadow:YES plotIndex:NSNotFound valueAtClickPosition:0 nofityDelegate:NO];
 }
 
-- (void)_highlightRange:(CPTPlotRange*)range isShadow:(BOOL)isShadow valueAtClickPosition:(double)value nofityDelegate:(BOOL)notifyDelegate
+- (void)_highlightRange:(CPTPlotRange*)range sampleIndex:(NSUInteger)sampleIdx isShadow:(BOOL)isShadow plotIndex:(NSUInteger)plotIndex valueAtClickPosition:(double)value nofityDelegate:(BOOL)notifyDelegate
 {
 	[self _removeHighlightNotifyingDelegate:NO];
 	
@@ -305,12 +302,12 @@
 		if(range.lengthDouble > 0)
 		{
 			DTXPlotViewRangeAnnotation* annotation1 = [DTXPlotViewRangeAnnotation new];
-			annotation1.start = 0;
+			annotation1.position = 0;
 			annotation1.end = range.locationDouble;
 			annotation1.opacity = 0.0;
 			
 			DTXPlotViewRangeAnnotation* annotation2 = [DTXPlotViewRangeAnnotation new];
-			annotation2.start = range.locationDouble + range.lengthDouble;
+			annotation2.position = range.locationDouble + range.lengthDouble;
 			annotation2.end = DBL_MAX;
 			annotation2.opacity = 0.0;
 			
@@ -343,10 +340,44 @@
 				annotation1.opacity = self.wrapperView.effectiveAppearance.isDarkAppearance ? 1.0 : isShadow ? 0.4 : 1.0;
 			}
 			
-			annotation1.drawsValue = isShadow == NO;
-			annotation1.value = value;
+			if([obj isKindOfClass:DTXScatterPlotView.class])
+			{
+				DTXScatterPlotView* scatterPlotView = (id)obj;
+				annotation1.drawsValue = NO;// isShadow == NO;
+				if(isShadow == NO)
+				{
+					if(idx == plotIndex)
+					{
+						annotation1.value = value;
+					}
+					else
+					{
+						annotation1.value = [scatterPlotView valueAtPlotPosition:range.locationDouble];
+					}
+					
+					double textValue;
+					if(sampleIdx != NSNotFound)
+					{
+						textValue = [scatterPlotView valueOfPointIndex:sampleIdx];
+					}
+					else
+					{
+						textValue = [scatterPlotView valueAtPlotPosition:range.locationDouble];
+					}
+					
+					DTXPlotViewTextAnnotation* text = [DTXPlotViewTextAnnotation new];
+					text.text = [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(textValue)]];
+					text.position = annotation1.position;
+					[annotations addObject:text];
+				}
+			}
 			
 			[annotations addObject:annotation1];
+		}
+		
+		if(_textAnnotations != nil)
+		{
+			[annotations addObject:_textAnnotations[idx]];
 		}
 		
 		[self _updateAnnotationColors:annotations forPlotIndex:idx];
@@ -368,7 +399,14 @@
 - (void)_removeHighlightNotifyingDelegate:(BOOL)notify;
 {
 	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		obj.annotations = nil;
+		if(_textAnnotations != nil)
+		{
+			obj.annotations = @[_textAnnotations[idx]];
+		}
+		else
+		{
+			obj.annotations = nil;
+		}
 	}];
 	
 	if(notify)
@@ -395,9 +433,19 @@
 			
 			line.valueColor = [self.plotColors[plotIdx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
 		}
-		else
+		else if([annotation isKindOfClass:DTXPlotViewTextAnnotation.class])
 		{
-			annotation.color = NSColor.whiteColor;
+			DTXPlotViewTextAnnotation* text = (id)annotation;
+			
+			if(self.wrapperView.effectiveAppearance.isDarkAppearance)
+			{
+				text.color = NSColor.whiteColor;
+			}
+			else
+			{
+				text.color =  [self.plotColors[plotIdx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
+			}
+			text.valueColor = [self.plotColors[plotIdx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
 		}
 	}];
 }
@@ -496,7 +544,7 @@
 
 - (NSEdgeInsets)rangeInsets
 {
-	return NSEdgeInsetsZero;
+	return NSEdgeInsetsMake(0, 0, 1, 0);
 }
 
 - (id)transformedValueForFormatter:(id)value

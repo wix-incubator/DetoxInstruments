@@ -97,9 +97,9 @@
 	[bp lineToPoint:NSMakePoint(round(_indicatorOffset), self.bounds.size.height)];
 	
 	bp.lineWidth = 1.0;
-	[bp setLineDash:(CGFloat[]){3.,6.} count:2 phase:-1];
+	[bp setLineDash:(CGFloat[]){4.,4.} count:2 phase:0];
 	
-	[NSColor.labelColor set];
+	[[NSColor.textColor colorWithAlphaComponent:0.25] set];
 	
 	[bp stroke];
 }

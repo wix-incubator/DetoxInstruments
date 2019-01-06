@@ -33,8 +33,264 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 
 @end
 
-@implementation DTXPlotViewLineAnnotation @end
-@implementation DTXPlotViewRangeAnnotation @end
+@implementation DTXPlotViewLineAnnotation
+
+- (instancetype)init
+{
+	self = [super init];
+	if(self) { self.priority = 10; }
+	return self;
+}
+
+@end
+
+@implementation DTXPlotViewRangeAnnotation
+
+- (BOOL)isEqual:(DTXPlotViewRangeAnnotation*)object
+{
+	if(object.position != self.position || object.end != self.end || [object.color isEqualTo:self.color] == NO || object.opacity != self.opacity)
+	{
+		return NO;
+	}
+	
+	return YES;
+}
+
+@end
+@implementation DTXPlotViewTextAnnotation
+
+- (instancetype)init
+{
+	self = [super init];
+	if(self) { self.priority = 100; }
+	return self;
+}
+
+@end
+
+@interface _DTXAnnotationOverlay : NSView
+
+@property (nonatomic, weak) DTXPlotView* containingPlotView;
+
+@end
+
+@implementation _DTXAnnotationOverlay
+{
+	NSDictionary* _stringDrawingAttributesLarge;
+	double _minWidthRequiredLarge;
+	double _minHeightRequiredForLarge;
+	double _rectDXInsetsLarge;
+	double _rectDYInsetsLarge;
+	
+	NSDictionary* _stringDrawingAttributesSmall;
+	double _minWidthRequiredSmall;
+	double _rectDXInsetsSmall;
+	double _rectDYInsetsSmall;
+}
+
+- (instancetype)init
+{
+	self = [super init];
+	
+	if(self)
+	{
+		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		style.lineBreakMode = NSLineBreakByTruncatingTail;
+		style.alignment = NSTextAlignmentCenter;
+		style.allowsDefaultTighteningForTruncation = NO;
+		
+		_stringDrawingAttributesLarge = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:(NSFont.labelFontSize + NSFont.systemFontSize) / 2.0], NSParagraphStyleAttributeName: style};
+		CGSize size = [@"A" sizeWithAttributes:_stringDrawingAttributesLarge];
+		_minWidthRequiredLarge = 4 * size.width;
+		_minHeightRequiredForLarge = size.height + 10;
+		_rectDXInsetsLarge = -3;
+		_rectDYInsetsLarge = -1.5;
+		
+		_stringDrawingAttributesSmall = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeMini]], NSParagraphStyleAttributeName: style};
+		_minWidthRequiredSmall = 4 * [@"A" sizeWithAttributes:_stringDrawingAttributesSmall].width;
+		_rectDXInsetsSmall = -2.5;
+		_rectDYInsetsSmall = -0.0;
+	}
+	
+	return self;
+}
+
+- (NSView *)hitTest:(NSPoint)point
+{
+	return nil;
+}
+
+- (BOOL)isFlipped
+{
+	return _containingPlotView.isFlipped;
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+	[super drawRect:dirtyRect];
+	
+	if(_containingPlotView.annotations.count == 0)
+	{
+		return;
+	}
+	
+	CGRect selfBounds = self.bounds;
+	if(CGRectEqualToRect(selfBounds, CGRectZero))
+	{
+		return;
+	}
+	
+	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
+	CGContextResetClip(ctx);
+	
+	CPTPlotRange* xRange = _containingPlotView.plotRange;
+	
+	CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
+	CGFloat offset = - graphViewRatio * xRange.locationDouble;
+	
+	//Somehow the 0.5 pixel offset on 1x screens with antialiasing disabled make it appear better 🤷‍♂️
+	double valuePixelOffset = self.window.backingScaleFactor == 1.0 ? 0.5 : 0.0;
+	
+	for (DTXPlotViewAnnotation * _Nonnull annotation in _containingPlotView.annotations)
+	{
+		CGFloat position = offset + graphViewRatio * annotation.position;
+		
+		if(annotation.class == DTXPlotViewLineAnnotation.class)
+		{
+			position = floor(position);
+			
+			DTXPlotViewLineAnnotation* line = (DTXPlotViewLineAnnotation*)annotation;
+			
+			if(position < dirtyRect.origin.x || position > dirtyRect.origin.x + dirtyRect.size.width)
+			{
+				continue;
+			}
+			
+			position += valuePixelOffset;
+			
+			CGContextSetLineWidth(ctx, 1);
+			CGContextSetAllowsAntialiasing(ctx, NO);
+			CGContextSetStrokeColorWithColor(ctx, [line.color colorWithAlphaComponent:line.color.alphaComponent * line.opacity].CGColor);
+			CGContextMoveToPoint(ctx, position, dirtyRect.origin.y);
+			CGContextAddLineToPoint(ctx, position, dirtyRect.origin.y + dirtyRect.size.height);
+			CGContextStrokePath(ctx);
+			
+			if(line.drawsValue == YES && [_containingPlotView isKindOfClass:DTXScatterPlotView.class])
+			{
+				DTXScatterPlotView* scatterPlotView = (id)_containingPlotView;
+				double maxHeight = (scatterPlotView.heightSynchronizer ? scatterPlotView.heightSynchronizer.maximumPlotHeight : scatterPlotView.maxHeight);
+				CGFloat graphHeightViewRatio = (selfBounds.size.height - scatterPlotView.insets.top - scatterPlotView.insets.bottom) / (maxHeight * scatterPlotView.plotHeightMultiplier);
+				
+				double value = line.value * graphHeightViewRatio + __DTXBottomInset(scatterPlotView.insets, scatterPlotView.isFlipped);
+				
+				CGContextSetAllowsAntialiasing(ctx, YES);
+				CGContextSetFillColorWithColor(ctx, line.valueColor.CGColor);
+				CGContextSetLineWidth(ctx, 1.5);
+				NSBezierPath* elipse = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(position - __DTXPlotViewAnnotationValueWidth / 2, value - __DTXPlotViewAnnotationValueWidth / 2, __DTXPlotViewAnnotationValueWidth, __DTXPlotViewAnnotationValueWidth)];
+				[elipse fill];
+				[elipse stroke];
+			}
+		}
+		else if(annotation.class == DTXPlotViewTextAnnotation.class)
+		{
+			DTXPlotViewTextAnnotation* textAnnotation = (id)annotation;
+			
+			if(textAnnotation.text.length == 0)
+			{
+				continue;
+			}
+			
+			double value = selfBounds.size.height / 2;
+			if([_containingPlotView isKindOfClass:DTXScatterPlotView.class])
+			{
+				DTXScatterPlotView* scatterPlotView = (id)_containingPlotView;
+				value = 0;
+				[scatterPlotView indexOfPointAtViewPosition:position positionInPlot:NULL valueAtPlotPosition:&value];
+				
+				double maxHeight = (scatterPlotView.heightSynchronizer ? scatterPlotView.heightSynchronizer.maximumPlotHeight : scatterPlotView.maxHeight);
+				CGFloat graphHeightViewRatio = (selfBounds.size.height - scatterPlotView.insets.top - scatterPlotView.insets.bottom) / (maxHeight * scatterPlotView.plotHeightMultiplier);
+				value = value * graphHeightViewRatio + __DTXBottomInset(scatterPlotView.insets, scatterPlotView.isFlipped);
+			}
+			
+			position = floor(position);
+			
+			CGContextSaveGState(ctx);
+			CGContextSetLineWidth(ctx, 1.5);
+			CGContextSetAllowsAntialiasing(ctx, YES);
+			
+			NSColor* textColor = self.effectiveAppearance.isDarkAppearance ? NSColor.textColor : textAnnotation.color;
+			
+			NSDictionary* usedAttributes;
+			double minWidth;
+			double dx, dy;
+			if(self.bounds.size.height >= _minHeightRequiredForLarge)
+			{
+				usedAttributes = _stringDrawingAttributesLarge;
+				minWidth = _minWidthRequiredLarge;
+				dx = _rectDXInsetsLarge;
+				dy = _rectDYInsetsLarge;
+			}
+			else
+			{
+				usedAttributes = _stringDrawingAttributesSmall;
+				minWidth = _minWidthRequiredSmall;
+				dx = _rectDXInsetsSmall;
+				dy = _rectDYInsetsSmall;
+			}
+			
+			NSMutableDictionary* attrs = usedAttributes.mutableCopy;
+			attrs[NSForegroundColorAttributeName] = textColor;
+			NSAttributedString* attr = [[NSAttributedString alloc] initWithString:textAnnotation.text attributes:attrs];
+			
+			CGRect boundingRect = CGRectInset([attr boundingRectWithSize:selfBounds.size options:0], dx, dy);
+			CGRect drawRect = (CGRect){position + __DTXPlotViewAnnotationValueWidth, value, boundingRect.size};
+			
+			if(drawRect.origin.y < 5.0 + _containingPlotView.insets.bottom)
+			{
+				drawRect.origin.y = 5.0 + _containingPlotView.insets.bottom;
+			}
+			else if(drawRect.origin.y + drawRect.size.height > selfBounds.size.height - 5.0)
+			{
+				drawRect.origin.y = selfBounds.size.height - 5.0 - drawRect.size.height;
+			}
+			
+			if(drawRect.origin.x + MAX(minWidth, drawRect.size.width) > selfBounds.size.width - 5.0)
+			{
+				drawRect.origin.x = position - __DTXPlotViewAnnotationValueWidth - drawRect.size.width;
+			}
+			
+			CGMutablePathRef path = CGPathCreateMutable();
+			CGPathAddRoundedRect(path, NULL, drawRect, 4, 4);
+			
+			NSColor* fillColor = self.effectiveAppearance.isDarkAppearance ? textAnnotation.valueColor : NSColor.textBackgroundColor;
+			CGContextSetFillColorWithColor(ctx, fillColor.CGColor);
+			CGContextAddPath(ctx, path);
+			CGContextClip(ctx);
+			CGContextFillRect(ctx, drawRect);
+			CGContextResetClip(ctx);
+			
+			NSColor* strokeColor = self.effectiveAppearance.isDarkAppearance ? NSColor.textColor : textAnnotation.color;
+			CGContextSetStrokeColorWithColor(ctx, strokeColor.CGColor);
+			CGContextAddPath(ctx, path);
+			CGContextStrokePath(ctx);
+			
+			CGPathRelease(path);
+			
+			[attr drawInRect:drawRect];
+			
+			CGContextSetStrokeColorWithColor(ctx, textAnnotation.color.CGColor);
+			CGContextSetFillColorWithColor(ctx, textAnnotation.valueColor.CGColor);
+			CGContextSetLineWidth(ctx, 1.5);
+			NSBezierPath* elipse = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(position - __DTXPlotViewAnnotationValueWidth / 2, value - __DTXPlotViewAnnotationValueWidth / 2, __DTXPlotViewAnnotationValueWidth, __DTXPlotViewAnnotationValueWidth)];
+			[elipse fill];
+			[elipse stroke];
+			
+			CGContextRestoreGState(ctx);
+		}
+	}
+}
+
+@end
 
 @interface DTXPlotView () <NSGestureRecognizerDelegate> @end
 
@@ -44,6 +300,8 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	NSClickGestureRecognizer* _cgr;
 	
 	BOOL _hasRangeAnnotations;
+	
+	_DTXAnnotationOverlay* _overlay;
 }
 
 @synthesize flipped=_flipped;
@@ -63,6 +321,19 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 		
 		_minimumHeight = -1;
 	
+		_overlay = [_DTXAnnotationOverlay new];
+		_overlay.layerContentsRedrawPolicy = NSViewLayerContentsRedrawDuringViewResize;
+		_overlay.containingPlotView = self;
+		_overlay.translatesAutoresizingMaskIntoConstraints = NO;
+		
+		[self addSubview:_overlay];
+		
+		[NSLayoutConstraint activateConstraints:@[
+												  [_overlay.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+												  [_overlay.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+												  [_overlay.topAnchor constraintEqualToAnchor:self.topAnchor],
+												  [_overlay.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
+												  ]];
 	}
 	return self;
 }
@@ -126,9 +397,10 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 {
 	_hasRangeAnnotations = NO;
 	
-	_annotations = annotations;
+	NSMutableArray<DTXPlotViewAnnotation *>* newAnnotations = annotations.mutableCopy;
+	[newAnnotations sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"priority" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES]]];
 	
-	for (DTXPlotViewAnnotation* annotation in annotations)
+	for (DTXPlotViewAnnotation* annotation in newAnnotations)
 	{
 		if([annotation isKindOfClass:DTXPlotViewRangeAnnotation.class])
 		{
@@ -136,7 +408,34 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 		}
 	}
 	
-	[self setNeedsDisplay:YES];
+	NSArray* old = [_annotations filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"class == %@", DTXPlotViewRangeAnnotation.class]];
+	if(old.count == 0)
+	{
+		old = nil;
+	}
+	NSArray* new = [newAnnotations filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"class == %@", DTXPlotViewRangeAnnotation.class]];
+	if(new.count == 0)
+	{
+		new = nil;
+	}
+	
+	_annotations = newAnnotations;
+	[_overlay setNeedsDisplay:YES];
+	
+	if(old != new && [old isEqualToArray:new] == NO)
+	{
+		[self setNeedsDisplay:YES];
+	}
+}
+
+- (void)setNeedsDisplay:(BOOL)needsDisplay
+{
+	[super setNeedsDisplay:needsDisplay];
+	
+	if(needsDisplay)
+	{
+		[_overlay setNeedsDisplay:YES];
+	}
 }
 
 - (void)reloadData
@@ -294,114 +593,6 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
 	
 	[self scalePlotRange:scale atPoint:point];
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-	[super drawRect:dirtyRect];
-	
-	if(self.annotations.count == 0)
-	{
-		return;
-	}
-	
-	CGRect selfBounds = self.bounds;
-	if(CGRectEqualToRect(selfBounds, CGRectZero))
-	{
-		return;
-	}
-	
-	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
-	CGContextSetLineWidth(ctx, 1);
-	CGContextSetAllowsAntialiasing(ctx, self.window.backingScaleFactor > 1.0);
-	
-	CPTPlotRange* xRange = self.plotRange;
-	
-	CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
-	CGFloat offset = - graphViewRatio * xRange.locationDouble;
-	
-	for (DTXPlotViewAnnotation * _Nonnull annotation in self.annotations)
-	{
-		if(annotation.class == DTXPlotViewLineAnnotation.class)
-		{
-			DTXPlotViewLineAnnotation* line = (DTXPlotViewLineAnnotation*)annotation;
-			CGFloat position = floor(offset + graphViewRatio * line.position);
-			
-			if(position < dirtyRect.origin.x || position > dirtyRect.origin.x + dirtyRect.size.width)
-			{
-				continue;
-			}
-			
-			CGContextSetStrokeColorWithColor(ctx, [line.color colorWithAlphaComponent:line.color.alphaComponent * line.opacity].CGColor);
-			CGContextMoveToPoint(ctx, position, dirtyRect.origin.y);
-			CGContextAddLineToPoint(ctx, position, dirtyRect.origin.y + dirtyRect.size.height);
-			CGContextStrokePath(ctx);
-			
-			if(line.drawsValue && [self isKindOfClass:DTXScatterPlotView.class])
-			{
-				DTXScatterPlotView* scatterPlotView = (id)self;
-				CGFloat graphHeightViewRatio = (selfBounds.size.height - scatterPlotView.insets.top - scatterPlotView.insets.bottom) / (scatterPlotView.maxHeight * scatterPlotView.plotHeightMultiplier);
-				
-				double value = line.value * graphHeightViewRatio;
-				
-				NSLog(@"value: %@ max: %@", @(line.value), @(scatterPlotView.maxHeight));
-				
-				CGContextSetAllowsAntialiasing(ctx, YES);
-				CGContextSetFillColorWithColor(ctx, line.valueColor.CGColor);
-				CGContextSetLineWidth(ctx, 1.5);
-				NSBezierPath* elipse = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(position - __DTXPlotViewAnnotationValueWidth / 2, value - __DTXPlotViewAnnotationValueWidth / 2, __DTXPlotViewAnnotationValueWidth, __DTXPlotViewAnnotationValueWidth)];
-				[elipse fill];
-				[elipse stroke];
-			}
-		}
-	}
-	
-//	[self.annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull annotation, NSUInteger idx, BOOL * _Nonnull stop) {
-//		NSView* view = _annotationViews[idx];
-//
-//		CPTPlotRange* xRange = self.plotRange;
-//
-//		CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
-//		CGFloat offset = - graphViewRatio * xRange.locationDouble;
-//
-//		if(annotation.class == DTXPlotViewLineAnnotation.class)
-//		{
-//			DTXPlotViewLineAnnotation* line = (DTXPlotViewLineAnnotation*)annotation;
-//			CGFloat position = floor(offset + graphViewRatio * line.position);
-//
-//			if(position < selfBounds.origin.x || position > selfBounds.origin.x + selfBounds.size.width)
-//			{
-//				view.hidden = YES;
-//			}
-//			else
-//			{
-//				view.hidden = NO;
-//				view.frame = CGRectMake(position, 0, 1, selfBounds.size.height);
-//			}
-//		}
-//		else if(annotation.class == DTXPlotViewRangeAnnotation.class)
-//		{
-//			DTXPlotViewRangeAnnotation* range = (DTXPlotViewRangeAnnotation*)annotation;
-//
-//			CGRect innerBounds = selfBounds;// [self.enclosingScrollView convertRect:selfBounds fromView:self];
-//
-//			CGFloat start = MAX(innerBounds.origin.x, innerBounds.origin.x + floor(range.start == DBL_MIN ? 0 : offset + graphViewRatio * range.start));
-//			CGFloat end = MIN(innerBounds.origin.x + innerBounds.size.width, innerBounds.origin.x + ceil(range.end == DBL_MAX ? innerBounds.size.width : offset + graphViewRatio * range.end));
-//
-//			if(end < innerBounds.origin.x || start > innerBounds.origin.x + innerBounds.size.width)
-//			{
-//				if(view.isHidden == NO)
-//				{
-//					view.hidden = YES;
-//				}
-//			}
-//			else
-//			{
-//				view.hidden = NO;
-//				view.frame = CGRectMake(start, 0, end - start, selfBounds.size.height);
-//			}
-//		}
-//	}];
 }
 
 @end

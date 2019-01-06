@@ -11,14 +11,15 @@
 
 @interface DTXPlotViewAnnotation : NSObject
 
+@property (nonatomic) double position;
 @property (nonatomic, strong) NSColor* color;
 @property (nonatomic) double opacity;
+@property (nonatomic) double priority;
 
 @end
 
 @interface DTXPlotViewLineAnnotation : DTXPlotViewAnnotation
 
-@property (nonatomic) double position;
 @property (nonatomic) double value;
 
 @property (nonatomic) bool drawsValue;
@@ -28,11 +29,15 @@
 
 @interface DTXPlotViewRangeAnnotation : DTXPlotViewAnnotation
 
-@property (nonatomic) double start;
 @property (nonatomic) double end;
 
 @end
 
+@interface DTXPlotViewTextAnnotation : DTXPlotViewAnnotation
+
+@property (nonatomic, strong) NSString* text;
+@property (nonatomic, strong) NSColor* valueColor;
+@end
 
 @class DTXPlotView;
 

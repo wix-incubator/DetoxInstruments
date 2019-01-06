@@ -38,7 +38,7 @@ static inline void __DTXFillZones(DTXPlotView* self, NSMutableArray<_DTXDrawingZ
 			continue;
 		}
 		
-		double start = offset + graphViewRatio * annotation.start;
+		double start = offset + graphViewRatio * annotation.position;
 		double end = offset + graphViewRatio * annotation.end;
 		
 		_DTXDrawingZone* zone;
@@ -60,6 +60,11 @@ static inline void __DTXFillZones(DTXPlotView* self, NSMutableArray<_DTXDrawingZ
 		next.start = end;
 		[zones addObject:next];
 	}
+}
+
+static inline __attribute__((always_inline)) double __DTXBottomInset(NSEdgeInsets insets, BOOL isFlipped)
+{
+	return isFlipped == NO ? insets.bottom : insets.top;
 }
 
 @interface DTXPlotView ()

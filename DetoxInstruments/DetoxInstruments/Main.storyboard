@@ -584,7 +584,7 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wxx-Ko-OoF"/>
-                                        <menuItem title="Show Timeline Labels" keyEquivalent="l" identifier="ShowSampleLabels" id="IFp-xu-wKG">
+                                        <menuItem title="Show Interval Labels" keyEquivalent="l" identifier="ShowSampleLabels" id="IFp-xu-wKG">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleShowTimelineLabels:" target="Voe-Tx-rLC" id="ni0-Dd-aJY"/>

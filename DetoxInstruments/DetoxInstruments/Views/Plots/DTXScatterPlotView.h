@@ -47,4 +47,8 @@
 - (void)reloadPointAtIndex:(NSUInteger)index;
 - (void)addNumberOfPoints:(NSUInteger)numberOfPoints;
 
+- (NSUInteger)indexOfPointAtViewPosition:(CGFloat)viewPosition positionInPlot:(out double *)position valueAtPlotPosition:(out double *)value;
+- (double)valueAtPlotPosition:(double)position;
+- (double)valueOfPointIndex:(NSUInteger)idx;
+
 @end
