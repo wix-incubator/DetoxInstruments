@@ -13,7 +13,7 @@
 #import "DTXRecording+UIExtensions.h"
 #import "DTXCPTXYAxis.h"
 
-@interface DTXAxisHeaderPlotController ()
+@interface DTXAxisHeaderPlotController () <CPTPlotSpaceDelegate>
 
 @end
 
@@ -54,6 +54,7 @@
 {
 	// Setup scatter plot space
 	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
+	plotSpace.delegate = self;
 	if(_pendingGlobalXPlotRange)
 	{
 		plotSpace.globalXRange = _pendingGlobalXPlotRange;
