@@ -21,12 +21,6 @@
 	return [DTXReactNativePeroformanceSample class];
 }
 
-- (CGFloat)requiredHeight
-{
-	return 200.0;
-}
-
-
 - (NSString *)displayName
 {
 	return NSLocalizedString(@"Bridge Counters", @"");

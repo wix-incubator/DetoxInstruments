@@ -34,12 +34,6 @@
 	return rv;
 }
 
-- (CGFloat)requiredHeight
-{
-	return 200.0;
-}
-
-
 + (Class)UIDataProviderClass
 {
 	return [DTXRNBridgeDataDataProvider class];
