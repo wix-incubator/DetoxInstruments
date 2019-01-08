@@ -56,11 +56,13 @@ if [ -z "$DRY_RUN" ]; then
 	fi
 fi
 
+Scripts/updateCopyright.sh
+
 if [ -z "$NO_DOCS" ]; then
 	echo -e "\033[1;34mUpdating acknowledgements and Apple Help\033[0m"
 
-	./updateAcknowledgements.sh
-	./updateHelp.sh || :
+	Scripts/updateAcknowledgements.sh
+	Scripts/updateHelp.sh || :
 fi
 
 echo -e "\033[1;34mBuilding archive and exporting\033[0m"
