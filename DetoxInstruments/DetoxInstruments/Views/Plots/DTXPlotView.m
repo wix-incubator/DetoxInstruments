@@ -157,8 +157,6 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 		
 		if(annotation.class == DTXPlotViewLineAnnotation.class)
 		{
-			position = floor(position);
-			
 			DTXPlotViewLineAnnotation* line = (DTXPlotViewLineAnnotation*)annotation;
 			
 			if(position < dirtyRect.origin.x || position > dirtyRect.origin.x + dirtyRect.size.width)
@@ -211,8 +209,6 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 				CGFloat graphHeightViewRatio = (selfBounds.size.height - scatterPlotView.insets.top - scatterPlotView.insets.bottom) / (maxHeight * scatterPlotView.plotHeightMultiplier);
 				value = value * graphHeightViewRatio + __DTXBottomInset(scatterPlotView.insets, scatterPlotView.isFlipped);
 			}
-			
-			position = floor(position);
 			
 			CGContextSaveGState(ctx);
 			CGContextSetLineWidth(ctx, 1.5);

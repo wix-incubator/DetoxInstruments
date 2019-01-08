@@ -92,9 +92,11 @@
 	
 	NSGraphicsContext.currentContext.shouldAntialias = NO;
 	
+	CGFloat px = _indicatorOffset + (self.window.backingScaleFactor == 1.0 ? 0.5 : 0.0);
+	
 	NSBezierPath* bp = [NSBezierPath bezierPath];
-	[bp moveToPoint:NSMakePoint(round(_indicatorOffset), 0)];
-	[bp lineToPoint:NSMakePoint(round(_indicatorOffset), self.bounds.size.height)];
+	[bp moveToPoint:NSMakePoint(px, 0)];
+	[bp lineToPoint:NSMakePoint(px, self.bounds.size.height)];
 	
 	bp.lineWidth = 1.0;
 	[bp setLineDash:(CGFloat[]){4.,4.} count:2 phase:0];
