@@ -283,7 +283,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 												   code:-9
 											   userInfo:@{
 														  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"A newer version of Detox Instruments is required to open the document safely.", @""),
-														  NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you continue, recorded data may be lost or damage the document altogether.", @""),
+														  NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you continue, you may lose recorded data or damage the document altogether.", @""),
 														  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Open Anyway", nil), NSLocalizedString(@"Cancel", nil)],
 														  NSRecoveryAttempterErrorKey: self,
 														  NSURLErrorKey: url

@@ -18,6 +18,10 @@
 #import "DTXRangePlotView.h"
 #import "DTXFilteredDataProvider.h"
 #import "DTXSamplePlotController-Private.h"
+
+#import "DTXLogging.h"
+DTX_CREATE_LOG(IntervalSamplePlotController)
+
 //@import os.signpost;
 
 @interface _DTXSampleGroup : NSObject
@@ -189,7 +193,7 @@
 	}
 
 	CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
-	NSLog(@"%@ took %@ seconds to prepare samples", self.class, @(elapsedTime));
+	dtx_log_info(@"%@ took %@ seconds to prepare samples", self.class, @(elapsedTime));
 	
 #if 0
 	NSMutableArray* lines = [NSMutableArray new];

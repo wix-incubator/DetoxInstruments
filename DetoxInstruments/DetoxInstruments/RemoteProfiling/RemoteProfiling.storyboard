@@ -163,8 +163,6 @@
                                                                 <outlet property="deviceImageView" destination="d5C-40-8qS" id="hSK-HD-n4E"/>
                                                                 <outlet property="deviceScreenSnapshotImageView" destination="8lz-Am-CZo" id="sA9-Pv-VQc"/>
                                                                 <outlet property="progressIndicator" destination="7Jo-60-0Qv" id="3wy-xE-3sM"/>
-                                                                <outlet property="screenSnapshotHorizontalConstraint" destination="mZi-C2-eCs" id="hr8-H4-ACT"/>
-                                                                <outlet property="screenSnapshotVerticalConstraint" destination="4J7-Nu-M5D" id="EMn-7o-yMT"/>
                                                                 <outlet property="title1Field" destination="h8g-4z-MlV" id="pHv-Ss-OEp"/>
                                                                 <outlet property="title2Field" destination="xEi-6o-1U5" id="4Vg-f0-WEe"/>
                                                                 <outlet property="title3Field" destination="gXk-g3-2wI" id="irE-se-gFc"/>

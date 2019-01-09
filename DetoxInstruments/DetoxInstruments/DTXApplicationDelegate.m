@@ -12,6 +12,9 @@
 #import "DTXAboutWindowController.h"
 #import "DTXColorTryoutsWindow.h"
 
+#import "DTXLogging.h"
+DTX_CREATE_LOG(ApplicationDelegate)
+
 @import Carbon;
 @import Sparkle;
 
@@ -103,6 +106,13 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		_hasAtLeastRecordingDocumentWindowOpen = doc.documentState >= DTXRecordingDocumentStateLiveRecording;
 		_hasRecordingDocumentWindowOpen = doc.documentState == DTXRecordingDocumentStateLiveRecording;
 		_hasSavedDocumentWindowOpen = doc.documentState >= DTXRecordingDocumentStateLiveRecordingFinished;
+		
+		dtx_log_debug(@"hasNoDocumentWindowOpen: %@", @(_hasNoDocumentWindowOpen));
+		dtx_log_debug(@"hasAnyDocumentWindowOpen: %@", @(_hasAnyDocumentWindowOpen));
+		dtx_log_debug(@"hasNewRecordingDocumentWindowOpen: %@", @(_hasNewRecordingDocumentWindowOpen));
+		dtx_log_debug(@"hasAtLeastRecordingDocumentWindowOpen: %@", @(_hasAtLeastRecordingDocumentWindowOpen));
+		dtx_log_debug(@"hasRecordingDocumentWindowOpen: %@", @(_hasRecordingDocumentWindowOpen));
+		dtx_log_debug(@"hasSavedDocumentWindowOpen: %@", @(_hasSavedDocumentWindowOpen));
 		
 		[self didChangeValueForKey:@"hasNoDocumentWindowOpen"];
 		[self didChangeValueForKey:@"hasAnyDocumentWindowOpen"];
@@ -256,6 +266,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+	dtx_log_info(@"Validating menu item: %@ (action: %@)", menuItem, NSStringFromSelector(menuItem.action));
+	
 	if(menuItem.action == @selector(checkForUpdates:))
 	{
 		BOOL canCheckForUpdates = [self updaterMayCheckForUpdates:_updater];
@@ -277,6 +289,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	{
 		if(_hasAtLeastRecordingDocumentWindowOpen == NO)
 		{
+			dtx_log_info(@"Hiding “Interval Labels” menu item");
+			
 			menuItem.hidden = YES;
 			
 			return NO;

@@ -450,7 +450,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 		NSMutableDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",
-										@"additionalInfoStart": additionalInfo ?: @0,
 										@"category": category ?: @0,
 										@"duration": @0,
 										@"isEvent": @1,

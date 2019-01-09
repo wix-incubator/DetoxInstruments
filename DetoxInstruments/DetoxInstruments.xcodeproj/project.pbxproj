@@ -42,6 +42,7 @@
 		392F09841F168959005ACF8D /* DTXStackTraceCopyDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 392F09831F168959005ACF8D /* DTXStackTraceCopyDataProvider.m */; };
 		3932A06F1F054022001AC360 /* DTXRNCPUUsagePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3932A06E1F054022001AC360 /* DTXRNCPUUsagePlotController.m */; };
 		3932A0731F0547EF001AC360 /* DTXRNCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3932A0721F0547EF001AC360 /* DTXRNCPUDataProvider.m */; };
+		393528E121E6175600880E7D /* DTXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 393528DF21E6175500880E7D /* DTXLogging.m */; };
 		3939233621AB33DC0015A15F /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3939232D21AB33CB0015A15F /* ZipZap.framework */; };
 		3939233721AB33DC0015A15F /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3939232D21AB33CB0015A15F /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3939247121AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3939247021AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.m */; };
@@ -516,6 +517,9 @@
 		3932A06E1F054022001AC360 /* DTXRNCPUUsagePlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUUsagePlotController.m; sourceTree = "<group>"; };
 		3932A0711F0547EF001AC360 /* DTXRNCPUDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNCPUDataProvider.h; sourceTree = "<group>"; };
 		3932A0721F0547EF001AC360 /* DTXRNCPUDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUDataProvider.m; sourceTree = "<group>"; };
+		393528C921E6170500880E7D /* DTXLoggingSubsystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLoggingSubsystem.h; sourceTree = "<group>"; };
+		393528DF21E6175500880E7D /* DTXLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXLogging.m; path = ../../../../Shared/DTXLoggingInfra/DTXLogging.m; sourceTree = "<group>"; };
+		393528E021E6175600880E7D /* DTXLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXLogging.h; path = ../../../../Shared/DTXLoggingInfra/DTXLogging.h; sourceTree = "<group>"; };
 		3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipZap.xcodeproj; path = ../../../Shared/ZipZap/ZipZap.xcodeproj; sourceTree = "<group>"; };
 		3939245521AD51C00015A15F /* DTXProfilingBasics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DTXProfilingBasics.h; path = ../../../../Profiler/DTXProfiler/Model/DTXProfilingBasics.h; sourceTree = "<group>"; };
 		3939246F21AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.h; sourceTree = "<group>"; };
@@ -1081,6 +1085,16 @@
 			path = ReactNative;
 			sourceTree = "<group>";
 		};
+		393528DE21E6174400880E7D /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				393528E021E6175600880E7D /* DTXLogging.h */,
+				393528DF21E6175500880E7D /* DTXLogging.m */,
+				393528C921E6170500880E7D /* DTXLoggingSubsystem.h */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
 		393922C021AB190D0015A15F /* ZipZap */ = {
 			isa = PBXGroup;
 			children = (
@@ -1406,6 +1420,7 @@
 				398D6E731EE03E8B00AA9C11 /* CorePlot */,
 				394516AB1EEF43FC0093E503 /* LNInterpolation */,
 				39F6F6C81F0E3D3900C7F411 /* AutoCoding */,
+				393528DE21E6174400880E7D /* Logging */,
 				39775F5A1EE83729001F69CC /* NSFormatter+PlotFormatters.h */,
 				39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */,
 				39EA56EC20E02E4B00600BA7 /* NSAppearance+UIAdditions.h */,
@@ -2242,6 +2257,7 @@
 				3947158C20A2FB0E00A7068A /* NSView+UIAdditions.m in Sources */,
 				393FAC1A21202C3000637395 /* DTXPlotControllerPickerCellView.m in Sources */,
 				39BEE165207A1AA9003AF93E /* DTXDeviceActionButton.m in Sources */,
+				393528E121E6175600880E7D /* DTXLogging.m in Sources */,
 				39EE1F5E1F3E489F002CB6C1 /* DTXRNBridgeDataInspectorDataProvider.m in Sources */,
 				3944E3561F4DB80F001911E8 /* DTXCPTScatterPlot.m in Sources */,
 				395F01C31EE7E7AD00695236 /* DTXHeaderView.m in Sources */,

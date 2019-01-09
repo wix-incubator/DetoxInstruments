@@ -213,7 +213,14 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	__DTXFlushPaths(self, ctx, closedPath, openPath, oldPosition, zones[currentZoneIdx].drawingType);
 }
 
-@implementation DTXScatterPlotViewPoint @end
+@implementation DTXScatterPlotViewPoint
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p> x: %@ y: %@", self.className, self, @(self.x), @(self.y)];
+}
+
+@end
 
 @interface _DTXLineLayer : CALayer
 
@@ -333,7 +340,7 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 {
 	_points[idx] = point;
 	
-	_maxHeight = MAX(_heightSynchronizer.maximumPlotHeight, MAX(_maxHeight, MAX(_minimumValueForPlotHeight, point.y)));
+	_maxHeight = MAX(0.01, MAX(_heightSynchronizer.maximumPlotHeight, MAX(_maxHeight, MAX(_minimumValueForPlotHeight, point.y))));
 	_heightSynchronizer.maximumPlotHeight = _maxHeight;
 }
 
@@ -411,7 +418,8 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 {
 	//	CFTimeInterval start = CACurrentMediaTime();
 	
-	for(NSUInteger idx = _points.count; idx < _points.count + numberOfPoints; idx++)
+	NSUInteger count = _points.count + numberOfPoints;
+	for(NSUInteger idx = _points.count; idx < count; idx++)
 	{
 		DTXScatterPlotViewPoint* point = [self.dataSource plotView:self pointAtIndex:idx];
 		
