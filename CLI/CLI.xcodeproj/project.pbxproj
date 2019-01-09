@@ -286,7 +286,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = "Leo Natan";
+				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
 					396487691FC325C400006341 = {
 						CreatedOnToolsVersion = 9.2;
