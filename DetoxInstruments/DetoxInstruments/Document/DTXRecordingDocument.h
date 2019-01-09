@@ -9,11 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import "DTXDocument.h"
 #import "DTXInstrumentsModel.h"
-#ifndef CLI
+#if ! CLI
 #import "DTXRNJSCSourceMapsSupport.h"
 #endif
 
-#ifndef CLI
+#if ! CLI
 #import "DTXRemoteTarget.h"
 #endif
 
@@ -37,10 +37,8 @@ typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 @property (nonatomic, strong, readonly) DTXRecording* firstRecording;
 @property (nonatomic, strong, readonly) DTXRecording* lastRecording;
 
-#ifndef CLI
+#if ! CLI
 @property (nonatomic, strong, readonly) DTXSourceMapsParser* sourceMapsParser;
-
-+ (void)clearLastOpenedVersionAndReopenDocumentAtURL:(NSURL*)URL;
 
 - (void)readyForRecordingIfNeeded;
 - (void)addTag;

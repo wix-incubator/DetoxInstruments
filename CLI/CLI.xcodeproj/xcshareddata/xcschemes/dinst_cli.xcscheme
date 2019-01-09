@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0920"
+   LastUpgradeVersion = "1010"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "396487691FC325C400006341"
-               BuildableName = "CLI"
+               BuildableName = "dinst_cli"
                BlueprintName = "CLI"
                ReferencedContainer = "container:CLI.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "396487691FC325C400006341"
-            BuildableName = "CLI"
+            BuildableName = "dinst_cli"
             BlueprintName = "CLI"
             ReferencedContainer = "container:CLI.xcodeproj">
          </BuildableReference>
@@ -56,18 +56,46 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "396487691FC325C400006341"
-            BuildableName = "CLI"
+            BuildableName = "dinst_cli"
             BlueprintName = "CLI"
             ReferencedContainer = "container:CLI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--input &quot;/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Example Recording/example.dtxprof&quot;"
+            argument = "--document &quot;/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Example Recording/example.dtxprof&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--output &quot;/Users/lnatan/Desktop&quot;"
+            argument = "--force"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--print-entities"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--entity &quot;PerformanceSample&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--print-properties"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--fetched-properties &quot;appName,deviceName,deviceOS&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--fetched-properties &quot;cpuUsage, fps, memoryUsage&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--predicate &quot;cpuUsage &gt; 3.0&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--fetch"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -76,15 +104,15 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--plist"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--help"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--version"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--help"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--zzz"
@@ -105,7 +133,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "396487691FC325C400006341"
-            BuildableName = "CLI"
+            BuildableName = "dinst_cli"
             BlueprintName = "CLI"
             ReferencedContainer = "container:CLI.xcodeproj">
          </BuildableReference>

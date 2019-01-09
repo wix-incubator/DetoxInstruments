@@ -31,4 +31,14 @@
 	return [DTXRecordingDocument class];
 }
 
+- (BOOL)presentError:(NSError *)error
+{
+	if([error.domain isEqualToString:@"DTXRecordingDocumentIgnoredErrorDomain"])
+	{
+		return NO;
+	}
+	
+	return [super presentError:error];
+}
+
 @end

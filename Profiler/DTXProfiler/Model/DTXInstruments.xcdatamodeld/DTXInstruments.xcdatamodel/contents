@@ -138,6 +138,13 @@
                 <entry key="sortArrayByKeyPath" value="number"/>
             </userInfo>
         </relationship>
+        <fetchedProperty name="samples" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Sample" predicateString="timestamp &gt;= $FETCH_SOURCE.startTimestamp &amp;&amp; timestamp &lt;= $FETCH_SOURCE.endTimestamp"/>
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+                <entry key="sortArrayByKeyPath" value="timestamp"/>
+            </userInfo>
+        </fetchedProperty>
     </entity>
     <entity name="Sample" representedClassName="DTXSample" isAbstract="YES" syncable="YES" codeGenerationType="class">
         <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES">
@@ -201,7 +208,7 @@
         <element name="ReactNativeBridgeData" positionX="-27" positionY="135" width="128" height="105"/>
         <element name="ReactNativeDataSample" positionX="-18" positionY="144" width="128" height="90"/>
         <element name="ReactNativePeroformanceSample" positionX="-27" positionY="135" width="128" height="210"/>
-        <element name="Recording" positionX="-27" positionY="45" width="128" height="360"/>
+        <element name="Recording" positionX="-27" positionY="45" width="128" height="389"/>
         <element name="Sample" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="SignpostSample" positionX="-27" positionY="135" width="128" height="225"/>
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>

@@ -19,7 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)hasSignpostSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 - (NSString*)eventTypeString;
 - (NSString*)eventStatusString;
+#if ! CLI
 - (NSColor*)plotControllerColor;
+#endif
 - (NSDate*)defactoEndTimestamp;
 
 @end

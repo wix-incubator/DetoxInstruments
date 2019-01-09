@@ -8,7 +8,7 @@
 
 #import "DTXRecordingDocument.h"
 #import "DTXRecording+UIExtensions.h"
-#ifndef CLI
+#if ! CLI
 #import "DTXRecordingTargetPickerViewController.h"
 #import "DTXRemoteProfilingClient.h"
 #import "NSFormatter+PlotFormatters.h"
@@ -22,6 +22,7 @@ NSString* const DTXRecordingDocumentStateDidChangeNotification = @"DTXRecordingD
 
 static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
+#if ! CLI
 static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 {
 	NSTimeInterval timeLimit = [NSUserDefaults.standardUserDefaults integerForKey:@"DTXSelectedProfilingConfiguration_timeLimit"];
@@ -32,15 +33,16 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	
 	return timeLimit;
 }
+#endif
 
 @interface DTXRecordingDocument ()
-#ifndef CLI
+#if ! CLI
 <DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate, DTXRemoteTargetDelegate>
 #endif
 {
 	NSPersistentContainer* _container;
 	NSMutableArray<DTXRecording*>* _recordings;
-#ifndef CLI
+#if ! CLI
 	__weak DTXRecordingTargetPickerViewController* _recordingTargetPicker;
 	DTXRemoteProfilingClient* _remoteProfilingClient;
 	dispatch_block_t _pendingCancelBlock;
@@ -58,7 +60,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 
 @synthesize recordings=_recordings;
 
-#ifndef CLI
+#if ! CLI
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
 	if(item.action == @selector(saveDocument:))
@@ -128,7 +130,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	return self;
 }
 
-#ifndef CLI
+#if ! CLI
 - (void)_prepareForLiveRecording:(DTXRecording*)recording
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_recordingDefactoEndTimestampDidChange:) name:DTXRecordingDidInvalidateDefactoEndTimestamp object:recording];
@@ -190,17 +192,17 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
 	_container.persistentStoreDescriptions = @[description];
-	_container.viewContext.automaticallyMergesChangesFromParent = YES;
 	
-	__block NSError* outerError;
+	__block NSError* somewhatInnerError;
 	
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
 		if(error)
 		{
-			outerError = error;
+			somewhatInnerError = error;
 			return;
 		}
 		
+		_container.viewContext.automaticallyMergesChangesFromParent = YES;
 		_container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
 		
 		NSFetchRequest* fr = [DTXRecording fetchRequest];
@@ -225,17 +227,17 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 			_recordings.lastObject.endTimestamp = _recordings.lastObject.defactoEndTimestamp;
 		}
 		
-#ifndef CLI
+#if ! CLI
 		[self _prepareForLiveRecording:_recordings.lastObject];
 #endif
 	}];
 	
 	if(outError)
 	{
-		*outError = outerError;
+		*outError = somewhatInnerError;
 	}
 	
-	return outerError == nil;
+	return somewhatInnerError == nil;
 }
 
 - (DTXRecording *)firstRecording
@@ -248,17 +250,10 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	return _recordings.lastObject;
 }
 
-+ (void)clearLastOpenedVersionAndReopenDocumentAtURL:(NSURL*)URL
++ (void)clearLastOpenedVersionAtURL:(NSURL*)URL
 {
 	NSURL* versionFlagURL = [URL URLByAppendingPathComponent:@"lastOpenedVersion.txt"];
 	[NSFileManager.defaultManager removeItemAtURL:versionFlagURL error:NULL];
-	
-	[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:URL display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
-		if(error)
-		{
-			[NSDocumentController.sharedDocumentController presentError:error];
-		}
-	}];
 }
 
 - (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError
@@ -272,22 +267,44 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	
 	NSURL* versionFlagURL = [url URLByAppendingPathComponent:@"lastOpenedVersion.txt"];
 	
-	if([versionFlagURL checkResourceIsReachableAndReturnError:NULL])
+	if([NSProcessInfo.processInfo.arguments containsObject:@"--force"])
 	{
-		NSString* lastOpenedVersion = [NSString stringWithContentsOfURL:versionFlagURL encoding:NSUTF8StringEncoding error:NULL];
-		
-		if([currentVersion compare:lastOpenedVersion options:NSNumericSearch] == NSOrderedAscending)
+		[self.class clearLastOpenedVersionAtURL:url];
+	}
+	else
+	{
+		if([versionFlagURL checkResourceIsReachableAndReturnError:NULL])
 		{
-			*outError = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
-											code:-9
-										userInfo:@{
-												   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The document can only be opened safely in a newer version of Detox Instruments.\n\nIf you continue, the recording may be lost or damaged altogether.", @""),
-												   NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Open Anyway", nil), NSLocalizedString(@"Cancel", nil)],
-												   NSRecoveryAttempterErrorKey: self,
-												   NSURLErrorKey: url
-												   }];
+			NSString* lastOpenedVersion = [NSString stringWithContentsOfURL:versionFlagURL encoding:NSUTF8StringEncoding error:NULL];
 			
-			return NO;
+			if([currentVersion compare:lastOpenedVersion options:NSNumericSearch] == NSOrderedAscending)
+			{
+				NSError* err = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
+												   code:-9
+											   userInfo:@{
+														  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"A newer version of Detox Instruments is required to open the document safely.", @""),
+														  NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you continue, recorded data may be lost or damage the document altogether.", @""),
+														  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Open Anyway", nil), NSLocalizedString(@"Cancel", nil)],
+														  NSRecoveryAttempterErrorKey: self,
+														  NSURLErrorKey: url
+														  }];
+				
+				if(NSApp != nil)
+				{
+					BOOL wasRecovered = [NSApp presentError:err];
+					
+					if(wasRecovered == NO)
+					{
+						*outError = [NSError errorWithDomain:@"DTXRecordingDocumentIgnoredErrorDomain" code:0 userInfo:nil];
+						return NO;
+					}
+				}
+				else
+				{
+					*outError = err;
+					return NO;
+				}
+			}
 		}
 	}
 
@@ -306,7 +323,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDocumentDefactoEndTimestampDidChangeNotification object:self];
 }
 
-#ifndef CLI
+#if ! CLI
 - (void)readyForRecordingIfNeeded
 {
 	if(self.documentState == DTXRecordingDocumentStateNew)
@@ -438,7 +455,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
 {
-#ifndef CLI
+#if ! CLI
 	if(self.documentState == DTXRecordingDocumentStateLiveRecording)
 	{
 		[self stopLiveRecording];
@@ -461,7 +478,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	[super close];
 }
 
-#ifndef CLI
+#if ! CLI
 - (void)addTag
 {
 	[_remoteProfilingClient.target addTagWithName:[NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle]];
@@ -603,8 +620,8 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 			[NSApp sendAction:NSSelectorFromString(@"checkForUpdates:") to:nil from:nil];
 			break;
 		case 1:
-			[self.class clearLastOpenedVersionAndReopenDocumentAtURL:error.userInfo[NSURLErrorKey]];
-			break;
+			[self.class clearLastOpenedVersionAtURL:error.userInfo[NSURLErrorKey]];
+			return YES;
 	}
 	
 	return NO;

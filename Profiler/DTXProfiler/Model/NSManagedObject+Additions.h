@@ -8,6 +8,14 @@
 
 #import <CoreData/CoreData.h>
 
+extern NSString* const DTXNSManagedObjectDictionaryRepresentationJSONCallingKey;
+extern NSString* const DTXNSManagedObjectDictionaryRepresentationProperyListCallingKey;
+
+extern id(^DTXNSManagedObjectDictionaryRepresentationJSONTransformer)(NSPropertyDescription* obj, id val);
+extern id(^DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer)(NSPropertyDescription* obj, id val);
+
+extern NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id object, NSEntityDescription* entity, NSArray<NSString*>* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), NSString* callingKey, BOOL includeMetadata);
+
 @interface NSManagedObject (Additions)
 
 @property (nonatomic, readonly) NSDictionary<NSString*, id>* dictionaryRepresentationForJSON;

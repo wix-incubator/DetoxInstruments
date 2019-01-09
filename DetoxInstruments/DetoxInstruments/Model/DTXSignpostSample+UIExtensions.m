@@ -8,7 +8,9 @@
 
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXEventStatusPrivate.h"
+#if ! CLI
 #import "NSColor+UIAdditions.h"
+#endif
 #import "DTXRecording+UIExtensions.h"
 
 @implementation DTXSignpostSample (UIExtensions)
@@ -72,6 +74,7 @@
 	return NO;
 }
 
+#if ! CLI
 - (NSColor*)plotControllerColor
 {
 	DTXColorEffect effect = DTXColorEffectNormal;
@@ -90,6 +93,7 @@
 	
 	return [NSColor uiColorWithSeed:self.name effect:effect];
 }
+#endif
 
 - (NSDate*)defactoEndTimestamp
 {

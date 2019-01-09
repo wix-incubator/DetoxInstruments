@@ -21,6 +21,26 @@ static NSDateFormatter* __iso8601DateFormatter;
 	dispatch_once(&onceToken, ^{
 		__iso8601DateFormatter = [NSDateFormatter new];
 		__iso8601DateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSZZZZZ";
+		
+		DTXNSManagedObjectDictionaryRepresentationJSONTransformer = ^id(__kindof NSPropertyDescription* obj, id val) {
+			if([obj isKindOfClass:NSAttributeDescription.class])
+			{
+				NSAttributeDescription* attrObj = obj;
+				
+				if(attrObj.attributeType == NSDateAttributeType)
+				{
+					val = [__iso8601DateFormatter stringFromDate:val];
+				}
+				else if(attrObj.attributeType == NSBinaryDataAttributeType)
+				{
+					val = [(NSData*)val base64EncodedStringWithOptions:0];
+				}
+			}
+			
+			return val;
+		};
+		
+		DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer = nil;
 	});
 }
 
@@ -49,18 +69,7 @@ static NSDateFormatter* __iso8601DateFormatter;
 
 - (NSDictionary*)cleanDictionaryRepresentationForJSON
 {
-	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:^id(NSAttributeDescription* obj, id val) {
-		if(obj.attributeType == NSDateAttributeType)
-		{
-			val = [__iso8601DateFormatter stringFromDate:val];
-		}
-		else if(obj.attributeType == NSBinaryDataAttributeType)
-		{
-			val = [(NSData*)val base64EncodedStringWithOptions:0];
-		}
-		
-		return val;
-	} callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO];
+	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectDictionaryRepresentationJSONTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO];
 	
 	[self _cleanupIfNeeded:rv];
 	
@@ -78,18 +87,7 @@ static NSDateFormatter* __iso8601DateFormatter;
 
 - (NSDictionary*)dictionaryRepresentationForJSON
 {
-	return [self _dictionaryRepresentationWithAttributeTransformer:^id(NSAttributeDescription* obj, id val) {
-		if(obj.attributeType == NSDateAttributeType)
-		{
-			val = [__iso8601DateFormatter stringFromDate:val];
-		}
-		else if(obj.attributeType == NSBinaryDataAttributeType)
-		{
-			val = [(NSData*)val base64EncodedStringWithOptions:0];
-		}
-		
-		return val;
-	} callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES];
+	return [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectDictionaryRepresentationJSONTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES];
 }
 
 - (NSDictionary*)dictionaryRepresentationForPropertyList
@@ -102,102 +100,129 @@ static NSDateFormatter* __iso8601DateFormatter;
 	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:@"dictionaryRepresentationForPropertyList" onlyInKeys:[[self changedValuesForCurrentEvent] allKeys] includeMetadata:YES];
 }
 
-- (NSMutableDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSAttributeDescription* obj, id val))transformer callingKey:(NSString*)callingKey onlyInKeys:(NSArray<NSString*>*)filteredKeys includeMetadata:(BOOL)includeMetadata
+NSString* const DTXNSManagedObjectDictionaryRepresentationJSONCallingKey = @"cleanDictionaryRepresentationForJSON";
+NSString* const DTXNSManagedObjectDictionaryRepresentationProperyListCallingKey = @"cleanDictionaryRepresentationForPropertyList";
+
+id(^DTXNSManagedObjectDictionaryRepresentationJSONTransformer)(NSPropertyDescription* obj, id val);
+id(^DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer)(NSPropertyDescription* obj, id val);
+
+NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntityDescription* entity, NSArray<NSString*>* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), NSString* callingKey, BOOL includeMetadata)
 {
 	if(transformer == nil)
 	{
-		transformer = ^ (NSAttributeDescription* obj, id val) { return val; };
+		transformer = ^ (NSPropertyDescription* obj, id val) { return val; };
 	}
 	
 	NSMutableDictionary* rv = [NSMutableDictionary new];
 	
 	if(includeMetadata)
 	{
-		rv[@"__dtx_className"] = self.entity.managedObjectClassName;
-		rv[@"__dtx_entityName"] = self.entity.name;
+		rv[@"__dtx_className"] = entity.managedObjectClassName;
+		rv[@"__dtx_entityName"] = entity.name;
 	}
 	
-	NSDictionary<NSString *, NSAttributeDescription *>* attributes = [[self entity] attributesByName];
-	[attributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSAttributeDescription * _Nonnull obj, BOOL * _Nonnull stop) {
-		if(filteredKeys != nil && [filteredKeys containsObject:key] == NO)
+	NSDictionary<NSString *, __kindof NSPropertyDescription *>* properties = entity.propertiesByName;
+	[properties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, __kindof NSPropertyDescription * _Nonnull obj, BOOL * _Nonnull stop) {
+		@autoreleasepool
 		{
-			return;
-		}
-		
-		id val = transformer(obj, [self valueForKey:key]);
-		
-		if(([val isKindOfClass:[NSDictionary class]] || [val isKindOfClass:[NSArray class]]) && [val count] == 0)
-		{
-			val = nil;
-		}
-		
-		if([obj.userInfo[@"suppressInDictionaryRepresentationIfZero"] boolValue] && [val isKindOfClass:[NSNumber class]] && [val isEqualToNumber:@0])
-		{
-			val = nil;
-		}
-		
-		if([val isKindOfClass:NSNumber.class] && obj.attributeType == NSBooleanAttributeType)
-		{
-			val = [NSNumber numberWithBool:[val boolValue]];
-		}
-		
-		rv[key] = val;
-	}];
-	
-	NSDictionary<NSString *, NSRelationshipDescription *>* relationships = [[self entity] relationshipsByName];
-	[relationships enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSRelationshipDescription * _Nonnull obj, BOOL * _Nonnull stop) {
-		if(filteredKeys != nil && [filteredKeys containsObject:key] == NO)
-		{
-			return;
-		}
-		
-		NSString* outputKey = key;
-		
-		if(obj.userInfo[@"transformedDictionaryOutputKey"] != nil)
-		{
-			outputKey = obj.userInfo[@"transformedDictionaryOutputKey"];
-		}
-		
-		if([obj.userInfo[@"includeInDictionaryRepresentation"] boolValue])
-		{
-			id val = [[self valueForKey:key] valueForKey:callingKey];
-			if([val isKindOfClass:[NSOrderedSet class]])
-			{
-				val = [val array];
-			}
-			else if([val isKindOfClass:[NSSet class]])
-			{
-				val = [val allObjects];
-			}
-			
-			if(obj.userInfo[@"sortArrayByKeyPath"] && [val isKindOfClass:[NSArray class]])
-			{
-				val = [val sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:obj.userInfo[@"sortArrayByKeyPath"] ascending:YES]]];
-			}
-			
-			rv[outputKey] = val;
-		}
-		else if([obj.userInfo[@"flattenInDictionaryRepresentation"] boolValue])
-		{
-			id val = [[self valueForKey:key] valueForKey:callingKey];
-			
-			if(val == nil)
+			if(filteredKeys != nil && [filteredKeys containsObject:key] == NO)
 			{
 				return;
 			}
 			
-			NSParameterAssert([val isKindOfClass:[NSDictionary class]]);
+			NSString* outputKey = key;
 			
-			[rv addEntriesFromDictionary:val];
-		}
-		else if(obj.userInfo[@"includeKeyPathInDictionaryRepresentation"] != nil)
-		{
-			id keyPathVal = [[self valueForKey:key] valueForKeyPath:obj.userInfo[@"includeKeyPathInDictionaryRepresentation"]];
-			rv[outputKey] = keyPathVal;
+			if(obj.userInfo[@"transformedDictionaryOutputKey"] != nil)
+			{
+				outputKey = obj.userInfo[@"transformedDictionaryOutputKey"];
+			}
+			
+			if([obj isKindOfClass:NSRelationshipDescription.class])
+			{
+				if([obj.userInfo[@"includeInDictionaryRepresentation"] boolValue])
+				{
+					id val = [[self valueForKey:key] valueForKey:callingKey];
+					
+					if([val isKindOfClass:[NSOrderedSet class]])
+					{
+						val = [val array];
+					}
+					else if([val isKindOfClass:[NSSet class]])
+					{
+						val = [val allObjects];
+					}
+					
+					if(obj.userInfo[@"sortArrayByKeyPath"] && [val isKindOfClass:[NSArray class]])
+					{
+						val = [val sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:obj.userInfo[@"sortArrayByKeyPath"] ascending:YES]]];
+					}
+					
+					rv[outputKey] = val;
+				}
+				else if([obj.userInfo[@"flattenInDictionaryRepresentation"] boolValue])
+				{
+					id val = [[self valueForKey:key] valueForKey:callingKey];
+					
+					if(val == nil)
+					{
+						return;
+					}
+					
+					NSCParameterAssert([val isKindOfClass:[NSDictionary class]]);
+					
+					[rv addEntriesFromDictionary:val];
+				}
+				else if(obj.userInfo[@"includeKeyPathInDictionaryRepresentation"] != nil)
+				{
+					id keyPathVal = [[self valueForKey:key] valueForKeyPath:obj.userInfo[@"includeKeyPathInDictionaryRepresentation"]];
+					rv[outputKey] = keyPathVal;
+				}
+			}
+			else if([obj isKindOfClass:NSFetchedPropertyDescription.class] && [obj.userInfo[@"includeInDictionaryRepresentation"] boolValue])
+			{
+				NSCParameterAssert([self isKindOfClass:NSManagedObject.class]);
+				
+				NSFetchedPropertyDescription* fetchedObj = obj;
+				NSFetchRequest* fr = [fetchedObj.fetchRequest copy];
+				fr.predicate = [fr.predicate predicateWithSubstitutionVariables:@{@"FETCH_SOURCE": self}];
+				
+				if(obj.userInfo[@"sortArrayByKeyPath"])
+				{
+					fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:obj.userInfo[@"sortArrayByKeyPath"] ascending:YES]];
+				}
+				
+				rv[outputKey] = [[((NSManagedObject*)self).managedObjectContext executeFetchRequest:fr error:NULL] valueForKey:callingKey];
+			}
+			else if([obj isKindOfClass:NSAttributeDescription.class])
+			{
+				id val = transformer(obj, [self valueForKey:key]);
+				
+				if(([val isKindOfClass:[NSDictionary class]] || [val isKindOfClass:[NSArray class]]) && [val count] == 0)
+				{
+					val = nil;
+				}
+				
+				if([obj.userInfo[@"suppressInDictionaryRepresentationIfZero"] boolValue] && [val isKindOfClass:[NSNumber class]] && [val isEqualToNumber:@0])
+				{
+					val = nil;
+				}
+				
+				if([val isKindOfClass:NSNumber.class] && [obj isKindOfClass:NSAttributeDescription.class] && ((NSAttributeDescription*)obj).attributeType == NSBooleanAttributeType)
+				{
+					val = [NSNumber numberWithBool:[val boolValue]];
+				}
+				
+				rv[outputKey] = val;
+			}
 		}
 	}];
 	
 	return rv;
+}
+
+- (NSMutableDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSPropertyDescription* obj, id val))transformer callingKey:(NSString*)callingKey onlyInKeys:(NSArray<NSString*>*)filteredKeys includeMetadata:(BOOL)includeMetadata
+{
+	return DTXNSManagedObjectDictionaryRepresentation(self, self.entity, filteredKeys, transformer, callingKey, includeMetadata);
 }
 
 - (void)updateWithPropertyListDictionaryRepresentation:(NSDictionary *)propertyListDictionaryRepresentation
