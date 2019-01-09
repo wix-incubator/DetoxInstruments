@@ -106,6 +106,16 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	
 	CGRect selfBounds = self.bounds;
 	
+	if(self._points.count == 0)
+	{
+		return;
+	}
+	
+	if(CGRectEqualToRect(selfBounds, CGRectZero))
+	{
+		return;
+	}
+	
 	CGFloat graphViewRatio = selfBounds.size.width / plotRange.lengthDouble;
 	CGFloat graphHeightViewRatio = (selfBounds.size.height - insets.top - insets.bottom) / (maxHeight * self.plotHeightMultiplier);
 	CGFloat offset = - graphViewRatio * plotRange.locationDouble;
@@ -558,6 +568,11 @@ static inline __attribute__((always_inline)) double __DTXValueAtPosition(DTXScat
 
 - (NSUInteger)indexOfPointAtViewPosition:(CGFloat)viewPosition positionInPlot:(out double *)position valueAtPlotPosition:(out double *)value
 {
+	if(_points.count == 0)
+	{
+		return NSNotFound;
+	}
+	
 	double plotClickPosition = self.plotRange.locationDouble + viewPosition * self.plotRange.lengthDouble / self.bounds.size.width;
 	
 	double throwAwayPosition;
