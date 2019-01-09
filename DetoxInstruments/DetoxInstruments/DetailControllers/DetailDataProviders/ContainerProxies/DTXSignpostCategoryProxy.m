@@ -123,6 +123,11 @@
 	_isEvent = count == countSome;
 }
 
+- (NSDate *)defactoEndTimestamp
+{
+	return _endTimestamp;
+}
+
 - (BOOL)isExpandable
 {
 	return YES;

@@ -131,6 +131,11 @@
 	return self.fetchedResultsController.fetchedObjects.count;
 }
 
+- (NSDate *)defactoEndTimestamp
+{
+	return _endTimestamp;
+}
+
 - (BOOL)isExpandable
 {
 	return YES;

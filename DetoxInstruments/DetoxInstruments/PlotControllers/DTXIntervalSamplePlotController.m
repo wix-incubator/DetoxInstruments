@@ -18,6 +18,7 @@
 #import "DTXRangePlotView.h"
 #import "DTXFilteredDataProvider.h"
 #import "DTXSamplePlotController-Private.h"
+#import "DTXSampleContainerProxy.h"
 
 #import "DTXLogging.h"
 DTX_CREATE_LOG(IntervalSamplePlotController)
@@ -249,6 +250,11 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 - (void)highlightSample:(DTXSample*)sample
 {
 	[super highlightSample:sample];
+	
+	if([sample isKindOfClass:DTXSampleContainerProxy.class])
+	{
+		return;
+	}
 	
 	NSIndexPath* ip = _sampleMapping[sample.sampleIdentifier];
 	NSUInteger indexOfIndexPath = [_indexPathIndexMapping[ip] unsignedIntegerValue];
