@@ -20,7 +20,6 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		__classTypeMapping = @{NSStringFromClass([DTXPerformanceSample class]): @(DTXSampleTypePerformance),
-							   NSStringFromClass([DTXAdvancedPerformanceSample class]): @(DTXSampleTypeAdvancedPerformance),
 							   NSStringFromClass([DTXThreadPerformanceSample class]): @(DTXSampleTypeThreadPerformance),
 							   NSStringFromClass([DTXNetworkSample class]): @(DTXSampleTypeNetwork),
 							   NSStringFromClass([DTXTag class]): @(DTXSampleTypeTag),
@@ -30,7 +29,6 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 							   NSStringFromClass([DTXReactNativeDataSample class]): @(DTXSampleTypeReactNativeBridgeDataType),
 							   };
 		__typeClassMapping = @{@(DTXSampleTypePerformance): ([DTXPerformanceSample class]),
-							   @(DTXSampleTypeAdvancedPerformance): ([DTXAdvancedPerformanceSample class]),
 							   @(DTXSampleTypeThreadPerformance): ([DTXThreadPerformanceSample class]),
 							   @(DTXSampleTypeNetwork): ([DTXNetworkSample class]),
 							   @(DTXSampleTypeTag): ([DTXTag class]),
@@ -45,6 +43,11 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 + (Class)classFromSampleType:(DTXSampleType)type
 {
 	return __typeClassMapping[@(type)];
+}
+
++ (DTXSampleType)sampleTypeFromClass:(Class)cls
+{
+	return [__classTypeMapping[NSStringFromClass(cls)] unsignedIntegerValue];
 }
 
 - (void)awakeFromInsert

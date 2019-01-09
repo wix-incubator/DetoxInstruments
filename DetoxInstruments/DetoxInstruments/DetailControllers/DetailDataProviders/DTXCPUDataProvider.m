@@ -54,7 +54,7 @@
 
 - (Class)sampleClass
 {
-	return DTXAdvancedPerformanceSample.class;
+	return DTXPerformanceSample.class;
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;
@@ -64,8 +64,8 @@
 		return [[NSFormatter dtx_percentFormatter] stringForObjectValue:@([(DTXPerformanceSample*)item cpuUsage])];
 	}
 	
-	DTXAdvancedPerformanceSample* advPerf = item;
-
+	DTXPerformanceSample* advPerf = item;
+	
 	return advPerf.heaviestThreadName ?: @"<?>";
 }
 
@@ -79,9 +79,9 @@
 	double cpu = [(DTXPerformanceSample*)item cpuUsage];
 	double fps = [(DTXPerformanceSample*)item fps];
 	
-	if([item isKindOfClass:[DTXAdvancedPerformanceSample class]] && [item threadSamples].count > 0)
+	if([item isKindOfClass:[DTXPerformanceSample class]] && [item threadSamples].count > 0)
 	{
-		DTXAdvancedPerformanceSample* advanced = item;
+		DTXPerformanceSample* advanced = item;
 		
 		if(advanced.threadSamples.firstObject.cpuUsage > 0.9)
 		{
@@ -114,9 +114,9 @@
 	double cpu = [(DTXPerformanceSample*)item cpuUsage];
 	double fps = [(DTXPerformanceSample*)item fps];
 	
-	if([item isKindOfClass:[DTXAdvancedPerformanceSample class]] && [item threadSamples].count > 0)
+	if([item isKindOfClass:[DTXPerformanceSample class]] && [item threadSamples].count > 0)
 	{
-		DTXAdvancedPerformanceSample* advanced = item;
+		DTXPerformanceSample* advanced = item;
 		
 		if(advanced.threadSamples.firstObject.cpuUsage > 0.9)
 		{

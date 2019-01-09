@@ -14,8 +14,7 @@
 typedef NS_ENUM(NSUInteger, DTXSampleType) {
 	DTXSampleTypeUnknown				        = 0,
 	
-	DTXSampleTypePerformance			        = 10,
-	DTXSampleTypeAdvancedPerformance	        = 11,
+	DTXSampleTypePerformance			        = 11,
 	DTXSampleTypeThreadPerformance		        = 12,
 	
 	DTXSampleTypeNetwork				        = 50,
@@ -36,5 +35,6 @@ typedef NS_ENUM(NSUInteger, DTXSampleType) {
 @interface DTXSample (Additions)
 
 + (Class)classFromSampleType:(DTXSampleType)type;
++ (DTXSampleType)sampleTypeFromClass:(Class)cls;
 
 @end

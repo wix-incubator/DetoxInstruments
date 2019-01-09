@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 	DTXUserDefaultsChangeTypeUpdate
 };
 
-@class DTXRecording, DTXPerformanceSample, DTXAdvancedPerformanceSample;
+@class DTXRecording, DTXPerformanceSample;
 @class DTXThreadInfo, DTXReactNativePeroformanceSample, DTXNetworkSample, DTXLogSample, DTXTag;
 @class DTXSignpostSample, DTXReactNativeDataSample;
 

@@ -2,17 +2,17 @@
 //  DTXPerformanceSample+UIExtensions.m
 //  DetoxInstruments
 //
-//  Created by Leo Natan (Wix) on 29/05/2017.
+//  Created by Leo Natan (Wix) on 12/2/18.
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
 #import "DTXPerformanceSample+UIExtensions.h"
-#import "DTXInstrumentsModelUIExtensions.h"
-
+#import "DTXThreadPerformanceSample+CoreDataClass.h"
+#import "DTXThreadInfo+UIExtensions.h"
 @import ObjectiveC;
 
 static NSNumberFormatter* __percentFormatter;
-NSByteCountFormatter* __byteFormatter;
+static NSByteCountFormatter* __byteFormatter;
 
 @implementation DTXPerformanceSample (UIExtensions)
 
@@ -43,6 +43,24 @@ NSByteCountFormatter* __byteFormatter;
 	}
 	
 	return obj;
+}
+
+- (NSString*)heaviestThreadName
+{
+	if(self.heaviestThreadIdx == nil)
+	{
+		//Legacy for old recordings.
+		NSNumber* maxThreadCPU = [self valueForKeyPath:@"threadSamples.@max.cpuUsage"];
+		return [self.threadSamples filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"cpuUsage == %@", maxThreadCPU]].firstObject.threadInfo.friendlyName;
+	}
+	
+	NSInteger idx = self.heaviestThreadIdx.integerValue;
+	if(idx == -1)
+	{
+		return nil;
+	}
+	
+	return self.threadSamples[idx].threadInfo.friendlyName;
 }
 
 @end

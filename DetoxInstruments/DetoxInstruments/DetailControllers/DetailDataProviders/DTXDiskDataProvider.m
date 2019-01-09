@@ -49,7 +49,7 @@
 
 - (Class)sampleClass
 {
-	return DTXAdvancedPerformanceSample.class;
+	return DTXPerformanceSample.class;
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column;

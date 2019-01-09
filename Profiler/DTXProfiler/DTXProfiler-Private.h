@@ -17,7 +17,7 @@ extern NSMutableSet<DTXProfiler*>* __activeProfilers;
 
 @property (nonatomic, weak, getter=_profilerStoryListener, setter=_setInternalDelegate:) id<DTXProfilerStoryListener> _profilerStoryListener;
 
-- (void)_symbolicatePerformanceSample:(DTXAdvancedPerformanceSample*)sample;
+- (void)_symbolicatePerformanceSample:(DTXPerformanceSample*)sample;
 - (void)_symbolicateRNPerformanceSample:(DTXReactNativePeroformanceSample*)sample;
 
 //Private methods called from external API per active profiler.

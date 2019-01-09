@@ -95,6 +95,12 @@
 
 			double position;
 			NSUInteger pointIdx = [scatterPlotView indexOfPointAtViewPosition:pointInView.x positionInPlot:&position valueAtPlotPosition:NULL];
+			
+			if(pointIdx == NSNotFound)
+			{
+				return;
+			}
+			
 			double value = [scatterPlotView valueOfPointIndex:pointIdx];
 
 			[dataPoints addObject:@{@"position": @(position), @"value": [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(value)]]}];

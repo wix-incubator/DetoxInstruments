@@ -13,7 +13,7 @@
 - (NSFetchRequest *)fetchRequest
 {
 	NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
-	fr.predicate = [NSPredicate predicateWithFormat:@"hidden == NO && sampleType in %@", @[@(DTXSampleTypePerformance), @(DTXSampleTypeAdvancedPerformance)]];
+	fr.predicate = [NSPredicate predicateWithFormat:@"hidden == NO"];
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 	
 	return fr;

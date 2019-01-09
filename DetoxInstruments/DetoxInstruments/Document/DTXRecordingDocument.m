@@ -183,6 +183,8 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	}
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:storeURL];
+	description.shouldMigrateStoreAutomatically = YES;
+	description.shouldInferMappingModelAutomatically = NO;
 	description.type = url ? NSSQLiteStoreType : NSInMemoryStoreType;
 	static NSManagedObjectModel* model;
 	static dispatch_once_t onceToken;
@@ -283,7 +285,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 												   code:-9
 											   userInfo:@{
 														  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"A newer version of Detox Instruments is required to open the document safely.", @""),
-														  NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you continue, you may lose recorded data or damage the document altogether.", @""),
+														  NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:NSLocalizedString(@"The document was last opened with Detox Instruments version %@.\n\nIf you continue, you may lose recorded data or damage the document altogether.", @""), lastOpenedVersion],
 														  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Open Anyway", nil), NSLocalizedString(@"Cancel", nil)],
 														  NSRecoveryAttempterErrorKey: self,
 														  NSURLErrorKey: url

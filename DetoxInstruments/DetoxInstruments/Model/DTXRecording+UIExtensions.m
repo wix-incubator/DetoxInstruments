@@ -22,7 +22,7 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 	
 	if(obj == nil)
 	{
-		NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
+		NSFetchRequest* fr = [DTXSample fetchRequest];
 		fr.fetchLimit = 1;
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		
@@ -44,7 +44,7 @@ NSString* const DTXRecordingDidInvalidateDefactoEndTimestamp = @"DTXRecordingDid
 	
 	if(obj == nil)
 	{
-		NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
+		NSFetchRequest* fr = [DTXSample fetchRequest];
 		fr.fetchLimit = 1;
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
 		

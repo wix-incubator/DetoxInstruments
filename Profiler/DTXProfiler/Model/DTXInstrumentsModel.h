@@ -11,7 +11,6 @@
 #import "DTXTag+CoreDataClass.h"
 #import "DTXRecording+Additions.h"
 #import "DTXPerformanceSample+CoreDataClass.h"
-#import "DTXAdvancedPerformanceSample+CoreDataClass.h"
 #import "DTXNetworkSample+CoreDataClass.h"
 #import "DTXNetworkData+CoreDataClass.h"
 #import "DTXLogSample+CoreDataClass.h"

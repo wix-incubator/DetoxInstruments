@@ -13,6 +13,9 @@
 #import <DTXSourceMaps/DTXSourceMaps.h>
 #import <pthread.h>
 
+#import "DTXLogging.h"
+DTX_CREATE_LOG(RemoteProfilingClient)
+
 #define SET_RECORDING SET_VALUE(_isRecording,YES)
 #define SET_NOT_RECORDING SET_VALUE(_isRecording,NO)
 #define REQUIRE_RECORDING REQUIRE_VALUE(_isRecording,YES)
@@ -200,7 +203,22 @@ return; }\
 
 - (void)_addSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription saveContext:(BOOL)saveContext
 {
+	[self _addSample:sampleDict entityDescription:entityDescription defaultEntityDescription:nil saveContext:saveContext];
+}
+
+- (void)_addSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription defaultEntityDescription:(NSEntityDescription *)defaultEntityDescription saveContext:(BOOL)saveContext
+{
 	REQUIRE_RECORDING
+	
+	if(entityDescription == nil && defaultEntityDescription != nil)
+	{
+		entityDescription = defaultEntityDescription;
+	}
+	
+	if(entityDescription == nil)
+	{
+		return;
+	}
 	
 	Class cls = NSClassFromString(entityDescription.managedObjectClassName);
 	__kindof DTXSample* sample = [[cls alloc] initWithPropertyListDictionaryRepresentation:sampleDict context:_managedObjectContext];
@@ -226,7 +244,10 @@ return; }\
 - (void)_saveContext
 {
 	NSError* err;
-	[_managedObjectContext save:&err];
+	if([_managedObjectContext save:&err] == NO)
+	{
+		dtx_log_error(@"Error saving context: %@", err);
+	}
 	
 	if(_recording.managedObjectContext.insertedObjects > 0)
 	{
@@ -274,9 +295,9 @@ return; }\
 	[self _addSample:logSample entityDescription:entityDescription saveContext:YES];
 }
 
-- (void)addPerformanceSample:(NSDictionary *)perfrmanceSample entityDescription:(NSEntityDescription *)entityDescription
+- (void)addPerformanceSample:(NSDictionary *)performanceSample entityDescription:(NSEntityDescription *)entityDescription
 {
-	[self _addSample:perfrmanceSample entityDescription:entityDescription saveContext:YES];
+	[self _addSample:performanceSample entityDescription:entityDescription defaultEntityDescription:DTXPerformanceSample.entity saveContext:YES];
 }
 
 - (void)addRNPerformanceSample:(NSDictionary *)rnPerfrmanceSample entityDescription:(NSEntityDescription *)entityDescription

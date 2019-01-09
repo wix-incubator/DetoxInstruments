@@ -7,7 +7,6 @@
 //
 
 #import "DTXPerformanceSamplePlotController.h"
-#import "DTXPerformanceSample+CoreDataClass.h"
 #import "DTXScatterPlotView.h"
 #import "NSAppearance+UIAdditions.h"
 #import "NSColor+UIAdditions.h"
@@ -85,7 +84,7 @@
 			NSMutableDictionary* points = [NSMutableDictionary new];
 			NSMutableArray* pts = [NSMutableArray new];
 			
-			[frc.fetchedObjects enumerateObjectsUsingBlock:^(DTXAdvancedPerformanceSample* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			[frc.fetchedObjects enumerateObjectsUsingBlock:^(DTXPerformanceSample* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 				NSDictionary* point = @{@"position": @([[obj valueForKeyPath:@"timestamp.timeIntervalSinceReferenceDate"] doubleValue] - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate), @"value": [obj valueForKey:@"cpuUsage"]};
 				[pts addObject:point];
 			}];
@@ -113,7 +112,7 @@
 
 - (NSPredicate*)predicateForPerformanceSamples
 {
-	return [NSPredicate predicateWithFormat:@"NOT(sampleType IN %@)", @[@(DTXSampleTypeThreadPerformance)]];
+	return nil;
 }
 
 + (Class)classForPerformanceSamples

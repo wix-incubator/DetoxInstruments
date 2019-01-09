@@ -79,6 +79,8 @@
 		3939243221AD0A330015A15F /* ZZNewArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */; };
 		393DED4C21C25ABD006EB765 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 393DED4A21C25ABD006EB765 /* NSMapTable+Subscripting.h */; };
 		393DED4D21C25ABD006EB765 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 393DED4B21C25ABD006EB765 /* NSMapTable+Subscripting.m */; };
+		39404E2921E66237006A583E /* DTXThreadPerformanceSample+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 39404E2721E66237006A583E /* DTXThreadPerformanceSample+Additions.h */; };
+		39404E2A21E66237006A583E /* DTXThreadPerformanceSample+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39404E2821E66237006A583E /* DTXThreadPerformanceSample+Additions.m */; };
 		39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */; };
 		39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 39498C401F1FAE650030B620 /* DTXSocketConnection.h */; };
 		394A09651F012F8D0030BDB4 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = 394A09631F012F8D0030BDB4 /* fishhook.h */; };
@@ -239,6 +241,9 @@
 		3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZNewArchiveEntryWriter.h; sourceTree = "<group>"; };
 		393DED4A21C25ABD006EB765 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMapTable+Subscripting.h"; path = "../../../DetoxInstruments/DetoxInstruments/Utilities/NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
 		393DED4B21C25ABD006EB765 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMapTable+Subscripting.m"; path = "../../../DetoxInstruments/DetoxInstruments/Utilities/NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
+		39404E2521E65D72006A583E /* DTXInstruments 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments 2.xcdatamodel"; sourceTree = "<group>"; };
+		39404E2721E66237006A583E /* DTXThreadPerformanceSample+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXThreadPerformanceSample+Additions.h"; sourceTree = "<group>"; };
+		39404E2821E66237006A583E /* DTXThreadPerformanceSample+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXThreadPerformanceSample+Additions.m"; sourceTree = "<group>"; };
 		39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSocketConnection.m; sourceTree = "<group>"; };
 		39498C401F1FAE650030B620 /* DTXSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSocketConnection.h; sourceTree = "<group>"; };
 		394A09631F012F8D0030BDB4 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = SOURCE_ROOT; };
@@ -636,6 +641,8 @@
 				39D40C0C1ED5B43700157C04 /* NSManagedObject+Additions.h */,
 				39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */,
 				3985048921A4433E00F04573 /* DTXProfilingBasics.h */,
+				39404E2721E66237006A583E /* DTXThreadPerformanceSample+Additions.h */,
+				39404E2821E66237006A583E /* DTXThreadPerformanceSample+Additions.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -706,6 +713,7 @@
 				3939240C21AD0A330015A15F /* ZZDataProvider.h in Headers */,
 				3939241D21AD0A330015A15F /* ZZFileChannel.h in Headers */,
 				396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */,
+				39404E2921E66237006A583E /* DTXThreadPerformanceSample+Additions.h in Headers */,
 				3939240921AD0A330015A15F /* ZZChannelOutput.h in Headers */,
 				39D40C121ED5B43700157C04 /* DTXSample+Additions.h in Headers */,
 				3985049121A4435200F04573 /* DTXPasteboardItem.h in Headers */,
@@ -867,6 +875,7 @@
 				39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */,
 				396500F21F2E9E9000DA9530 /* DTXDeviceInfo.m in Sources */,
 				39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */,
+				39404E2A21E66237006A583E /* DTXThreadPerformanceSample+Additions.m in Sources */,
 				39D40C151ED5B43700157C04 /* NSManagedObject+Additions.m in Sources */,
 				39D40C131ED5B43700157C04 /* DTXSample+Additions.m in Sources */,
 				3939241A21AD0A330015A15F /* ZZDataChannelOutput.m in Sources */,
@@ -992,6 +1001,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1152,6 +1162,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1188,6 +1199,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1234,9 +1246,10 @@
 		39D40C051ED5B43700157C04 /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				39404E2521E65D72006A583E /* DTXInstruments 2.xcdatamodel */,
 				39D40C061ED5B43700157C04 /* DTXInstruments.xcdatamodel */,
 			);
-			currentVersion = 39D40C061ED5B43700157C04 /* DTXInstruments.xcdatamodel */;
+			currentVersion = 39404E2521E65D72006A583E /* DTXInstruments 2.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

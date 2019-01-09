@@ -18,7 +18,7 @@
 
 - (NSArray *)arrayForStackTrace
 {
-	return [(DTXAdvancedPerformanceSample*)self.sample heaviestStackTrace];
+	return [(DTXPerformanceSample*)self.sample heaviestStackTrace];
 }
 
 - (NSString*)stackTraceFrameStringForObject:(id)obj includeFullFormat:(BOOL)fullFormat
@@ -154,7 +154,7 @@
 	par.paragraphSpacing = 5.0;
 	par.allowsDefaultTighteningForTruncation = NO;
 	
-	DTXAdvancedPerformanceSample* perfSample = self.sample;
+	DTXPerformanceSample* perfSample = self.sample;
 	
 	NSArray* arrayForStackTrace = self.arrayForStackTrace;
 	if(arrayForStackTrace.count == 0)
@@ -219,7 +219,7 @@
 	
 	NSMutableArray<DTXInspectorContent*>* contentArray = @[request].mutableCopy;
 	
-	DTXAdvancedPerformanceSample* sample = (id)perfSample;
+	DTXPerformanceSample* sample = (id)perfSample;
 	
 	__block DTXThreadInfo* heaviestThread;
 	
@@ -278,7 +278,7 @@
 
 - (BOOL)canCopy
 {
-	return [self.sample isKindOfClass:[DTXAdvancedPerformanceSample class]];
+	return [self.sample isKindOfClass:[DTXPerformanceSample class]];
 }
 
 @end

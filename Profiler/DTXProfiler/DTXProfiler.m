@@ -206,16 +206,16 @@ DTX_CREATE_LOG(Profiler);
 - (void)_symbolicateRemainingStackTracesInternal
 {
 	NSPredicate* unsymbolicated = [NSPredicate predicateWithFormat:@"stackTraceIsSymbolicated == NO"];
-	NSFetchRequest* fr = [DTXAdvancedPerformanceSample fetchRequest];
+	NSFetchRequest* fr = [DTXPerformanceSample fetchRequest];
 	fr.predicate = unsymbolicated;
 	
-	NSArray<DTXAdvancedPerformanceSample*>* unsymbolicatedSamples = [_backgroundContext executeFetchRequest:fr error:NULL];
-	[unsymbolicatedSamples enumerateObjectsUsingBlock:^(DTXAdvancedPerformanceSample * _Nonnull unsymbolicatedSample, NSUInteger idx, BOOL * _Nonnull stop) {
+	NSArray<DTXPerformanceSample*>* unsymbolicatedSamples = [_backgroundContext executeFetchRequest:fr error:NULL];
+	[unsymbolicatedSamples enumerateObjectsUsingBlock:^(DTXPerformanceSample * _Nonnull unsymbolicatedSample, NSUInteger idx, BOOL * _Nonnull stop) {
 		[self _symbolicatePerformanceSample:unsymbolicatedSample];
 	}];
 }
 
-- (void)_symbolicatePerformanceSample:(DTXAdvancedPerformanceSample *)unsymbolicatedSample
+- (void)_symbolicatePerformanceSample:(DTXPerformanceSample *)unsymbolicatedSample
 {
 	NSMutableArray* symbolicatedStackTrace = [NSMutableArray new];
 	
@@ -254,7 +254,7 @@ DTX_CREATE_LOG(Profiler);
 	
 	if(self->_currentProfilingConfiguration.recordThreadInformation)
 	{
-		perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:self->_backgroundContext];
+		perfSample = [[DTXPerformanceSample alloc] initWithContext:self->_backgroundContext];
 	}
 	else
 	{
@@ -502,16 +502,7 @@ DTX_CREATE_LOG(Profiler);
 	[_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		__kindof DTXPerformanceSample* perfSample;
-		
-		if(self->_currentProfilingConfiguration.recordThreadInformation)
-		{
-			perfSample = [[DTXAdvancedPerformanceSample alloc] initWithContext:self->_backgroundContext];
-		}
-		else
-		{
-			perfSample = [[DTXPerformanceSample alloc] initWithContext:self->_backgroundContext];
-		}
+		__kindof DTXPerformanceSample* perfSample = [[DTXPerformanceSample alloc] initWithContext:self->_backgroundContext];
 		
 		perfSample.timestamp = timestamp;
 		perfSample.cpuUsage = cpu.totalCPU;
@@ -545,7 +536,8 @@ DTX_CREATE_LOG(Profiler);
 				DTXThreadPerformanceSample* threadSample = [[DTXThreadPerformanceSample alloc] initWithContext:self->_backgroundContext];
 				threadSample.cpuUsage = obj.cpu;
 				threadSample.threadInfo = threadInfo;
-				threadSample.advancedPerformanceSample = (DTXAdvancedPerformanceSample*)perfSample;
+				
+				[perfSample addThreadSamplesObject:threadSample];
 			}
 			
 			if(self->_currentProfilingConfiguration.collectStackTraces)
