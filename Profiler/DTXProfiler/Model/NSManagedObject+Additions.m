@@ -22,12 +22,16 @@ static NSDateFormatter* __iso8601DateFormatter;
 		__iso8601DateFormatter = [NSDateFormatter new];
 		__iso8601DateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSZZZZZ";
 		
-		DTXNSManagedObjectDictionaryRepresentationJSONTransformer = ^id(__kindof NSPropertyDescription* obj, id val) {
+		DTXNSManagedObjectDictionaryRepresentationJSONTransformer = ^ id(__kindof NSPropertyDescription* obj, id val) {
 			if([obj isKindOfClass:NSAttributeDescription.class])
 			{
 				NSAttributeDescription* attrObj = obj;
 				
-				if(attrObj.attributeType == NSDateAttributeType)
+				if(attrObj.attributeType == NSURIAttributeType || [val isKindOfClass:NSURL.class])
+				{
+					val = [val absoluteString];
+				}
+				else if(attrObj.attributeType == NSDateAttributeType)
 				{
 					val = [__iso8601DateFormatter stringFromDate:val];
 				}
@@ -40,11 +44,46 @@ static NSDateFormatter* __iso8601DateFormatter;
 			return val;
 		};
 		
-		DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer = nil;
+		DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer = ^ id(__kindof NSPropertyDescription* obj, id val) { return val; };
 	});
 }
 
-- (void)_cleanupIfNeeded:(NSMutableDictionary*)rv
+- (NSDictionary*)cleanDictionaryRepresentationForJSON
+{
+	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectDictionaryRepresentationJSONTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO cleanIfNeeded:YES];
+	
+	return rv;
+}
+
+- (NSDictionary*)cleanDictionaryRepresentationForPropertyList
+{
+	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO cleanIfNeeded:YES];
+	
+	return rv;
+}
+
+- (NSDictionary*)dictionaryRepresentationForJSON
+{
+	return [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectDictionaryRepresentationJSONTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES cleanIfNeeded:YES];
+}
+
+- (NSDictionary*)dictionaryRepresentationForPropertyList
+{
+	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES cleanIfNeeded:NO];
+}
+
+- (NSDictionary<NSString *,id> *)dictionaryRepresentationOfChangedValuesForPropertyList
+{
+	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:@"dictionaryRepresentationForPropertyList" onlyInKeys:[[self changedValuesForCurrentEvent] allKeys] includeMetadata:YES cleanIfNeeded:NO];
+}
+
+NSString* const DTXNSManagedObjectDictionaryRepresentationJSONCallingKey = @"cleanDictionaryRepresentationForJSON";
+NSString* const DTXNSManagedObjectDictionaryRepresentationProperyListCallingKey = @"cleanDictionaryRepresentationForPropertyList";
+
+id(^DTXNSManagedObjectDictionaryRepresentationJSONTransformer)(NSPropertyDescription* obj, id val);
+id(^DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer)(NSPropertyDescription* obj, id val);
+
+static void __DTXCleanIfNeeded(id self, NSMutableDictionary* rv)
 {
 	if([self isKindOfClass:DTXSample.class])
 	{
@@ -67,46 +106,7 @@ static NSDateFormatter* __iso8601DateFormatter;
 	}
 }
 
-- (NSDictionary*)cleanDictionaryRepresentationForJSON
-{
-	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectDictionaryRepresentationJSONTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO];
-	
-	[self _cleanupIfNeeded:rv];
-	
-	return rv;
-}
-
-- (NSDictionary*)cleanDictionaryRepresentationForPropertyList
-{
-	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO];
-	
-	[self _cleanupIfNeeded:rv];
-	
-	return rv;
-}
-
-- (NSDictionary*)dictionaryRepresentationForJSON
-{
-	return [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectDictionaryRepresentationJSONTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES];
-}
-
-- (NSDictionary*)dictionaryRepresentationForPropertyList
-{
-	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES];
-}
-
-- (NSDictionary<NSString *,id> *)dictionaryRepresentationOfChangedValuesForPropertyList
-{
-	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:@"dictionaryRepresentationForPropertyList" onlyInKeys:[[self changedValuesForCurrentEvent] allKeys] includeMetadata:YES];
-}
-
-NSString* const DTXNSManagedObjectDictionaryRepresentationJSONCallingKey = @"cleanDictionaryRepresentationForJSON";
-NSString* const DTXNSManagedObjectDictionaryRepresentationProperyListCallingKey = @"cleanDictionaryRepresentationForPropertyList";
-
-id(^DTXNSManagedObjectDictionaryRepresentationJSONTransformer)(NSPropertyDescription* obj, id val);
-id(^DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer)(NSPropertyDescription* obj, id val);
-
-NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntityDescription* entity, NSArray<NSString*>* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), NSString* callingKey, BOOL includeMetadata)
+NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntityDescription* entity, NSArray<NSString*>* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), NSString* callingKey, BOOL includeMetadata, BOOL cleanIfNeeded)
 {
 	if(transformer == nil)
 	{
@@ -217,12 +217,17 @@ NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntit
 		}
 	}];
 	
+	if(cleanIfNeeded)
+	{
+		__DTXCleanIfNeeded(self, rv);
+	}
+	
 	return rv;
 }
 
-- (NSMutableDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSPropertyDescription* obj, id val))transformer callingKey:(NSString*)callingKey onlyInKeys:(NSArray<NSString*>*)filteredKeys includeMetadata:(BOOL)includeMetadata
+- (NSMutableDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSPropertyDescription* obj, id val))transformer callingKey:(NSString*)callingKey onlyInKeys:(NSArray<NSString*>*)filteredKeys includeMetadata:(BOOL)includeMetadata cleanIfNeeded:(BOOL)cleanIfNeeded
 {
-	return DTXNSManagedObjectDictionaryRepresentation(self, self.entity, filteredKeys, transformer, callingKey, includeMetadata);
+	return DTXNSManagedObjectDictionaryRepresentation(self, self.entity, filteredKeys, transformer, callingKey, includeMetadata, cleanIfNeeded);
 }
 
 - (void)updateWithPropertyListDictionaryRepresentation:(NSDictionary *)propertyListDictionaryRepresentation

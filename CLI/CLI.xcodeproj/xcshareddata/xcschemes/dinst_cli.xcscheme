@@ -68,10 +68,10 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--force"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--print-entities"
+            argument = "--printEntities"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -79,19 +79,27 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--print-properties"
+            argument = "--entity &quot;Recording&quot;"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--fetched-properties &quot;appName,deviceName,deviceOS&quot;"
+            argument = "--printProperties"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--fetched-properties &quot;cpuUsage, fps, memoryUsage&quot;"
+            argument = "--propertiesToFetch &quot;appName,deviceName,deviceOS, startTimestamp, endTimestamp&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--propertiesToFetch &quot;timestamp, cpuUsage, fps, memoryUsage&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--predicate &quot;cpuUsage &gt; 3.0&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--predicate &quot;(timestamp &gt;= 15 &amp;&amp; (20 + 10) &gt;= timestamp) || cpuUsage &gt; @avg.cpuUsage + 1&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -100,6 +108,10 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--json"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--dateFormat datetime"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -112,7 +124,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--help"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--zzz"
