@@ -32,6 +32,60 @@
             </objects>
             <point key="canvasLocation" x="871" y="-68"/>
         </scene>
+        <!--Window Controller-->
+        <scene sceneID="W7e-0m-Ibl">
+            <objects>
+                <windowController storyboardIdentifier="migrationIndicator" id="ufU-sO-iTI" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="2dI-zb-N2Y" customClass="DTXBorderlessKeyWindow">
+                        <windowStyleMask key="styleMask" closable="YES"/>
+                        <rect key="contentRect" x="245" y="301" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="ufU-sO-iTI" id="fiZ-zn-Mzy"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="pSt-jn-hOz" kind="relationship" relationship="window.shadowedContentViewController" id="zLT-wb-GYq"/>
+                    </connections>
+                </windowController>
+                <customObject id="iAM-Ay-cjl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="385" y="-1776"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="cuW-Zc-pmt">
+            <objects>
+                <viewController id="pSt-jn-hOz" sceneMemberID="viewController">
+                    <view key="view" id="fMR-qT-QnY">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="59"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="7QL-zQ-CGY" customClass="DTXAutomaticallyAnimatingProgressIndicator">
+                                <rect key="frame" x="8" y="7" width="464" height="20"/>
+                            </progressIndicator>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VTR-6D-nQn">
+                                <rect key="frame" x="171" y="34" width="138" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Migrating Document…" id="j67-iJ-8LJ">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="7QL-zQ-CGY" secondAttribute="bottom" constant="8" id="7Ch-7A-Ydr"/>
+                            <constraint firstItem="VTR-6D-nQn" firstAttribute="centerX" secondItem="fMR-qT-QnY" secondAttribute="centerX" id="7uq-AR-xPt"/>
+                            <constraint firstItem="7QL-zQ-CGY" firstAttribute="top" secondItem="VTR-6D-nQn" secondAttribute="bottom" constant="8" id="Hy4-GD-bg1"/>
+                            <constraint firstItem="VTR-6D-nQn" firstAttribute="top" secondItem="fMR-qT-QnY" secondAttribute="top" constant="8" id="U0k-wm-exV"/>
+                            <constraint firstAttribute="trailing" secondItem="7QL-zQ-CGY" secondAttribute="trailing" constant="8" id="mjs-LI-2vD"/>
+                            <constraint firstItem="7QL-zQ-CGY" firstAttribute="leading" secondItem="fMR-qT-QnY" secondAttribute="leading" constant="8" id="tS1-Zi-Lxl"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="hKT-jt-VFQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1092" y="-1801"/>
+        </scene>
         <!--Plot Detail Split View Controller-->
         <scene sceneID="C5j-rK-DpM">
             <objects>
@@ -965,7 +1019,7 @@
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="luK-3M-vK4" userLabel="Outline View" customClass="DTXAutomaticallyDeselectingOutlineView">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="314" height="19"/>
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="314" height="14"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>

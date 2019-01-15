@@ -8,6 +8,7 @@
 
 #import "DTXRecordingDocument.h"
 #import "DTXRecording+UIExtensions.h"
+#import "NSURL+UIAdditions.h"
 #if ! CLI
 #import "DTXRecordingTargetPickerViewController.h"
 #import "DTXRemoteProfilingClient.h"
@@ -16,11 +17,19 @@
 #import "AutoCoding.h"
 @import ObjectiveC;
 
+#import "DTXLogging.h"
+DTX_CREATE_LOG(RecordingDocument)
+
 NSString* const DTXRecordingDocumentDidLoadNotification = @"DTXRecordingDocumentDidLoadNotification";
 NSString* const DTXRecordingDocumentDefactoEndTimestampDidChangeNotification = @"DTXRecordingDocumentDefactoEndTimestampDidChangeNotification";
 NSString* const DTXRecordingDocumentStateDidChangeNotification = @"DTXRecordingDocumentStateDidChangeNotification";
 
 static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
+
+typedef NS_ENUM(NSUInteger, DTXRecordingDocumentMigrationState) {
+	DTXRecordingDocumentMigrationStateEnded,
+	DTXRecordingDocumentMigrationStateStarted,
+};
 
 #if ! CLI
 static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
@@ -48,10 +57,11 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	dispatch_block_t _pendingCancelBlock;
 	
 	id _liveRecordingActivity;
+	
+	BOOL _duplicatingBecauseOfVersionMismatch;
 #endif
 }
 
-@property (nonatomic, assign) BOOL isContentsURLTemporary;
 @property (nonatomic, strong) NSURL* contentsURL;
 
 @end
@@ -110,7 +120,6 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	
 	if(self)
 	{
-		_isContentsURLTemporary = NO;
 		_contentsURL = url;
 	}
 	
@@ -123,7 +132,6 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	
 	if(self)
 	{
-		_isContentsURLTemporary = NO;
 		_contentsURL = contentsURL;
 	}
 	
@@ -173,6 +181,136 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDocumentStateDidChangeNotification object:self];
 }
 
+- (NSError*)_errorForMigrationFailure
+{
+	return [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
+							   code:-9
+						   userInfo:@{
+									  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This document is not supported by the version of Detox Instruments.", @""),
+									  NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try opening the document in an older version of Detox Instruments", @""),
+									  }];
+}
+
+- (BOOL)_requiresMigrationForURL:(NSURL*)sourceStoreURL toModel:(NSManagedObjectModel *)finalModel
+{
+	NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:sourceStoreURL options:nil error:NULL];
+	
+	if(sourceMetadata == nil)
+	{
+		return YES;
+	}
+	
+	if ([finalModel isConfiguration:nil compatibleWithStoreMetadata:sourceMetadata] == YES)
+	{
+		return NO;
+	}
+	
+	return YES;
+}
+
+- (BOOL)_progressivelyMigrateURL:(NSURL *)sourceStoreURL toModel:(NSManagedObjectModel *)finalModel error:(NSError **)error progressHandler:(void(^)(DTXRecordingDocumentMigrationState migrationState, NSDictionary* userInfo))progressHandler
+{
+	NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:sourceStoreURL options:nil error:error];
+	
+	if (sourceMetadata == nil)
+	{
+		return NO;
+	}
+	
+	if ([finalModel isConfiguration:nil compatibleWithStoreMetadata:sourceMetadata] == YES)
+	{
+		progressHandler(DTXRecordingDocumentMigrationStateEnded, nil);
+		*error = nil;
+		return YES;
+	}
+	
+	progressHandler(DTXRecordingDocumentMigrationStateStarted, nil);
+	
+	NSBundle* bundle = [NSBundle bundleForClass:DTXRecordingDocument.class];
+	
+	NSManagedObjectModel *sourceModel = [NSManagedObjectModel mergedModelFromBundles:@[bundle] forStoreMetadata:sourceMetadata];
+	if(sourceModel == nil)
+	{
+		*error = self._errorForMigrationFailure;
+		return NO;
+	}
+	
+	NSMutableArray* modelPaths = [NSMutableArray array];
+	NSArray* momdPaths = [bundle pathsForResourcesOfType:@"momd" inDirectory:nil];
+	
+	for(NSString* momdPath in momdPaths)
+	{
+		NSString* resourceSubpath = momdPath.lastPathComponent;
+		NSArray* momPaths = [bundle pathsForResourcesOfType:@"mom" inDirectory:resourceSubpath];
+		[modelPaths addObjectsFromArray:momPaths];
+	}
+	
+	NSArray* otherModels = [bundle pathsForResourcesOfType:@"mom" inDirectory:nil];
+	[modelPaths addObjectsFromArray:otherModels];
+	
+	if (modelPaths.count == 0)
+	{
+		*error = self._errorForMigrationFailure;
+		return NO;
+	}
+	
+	NSMappingModel* mappingModel = nil;
+	NSManagedObjectModel* targetModel = nil;
+	NSString* modelPath = nil;
+	NSArray* bundlesForTargetModel = @[bundle];
+	
+	for(modelPath in modelPaths)
+	{
+		targetModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:modelPath]];
+		
+		if([targetModel isConfiguration:nil compatibleWithStoreMetadata:sourceMetadata] == YES)
+		{
+			continue;
+		}
+		
+		mappingModel = [NSMappingModel mappingModelFromBundles:bundlesForTargetModel forSourceModel:sourceModel destinationModel:targetModel];
+		
+		if(mappingModel != nil)
+		{
+			break;
+		}
+	}
+	
+	if (mappingModel == nil)
+	{
+		*error = self._errorForMigrationFailure;
+		return NO;
+	}
+	
+	NSMigrationManager* manager = [[NSMigrationManager alloc] initWithSourceModel:sourceModel destinationModel:targetModel];
+	NSString* localModelName = [[modelPath lastPathComponent] stringByDeletingPathExtension];
+	
+	dtx_log_info(@"Migrating to %@", localModelName);
+	
+	NSString* storeExtension = sourceStoreURL.pathExtension;
+	NSURL* destinationStoreURL = sourceStoreURL.URLByDeletingPathExtension;
+	destinationStoreURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@.%@.%@", destinationStoreURL.path, localModelName, storeExtension]];
+	if (![manager migrateStoreFromURL:sourceStoreURL type:NSSQLiteStoreType options:nil withMappingModel:mappingModel toDestinationURL:destinationStoreURL destinationType:NSSQLiteStoreType destinationOptions:nil error:error])
+	{
+		return NO;
+	}
+
+	NSURL* walURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@-wal", sourceStoreURL.path]];
+	NSURL* walDestinationURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@-wal", destinationStoreURL.path]];
+	NSURL* shmURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@-shm", sourceStoreURL.path]];
+	NSURL* shmDestinationURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@-shm", destinationStoreURL.path]];
+	
+	[NSFileManager.defaultManager removeItemAtURL:sourceStoreURL error:NULL];
+	[NSFileManager.defaultManager removeItemAtURL:walURL error:NULL];
+	[NSFileManager.defaultManager removeItemAtURL:shmURL error:NULL];
+	
+	[NSFileManager.defaultManager moveItemAtURL:destinationStoreURL toURL:sourceStoreURL error:NULL];
+	[NSFileManager.defaultManager moveItemAtURL:walDestinationURL toURL:walURL error:NULL];
+	[NSFileManager.defaultManager moveItemAtURL:shmDestinationURL toURL:shmURL error:NULL];
+	
+	return [self _progressivelyMigrateURL:sourceStoreURL toModel:finalModel error:error progressHandler:progressHandler];
+}
+
 - (BOOL)_preparePersistenceContainerFromURL:(NSURL*)url allowCreation:(BOOL)allowCreation error:(NSError **)outError
 {
 	NSURL* storeURL = [self _URLByAppendingStoreCompoenentToURL:url];
@@ -183,14 +321,100 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	}
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:storeURL];
-	description.shouldMigrateStoreAutomatically = YES;
-	description.shouldInferMappingModelAutomatically = NO;
 	description.type = url ? NSSQLiteStoreType : NSInMemoryStoreType;
 	static NSManagedObjectModel* model;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXRecordingDocument class]]]];
 	});
+	
+	NSDictionary* values = [url resourceValuesForKeys:@[NSURLIsSystemImmutableKey, NSURLIsUserImmutableKey] error:outError];
+	if(*outError == nil)
+	{
+		if(([values[NSURLIsSystemImmutableKey] boolValue] == YES || [values[NSURLIsUserImmutableKey] boolValue] == YES) && [self _requiresMigrationForURL:storeURL toModel:model] == YES)
+		{
+			NSError* err = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
+											   code:-9
+										   userInfo:@{
+													  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The document requires migration but is locked.", @""),
+													  NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Duplicate the document to migrate it safely.", @""),
+													  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Duplicate and Unlock", nil), NSLocalizedString(@"Cancel", nil)],
+													  NSRecoveryAttempterErrorKey: self,
+													  NSURLErrorKey: url,
+													  @"DTXCheckForUpdatesIndex": @999,
+													  @"DTXDuplicateIndex": @0,
+													  }];
+			
+			if(NSApp != nil)
+			{
+				BOOL wasRecovered = [NSApp presentError:err];
+				
+				if(wasRecovered == NO)
+				{
+					*outError = [NSError errorWithDomain:@"DTXRecordingDocumentIgnoredErrorDomain" code:0 userInfo:nil];
+					return NO;
+				}
+			}
+			else
+			{
+				*outError = err;
+				return NO;
+			}
+		}
+		
+		NSURL* tempURL = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:url.lastPathComponent];
+		[[NSFileManager defaultManager] removeItemAtURL:tempURL error:NULL];
+		if([[NSFileManager defaultManager] copyItemAtURL:url toURL:tempURL error:outError] == NO)
+		{
+			return NO;
+		}
+		
+		dtx_defer {
+			[[NSFileManager defaultManager] removeItemAtURL:tempURL error:NULL];
+		};
+		
+		NSWindowController* modalWindowController = [[NSStoryboard storyboardWithName:@"Profiler" bundle:[NSBundle bundleForClass:self.class]] instantiateControllerWithIdentifier:@"migrationIndicator"];
+		__block NSModalSession modalSession = NULL;
+		BOOL didMigrate = [self _progressivelyMigrateURL:storeURL toModel:model error:outError progressHandler:^(DTXRecordingDocumentMigrationState migrationState, NSDictionary *userInfo)
+						   {
+							   if(migrationState == DTXRecordingDocumentMigrationStateEnded)
+							   {
+								   if(modalSession != NULL)
+								   {
+									   [NSApp endModalSession:modalSession];
+									   [modalWindowController.window close];
+								   }
+								   modalSession = NULL;
+							   }
+							   else if(migrationState == DTXRecordingDocumentMigrationStateStarted)
+							   {
+								   if(modalSession == NULL)
+								   {
+									   modalSession = [NSApp beginModalSessionForWindow:modalWindowController.window];
+									   [NSApp runModalSession:modalSession];
+								   }
+							   }
+						   }];
+		
+		if(modalSession != NULL)
+		{
+			[NSApp endModalSession:modalSession];
+			[modalWindowController.window close];
+		}
+		modalSession = NULL;
+		
+		if(didMigrate == NO)
+		{
+			[[NSFileManager defaultManager] removeItemAtURL:url error:NULL];
+			[[NSFileManager defaultManager] copyItemAtURL:tempURL toURL:url error:NULL];
+			
+			return NO;
+		}
+	}
+	else
+	{
+		return NO;
+	}
 	
 	_container = [NSPersistentContainer persistentContainerWithName:@"DTXInstruments" managedObjectModel:model];
 	_container.persistentStoreDescriptions = @[description];
@@ -285,10 +509,12 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 												   code:-9
 											   userInfo:@{
 														  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"A newer version of Detox Instruments is required to open the document safely.", @""),
-														  NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:NSLocalizedString(@"The document was last opened with Detox Instruments version %@.\n\nIf you continue, you may lose recorded data or damage the document altogether.", @""), lastOpenedVersion],
-														  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Open Anyway", nil), NSLocalizedString(@"Cancel", nil)],
+														  NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:NSLocalizedString(@"The document was last opened with Detox Instruments version %@.\n\nIf you wish to open the document anyway, select “Duplicate”. Some data might not load or the duplication operation might fail altogether.", @""), lastOpenedVersion],
+														  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Duplicate", nil), NSLocalizedString(@"Cancel", nil)],
 														  NSRecoveryAttempterErrorKey: self,
-														  NSURLErrorKey: url
+														  NSURLErrorKey: url,
+														  @"DTXCheckForUpdatesIndex": @0,
+														  @"DTXDuplicateIndex": @1,
 														  }];
 				
 				if(NSApp != nil)
@@ -357,6 +583,22 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		}
 		
 		rv = [[NSFileManager defaultManager] copyItemAtURL:_contentsURL toURL:url error:outError];
+		
+		if(_duplicatingBecauseOfVersionMismatch == YES)
+		{
+			if([url setResourceValue:@NO forKey:NSURLIsUserImmutableKey error:outError] == NO)
+			{
+				return YES;
+			}
+			
+			[self.class clearLastOpenedVersionAtURL:url];
+			_duplicatingBecauseOfVersionMismatch = NO;
+		}
+	}
+	
+	if(_container == nil)
+	{
+		return YES;
 	}
 	
 	if([_container.viewContext save:outError] == NO)
@@ -406,7 +648,6 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		return;
 	}
 	
-	_isContentsURLTemporary = NO;
 	_contentsURL = url;
 	[_container.persistentStoreCoordinator setURL:[self _URLByAppendingStoreCompoenentToURL:url] forPersistentStore:_container.persistentStoreCoordinator.persistentStores.firstObject];
 	
@@ -616,16 +857,34 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		return NO;
 	}
 	
-	switch(recoveryOptionIndex)
-	{
-		case 0:
-			[NSApp sendAction:NSSelectorFromString(@"checkForUpdates:") to:nil from:nil];
-			break;
-		case 1:
-			[self.class clearLastOpenedVersionAtURL:error.userInfo[NSURLErrorKey]];
-			return YES;
-	}
+	/*
+	 @"DTXCheckForUpdatesIndex": @999,
+	 @"DTXDuplicateIndex": @0,
+	 */
 	
+	NSUInteger checkForUpdatesIndex = [error.userInfo[@"DTXCheckForUpdatesIndex"] unsignedIntegerValue];
+	NSUInteger duplicateIndex = [error.userInfo[@"DTXDuplicateIndex"] unsignedIntegerValue];
+	
+	if(recoveryOptionIndex == checkForUpdatesIndex)
+	{
+		[NSApp sendAction:NSSelectorFromString(@"checkForUpdates:") to:nil from:nil];
+	}
+	else if(recoveryOptionIndex == duplicateIndex)
+	{
+		_duplicatingBecauseOfVersionMismatch = YES;
+		NSError* dupError = nil;
+		DTXRecordingDocument* duplicate = [self duplicateAndReturnError:&dupError];
+		
+		if(duplicate != nil)
+		{
+			[NSDocumentController.sharedDocumentController addDocument:duplicate];
+		}
+		else
+		{
+			[NSApp presentError:dupError];
+		}
+	}
+
 	return NO;
 }
 

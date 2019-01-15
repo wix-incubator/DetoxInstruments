@@ -393,7 +393,6 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 		for(NSUInteger idx = 0; idx < count; idx++)
 		{
 			DTXScatterPlotViewPoint* point = [self.dataSource plotView:self pointAtIndex:idx];
-			
 			NSParameterAssert(point != nil);
 			
 			[self _insertPoint:point atIndex:idx];

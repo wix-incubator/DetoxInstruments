@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.22" systemVersion="18B57c" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18C54" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdvancedPerformanceSample" representedClassName="DTXAdvancedPerformanceSample" parentEntity="PerformanceSample" syncable="YES" codeGenerationType="class">
         <attribute name="heaviestStackTrace" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
+        <attribute name="heaviestThread" optional="YES" attributeType="Integer 16" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="heaviestThreadIdx" optional="YES" attributeType="Integer 16" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES">
             <userInfo>
                 <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
@@ -23,6 +25,7 @@
         <relationship name="networkSampleResponse" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetworkSample" inverseName="responseData" inverseEntity="NetworkSample" syncable="YES"/>
     </entity>
     <entity name="NetworkSample" representedClassName="DTXNetworkSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="requestDataLength" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="requestHeaders" optional="YES" attributeType="Transformable" customClassName="NSDictionary" syncable="YES"/>
         <attribute name="requestHeadersFlat" optional="YES" attributeType="String" syncable="YES"/>
@@ -113,11 +116,13 @@
         <attribute name="binaryName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceColor" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceEnclosureColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deviceMarketingName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceOS" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceOSType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="devicePhysicalMemory" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="deviceProcessorCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="deviceResolution" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="endTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="hasReactNative" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -127,17 +132,19 @@
         <attribute name="profilingConfiguration" optional="YES" attributeType="Transformable" customClassName="NSDictionary" syncable="YES"/>
         <attribute name="recordingOptions" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="startTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="rootSampleGroup" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SampleGroup" inverseName="recording" inverseEntity="SampleGroup" syncable="YES">
-            <userInfo>
-                <entry key="includeInDictionaryRepresentation" value="YES"/>
-            </userInfo>
-        </relationship>
         <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="recording" inverseEntity="ThreadInfo" syncable="YES">
             <userInfo>
                 <entry key="includeInDictionaryRepresentation" value="YES"/>
                 <entry key="sortArrayByKeyPath" value="number"/>
             </userInfo>
         </relationship>
+        <fetchedProperty name="samples" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Sample" predicateString="timestamp &gt;= $FETCH_SOURCE.startTimestamp &amp;&amp; timestamp &lt;= $FETCH_SOURCE.endTimestamp"/>
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+                <entry key="sortArrayByKeyPath" value="timestamp"/>
+            </userInfo>
+        </fetchedProperty>
     </entity>
     <entity name="Sample" representedClassName="DTXSample" isAbstract="YES" syncable="YES" codeGenerationType="class">
         <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES">
@@ -147,22 +154,7 @@
         </attribute>
         <attribute name="sampleIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="parentGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SampleGroup" inverseName="samples" inverseEntity="SampleGroup" syncable="YES">
-            <userInfo>
-                <entry key="includeKeyPathInDictionaryRepresentation" value="sampleIdentifier"/>
-            </userInfo>
-        </relationship>
-    </entity>
-    <entity name="SampleGroup" representedClassName="DTXSampleGroup" parentEntity="Tag" syncable="YES" codeGenerationType="class">
-        <attribute name="closeTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="recording" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recording" inverseName="rootSampleGroup" inverseEntity="Recording" syncable="YES"/>
-        <relationship name="samples" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sample" inverseName="parentGroup" inverseEntity="Sample" syncable="YES">
-            <userInfo>
-                <entry key="includeInDictionaryRepresentation" value="YES"/>
-                <entry key="sortArrayByKeyPath" value="timestamp"/>
-            </userInfo>
-        </relationship>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <entity name="SignpostSample" representedClassName="DTXSignpostSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="additionalInfoEnd" optional="YES" attributeType="String" syncable="YES"/>
@@ -208,17 +200,16 @@
         </relationship>
     </entity>
     <elements>
-        <element name="AdvancedPerformanceSample" positionX="-9" positionY="126" width="128" height="90"/>
+        <element name="AdvancedPerformanceSample" positionX="-9" positionY="126" width="128" height="120"/>
         <element name="LogSample" positionX="-27" positionY="135" width="128" height="75"/>
         <element name="NetworkData" positionX="-18" positionY="126" width="128" height="90"/>
-        <element name="NetworkSample" positionX="9" positionY="153" width="128" height="315"/>
+        <element name="NetworkSample" positionX="9" positionY="153" width="128" height="330"/>
         <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="165"/>
         <element name="ReactNativeBridgeData" positionX="-27" positionY="135" width="128" height="105"/>
         <element name="ReactNativeDataSample" positionX="-18" positionY="144" width="128" height="90"/>
         <element name="ReactNativePeroformanceSample" positionX="-27" positionY="135" width="128" height="210"/>
-        <element name="Recording" positionX="-27" positionY="45" width="128" height="345"/>
-        <element name="Sample" positionX="-63" positionY="-18" width="128" height="120"/>
-        <element name="SampleGroup" positionX="-45" positionY="0" width="128" height="90"/>
+        <element name="Recording" positionX="-27" positionY="45" width="128" height="389"/>
+        <element name="Sample" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="SignpostSample" positionX="-27" positionY="135" width="128" height="225"/>
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
         <element name="ThreadInfo" positionX="-27" positionY="135" width="128" height="105"/>

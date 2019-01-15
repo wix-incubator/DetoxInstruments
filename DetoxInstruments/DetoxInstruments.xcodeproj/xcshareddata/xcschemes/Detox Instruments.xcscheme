@@ -5,6 +5,15 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "git submodule update --init --recursive&#10;">
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -60,7 +69,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "killall &quot;Detox Instruments&quot;&#10;">
+               scriptText = "killall &quot;Detox Instruments&quot;&#10;# cd ~/Downloads/WixOneAppDev\ Dec\ 20,\ 2018\ at\ 4_05_43\ PM.5.dtxprof &#10;# git clean -fdx&#10;# git reset --hard&#10;">
             </ActionContent>
          </ExecutionAction>
       </PreActions>

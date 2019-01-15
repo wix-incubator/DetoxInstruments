@@ -60,13 +60,18 @@
 	
 	if(self.effectiveAppearance != _cachedAppearance || _cachedBackingScaleFactor != self.window.screen.backingScaleFactor)
 	{
+		_cachedAppearance = self.effectiveAppearance;
+		_cachedBackingScaleFactor = self.window.screen.backingScaleFactor;
+		
+		if(_cachedAppearance == nil)
+		{
+			return;
+		}
+		
 		if(self.updateLayerHandler)
 		{
 			self.updateLayerHandler(self);
 		}
-		
-		_cachedAppearance = self.effectiveAppearance;
-		_cachedBackingScaleFactor = self.window.screen.backingScaleFactor;
 	}
 }
 
