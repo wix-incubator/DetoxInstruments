@@ -301,13 +301,12 @@ int main(int argc, const char* argv[])
 			return 0;
 		}
 		
+		NSMutableArray* supportedFunctions = @[@"sum", @"count", @"min", @"max", @"average"].mutableCopy;
+		[supportedFunctions sortUsingSelector:@selector(compare:)];
+		
 		if([settings boolForKey:@"printKeyFunctions"])
 		{
-			NSMutableArray* functions = @[@"sum", @"count", @"min", @"max", @"average"].mutableCopy;
-			
-			[functions sortUsingSelector:@selector(compare:)];
-			
-			LNLog(LNLogLevelStdOut, @"Available key functions:\n%@", _DTXStringFromArray(functions));
+			LNLog(LNLogLevelStdOut, @"Available key functions:\n%@", _DTXStringFromArray(supportedFunctions));
 			return 0;
 		}
 		
@@ -328,6 +327,11 @@ int main(int argc, const char* argv[])
 					NSString* keyPath;
 					if(_DTXParseFunction(property, &functionName, &function, &keyPath) == YES)
 					{
+						if([supportedFunctions containsObject:functionName] == NO)
+						{
+							[NSException raise:NSInvalidArgumentException format:@"Unsupported function “%@”", functionName];
+						}
+						
 						if(entity.attributesByName[keyPath] == nil)
 						{
 							[NSException raise:NSInvalidArgumentException format:@"Unknown key “%@” passed to function “%@”", keyPath, functionName];
