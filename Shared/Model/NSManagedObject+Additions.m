@@ -27,7 +27,10 @@ static NSDateFormatter* __iso8601DateFormatter;
 			{
 				NSAttributeDescription* attrObj = obj;
 				
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
 				if(attrObj.attributeType == NSURIAttributeType || [val isKindOfClass:NSURL.class])
+#pragma clang diagnostic pop
 				{
 					val = [val absoluteString];
 				}

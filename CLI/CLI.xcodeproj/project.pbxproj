@@ -13,8 +13,13 @@
 		3911767021EE4BFD00C92A9F /* DTXMappingModelOldTo7742.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3911766B21EE4BFC00C92A9F /* DTXMappingModelOldTo7742.xcmappingmodel */; };
 		3911767121EE4BFD00C92A9F /* DTXMappingModel8751To9554.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3911766C21EE4BFC00C92A9F /* DTXMappingModel8751To9554.xcmappingmodel */; };
 		3911767221EE4BFD00C92A9F /* DTXMappingModel8246To8751.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3911766D21EE4BFC00C92A9F /* DTXMappingModel8246To8751.xcmappingmodel */; };
-		3911767521EE4C1300C92A9F /* NSURL+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911767321EE4C1300C92A9F /* NSURL+UIAdditions.m */; };
 		3911767821EE6B0800C92A9F /* NSExpression+SafeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911767721EE6B0800C92A9F /* NSExpression+SafeProperties.m */; };
+		3911770821EF81FB00C92A9F /* NSObject+AttachedObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 391176F921EF81FB00C92A9F /* NSObject+AttachedObjects.m */; };
+		3911770921EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 391176FA21EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */; };
+		3911770B21EF81FB00C92A9F /* NSURL+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770321EF81FB00C92A9F /* NSURL+UIAdditions.m */; };
+		3911770C21EF81FB00C92A9F /* NSString+FileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770521EF81FB00C92A9F /* NSString+FileNames.m */; };
+		3911770D21EF81FB00C92A9F /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770621EF81FB00C92A9F /* NSMapTable+Subscripting.m */; };
+		3911770E21EF81FB00C92A9F /* NSDictionary+FakeDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */; };
 		3935104E1FCB9BE2001FB466 /* LNLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3935104B1FCB9BE2001FB466 /* LNLog.m */; };
 		3935104F1FCB9BE2001FB466 /* LNOptionsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3935104C1FCB9BE2001FB466 /* LNOptionsParser.m */; };
 		3935105A1FCB9BF9001FB466 /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 393510521FCB9BF8001FB466 /* GBOptionsHelper.m */; };
@@ -58,15 +63,26 @@
 		3911766521EE4BE500C92A9F /* DTXInstruments-8246.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-8246.xcdatamodel"; sourceTree = "<group>"; };
 		3911766621EE4BE500C92A9F /* DTXInstruments-7742.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-7742.xcdatamodel"; sourceTree = "<group>"; };
 		3911766721EE4BE500C92A9F /* DTXInstruments-9620.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9620.xcdatamodel"; sourceTree = "<group>"; };
-		3911766921EE4BFC00C92A9F /* DTXMappingModel7742To8246.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = DTXMappingModel7742To8246.xcmappingmodel; path = ../../../DetoxInstruments/DetoxInstruments/Model/DTXMappingModel7742To8246.xcmappingmodel; sourceTree = "<group>"; };
-		3911766A21EE4BFC00C92A9F /* DTXMappingModel9554To9620.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = DTXMappingModel9554To9620.xcmappingmodel; path = ../../../DetoxInstruments/DetoxInstruments/Model/DTXMappingModel9554To9620.xcmappingmodel; sourceTree = "<group>"; };
-		3911766B21EE4BFC00C92A9F /* DTXMappingModelOldTo7742.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = DTXMappingModelOldTo7742.xcmappingmodel; path = ../../../DetoxInstruments/DetoxInstruments/Model/DTXMappingModelOldTo7742.xcmappingmodel; sourceTree = "<group>"; };
-		3911766C21EE4BFC00C92A9F /* DTXMappingModel8751To9554.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = DTXMappingModel8751To9554.xcmappingmodel; path = ../../../DetoxInstruments/DetoxInstruments/Model/DTXMappingModel8751To9554.xcmappingmodel; sourceTree = "<group>"; };
-		3911766D21EE4BFC00C92A9F /* DTXMappingModel8246To8751.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = DTXMappingModel8246To8751.xcmappingmodel; path = ../../../DetoxInstruments/DetoxInstruments/Model/DTXMappingModel8246To8751.xcmappingmodel; sourceTree = "<group>"; };
-		3911767321EE4C1300C92A9F /* NSURL+UIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+UIAdditions.m"; path = "../../DetoxInstruments/DetoxInstruments/Utilities/NSURL+UIAdditions.m"; sourceTree = "<group>"; };
-		3911767421EE4C1300C92A9F /* NSURL+UIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+UIAdditions.h"; path = "../../DetoxInstruments/DetoxInstruments/Utilities/NSURL+UIAdditions.h"; sourceTree = "<group>"; };
+		3911766921EE4BFC00C92A9F /* DTXMappingModel7742To8246.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel7742To8246.xcmappingmodel; sourceTree = "<group>"; };
+		3911766A21EE4BFC00C92A9F /* DTXMappingModel9554To9620.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9554To9620.xcmappingmodel; sourceTree = "<group>"; };
+		3911766B21EE4BFC00C92A9F /* DTXMappingModelOldTo7742.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModelOldTo7742.xcmappingmodel; sourceTree = "<group>"; };
+		3911766C21EE4BFC00C92A9F /* DTXMappingModel8751To9554.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel8751To9554.xcmappingmodel; sourceTree = "<group>"; };
+		3911766D21EE4BFC00C92A9F /* DTXMappingModel8246To8751.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel8246To8751.xcmappingmodel; sourceTree = "<group>"; };
 		3911767621EE6B0800C92A9F /* NSExpression+SafeProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSExpression+SafeProperties.h"; sourceTree = "<group>"; };
 		3911767721EE6B0800C92A9F /* NSExpression+SafeProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSExpression+SafeProperties.m"; sourceTree = "<group>"; };
+		391176F921EF81FB00C92A9F /* NSObject+AttachedObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AttachedObjects.m"; sourceTree = "<group>"; };
+		391176FA21EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
+		391176FB21EF81FB00C92A9F /* NSString+FileNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FileNames.h"; sourceTree = "<group>"; };
+		391176FD21EF81FB00C92A9F /* NSURL+UIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+UIAdditions.h"; sourceTree = "<group>"; };
+		391176FE21EF81FB00C92A9F /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
+		391176FF21EF81FB00C92A9F /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
+		3911770021EF81FB00C92A9F /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Swiftier.h; sourceTree = "<group>"; };
+		3911770121EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
+		3911770221EF81FB00C92A9F /* NSObject+AttachedObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AttachedObjects.h"; sourceTree = "<group>"; };
+		3911770321EF81FB00C92A9F /* NSURL+UIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+UIAdditions.m"; sourceTree = "<group>"; };
+		3911770521EF81FB00C92A9F /* NSString+FileNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FileNames.m"; sourceTree = "<group>"; };
+		3911770621EF81FB00C92A9F /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
+		3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
 		3935104A1FCB9BE2001FB466 /* LNOptionsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LNOptionsParser.h; path = ObjCCLIInfra/LNOptionsParser.h; sourceTree = SOURCE_ROOT; };
 		3935104B1FCB9BE2001FB466 /* LNLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNLog.m; path = ObjCCLIInfra/LNLog.m; sourceTree = SOURCE_ROOT; };
 		3935104C1FCB9BE2001FB466 /* LNOptionsParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNOptionsParser.m; path = ObjCCLIInfra/LNOptionsParser.m; sourceTree = SOURCE_ROOT; };
@@ -118,7 +134,6 @@
 		398828502137DBBB006F283B /* DTXRecordingDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocument.h; sourceTree = "<group>"; };
 		398828512137DBBB006F283B /* DTXDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXDocument.m; sourceTree = "<group>"; };
 		398828522137DBBB006F283B /* DTXDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXDocument.h; sourceTree = "<group>"; };
-		39E53B9721E49D1D002C1E79 /* Swiftier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../../DetoxInstruments/DetoxInstruments/Utilities/Swiftier.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +147,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		391176F821EF81FB00C92A9F /* SharedUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				391176FF21EF81FB00C92A9F /* NSDictionary+FakeDecoder.h */,
+				3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */,
+				3911770121EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.h */,
+				391176FA21EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */,
+				391176FE21EF81FB00C92A9F /* NSMapTable+Subscripting.h */,
+				3911770621EF81FB00C92A9F /* NSMapTable+Subscripting.m */,
+				3911770221EF81FB00C92A9F /* NSObject+AttachedObjects.h */,
+				391176F921EF81FB00C92A9F /* NSObject+AttachedObjects.m */,
+				391176FB21EF81FB00C92A9F /* NSString+FileNames.h */,
+				3911770521EF81FB00C92A9F /* NSString+FileNames.m */,
+				391176FD21EF81FB00C92A9F /* NSURL+UIAdditions.h */,
+				3911770321EF81FB00C92A9F /* NSURL+UIAdditions.m */,
+				3911770021EF81FB00C92A9F /* Swiftier.h */,
+			);
+			name = SharedUtilities;
+			path = ../../Shared/SharedUtilities;
+			sourceTree = "<group>";
+		};
 		393510491FCB9BC8001FB466 /* CLIInfra */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,14 +212,6 @@
 				39401CFC21E5098100504FD8 /* DTXSample+Additions.m */,
 				39401CFB21E5098100504FD8 /* NSManagedObject+Additions.h */,
 				39401D0021E5098100504FD8 /* NSManagedObject+Additions.m */,
-			);
-			name = Model;
-			path = ../../Profiler/DTXProfiler/Model;
-			sourceTree = "<group>";
-		};
-		39401D0721E5099500504FD8 /* Model */ = {
-			isa = PBXGroup;
-			children = (
 				39401D0A21E5099500504FD8 /* DTXInstrumentsModelUIExtensions.h */,
 				39401D0E21E5099500504FD8 /* DTXEventStatusPrivate.h */,
 				39401D1421E5099500504FD8 /* DTXNetworkSample+UIExtensions.h */,
@@ -201,7 +229,15 @@
 				39401D1621E5099500504FD8 /* DTXThreadInfo+UIExtensions.h */,
 			);
 			name = Model;
-			path = ../../DetoxInstruments/DetoxInstruments/Model;
+			path = ../../Shared/Model;
+			sourceTree = "<group>";
+		};
+		39401D0721E5099500504FD8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			path = ../../Shared/Model;
 			sourceTree = "<group>";
 		};
 		396487611FC325C400006341 = {
@@ -229,7 +265,6 @@
 				3964879B1FC32E6300006341 /* Utilities */,
 				396487961FC32E1C00006341 /* Profiler */,
 				3964876D1FC325C400006341 /* main.m */,
-				39E53B9721E49D1D002C1E79 /* Swiftier.h */,
 				393E66DC1FC595430092EE89 /* PrefixHeader.pch */,
 				39401CF421E5025100504FD8 /* DTXInstrumentsApplicationProxy.h */,
 				39401CF521E5025100504FD8 /* DTXInstrumentsApplicationProxy.m */,
@@ -250,8 +285,7 @@
 		3964879B1FC32E6300006341 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				3911767421EE4C1300C92A9F /* NSURL+UIAdditions.h */,
-				3911767321EE4C1300C92A9F /* NSURL+UIAdditions.m */,
+				391176F821EF81FB00C92A9F /* SharedUtilities */,
 				393510491FCB9BC8001FB466 /* CLIInfra */,
 				3964879C1FC32E8600006341 /* AutoCoding */,
 				3911767621EE6B0800C92A9F /* NSExpression+SafeProperties.h */,
@@ -343,20 +377,24 @@
 			files = (
 				3935105D1FCB9BF9001FB466 /* GBSettings.m in Sources */,
 				3935105B1FCB9BF9001FB466 /* GBCommandLineParser.m in Sources */,
+				3911770921EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
 				39401D0421E5098100504FD8 /* DTXRecording+Additions.m in Sources */,
-				3911767521EE4C1300C92A9F /* NSURL+UIAdditions.m in Sources */,
 				3911766821EE4BE500C92A9F /* DTXInstruments.xcdatamodeld in Sources */,
 				3911767021EE4BFD00C92A9F /* DTXMappingModelOldTo7742.xcmappingmodel in Sources */,
+				3911770C21EF81FB00C92A9F /* NSString+FileNames.m in Sources */,
 				3964876E1FC325C400006341 /* main.m in Sources */,
 				39401D1C21E5099500504FD8 /* DTXSample+UIExtensions.m in Sources */,
 				396487991FC32E2800006341 /* DTXProfilingConfiguration.m in Sources */,
 				398828532137DBBB006F283B /* DTXRecordingDocument.m in Sources */,
 				3911766F21EE4BFD00C92A9F /* DTXMappingModel9554To9620.xcmappingmodel in Sources */,
+				3911770E21EF81FB00C92A9F /* NSDictionary+FakeDecoder.m in Sources */,
 				398828542137DBBB006F283B /* DTXRecordingDocumentController.m in Sources */,
 				3935105C1FCB9BF9001FB466 /* GBPrint.m in Sources */,
+				3911770821EF81FB00C92A9F /* NSObject+AttachedObjects.m in Sources */,
 				3935104E1FCB9BE2001FB466 /* LNLog.m in Sources */,
 				3911767821EE6B0800C92A9F /* NSExpression+SafeProperties.m in Sources */,
 				39401D0321E5098100504FD8 /* DTXSample+Additions.m in Sources */,
+				3911770B21EF81FB00C92A9F /* NSURL+UIAdditions.m in Sources */,
 				39401D0621E5098100504FD8 /* NSManagedObject+Additions.m in Sources */,
 				3911767221EE4BFD00C92A9F /* DTXMappingModel8246To8751.xcmappingmodel in Sources */,
 				398828552137DBBB006F283B /* DTXDocument.m in Sources */,
@@ -367,6 +405,7 @@
 				3964879F1FC32E8600006341 /* AutoCoding.m in Sources */,
 				39401D1921E5099500504FD8 /* DTXNetworkSample+UIExtensions.m in Sources */,
 				39401D1F21E5099500504FD8 /* DTXSignpostSample+UIExtensions.m in Sources */,
+				3911770D21EF81FB00C92A9F /* NSMapTable+Subscripting.m in Sources */,
 				3935105A1FCB9BF9001FB466 /* GBOptionsHelper.m in Sources */,
 				39401D1A21E5099500504FD8 /* DTXRecording+UIExtensions.m in Sources */,
 				39401CF621E5025100504FD8 /* DTXInstrumentsApplicationProxy.m in Sources */,
