@@ -502,7 +502,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	
 	NSURL* versionFlagURL = [url URLByAppendingPathComponent:@"lastOpenedVersion.txt"];
 	
-	if([NSProcessInfo.processInfo.arguments containsObject:@"--force"])
+	if([NSProcessInfo.processInfo.arguments containsObject:@"--force"] || [NSProcessInfo.processInfo.arguments containsObject:@"-f"])
 	{
 		[self.class clearLastOpenedVersionAtURL:url];
 	}

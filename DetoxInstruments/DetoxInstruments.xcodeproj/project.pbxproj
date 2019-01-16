@@ -529,6 +529,7 @@
 		391176EE21EF80AE00C92A9F /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
 		391176EF21EF80AE00C92A9F /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
 		391176F721EF80E200C92A9F /* DTXProfilingBasics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DTXProfilingBasics.h; path = ../../../../Shared/Model/DTXProfilingBasics.h; sourceTree = "<group>"; };
+		3911774521EFAC5800C92A9F /* DTXQuickNSExpressions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXQuickNSExpressions.h; sourceTree = "<group>"; };
 		39165018213292D50016A468 /* DTXDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDocument.h; sourceTree = "<group>"; };
 		39165019213292D50016A468 /* DTXDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDocument.m; sourceTree = "<group>"; };
 		391958DC20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXApplicationDelegate+DocumentationGeneration.h"; sourceTree = "<group>"; };
@@ -882,6 +883,7 @@
 		39EE1F5A1F3E4729002CB6C1 /* DTXRNBridgeDataDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeDataDataProvider.m; sourceTree = "<group>"; };
 		39EE1F5C1F3E489F002CB6C1 /* DTXRNBridgeDataInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeDataInspectorDataProvider.h; sourceTree = "<group>"; };
 		39EE1F5D1F3E489F002CB6C1 /* DTXRNBridgeDataInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeDataInspectorDataProvider.m; sourceTree = "<group>"; };
+		39EEF32E21EFAD1A0028061D /* SharedPrefixHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedPrefixHeader.h; sourceTree = "<group>"; };
 		39EFF5D920E8FE5300B5AE75 /* DTXSampleContainerProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSampleContainerProxy.h; sourceTree = "<group>"; };
 		39EFF5DA20E8FE5300B5AE75 /* DTXSampleContainerProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSampleContainerProxy.m; sourceTree = "<group>"; };
 		39EFF5F320E90D2C00B5AE75 /* DTXSignpostSummaryRootProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostSummaryRootProxy.h; sourceTree = "<group>"; };
@@ -998,6 +1000,7 @@
 		391176E021EF80AE00C92A9F /* SharedUtilities */ = {
 			isa = PBXGroup;
 			children = (
+				3911774521EFAC5800C92A9F /* DTXQuickNSExpressions.h */,
 				391176EC21EF80AE00C92A9F /* DTXZipper.h */,
 				391176E421EF80AE00C92A9F /* DTXZipper.m */,
 				391176E721EF80AE00C92A9F /* NSDictionary+FakeDecoder.h */,
@@ -1013,6 +1016,7 @@
 				391176E521EF80AE00C92A9F /* NSURL+UIAdditions.h */,
 				391176EB21EF80AE00C92A9F /* NSURL+UIAdditions.m */,
 				391176E821EF80AE00C92A9F /* Swiftier.h */,
+				39EEF32E21EFAD1A0028061D /* SharedPrefixHeader.h */,
 			);
 			name = SharedUtilities;
 			path = ../../../Shared/SharedUtilities;
@@ -2565,12 +2569,12 @@
 		391176D821EF803900C92A9F /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				391176DE21EF803900C92A9F /* DTXInstruments-9620.xcdatamodel */,
 				391176D921EF803900C92A9F /* DTXInstruments-9554.xcdatamodel */,
 				391176DA21EF803900C92A9F /* DTXInstruments-8751.xcdatamodel */,
-				391176DB21EF803900C92A9F /* DTXInstruments.xcdatamodel */,
 				391176DC21EF803900C92A9F /* DTXInstruments-8246.xcdatamodel */,
 				391176DD21EF803900C92A9F /* DTXInstruments-7742.xcdatamodel */,
-				391176DE21EF803900C92A9F /* DTXInstruments-9620.xcdatamodel */,
+				391176DB21EF803900C92A9F /* DTXInstruments.xcdatamodel */,
 			);
 			currentVersion = 391176DE21EF803900C92A9F /* DTXInstruments-9620.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;

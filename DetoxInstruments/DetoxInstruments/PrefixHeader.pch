@@ -9,8 +9,7 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
-#import "Swiftier.h"
-#import "NSMapTable+Subscripting.h"
+#import "SharedPrefixHeader.h"
 #import "DTXInstrumentsModelUIExtensions.h"
 #import "DTXInstrumentsApplication.h"
 

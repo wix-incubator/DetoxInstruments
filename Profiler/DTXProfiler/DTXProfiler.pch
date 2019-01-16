@@ -10,7 +10,7 @@
 #define DTXProfiler_pch
 
 #import "DTXLogging.h"
-#import "Swiftier.h"
+#import "SharedPrefixHeader.h"
 #ifdef __OBJC__
 #import "NSMapTable+Subscripting.h"
 #endif

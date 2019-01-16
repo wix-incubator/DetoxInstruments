@@ -109,7 +109,7 @@ static void __DTXCleanIfNeeded(id self, NSMutableDictionary* rv)
 	}
 }
 
-NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntityDescription* entity, NSArray<NSString*>* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), NSString* callingKey, BOOL includeMetadata, BOOL cleanIfNeeded)
+NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntityDescription* entity, NSArray* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), NSString* callingKey, BOOL includeMetadata, BOOL cleanIfNeeded)
 {
 	if(transformer == nil)
 	{
@@ -135,11 +135,6 @@ NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntit
 			
 			NSString* outputKey = key;
 			
-			if(obj.userInfo[@"transformedDictionaryOutputKey"] != nil)
-			{
-				outputKey = obj.userInfo[@"transformedDictionaryOutputKey"];
-			}
-			
 			if([obj isKindOfClass:NSRelationshipDescription.class])
 			{
 				if([obj.userInfo[@"includeInDictionaryRepresentation"] boolValue])
@@ -161,24 +156,6 @@ NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntit
 					}
 					
 					rv[outputKey] = val;
-				}
-				else if([obj.userInfo[@"flattenInDictionaryRepresentation"] boolValue])
-				{
-					id val = [[self valueForKey:key] valueForKey:callingKey];
-					
-					if(val == nil)
-					{
-						return;
-					}
-					
-					NSCParameterAssert([val isKindOfClass:[NSDictionary class]]);
-					
-					[rv addEntriesFromDictionary:val];
-				}
-				else if(obj.userInfo[@"includeKeyPathInDictionaryRepresentation"] != nil)
-				{
-					id keyPathVal = [[self valueForKey:key] valueForKeyPath:obj.userInfo[@"includeKeyPathInDictionaryRepresentation"]];
-					rv[outputKey] = keyPathVal;
 				}
 			}
 			else if([obj isKindOfClass:NSFetchedPropertyDescription.class] && [obj.userInfo[@"includeInDictionaryRepresentation"] boolValue])
@@ -218,6 +195,17 @@ NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntit
 				rv[outputKey] = val;
 			}
 		}
+	}];
+	
+	[filteredKeys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if([obj isKindOfClass:NSExpressionDescription.class] == NO)
+		{
+			return;
+		}
+		
+		NSExpressionDescription* expr = obj;
+		
+		rv[expr.name] = [self objectForKey:expr.name];
 	}];
 	
 	if(cleanIfNeeded)

@@ -9,9 +9,8 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
+#import "SharedPrefixHeader.h"
 #import "DTXInstrumentsApplicationProxy.h"
-
-#import "Swiftier.h"
 
 extern DTXInstrumentsApplicationProxy* DTXApp;
 
