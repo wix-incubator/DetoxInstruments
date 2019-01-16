@@ -79,12 +79,132 @@ static __kindof NSPredicate* _DTXFixupPredicateTimestamps(__kindof NSPredicate* 
 	}
 }
 
+NSString* _DTXStringFromAttributeType(NSAttributeDescription* attributeDescription)
+{
+	switch (attributeDescription.attributeType)
+	{
+		case NSUndefinedAttributeType:
+			return @"undefined";
+		case NSInteger16AttributeType:
+		case NSInteger32AttributeType:
+		case NSInteger64AttributeType:
+		case NSDecimalAttributeType:
+		case NSDoubleAttributeType:
+		case NSFloatAttributeType:
+			return @"number";
+		case NSStringAttributeType:
+			return @"string";
+		case NSBooleanAttributeType:
+			return @"boolean";
+		case NSDateAttributeType:
+			return @"date";
+		case NSBinaryDataAttributeType:
+			return @"binary data";
+		case NSUUIDAttributeType:
+			return @"UUID";
+		case NSURIAttributeType:
+			return @"URI";
+		case NSTransformableAttributeType:
+		{
+			NSMutableString* className = attributeDescription.attributeValueClassName.mutableCopy;
+			[className replaceOccurrencesOfString:@"NS" withString:@"" options:0 range:NSMakeRange(0, className.length)];
+			[className replaceOccurrencesOfString:@"DTX" withString:@"" options:0 range:NSMakeRange(0, className.length)];
+			
+			return className.lowercaseString;
+		}
+		case NSObjectIDAttributeType:
+			return @"object ID";
+	}
+}
+
+void _DTXPrintProperties(NSEntityDescription* entity)
+{
+	NSMutableArray* properties = [NSMutableArray new];
+	NSMutableArray* additional = [NSMutableArray new];
+	
+	[entity.properties enumerateObjectsUsingBlock:^(__kindof NSPropertyDescription * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
+	 {
+		 BOOL isRelationship = NO, isRToMany = NO;
+		 NSString* destinationEntityName = nil;
+		 NSString* propertyType = nil;
+		 
+		 if(([obj isKindOfClass:NSFetchedPropertyDescription.class] || [obj isKindOfClass:NSRelationshipDescription.class]) && [obj.userInfo[@"includeInDictionaryRepresentation"] boolValue] == NO)
+		 {
+			 return;
+		 }
+		 
+		 if([obj isKindOfClass:NSFetchedPropertyDescription.class])
+		 {
+			 NSFetchedPropertyDescription* fp = obj;
+			 
+			 isRelationship = YES;
+			 isRToMany = YES;
+			 destinationEntityName = fp.fetchRequest.entityName;
+		 }
+		 else if([obj isKindOfClass:NSRelationshipDescription.class])
+		 {
+			 NSRelationshipDescription* rel = obj;
+			 
+			 isRelationship = YES;
+			 isRToMany = rel.isToMany;
+			 destinationEntityName = rel.destinationEntity.name;
+		 }
+		 else if([obj isKindOfClass:NSAttributeDescription.class])
+		 {
+			 NSAttributeDescription* attr = obj;
+			 
+			 propertyType = _DTXStringFromAttributeType(attr);
+		 }
+		 
+		 [properties addObject:obj.name];
+		 [additional addObject:!isRelationship ? [NSString stringWithFormat:@"%@", propertyType] : [NSString stringWithFormat:@"%@, entity: %@", isRToMany ? @"relationship: one-to-many" : @"relationship: one-to-one", destinationEntityName]];
+	 }];
+	
+	NSUInteger longestPropertyName = [[properties valueForKeyPath:@"@max.length"] unsignedIntegerValue];
+	NSMutableArray* rv = [NSMutableArray new];
+	
+	[additional enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[rv addObject:[NSString stringWithFormat:@"%@ %@", [properties[idx] stringByPaddingToLength:longestPropertyName + 3 withString:@" " startingAtIndex:0], obj]];
+	}];
+	
+	[rv sortUsingSelector:@selector(compare:)];
+	
+	LNLog(LNLogLevelStdOut, @"“%@” keys:\n%@", entity.name, _DTXStringFromArray(rv));
+}
+
+BOOL _DTXParseFunction(NSString* expr, NSString** functionName, NSString** function, NSString** keyPath)
+{
+	NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:@"([[:alnum:]]*)\\(([[:alnum:]]*)\\)" options:NSRegularExpressionAnchorsMatchLines error:NULL];
+	NSArray* matches = [regex matchesInString:expr options:0 range:NSMakeRange(0, expr.length)];
+	
+	if(matches.count > 0)
+	{
+		NSTextCheckingResult* match = matches.firstObject;
+		*functionName = [expr substringWithRange:[match rangeAtIndex:1]];
+		*function = [NSString stringWithFormat:@"%@:", *functionName];
+		*keyPath = [expr substringWithRange:[match rangeAtIndex:2]];
+		
+		return YES;
+	}
+	
+	return NO;
+}
+
 int main(int argc, const char* argv[])
 {
-	LNUsageSetIntroStrings(@[@"CLI tools for Detox Instruments"]);
+	LNUsageSetIntroStrings(@[@"CLI tool for Detox Instruments"]);
+	
+	LNUsageSetExampleStrings(@[
+							   @"%@ --document MyRecording.dtxprof --printEntities",
+							   @"%@ -d MyRecording.dtxprof --entity Recording --printKeys",
+							   @"%@ -d MyRecording.dtxprof -e Recording --keys \"appName,deviceName,startTimestamp,endTimestamp\" --fetch --dateFormat datetime",
+							   @"%@ -d MyRecording.dtxprof -e PerformanceSample -k \"cpuUsage,memoryUsage,fps,timestamp\" --predicate \"timestamp >= 15 && timestamp <= 30\" -f",
+							   @"%@ -d MyRecording.dtxprof -e PerformanceSample -k \"average(cpuUsage),min(memoryUsage),max(memoryUsage)\" -p \"timestamp >= 15 && timestamp <= 30\" --limit 1 -f",
+							   @"%@ -d MyRecording.dtxprof -e NetworkSample -k \"url,responseError\" -p \"responseStatusCode != 200\" -f",
+							   ]);
 	
 	LNUsageSetOptions(@[
-						[LNUsageOption optionWithName:@"document" shortcut:@"i" valueRequirement:GBValueRequired description:@"The document"],
+						[LNUsageOption optionWithName:@"document" shortcut:@"d" valueRequirement:GBValueRequired description:@"The document (.dtxprof format)"],
 						[LNUsageOption optionWithName:@"force" shortcut:@"f" valueRequirement:GBValueNone description:@"Force opening an incompatible recording (WARNING: may cause data damage)"],
 						[LNUsageOption emptyOption],
 						
@@ -92,8 +212,9 @@ int main(int argc, const char* argv[])
 						[LNUsageOption optionWithName:@"entity" shortcut:@"e" valueRequirement:GBValueRequired description:@"The entity to fetch objects of"],
 						[LNUsageOption emptyOption],
 						
-						[LNUsageOption optionWithName:@"printProperties" shortcut:@"pp" valueRequirement:GBValueNone description:@"Prints available properties for the specified entity"],
-						[LNUsageOption optionWithName:@"propertiesToFetch" shortcut:@"pf" valueRequirement:GBValueRequired description:@"A comma-separated collection of properties to fetch (omit to fetch all properties)"],
+						[LNUsageOption optionWithName:@"printKeys" shortcut:@"pk" valueRequirement:GBValueNone description:@"Prints available keys for the specified entity"],
+						[LNUsageOption optionWithName:@"printKeyFunctions" shortcut:@"pkf" valueRequirement:GBValueNone description:@"Prints supported functions (usage: function(key))"],
+						[LNUsageOption optionWithName:@"keys" shortcut:@"k" valueRequirement:GBValueRequired description:@"Comma-separated collection of keys to fetch (can be entity keys or functions for the entity keys; omit to fetch all keys)"],
 						[LNUsageOption emptyOption],
 						
 						[LNUsageOption optionWithName:@"predicate" shortcut:@"p" valueRequirement:GBValueRequired description:@"The predicate to use for fetching (omit to fetch all objects); timestampts should always be relative"],
@@ -102,14 +223,18 @@ int main(int argc, const char* argv[])
 						[LNUsageOption optionWithName:@"fetch" shortcut:@"f" valueRequirement:GBValueNone description:@"Fetch objects of the specified entities, using a predicate if specified"],
 						[LNUsageOption emptyOption],
 						
-						[LNUsageOption optionWithName:@"dateFormat" shortcut:@"df" valueRequirement:GBValueRequired description:@"The date format to use for displaying timestamps; \"relative\"—Display timestamps relative to the document start (default); \"datetime\"—Display timestamps as absolute dates"],
+						[LNUsageOption optionWithName:@"dateFormat" shortcut:@"df" valueRequirement:GBValueRequired description:@"The date format to use for displaying timestamps\n - \"relative\" - display timestamps relative to the document start (default)\n - \"datetime\" - display timestamps as absolute dates"],
+						[LNUsageOption optionWithName:@"limit" valueRequirement:GBValueRequired description:@"Limit the number of returned results"],
 						[LNUsageOption optionWithName:@"json" valueRequirement:GBValueNone description:@"Export the recording information data as JSON (default)"],
 						[LNUsageOption optionWithName:@"plist" valueRequirement:GBValueNone description:@"Export the recording information data as property list"],
 						[LNUsageOption emptyOption],
 						
 						[LNUsageOption optionWithName:@"version" shortcut:@"v" valueRequirement:GBValueNone description:@"Prints version"],
 						]);
-	LNUsageSetHiddenOptions(@[[LNUsageOption optionWithName:@"appPath" valueRequirement:GBValueRequired description:@"The “Detox Instruments.app” to use"],
+	
+	LNUsageSetHiddenOptions(@[
+							  [LNUsageOption optionWithName:@"instrumentsPath" valueRequirement:GBValueRequired description:@"The “Detox Instruments.app” to use"],
+//							  [LNUsageOption optionWithName:@"inMemory" valueRequirement:GBValueRequired description:@"Run the predicate in memory"],
 							  ]);
 	
 	LNUsageSetAdditionalStrings(@[
@@ -121,6 +246,11 @@ int main(int argc, const char* argv[])
 	GBSettings* settings = LNUsageParseArguments(argc, argv);
 	
 	//	LNUsagePrintArguments(LNLogLevelStdOut);
+	//	BOOL inMemory = NO;
+	//	if([settings objectForKey:@"inMemory"])
+	//	{
+	//		inMemory = [[settings objectForKey:@"inMemory"] boolValue];
+	//	}
 	
 	if([settings boolForKey:@"version"])
 	{
@@ -165,21 +295,54 @@ int main(int argc, const char* argv[])
 			return -1;
 		}
 		
-		if([settings boolForKey:@"printProperties"])
+		if([settings boolForKey:@"printKeys"])
 		{
-			LNLog(LNLogLevelStdOut, @"Available properties for “%@”:\n%@", entityName, _DTXStringFromArray([entity.properties valueForKey:@"name"]));
+			_DTXPrintProperties(entity);
+			return 0;
+		}
+		
+		if([settings boolForKey:@"printKeyFunctions"])
+		{
+			NSMutableArray* functions = @[@"sum", @"count", @"min", @"max", @"average"].mutableCopy;
+			
+			[functions sortUsingSelector:@selector(compare:)];
+			
+			LNLog(LNLogLevelStdOut, @"Available key functions:\n%@", _DTXStringFromArray(functions));
 			return 0;
 		}
 		
 		@try
 		{
+			__block NSUInteger functionsCount = 0;
+			__block BOOL hasToManyRelationships;
 			NSArray* propertiesToFetch = nil;
-			NSString* fpString = [settings objectForKey:@"propertiesToFetch"];
+			NSString* fpString = [settings objectForKey:@"keys"];
 			if(fpString)
 			{
 				NSMutableArray* arr = [NSMutableArray new];
 				[[fpString componentsSeparatedByString:@","] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-					[arr addObject:[obj stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet]];
+					NSString* property = [obj stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+					
+					NSString* functionName;
+					NSString* function;
+					NSString* keyPath;
+					if(_DTXParseFunction(property, &functionName, &function, &keyPath) == YES)
+					{
+						if(entity.attributesByName[keyPath] == nil)
+						{
+							[NSException raise:NSInvalidArgumentException format:@"Unknown key “%@” passed to function “%@”", keyPath, functionName];
+						}
+						
+						functionsCount++;
+						NSExpressionDescription* func = [NSExpressionDescription new];
+						func.name = property;
+						func.expression = DTXFunctionExpression(function, @[DTXKeyPathExpression(keyPath)]);
+						[arr addObject:func];
+					}
+					else
+					{
+						[arr addObject:property];
+					}
 				}];
 				propertiesToFetch = arr;
 			}
@@ -200,8 +363,15 @@ int main(int argc, const char* argv[])
 			{
 				NSFetchRequest* fr = [NSFetchRequest new];
 				fr.entity = entity;
-				fr.propertiesToFetch = propertiesToFetch;
+				fr.returnsObjectsAsFaults = NO;
+				fr.fetchLimit = [[settings objectForKey:@"limit"] integerValue];
+				if(functionsCount > 0)
+				{
+					fr.resultType = NSDictionaryResultType;
+					fr.propertiesToFetch = propertiesToFetch;
+				}
 				fr.predicate = predicate;
+				
 				[@[@"timestamp", @"startTimestamp"] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 					if(entity.attributesByName[obj] != nil)
 					{
@@ -281,20 +451,5 @@ int main(int argc, const char* argv[])
 	}
 	
 	LNUsagePrintMessage(@"No entity specified", LNLogLevelError);
-	
-	//	if([settings boolForKey:@"json"])
-	//	{
-	//		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[document.recordings valueForKey:@"cleanDictionaryRepresentationForJSON"] options:NSJSONWritingPrettyPrinted error:&error];
-	//		NSURL* jsonURL = [outputDirURL URLByAppendingPathComponent:[inputURL.lastPathComponent.stringByDeletingPathExtension stringByAppendingPathExtension:@"json"]];
-	//		[jsonData writeToURL:jsonURL atomically:YES];
-	//	}
-	//
-	//	if([settings boolForKey:@"plist"])
-	//	{
-	//		NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:[document.recordings valueForKey:@"cleanDictionaryRepresentationForPropertyList"] format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
-	//		NSURL* plistURL = [outputDirURL URLByAppendingPathComponent:[inputURL.lastPathComponent.stringByDeletingPathExtension stringByAppendingPathExtension:@"plist"]];
-	//		[plistData writeToURL:plistURL atomically:YES];
-	//	}
-	
-	return 0;
+	return -1;
 }

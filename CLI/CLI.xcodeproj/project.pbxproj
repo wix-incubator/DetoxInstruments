@@ -122,7 +122,7 @@
 		39401D1621E5099500504FD8 /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39401D1721E5099500504FD8 /* DTXSample+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXSample+UIExtensions.h"; sourceTree = "<group>"; };
 		39401D1821E5099500504FD8 /* DTXPerformanceSample+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXPerformanceSample+UIExtensions.h"; sourceTree = "<group>"; };
-		3964876A1FC325C400006341 /* dinst_cli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dinst_cli; sourceTree = BUILT_PRODUCTS_DIR; };
+		3964876A1FC325C400006341 /* dtxinstcli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dtxinstcli; sourceTree = BUILT_PRODUCTS_DIR; };
 		3964876D1FC325C400006341 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		396487971FC32E2800006341 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXProfilingConfiguration.h; path = ../../Profiler/DTXProfiler/DTXProfilingConfiguration.h; sourceTree = "<group>"; };
 		396487981FC32E2800006341 /* DTXProfilingConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXProfilingConfiguration.m; path = ../../Profiler/DTXProfiler/DTXProfilingConfiguration.m; sourceTree = "<group>"; };
@@ -134,6 +134,8 @@
 		398828502137DBBB006F283B /* DTXRecordingDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocument.h; sourceTree = "<group>"; };
 		398828512137DBBB006F283B /* DTXDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXDocument.m; sourceTree = "<group>"; };
 		398828522137DBBB006F283B /* DTXDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXDocument.h; sourceTree = "<group>"; };
+		39EEF34221EFADA80028061D /* SharedPrefixHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPrefixHeader.h; sourceTree = "<group>"; };
+		39EEF34321EFADB10028061D /* DTXQuickNSExpressions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXQuickNSExpressions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 		391176F821EF81FB00C92A9F /* SharedUtilities */ = {
 			isa = PBXGroup;
 			children = (
+				39EEF34321EFADB10028061D /* DTXQuickNSExpressions.h */,
 				391176FF21EF81FB00C92A9F /* NSDictionary+FakeDecoder.h */,
 				3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */,
 				3911770121EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.h */,
@@ -162,6 +165,7 @@
 				3911770521EF81FB00C92A9F /* NSString+FileNames.m */,
 				391176FD21EF81FB00C92A9F /* NSURL+UIAdditions.h */,
 				3911770321EF81FB00C92A9F /* NSURL+UIAdditions.m */,
+				39EEF34221EFADA80028061D /* SharedPrefixHeader.h */,
 				3911770021EF81FB00C92A9F /* Swiftier.h */,
 			);
 			name = SharedUtilities;
@@ -199,13 +203,13 @@
 		39401CF821E5098100504FD8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				39401CFA21E5098100504FD8 /* DTXInstrumentsModel.h */,
 				3911766121EE4BE500C92A9F /* DTXInstruments.xcdatamodeld */,
 				3911766921EE4BFC00C92A9F /* DTXMappingModel7742To8246.xcmappingmodel */,
 				3911766D21EE4BFC00C92A9F /* DTXMappingModel8246To8751.xcmappingmodel */,
 				3911766C21EE4BFC00C92A9F /* DTXMappingModel8751To9554.xcmappingmodel */,
 				3911766A21EE4BFC00C92A9F /* DTXMappingModel9554To9620.xcmappingmodel */,
 				3911766B21EE4BFC00C92A9F /* DTXMappingModelOldTo7742.xcmappingmodel */,
+				39401CFA21E5098100504FD8 /* DTXInstrumentsModel.h */,
 				39401CF921E5098100504FD8 /* DTXRecording+Additions.h */,
 				39401CFD21E5098100504FD8 /* DTXRecording+Additions.m */,
 				39401D0221E5098100504FD8 /* DTXSample+Additions.h */,
@@ -232,14 +236,6 @@
 			path = ../../Shared/Model;
 			sourceTree = "<group>";
 		};
-		39401D0721E5099500504FD8 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Model;
-			path = ../../Shared/Model;
-			sourceTree = "<group>";
-		};
 		396487611FC325C400006341 = {
 			isa = PBXGroup;
 			children = (
@@ -251,7 +247,7 @@
 		3964876B1FC325C400006341 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3964876A1FC325C400006341 /* dinst_cli */,
+				3964876A1FC325C400006341 /* dtxinstcli */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,9 +255,8 @@
 		3964876C1FC325C400006341 /* CLI */ = {
 			isa = PBXGroup;
 			children = (
-				396487A31FC3322C00006341 /* Document */,
 				39401CF821E5098100504FD8 /* Model */,
-				39401D0721E5099500504FD8 /* Model */,
+				396487A31FC3322C00006341 /* Document */,
 				3964879B1FC32E6300006341 /* Utilities */,
 				396487961FC32E1C00006341 /* Profiler */,
 				3964876D1FC325C400006341 /* main.m */,
@@ -335,7 +330,7 @@
 			);
 			name = CLI;
 			productName = Helper;
-			productReference = 3964876A1FC325C400006341 /* dinst_cli */;
+			productReference = 3964876A1FC325C400006341 /* dtxinstcli */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -533,7 +528,7 @@
 					"$(inherited)",
 				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				PRODUCT_NAME = dinst_cli;
+				PRODUCT_NAME = dtxinstcli;
 			};
 			name = Debug;
 		};
@@ -545,7 +540,7 @@
 				GCC_PREFIX_HEADER = CLI/PrefixHeader.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "CLI=1";
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				PRODUCT_NAME = dinst_cli;
+				PRODUCT_NAME = dtxinstcli;
 			};
 			name = Release;
 		};
@@ -606,7 +601,7 @@
 				GCC_PREFIX_HEADER = CLI/PrefixHeader.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "CLI=1";
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				PRODUCT_NAME = dinst_cli;
+				PRODUCT_NAME = dtxinstcli;
 			};
 			name = Release_External;
 		};

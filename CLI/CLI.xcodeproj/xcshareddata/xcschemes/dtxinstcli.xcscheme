@@ -64,7 +64,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--document &quot;/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Example Recording/example.dtxprof&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--document &quot;/Users/lnatan/Downloads/WixOneAppDev Dec 20, 2018 at 4_05_43 PM.5.dtxprof&quot;"
@@ -72,7 +72,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--force"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--printEntities"
@@ -80,22 +80,30 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;PerformanceSample&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;Recording&quot;"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--printProperties"
+            argument = "--entity &quot;ThreadInfo&quot;"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--propertiesToFetch &quot;appName,deviceName,deviceOS, startTimestamp, endTimestamp&quot;"
+            argument = "--printKeys"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--propertiesToFetch &quot;timestamp, cpuUsage, fps, memoryUsage&quot;"
+            argument = "--printKeyFunctions"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--keys &quot;appName,deviceName,deviceOS, startTimestamp, endTimestamp&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--keys &quot;timestamp, cpuUsage, max(cpuUsage), fps, min(memoryUsage), memoryUsage,max(memoryUsage)&quot;"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -104,15 +112,19 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--predicate &quot;(timestamp &gt;= 15 &amp;&amp; 30 &gt;= timestamp)&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--fetch"
-            isEnabled = "YES">
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--limit 1"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--json"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--dateFormat datetime"
@@ -128,10 +140,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--help"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--help2"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--zzz"
+            argument = "--inMemory NO"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
