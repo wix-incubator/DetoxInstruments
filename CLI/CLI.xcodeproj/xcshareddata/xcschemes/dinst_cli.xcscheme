@@ -67,6 +67,10 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--document &quot;/Users/lnatan/Downloads/WixOneAppDev Dec 20, 2018 at 4_05_43 PM.5.dtxprof&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--force"
             isEnabled = "YES">
          </CommandLineArgument>
@@ -92,14 +96,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--propertiesToFetch &quot;timestamp, cpuUsage, fps, memoryUsage&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--predicate &quot;cpuUsage &gt; 3.0&quot;"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--predicate &quot;(timestamp &gt;= 15 &amp;&amp; (20 + 10) &gt;= timestamp) || cpuUsage &gt; @avg.cpuUsage + 1&quot;"
+            argument = "--predicate &quot;(timestamp &gt;= 15 &amp;&amp; 30 &gt;= timestamp)&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

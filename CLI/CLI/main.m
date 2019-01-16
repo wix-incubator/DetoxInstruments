@@ -16,6 +16,15 @@ static char* const __version =
 #include "version.h"
 ;
 
+#define DTXAssert(condition, desc, ...) \
+do { \
+__PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \
+if (__builtin_expect(!(condition), 0)) { \
+[NSException raise:NSInvalidArgumentException format:(desc), ##__VA_ARGS__]; \
+} \
+__PRAGMA_POP_NO_EXTRA_ARG_WARNINGS \
+} while(0)
+
 static NSString* _DTXStringFromArray(NSArray* arr)
 {
 	NSMutableArray* rv = [NSMutableArray new];
@@ -27,24 +36,46 @@ static NSString* _DTXStringFromArray(NSArray* arr)
 	return [rv componentsJoinedByString:@"\n"];
 }
 
-static void _DTXFixupPredicateTimestamps(__kindof NSPredicate* predicate, DTXRecordingDocument* document)
+#define FIX_TIMESTAMP_IF_NEEDED(firstExpression, secondExpression) if(predicate.firstExpression.keyPath != nil && [predicate.firstExpression.keyPath rangeOfString:@"timestamp" options:NSCaseInsensitiveSearch].location != NSNotFound) \
+{ \
+DTXAssert([predicate.secondExpression.constantValue isKindOfClass:NSNumber.class], @"rhs of “%@” expression must be a numeric constant", predicate); \
+auto keyPathExpression = predicate.firstExpression; \
+auto constantExpression = [NSExpression expressionForConstantValue:[document.firstRecording.startTimestamp dateByAddingTimeInterval:[predicate.secondExpression.constantValue doubleValue]]]; \
+BOOL isKPLHS = predicate.leftExpression == predicate.firstExpression; \
+return [[NSComparisonPredicate alloc] initWithLeftExpression: isKPLHS ? keyPathExpression : constantExpression rightExpression: isKPLHS ? constantExpression : keyPathExpression modifier:predicate.comparisonPredicateModifier type:predicate.predicateOperatorType options:predicate.options]; \
+} \
+
+static NSComparisonPredicate* _DTXFixupTimestampForPredicate(NSComparisonPredicate* predicate, DTXRecordingDocument* document)
+{
+	FIX_TIMESTAMP_IF_NEEDED(leftExpression, rightExpression);
+	FIX_TIMESTAMP_IF_NEEDED(rightExpression, leftExpression);
+	
+	return predicate;
+}
+
+static __kindof NSPredicate* _DTXFixupPredicateTimestamps(__kindof NSPredicate* predicate, DTXRecordingDocument* document)
 {
 	if([predicate isKindOfClass:NSComparisonPredicate.class])
 	{
 		NSComparisonPredicate* comparison = predicate;
 		
-		NSLog(@"");
+		return _DTXFixupTimestampForPredicate(comparison, document);
 	}
 	else if([predicate isKindOfClass:NSCompoundPredicate.class])
 	{
 		NSCompoundPredicate* compound = predicate;
+		NSMutableArray* newSubpredicates = [NSMutableArray new];
 		[compound.subpredicates enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			_DTXFixupPredicateTimestamps(obj, document);
+			[newSubpredicates addObject:_DTXFixupPredicateTimestamps(obj, document)];
 		}];
+		
+		return [[NSCompoundPredicate alloc] initWithType:compound.compoundPredicateType subpredicates:newSubpredicates];
 	}
 	else
 	{
 		[NSException raise:NSInvalidArgumentException format:@"Unsupport predicate type: %@", predicate.className];
+		
+		return nil;
 	}
 }
 
@@ -54,7 +85,7 @@ int main(int argc, const char* argv[])
 	
 	LNUsageSetOptions(@[
 						[LNUsageOption optionWithName:@"document" shortcut:@"i" valueRequirement:GBValueRequired description:@"The document"],
-						[LNUsageOption optionWithName:@"force" shortcut:@"f" valueRequirement:GBValueNone description:@"Force opening an incompatible recording (data may be lost or the recording damaged altogether)"],
+						[LNUsageOption optionWithName:@"force" shortcut:@"f" valueRequirement:GBValueNone description:@"Force opening an incompatible recording (WARNING: may cause data damage)"],
 						[LNUsageOption emptyOption],
 						
 						[LNUsageOption optionWithName:@"printEntities" shortcut:@"pe" valueRequirement:GBValueNone description:@"Prints available object entities"],
@@ -162,7 +193,7 @@ int main(int argc, const char* argv[])
 			
 			if(predicate != nil)
 			{
-				_DTXFixupPredicateTimestamps(predicate, document);
+				predicate = _DTXFixupPredicateTimestamps(predicate, document);
 			}
 			
 			if([settings boolForKey:@"fetch"])
