@@ -85,11 +85,21 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 - (IBAction)selectExtendedDetail:(id)sender
 {
 	[_inspectorContentController selectExtendedDetail];
+	
+	if(_bottomCollapsed == YES || _rightCollapsed == YES)
+	{
+		[self toggleRight:nil];
+	}
 }
 
 - (IBAction)selectProfilingInfo:(id)sender
 {
 	[_inspectorContentController selectProfilingInfo];
+	
+	if(_bottomCollapsed == YES || _rightCollapsed == YES)
+	{
+		[self toggleRight:nil];
+	}
 }
 
 - (void)viewDidLoad
