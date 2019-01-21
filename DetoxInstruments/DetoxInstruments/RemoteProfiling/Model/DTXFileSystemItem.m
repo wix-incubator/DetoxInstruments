@@ -97,7 +97,7 @@
 
 - (BOOL)isDirectoryForUI
 {
-	return _isDirectory && [self.name.pathExtension isEqualToString:@"dtxprof"] == NO;
+	return _isDirectory && [self.name.pathExtension isEqualToString:@"dtxprof"] == NO && [self.name.pathExtension isEqualToString:@"dtxrec"] == NO;
 }
 
 - (NSString*)description

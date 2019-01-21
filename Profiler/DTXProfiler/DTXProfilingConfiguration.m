@@ -165,7 +165,7 @@
 	});
 	
 	NSString* dateString = [dateFileFormatter stringFromDate:[NSDate date]];
-	return [NSString stringWithFormat:@"%@ %@.dtxprof", [NSProcessInfo processInfo].processName, [self _sanitizeFileNameString:dateString]];
+	return [NSString stringWithFormat:@"%@ %@.dtxrec", [NSProcessInfo processInfo].processName, [self _sanitizeFileNameString:dateString]];
 }
 
 + (NSURL*)_urlForNewRecording
@@ -211,13 +211,13 @@
 	NSNumber* isDirectory;
 	[recordingFileURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
 	
-	if(isDirectory.boolValue && [recordingFileURL.lastPathComponent hasSuffix:@"dtxprof"] == NO)
+	if(isDirectory.boolValue && [recordingFileURL.lastPathComponent hasSuffix:@"dtxrec"] == NO)
 	{
 		recordingFileURL = [recordingFileURL URLByAppendingPathComponent:[DTXProfilingConfiguration _fileNameForNewRecording] isDirectory:YES];
 	}
 	else
 	{
-		NSString* fileName = [recordingFileURL.lastPathComponent hasSuffix:@"dtxprof"] ? recordingFileURL.lastPathComponent : [NSString stringWithFormat:@"%@.dtxprof", recordingFileURL.lastPathComponent];
+		NSString* fileName = [recordingFileURL.lastPathComponent hasSuffix:@"dtxrec"] ? recordingFileURL.lastPathComponent : [NSString stringWithFormat:@"%@.dtxrec", recordingFileURL.lastPathComponent];
 		
 		//Recordings are always directories. If the user provided a file URL, use the file name provided to contruct a directory.
 		recordingFileURL = [recordingFileURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:fileName isDirectory:YES];

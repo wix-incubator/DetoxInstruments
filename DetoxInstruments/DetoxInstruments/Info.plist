@@ -11,6 +11,32 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>dtxrec</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>dtxicon</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>Detox Instruments Recording Document</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>????</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.wix.dtxinst.recording</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<integer>1</integer>
+			<key>NSDocumentClass</key>
+			<string>DTXRecordingDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>dtxprof</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -27,7 +53,7 @@
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.wix.dinst.recording</string>
+				<string>com.wix.dtxinst.recording.legacy</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<integer>1</integer>
@@ -52,9 +78,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.8</string>
 	<key>CFBundleVersion</key>
-	<string>9715</string>
+	<string>9724</string>
 	<key>DTXBuildDate</key>
-	<date>2019-01-21T17:52:38Z</date>
+	<date>2019-01-21T18:53:52Z</date>
 	<key>DTXSourceRoot</key>
 	<string>$(DTXSRCROOT)</string>
 	<key>LSMinimumSystemVersion</key>
@@ -88,7 +114,27 @@
 			<key>UTTypeIconFile</key>
 			<string>dtxicon</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.wix.dinst.recording</string>
+			<string>com.wix.dtxinst.recording</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>dtxrec</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.composite-content</string>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Detox Instruments Recording Document</string>
+			<key>UTTypeIconFile</key>
+			<string>dtxicon</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.wix.dtxinst.recording.legacy</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

@@ -328,7 +328,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		model = [NSManagedObjectModel mergedModelFromBundles:DTXApp.bundlesForObjectModel];
 	});
 	
-	if([self _requiresMigrationForURL:storeURL toModel:model] == YES)
+	if(storeURL != nil && [self _requiresMigrationForURL:storeURL toModel:model] == YES)
 	{
 		NSDictionary* values = [url resourceValuesForKeys:@[NSURLIsSystemImmutableKey, NSURLIsUserImmutableKey] error:outError];
 		if(*outError != nil)
