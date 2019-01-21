@@ -385,6 +385,9 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	NSArray* detailContentControllers = [self valueForKeyPath:@"detailContentController.cachedDetailControllers"];
 	
 	[[self valueForKeyPath:@"detailContentController"] _activateDetailProviderController:detailContentControllers[idx]];
+	
+	[self _drainLayout];
+	[self _drainLayout];
 }
 
 - (NSSize)_plotDetailsSplitViewControllerSize
