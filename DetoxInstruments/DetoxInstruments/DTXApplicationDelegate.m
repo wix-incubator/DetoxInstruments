@@ -302,6 +302,33 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		return YES;
 	}
 	
+	if(menuItem.action == @selector(installCLIIntegration:))
+	{
+		NSUInteger integrationState = self._CLIInstallationStatus;
+		
+		menuItem.alternate = integrationState >= 1;
+		menuItem.keyEquivalentModifierMask = integrationState == 1 ? NSEventModifierFlagOption : 0;
+		menuItem.title = integrationState == 1 ? NSLocalizedString(@"Reinstall Command Line Utility Integration", @"") : integrationState == 2 ? NSLocalizedString(@"Repair Command Line Utility Integration", @"") : NSLocalizedString(@"Install Command Line Utility Integration", @"");
+		
+		return YES;
+	}
+	
+	if(menuItem.action == @selector(uninstallCLIIntegration:))
+	{
+		NSUInteger integrationState = self._CLIInstallationStatus;
+		
+		menuItem.alternate = integrationState >= 1;
+		menuItem.keyEquivalentModifierMask = integrationState == 1 ? 0 : NSEventModifierFlagOption;
+		menuItem.hidden = integrationState == 0;
+		
+		if(integrationState == 0)
+		{
+			return NO;
+		}
+		
+		return YES;
+	}
+	
 	if(menuItem.action == @selector(_showInstrumentHelp:))
 	{
 		menuItem.hidden = YES;
@@ -327,6 +354,59 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 - (IBAction)toggleShowTimelineLabels:(id)sender
 {
 	[NSUserDefaults.standardUserDefaults setBool:![NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"] forKey:@"DTXPlotSettingsDisplayLabels"];
+}
+
+- (NSURL*)_CLIUtilityURL
+{
+	return [[NSBundle.mainBundle.executableURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"dtxinst"];
+}
+
+- (NSURL*)_CLIInstallURL
+{
+	return [NSURL fileURLWithPath:@"/usr/local/bin/dtxinst"];
+}
+
+- (NSUInteger)_CLIInstallationStatus
+{
+	NSURL* CLIInstallURL = self._CLIInstallURL;
+	
+	if([NSFileManager.defaultManager fileExistsAtPath:CLIInstallURL.path] == NO)
+	{
+		return 0;
+	}
+	
+	NSURL* CLIUtilityURL = self._CLIUtilityURL;
+	if([CLIInstallURL.URLByResolvingSymlinksInPath isEqual:CLIUtilityURL] == NO)
+	{
+		return 2;
+	}
+	
+	return 1;
+}
+
+- (IBAction)installCLIIntegration:(id)sender
+{
+	NSError* error;
+	
+	[self _uninstallAndPresentError:NO];
+	if([NSFileManager.defaultManager createSymbolicLinkAtURL:self._CLIInstallURL withDestinationURL:self._CLIUtilityURL error:&error] == NO)
+	{
+		[NSApp presentError:error];
+	}
+}
+
+- (void)_uninstallAndPresentError:(BOOL)presentError
+{
+	NSError* error;
+	if([NSFileManager.defaultManager removeItemAtURL:self._CLIInstallURL error:&error] == NO && presentError)
+	{
+		[NSApp presentError:error];
+	}
+}
+
+- (IBAction)uninstallCLIIntegration:(id)sender
+{
+	[self _uninstallAndPresentError:YES];
 }
 
 #pragma mark SUUpdaterDelegate

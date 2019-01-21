@@ -182,6 +182,19 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
+                                        <menuItem title="Install Command Line Utility Integration" id="uoi-0J-cy3">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="installCLIIntegration:" target="Voe-Tx-rLC" id="3Fo-DB-ecb"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Uninstall Command Line Utility Integration" alternate="YES" id="ghv-aP-Dic">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                            <connections>
+                                                <action selector="uninstallCLIIntegration:" target="Voe-Tx-rLC" id="XUl-dZ-zwT"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="ZMf-s2-onx"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
