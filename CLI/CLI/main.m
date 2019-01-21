@@ -233,7 +233,8 @@ int main(int argc, const char* argv[])
 						]);
 	
 	LNUsageSetHiddenOptions(@[
-							  [LNUsageOption optionWithName:@"instrumentsPath" valueRequirement:GBValueRequired description:@"The “Detox Instruments.app” to use"],
+							  [LNUsageOption optionWithName:@"appPath" valueRequirement:GBValueRequired description:@"The “Detox Instruments.app” to use"],
+							  [LNUsageOption optionWithName:@"printAppPath" valueRequirement:GBValueNone description:@"Prints the “Detox Instruments.app” in use"],
 //							  [LNUsageOption optionWithName:@"inMemory" valueRequirement:GBValueRequired description:@"Run the predicate in memory"],
 							  ]);
 	
@@ -251,6 +252,18 @@ int main(int argc, const char* argv[])
 	//	{
 	//		inMemory = [[settings objectForKey:@"inMemory"] boolValue];
 	//	}
+	
+	if(DTXApp == nil)
+	{
+		LNLog(LNLogLevelError, @"Unable to find Detox Instruments. Make sure it is installed.");
+		return -1;
+	}
+	
+	if([settings boolForKey:@"printAppPath"])
+	{
+		LNLog(LNLogLevelStdOut, @"%@", DTXApp.URL.path);
+		return 0;
+	}
 	
 	if([settings boolForKey:@"version"])
 	{
@@ -313,7 +326,7 @@ int main(int argc, const char* argv[])
 		@try
 		{
 			__block NSUInteger functionsCount = 0;
-			__block BOOL hasToManyRelationships;
+//			__block BOOL hasToManyRelationships;
 			NSArray* propertiesToFetch = nil;
 			NSString* fpString = [settings objectForKey:@"keys"];
 			if(fpString)

@@ -12,9 +12,12 @@
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithURL:(NSURL*)URL error:(NSError**)error NS_DESIGNATED_INITIALIZER;
+
++ (instancetype)sharedApplication;
 
 - (NSURL*)URL;
 - (NSString*)applicationVersion;
+
+- (NSArray<NSBundle*>*)bundlesForObjectModel;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "DTXInstrumentsApplicationProxy.h"
+#import "DTXRecordingDocument.h"
 
 DTXInstrumentsApplicationProxy* DTXApp;
 
@@ -14,17 +15,53 @@ DTXInstrumentsApplicationProxy* DTXApp;
 {
 	NSURL* _url;
 	NSString* _version;
+	NSBundle* _bundle;
 	NSDictionary* _infoPlist;
 }
 
 + (void)load
 {
-	DTXApp = [[DTXInstrumentsApplicationProxy alloc] initWithURL:[NSURL fileURLWithPath:@"/Applications/Detox Instruments.app"] error:NULL];
+	NSURL* containingBundleURL = nil;
+	if([NSUserDefaults.standardUserDefaults objectForKey:@"-appPath"])
+	{
+		containingBundleURL = [NSURL fileURLWithPath:[NSUserDefaults.standardUserDefaults objectForKey:@"-appPath"]];
+		
+		if(containingBundleURL != nil)
+		{
+			DTXApp = [[DTXInstrumentsApplicationProxy alloc] initWithURL:containingBundleURL];
+		}
+	}
+	
+	if(DTXApp == nil)
+	{
+		containingBundleURL = [[[[[NSURL fileURLWithPath:NSProcessInfo.processInfo.arguments.firstObject] URLByResolvingSymlinksInPath] URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"../.."] URLByStandardizingPath];
+		
+		if(containingBundleURL != nil)
+		{
+			DTXApp = [[DTXInstrumentsApplicationProxy alloc] initWithURL:containingBundleURL];
+		}
+	}
+	
+	if(DTXApp == nil)
+	{
+		containingBundleURL = [NSURL fileURLWithPath:@"/Applications/Detox Instruments.app"];
+		
+		if(containingBundleURL != nil)
+		{
+			DTXApp = [[DTXInstrumentsApplicationProxy alloc] initWithURL:containingBundleURL];
+		}
+	}
 }
 
-- (instancetype)initWithURL:(NSURL*)URL error:(NSError**)error
++ (instancetype)sharedApplication
 {
-	if([[URL URLByAppendingPathComponent:@"Contents/Info.plist"] checkResourceIsReachableAndReturnError:error] == NO)
+	return DTXApp;
+}
+
+- (instancetype)initWithURL:(NSURL*)URL
+{
+	NSBundle* bundle = [NSBundle bundleWithURL:URL];
+	if(bundle == nil || [[bundle objectForInfoDictionaryKey:@"CFBundleIdentifier"] isEqualToString:@"com.wix.DetoxInstruments"] == NO)
 	{
 		return nil;
 	}
@@ -34,9 +71,10 @@ DTXInstrumentsApplicationProxy* DTXApp;
 	if(self)
 	{
 		_url = URL;
-		
-		_infoPlist = [NSDictionary dictionaryWithContentsOfURL:[_url URLByAppendingPathComponent:@"Contents/Info.plist"]];
+
+		_infoPlist = bundle.infoDictionary;
 		_version = [NSString stringWithFormat:@"%@.%@", _infoPlist[@"CFBundleShortVersionString"], _infoPlist[@"CFBundleVersion"]];
+		_bundle = bundle;
 		
 		DTXApp = self;
 	}
@@ -52,6 +90,11 @@ DTXInstrumentsApplicationProxy* DTXApp;
 - (NSString *)applicationVersion
 {
 	return _version;
+}
+
+- (NSArray<NSBundle*>*)bundlesForObjectModel
+{
+	return @[_bundle];
 }
 
 @end
