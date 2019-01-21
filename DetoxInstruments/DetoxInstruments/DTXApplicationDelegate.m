@@ -287,11 +287,10 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	
 	if(menuItem.action == @selector(toggleShowTimelineLabels:))
 	{
-		if(_hasAtLeastRecordingDocumentWindowOpen == NO)
+		menuItem.hidden = _hasAtLeastRecordingDocumentWindowOpen == NO;
+		if(menuItem.hidden)
 		{
 			dtx_log_info(@"Hiding “Interval Labels” menu item");
-			
-			menuItem.hidden = YES;
 			
 			return NO;
 		}

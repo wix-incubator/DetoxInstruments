@@ -88,14 +88,14 @@ id(^DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer)(NSPropert
 
 static void __DTXCleanIfNeeded(id self, NSMutableDictionary* rv)
 {
-	if([self isKindOfClass:DTXSample.class])
-	{
-		Class cls = [DTXSample classFromSampleType:(DTXSampleType)(((DTXSample*)self).sampleType)];
-		NSString* sampleType = [NSStringFromClass(cls) substringFromIndex:3];
-		sampleType = [NSString stringWithFormat:@"%@%@", [[sampleType substringToIndex:1] lowercaseString], [sampleType substringFromIndex:1]];
-		
-		rv[@"sampleType"] = sampleType;
-	}
+//	if([self isKindOfClass:DTXSample.class])
+//	{
+//		Class cls = [DTXSample classFromSampleType:(DTXSampleType)(((DTXSample*)self).sampleType)];
+//		NSString* sampleType = [NSStringFromClass(cls) substringFromIndex:3];
+//		sampleType = [NSString stringWithFormat:@"%@%@", [[sampleType substringToIndex:1] lowercaseString], [sampleType substringFromIndex:1]];
+//		
+//		rv[@"sampleType"] = sampleType;
+//	}
 	
 	if([self isKindOfClass:DTXRecording.class])
 	{

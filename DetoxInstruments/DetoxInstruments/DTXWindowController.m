@@ -271,9 +271,9 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	
 	if(menuItem.action == @selector(_toggleNowMode:))
 	{
-		if([self.document documentState] != DTXRecordingDocumentStateLiveRecording)
+		menuItem.hidden = [self.document documentState] != DTXRecordingDocumentStateLiveRecording;
+		if(menuItem.hidden)
 		{
-			menuItem.hidden = YES;
 			return NO;
 		}
 		

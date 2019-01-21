@@ -35,4 +35,9 @@ DTXInstrumentsApplication* DTXApp;
 	return [NSString stringWithFormat:@"%@.%@", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
 }
 
+- (NSArray<NSBundle*>*)bundlesForObjectModel
+{
+	return @[[NSBundle bundleForClass:DTXRecording.class]];
+}
+
 @end

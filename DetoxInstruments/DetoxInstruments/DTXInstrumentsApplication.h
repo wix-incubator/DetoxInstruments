@@ -11,5 +11,6 @@
 @interface DTXInstrumentsApplication : NSApplication
 
 - (NSString*)applicationVersion;
+- (NSArray<NSBundle*>*)bundlesForObjectModel;
 
 @end

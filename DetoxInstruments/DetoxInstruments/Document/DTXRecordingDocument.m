@@ -227,14 +227,16 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	
 	progressHandler(DTXRecordingDocumentMigrationStateStarted, nil);
 	
-	NSBundle* bundle = [NSBundle bundleForClass:DTXRecordingDocument.class];
+	NSArray* bundles = DTXApp.bundlesForObjectModel;
 	
-	NSManagedObjectModel *sourceModel = [NSManagedObjectModel mergedModelFromBundles:@[bundle] forStoreMetadata:sourceMetadata];
+	NSManagedObjectModel *sourceModel = [NSManagedObjectModel mergedModelFromBundles:bundles forStoreMetadata:sourceMetadata];
 	if(sourceModel == nil)
 	{
 		*error = self._errorForMigrationFailure;
 		return NO;
 	}
+	
+	NSBundle* bundle = bundles.firstObject;
 	
 	NSMutableArray* modelPaths = [NSMutableArray array];
 	NSArray* momdPaths = [bundle pathsForResourcesOfType:@"momd" inDirectory:nil];
@@ -323,7 +325,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	static NSManagedObjectModel* model;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		model = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[DTXRecordingDocument class]]]];
+		model = [NSManagedObjectModel mergedModelFromBundles:DTXApp.bundlesForObjectModel];
 	});
 	
 	if([self _requiresMigrationForURL:storeURL toModel:model] == YES)
