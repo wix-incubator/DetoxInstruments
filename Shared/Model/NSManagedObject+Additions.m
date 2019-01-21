@@ -157,6 +157,11 @@ NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntit
 					
 					rv[outputKey] = val;
 				}
+				else if(obj.userInfo[@"includeKeyPathInDictionaryRepresentation"] != nil)
+				{
+					id keyPathVal = [[self valueForKey:key] valueForKeyPath:obj.userInfo[@"includeKeyPathInDictionaryRepresentation"]];
+					rv[outputKey] = keyPathVal;
+				}
 			}
 			else if([obj isKindOfClass:NSFetchedPropertyDescription.class] && [obj.userInfo[@"includeInDictionaryRepresentation"] boolValue])
 			{
