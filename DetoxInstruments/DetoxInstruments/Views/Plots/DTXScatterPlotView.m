@@ -175,8 +175,8 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 		point = [points objectAtIndex:idx];
 		double nextPosition = offset + graphViewRatio * point.x;
 		double nextValue = __DTXValueAtIndex(points, point, test, idx, graphHeightViewRatio) + __DTXBottomInset(insets, isFlipped);
-		
-		if(currentZoneIdx < zones.count - 1 && nextPosition > zones[currentZoneIdx + 1].start)
+			
+		while(currentZoneIdx < zones.count - 1 && nextPosition > zones[currentZoneIdx + 1].start)
 		{
 			double nextZoneStart = zones[currentZoneIdx + 1].start;
 			
