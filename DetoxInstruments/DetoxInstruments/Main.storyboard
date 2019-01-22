@@ -565,36 +565,43 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1m8-sj-OtB"/>
-                                        <menuItem title="Zoom In" keyEquivalent="+" id="Ytd-Va-2ao">
-                                            <connections>
-                                                <action selector="zoomIn:" target="Ady-hI-5gd" id="cTy-GI-X3f"/>
-                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="gIL-If-ej6">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Zoom Out" keyEquivalent="-" id="Nh0-Mb-yDO">
-                                            <connections>
-                                                <action selector="zoomOut:" target="Ady-hI-5gd" id="BGG-zZ-cox"/>
-                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="q2M-8e-9wp">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Fit All Recorded Data" keyEquivalent="z" id="Ft3-OF-bIv">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="fitAllData:" target="Ady-hI-5gd" id="yg4-df-9K6"/>
-                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="GJv-se-4ee">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
-                                            </connections>
+                                        <menuItem title="Zoom" id="Q7a-hV-JFK">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Zoom" id="jG0-lk-XRa">
+                                                <items>
+                                                    <menuItem title="Fit All Recorded Data" keyEquivalent="z" id="ISI-d8-MMI">
+                                                        <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="fitAllData:" target="Ady-hI-5gd" id="cKd-y8-Lct"/>
+                                                            <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="MLI-Jq-6dp">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Zoom In" keyEquivalent="+" id="Z3L-5i-MlN">
+                                                        <connections>
+                                                            <action selector="zoomIn:" target="Ady-hI-5gd" id="czP-bx-4Vz"/>
+                                                            <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="mDY-Xe-zeE">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Zoom Out" keyEquivalent="-" id="e26-VR-MEg">
+                                                        <connections>
+                                                            <action selector="zoomOut:" target="Ady-hI-5gd" id="P4b-SC-4qo"/>
+                                                            <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="Vav-PF-Nr8">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wxx-Ko-OoF"/>
                                         <menuItem title="Show Interval Labels" keyEquivalent="l" identifier="ShowSampleLabels" id="IFp-xu-wKG">

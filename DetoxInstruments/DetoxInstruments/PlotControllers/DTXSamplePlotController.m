@@ -247,7 +247,21 @@
 
 - (void)_zoomToScale:(CGFloat)scale
 {
-	CGPoint pt = CGPointMake(CGRectGetMidX(self.wrapperView.bounds), CGRectGetMidY(self.wrapperView.bounds));
+	CGPoint pt;
+	
+	if(self.wrapperView.window.currentEvent.type == NSEventTypeKeyDown || self.wrapperView.window.currentEvent.type == NSEventTypeKeyUp)
+	{
+		NSPoint cursorPosition = [self.wrapperView.window mouseLocationOutsideOfEventStream];
+		cursorPosition = [self.wrapperView convertPoint:cursorPosition fromView:self.wrapperView.window.contentView];
+		
+		cursorPosition.x = MIN(self.wrapperView.bounds.size.width, MAX(0, cursorPosition.x));
+		
+		pt = CGPointMake(cursorPosition.x, CGRectGetMidY(self.wrapperView.bounds));
+	}
+	else
+	{
+		pt = CGPointMake(CGRectGetMidX(self.wrapperView.bounds), CGRectGetMidY(self.wrapperView.bounds));
+	}
 	
 	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[obj scalePlotRange:scale atPoint:pt];

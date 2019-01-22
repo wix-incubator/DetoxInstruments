@@ -36,8 +36,8 @@
         <scene sceneID="W7e-0m-Ibl">
             <objects>
                 <windowController storyboardIdentifier="migrationIndicator" id="ufU-sO-iTI" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="2dI-zb-N2Y" customClass="DTXBorderlessKeyWindow">
-                        <windowStyleMask key="styleMask" closable="YES"/>
+                    <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" titleVisibility="hidden" id="2dI-zb-N2Y" customClass="DTXBorderlessKeyWindow">
+                        <windowStyleMask key="styleMask" titled="YES"/>
                         <rect key="contentRect" x="245" y="301" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <connections>
