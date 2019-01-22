@@ -487,7 +487,6 @@
 		3904425D206703E500A29048 /* DTXAboutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAboutViewController.m; sourceTree = "<group>"; };
 		3904E1531EFABE7600FF2707 /* DTXInstrumentsApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXInstrumentsApplication.h; sourceTree = "<group>"; };
 		3904E1541EFABE7600FF2707 /* DTXInstrumentsApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXInstrumentsApplication.m; sourceTree = "<group>"; };
-		3905F48B1EF72B4B003E08C1 /* DetoxInstruments.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DetoxInstruments.entitlements; sourceTree = "<group>"; };
 		3905F4A71EF7F679003E08C1 /* DTXPlotTypeCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotTypeCellView.h; sourceTree = "<group>"; };
 		3905F4A81EF7F679003E08C1 /* DTXPlotTypeCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotTypeCellView.m; sourceTree = "<group>"; };
 		3905F4B71EF7FE12003E08C1 /* DTXThreadCPUUsagePlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXThreadCPUUsagePlotController.h; sourceTree = "<group>"; };
@@ -1745,7 +1744,6 @@
 				3904E1541EFABE7600FF2707 /* DTXInstrumentsApplication.m */,
 				393E66DA1FC594B30092EE89 /* PrefixHeader.pch */,
 				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
-				3905F48B1EF72B4B003E08C1 /* DetoxInstruments.entitlements */,
 				39538D72209B40F3003AF7D3 /* About.storyboard */,
 				3972E67820694E6800F099DE /* Acknowledgements.html */,
 				3980C0C72086C75000789E3B /* DetoxInstruments.help */,
@@ -2496,6 +2494,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_UNREACHABLE_CODE = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2533,6 +2532,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
