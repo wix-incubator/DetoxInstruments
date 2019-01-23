@@ -195,16 +195,16 @@ int main(int argc, const char* argv[])
 	LNUsageSetIntroStrings(@[@"CLI tool for Detox Instruments"]);
 	
 	LNUsageSetExampleStrings(@[
-							   @"%@ --document MyRecording.dtxprof --printEntities",
-							   @"%@ -d MyRecording.dtxprof --entity Recording --printKeys",
-							   @"%@ -d MyRecording.dtxprof -e Recording --keys \"appName,deviceName,startTimestamp,endTimestamp\" --fetch --dateFormat datetime",
-							   @"%@ -d MyRecording.dtxprof -e PerformanceSample -k \"cpuUsage,memoryUsage,fps,timestamp\" --predicate \"timestamp >= 15 && timestamp <= 30\" -f",
-							   @"%@ -d MyRecording.dtxprof -e PerformanceSample -k \"average(cpuUsage),min(memoryUsage),max(memoryUsage)\" -p \"timestamp >= 15 && timestamp <= 30\" --limit 1 -f",
-							   @"%@ -d MyRecording.dtxprof -e NetworkSample -k \"url,responseError\" -p \"responseStatusCode != 200\" -f",
+							   @"%@ --document MyRecording.dtxrec --printEntities",
+							   @"%@ -d MyRecording.dtxrec --entity Recording --printKeys",
+							   @"%@ -d MyRecording.dtxrec -e Recording --keys \"appName,deviceName,startTimestamp,endTimestamp\" --fetch --dateFormat datetime",
+							   @"%@ -d MyRecording.dtxrec -e PerformanceSample -k \"cpuUsage,memoryUsage,fps,timestamp\" --predicate \"timestamp >= 15 && timestamp <= 30\" -f",
+							   @"%@ -d MyRecording.dtxrec -e PerformanceSample -k \"average(cpuUsage),min(memoryUsage),max(memoryUsage)\" -p \"timestamp >= 15 && timestamp <= 30\" --limit 1 -f",
+							   @"%@ -d MyRecording.dtxrec -e NetworkSample -k \"url,responseError\" -p \"responseStatusCode != 200\" -f",
 							   ]);
 	
 	LNUsageSetOptions(@[
-						[LNUsageOption optionWithName:@"document" shortcut:@"d" valueRequirement:GBValueRequired description:@"The document (.dtxprof format)"],
+						[LNUsageOption optionWithName:@"document" shortcut:@"d" valueRequirement:GBValueRequired description:@"The document (.dtxrec format)"],
 						[LNUsageOption optionWithName:@"force" shortcut:@"f" valueRequirement:GBValueNone description:@"Force opening an incompatible recording (WARNING: may cause data damage)"],
 						[LNUsageOption emptyOption],
 						
@@ -281,7 +281,7 @@ int main(int argc, const char* argv[])
 	auto inputURL = [NSURL fileURLWithPath:[settings objectForKey:@"document"]];
 	
 	NSError* error;
-	DTXRecordingDocument* document = [[DTXRecordingDocument alloc] initWithContentsOfURL:inputURL ofType:@"dtxprof" error:&error];
+	DTXRecordingDocument* document = [[DTXRecordingDocument alloc] initWithContentsOfURL:inputURL ofType:@"dtxrec" error:&error];
 	
 	if(error != nil)
 	{

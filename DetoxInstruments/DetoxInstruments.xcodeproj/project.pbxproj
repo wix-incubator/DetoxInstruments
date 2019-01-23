@@ -799,6 +799,7 @@
 		39C72E071F28843D00FD470E /* DTXSocketConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DTXSocketConnection.m; path = ../../../Shared/DTXSocketConnection/DTXSocketConnection/DTXSocketConnection.m; sourceTree = "<group>"; };
 		39C72E081F28846300FD470E /* DTXRemoteProfilingClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingClient.h; sourceTree = "<group>"; };
 		39C72E091F28846300FD470E /* DTXRemoteProfilingClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRemoteProfilingClient.m; sourceTree = "<group>"; };
+		39CBED7921F8C32B006EEC66 /* DTXMeasurements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMeasurements.h; sourceTree = "<group>"; };
 		39D02CDC1EF1C8D100BAD7AF /* DTXTextViewCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTextViewCellView.h; sourceTree = "<group>"; };
 		39D02CDD1EF1C8D100BAD7AF /* DTXTextViewCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTextViewCellView.m; sourceTree = "<group>"; };
 		39D02CDF1EF1C98F00BAD7AF /* DTXInspectorContentTableDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXInspectorContentTableDataSource.h; sourceTree = "<group>"; };
@@ -1477,6 +1478,7 @@
 				39F0EB6921A98550005A7F01 /* WebView+DarkAppearanceTextView.m */,
 				39E2636C21AE128700A21256 /* DTXTableEditingArrayController.h */,
 				39E2636D21AE128800A21256 /* DTXTableEditingArrayController.m */,
+				39CBED7921F8C32B006EEC66 /* DTXMeasurements.h */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2485,6 +2487,7 @@
 				);
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				IBSC_NOTICES = NO;
@@ -2498,6 +2501,7 @@
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_SWIFT_SYMBOLS = NO;
 				VERSIONING_SYSTEM = "apple-generic";
+				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 			};
 			name = Debug;
 		};
@@ -2523,6 +2527,7 @@
 				);
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				IBSC_NOTICES = NO;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -2534,6 +2539,7 @@
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_SWIFT_SYMBOLS = NO;
 				VERSIONING_SYSTEM = "apple-generic";
+				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 			};
 			name = Release;
 		};

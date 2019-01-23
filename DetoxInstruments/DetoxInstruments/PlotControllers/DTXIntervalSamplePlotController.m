@@ -19,6 +19,7 @@
 #import "DTXFilteredDataProvider.h"
 #import "DTXSamplePlotController-Private.h"
 #import "DTXSampleContainerProxy.h"
+#import "DTXMeasurements.h"
 
 #import "DTXLogging.h"
 DTX_CREATE_LOG(IntervalSamplePlotController)
@@ -153,7 +154,7 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 //
 //	os_signpost_interval_begin(log, signpost_id, "_prepareMergedSamples");
 //
-	CFTimeInterval startTime = CACurrentMediaTime();
+	DTXStartTimeMeasurment();
 
 	for(DTXSample* currentSample in _frc.fetchedObjects)
 	{
@@ -193,8 +194,7 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 		_indexPathIndexMapping[indexPath] = @(_sampleIndices.count - 1);
 	}
 
-	CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
-	dtx_log_info(@"%@ took %@ seconds to prepare samples", self.class, @(elapsedTime));
+	DTXEndTimeMeasurment("prepare samples");
 	
 #if 0
 	NSMutableArray* lines = [NSMutableArray new];

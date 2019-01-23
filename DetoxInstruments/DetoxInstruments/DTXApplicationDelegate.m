@@ -11,6 +11,7 @@
 #import "DTXRecordingDocument.h"
 #import "DTXAboutWindowController.h"
 #import "DTXColorTryoutsWindow.h"
+#import "DTXMeasurements.h"
 
 #import "DTXLogging.h"
 DTX_CREATE_LOG(ApplicationDelegate)
@@ -309,28 +310,77 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		return YES;
 	}
 	
-	if(menuItem.action == @selector(installCLIIntegration:))
+	if(menuItem.action == @selector(_CLIIntegrationAction:) && menuItem.alternate == NO)
 	{
+		if(DTXApp.isShitshowVersion)
+		{
+			menuItem.alternate = NO;
+			menuItem.hidden = YES;
+			return NO;
+		}
+		
 		NSUInteger integrationState = self._CLIInstallationStatus;
 		
-		menuItem.alternate = integrationState >= 1;
-		menuItem.keyEquivalentModifierMask = integrationState == 1 ? NSEventModifierFlagOption : 0;
-		menuItem.title = integrationState == 1 ? NSLocalizedString(@"Reinstall Command Line Utility Integration", @"") : integrationState == 2 ? NSLocalizedString(@"Repair Command Line Utility Integration", @"") : NSLocalizedString(@"Install Command Line Utility Integration", @"");
+		BOOL isPath = [menuItem.identifier isEqualToString:@"DTXCLIMoreInfoPath"];
+		if(isPath || [menuItem.identifier isEqualToString:@"DTXCLIMoreInfoLabel"])
+		{
+			menuItem.hidden = integrationState == 0;
+			
+			if(isPath)
+			{
+				menuItem.image = integrationState == 2 ? [NSImage imageNamed:@"warning-menu"] : nil;
+				menuItem.image.size = NSMakeSize(16, 16);
+				menuItem.title = self._CLIInstallURL.path;
+			}
+			
+			return NO;
+		}
+		
+		switch (integrationState) {
+			case 0:
+				menuItem.title = NSLocalizedString(@"Install Command Line Utility", @"");
+				menuItem.identifier = @"_installCLIIntegration";
+				break;
+			case 1:
+				menuItem.title = NSLocalizedString(@"Uninstall Command Line Utility", @"");
+				menuItem.identifier = @"_uninstallCLIIntegration";
+				break;
+			case 2:
+				menuItem.title = NSLocalizedString(@"Repair Command Line Utility", @"");
+				menuItem.identifier = @"_installCLIIntegration";
+				break;
+		}
 		
 		return YES;
 	}
 	
-	if(menuItem.action == @selector(uninstallCLIIntegration:))
+	if(menuItem.action == @selector(_CLIIntegrationAction:) && menuItem.alternate == YES)
 	{
+		if(DTXApp.isShitshowVersion)
+		{
+			menuItem.alternate = NO;
+			menuItem.hidden = YES;
+			return NO;
+		}
+		
 		NSUInteger integrationState = self._CLIInstallationStatus;
 		
-		menuItem.alternate = integrationState >= 1;
-		menuItem.keyEquivalentModifierMask = integrationState == 1 ? 0 : NSEventModifierFlagOption;
-		menuItem.hidden = integrationState == 0;
+		menuItem.keyEquivalentModifierMask = integrationState == 0 ? 0 : NSEventModifierFlagOption;
 		
-		if(integrationState == 0)
-		{
-			return NO;
+		switch (integrationState) {
+			case 0:
+				menuItem.title = NSLocalizedString(@"Uninstall Command Line Utility", @"");
+				menuItem.identifier = @"";
+				return NO;
+				break;
+			case 1:
+				menuItem.title = NSLocalizedString(@"Reinstall Command Line Utility", @"");
+				menuItem.identifier = @"_installCLIIntegration";
+				break;
+			case 2:
+				menuItem.title = NSLocalizedString(@"Uninstall Command Line Utility", @"");
+				menuItem.identifier = @"_uninstallCLIIntegration";
+				break;
 		}
 		
 		return YES;
@@ -365,16 +415,33 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (NSURL*)_CLIUtilityURL
 {
-	return [[NSBundle.mainBundle.executableURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"dtxinst"];
+	static NSURL* rv;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		rv = [[NSBundle.mainBundle.executableURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"dtxinst"];
+	});
+	
+	return rv;
 }
 
 - (NSURL*)_CLIInstallURL
 {
-	return [NSURL fileURLWithPath:@"/usr/local/bin/dtxinst"];
+	static NSURL* rv;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		rv = [NSURL fileURLWithPath:@"/usr/local/bin/dtxinst"];
+	});
+	
+	return rv;
 }
 
 - (NSUInteger)_CLIInstallationStatus
 {
+//	DTXStartTimeMeasurment();
+//	dtx_defer {
+//		DTXEndTimeMeasurment("determine installation status");
+//	};
+	
 	NSURL* CLIInstallURL = self._CLIInstallURL;
 	
 	if([NSFileManager.defaultManager fileExistsAtPath:CLIInstallURL.path] == NO)
@@ -391,7 +458,16 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	return 1;
 }
 
-- (IBAction)installCLIIntegration:(id)sender
+- (void)_uninstallAndPresentError:(BOOL)presentError
+{
+	NSError* error;
+	if([NSFileManager.defaultManager removeItemAtURL:self._CLIInstallURL error:&error] == NO && presentError)
+	{
+		[NSApp presentError:error];
+	}
+}
+
+- (void)_installCLIIntegration
 {
 	NSError* error;
 	
@@ -402,25 +478,22 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	}
 }
 
-- (void)_uninstallAndPresentError:(BOOL)presentError
-{
-	NSError* error;
-	if([NSFileManager.defaultManager removeItemAtURL:self._CLIInstallURL error:&error] == NO && presentError)
-	{
-		[NSApp presentError:error];
-	}
-}
-
-- (IBAction)uninstallCLIIntegration:(id)sender
+- (void)_uninstallCLIIntegration
 {
 	[self _uninstallAndPresentError:YES];
+}
+
+- (IBAction)_CLIIntegrationAction:(NSMenuItem*)sender
+{
+	SEL selector = NSSelectorFromString(sender.identifier);
+	[self performSelector:selector];
 }
 
 #pragma mark SUUpdaterDelegate
 
 - (BOOL)updaterMayCheckForUpdates:(SUUpdater *)updater
 {
-	return [NSBundle.mainBundle.bundlePath containsString:@"node_modules/"] == NO;
+	return DTXApp.isShitshowVersion == NO;
 }
 
 #pragma mark Empty Menu Selectors

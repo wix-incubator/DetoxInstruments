@@ -182,16 +182,28 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
-                                        <menuItem title="Install Command Line Utility Integration" id="uoi-0J-cy3">
+                                        <menuItem title="Command Line Utility Installed At:" enabled="NO" identifier="DTXCLIMoreInfoLabel" id="Opu-Vj-ulF">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="installCLIIntegration:" target="Voe-Tx-rLC" id="3Fo-DB-ecb"/>
+                                                <action selector="_CLIIntegrationAction:" target="Voe-Tx-rLC" id="GjL-6j-bAa"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Uninstall Command Line Utility Integration" alternate="YES" id="ghv-aP-Dic">
+                                        <menuItem title="/usr/local/bin/dtxinst" enabled="NO" identifier="DTXCLIMoreInfoPath" indentationLevel="1" id="bhR-7v-Ga4">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="_CLIIntegrationAction:" target="Voe-Tx-rLC" id="RDc-ce-ryS"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Primary CLI" identifier="DTXCLIInstall" id="uoi-0J-cy3">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="_CLIIntegrationAction:" target="Voe-Tx-rLC" id="eBr-20-tu7"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Secondary CLI" alternate="YES" id="ghv-aP-Dic">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                                             <connections>
-                                                <action selector="uninstallCLIIntegration:" target="Voe-Tx-rLC" id="XUl-dZ-zwT"/>
+                                                <action selector="_CLIIntegrationAction:" target="Voe-Tx-rLC" id="PTk-WJ-pHe"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="ZMf-s2-onx"/>

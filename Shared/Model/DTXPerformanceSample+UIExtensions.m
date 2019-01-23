@@ -36,7 +36,7 @@ static NSByteCountFormatter* __byteFormatter;
 	{
 		NSMutableOrderedSet* set = [NSMutableOrderedSet orderedSetWithArray:self.openFiles];
 		[set filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT (self BEGINSWITH %@)", @"/dev/"]];
-		[set filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT (self CONTAINS %@)", @".dtxprof/_dtx_recording"]];
+		[set filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT (self CONTAINS %@)", @".dtxrec/_dtx_recording"]];
 		obj = [set array];
 		
 		objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN);

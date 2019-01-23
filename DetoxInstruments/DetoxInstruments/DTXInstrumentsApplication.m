@@ -32,12 +32,35 @@ DTXInstrumentsApplication* DTXApp;
 
 - (NSString *)applicationVersion
 {
-	return [NSString stringWithFormat:@"%@.%@", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+	static NSString* rv;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		rv = [NSString stringWithFormat:@"%@.%@", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+	});
+	
+	return rv;
 }
 
 - (NSArray<NSBundle*>*)bundlesForObjectModel
 {
-	return @[[NSBundle bundleForClass:DTXRecording.class]];
+	static NSArray* rv;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		rv = @[[NSBundle bundleForClass:DTXRecording.class]];
+	});
+	
+	return rv;
+}
+
+- (BOOL)isShitshowVersion
+{
+	static BOOL rv;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		rv = [NSBundle.mainBundle.bundlePath containsString:@"node_modules/"];
+	});
+	
+	return rv;
 }
 
 @end

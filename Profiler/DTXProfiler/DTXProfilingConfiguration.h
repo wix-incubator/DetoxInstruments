@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  If the URL is a file URL, a new recording will be created with that name.
  *
- *  The extension of the recording package is always @c .dtxprof.
+ *  The extension of the recording package is always @c .dtxrec.
  *
  *  If set to @c nil, the URL will reset to the default value.
  *
@@ -306,7 +306,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  If the URL is a file URL, a new recording will be created with that name.
  *
- *  The extension of the recording package is always @c .dtxprof.
+ *  The extension of the recording package is always @c .dtxrec.
  *
  *  If set to @c nil, the URL will reset to the default value.
  *
