@@ -57,14 +57,14 @@
             <objects>
                 <viewController id="pSt-jn-hOz" sceneMemberID="viewController">
                     <view key="view" id="fMR-qT-QnY">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="59"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="85"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="7QL-zQ-CGY" customClass="DTXAutomaticallyAnimatingProgressIndicator">
-                                <rect key="frame" x="8" y="7" width="464" height="20"/>
+                                <rect key="frame" x="20" y="19" width="360" height="20"/>
                             </progressIndicator>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VTR-6D-nQn">
-                                <rect key="frame" x="171" y="34" width="138" height="17"/>
+                                <rect key="frame" x="131" y="48" width="138" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Migrating Document…" id="j67-iJ-8LJ">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -73,12 +73,12 @@
                             </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="7QL-zQ-CGY" secondAttribute="bottom" constant="8" id="7Ch-7A-Ydr"/>
+                            <constraint firstAttribute="bottom" secondItem="7QL-zQ-CGY" secondAttribute="bottom" constant="20" id="7Ch-7A-Ydr"/>
                             <constraint firstItem="VTR-6D-nQn" firstAttribute="centerX" secondItem="fMR-qT-QnY" secondAttribute="centerX" id="7uq-AR-xPt"/>
-                            <constraint firstItem="7QL-zQ-CGY" firstAttribute="top" secondItem="VTR-6D-nQn" secondAttribute="bottom" constant="8" id="Hy4-GD-bg1"/>
-                            <constraint firstItem="VTR-6D-nQn" firstAttribute="top" secondItem="fMR-qT-QnY" secondAttribute="top" constant="8" id="U0k-wm-exV"/>
-                            <constraint firstAttribute="trailing" secondItem="7QL-zQ-CGY" secondAttribute="trailing" constant="8" id="mjs-LI-2vD"/>
-                            <constraint firstItem="7QL-zQ-CGY" firstAttribute="leading" secondItem="fMR-qT-QnY" secondAttribute="leading" constant="8" id="tS1-Zi-Lxl"/>
+                            <constraint firstItem="7QL-zQ-CGY" firstAttribute="top" secondItem="VTR-6D-nQn" secondAttribute="bottom" constant="10" id="Hy4-GD-bg1"/>
+                            <constraint firstItem="VTR-6D-nQn" firstAttribute="top" secondItem="fMR-qT-QnY" secondAttribute="top" constant="20" id="U0k-wm-exV"/>
+                            <constraint firstAttribute="trailing" secondItem="7QL-zQ-CGY" secondAttribute="trailing" constant="20" id="mjs-LI-2vD"/>
+                            <constraint firstItem="7QL-zQ-CGY" firstAttribute="leading" secondItem="fMR-qT-QnY" secondAttribute="leading" constant="20" id="tS1-Zi-Lxl"/>
                         </constraints>
                     </view>
                 </viewController>
