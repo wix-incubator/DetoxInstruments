@@ -163,6 +163,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	
 	[self addWindowController:wc];
 }
+
 #endif
 
 - (NSURL*)_URLByAppendingStoreCompoenentToURL:(NSURL*)url

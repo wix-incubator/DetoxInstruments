@@ -41,4 +41,21 @@
 	return [super presentError:error];
 }
 
+- (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument * _Nullable, BOOL, NSError * _Nullable))completionHandler
+{
+	[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^ (NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
+		
+		if(document != nil && documentWasAlreadyOpen == NO)
+		{
+			NSWindow* window = document.windowControllers.firstObject.window;
+			window.tabGroup.selectedWindow = window;
+		}
+		
+		if(completionHandler)
+		{
+			completionHandler(document, documentWasAlreadyOpen, error);
+		}
+	}];
+}
+
 @end
