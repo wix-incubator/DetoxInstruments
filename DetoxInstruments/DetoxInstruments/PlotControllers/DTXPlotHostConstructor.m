@@ -75,7 +75,7 @@
 		}
 		else
 		{
-			_hostingView = [[_isForTouchBar ? DTXTouchBarGraphHostingView.class : DTXGraphHostingView.class alloc] initWithFrame:view.bounds];
+			_hostingView = [[DTXGraphHostingView alloc] initWithFrame:view.bounds];
 			_hostingView.translatesAutoresizingMaskIntoConstraints = NO;
 			
 			_graph = [[CPTXYGraph alloc] initWithFrame:_hostingView.bounds];

@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "DTXLayerView.h"
 #import "DTXGraphHostingView.h"
-#import "DTXTouchBarGraphHostingView.h"
 #import "DTXPlotStackView.h"
 
 @interface DTXPlotHostConstructor : NSObject
