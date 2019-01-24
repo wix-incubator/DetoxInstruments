@@ -13,6 +13,6 @@
 - (NSString*)applicationVersion;
 - (NSArray<NSBundle*>*)bundlesForObjectModel;
 //🙈🙉🙊
-- (BOOL)isShitshowVersion;
+- (BOOL)isUnsupportedVersion;
 
 @end

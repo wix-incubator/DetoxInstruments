@@ -52,7 +52,7 @@ DTXInstrumentsApplication* DTXApp;
 	return rv;
 }
 
-- (BOOL)isShitshowVersion
+- (BOOL)isUnsupportedVersion
 {
 	static BOOL rv;
 	static dispatch_once_t onceToken;
