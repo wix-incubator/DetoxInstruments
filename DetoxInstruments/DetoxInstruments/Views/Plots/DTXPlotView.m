@@ -520,7 +520,7 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	return [super defaultAnimationForKey:key];
 }
 
--(BOOL)acceptsFirstMouse:(nullable NSEvent *)theEvent
+- (BOOL)acceptsFirstMouse:(nullable NSEvent *)theEvent
 {
 	return YES;
 }
@@ -572,8 +572,30 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	_mouseClicked = NO;
 }
 
--(void)scrollWheel:(nonnull NSEvent *)event
+- (NSPoint)convertPointFromWindow:(NSPoint)point
 {
+	point = [self convertPoint:point fromView:self.window.contentView];
+	point.x = MIN(self.bounds.size.width, MAX(0, point.x));
+	
+	return CGPointMake(point.x, CGRectGetMidY(self.bounds));
+}
+
+- (void)scrollWheel:(nonnull NSEvent *)event
+{
+	if((event.modifierFlags & NSEventModifierFlagOption) != 0)
+	{
+		if(event.scrollingDeltaY == 0)
+		{
+			return;
+		}
+		
+		NSPoint pt = [self convertPointFromWindow:event.locationInWindow];
+		
+		[self scalePlotRange:1.0 - 0.11 * event.scrollingDeltaY / fabs(event.scrollingDeltaY) atPoint:pt];
+		
+		return;
+	}
+	
 	if(fabs(event.scrollingDeltaY) > fabs(event.scrollingDeltaX))
 	{
 		[self.nextResponder scrollWheel:event];
@@ -583,7 +605,7 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	[self _scrollPlorRangeWithDelta:event.scrollingDeltaX];
 }
 
--(void)magnifyWithEvent:(nonnull NSEvent *)event
+- (void)magnifyWithEvent:(nonnull NSEvent *)event
 {
 	CGFloat scale = event.magnification + CPTFloat(1.0);
 	CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];

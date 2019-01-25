@@ -74,4 +74,6 @@
 
 @property (nonatomic) NSUInteger plotIndex;
 
+- (NSPoint)convertPointFromWindow:(NSPoint)point;
+
 @end

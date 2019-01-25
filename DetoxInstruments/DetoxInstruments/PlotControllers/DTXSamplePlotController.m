@@ -251,12 +251,7 @@
 	
 	if(self.wrapperView.window.currentEvent.type == NSEventTypeKeyDown || self.wrapperView.window.currentEvent.type == NSEventTypeKeyUp)
 	{
-		NSPoint cursorPosition = [self.wrapperView.window mouseLocationOutsideOfEventStream];
-		cursorPosition = [self.wrapperView convertPoint:cursorPosition fromView:self.wrapperView.window.contentView];
-		
-		cursorPosition.x = MIN(self.wrapperView.bounds.size.width, MAX(0, cursorPosition.x));
-		
-		pt = CGPointMake(cursorPosition.x, CGRectGetMidY(self.wrapperView.bounds));
+		pt = [self.plotViews.firstObject convertPointFromWindow:self.wrapperView.window.mouseLocationOutsideOfEventStream];
 	}
 	else
 	{
