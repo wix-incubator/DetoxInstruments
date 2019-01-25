@@ -12,10 +12,6 @@
 #import "DTXInstrumentsModel.h"
 #import "DTXInstrumentsModelUIExtensions.h"
 
-static char* const __version =
-#include "version.h"
-;
-
 #define DTXAssert(condition, desc, ...) \
 do { \
 __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \
@@ -267,7 +263,7 @@ int main(int argc, const char* argv[])
 	
 	if([settings boolForKey:@"version"])
 	{
-		LNLog(LNLogLevelStdOut, @"%@ version %s", NSProcessInfo.processInfo.arguments.firstObject.lastPathComponent, __version);
+		LNLog(LNLogLevelStdOut, @"%@ version %@", NSProcessInfo.processInfo.arguments.firstObject.lastPathComponent, DTXApp.applicationVersion);
 		return 0;
 	}
 	

@@ -99,7 +99,6 @@
 		393E66DC1FC595430092EE89 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		39401CF421E5025100504FD8 /* DTXInstrumentsApplicationProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXInstrumentsApplicationProxy.h; sourceTree = "<group>"; };
 		39401CF521E5025100504FD8 /* DTXInstrumentsApplicationProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXInstrumentsApplicationProxy.m; sourceTree = "<group>"; };
-		39401CF721E503BB00504FD8 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		39401CF921E5098100504FD8 /* DTXRecording+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXRecording+Additions.h"; sourceTree = "<group>"; };
 		39401CFA21E5098100504FD8 /* DTXInstrumentsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXInstrumentsModel.h; sourceTree = "<group>"; };
 		39401CFB21E5098100504FD8 /* NSManagedObject+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+Additions.h"; sourceTree = "<group>"; };
@@ -263,7 +262,6 @@
 				393E66DC1FC595430092EE89 /* PrefixHeader.pch */,
 				39401CF421E5025100504FD8 /* DTXInstrumentsApplicationProxy.h */,
 				39401CF521E5025100504FD8 /* DTXInstrumentsApplicationProxy.m */,
-				39401CF721E503BB00504FD8 /* version.h */,
 			);
 			path = CLI;
 			sourceTree = "<group>";
