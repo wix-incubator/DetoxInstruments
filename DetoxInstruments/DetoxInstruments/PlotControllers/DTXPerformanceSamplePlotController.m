@@ -40,6 +40,16 @@
 	return self;
 }
 
+- (NSArray<NSString*>*)sampleKeys
+{
+	return @[];
+}
+
+- (BOOL)isStepped
+{
+	return NO;
+}
+
 - (CGFloat)plotHeightMultiplier;
 {
 	return self.isForTouchBar ? 1.0 : 1.15;

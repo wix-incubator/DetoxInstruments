@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18D38a" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.72" systemVersion="18E174f" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="LogSample" representedClassName="DTXLogSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="line" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objects" optional="YES" attributeType="Transformable" customClassName="NSArray" syncable="YES"/>
@@ -37,6 +37,16 @@
                 <entry key="includeInDictionaryRepresentation" value="YES"/>
             </userInfo>
         </relationship>
+        <fetchIndex name="networkSampleIndex">
+            <fetchIndexElement property="requestHeadersFlat" type="Binary" order="ascending"/>
+            <fetchIndexElement property="requestHTTPMethod" type="Binary" order="ascending"/>
+            <fetchIndexElement property="responseError" type="Binary" order="ascending"/>
+            <fetchIndexElement property="responseHeadersFlat" type="Binary" order="ascending"/>
+            <fetchIndexElement property="responseMIMEType" type="Binary" order="ascending"/>
+            <fetchIndexElement property="responseStatusCodeString" type="Binary" order="ascending"/>
+            <fetchIndexElement property="uniqueIdentifier" type="Binary" order="ascending"/>
+            <fetchIndexElement property="url" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="PerformanceSample" representedClassName="DTXPerformanceSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="cpuUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -153,6 +163,10 @@
         <attribute name="sampleIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <fetchIndex name="sampleIndex">
+            <fetchIndexElement property="timestamp" type="Binary" order="ascending"/>
+            <fetchIndexElement property="sampleIdentifier" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="SignpostSample" representedClassName="DTXSignpostSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="additionalInfoEnd" optional="YES" attributeType="String" syncable="YES"/>
@@ -179,6 +193,13 @@
             </userInfo>
         </attribute>
         <attribute name="uniqueIdentifier" optional="YES" attributeType="String" syncable="YES"/>
+        <fetchIndex name="signpostSampleIndex">
+            <fetchIndexElement property="uniqueIdentifier" type="Binary" order="ascending"/>
+            <fetchIndexElement property="additionalInfoStart" type="Binary" order="ascending"/>
+            <fetchIndexElement property="additionalInfoEnd" type="Binary" order="ascending"/>
+            <fetchIndexElement property="category" type="Binary" order="ascending"/>
+            <fetchIndexElement property="name" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="Tag" representedClassName="DTXTag" parentEntity="Sample" syncable="YES" codeGenerationType="class">
         <attribute name="name" attributeType="String" syncable="YES"/>

@@ -16,4 +16,9 @@
 - (CGFloat)plotHeightMultiplier;
 - (CGFloat)minimumValueForPlotHeight;
 
+- (NSArray*)samplesForPlotIndex:(NSUInteger)index;
+- (NSArray<NSString*>*)sampleKeys;
+- (BOOL)isStepped;
+
+
 @end

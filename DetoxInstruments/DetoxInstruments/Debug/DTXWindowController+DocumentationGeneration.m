@@ -13,7 +13,7 @@
 #import "DTXManagedPlotControllerGroup.h"
 #import "NSView+UIAdditions.h"
 #import "NSWindow+Snapshotting.h"
-#import "DTXSamplePlotController.h"
+#import "DTXPerformanceSamplePlotController.h"
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
 #import "DTXInspectorContentController.h"
 #import "NSAppearance+UIAdditions.h"

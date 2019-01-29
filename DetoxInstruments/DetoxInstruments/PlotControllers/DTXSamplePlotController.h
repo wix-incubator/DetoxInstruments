@@ -20,18 +20,14 @@
 + (Class)UIDataProviderClass;
 
 - (void)prepareSamples;
-- (NSArray*)samplesForPlotIndex:(NSUInteger)index;
 - (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates forPlotAtIndex:(NSUInteger)index;
 
 - (NSArray<__kindof DTXPlotView*>*)plotViews;
 
-- (NSArray<NSString*>*)sampleKeys;
 - (NSArray<NSString*>*)propertiesToFetch;
 - (NSArray<NSString*>*)relationshipsToFetch;
 - (NSArray<NSColor*>*)plotColors;
 - (NSArray<NSString*>*)plotTitles;
-- (BOOL)isStepped;
-
 - (NSEdgeInsets)rangeInsets;
 
 + (NSFormatter*)formatterForDataPresentation;

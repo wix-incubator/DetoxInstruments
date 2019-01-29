@@ -517,16 +517,6 @@
 	return nil;
 }
 
-- (NSArray*)samplesForPlotIndex:(NSUInteger)index
-{
-	return @[];
-}
-
-- (NSArray<NSString*>*)sampleKeys
-{
-	return @[];
-}
-
 - (NSArray<NSString*>*)propertiesToFetch;
 {
 	return @[@"timestamp"];
@@ -565,11 +555,6 @@
 - (id)transformedValueForFormatter:(id)value
 {
 	return value;
-}
-
-- (BOOL)isStepped
-{
-	return NO;
 }
 
 - (BOOL)canReceiveFocus
