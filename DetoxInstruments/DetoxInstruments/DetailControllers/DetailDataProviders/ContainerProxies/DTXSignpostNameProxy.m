@@ -9,6 +9,7 @@
 #import "DTXSignpostNameProxy.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXSample+Additions.h"
+#import "NSString+Hashing.h"
 
 @implementation DTXSignpostNameProxy
 {
@@ -35,7 +36,7 @@
 		_name = name;
 		
 		_fetchRequest = DTXSignpostSample.fetchRequest;
-		_fetchRequest.predicate = [NSPredicate predicateWithFormat:@"category == %@ && name == %@ && hidden == NO", _category, _name];
+		_fetchRequest.predicate = [NSPredicate predicateWithFormat:@"categoryHash == %@ && nameHash == %@ && hidden == NO", [_category MD5Hash], [_name MD5Hash]];
 		_fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 	}
 	
