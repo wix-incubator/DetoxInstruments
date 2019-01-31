@@ -13,6 +13,9 @@
 #import "NSString+Hashing.h"
 
 @implementation DTXSignpostCategoryProxy
+{
+	NSDictionary<NSString*, NSDictionary*>* _nameProxyInfo;
+}
 
 @synthesize duration=_duration;
 @synthesize minDuration=_minDuration;
@@ -22,6 +25,7 @@
 @synthesize timestamp=_timestamp;
 @synthesize endTimestamp=_endTimestamp;
 @synthesize isEvent=_isEvent;
+@synthesize count=_count;
 
 - (instancetype)initWithCategory:(NSString*)category managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView
 {
@@ -30,6 +34,9 @@
 	if(self)
 	{
 		_category = category;
+		
+		[self _reloadDurations];
+		[self _reloadNameProxyInfo];
 	}
 	
 	return self;
@@ -42,7 +49,9 @@
 
 - (id)objectForSample:(id)sample
 {
-	return [[DTXSignpostNameProxy alloc] initWithCategory:self.category name:sample managedObjectContext:self.managedObjectContext outlineView:self.outlineView];
+	NSDictionary* proxyInfo = _nameProxyInfo[sample];
+	
+	return [[DTXSignpostNameProxy alloc] initWithCategory:self.category name:sample info:proxyInfo managedObjectContext:self.managedObjectContext outlineView:self.outlineView];
 }
 
 - (NSString *)name
@@ -55,60 +64,9 @@
 	return [NSPredicate predicateWithFormat:@"categoryHash == %@ && hidden == NO", [_category MD5Hash]];
 }
 
-- (NSUInteger)count
-{
-	return self.fetchedResultsController.fetchedObjects.count;
-}
-
 - (void)prepareData
 {
 	[super prepareData];
-	
-	[self _reloadDurations];
-	
-	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
-	fr.predicate = self.predicateForAggregator;
-	fr.resultType = NSDictionaryResultType;
-//	fr.propertiesToGroupBy = @[@"name"];
-	
-//	NSExpressionDescription* min = [NSExpressionDescription new];
-//	min.name = @"min";
-//	min.expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForKeyPath:@"duration"]]];
-//	min.expressionResultType = NSDoubleAttributeType;
-//
-//	NSExpressionDescription* avg = [NSExpressionDescription new];
-//	avg.name = @"avg";
-//	avg.expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForKeyPath:@"duration"]]];
-//	avg.expressionResultType = NSDoubleAttributeType;
-//
-//	NSExpressionDescription* max = [NSExpressionDescription new];
-//	max.name = @"max";
-//	max.expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForKeyPath:@"duration"]]];
-//	max.expressionResultType = NSDoubleAttributeType;
-//
-//	NSExpressionDescription* minTimestamp = [NSExpressionDescription new];
-//	minTimestamp.name = @"timestamp";
-//	minTimestamp.expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
-//	minTimestamp.expressionResultType = NSDateAttributeType;
-//
-//	NSExpressionDescription* maxTimestamp = [NSExpressionDescription new];
-//	maxTimestamp.name = @"endTimestamp";
-//	maxTimestamp.expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForKeyPath:@"endTimestamp"]]];
-//	maxTimestamp.expressionResultType = NSDateAttributeType;
-//
-//	NSExpressionDescription* countAll = [NSExpressionDescription new];
-//	countAll.name = @"countAll";
-//	countAll.expression = [NSExpression expressionForFunction:@"count:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
-//	countAll.expressionResultType = NSInteger64AttributeType;
-//
-//	NSExpressionDescription* countIsEvent = [NSExpressionDescription new];
-//	countIsEvent.name = @"countIsEvent";
-//	countIsEvent.expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForKeyPath:@"isEvent"]]];
-//	countIsEvent.expressionResultType = NSInteger64AttributeType;
-	
-//	fr.propertiesToFetch = @[min, avg, max, minTimestamp, maxTimestamp, countAll, countIsEvent];
-	id results = [self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject;
-	NSLog(@"");
 }
 
 - (void)_reloadDurations
@@ -164,8 +122,74 @@
 	
 	NSUInteger count = [results[@"countAll"] unsignedIntegerValue];
 	NSUInteger countSome = [results[@"countIsEvent"] unsignedIntegerValue];
-	
+
 	_isEvent = count == countSome;
+	
+	fr.propertiesToGroupBy = @[@"nameHash"];
+	fr.propertiesToFetch = @[@"nameHash"];
+	
+	_count = [self.managedObjectContext executeFetchRequest:fr error:NULL].count;
+}
+
+- (void)_reloadNameProxyInfo
+{
+	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
+	fr.predicate = self.predicateForAggregator;
+	fr.resultType = NSDictionaryResultType;
+	fr.propertiesToGroupBy = @[@"name"];
+	
+	NSExpressionDescription* min = [NSExpressionDescription new];
+	min.name = @"min";
+	min.expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForKeyPath:@"duration"]]];
+	min.expressionResultType = NSDoubleAttributeType;
+	
+	NSExpressionDescription* avg = [NSExpressionDescription new];
+	avg.name = @"avg";
+	avg.expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForKeyPath:@"duration"]]];
+	avg.expressionResultType = NSDoubleAttributeType;
+	
+	NSExpressionDescription* max = [NSExpressionDescription new];
+	max.name = @"max";
+	max.expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForKeyPath:@"duration"]]];
+	max.expressionResultType = NSDoubleAttributeType;
+	
+	NSExpressionDescription* minTimestamp = [NSExpressionDescription new];
+	minTimestamp.name = @"timestamp";
+	minTimestamp.expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
+	minTimestamp.expressionResultType = NSDateAttributeType;
+	
+	NSExpressionDescription* maxTimestamp = [NSExpressionDescription new];
+	maxTimestamp.name = @"endTimestamp";
+	maxTimestamp.expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForKeyPath:@"endTimestamp"]]];
+	maxTimestamp.expressionResultType = NSDateAttributeType;
+	
+	NSExpressionDescription* countAll = [NSExpressionDescription new];
+	countAll.name = @"countAll";
+	countAll.expression = [NSExpression expressionForFunction:@"count:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
+	countAll.expressionResultType = NSInteger64AttributeType;
+	
+	NSExpressionDescription* countIsEvent = [NSExpressionDescription new];
+	countIsEvent.name = @"countIsEvent";
+	countIsEvent.expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForKeyPath:@"isEvent"]]];
+	countIsEvent.expressionResultType = NSInteger64AttributeType;
+	
+	NSExpression *nameExpression = [NSExpression expressionForKeyPath:@"name"];
+	NSExpressionDescription *nameDescription = [NSExpressionDescription new];
+	nameDescription.expression = nameExpression;
+	nameDescription.name = @"name";
+	nameDescription.expressionResultType = NSStringAttributeType;
+	
+	fr.propertiesToFetch = @[min, avg, max, minTimestamp, maxTimestamp, countAll, countIsEvent, nameDescription];
+	
+	NSMutableDictionary* nameProxyInfo = [NSMutableDictionary new];
+	
+	NSArray<NSDictionary*>* results = [self.managedObjectContext executeFetchRequest:fr error:NULL];
+	
+	[results enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		nameProxyInfo[obj[@"name"]] = obj;
+	}];
+	
+	_nameProxyInfo = nameProxyInfo;
 }
 
 - (NSDate *)defactoEndTimestamp

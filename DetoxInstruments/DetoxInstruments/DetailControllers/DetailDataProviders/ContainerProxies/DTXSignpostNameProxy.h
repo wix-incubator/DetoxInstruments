@@ -14,6 +14,6 @@
 
 @property (nonatomic, strong, readonly) NSString* category;
 
-- (instancetype)initWithCategory:(NSString*)category name:(NSString*)name managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView;
+- (instancetype)initWithCategory:(NSString*)category name:(NSString*)name info:(NSDictionary*)info managedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView;
 
 @end

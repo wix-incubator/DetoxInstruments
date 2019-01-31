@@ -24,7 +24,6 @@
 - (BOOL)isDataLoaded;
 - (void)reloadData;
 - (void)prepareData;
-- (void)unloadData;
 
 @end
 

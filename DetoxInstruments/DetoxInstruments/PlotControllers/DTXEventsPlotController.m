@@ -11,7 +11,6 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXSignpostDataProvider.h"
 #import "DTXSignpostFlatDataProvider.h"
-#import "DTXSignpostNestedDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXDetailController.h"
 
@@ -32,11 +31,6 @@
 		detailController.detailDataProvider = [[DTXSignpostDataProvider alloc] initWithDocument:self.document plotController:self];
 		
 		[rv insertObject:detailController atIndex:0];
-		
-//		detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
-//		detailController.detailDataProvider = [[DTXSignpostNestedDataProvider alloc] initWithDocument:self.document plotController:self];
-//		
-//		[rv addObject:detailController];
 	}
 	
 	return rv;

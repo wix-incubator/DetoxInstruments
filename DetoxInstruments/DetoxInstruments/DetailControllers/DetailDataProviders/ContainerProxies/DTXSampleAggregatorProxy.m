@@ -36,8 +36,6 @@
 	[_aggregates enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		_proxyMapping[obj] = [self objectForSample:obj];
 	}];
-	
-	[super prepareData];
 }
 
 - (NSFetchRequest *)fetchRequest

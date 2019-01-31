@@ -120,8 +120,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	if(_managedOutlineView == nil)
 	{
-		[_rootGroupProxy unloadData];
-		
 		return;
 	}
 	
@@ -257,10 +255,15 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item
 {
-	id<DTXSampleGroupProxy> proxy = _rootGroupProxy;
+	id<DTXSampleGroupProxy, DTXSampleGroupDynamicDataLoadingProxy> proxy = _rootGroupProxy;
 	if(item != nil)
 	{
 		proxy = item;
+	}
+	
+	if([proxy conformsToProtocol:@protocol(DTXSampleGroupDynamicDataLoadingProxy)] && [proxy isDataLoaded] == NO)
+	{
+		[proxy reloadData];
 	}
 
 	return [proxy samplesCount];
@@ -301,11 +304,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	}
 	
 	id child = [currentGroup sampleAtIndex:index];
-	
-	if([child conformsToProtocol:@protocol(DTXSampleGroupDynamicDataLoadingProxy)])
-	{
-		[child reloadData];
-	}
 	
 	return child;
 }

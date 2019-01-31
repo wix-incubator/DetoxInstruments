@@ -130,7 +130,6 @@
 		3980C0DF2086C75000789E3B /* DetoxInstruments.help in Resources */ = {isa = PBXBuildFile; fileRef = 3980C0C72086C75000789E3B /* DetoxInstruments.help */; };
 		398183DE20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 398183DD20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m */; };
 		3982AF2A21B843970023E19C /* DTXSignpostFlatDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982AF2921B843970023E19C /* DTXSignpostFlatDataProvider.m */; };
-		3982AF5621B8A0A90023E19C /* DTXSignpostNestedDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982AF5521B8A0A90023E19C /* DTXSignpostNestedDataProvider.m */; };
 		3982D85121B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D85021B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m */; };
 		3982D86821B41D35005FCAEF /* DTXMemoryUsageDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D86721B41D35005FCAEF /* DTXMemoryUsageDataExporter.m */; };
 		3982D86B21B41D77005FCAEF /* DTXFPSDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D86A21B41D77005FCAEF /* DTXFPSDataExporter.m */; };
@@ -192,7 +191,6 @@
 		39D76E7B2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D76E7A2086B6BF0033BDE2 /* DTXUserDefaultsViewController.m */; };
 		39D76EA12086B8470033BDE2 /* LNPropertyListEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D76EA02086B83B0033BDE2 /* LNPropertyListEditor.framework */; };
 		39D76EA22086B8470033BDE2 /* LNPropertyListEditor.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 39D76EA02086B83B0033BDE2 /* LNPropertyListEditor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		39DABB9121BAEB8D002653EE /* DTXSignpostNestedRootProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DABB9021BAEB8D002653EE /* DTXSignpostNestedRootProxy.m */; };
 		39DABB9421BAFF33002653EE /* DTXSignpostCategoryProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DABB9321BAFF33002653EE /* DTXSignpostCategoryProxy.m */; };
 		39DABB9721BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DABB9621BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.m */; };
 		39DABB9A21BC549F002653EE /* DTXEventsPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DABB9921BC549F002653EE /* DTXEventsPlotController.m */; };
@@ -692,8 +690,6 @@
 		398183DD20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXViewHierarchySnapshotter.m; path = ../../../Profiler/DTXProfiler/ViewHierarchy/DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
 		3982AF2821B843970023E19C /* DTXSignpostFlatDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostFlatDataProvider.h; sourceTree = "<group>"; };
 		3982AF2921B843970023E19C /* DTXSignpostFlatDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostFlatDataProvider.m; sourceTree = "<group>"; };
-		3982AF5421B8A0A90023E19C /* DTXSignpostNestedDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostNestedDataProvider.h; sourceTree = "<group>"; };
-		3982AF5521B8A0A90023E19C /* DTXSignpostNestedDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostNestedDataProvider.m; sourceTree = "<group>"; };
 		3982D84F21B3CEC2005FCAEF /* DTXCPUUsageDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCPUUsageDataExporter.h; sourceTree = "<group>"; };
 		3982D85021B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCPUUsageDataExporter.m; sourceTree = "<group>"; };
 		3982D86621B41D35005FCAEF /* DTXMemoryUsageDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMemoryUsageDataExporter.h; sourceTree = "<group>"; };
@@ -820,8 +816,6 @@
 		39D9861021DD794100AFC48B /* DTXPlotView-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXPlotView-Private.h"; sourceTree = "<group>"; };
 		39D9862921DE301900AFC48B /* DTXPlotController-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXPlotController-Private.h"; sourceTree = "<group>"; };
 		39D9863D21DE320700AFC48B /* DTXSamplePlotController-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXSamplePlotController-Private.h"; sourceTree = "<group>"; };
-		39DABB8F21BAEB8D002653EE /* DTXSignpostNestedRootProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostNestedRootProxy.h; sourceTree = "<group>"; };
-		39DABB9021BAEB8D002653EE /* DTXSignpostNestedRootProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostNestedRootProxy.m; sourceTree = "<group>"; };
 		39DABB9321BAFF33002653EE /* DTXSignpostCategoryProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostCategoryProxy.m; sourceTree = "<group>"; };
 		39DABB9521BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostSampleWithChildrenProxy.h; sourceTree = "<group>"; };
 		39DABB9621BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostSampleWithChildrenProxy.m; sourceTree = "<group>"; };
@@ -976,8 +970,6 @@
 				39EA56C320DFEA1800600BA7 /* DTXSignpostDataProvider.m */,
 				3982AF2821B843970023E19C /* DTXSignpostFlatDataProvider.h */,
 				3982AF2921B843970023E19C /* DTXSignpostFlatDataProvider.m */,
-				3982AF5421B8A0A90023E19C /* DTXSignpostNestedDataProvider.h */,
-				3982AF5521B8A0A90023E19C /* DTXSignpostNestedDataProvider.m */,
 				3902F3441EF4F2BF000CB397 /* DTXLogDataProvider.h */,
 				3902F3451EF4F2BF000CB397 /* DTXLogDataProvider.m */,
 				3932A0701F0547D1001AC360 /* ReactNative */,
@@ -1659,8 +1651,6 @@
 				39EFF5F420E90D2C00B5AE75 /* DTXSignpostSummaryRootProxy.m */,
 				39DABB9521BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.h */,
 				39DABB9621BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.m */,
-				39DABB8F21BAEB8D002653EE /* DTXSignpostNestedRootProxy.h */,
-				39DABB9021BAEB8D002653EE /* DTXSignpostNestedRootProxy.m */,
 				393DED6D21C2C9FB006EB765 /* DTXSampleGroupProxy.h */,
 				393DED6C21C2C9FA006EB765 /* DTXSampleGroupProxy.m */,
 			);
@@ -2137,7 +2127,6 @@
 				3982D88121B42A4B005FCAEF /* DTXRNSampleDataExporter.m in Sources */,
 				39C1415F1F3C47F7008CF5B9 /* DTXStackTraceFrame.m in Sources */,
 				39EA56C420DFEA1800600BA7 /* DTXSignpostDataProvider.m in Sources */,
-				3982AF5621B8A0A90023E19C /* DTXSignpostNestedDataProvider.m in Sources */,
 				391176F221EF80AE00C92A9F /* DTXZipper.m in Sources */,
 				39B3B3B221EE163200D5C1BE /* DTXBorderlessKeyWindow.m in Sources */,
 				3902F3571EF503DD000CB397 /* DTXInspectorDataProvider.m in Sources */,
@@ -2148,7 +2137,6 @@
 				391176F021EF80AE00C92A9F /* NSObject+AttachedObjects.m in Sources */,
 				396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */,
 				39F6F6CB1F0E3D5200C7F411 /* AutoCoding.m in Sources */,
-				39DABB9121BAEB8D002653EE /* DTXSignpostNestedRootProxy.m in Sources */,
 				3903F37A208F38E500B73E5D /* DTXLogDetailController.m in Sources */,
 				396CCDAE210DC8F200152C34 /* DTXRNStackTraceParser.m in Sources */,
 				390442442067036100A29048 /* DTXAboutWindowController.m in Sources */,

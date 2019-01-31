@@ -66,6 +66,8 @@
 
 - (void)reloadData
 {
+	NSLog(@"😀 %@", self);
+	
 	[self prepareData];
 	
 	_isDataLoaded = YES;
@@ -74,13 +76,6 @@
 - (BOOL)isDataLoaded
 {
 	return _isDataLoaded;
-}
-
-- (void)unloadData
-{
-	_isDataLoaded = NO;
-	
-	_fetchedResultsController = nil;
 }
 
 - (void)sortWithSortDescriptors:(NSArray<NSSortDescriptor*>*)sortDescriptors
