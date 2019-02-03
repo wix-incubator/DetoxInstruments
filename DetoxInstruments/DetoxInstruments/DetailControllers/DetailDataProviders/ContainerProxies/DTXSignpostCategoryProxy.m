@@ -61,7 +61,7 @@
 
 - (NSPredicate *)predicateForAggregator
 {
-	return [NSPredicate predicateWithFormat:@"categoryHash == %@ && hidden == NO", [_category MD5Hash]];
+	return [NSPredicate predicateWithFormat:@"categoryHash == %@ && hidden == NO", _category.sufficientHash];
 }
 
 - (void)prepareData

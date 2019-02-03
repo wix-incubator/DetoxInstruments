@@ -22,6 +22,7 @@
 #import "DTXDeviceInfo.h"
 #import "DTXSignpostSample+CoreDataClass.h"
 #import "DTXRecording+Additions.h"
+#import "NSString+Hashing.h"
 #import <Foundation/Foundation.h>
 
 extern NSString* _NSFullMethodName(Class cls, SEL sel);
@@ -374,9 +375,10 @@ DTX_CREATE_LOG(Profiler);
 		signpostSample.timestamp = timestamp;
 		signpostSample.uniqueIdentifier = identifier;
 		signpostSample.category = category;
+		signpostSample.categoryHash = category.sufficientHash;
 		signpostSample.name = name;
+		signpostSample.nameHash = name.sufficientHash;
 		signpostSample.additionalInfoStart = additionalInfo;
-//		signpostSample.parentGroup = self->_currentSampleGroup;
 		signpostSample.isTimer = isTimer;
 		signpostSample.stackTrace = stackTrace;
 		signpostSample.stackTraceIsSymbolicated = NO;
@@ -425,7 +427,9 @@ DTX_CREATE_LOG(Profiler);
 		signpostSample.timestamp = timestamp;
 		signpostSample.uniqueIdentifier = identifier;
 		signpostSample.category = category;
+		signpostSample.categoryHash = category.sufficientHash;
 		signpostSample.name = name;
+		signpostSample.nameHash = name.sufficientHash;
 		signpostSample.additionalInfoStart = additionalInfo;
 		signpostSample.eventStatus = eventStatus;
 		signpostSample.endTimestamp = signpostSample.timestamp;

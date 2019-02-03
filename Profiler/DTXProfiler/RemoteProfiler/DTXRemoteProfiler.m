@@ -13,6 +13,7 @@
 #import "DTXProfilingBasics.h"
 #import "DTXRNJSCSourceMapsSupport.h"
 #import "NSManagedObjectContext+PerformQOSBlock.h"
+#import "NSString+Hashing.h"
 
 DTX_CREATE_LOG(RemoteProfiler);
 
@@ -387,9 +388,11 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",
 										@"category": category ?: @"",
+										@"categoryHash": (category ?: @"").sufficientHash,
 										@"duration": @0,
 										@"eventStatus": @0,
 										@"name": name ?: @"",
+										@"nameHash": (name ?: @"").sufficientHash,
 										@"sampleIdentifier": identifier,
 										@"sampleType": @70,
 										@"timestamp": timestamp,
@@ -450,11 +453,13 @@ DTX_CREATE_LOG(RemoteProfiler);
 		NSMutableDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
 										@"__dtx_entityName": @"SignpostSample",
-										@"category": category ?: @0,
+										@"category": category ?: @"",
+										@"categoryHash": (category ?: @"").sufficientHash,
 										@"duration": @0,
 										@"isEvent": @1,
 										@"eventStatus": @(eventStatus),
-										@"name": name ?: @0,
+										@"name": name ?: @"",
+										@"nameHash": (name ?: @"").sufficientHash,
 										@"sampleIdentifier": NSUUID.UUID.UUIDString,
 										@"sampleType": @70,
 										@"timestamp": timestamp,

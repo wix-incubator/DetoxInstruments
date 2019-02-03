@@ -28,10 +28,10 @@
 	}
 	 
 	NSString* category = [sourceInstance valueForKey:@"category"];
-	NSData* categoryHash = [category MD5Hash];
+	NSData* categoryHash = category.sufficientHash;
 	[destinationInstance setValue:categoryHash forKey:@"categoryHash"];
 	NSString* name = [sourceInstance valueForKey:@"name"];
-	NSData* nameHash = [name MD5Hash];
+	NSData* nameHash = name.sufficientHash;
 	[destinationInstance setValue:nameHash forKey:@"nameHash"];
 	
 	[manager associateSourceInstance:sourceInstance withDestinationInstance:destinationInstance forEntityMapping:mapping];

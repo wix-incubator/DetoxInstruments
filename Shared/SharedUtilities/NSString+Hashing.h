@@ -10,6 +10,6 @@
 
 @interface NSString (Hashing)
 
-- (NSData*)MD5Hash;
+@property (nonatomic, copy, readonly) NSData* sufficientHash;
 
 @end
