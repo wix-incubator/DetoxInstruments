@@ -171,6 +171,7 @@
 		39B1CB091F34F679002C5239 /* _DTXProfilingConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B1CB081F34F679002C5239 /* _DTXProfilingConfigurationViewController.m */; };
 		39B3B3B221EE163200D5C1BE /* DTXBorderlessKeyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B3B3B121EE163200D5C1BE /* DTXBorderlessKeyWindow.m */; };
 		39B706A31F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */; };
+		39BBF67C22072DDD00077E38 /* DTXLegacyRecordingDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BBF67B22072DDD00077E38 /* DTXLegacyRecordingDocument.m */; };
 		39BDC8BC21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDC8BB21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.m */; };
 		39C1415F1F3C47F7008CF5B9 /* DTXStackTraceFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */; };
 		39C51E0C208ED729007AA717 /* DTXThreadInfo+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C51E0B208ED729007AA717 /* DTXThreadInfo+UIExtensions.m */; };
@@ -771,6 +772,8 @@
 		39B3B3B121EE163200D5C1BE /* DTXBorderlessKeyWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXBorderlessKeyWindow.m; sourceTree = "<group>"; };
 		39B706A11F20AFB500B1060D /* DTXRecordingTargetPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingTargetPickerViewController.h; sourceTree = "<group>"; };
 		39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingTargetPickerViewController.m; sourceTree = "<group>"; };
+		39BBF67A22072DDD00077E38 /* DTXLegacyRecordingDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLegacyRecordingDocument.h; sourceTree = "<group>"; };
+		39BBF67B22072DDD00077E38 /* DTXLegacyRecordingDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLegacyRecordingDocument.m; sourceTree = "<group>"; };
 		39BDC8BA21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAutomaticallyAnimatingProgressIndicator.h; sourceTree = "<group>"; };
 		39BDC8BB21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAutomaticallyAnimatingProgressIndicator.m; sourceTree = "<group>"; };
 		39BEE166207A1C80003AF93E /* _DTXActionButtonProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXActionButtonProvider.h; sourceTree = "<group>"; };
@@ -1092,6 +1095,8 @@
 				39165019213292D50016A468 /* DTXDocument.m */,
 				39EBDFC41ED36D45005D8AB1 /* DTXRecordingDocument.h */,
 				39EBDFC51ED36D45005D8AB1 /* DTXRecordingDocument.m */,
+				39BBF67A22072DDD00077E38 /* DTXLegacyRecordingDocument.h */,
+				39BBF67B22072DDD00077E38 /* DTXLegacyRecordingDocument.m */,
 				39EC15B11F20A243007EBE22 /* DTXRecordingDocumentController.h */,
 				39EC15B21F20A243007EBE22 /* DTXRecordingDocumentController.m */,
 			);
@@ -2189,6 +2194,7 @@
 				39C72E0A1F28846300FD470E /* DTXRemoteProfilingClient.m in Sources */,
 				3982D87D21B42733005FCAEF /* DTXPerformanceSample+UIExtensions.m in Sources */,
 				39FD87DF211A6372007FE6A5 /* NSColor+CompatLayer.m in Sources */,
+				39BBF67C22072DDD00077E38 /* DTXLegacyRecordingDocument.m in Sources */,
 				391176F121EF80AE00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
 				39008F241EF274FD0013B584 /* DTXInspectorTableView.m in Sources */,
 				391176DF21EF803A00C92A9F /* DTXInstruments.xcdatamodeld in Sources */,
