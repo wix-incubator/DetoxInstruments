@@ -66,8 +66,6 @@
 
 - (void)reloadData
 {
-	NSLog(@"😀 %@", self);
-	
 	[self prepareData];
 	
 	_isDataLoaded = YES;

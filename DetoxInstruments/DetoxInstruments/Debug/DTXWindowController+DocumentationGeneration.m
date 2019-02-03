@@ -158,7 +158,16 @@
 {
 	[self _drainLayout];
 	__kindof id<DTXPlotController> plotController = [self _plotControllerForClass:cls];
-	NSArray* samples = [plotController samplesForPlotIndex:0];
+	
+	NSArray* samples = nil;
+	if([plotController isKindOfClass:DTXPerformanceSamplePlotController.class])
+	{
+		samples = [plotController samplesForPlotIndex:0];
+	}
+	else
+	{
+		samples = [plotController valueForKeyPath:@"_frc.fetchedObjects"];
+	}
 	
 	if(index == -1)
 	{
