@@ -285,7 +285,9 @@
 	}
 	
 	NSString* instrumentsVersion = DTXApp.applicationVersion;
-	return [instrumentsVersion compare:profilerVersion options:NSNumericSearch] != NSOrderedAscending;
+	BOOL higher = [instrumentsVersion compare:profilerVersion options:NSNumericSearch] != NSOrderedAscending;
+	
+	return higher && ([@"1.9" compare:profilerVersion options:NSNumericSearch] == NSOrderedAscending);
 }
 
 #pragma mark Container Contents

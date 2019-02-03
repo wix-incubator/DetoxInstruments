@@ -344,8 +344,17 @@
 	
 	alert.informativeText = informativeText;
 	
-	[alert addButtonWithTitle:NSLocalizedString(@"Check for Updates", nil)];
-	[alert.buttons.firstObject setAction:@selector(_dismissWarningCheckForUpdates:)];
+	if([DTXApp.applicationVersion compare:target.deviceInfo[@"profilerVersion"] options:NSNumericSearch] == NSOrderedAscending)
+	{
+		//Only show the button in case Instruments is older than profiler.
+		[alert addButtonWithTitle:NSLocalizedString(@"Check for Updates", nil)];
+		[alert.buttons.firstObject setAction:@selector(_dismissWarningCheckForUpdates:)];
+	}
+	else
+	{
+		[alert addButtonWithTitle:NSLocalizedString(@"Dismiss", nil)];
+		[alert.buttons.firstObject setAction:@selector(_dismissWarning:)];
+	}
 	
 	[alert layout];
 	
@@ -366,6 +375,11 @@
 {
 	[NSApp sendAction:NSSelectorFromString(@"checkForUpdates:") to:nil from:nil];
 	
+	[_warningPopover close];
+}
+
+- (IBAction)_dismissWarning:(id)sender
+{
 	[_warningPopover close];
 }
 
