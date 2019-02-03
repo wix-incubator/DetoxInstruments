@@ -898,3 +898,6 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 }
 
 @end
+
+@interface DTXLegacyRecordingDocument : DTXRecordingDocument @end
+@implementation DTXLegacyRecordingDocument @end
