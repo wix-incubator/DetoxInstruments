@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--document &quot;/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Example Recording/example.dtxprof&quot;"
+            argument = "--document &quot;/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Example Recording/example.dtxrec&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -144,7 +144,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--help"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--help2"

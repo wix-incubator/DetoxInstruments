@@ -201,7 +201,6 @@ int main(int argc, const char* argv[])
 	
 	LNUsageSetOptions(@[
 						[LNUsageOption optionWithName:@"document" shortcut:@"d" valueRequirement:GBValueRequired description:@"The document (.dtxrec format)"],
-						[LNUsageOption optionWithName:@"force" shortcut:@"f" valueRequirement:GBValueNone description:@"Force opening an incompatible recording (WARNING: may cause data damage)"],
 						[LNUsageOption emptyOption],
 						
 						[LNUsageOption optionWithName:@"printEntities" shortcut:@"pe" valueRequirement:GBValueNone description:@"Prints available object entities"],
@@ -230,6 +229,7 @@ int main(int argc, const char* argv[])
 	
 	LNUsageSetHiddenOptions(@[
 							  [LNUsageOption optionWithName:@"appPath" valueRequirement:GBValueRequired description:@"The “Detox Instruments.app” to use"],
+							  [LNUsageOption optionWithName:@"force" shortcut:@"f" valueRequirement:GBValueNone description:@"Force opening an incompatible recording (WARNING: may cause data damage)"],
 							  [LNUsageOption optionWithName:@"printAppPath" valueRequirement:GBValueNone description:@"Prints the “Detox Instruments.app” in use"],
 //							  [LNUsageOption optionWithName:@"inMemory" valueRequirement:GBValueRequired description:@"Run the predicate in memory"],
 							  ]);
