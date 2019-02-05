@@ -53,6 +53,11 @@
 	[super prepareData];
 }
 
+- (id)objectForSample:(id)sample
+{
+	return sample;
+}
+
 - (NSFetchRequest *)fetchRequest
 {
 	return _fetchRequest;

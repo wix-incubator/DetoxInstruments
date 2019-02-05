@@ -1,5 +1,5 @@
 //
-//  DTXSignpostDataProvider.h
+//  DTXSignpostSummaryDataProvider.h
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 6/24/18.
@@ -8,6 +8,6 @@
 
 #import "DTXDetailDataProvider.h"
 
-@interface DTXSignpostDataProvider : DTXDetailDataProvider
+@interface DTXSignpostSummaryDataProvider : DTXDetailDataProvider
 
 @end

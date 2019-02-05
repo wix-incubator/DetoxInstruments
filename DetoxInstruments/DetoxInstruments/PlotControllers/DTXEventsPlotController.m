@@ -9,7 +9,7 @@
 #import "DTXEventsPlotController.h"
 #import "NSColor+UIAdditions.h"
 #import "NSFormatter+PlotFormatters.h"
-#import "DTXSignpostDataProvider.h"
+#import "DTXSignpostSummaryDataProvider.h"
 #import "DTXSignpostFlatDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXDetailController.h"
@@ -28,7 +28,7 @@
 	if(self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
 	{
 		DTXDetailController* detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
-		detailController.detailDataProvider = [[DTXSignpostDataProvider alloc] initWithDocument:self.document plotController:self];
+		detailController.detailDataProvider = [[DTXSignpostSummaryDataProvider alloc] initWithDocument:self.document plotController:self];
 		
 		[rv insertObject:detailController atIndex:0];
 	}
@@ -38,7 +38,7 @@
 
 + (Class)UIDataProviderClass
 {
-	return [DTXSignpostDataProvider class];
+	return [DTXSignpostSummaryDataProvider class];
 }
 
 + (Class)classForIntervalSamples

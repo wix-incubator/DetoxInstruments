@@ -1,12 +1,12 @@
 //
-//  DTXSignpostDataProvider.m
+//  DTXSignpostSummaryDataProvider.m
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 6/24/18.
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
-#import "DTXSignpostDataProvider.h"
+#import "DTXSignpostSummaryDataProvider.h"
 #import "DTXSignpostSummaryRootProxy.h"
 #import "DTXSignpostProtocol.h"
 #import "DTXDetailOutlineView.h"
@@ -14,7 +14,7 @@
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXSignpostDataExporter.h"
 
-@implementation DTXSignpostDataProvider
+@implementation DTXSignpostSummaryDataProvider
 
 + (Class)inspectorDataProviderClass
 {
@@ -90,17 +90,7 @@
 	status.title = NSLocalizedString(@"Status", @"");
 	status.minWidth = 100;
 	
-	DTXColumnInformation* moreInfo1 = [DTXColumnInformation new];
-	moreInfo1.title = NSLocalizedString(@"Additional Info (Start)", @"");
-	moreInfo1.minWidth = 320;
-	moreInfo1.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoStart" ascending:YES];
-	
-	DTXColumnInformation* moreInfo2 = [DTXColumnInformation new];
-	moreInfo2.title = NSLocalizedString(@"Additional Info (End)", @"");
-	moreInfo2.minWidth = 320;
-	moreInfo2.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoEnd" ascending:YES];
-	
-	return @[name, count, timestamp, duration, minDuration, avgDuration, maxDuration, status, moreInfo1, moreInfo2];
+	return @[name, count, timestamp, duration, minDuration, avgDuration, maxDuration, status];
 }
 
 - (Class)sampleClass
@@ -126,7 +116,11 @@
 	switch (column)
 	{
 		case 0:
-			return signpostSample.name;
+			if(realSignpostSample.isExpandable)
+			{
+				return signpostSample.name;
+			}
+			return ((DTXSignpostSample*)signpostSample).additionalInfoStart;
 		case 1:
 			return [NSFormatter.dtx_stringFormatter stringForObjectValue:@(signpostSample.count)];
 		case 2:
@@ -164,18 +158,6 @@
 				return @"—";
 			}
 			return realSignpostSample.eventStatusString;
-		case 8:
-			if(realSignpostSample.isExpandable)
-			{
-				return @"—";
-			}
-			return realSignpostSample.additionalInfoStart;
-		case 9:
-			if(realSignpostSample.isExpandable)
-			{
-				return @"—";
-			}
-			return realSignpostSample.additionalInfoEnd;
 		default:
 			return nil;
 	}
