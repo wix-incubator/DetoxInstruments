@@ -52,17 +52,17 @@ void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable object
 	__DTXProfilerAddLogLineWithObjects(NSDate.date, line, objects);
 }
 
-DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable additionalInfo)
+DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable startMessage)
 {
-	return __DTXProfilerMarkEventIntervalBegin(NSDate.date, category, name, additionalInfo, NO, nil);
+	return __DTXProfilerMarkEventIntervalBegin(NSDate.date, category, name, startMessage, NO, nil);
 }
 
-void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable additionalInfo)
+void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable endMessage)
 {
-	__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, eventStatus, additionalInfo);
+	__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, eventStatus, endMessage);
 }
 
-void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable additionInfo)
+void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable message)
 {
-	__DTXProfilerMarkEvent(NSDate.date, category, name, eventStatus, additionInfo);
+	__DTXProfilerMarkEvent(NSDate.date, category, name, eventStatus, message);
 }

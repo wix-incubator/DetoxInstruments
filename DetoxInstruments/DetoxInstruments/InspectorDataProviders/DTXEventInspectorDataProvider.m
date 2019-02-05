@@ -10,8 +10,20 @@
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXRNStackTraceParser.h"
 #import "DTXEventStatusPrivate.h"
+#import "DTXSignpostAdditionalInfoEndProxy.h"
 
 @implementation DTXEventInspectorDataProvider
+
+- (instancetype)initWithSample:(__kindof DTXSample *)sample document:(DTXRecordingDocument *)document
+{
+	id sampleToUse = sample;
+	if([sampleToUse isKindOfClass:DTXSignpostAdditionalInfoEndProxy.class])
+	{
+		sampleToUse = [(DTXSignpostAdditionalInfoEndProxy*)sampleToUse sample];
+	}
+	
+	return [super initWithSample:sampleToUse document:document];
+}
 
 - (NSArray *)arrayForStackTrace
 {
@@ -82,7 +94,7 @@
 	timing.content = content;
 	
 	DTXInspectorContent* additionalInfo = [DTXInspectorContent new];
-	additionalInfo.title = NSLocalizedString(@"Additional Info", @"");
+	additionalInfo.title = NSLocalizedString(@"Message", @"");
 	content = [NSMutableArray new];
 	
 	if(eventSample.isEvent == NO)

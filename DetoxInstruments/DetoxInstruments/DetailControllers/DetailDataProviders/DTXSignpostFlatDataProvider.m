@@ -86,12 +86,12 @@
 	status.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"eventStatus" ascending:YES];
 	
 	DTXColumnInformation* moreInfo1 = [DTXColumnInformation new];
-	moreInfo1.title = NSLocalizedString(@"Additional Info (Start)", @"");
+	moreInfo1.title = NSLocalizedString(@"Start Message", @"");
 	moreInfo1.minWidth = 280;
 	moreInfo1.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoStart" ascending:YES];
 	
 	DTXColumnInformation* moreInfo2 = [DTXColumnInformation new];
-	moreInfo2.title = NSLocalizedString(@"Additional Info (End)", @"");
+	moreInfo2.title = NSLocalizedString(@"End Message", @"");
 	moreInfo2.minWidth = 280;
 	moreInfo2.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"additionalInfoEnd" ascending:YES];
 	

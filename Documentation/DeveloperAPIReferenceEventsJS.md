@@ -22,14 +22,14 @@ import { Event } from 'detox-instruments-react-native-utils';
 
 ```javascript
 let event = new Event("Category", "Name");
-event.beginInterval("More info at begin");
+event.beginInterval("Start message");
 //Long interval
-event.endInterval(Event.EventStatus.completed, "More info at end");
+event.endInterval(Event.EventStatus.completed, "End message");
 ```
 
 #### Single Points in Time
 
 ```javascript
-Event.event("Category", "Name", Event.EventStatus.category3, "More info for single point in time");
+Event.event("Category", "Name", Event.EventStatus.category3, "Message");
 ```
 

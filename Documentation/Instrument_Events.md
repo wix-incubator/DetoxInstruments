@@ -34,6 +34,6 @@ Events will be displayed in a list.
 
 ### Inspector Pane
 
-For each sample or group, the inspector pane shows information, such as status, timing and additional information provided by you in the API.
+For each sample or group, the inspector pane shows information, such as status, timing and messages provided by you in the API.
 
 ![Events Inspector Pane](Resources/Instrument_Events_InspectorPane.png "Events Inspector Pane")

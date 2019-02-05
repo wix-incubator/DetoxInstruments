@@ -27,7 +27,7 @@
 
 - (NSArray<NSString *> *)titles
 {
-	return @[@"Start Time", @"End Time", @"Duration", @"Type", @"Category", @"Name", @"Event Status", @"Additional Info—Start", @"Additional Info—End"];
+	return @[@"Start Time", @"End Time", @"Duration", @"Type", @"Category", @"Name", @"Event Status", @"Start Message", @"End Message"];
 }
 
 @end

@@ -19,25 +19,25 @@ import DTXProfiler.DTXEvents
 #### Intervals
 
 ```objective-c
-DTXEventIdentifier identifier = DTXProfilerMarkEventIntervalBegin(@"Category", @"Name", @"More info at begin");
+DTXEventIdentifier identifier = DTXProfilerMarkEventIntervalBegin(@"Category", @"Name", @"Message at start");
 //Long interval
-DTXProfilerMarkEventIntervalEnd(identifier, DTXEventStatusCategory1, @"More info at end");
+DTXProfilerMarkEventIntervalEnd(identifier, DTXEventStatusCategory1, @"Message at end");
 ```
 
 ```swift
-let identifier = DTXProfilerMarkEventIntervalBegin("Category", "Name", "More info at begin")
+let identifier = DTXProfilerMarkEventIntervalBegin("Category", "Name", "Message at start")
 //Long interval
-DTXProfilerMarkEventIntervalEnd(identifier, .category1, "More info at end")
+DTXProfilerMarkEventIntervalEnd(identifier, .category1, "Message at end")
 ```
 
 #### Single Points in Time
 
 ```objective-c
-DTXProfilerMarkEvent(@"Category", @"Name", DTXEventStatusCategory3, @"More info at single point in time");
+DTXProfilerMarkEvent(@"Category", @"Name", DTXEventStatusCategory3, @"Message");
 ```
 
 ```swift
-DTXProfilerMarkEvent("Category", "Name", .category3, "More info at single point in time")
+DTXProfilerMarkEvent("Category", "Name", .category3, "Message")
 ```
 
 
@@ -51,11 +51,11 @@ Begins an event interval.
 ##### Declaration
 
 ```objective-c
-DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* *__nullable* additionalInfo)
+DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* *__nullable* startMessage)
 ```
 
 ```swift
-func DTXProfilerMarkEventIntervalBegin(_ category: String, _ name: String, _ additionalInfo: String?) -> String
+func DTXProfilerMarkEventIntervalBegin(_ category: String, _ name: String, _ startMessage: String?) -> String
 ```
 
 ##### Parameters
@@ -68,9 +68,9 @@ The category of this event
 
 The name of this event
 
-###### additionalInfo
+###### startMessage
 
-Additional information to include with this event
+The start message to include with this event
 
 ##### Return Value
 
@@ -83,11 +83,11 @@ Ends an event interval.
 ##### Declaration
 
 ```objective-c
-void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable additionalInfo)
+void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable endMessage)
 ```
 
 ```swift
-func DTXProfilerMarkEventIntervalEnd(_ identifier: String, _ eventStatus: DTXEventStatus, _ additionalInfo: String?)
+func DTXProfilerMarkEventIntervalEnd(_ identifier: String, _ eventStatus: DTXEventStatus, _ endMessage: String?)
 ```
 
 ##### Parameters
@@ -100,9 +100,9 @@ The identifier for the event which was provided by `DTXProfilerMarkEventInterval
 
 The status of this event
 
-###### additionalInfo
+###### endMessage
 
-Additional information to include with this event
+The end message to include with this event
 
 #### `DTXProfilerMarkEvent`
 
@@ -111,11 +111,11 @@ Marks a point of interest in time with no duration.
 ##### Declaration
 
 ```objective-c
-void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable additionalInfo)
+void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable message)
 ```
 
 ```swift
-func DTXProfilerMarkEvent(_ category: String, _ name: String, _ eventStatus: DTXEventStatus, _ additionalInfo: String?)
+func DTXProfilerMarkEvent(_ category: String, _ name: String, _ eventStatus: DTXEventStatus, _ message: String?)
 ```
 
 ##### Parameters
@@ -132,9 +132,9 @@ The name of this event
 
 The status of this event
 
-###### additionalInfo
+###### message
 
-Additional information to include with this event.
+A message to include with this event.
 
 ### Enums
 

@@ -13,6 +13,7 @@
 #import "DTXEventInspectorDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXSignpostDataExporter.h"
+#import "DTXSignpostAdditionalInfoEndProxy.h"
 
 @implementation DTXSignpostSummaryDataProvider
 
@@ -57,7 +58,7 @@
 - (NSArray<DTXColumnInformation *> *)columns
 {
 	DTXColumnInformation* name = [DTXColumnInformation new];
-	name.title = NSLocalizedString(@"Category / Name", @"");
+	name.title = NSLocalizedString(@"Category / Name / Message", @"");
 	name.minWidth = 320;
 	
 	const CGFloat durationMinWidth = 90;
@@ -98,6 +99,38 @@
 	return DTXSignpostSample.class;
 }
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+{
+	if([item isKindOfClass:DTXSignpostSample.class])
+	{
+		DTXSignpostSample* realSignpostSample = item;
+			
+		return realSignpostSample.additionalInfoEnd.length > 0;
+	}
+	
+	return [super outlineView:outlineView isItemExpandable:item];
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(nullable id)item
+{
+	if([item isKindOfClass:DTXSignpostSample.class])
+	{
+		return [[DTXSignpostAdditionalInfoEndProxy alloc] initWithSignpostSample:item];
+	}
+	
+	return [super outlineView:outlineView child:index ofItem:item];
+}
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item
+{
+	if([item isKindOfClass:DTXSignpostSample.class])
+	{
+		return 1;
+	}
+	
+	return [super outlineView:outlineView numberOfChildrenOfItem:item];
+}
+
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column
 {
 	id<DTXSignpost> signpostSample = item;
@@ -120,7 +153,13 @@
 			{
 				return signpostSample.name;
 			}
-			return ((DTXSignpostSample*)signpostSample).additionalInfoStart;
+			
+			if([signpostSample isKindOfClass:DTXSignpostAdditionalInfoEndProxy.class])
+			{
+				return realSignpostSample.additionalInfoEnd;
+			}
+			
+			return realSignpostSample.additionalInfoStart.length > 0 ? realSignpostSample.additionalInfoStart : realSignpostSample.name;
 		case 1:
 			return [NSFormatter.dtx_stringFormatter stringForObjectValue:@(signpostSample.count)];
 		case 2:

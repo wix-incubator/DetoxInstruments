@@ -37,9 +37,6 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 @end
 
-@interface DTXDetailDataProvider () <NSOutlineViewDataSource, NSOutlineViewDelegate>
-@end
-
 @implementation DTXDetailDataProvider
 {
 	DTXRecordingDocument* _document;

@@ -62,7 +62,7 @@
 
 @end
 
-@interface DTXDetailDataProvider : NSObject <DTXDetailDataProvider>
+@interface DTXDetailDataProvider : NSObject <DTXDetailDataProvider, NSOutlineViewDataSource, NSOutlineViewDelegate>
 
 @property (nonatomic, class, copy, readonly) NSString* defaultDetailDataProviderIdentifier;
 
