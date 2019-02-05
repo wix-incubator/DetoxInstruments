@@ -518,6 +518,8 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		[windowController _selectPlotControllerOfClass:cls];
 		
 		[windowController _deselectAnyDetail];
+
+		[windowController _selectDetailPaneIndex:0];
 		
 		if(outlineBreadcrumbs)
 		{

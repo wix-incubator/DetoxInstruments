@@ -58,7 +58,7 @@
 - (NSArray<DTXColumnInformation *> *)columns
 {
 	DTXColumnInformation* name = [DTXColumnInformation new];
-	name.title = NSLocalizedString(@"Category / Name / Message", @"");
+	name.title = NSLocalizedString(@"Category / Name / Messages", @"");
 	name.minWidth = 320;
 	
 	const CGFloat durationMinWidth = 90;
