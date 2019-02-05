@@ -20,7 +20,6 @@
 + (Class)UIDataProviderClass;
 
 - (void)prepareSamples;
-- (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates forPlotAtIndex:(NSUInteger)index;
 
 - (NSArray<__kindof DTXPlotView*>*)plotViews;
 

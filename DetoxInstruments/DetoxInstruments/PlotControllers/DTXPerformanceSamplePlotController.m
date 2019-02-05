@@ -15,8 +15,8 @@
 
 @interface DTXPerformanceSamplePlotController () <NSFetchedResultsControllerDelegate, DTXScatterPlotViewDataSource, DTXScatterPlotViewDelegate>
 {
-	NSMutableArray<NSFetchedResultsController*>* _frcs;
-	BOOL _frcsPrepared;
+	NSFetchedResultsController* _frc;
+	BOOL _frcPrepared;
 	
 	NSMutableArray<NSNumber*>* _insertions;
 	NSMutableArray<NSNumber*>* _updates;
@@ -27,18 +27,6 @@
 @end
 
 @implementation DTXPerformanceSamplePlotController
-
-- (instancetype)initWithDocument:(DTXRecordingDocument*)document isForTouchBar:(BOOL)isForTouchBar;
-{
-	self = [super initWithDocument:document isForTouchBar:isForTouchBar];
-	
-	if(self)
-	{
-		_frcs = [NSMutableArray new];
-	}
-	
-	return self;
-}
 
 - (NSArray<NSString*>*)sampleKeys
 {
@@ -67,57 +55,36 @@
 		return;
 	}
 	
-	if(_frcsPrepared == YES)
+	if(_frcPrepared == YES)
 	{
 		return;
 	}
-		
-	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull sampleKey, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSFetchRequest* fr = [self.class.classForPerformanceSamples fetchRequest];
-		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-		fr.predicate = self.predicateForPerformanceSamples;
-		
-		NSFetchedResultsController* frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-		frc.delegate = self;
-		_frcs[idx] = frc;
-		
-		NSError* error = nil;
-		if([frc performFetch:&error] == NO)
-		{
-			*stop = YES;
-			return;
-		}
-		
-#if 0
-		if([self.className isEqualToString:@"DTXCPUUsagePlotController"])
-		{
-			NSMutableDictionary* points = [NSMutableDictionary new];
-			NSMutableArray* pts = [NSMutableArray new];
-			
-			[frc.fetchedObjects enumerateObjectsUsingBlock:^(DTXPerformanceSample* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				NSDictionary* point = @{@"position": @([[obj valueForKeyPath:@"timestamp.timeIntervalSinceReferenceDate"] doubleValue] - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate), @"value": [obj valueForKey:@"cpuUsage"]};
-				[pts addObject:point];
-			}];
-			
-			points[@"points"] = pts;
-			points[@"length"] = @(self.document.lastRecording.endTimestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate);
-			
-			[points writeToFile:@"/Users/lnatan/Desktop/points.plist" atomically:YES];
-		}
-#endif
-	}];
 	
-	_frcsPrepared = _frcs.count == self.sampleKeys.count;
+	NSFetchRequest* fr = [self.class.classForPerformanceSamples fetchRequest];
+	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+	fr.predicate = self.predicateForPerformanceSamples;
+	
+	NSFetchedResultsController* frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+	frc.delegate = self;
+	_frc = frc;
+	
+	NSError* error = nil;
+	if([_frc performFetch:&error] == NO)
+	{
+		return;
+	}
+	
+	_frcPrepared = YES;
 }
 
 - (NSArray*)samplesForPlotIndex:(NSUInteger)index
 {
-	if(_frcs.count != self.sampleKeys.count)
+	if(_frcPrepared == NO)
 	{
 		[self prepareSamples];
 	}
 	
-	return _frcs[index].fetchedObjects;
+	return _frc.fetchedObjects;
 }
 
 - (NSPredicate*)predicateForPerformanceSamples
@@ -189,15 +156,16 @@
 	[super updateLayerHandler];
 }
 
-- (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates forPlotAtIndex:(NSUInteger)index
+- (void)noteOfSampleInsertions:(NSArray<NSNumber*>*)insertions updates:(NSArray<NSNumber*>*)updates
 {
-	DTXScatterPlotView* plotView = self.plotViews[index];
-	
-	for (NSNumber* obj in updates) {
-		[plotView reloadPointAtIndex:obj.unsignedIntegerValue];
+	for(DTXScatterPlotView* plotView in self.plotViews)
+	{
+		for (NSNumber* obj in updates) {
+			[plotView reloadPointAtIndex:obj.unsignedIntegerValue];
+		}
+		
+		[plotView addNumberOfPoints:insertions.count];
 	}
-	
-	[plotView addNumberOfPoints:insertions.count];
 }
 
 #pragma mark Internal Plots
@@ -256,7 +224,7 @@
 	}
 	else
 	{
-		DTXSample* sample = _frcs[plotView.plotIndex].fetchedObjects[idx];
+		DTXSample* sample = _frc.fetchedObjects[idx];
 		[someoneThatCan _highlightSample:sample sampleIndex:idx plotIndex:someoneThatCan == self ? plotView.plotIndex : NSNotFound positionInPlot:position valueAtClickPosition:value];
 		[someoneThatCan.sampleClickDelegate plotController:someoneThatCan didClickOnSample:sample];
 	}
@@ -302,8 +270,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	NSUInteger index = [_frcs indexOfObject:controller];
-	[self noteOfSampleInsertions:_insertions updates:_updates forPlotAtIndex:index];
+	[self noteOfSampleInsertions:_insertions updates:_updates];
 	_insertions = nil;
 	_updates = nil;
 }
