@@ -2603,7 +2603,7 @@
 				391176DD21EF803900C92A9F /* DTXInstruments-7742.xcdatamodel */,
 				391176DB21EF803900C92A9F /* DTXInstruments.xcdatamodel */,
 			);
-			currentVersion = 390E68E2220191DD006F0FF7 /* DTXInstruments-9747.xcdatamodel */;
+			currentVersion = 394C9B3C220882F20015A085 /* DTXInstruments-9808.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

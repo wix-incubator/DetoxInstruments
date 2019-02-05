@@ -30,6 +30,36 @@
 
 @end
 
+DTX_ALWAYS_INLINE
+static
+BOOL _DTXThreadIdentifierForMachThread(mach_port_t thread, uint64_t* identifier)
+{
+	thread_info_data_t thread_info_data;
+	mach_msg_type_number_t thread_count = THREAD_INFO_MAX;
+	
+	kern_return_t kerr = thread_info(thread, THREAD_IDENTIFIER_INFO, (thread_info_t)thread_info_data, &thread_count);
+	if(kerr != KERN_SUCCESS)
+	{
+		return NO;
+	}
+	
+	thread_identifier_info_t threadIdentifier = (thread_identifier_info_t)thread_info_data;
+	
+	*identifier = threadIdentifier->thread_id;
+	
+	return YES;
+}
+
+DTX_ALWAYS_INLINE
+static
+uint64_t _DTXThreadIdentifierForCurrentThread(void)
+{
+	uint64_t threadIdentifier = 0;
+	_DTXThreadIdentifierForMachThread(mach_thread_self(), &threadIdentifier);
+	return threadIdentifier;
+}
+
+
 @interface DTXPerformanceSampler : NSObject <DTXPollable>
 
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration;

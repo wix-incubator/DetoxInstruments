@@ -375,7 +375,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[tag.managedObjectContext save:NULL];
 }
 
-- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	[_ctx performBlock:^{
 		
@@ -396,7 +396,8 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"sampleIdentifier": identifier,
 										@"sampleType": @70,
 										@"timestamp": timestamp,
-										@"uniqueIdentifier": NSUUID.UUID.UUIDString
+										@"uniqueIdentifier": NSUUID.UUID.UUIDString,
+										@"startThreadNumber": @([self _threadForThreadIdentifier:threadIdentifier].number),
 										}.mutableCopy;
 		
 		if(additionalInfo.length > 0)
@@ -410,7 +411,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	[_ctx performBlock:^{
 		NSDictionary* event = self->_pendingEvents[identifier];
@@ -427,6 +428,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"endTimestamp": timestamp,
 										@"sampleIdentifier": identifier,
 										@"duration": @([timestamp timeIntervalSinceDate:event[@"timestamp"]]),
+										@"endThreadNumber": @([self _threadForThreadIdentifier:threadIdentifier].number),
 										}.mutableCopy;
 		
 		if(additionalInfo.length > 0)
@@ -441,7 +443,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp
+- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	[_ctx performBlock:^{
 		
@@ -449,6 +451,8 @@ DTX_CREATE_LOG(RemoteProfiler);
 		{
 			return;
 		}
+		
+		NSNumber* threadIdentifierObj = @([self _threadForThreadIdentifier:threadIdentifier].number);
 		
 		NSMutableDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
@@ -464,7 +468,9 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"sampleType": @70,
 										@"timestamp": timestamp,
 										@"endTimestamp": timestamp,
-										@"uniqueIdentifier": NSUUID.UUID.UUIDString
+										@"uniqueIdentifier": NSUUID.UUID.UUIDString,
+										@"startThreadNumber": threadIdentifierObj,
+										@"endsThreadNumber": threadIdentifierObj,
 										}.mutableCopy;
 		
 		if(additionalInfo.length > 0)

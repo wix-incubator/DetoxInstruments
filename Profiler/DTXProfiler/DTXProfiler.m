@@ -359,7 +359,7 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
@@ -382,6 +382,7 @@ DTX_CREATE_LOG(Profiler);
 		signpostSample.isTimer = isTimer;
 		signpostSample.stackTrace = stackTrace;
 		signpostSample.stackTraceIsSymbolicated = NO;
+		signpostSample.startThreadNumber = [self _threadForThreadIdentifier:threadIdentifier].number;
 		
 		[self->_profilerStoryListener markEventIntervalBegin:signpostSample];
 		
@@ -389,7 +390,7 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(nullable NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
@@ -407,12 +408,13 @@ DTX_CREATE_LOG(Profiler);
 		signpostSample.duration = [signpostSample.endTimestamp timeIntervalSinceDate:signpostSample.timestamp];
 		signpostSample.eventStatus = eventStatus;
 		signpostSample.additionalInfoEnd = additionalInfo;
+		signpostSample.endThreadNumber = [self _threadForThreadIdentifier:threadIdentifier].number;
 		
 		[self->_profilerStoryListener markEventIntervalEnd:signpostSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo timestamp:(NSDate*)timestamp
+- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	[self->_backgroundContext performBlock:^{
@@ -434,6 +436,8 @@ DTX_CREATE_LOG(Profiler);
 		signpostSample.eventStatus = eventStatus;
 		signpostSample.endTimestamp = signpostSample.timestamp;
 		signpostSample.isEvent = YES;
+		signpostSample.startThreadNumber = [self _threadForThreadIdentifier:threadIdentifier].number;
+		signpostSample.endThreadNumber = [self _threadForThreadIdentifier:threadIdentifier].number;
 		
 		[self->_profilerStoryListener markEvent:signpostSample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -485,6 +489,19 @@ DTX_CREATE_LOG(Profiler);
 //	DTXWriteZipFileWithDirectoryURL([_currentProfilingConfiguration.recordingFileURL URLByAppendingPathExtension:@"zip"], _currentProfilingConfiguration.recordingFileURL);
 }
 
+- (DTXThreadInfo*)_threadForThreadIdentifier:(uint64_t)identifier
+{
+	DTXThreadInfo* threadInfo = self->_threads[@(identifier)];
+	if(threadInfo == nil)
+	{
+		threadInfo = [[DTXThreadInfo alloc] initWithContext:self->_backgroundContext];
+		threadInfo.number = self->_threads.count;
+		self->_threads[@(identifier)] = threadInfo;
+		threadInfo.recording = self->_currentRecording;
+	}
+	return threadInfo;
+}
+
 - (void)performanceSamplerDidPoll:(DTXPerformanceSampler*)performanceSampler
 {
 	DTX_IGNORE_NOT_RECORDING
@@ -525,14 +542,7 @@ DTX_CREATE_LOG(Profiler);
 		if(self->_currentProfilingConfiguration.recordThreadInformation)
 		{
 			for (DTXThreadMeasurement* obj in cpu.threads) {
-				DTXThreadInfo* threadInfo = self->_threads[@(obj.identifier)];
-				if(threadInfo == nil)
-				{
-					threadInfo = [[DTXThreadInfo alloc] initWithContext:self->_backgroundContext];
-					threadInfo.number = self->_threads.count;
-					self->_threads[@(obj.identifier)] = threadInfo;
-					threadInfo.recording = self->_currentRecording;
-				}
+				DTXThreadInfo* threadInfo = [self _threadForThreadIdentifier:obj.identifier];
 				threadInfo.name = obj.name;
 				
 				[self->_profilerStoryListener createdOrUpdatedThreadInfo:threadInfo];

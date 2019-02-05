@@ -111,7 +111,7 @@ static void* __symbols[DTXMaxFrames];
 	}
 }
 
-#pragma mark - CPU
+#pragma mark - CPUs
 
 DTX_ALWAYS_INLINE
 static DTXCPUMeasurement* _DTXCPUUsage(BOOL collectThreadInfo)
@@ -169,14 +169,13 @@ static DTXCPUMeasurement* _DTXCPUUsage(BOOL collectThreadInfo)
 				thread.cpu = thread_extended_info->pth_cpu_usage / (double)TH_USAGE_SCALE;
 				thread.name = [NSString stringWithUTF8String:thread_extended_info->pth_name];
 				
-				if (thread_info(thread_list[thread_idx], THREAD_IDENTIFIER_INFO, (thread_info_t)thread_info_data, &thread_info_count) != KERN_SUCCESS)
+				uint64_t thread_id = 0;
+				if(_DTXThreadIdentifierForMachThread(thread.machThread, &thread_id) == NO)
 				{
 					return nil;
 				}
 				
-				thread_identifier_info_t threadIdentifier = (thread_identifier_info_t)thread_info_data;
-				
-				thread.identifier = threadIdentifier->thread_id;
+				thread.identifier = thread_id;
 				
 				[threads addObject:thread];
 				
