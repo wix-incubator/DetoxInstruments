@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -e -x
 
 INSTRUMENTS_SCRIPTS_DIR="${0%/*}"
 

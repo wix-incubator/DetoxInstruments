@@ -17,12 +17,12 @@
 
 @end
 
-static inline __attribute__((always_inline)) double lerp(double a, double b, double t)
+static DTX_ALWAYS_INLINE double lerp(double a, double b, double t)
 {
 	return a + (b - a) * t;
 }
 
-static inline void __DTXFillZones(DTXPlotView* self, NSMutableArray<_DTXDrawingZone*>* zones)
+static DTX_ALWAYS_INLINE void __DTXFillZones(DTXPlotView* self, NSMutableArray<_DTXDrawingZone*>* zones)
 {
 	CGFloat graphViewRatio = self.bounds.size.width / self.plotRange.lengthDouble;
 	CGFloat offset = - graphViewRatio * self.plotRange.locationDouble;
@@ -62,7 +62,7 @@ static inline void __DTXFillZones(DTXPlotView* self, NSMutableArray<_DTXDrawingZ
 	}
 }
 
-static inline __attribute__((always_inline)) double __DTXBottomInset(NSEdgeInsets insets, BOOL isFlipped)
+static DTX_ALWAYS_INLINE double __DTXBottomInset(NSEdgeInsets insets, BOOL isFlipped)
 {
 	return isFlipped == NO ? insets.bottom : insets.top;
 }

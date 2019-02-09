@@ -14,7 +14,7 @@
 
 @end
 
-static inline __attribute__((always_inline)) double __DTXValueAtIndex(NSArray<DTXScatterPlotViewPoint*>* points, DTXScatterPlotViewPoint* point, double test, NSUInteger idx, double graphHeightViewRatio)
+static DTX_ALWAYS_INLINE double __DTXValueAtIndex(NSArray<DTXScatterPlotViewPoint*>* points, DTXScatterPlotViewPoint* point, double test, NSUInteger idx, double graphHeightViewRatio)
 {
 	if(test == 1)
 	{
@@ -32,7 +32,7 @@ static inline __attribute__((always_inline)) double __DTXValueAtIndex(NSArray<DT
 	}
 }
 
-static inline __attribute__((always_inline)) void __DTXStartPaths(CGMutablePathRef* closedPath, CGMutablePathRef* openPath, NSEdgeInsets insets, BOOL isFlipped, CGFloat position, CGFloat value, BOOL isStepped)
+static DTX_ALWAYS_INLINE void __DTXStartPaths(CGMutablePathRef* closedPath, CGMutablePathRef* openPath, NSEdgeInsets insets, BOOL isFlipped, CGFloat position, CGFloat value, BOOL isStepped)
 {
 	*closedPath = CGPathCreateMutable();
 	*openPath = CGPathCreateMutable();
@@ -41,7 +41,7 @@ static inline __attribute__((always_inline)) void __DTXStartPaths(CGMutablePathR
 	CGPathMoveToPoint(*openPath, NULL, position, value);
 }
 
-static inline __attribute__((always_inline)) void __DTXFlushPaths(DTXScatterPlotView* self, CGContextRef ctx, CGMutablePathRef closedPath, CGMutablePathRef openPath, CGFloat position, NSUInteger drawingType)
+static DTX_ALWAYS_INLINE void __DTXFlushPaths(DTXScatterPlotView* self, CGContextRef ctx, CGMutablePathRef closedPath, CGMutablePathRef openPath, CGFloat position, NSUInteger drawingType)
 {
 	CGPathAddLineToPoint(closedPath, NULL, position, __DTXBottomInset(self.insets, self.isFlipped));
 	
@@ -95,7 +95,7 @@ static inline __attribute__((always_inline)) void __DTXFlushPaths(DTXScatterPlot
 	CGPathRelease(openPath);
 }
 
-static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlotView* self, CGContextRef ctx)
+static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContextRef ctx)
 {
 	NSMutableArray<DTXScatterPlotViewPoint*>* points = self._points;
 	CPTPlotRange* plotRange = self.plotRange;
@@ -443,7 +443,7 @@ static inline __attribute__((always_inline)) void __DTXDrawPoints(DTXScatterPlot
 	//	NSLog(@"Took %@s to add %u samples", @(end - start), numberOfPoints);
 }
 
-static inline __attribute__((always_inline)) double __DTXValueAtPosition(DTXScatterPlotView* self, NSArray<DTXScatterPlotViewPoint*>* _points, double plotClickPosition, BOOL isStepped, NSEdgeInsets insets, BOOL isFlipped, double* delegateClickPosition, double* delegateValue)
+static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, NSArray<DTXScatterPlotViewPoint*>* _points, double plotClickPosition, BOOL isStepped, NSEdgeInsets insets, BOOL isFlipped, double* delegateClickPosition, double* delegateValue)
 {
 	double pointRange = _points.lastObject.x - _points.firstObject.x;
 	

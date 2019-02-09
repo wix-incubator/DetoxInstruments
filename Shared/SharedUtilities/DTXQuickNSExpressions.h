@@ -11,12 +11,12 @@
 
 #import <Foundation/Foundation.h>
 
-static inline NSExpression* DTXKeyPathExpression(NSString* keyPath)
+static DTX_ALWAYS_INLINE NSExpression* DTXKeyPathExpression(NSString* keyPath)
 {
 	return [NSExpression expressionForKeyPath:keyPath];
 }
 
-static inline NSExpression* DTXFunctionExpression(NSString* function, NSArray* arguments)
+static DTX_ALWAYS_INLINE NSExpression* DTXFunctionExpression(NSString* function, NSArray* arguments)
 {
 	return [NSExpression expressionForFunction:function arguments:arguments];
 }

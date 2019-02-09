@@ -65,13 +65,14 @@
 			[_wrapperView addSubview:_plotStackView];
 			
 			[NSLayoutConstraint activateConstraints:@[
+//													  [_wrapperView.heightAnchor constraintEqualToConstant:100],
 													  [_wrapperView.topAnchor constraintEqualToAnchor:_plotStackView.topAnchor],
 													  [_wrapperView.leadingAnchor constraintEqualToAnchor:_plotStackView.leadingAnchor],
 													  [_wrapperView.trailingAnchor constraintEqualToAnchor:_plotStackView.trailingAnchor],
 													  [_wrapperView.bottomAnchor constraintEqualToAnchor:_plotStackView.bottomAnchor],
 													  ]];
 			
-			[self setupPlotViews];
+			[self reloadPlotViews];
 		}
 		else
 		{
@@ -129,6 +130,11 @@
 }
 
 - (void)setupPlotViews
+{
+	
+}
+
+- (void)reloadPlotViews
 {
 	
 }

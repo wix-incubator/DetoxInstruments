@@ -10,13 +10,13 @@
 #import "DTXGraphHostingView.h"
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
-#import "DTXLineLayer.h"
 #import <LNInterpolation/LNInterpolation.h>
 #import "DTXStackedPlotGroup.h"
 #import "DTXDetailController.h"
 #import "NSAppearance+UIAdditions.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXScatterPlotView.h"
+#import "DTXSeparatorView.h"
 
 @interface DTXSamplePlotController () <CPTScatterPlotDelegate>
 
@@ -30,6 +30,8 @@
 	NSStoryboard* _scene;
 	
 	NSArray<DTXPlotViewTextAnnotation*>* _textAnnotations;
+	
+	NSArray* _cachedPlotColors;
 }
 
 @synthesize delegate = _delegate;
@@ -180,14 +182,38 @@
 		_pendingXPlotRange = nil;
 	}
 	
+	NSUInteger plotViewIdx = 0;
 	for (__kindof DTXPlotView* plotView in plotViews) {
 		plotView.globalPlotRange = globalXRange;
 		plotView.plotRange = xRange;
 		plotView.delegate = self;
 		
+		plotView.plotIndex = plotViewIdx;
+		plotViewIdx++;
+		
 		[self.plotStackView addArrangedSubview:plotView];
+		
+		if(self.includeSeparatorsInStackView)
+		{
+			NSView* box = [DTXSeparatorView new];
+			box.translatesAutoresizingMaskIntoConstraints = NO;
+			[NSLayoutConstraint activateConstraints:@[
+													  [box.heightAnchor constraintEqualToConstant:1],
+													  ]];
+			
+			[self.plotStackView addArrangedSubview:box];
+		}
 	}
 	plotViews.lastObject.insets = self.rangeInsets;
+}
+
+- (void)reloadPlotViews
+{
+	[self.plotStackView.arrangedSubviews.copy enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj removeFromSuperviewWithoutNeedingDisplay];
+	}];
+	
+	[self setupPlotViews];
 }
 
 - (void)didFinishViewSetup
@@ -430,6 +456,26 @@
 	}
 }
 
+- (NSArray<NSColor*>*)_cachedPlotColors
+{
+	if(_cachedPlotColors == nil)
+	{
+		_cachedPlotColors = self.plotColors;
+	}
+	
+	return _cachedPlotColors;
+}
+
+- (NSColor*)_plotColorForIdx:(NSUInteger)idx
+{
+	if(idx >= self._cachedPlotColors.count)
+	{
+		return self._cachedPlotColors.lastObject;
+	}
+	
+	return self._cachedPlotColors[idx];
+}
+
 - (void)_updateAnnotationColors:(NSArray<DTXPlotViewAnnotation*>*)annotations forPlotIndex:(NSUInteger)plotIdx
 {
 	[annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull annotation, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -443,10 +489,10 @@
 			}
 			else
 			{
-				line.color =  [self.plotColors[plotIdx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
+				line.color =  [[self _plotColorForIdx:plotIdx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
 			}
 			
-			line.valueColor = [self.plotColors[plotIdx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
+			line.valueColor = [[self _plotColorForIdx:plotIdx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
 		}
 		else if([annotation isKindOfClass:DTXPlotViewTextAnnotation.class])
 		{
@@ -458,9 +504,9 @@
 			}
 			else
 			{
-				text.color =  [self.plotColors[plotIdx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
+				text.color =  [[self _plotColorForIdx:plotIdx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
 			}
-			text.valueColor = [self.plotColors[plotIdx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
+			text.valueColor = [[self _plotColorForIdx:plotIdx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
 		}
 	}];
 }
@@ -517,6 +563,11 @@
 	return nil;
 }
 
+- (BOOL)includeSeparatorsInStackView
+{
+	return NO;
+}
+
 - (NSArray<NSString*>*)propertiesToFetch;
 {
 	return @[@"timestamp"];
@@ -569,7 +620,7 @@
 
 - (NSArray<NSColor *> *)legendColors
 {
-	return self.plotColors;
+	return self._cachedPlotColors;
 }
 
 #pragma mark Internal Plots
@@ -578,6 +629,11 @@
 {
 	[self.plotStackView.arrangedSubviews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		if(plotView == obj)
+		{
+			return;
+		}
+		
+		if([obj isKindOfClass:DTXPlotView.class] == NO)
 		{
 			return;
 		}
