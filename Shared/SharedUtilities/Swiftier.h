@@ -9,6 +9,16 @@
 #ifndef Swiftier_h
 #define Swiftier_h
 
+#ifndef DTX_NOTHROW
+#define DTX_NOTHROW __attribute__((__nothrow__))
+#endif
+#ifndef DTX_ALWAYS_INLINE
+#define DTX_ALWAYS_INLINE __attribute__((__always_inline__))
+#endif
+#ifndef DTX_ALWAYS_INLINE
+#define DTX_WARN_UNUSED_RESULT __attribute__((__warn_unused_result__))
+#endif
+
 #if defined(__cplusplus)
 #else
 #define auto __auto_type

@@ -123,4 +123,9 @@
 	return rv;
 }
 
+- (NSString *)sectionKeyPath
+{
+	return @"category";
+}
+
 @end

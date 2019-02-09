@@ -27,6 +27,7 @@
 #pragma mark Internal Plot Support
 
 @property (nonatomic, strong, readonly) DTXPlotStackView* plotStackView;
+- (void)reloadPlotViews;
 - (void)setupPlotViews;
 
 #pragma mark Core Plot Support

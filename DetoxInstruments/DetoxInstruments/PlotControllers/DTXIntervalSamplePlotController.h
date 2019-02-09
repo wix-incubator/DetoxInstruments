@@ -8,8 +8,6 @@
 
 #import "DTXSamplePlotController.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface DTXIntervalSamplePlotController : DTXSamplePlotController
 
 - (NSDate*)endTimestampForSample:(__kindof DTXSample*)sample;
@@ -17,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)titleForSample:(__kindof DTXSample*)sample;
 + (Class)classForIntervalSamples;
 - (NSArray<NSSortDescriptor*>*)sortDescriptors;
+- (NSString*)sectionKeyPath;
 
 @end
-
-NS_ASSUME_NONNULL_END

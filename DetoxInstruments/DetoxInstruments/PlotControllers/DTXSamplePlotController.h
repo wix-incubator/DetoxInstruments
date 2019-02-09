@@ -22,6 +22,7 @@
 - (void)prepareSamples;
 
 - (NSArray<__kindof DTXPlotView*>*)plotViews;
+- (BOOL)includeSeparatorsInStackView;
 
 - (NSArray<NSString*>*)propertiesToFetch;
 - (NSArray<NSString*>*)relationshipsToFetch;
