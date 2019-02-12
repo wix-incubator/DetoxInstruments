@@ -17,8 +17,9 @@
 @property (nonatomic, weak) DTXFilteredDataProvider* filteredDataProvider;
 @property (nonatomic, readonly) BOOL isForTouchBar;
 @property (nonatomic, weak) DTXIntervalSamplePlotController* intervalSamplePlotController;
+@property (nonatomic) NSUInteger section;
 
-- (instancetype)initWithIntervalSamplePlotController:(DTXIntervalSamplePlotController*)intervalSamplePlotController fetchedResultsController:(NSFetchedResultsController*)frc section:(NSUInteger)section isForTouchBar:(BOOL)isForTouchBar;
+- (instancetype)initWithIntervalSamplePlotController:(DTXIntervalSamplePlotController*)intervalSamplePlotController fetchedResultsController:(NSFetchedResultsController*)frc isForTouchBar:(BOOL)isForTouchBar;
 
 - (void)reloadData;
 

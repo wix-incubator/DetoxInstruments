@@ -40,7 +40,6 @@
 @implementation DTXIntervalSectionSamplePlotController
 {
 	NSFetchedResultsController* _frc;
-	NSUInteger _section;
 	
 	NSMutableArray<_DTXSampleGroup*>* _mergedSamples;
 	NSMutableArray<NSIndexPath*>* _sampleIndices;
@@ -49,7 +48,7 @@
 	NSUInteger _selectedIndex;
 }
 
-- (instancetype)initWithIntervalSamplePlotController:(DTXIntervalSamplePlotController*)intervalSamplePlotController fetchedResultsController:(NSFetchedResultsController*)frc section:(NSUInteger)section isForTouchBar:(BOOL)isForTouchBar
+- (instancetype)initWithIntervalSamplePlotController:(DTXIntervalSamplePlotController*)intervalSamplePlotController fetchedResultsController:(NSFetchedResultsController*)frc isForTouchBar:(BOOL)isForTouchBar;
 {
 	self = [self init];
 	
@@ -59,7 +58,6 @@
 		_selectedIndex = NSNotFound;
 		
 		_frc = frc;
-		_section = section;
 		_intervalSamplePlotController = intervalSamplePlotController;
 		
 		_plotView = [DTXRangePlotView new];
@@ -76,9 +74,6 @@
 		_plotView.dataSource = self;
 		
 		[NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"DTXPlotSettingsDisplayLabels" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial) context:NULL];
-		
-		[self reloadData];
-		[_plotView reloadData];
 	}
 	
 	return self;
@@ -170,6 +165,8 @@
 		_sampleMapping[currentSample.sampleIdentifier] = indexPath;
 		_indexPathIndexMapping[indexPath] = @(_sampleIndices.count - 1);
 	}
+	
+	[_plotView reloadData];
 }
 
 - (void)highlightSample:(DTXSample*)sample

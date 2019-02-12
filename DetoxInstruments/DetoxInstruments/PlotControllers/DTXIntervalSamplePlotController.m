@@ -29,6 +29,8 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 	NSMutableArray<DTXIntervalSectionSamplePlotController*>* _sectionControllers;
 	
 	DTXFilteredDataProvider* _filteredDataProvider;
+	
+	BOOL _didAddSection;
 }
 
 @end
@@ -78,7 +80,9 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 		numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
 		
 		[_frc.sections enumerateObjectsUsingBlock:^(id<NSFetchedResultsSectionInfo>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			DTXIntervalSectionSamplePlotController* sectionController = [[DTXIntervalSectionSamplePlotController alloc] initWithIntervalSamplePlotController:self fetchedResultsController:_frc section:idx isForTouchBar:self.isForTouchBar];
+			auto sectionController = [[DTXIntervalSectionSamplePlotController alloc] initWithIntervalSamplePlotController:self fetchedResultsController:_frc isForTouchBar:self.isForTouchBar];
+			sectionController.section = idx;
+			[sectionController reloadData];
 			[_plotViews addObject:sectionController.plotView];
 			[_sectionControllers addObject:sectionController];
 		}];
@@ -228,9 +232,37 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 
 #pragma mark NSFetchedResultsControllerDelegate
 
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+	_didAddSection = NO;
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+	NSParameterAssert(type == NSFetchedResultsChangeInsert);
+	
+	for(NSUInteger idx = sectionIndex; idx < _sectionControllers.count; idx++)
+	{
+		auto sectionController = _sectionControllers[idx];
+		sectionController.section++;
+	}
+	
+	auto sectionController = [[DTXIntervalSectionSamplePlotController alloc] initWithIntervalSamplePlotController:self fetchedResultsController:_frc isForTouchBar:self.isForTouchBar];
+	sectionController.section = sectionIndex;
+	[_plotViews insertObject:sectionController.plotView atIndex:sectionIndex];
+	[_sectionControllers insertObject:sectionController atIndex:sectionIndex];
+	
+	_didAddSection = YES;
+}
+
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
 	[_sectionControllers makeObjectsPerformSelector:@selector(reloadData)];
+	
+	if(_didAddSection)
+	{
+		[self reloadPlotViews];
+	}
 }
 
 #pragma mark Internal Plots

@@ -180,6 +180,8 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 		{
 			[self invalidateIntrinsicContentSize];
 		}
+		
+		[self setNeedsDisplay:YES];
 	}
 	
 //	CFTimeInterval end = CACurrentMediaTime();
@@ -242,12 +244,13 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 	if(oldHeight != _cachedIntrinsicContentSize.height)
 	{
 		[super invalidateIntrinsicContentSize];
+		
 	
-		dispatch_async(dispatch_get_main_queue(), ^{
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[super invalidateIntrinsicContentSize];
-			});
-		});
+//		dispatch_async(dispatch_get_main_queue(), ^{
+//			dispatch_async(dispatch_get_main_queue(), ^{
+//				[super invalidateIntrinsicContentSize];
+//			});
+//		});
 	}
 }
 

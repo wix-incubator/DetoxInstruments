@@ -65,7 +65,7 @@
 			[_wrapperView addSubview:_plotStackView];
 			
 			[NSLayoutConstraint activateConstraints:@[
-//													  [_wrapperView.heightAnchor constraintEqualToConstant:100],
+													  [_wrapperView.heightAnchor constraintGreaterThanOrEqualToConstant:self.requiredHeight],
 													  [_wrapperView.topAnchor constraintEqualToAnchor:_plotStackView.topAnchor],
 													  [_wrapperView.leadingAnchor constraintEqualToAnchor:_plotStackView.leadingAnchor],
 													  [_wrapperView.trailingAnchor constraintEqualToAnchor:_plotStackView.trailingAnchor],

@@ -30,7 +30,7 @@
 	if(self)
 	{
 		self.wantsLayer = YES;
-		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawDuringViewResize;
 //		self.canDrawSubviewsIntoLayer = YES;
 		
 		_statusImageView = [NSImageView new];
