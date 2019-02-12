@@ -193,7 +193,7 @@
 		
 		[self.plotStackView addArrangedSubview:plotView];
 		
-		if(self.includeSeparatorsInStackView)
+		if(self.includeSeparatorsInStackView && plotViewIdx < plotViews.count)
 		{
 			NSView* box = [DTXSeparatorView new];
 			box.translatesAutoresizingMaskIntoConstraints = NO;
