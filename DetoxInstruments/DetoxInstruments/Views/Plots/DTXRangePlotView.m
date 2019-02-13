@@ -39,6 +39,8 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 	
 	NSDictionary* _stringDrawingAttributes;
 	NSSize _fontCharacterSize;
+	
+	CGFloat _labelOffset;
 }
 
 @dynamic delegate;
@@ -68,6 +70,13 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 		self.flipped = YES;
 		
 		[self setDrawTitles:NO];
+		
+		_labelOffset = 1.5;
+		NSOperatingSystemVersion atLeastVersion = (NSOperatingSystemVersion){ 10, 14, 4 };
+		if([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:atLeastVersion])
+		{
+			_labelOffset = 0.0;
+		}
 	}
 	
 	return self;
@@ -314,7 +323,7 @@ void __DTXDrawLinesFastPath(DTXRangePlotView* self, CGContextRef ctx, NSRect dir
 					{
 						CGContextSaveGState(ctx);
 						CGContextSetAllowsAntialiasing(ctx, YES);
-						[line.titleToDraw drawInRect:NSMakeRect(start + lineHeight / 4, height - self->_fontCharacterSize.height / 2.0 - 1.5, end - start - lineHeight / 2, self->_fontCharacterSize.height)];
+						[line.titleToDraw drawInRect:NSMakeRect(start + lineHeight / 4, height - self->_fontCharacterSize.height / 2.0 - self->_labelOffset, end - start - lineHeight / 2, self->_fontCharacterSize.height)];
 						CGContextRestoreGState(ctx);
 					}
 				}
@@ -432,7 +441,7 @@ static DTX_ALWAYS_INLINE void __DTXDrawLinesSlowPath(DTXRangePlotView* self, CGC
 						{
 							CGContextSaveGState(ctx);
 							CGContextSetAllowsAntialiasing(ctx, YES);
-							[line.titleToDraw drawInRect:NSMakeRect(zeroZoneStart + lineHeight / 4, height - self->_fontCharacterSize.height / 2.0 - 1.5, zeroZoneEnd - zeroZoneStart - lineHeight / 2, self->_fontCharacterSize.height)];
+							[line.titleToDraw drawInRect:NSMakeRect(zeroZoneStart + lineHeight / 4, height - self->_fontCharacterSize.height / 2.0 - self->_labelOffset, zeroZoneEnd - zeroZoneStart - lineHeight / 2, self->_fontCharacterSize.height)];
 							CGContextRestoreGState(ctx);
 						}
 					}

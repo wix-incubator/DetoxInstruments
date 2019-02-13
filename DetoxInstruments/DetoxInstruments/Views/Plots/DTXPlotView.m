@@ -86,6 +86,8 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	double _minWidthRequiredSmall;
 	double _rectDXInsetsSmall;
 	double _rectDYInsetsSmall;
+	
+	double _labelOffset;
 }
 
 - (instancetype)init
@@ -99,17 +101,23 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 		style.alignment = NSTextAlignmentCenter;
 		style.allowsDefaultTighteningForTruncation = NO;
 		
-		_stringDrawingAttributesLarge = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:(NSFont.labelFontSize + NSFont.systemFontSize) / 2.0], NSParagraphStyleAttributeName: style};
+		_stringDrawingAttributesLarge = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeRegular]], NSParagraphStyleAttributeName: style};
 		CGSize size = [@"A" sizeWithAttributes:_stringDrawingAttributesLarge];
 		_minWidthRequiredLarge = 4 * size.width;
 		_minHeightRequiredForLarge = size.height + 10;
 		_rectDXInsetsLarge = -3;
 		_rectDYInsetsLarge = -1.5;
 		
-		_stringDrawingAttributesSmall = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeMini]], NSParagraphStyleAttributeName: style};
+		_stringDrawingAttributesSmall = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]], NSParagraphStyleAttributeName: style};
 		_minWidthRequiredSmall = 4 * [@"A" sizeWithAttributes:_stringDrawingAttributesSmall].width;
 		_rectDXInsetsSmall = -2.5;
 		_rectDYInsetsSmall = -0.0;
+		
+		NSOperatingSystemVersion atLeastVersion = (NSOperatingSystemVersion){ 10, 14, 4 };
+		if([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:atLeastVersion])
+		{
+			_labelOffset = -0.3;
+		}
 	}
 	
 	return self;
@@ -239,7 +247,7 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 			NSAttributedString* attr = [[NSAttributedString alloc] initWithString:textAnnotation.text attributes:attrs];
 			
 			CGRect boundingRect = CGRectInset([attr boundingRectWithSize:selfBounds.size options:0], dx, dy);
-			CGRect drawRect = (CGRect){position + __DTXPlotViewAnnotationValueWidth, value, boundingRect.size};
+			CGRect drawRect = (CGRect){position + __DTXPlotViewAnnotationValueWidth, value, boundingRect.size.width, [attrs[NSFontAttributeName] pointSize] + 2};
 			
 			if(drawRect.origin.y < 5.0 + _containingPlotView.insets.bottom)
 			{
@@ -272,7 +280,7 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 			
 			CGPathRelease(path);
 			
-			[attr drawInRect:drawRect];
+			[attr drawInRect:CGRectOffset(drawRect, 0, -0.3)];
 			
 			CGContextSetStrokeColorWithColor(ctx, textAnnotation.color.CGColor);
 			CGContextSetFillColorWithColor(ctx, textAnnotation.valueColor.CGColor);
