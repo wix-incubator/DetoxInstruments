@@ -32,6 +32,8 @@
 	NSArray<DTXPlotViewTextAnnotation*>* _textAnnotations;
 	
 	NSArray* _cachedPlotColors;
+	
+	NSMenu* _cachedGroupingMenu;
 }
 
 @synthesize delegate = _delegate;
@@ -209,6 +211,8 @@
 
 - (void)reloadPlotViews
 {
+	[self _removeHighlightNotifyingDelegate:YES];
+	
 	[self.plotStackView.arrangedSubviews.copy enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[obj removeFromSuperviewWithoutNeedingDisplay];
 	}];
@@ -621,6 +625,36 @@
 - (NSArray<NSColor *> *)legendColors
 {
 	return self._cachedPlotColors;
+}
+
+- (NSMenu *)groupingSettingsMenu
+{
+	return nil;
+}
+
+- (NSMenu*)_cachedGroupingPopUpMenu
+{
+	if(_cachedGroupingMenu == nil)
+	{
+		_cachedGroupingMenu = self.groupingSettingsMenu;
+		
+		NSMenuItem* titleGrouping = [NSMenuItem new];
+		titleGrouping.title = @"Grouping:";
+		titleGrouping.tag = 1;
+		[_cachedGroupingMenu insertItem:titleGrouping atIndex:0];
+	}
+	
+	return _cachedGroupingMenu;
+}
+
+- (BOOL)supportsQuickSettings
+{
+	return self._cachedGroupingPopUpMenu != nil;
+}
+
+- (IBAction)showQuickSettings:(id)sender
+{
+	[self._cachedGroupingPopUpMenu popUpMenuPositioningItem:nil atLocation:NSZeroPoint inView:sender];
 }
 
 #pragma mark Internal Plots

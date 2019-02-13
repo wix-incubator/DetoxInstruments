@@ -534,6 +534,7 @@
 		39165019213292D50016A468 /* DTXDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDocument.m; sourceTree = "<group>"; };
 		391958DC20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXApplicationDelegate+DocumentationGeneration.h"; sourceTree = "<group>"; };
 		391958DD20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXApplicationDelegate+DocumentationGeneration.m"; sourceTree = "<group>"; };
+		391BA52A22146E6200C7AE92 /* DTXIntervalSamplePlotController-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXIntervalSamplePlotController-Private.h"; sourceTree = "<group>"; };
 		3925A2611F1142EC008343ED /* DTXStackTraceCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackTraceCellView.h; sourceTree = "<group>"; };
 		3925A2621F1142EC008343ED /* DTXStackTraceCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackTraceCellView.m; sourceTree = "<group>"; };
 		39281E841ED7175C002CE905 /* DTXDetailContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXDetailContentController.h; sourceTree = "<group>"; };
@@ -1546,6 +1547,7 @@
 				39DF8ABA220AE5FA00595274 /* DTXIntervalSectionSamplePlotController.h */,
 				39DF8ABB220AE5FA00595274 /* DTXIntervalSectionSamplePlotController.m */,
 				39E578E820DA66AD0034560C /* DTXIntervalSamplePlotController.h */,
+				391BA52A22146E6200C7AE92 /* DTXIntervalSamplePlotController-Private.h */,
 				39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */,
 				39A876A81EED3D2E00AE62F8 /* DTXCompactNetworkRequestsPlotController.h */,
 				39A876A91EED3D2E00AE62F8 /* DTXCompactNetworkRequestsPlotController.m */,

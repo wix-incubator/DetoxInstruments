@@ -49,46 +49,61 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 
 - (instancetype)initWithDocument:(DTXRecordingDocument *)document isForTouchBar:(BOOL)isForTouchBar
 {
+	return [self _initWithDocument:document isForTouchBar:isForTouchBar sectionConfigurator:nil];
+}
+
+- (instancetype)_initWithDocument:(DTXRecordingDocument*)document isForTouchBar:(BOOL)isForTouchBar sectionConfigurator:(void(^)(void))configurator
+{
 	self = [super initWithDocument:document isForTouchBar:isForTouchBar];
 	
 	if(self)
 	{
 		_plotViews = [NSMutableArray new];
 		_sectionControllers = [NSMutableArray new];
-		
-		NSFetchRequest* fr = [self.class.classForIntervalSamples fetchRequest];
-		fr.propertiesToFetch = self.propertiesToFetch;
-		fr.relationshipKeyPathsForPrefetching = self.relationshipsToFetch;
-		
-		NSMutableArray* sortDescriptors = (self.sortDescriptors ?: @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]).mutableCopy;
-		if(self.sectionKeyPath != nil)
+	
+		if(configurator)
 		{
-			[sortDescriptors insertObject:[NSSortDescriptor sortDescriptorWithKey:self.sectionKeyPath ascending:YES] atIndex:0];
+			configurator();
 		}
 		
-		fr.sortDescriptors = sortDescriptors;
-		
-		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:self.sectionKeyPath cacheName:nil];
-		_frc.delegate = self;
-		NSError* error;
-		[_frc performFetch:&error];
-		
-		[_plotViews removeAllObjects];
-		[_sectionControllers removeAllObjects];
-		
-		NSNumberFormatter* numberFormatter = [NSNumberFormatter new];
-		numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-		
-		[_frc.sections enumerateObjectsUsingBlock:^(id<NSFetchedResultsSectionInfo>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			auto sectionController = [[DTXIntervalSectionSamplePlotController alloc] initWithIntervalSamplePlotController:self fetchedResultsController:_frc isForTouchBar:self.isForTouchBar];
-			sectionController.section = idx;
-			[sectionController reloadData];
-			[_plotViews addObject:sectionController.plotView];
-			[_sectionControllers addObject:sectionController];
-		}];
+		[self _reloadData];
 	}
 	
 	return self;
+}
+
+- (void)_reloadData
+{
+	NSFetchRequest* fr = [self.class.classForIntervalSamples fetchRequest];
+	fr.propertiesToFetch = self.propertiesToFetch;
+	fr.relationshipKeyPathsForPrefetching = self.relationshipsToFetch;
+	
+	NSMutableArray* sortDescriptors = (self.sortDescriptors ?: @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]).mutableCopy;
+	if(self.sectionKeyPath != nil)
+	{
+		[sortDescriptors insertObject:[NSSortDescriptor sortDescriptorWithKey:self.sectionKeyPath ascending:YES] atIndex:0];
+	}
+	
+	fr.sortDescriptors = sortDescriptors;
+	
+	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:self.sectionKeyPath cacheName:nil];
+	_frc.delegate = self;
+	NSError* error;
+	[_frc performFetch:&error];
+	
+	[_plotViews removeAllObjects];
+	[_sectionControllers removeAllObjects];
+	
+	NSNumberFormatter* numberFormatter = [NSNumberFormatter new];
+	numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+	
+	[_frc.sections enumerateObjectsUsingBlock:^(id<NSFetchedResultsSectionInfo>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		auto sectionController = [[DTXIntervalSectionSamplePlotController alloc] initWithIntervalSamplePlotController:self fetchedResultsController:_frc isForTouchBar:self.isForTouchBar];
+		sectionController.section = idx;
+		[sectionController reloadData];
+		[_plotViews addObject:sectionController.plotView];
+		[_sectionControllers addObject:sectionController];
+	}];
 }
 
 - (BOOL)usesInternalPlots
@@ -166,6 +181,12 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 - (NSString *)sectionKeyPath
 {
 	return nil;
+}
+
+- (void)invalidateSections;
+{
+	[self _reloadData];
+	[self reloadPlotViews];
 }
 
 - (NSEdgeInsets)rangeInsets

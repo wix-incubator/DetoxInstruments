@@ -229,6 +229,11 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	[self _setNowModeEnabled:NO];
 }
 
+- (id)currentPlotController
+{
+	return _detailContentController.managingPlotController;
+}
+
 - (void)reloadTouchBar
 {
 	NSTouchBar *bar = [[NSTouchBar alloc] init];

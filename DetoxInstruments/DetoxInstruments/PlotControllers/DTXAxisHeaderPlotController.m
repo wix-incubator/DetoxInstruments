@@ -211,4 +211,9 @@
 	return @[];
 }
 
+- (NSMenu *)groupingSettingsMenu
+{
+	return nil;
+}
+
 @end

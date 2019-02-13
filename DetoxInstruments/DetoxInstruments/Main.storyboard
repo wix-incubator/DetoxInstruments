@@ -613,8 +613,21 @@ CA
                                                     </menuItem>
                                                 </items>
                                             </menu>
+                                            <connections>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="wkp-oN-OwR">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wxx-Ko-OoF"/>
+                                        <menuItem title="Group Timeline Samples By" id="YvQ-TL-VJh">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="timelineSectionGrouping_noop:" target="Voe-Tx-rLC" id="2J4-b2-tta"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Show Interval Labels" keyEquivalent="l" identifier="ShowSampleLabels" id="IFp-xu-wKG">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>

@@ -44,6 +44,8 @@
 @property (nonatomic, strong, readonly) NSArray<NSColor*>* legendColors;
 @property (nonatomic, strong, readonly) NSString* helpTopicName;
 
+@property (nonatomic, strong, readonly) NSMenu* groupingSettingsMenu;
+
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;
 
 @property (nonatomic, copy, readonly) NSArray<DTXDetailController*>* dataProviderControllers;
@@ -73,5 +75,8 @@
 @property (nonatomic, assign, readonly) BOOL canReceiveFocus;
 
 @property (nonatomic, weak) DTXFilteredDataProvider* filteredDataProvider;
+
+- (BOOL)supportsQuickSettings;
+- (IBAction)showQuickSettings:(id)sender;
 
 @end

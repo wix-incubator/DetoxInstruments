@@ -215,46 +215,55 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nwg-qe-WuA">
-                                                                    <rect key="frame" x="26" y="32" width="4" height="17"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" usesSingleLineMode="YES" id="PGW-5M-iVC">
+                                                                    <rect key="frame" x="72" y="32" width="30" height="17"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Test" usesSingleLineMode="YES" id="PGW-5M-iVC">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jlv-58-SlH">
-                                                                    <rect key="frame" x="20" y="40" width="0.0" height="0.0"/>
+                                                                    <rect key="frame" x="20" y="17" width="46" height="46"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="46" id="DCp-8T-pN3"/>
                                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="46" id="vcB-3h-S8h"/>
                                                                     </constraints>
-                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="p3I-wb-GGH"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="CPUUsage" id="p3I-wb-GGH"/>
                                                                 </imageView>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZTR-yl-9L0">
-                                                                    <rect key="frame" x="35" y="25" width="0.0" height="0.0"/>
-                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Fox-lg-7ui"/>
+                                                                    <rect key="frame" x="48" y="15" width="20" height="20"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="CPUUsage_small" id="Fox-lg-7ui"/>
                                                                 </imageView>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vw4-Oy-RIZ" customClass="DTXHighlightingAttributedTextField">
-                                                                    <rect key="frame" x="203" y="65" width="4" height="12"/>
-                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="5XA-Ru-7xX">
+                                                                    <rect key="frame" x="186" y="66" width="21" height="11"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Top" id="5XA-Ru-7xX">
                                                                         <font key="font" metaFont="miniSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pgd-UG-waa" customClass="DTXHighlightingAttributedTextField">
-                                                                    <rect key="frame" x="203" y="3" width="4" height="12"/>
-                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="Psj-P4-YZT">
+                                                                    <rect key="frame" x="171" y="3" width="36" height="11"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bottom" allowsEditingTextAttributes="YES" id="Psj-P4-YZT">
                                                                         <font key="font" metaFont="miniSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3IL-AF-fK4">
+                                                                    <rect key="frame" x="104" y="31" width="17" height="18"/>
+                                                                    <buttonCell key="cell" type="inline" bezelStyle="inline" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="SUn-9n-HGc">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="smallSystemBold"/>
+                                                                    </buttonCell>
+                                                                </button>
                                                             </subviews>
                                                             <constraints>
+                                                                <constraint firstItem="3IL-AF-fK4" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="4" id="3H7-hl-HR7"/>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="9qF-V8-eJh"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" secondItem="jlv-58-SlH" secondAttribute="trailing" constant="8" id="DOG-LZ-mEz"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="width" secondItem="jlv-58-SlH" secondAttribute="width" multiplier="0.45" id="EE5-uS-VKi"/>
+                                                                <constraint firstItem="3IL-AF-fK4" firstAttribute="centerY" secondItem="nwg-qe-WuA" secondAttribute="centerY" id="LgN-Sx-QjG"/>
                                                                 <constraint firstAttribute="trailing" secondItem="Vw4-Oy-RIZ" secondAttribute="trailing" constant="5" id="Pa5-39-bxS"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="RAI-V4-dkq"/>
                                                                 <constraint firstAttribute="trailing" secondItem="pgd-UG-waa" secondAttribute="trailing" constant="5" id="TAa-BF-dIz"/>
@@ -271,6 +280,7 @@
                                                                 <outlet property="bottomLegendTextField" destination="pgd-UG-waa" id="hzC-Vs-09v"/>
                                                                 <outlet property="imageView" destination="jlv-58-SlH" id="wR8-Fi-zVT"/>
                                                                 <outlet property="secondaryImageView" destination="ZTR-yl-9L0" id="YoC-Zy-ckD"/>
+                                                                <outlet property="settingsButton" destination="3IL-AF-fK4" id="0TJ-Rt-UZy"/>
                                                                 <outlet property="textField" destination="nwg-qe-WuA" id="Tfg-EC-ViL"/>
                                                                 <outlet property="topLegendTextField" destination="Vw4-Oy-RIZ" id="BA6-13-1Eq"/>
                                                             </connections>
@@ -1191,7 +1201,9 @@
     </scenes>
     <resources>
         <image name="CPUUsage" width="64" height="64"/>
+        <image name="CPUUsage_small" width="20" height="20"/>
         <image name="DBGFrameUser" width="14" height="14"/>
+        <image name="NSActionTemplate" width="14" height="14"/>
         <image name="SearchFilterClear" width="15" height="15"/>
         <image name="SearchFilterOff" width="15" height="15"/>
         <image name="extendedInfo_highlighted" width="15" height="15"/>

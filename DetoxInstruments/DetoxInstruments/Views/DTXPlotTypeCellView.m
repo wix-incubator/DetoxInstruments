@@ -13,16 +13,25 @@
 @property (nonatomic, strong, readwrite) IBOutlet NSImageView* secondaryImageView;
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* topLegendTextField;
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* bottomLegendTextField;
+@property (nonatomic, strong, readwrite) IBOutlet NSButton* settingsButton;
 
 @end
 
 @implementation DTXPlotTypeCellView
 
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	[_settingsButton sendActionOn:NSEventMaskLeftMouseDown];
+}
+
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
 {
 	[super setBackgroundStyle:backgroundStyle];
 	
-	self.bottomLegendTextField.highlighted = self.topLegendTextField.highlighted = backgroundStyle == NSBackgroundStyleDark;
+	self.settingsButton.highlighted = self.bottomLegendTextField.highlighted = self.topLegendTextField.highlighted = backgroundStyle == NSBackgroundStyleDark;
+	[self.settingsButton.cell setBackgroundStyle:backgroundStyle];
 }
 
 //- (void)setFrameSize:(NSSize)newSize

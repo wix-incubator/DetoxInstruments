@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXPlotController.h"
 
 @protocol DTXWindowWideCopyHanler <NSObject>
 
@@ -17,6 +18,8 @@
 @end
 
 @interface DTXWindowController : NSWindowController
+
+@property (nonatomic, strong, readonly) id<DTXPlotController> currentPlotController;
 
 @property (nonatomic, weak, readonly) NSSegmentedControl* layoutSegmentControl;
 

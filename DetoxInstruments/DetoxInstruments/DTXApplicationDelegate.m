@@ -12,6 +12,7 @@
 #import "DTXAboutWindowController.h"
 #import "DTXColorTryoutsWindow.h"
 #import "DTXMeasurements.h"
+#import "DTXWindowController.h"
 
 #import "DTXLogging.h"
 DTX_CREATE_LOG(ApplicationDelegate)
@@ -310,6 +311,29 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		return YES;
 	}
 	
+	if(menuItem.action == @selector(timelineSectionGrouping_noop:))
+	{
+		menuItem.hidden = _hasAtLeastRecordingDocumentWindowOpen == NO;
+		if(menuItem.hidden == YES)
+		{
+			dtx_log_info(@"Hiding “%@” menu item", menuItem.title);
+			
+			return NO;
+		}
+		
+		DTXWindowController* windowController = NSApp.mainWindow.windowController;
+		
+		menuItem.submenu = windowController.currentPlotController.groupingSettingsMenu;
+		if(menuItem.submenu == nil)
+		{
+			dtx_log_info(@"Disabling “%@” menu item", menuItem.title);
+			
+			return NO;
+		}
+		
+		return YES;
+	}
+	
 	if(menuItem.action == @selector(_CLIIntegrationAction:) && menuItem.alternate == NO)
 	{
 		if(DTXApp.isUnsupportedVersion)
@@ -503,6 +527,10 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 }
 
 - (IBAction)_toggleNowMode:(NSControl*)sender
+{
+}
+
+- (IBAction)timelineSectionGrouping_noop:(id)sender
 {
 }
 

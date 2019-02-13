@@ -616,6 +616,16 @@
 		cell.secondaryImageView.image = controller.secondaryIcon;
 		cell.secondaryImageView.hidden = controller.secondaryIcon == nil;
 		cell.toolTip = controller.toolTip ?: controller.displayName;
+		if([controller respondsToSelector:@selector(supportsQuickSettings)] && controller.supportsQuickSettings == YES)
+		{
+			cell.settingsButton.hidden = NO;
+			cell.settingsButton.target = controller;
+			cell.settingsButton.action = @selector(showQuickSettings:);
+		}
+		else
+		{
+			cell.settingsButton.hidden = YES;
+		}
 		
 		if(controller.legendTitles.count > 1)
 		{

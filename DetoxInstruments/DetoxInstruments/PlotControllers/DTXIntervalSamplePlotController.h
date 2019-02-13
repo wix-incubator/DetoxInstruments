@@ -16,5 +16,6 @@
 + (Class)classForIntervalSamples;
 - (NSArray<NSSortDescriptor*>*)sortDescriptors;
 - (NSString*)sectionKeyPath;
+- (void)invalidateSections;
 
 @end
