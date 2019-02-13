@@ -45,7 +45,7 @@ For a list of available app management utilities and their description, see [App
 
 ## Installation
 
-The Detox Instruments application requires macOS 10.13 and higher. The Profiler framework supports iOS 10 and higher.
+The Detox Instruments application requires macOS 10.14 (Mojave) and higher. The Profiler framework supports iOS 10 and higher.
 
 Detox Instruments is installed using Homebrew Cask, by running the following commands:
 

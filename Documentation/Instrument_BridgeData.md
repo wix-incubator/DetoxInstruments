@@ -14,7 +14,7 @@ The detail pane includes your app's React Native bridge data at the time of the 
 
 If the **Record bridge data** option was enabled during recording, you can select to view **Samples** or **Bridge Data** in the navigation bar.
 
-![React Native Bridge Data Navigation Menu](/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Resources/Instrument_RNBridgeData_Menu.png "React Native Bridge Data Navigation Menu")
+![React Native Bridge Data Navigation Menu](Resources/Instrument_RNBridgeData_Menu.png "React Native Bridge Data Navigation Menu")
 
 For an in-depth look at profiling options, see [Profiling Options](ProfilingOptions.md).
 

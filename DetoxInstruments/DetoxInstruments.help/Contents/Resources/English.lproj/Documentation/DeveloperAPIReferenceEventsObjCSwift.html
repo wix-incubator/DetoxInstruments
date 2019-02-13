@@ -24,16 +24,16 @@ ul { padding-left: 1.3em; }
 <a name="user-content-usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 <h4>
 <a name="user-content-intervals" class="anchor" href="#intervals"><span class="octicon octicon-link"></span></a>Intervals</h4>
-<div class="highlight highlight-source-objc"><pre>DTXEventIdentifier identifier = DTXProfilerMarkEventIntervalBegin(<span class="pl-s"><span class="pl-pds">@"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">@"</span>Name<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">@"</span>More info at begin<span class="pl-pds">"</span></span>);
+<div class="highlight highlight-source-objc"><pre>DTXEventIdentifier identifier = DTXProfilerMarkEventIntervalBegin(<span class="pl-s"><span class="pl-pds">@"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">@"</span>Name<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">@"</span>Message at start<span class="pl-pds">"</span></span>);
 <span class="pl-c"><span class="pl-c">//</span>Long interval</span>
-<span class="pl-en">DTXProfilerMarkEventIntervalEnd</span>(identifier, DTXEventStatusCategory1, <span class="pl-s"><span class="pl-pds">@"</span>More info at end<span class="pl-pds">"</span></span>);</pre></div>
-<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> identifier <span class="pl-k">=</span> <span class="pl-c1">DTXProfilerMarkEventIntervalBegin</span>(<span class="pl-s"><span class="pl-pds">"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>More info at begin<span class="pl-pds">"</span></span>)
+<span class="pl-en">DTXProfilerMarkEventIntervalEnd</span>(identifier, DTXEventStatusCategory1, <span class="pl-s"><span class="pl-pds">@"</span>Message at end<span class="pl-pds">"</span></span>);</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> identifier <span class="pl-k">=</span> <span class="pl-c1">DTXProfilerMarkEventIntervalBegin</span>(<span class="pl-s"><span class="pl-pds">"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Message at start<span class="pl-pds">"</span></span>)
 <span class="pl-c"><span class="pl-c">//</span>Long interval</span>
-<span class="pl-c"></span><span class="pl-c1">DTXProfilerMarkEventIntervalEnd</span>(identifier, .<span class="pl-smi">category1</span>, <span class="pl-s"><span class="pl-pds">"</span>More info at end<span class="pl-pds">"</span></span>)</pre></div>
+<span class="pl-c"></span><span class="pl-c1">DTXProfilerMarkEventIntervalEnd</span>(identifier, .<span class="pl-smi">category1</span>, <span class="pl-s"><span class="pl-pds">"</span>Message at end<span class="pl-pds">"</span></span>)</pre></div>
 <h4>
 <a name="user-content-single-points-in-time" class="anchor" href="#single-points-in-time"><span class="octicon octicon-link"></span></a>Single Points in Time</h4>
-<div class="highlight highlight-source-objc"><pre><span class="pl-en">DTXProfilerMarkEvent</span>(<span class="pl-s"><span class="pl-pds">@"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">@"</span>Name<span class="pl-pds">"</span></span>, DTXEventStatusCategory3, <span class="pl-s"><span class="pl-pds">@"</span>More info at single point in time<span class="pl-pds">"</span></span>);</pre></div>
-<div class="highlight highlight-source-swift"><pre><span class="pl-c1">DTXProfilerMarkEvent</span>(<span class="pl-s"><span class="pl-pds">"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, .<span class="pl-smi">category3</span>, <span class="pl-s"><span class="pl-pds">"</span>More info at single point in time<span class="pl-pds">"</span></span>)</pre></div>
+<div class="highlight highlight-source-objc"><pre><span class="pl-en">DTXProfilerMarkEvent</span>(<span class="pl-s"><span class="pl-pds">@"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">@"</span>Name<span class="pl-pds">"</span></span>, DTXEventStatusCategory3, <span class="pl-s"><span class="pl-pds">@"</span>Message<span class="pl-pds">"</span></span>);</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">DTXProfilerMarkEvent</span>(<span class="pl-s"><span class="pl-pds">"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, .<span class="pl-smi">category3</span>, <span class="pl-s"><span class="pl-pds">"</span>Message<span class="pl-pds">"</span></span>)</pre></div>
 <h3>
 <a name="user-content-functions" class="anchor" href="#functions"><span class="octicon octicon-link"></span></a>Functions</h3>
 <h4>
@@ -42,8 +42,8 @@ ul { padding-left: 1.3em; }
 <p>Begins an event interval.</p>
 <h5>
 <a name="user-content-declaration" class="anchor" href="#declaration"><span class="octicon octicon-link"></span></a>Declaration</h5>
-<div class="highlight highlight-source-objc"><pre>DTXEventIdentifier <span class="pl-en">DTXProfilerMarkEventIntervalBegin</span>(<span class="pl-c1">NSString</span>* category, <span class="pl-c1">NSString</span>* name, <span class="pl-c1">NSString</span>* *__nullable* additionalInfo)</pre></div>
-<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">DTXProfilerMarkEventIntervalBegin</span>(<span class="pl-en">_</span> <span class="pl-smi">category</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">name</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">additionalInfo</span>: <span class="pl-c1">String</span><span class="pl-k">?</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span></pre></div>
+<div class="highlight highlight-source-objc"><pre>DTXEventIdentifier <span class="pl-en">DTXProfilerMarkEventIntervalBegin</span>(<span class="pl-c1">NSString</span>* category, <span class="pl-c1">NSString</span>* name, <span class="pl-c1">NSString</span>* *__nullable* startMessage)</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">DTXProfilerMarkEventIntervalBegin</span>(<span class="pl-en">_</span> <span class="pl-smi">category</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">name</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">startMessage</span>: <span class="pl-c1">String</span><span class="pl-k">?</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span></pre></div>
 <h5>
 <a name="user-content-parameters" class="anchor" href="#parameters"><span class="octicon octicon-link"></span></a>Parameters</h5>
 <h6>
@@ -53,8 +53,8 @@ ul { padding-left: 1.3em; }
 <a name="user-content-name" class="anchor" href="#name"><span class="octicon octicon-link"></span></a>name</h6>
 <p>The name of this event</p>
 <h6>
-<a name="user-content-additionalinfo" class="anchor" href="#additionalinfo"><span class="octicon octicon-link"></span></a>additionalInfo</h6>
-<p>Additional information to include with this event</p>
+<a name="user-content-startmessage" class="anchor" href="#startmessage"><span class="octicon octicon-link"></span></a>startMessage</h6>
+<p>The start message to include with this event</p>
 <h5>
 <a name="user-content-return-value" class="anchor" href="#return-value"><span class="octicon octicon-link"></span></a>Return Value</h5>
 <p>Returns a valid event identifier to be used with <code>DTXProfilerMarkEventIntervalEnd</code>.</p>
@@ -64,8 +64,8 @@ ul { padding-left: 1.3em; }
 <p>Ends an event interval.</p>
 <h5>
 <a name="user-content-declaration-1" class="anchor" href="#declaration-1"><span class="octicon octicon-link"></span></a>Declaration</h5>
-<div class="highlight highlight-source-objc"><pre><span class="pl-k">void</span> <span class="pl-en">DTXProfilerMarkEventIntervalEnd</span>(<span class="pl-c1">NSString</span>* identifier, DTXEventStatus eventStatus, <span class="pl-c1">NSString</span>* __nullable additionalInfo)</pre></div>
-<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">DTXProfilerMarkEventIntervalEnd</span>(<span class="pl-en">_</span> <span class="pl-smi">identifier</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">eventStatus</span>: DTXEventStatus, <span class="pl-en">_</span> <span class="pl-smi">additionalInfo</span>: <span class="pl-c1">String</span><span class="pl-k">?</span>)</pre></div>
+<div class="highlight highlight-source-objc"><pre><span class="pl-k">void</span> <span class="pl-en">DTXProfilerMarkEventIntervalEnd</span>(<span class="pl-c1">NSString</span>* identifier, DTXEventStatus eventStatus, <span class="pl-c1">NSString</span>* __nullable endMessage)</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">DTXProfilerMarkEventIntervalEnd</span>(<span class="pl-en">_</span> <span class="pl-smi">identifier</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">eventStatus</span>: DTXEventStatus, <span class="pl-en">_</span> <span class="pl-smi">endMessage</span>: <span class="pl-c1">String</span><span class="pl-k">?</span>)</pre></div>
 <h5>
 <a name="user-content-parameters-1" class="anchor" href="#parameters-1"><span class="octicon octicon-link"></span></a>Parameters</h5>
 <h6>
@@ -75,16 +75,16 @@ ul { padding-left: 1.3em; }
 <a name="user-content-eventstatus" class="anchor" href="#eventstatus"><span class="octicon octicon-link"></span></a>eventStatus</h6>
 <p>The status of this event</p>
 <h6>
-<a name="user-content-additionalinfo-1" class="anchor" href="#additionalinfo-1"><span class="octicon octicon-link"></span></a>additionalInfo</h6>
-<p>Additional information to include with this event</p>
+<a name="user-content-endmessage" class="anchor" href="#endmessage"><span class="octicon octicon-link"></span></a>endMessage</h6>
+<p>The end message to include with this event</p>
 <h4>
 <a name="user-content-dtxprofilermarkevent" class="anchor" href="#dtxprofilermarkevent"><span class="octicon octicon-link"></span></a><code>DTXProfilerMarkEvent</code>
 </h4>
 <p>Marks a point of interest in time with no duration.</p>
 <h5>
 <a name="user-content-declaration-2" class="anchor" href="#declaration-2"><span class="octicon octicon-link"></span></a>Declaration</h5>
-<div class="highlight highlight-source-objc"><pre><span class="pl-k">void</span> <span class="pl-en">DTXProfilerMarkEvent</span>(<span class="pl-c1">NSString</span>* category, <span class="pl-c1">NSString</span>* name, DTXEventStatus eventStatus, <span class="pl-c1">NSString</span>* __nullable additionalInfo)</pre></div>
-<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">DTXProfilerMarkEvent</span>(<span class="pl-en">_</span> <span class="pl-smi">category</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">name</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">eventStatus</span>: DTXEventStatus, <span class="pl-en">_</span> <span class="pl-smi">additionalInfo</span>: <span class="pl-c1">String</span><span class="pl-k">?</span>)</pre></div>
+<div class="highlight highlight-source-objc"><pre><span class="pl-k">void</span> <span class="pl-en">DTXProfilerMarkEvent</span>(<span class="pl-c1">NSString</span>* category, <span class="pl-c1">NSString</span>* name, DTXEventStatus eventStatus, <span class="pl-c1">NSString</span>* __nullable message)</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">DTXProfilerMarkEvent</span>(<span class="pl-en">_</span> <span class="pl-smi">category</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">name</span>: <span class="pl-c1">String</span>, <span class="pl-en">_</span> <span class="pl-smi">eventStatus</span>: DTXEventStatus, <span class="pl-en">_</span> <span class="pl-smi">message</span>: <span class="pl-c1">String</span><span class="pl-k">?</span>)</pre></div>
 <h5>
 <a name="user-content-parameters-2" class="anchor" href="#parameters-2"><span class="octicon octicon-link"></span></a>Parameters</h5>
 <h6>
@@ -97,8 +97,8 @@ ul { padding-left: 1.3em; }
 <a name="user-content-eventstatus-1" class="anchor" href="#eventstatus-1"><span class="octicon octicon-link"></span></a>eventStatus</h6>
 <p>The status of this event</p>
 <h6>
-<a name="user-content-additionalinfo-2" class="anchor" href="#additionalinfo-2"><span class="octicon octicon-link"></span></a>additionalInfo</h6>
-<p>Additional information to include with this event.</p>
+<a name="user-content-message" class="anchor" href="#message"><span class="octicon octicon-link"></span></a>message</h6>
+<p>A message to include with this event.</p>
 <h3>
 <a name="user-content-enums" class="anchor" href="#enums"><span class="octicon octicon-link"></span></a>Enums</h3>
 <h4>

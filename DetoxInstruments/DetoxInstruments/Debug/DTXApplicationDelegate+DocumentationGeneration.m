@@ -162,7 +162,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @175, @"lowkeyInspector": @YES},
 								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"inspectorSample": @24, @"displaySample": @175, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
-								 NSStringFromClass(DTXEventsPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@4, @0, @3], @"lowkeyInspector": @YES},
+								 NSStringFromClass(DTXEventsPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@1, @0, @3], @"lowkeyInspector": @YES},
 								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
 								 };
 		
