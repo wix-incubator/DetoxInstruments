@@ -19,8 +19,9 @@ else
 	fi
 fi
 
-if [ "$1" = "--nodocs" ]; then
-	NO_DOCS="1"
+NO_DOCS="1"
+if [ "$1" = "docs" ]; then
+	NO_DOCS="0"
 fi
 
 if [ ! -z "$DRY_RUN" ]; then
@@ -58,7 +59,7 @@ fi
 
 Scripts/updateCopyright.sh
 
-if [ -z "$NO_DOCS" ]; then
+if [ "$NO_DOCS" == "0" ]; then
 	echo -e "\033[1;34mUpdating acknowledgements and Apple Help\033[0m"
 
 	Scripts/updateAcknowledgements.sh
