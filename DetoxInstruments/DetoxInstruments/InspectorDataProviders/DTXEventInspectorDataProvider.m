@@ -101,8 +101,6 @@
 	{
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Starting Thread", @"") description:eventSample.startThread.friendlyName]];
 		
-		NSString* endString, *durationString;
-		
 		if(eventSample.endTimestamp)
 		{
 			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Ending Thread", @"") description:eventSample.endThread.friendlyName]];

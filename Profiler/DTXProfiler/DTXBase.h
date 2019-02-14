@@ -15,7 +15,7 @@
 #ifndef DTX_ALWAYS_INLINE
 #define DTX_ALWAYS_INLINE __attribute__((__always_inline__))
 #endif
-#ifndef DTX_ALWAYS_INLINE
+#ifndef DTX_WARN_UNUSED_RESULT
 #define DTX_WARN_UNUSED_RESULT __attribute__((__warn_unused_result__))
 #endif
 
