@@ -7,8 +7,32 @@
 //
 
 #import "DTXThreadInfo+UIExtensions.h"
+#import "NSObject+AttachedObjects.h"
+
+static void* THREAD_MAPPING = &THREAD_MAPPING;
 
 @implementation DTXThreadInfo (UIExtensions)
+
++ (DTXThreadInfo*)threadInfoForThreadNumber:(int64_t)threadNumber inManagedObjectContext:(NSManagedObjectContext*)ctx
+{
+	NSMutableDictionary* mapping = [ctx dtx_attachedObjectForKey:THREAD_MAPPING];
+	if(mapping == nil)
+	{
+		mapping = [NSMutableDictionary new];
+		[ctx dtx_attachObject:mapping forKey:THREAD_MAPPING];
+	}
+	
+	DTXThreadInfo* rv = mapping[@(threadNumber)];
+	if(rv == nil)
+	{
+		NSFetchRequest* fr = self.fetchRequest;
+		fr.predicate = [NSPredicate predicateWithFormat:@"number == %ld", threadNumber];
+		rv = [ctx executeFetchRequest:fr error:NULL].firstObject;
+		mapping[@(threadNumber)] = rv;
+	}
+	
+	return rv;
+}
 
 - (NSString*)friendlyName
 {

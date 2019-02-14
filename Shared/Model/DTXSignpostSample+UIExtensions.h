@@ -11,6 +11,7 @@
 @import AppKit;
 @class DTXRecording;
 #import "DTXSignpostProtocol.h"
+#import "DTXThreadInfo+UIExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,6 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSColor*)plotControllerColor;
 #endif
 - (NSDate*)defactoEndTimestamp;
+
+- (DTXThreadInfo*)startThread;
+- (DTXThreadInfo*)endThread;
 
 @end
 

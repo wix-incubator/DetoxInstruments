@@ -517,6 +517,10 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (BOOL)updaterMayCheckForUpdates:(SUUpdater *)updater
 {
+#if DEBUG
+	return NO;
+#endif
+	
 	return DTXApp.isUnsupportedVersion == NO;
 }
 

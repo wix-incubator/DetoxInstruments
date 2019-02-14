@@ -12,6 +12,7 @@
 #import "NSColor+UIAdditions.h"
 #endif
 #import "DTXRecording+UIExtensions.h"
+#import "DTXThreadInfo+UIExtensions.h"
 
 @implementation DTXSignpostSample (UIExtensions)
 
@@ -98,6 +99,16 @@
 - (NSDate*)defactoEndTimestamp
 {
 	return self.endTimestamp ?: [self.timestamp dateByAddingTimeInterval:1];
+}
+
+- (DTXThreadInfo*)startThread
+{
+	return [DTXThreadInfo threadInfoForThreadNumber:self.startThreadNumber inManagedObjectContext:self.managedObjectContext];
+}
+
+- (DTXThreadInfo*)endThread
+{
+	return [DTXThreadInfo threadInfoForThreadNumber:self.endThreadNumber inManagedObjectContext:self.managedObjectContext];
 }
 
 @end

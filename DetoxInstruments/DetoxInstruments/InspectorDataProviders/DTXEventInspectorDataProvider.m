@@ -60,6 +60,62 @@
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description:eventSample.eventStatusString]];
 	
 	general.content = content;
+	NSMutableArray* contentArray = @[general].mutableCopy;
+	
+	DTXInspectorContent* additionalInfo = [DTXInspectorContent new];
+	additionalInfo.title = NSLocalizedString(@"Message", @"");
+	content = [NSMutableArray new];
+	
+	if(eventSample.isEvent == NO)
+	{
+		if(eventSample.additionalInfoStart.length > 0)
+		{
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:eventSample.additionalInfoStart]];
+		}
+		
+		if(eventSample.additionalInfoEnd.length > 0)
+		{
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:eventSample.additionalInfoEnd]];
+		}
+	}
+	else
+	{
+		if(eventSample.additionalInfoStart.length > 0)
+		{
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Message", @"") description:eventSample.additionalInfoStart]];
+		}
+	}
+	
+	additionalInfo.content = content;
+	
+	if(additionalInfo.content.count > 0)
+	{
+		[contentArray addObject:additionalInfo];
+	}
+	
+	DTXInspectorContent* threads = [DTXInspectorContent new];
+	threads.title = NSLocalizedString(@"Threads", @"");
+	content = [NSMutableArray new];
+	
+	if(eventSample.isEvent == NO)
+	{
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Starting Thread", @"") description:eventSample.startThread.friendlyName]];
+		
+		NSString* endString, *durationString;
+		
+		if(eventSample.endTimestamp)
+		{
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Ending Thread", @"") description:eventSample.endThread.friendlyName]];
+		}
+	}
+	else
+	{
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Thread", @"") description:eventSample.startThread.friendlyName]];
+	}
+	
+	threads.content = content;
+	
+	[contentArray addObject:threads];
 	
 	DTXInspectorContent* timing = [DTXInspectorContent new];
 	timing.title = NSLocalizedString(@"Timing", @"");
@@ -93,37 +149,7 @@
 	
 	timing.content = content;
 	
-	DTXInspectorContent* additionalInfo = [DTXInspectorContent new];
-	additionalInfo.title = NSLocalizedString(@"Message", @"");
-	content = [NSMutableArray new];
-	
-	if(eventSample.isEvent == NO)
-	{
-		if(eventSample.additionalInfoStart.length > 0)
-		{
-			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:eventSample.additionalInfoStart]];
-		}
-		
-		if(eventSample.additionalInfoEnd.length > 0)
-		{
-			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:eventSample.additionalInfoEnd]];
-		}
-	}
-	else
-	{
-		if(eventSample.additionalInfoStart.length > 0)
-		{
-			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Info", @"") description:eventSample.additionalInfoStart]];
-		}
-	}
-	
-	additionalInfo.content = content;
-	
-	NSMutableArray* contentArray = @[general, timing].mutableCopy;
-	if(additionalInfo.content.count > 0)
-	{
-		[contentArray addObject:additionalInfo];
-	}
+	[contentArray addObject:timing];
 	
 	if(eventSample.isTimer == YES && eventSample.stackTrace != nil)
 	{
