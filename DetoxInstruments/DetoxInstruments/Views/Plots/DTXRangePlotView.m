@@ -246,21 +246,15 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 
 - (void)invalidateIntrinsicContentSize
 {
-	CGFloat oldHeight = _cachedIntrinsicContentSize.height;
-	
 	_cachedIntrinsicContentSize = NSMakeSize(NSViewNoIntrinsicMetric, MAX(self.minimumHeight, (_lineWidth + _fontCharacterSize.height + _lineSpacing) * _totalHeightLines + _lineWidth + _fontCharacterSize.height + self.insets.bottom + self.insets.top));
 	
-	if(oldHeight != _cachedIntrinsicContentSize.height)
-	{
-		[super invalidateIntrinsicContentSize];
-		
+	[super invalidateIntrinsicContentSize];
 	
-//		dispatch_async(dispatch_get_main_queue(), ^{
-//			dispatch_async(dispatch_get_main_queue(), ^{
-//				[super invalidateIntrinsicContentSize];
-//			});
-//		});
-	}
+	dispatch_async(dispatch_get_main_queue(), ^{
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[super invalidateIntrinsicContentSize];
+		});
+	});
 }
 
 static
