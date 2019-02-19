@@ -181,6 +181,11 @@ static NSDictionary* _tagToKeyPathMapping;
 	return menu;
 }
 
+- (BOOL)supportsQuickSettings
+{
+	return YES;
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	NSString* sectionKeyPath = _tagToKeyPathMapping[@(menuItem.tag)];

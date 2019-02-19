@@ -619,8 +619,7 @@
 		if([controller respondsToSelector:@selector(supportsQuickSettings)] && controller.supportsQuickSettings == YES)
 		{
 			cell.settingsButton.hidden = NO;
-			cell.settingsButton.target = controller;
-			cell.settingsButton.action = @selector(showQuickSettings:);
+			cell.settingsButton.menu = controller.groupingSettingsMenu;
 		}
 		else
 		{

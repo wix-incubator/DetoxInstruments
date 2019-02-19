@@ -250,20 +250,26 @@
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3IL-AF-fK4">
-                                                                    <rect key="frame" x="104" y="31" width="17" height="18"/>
-                                                                    <buttonCell key="cell" type="inline" bezelStyle="inline" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="SUn-9n-HGc">
+                                                                <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="X7U-Aq-IEC" customClass="DTXSettingsPopUpButton">
+                                                                    <rect key="frame" x="100" y="31" width="38" height="19"/>
+                                                                    <popUpButtonCell key="cell" type="inline" bezelStyle="inline" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="msL-eF-6aG" id="fwB-v5-Dpn">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="smallSystemBold"/>
-                                                                    </buttonCell>
-                                                                </button>
+                                                                        <menu key="menu" id="zaF-Cm-2zO">
+                                                                            <items>
+                                                                                <menuItem state="on" image="NSActionTemplate" hidden="YES" id="msL-eF-6aG"/>
+                                                                                <menuItem title="Item 2" id="trC-S6-vMd"/>
+                                                                                <menuItem title="Item 3" id="P1s-wy-UwT"/>
+                                                                            </items>
+                                                                        </menu>
+                                                                    </popUpButtonCell>
+                                                                </popUpButton>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="3IL-AF-fK4" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="4" id="3H7-hl-HR7"/>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="9qF-V8-eJh"/>
+                                                                <constraint firstItem="X7U-Aq-IEC" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" id="B8E-mk-4cM"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" secondItem="jlv-58-SlH" secondAttribute="trailing" constant="8" id="DOG-LZ-mEz"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="width" secondItem="jlv-58-SlH" secondAttribute="width" multiplier="0.45" id="EE5-uS-VKi"/>
-                                                                <constraint firstItem="3IL-AF-fK4" firstAttribute="centerY" secondItem="nwg-qe-WuA" secondAttribute="centerY" id="LgN-Sx-QjG"/>
                                                                 <constraint firstAttribute="trailing" secondItem="Vw4-Oy-RIZ" secondAttribute="trailing" constant="5" id="Pa5-39-bxS"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="RAI-V4-dkq"/>
                                                                 <constraint firstAttribute="trailing" secondItem="pgd-UG-waa" secondAttribute="trailing" constant="5" id="TAa-BF-dIz"/>
@@ -272,6 +278,7 @@
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="centerX" secondItem="jlv-58-SlH" secondAttribute="centerX" constant="15" id="gBq-CB-tos"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="8" id="hqh-ec-2c2"/>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="leading" secondItem="ocF-A6-Lb0" secondAttribute="leading" constant="20" id="lGV-Tm-6hQ"/>
+                                                                <constraint firstItem="X7U-Aq-IEC" firstAttribute="centerY" secondItem="nwg-qe-WuA" secondAttribute="centerY" id="rM5-vf-j6p"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="height" secondItem="jlv-58-SlH" secondAttribute="height" multiplier="0.45" id="tNo-Np-nJA"/>
                                                                 <constraint firstAttribute="bottom" secondItem="pgd-UG-waa" secondAttribute="bottom" constant="3" id="xME-fh-n3p"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="centerY" secondItem="jlv-58-SlH" secondAttribute="centerY" constant="15" id="xXI-5x-57o"/>
@@ -280,7 +287,7 @@
                                                                 <outlet property="bottomLegendTextField" destination="pgd-UG-waa" id="hzC-Vs-09v"/>
                                                                 <outlet property="imageView" destination="jlv-58-SlH" id="wR8-Fi-zVT"/>
                                                                 <outlet property="secondaryImageView" destination="ZTR-yl-9L0" id="YoC-Zy-ckD"/>
-                                                                <outlet property="settingsButton" destination="3IL-AF-fK4" id="0TJ-Rt-UZy"/>
+                                                                <outlet property="settingsButton" destination="X7U-Aq-IEC" id="Bij-e4-k5Z"/>
                                                                 <outlet property="textField" destination="nwg-qe-WuA" id="Tfg-EC-ViL"/>
                                                                 <outlet property="topLegendTextField" destination="Vw4-Oy-RIZ" id="BA6-13-1Eq"/>
                                                             </connections>

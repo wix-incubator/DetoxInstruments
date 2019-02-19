@@ -13,7 +13,7 @@
 @property (nonatomic, strong, readwrite) IBOutlet NSImageView* secondaryImageView;
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* topLegendTextField;
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* bottomLegendTextField;
-@property (nonatomic, strong, readwrite) IBOutlet NSButton* settingsButton;
+@property (nonatomic, strong, readwrite) IBOutlet NSPopUpButton* settingsButton;
 
 @end
 

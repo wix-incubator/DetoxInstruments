@@ -12,6 +12,8 @@ Use the information captured by this instrument to inspect events in your app an
 
 Events appear as segmented lines on the timeline in the timeline pane. Concurrent events will appear below each other.
 
+You can choose to group events by category or starting thread. Select the grouping options by clicking on the **Options** button (![Gear Button](Resources/Button_TimelineOptions.png)) or by selecting in **View** ➔ **Group Timeline Samples By**.
+
 ### Detail Pane
 
 The detail pane displays all your events. Samples will be highlighted in red (warning 3) when you set the event status to 'Error'.

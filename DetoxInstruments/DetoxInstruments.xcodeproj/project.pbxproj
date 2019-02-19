@@ -151,6 +151,7 @@
 		398D6EA51EE0596500AA9C11 /* DTXPlotHostingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA41EE0596500AA9C11 /* DTXPlotHostingTableCellView.m */; };
 		398D6EA91EE061FE00AA9C11 /* DTXPlotAreaContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA81EE061FE00AA9C11 /* DTXPlotAreaContentController.m */; };
 		398D6EAC1EE0626400AA9C11 /* DTXSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */; };
+		3993BE87221C906800C1C196 /* DTXSettingsPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3993BE86221C906800C1C196 /* DTXSettingsPopUpButton.m */; };
 		3997A8BA1EE980700057418B /* DTXDetailDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997A8B91EE980700057418B /* DTXDetailDataProvider.m */; };
 		399B3FBC1F248C3C00335109 /* DTXRemoteTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B3FBB1F248C3C00335109 /* DTXRemoteTarget.m */; };
 		399B4DC81ED574410098D2AC /* DTXWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B4DC71ED574410098D2AC /* DTXWindowController.m */; };
@@ -736,6 +737,8 @@
 		398D6EA81EE061FE00AA9C11 /* DTXPlotAreaContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXPlotAreaContentController.m; sourceTree = "<group>"; };
 		398D6EAA1EE0626400AA9C11 /* DTXSamplePlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSamplePlotController.h; sourceTree = "<group>"; };
 		398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSamplePlotController.m; sourceTree = "<group>"; };
+		3993BE85221C906800C1C196 /* DTXSettingsPopUpButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSettingsPopUpButton.h; sourceTree = "<group>"; };
+		3993BE86221C906800C1C196 /* DTXSettingsPopUpButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSettingsPopUpButton.m; sourceTree = "<group>"; };
 		3997A8B81EE980700057418B /* DTXDetailDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDetailDataProvider.h; sourceTree = "<group>"; };
 		3997A8B91EE980700057418B /* DTXDetailDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDetailDataProvider.m; sourceTree = "<group>"; };
 		399B3FBA1F248C3C00335109 /* DTXRemoteTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteTarget.h; sourceTree = "<group>"; };
@@ -1357,6 +1360,8 @@
 				39B3B3B121EE163200D5C1BE /* DTXBorderlessKeyWindow.m */,
 				39DF8AD0220C540C00595274 /* DTXSeparatorView.h */,
 				39DF8AD1220C540C00595274 /* DTXSeparatorView.m */,
+				3993BE85221C906800C1C196 /* DTXSettingsPopUpButton.h */,
+				3993BE86221C906800C1C196 /* DTXSettingsPopUpButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2287,6 +2292,7 @@
 				398D6EA91EE061FE00AA9C11 /* DTXPlotAreaContentController.m in Sources */,
 				3978A58F21D09C3B00B739E2 /* DTXPlotView.m in Sources */,
 				39EA56ED20E02E4B00600BA7 /* NSAppearance+UIAdditions.m in Sources */,
+				3993BE87221C906800C1C196 /* DTXSettingsPopUpButton.m in Sources */,
 				39EC15B31F20A243007EBE22 /* DTXRecordingDocumentController.m in Sources */,
 				393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */,
 				3922AE131F2BA72C0034B1FE /* DTXSocketConnection.m in Sources */,

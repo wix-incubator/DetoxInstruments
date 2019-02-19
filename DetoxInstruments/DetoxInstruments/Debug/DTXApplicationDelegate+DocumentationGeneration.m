@@ -266,6 +266,13 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Manage.png"].path atomically:YES];
 	
+	img = [[NSImage imageNamed:@"NSActionTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_TimelineOptions.png"].path atomically:YES];
+	
 	img = [[NSImage imageNamed:@"NSPrivateChaptersTemplate"] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];

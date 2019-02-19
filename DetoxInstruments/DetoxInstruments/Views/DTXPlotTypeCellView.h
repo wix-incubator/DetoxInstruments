@@ -11,7 +11,7 @@
 @interface DTXPlotTypeCellView : DTXHighlightingCellView
 
 @property (nonatomic, strong, readonly) NSImageView* secondaryImageView;
-@property (nonatomic, strong, readonly) NSButton* settingsButton;
+@property (nonatomic, strong, readonly) NSPopUpButton* settingsButton;
 
 @property (nonatomic, strong, readonly) NSTextField* topLegendTextField;
 @property (nonatomic, strong, readonly) NSTextField* bottomLegendTextField;
