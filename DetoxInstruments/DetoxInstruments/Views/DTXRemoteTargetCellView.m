@@ -68,18 +68,18 @@
 		profilerVersion = @"0";
 	}
 
-	if([profilerVersion compare:@"0.9.1" options:(NSNumericSearch)] == NSOrderedAscending)
+	if(target.state < DTXRemoteTargetStateDeviceInfoLoaded)
 	{
-		_manageButton.enabled = NO;
+		_manageButton.hidden = YES;
+		_viewHierarchy.hidden = YES;
+		_warningButton.hidden = YES;
 	}
 	else
 	{
-		_manageButton.enabled = YES;
+		_manageButton.hidden = target.isCompatibleWithInstruments == NO;
+		_viewHierarchy.hidden = YES;
+		_warningButton.hidden = target.isCompatibleWithInstruments;
 	}
-	
-	_manageButton.hidden = target.isCompatibleWithInstruments == NO || _manageButton.enabled == NO;
-	_viewHierarchy.hidden = YES;
-	_warningButton.hidden = target.isCompatibleWithInstruments;
 	
 	self.progressIndicator.usesThreadedAnimation = YES;
 	
