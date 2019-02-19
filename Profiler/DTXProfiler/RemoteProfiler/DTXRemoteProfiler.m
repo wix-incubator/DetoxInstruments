@@ -377,8 +377,12 @@ DTX_CREATE_LOG(RemoteProfiler);
 
 - (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
+	if(self.profilingConfiguration.recordEvents == NO)
+	{
+		return;
+	}
+	
 	[_ctx performBlock:^{
-		
 		if([self.profilingConfiguration.ignoredEventCategories containsObject:category])
 		{
 			return;
@@ -445,8 +449,12 @@ DTX_CREATE_LOG(RemoteProfiler);
 
 - (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
+	if(self.profilingConfiguration.recordEvents == NO)
+	{
+		return;
+	}
+	
 	[_ctx performBlock:^{
-		
 		if([self.profilingConfiguration.ignoredEventCategories containsObject:category])
 		{
 			return;

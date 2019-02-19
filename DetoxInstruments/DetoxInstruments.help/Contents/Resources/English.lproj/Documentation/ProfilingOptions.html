@@ -27,6 +27,9 @@ ul { padding-left: 1.3em; }
 <p>The <strong>Sampling frequency</strong> option configures how many samples should be collected every second. The more samples collected, the more accurate the profiling, at some expense of performance.</p>
 <p>It is recommended to start with the default value and only increase sampling frequency if necessary.</p>
 <h3>
+<a name="user-content-performance" class="anchor" href="#performance"><span class="octicon octicon-link"></span></a>Performance</h3>
+<p>The <strong>Record performance</strong> option controls whether performance samples are collected during profiling. Disable this if you want to focus on other instruments, such as network, events or React Native profiling.</p>
+<h3>
 <a name="user-content-threads" class="anchor" href="#threads"><span class="octicon octicon-link"></span></a>Threads</h3>
 <p>The <strong>Record thread information</strong> option controls whether any thread information is recorded during profiling. Recording thread information can provide additional performance metrics per thread. Normally, recording thread information is not an expensive operation and should be enabled unless absolutely not needed.</p>
 <p>The <strong>Collect stack traces</strong> option enables the recording of the stack trace of the heaviest thread. This provides code symbol information for additional debugging purposes. This is a relatively inexpensive operation, but depending on the sampling frequency, may have a slight performance cost.</p>
@@ -41,6 +44,7 @@ ul { padding-left: 1.3em; }
 <p>The <strong>Disable network cache</strong> option controls whether network cache should be disabled for requests the app makes while recording.</p>
 <h3>
 <a name="user-content-events" class="anchor" href="#events"><span class="octicon octicon-link"></span></a>Events</h3>
+<p>The <strong>Record events</strong> option controls whether any events are recorded during profiling.</p>
 <p>The <strong>Ignored Categories</strong> button presents the <strong>Ignored Events Categories</strong> screen.</p>
 <p><a href="Resources/ProfilingOptions_IgnoredEventsCategories.png" target="_blank"><img src="Resources/ProfilingOptions_IgnoredEventsCategories.png" alt="Ignored Events Categories" title="Ignored Events Categories" style="max-width:100%;" /></a></p>
 <p>In this screen, you can add Events categories that will be ignored when recording. Use this to save performance and lower clutter. For an in-depth look at the Events instrument, see <a href="Instrument_Events.html">Events Instrument</a>.</p>

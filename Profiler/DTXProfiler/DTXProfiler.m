@@ -129,6 +129,14 @@ DTX_CREATE_LOG(Profiler);
 	
 	_currentProfilingConfiguration = [configuration copy];
 	
+	if(_currentProfilingConfiguration.recordPerformance == NO && _currentProfilingConfiguration.recordNetwork == NO && _currentProfilingConfiguration.recordEvents == NO && _currentProfilingConfiguration.profileReactNative == NO)
+	{
+		[_currentProfilingConfiguration setValue:@YES forKey:@"recordPerformance"];
+		[_currentProfilingConfiguration setValue:@YES forKey:@"recordNetwork"];
+		[_currentProfilingConfiguration setValue:@YES forKey:@"recordEvents"];
+		[_currentProfilingConfiguration setValue:@YES forKey:@"profileReactNative"];
+	}
+	
 	_pendingSamples = [NSMutableArray new];
 	_pendingNetworkSamples = [NSMapTable strongToStrongObjectsMapTable];
 	_pendingSignpostSamples = [NSMapTable strongToStrongObjectsMapTable];
@@ -179,12 +187,22 @@ DTX_CREATE_LOG(Profiler);
 			
 			__weak __typeof(self) weakSelf = self;
 			
-			self->_pollingManager = [[DTXPollingManager alloc] initWithInterval:self->_currentProfilingConfiguration.samplingInterval];
-			[self->_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:self->_currentProfilingConfiguration] handler:^(DTXPerformanceSampler* pollable) {
-				[weakSelf performanceSamplerDidPoll:pollable];
-			}];
+			BOOL needsPerformancePolling = self->_currentProfilingConfiguration.recordPerformance;
+			BOOL needsRNPolling = self->_currentRecording.hasReactNative == YES && self->_currentProfilingConfiguration.profileReactNative == YES;
 			
-			if(self->_currentRecording.hasReactNative == YES && self->_currentProfilingConfiguration.profileReactNative == YES)
+			if(needsPerformancePolling || needsRNPolling)
+			{
+				self->_pollingManager = [[DTXPollingManager alloc] initWithInterval:self->_currentProfilingConfiguration.samplingInterval];
+			}
+			
+			if(needsPerformancePolling)
+			{
+				[self->_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:self->_currentProfilingConfiguration] handler:^(DTXPerformanceSampler* pollable) {
+					[weakSelf performanceSamplerDidPoll:pollable];
+				}];
+			}
+			
+			if(needsRNPolling)
 			{
 				DTXReactNativeSampler* rnSampler = [[DTXReactNativeSampler alloc] initWithConfiguration:self->_currentProfilingConfiguration];
 				if(rnSampler != nil)
@@ -363,6 +381,11 @@ DTX_CREATE_LOG(Profiler);
 {
 	DTX_IGNORE_NOT_RECORDING
 	
+	if(self->_currentProfilingConfiguration.recordEvents == NO)
+	{
+		return;
+	}
+	
 	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
@@ -416,6 +439,11 @@ DTX_CREATE_LOG(Profiler);
 
 - (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
+	if(self->_currentProfilingConfiguration.recordEvents == NO)
+	{
+		return;
+	}
+	
 	DTX_IGNORE_NOT_RECORDING
 	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING

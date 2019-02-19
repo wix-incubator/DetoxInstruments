@@ -30,14 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (class, nonatomic, strong, readonly) DTXProfilingConfiguration* defaultProfilingConfigurationForRemoteProfiling;
 
-// Sampling Configuration
-
-/**
- *  The sampling interval of the Profiler.
- *
- *  The default value is 1.0.
- */
-@property (nonatomic, readonly) NSTimeInterval samplingInterval;
+#pragma mark Recording Configuration
 
 /**
  *  The minimum number of samples to keep in memory before flushing to disk.
@@ -48,10 +41,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSUInteger numberOfSamplesBeforeFlushToDisk;
 
-#pragma mark Recording Configuration
+/**
+ *  Record performance information during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readonly) BOOL recordPerformance;
+
+/**
+ *  The sampling interval of the Profiler.
+ *
+ *  The default value is 0.5.
+ */
+@property (nonatomic, readonly) NSTimeInterval samplingInterval;
 
 /**
  *  Record thread information during profiling.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
  *
  *  The default value is @c true.
  */
@@ -62,6 +69,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Collecting stack traces may introduce some performance hit.
  *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
  *  The default value is @c false.
  */
 @property (nonatomic, readonly) BOOL collectStackTraces;
@@ -71,12 +80,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Symbolicating stack traces may introduce some performance hit.
  *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
  *  The default value is @c false.
  */
 @property (nonatomic, readonly) BOOL symbolicateStackTraces;
 
 /**
  *  Collect the names of open files for each sample.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
  *
  *  The default value is @c false.
  */
@@ -108,8 +121,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL disableNetworkCache;
 
 /**
+ *  Record events during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readonly) BOOL recordEvents;
+
+/**
  *  A set of categories to ignore when profiling.
  *  Use this property to prevent clutter in the Events instrument.
+ *
+ *  Only relevant if @c recordEvents is set to @c true.
  *
  *  The default value is an empty set.
  */
@@ -182,12 +204,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (class, nonatomic, strong, readonly) DTXMutableProfilingConfiguration* defaultProfilingConfigurationForRemoteProfiling;
 
-/**
- *  The sampling interval of the Profiler.
- *
- *  The default value is 0.5.
- */
-@property (nonatomic, readwrite) NSTimeInterval samplingInterval;
+#pragma mark Recording Configuration
 
 /**
  *  The minimum number of samples to keep in memory before flushing to disk.
@@ -198,10 +215,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readwrite) NSUInteger numberOfSamplesBeforeFlushToDisk;
 
-#pragma mark Recording Configuration
+/**
+ *  Record performance information during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readwrite) BOOL recordPerformance;
+
+/**
+ *  The sampling interval of the Profiler.
+ *
+ *  The default value is 0.5.
+ */
+@property (nonatomic, readwrite) NSTimeInterval samplingInterval;
 
 /**
  *  Record thread information during profiling.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
  *
  *  The default value is @c true.
  */
@@ -212,6 +243,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Collecting stack traces may introduce some performance hit.
  *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
  *  The default value is @c false.
  */
 @property (nonatomic, readwrite) BOOL collectStackTraces;
@@ -221,12 +254,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Symbolicating stack traces may introduce some performance hit.
  *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
  *  The default value is @c false.
  */
 @property (nonatomic, readwrite) BOOL symbolicateStackTraces;
 
 /**
  *  Collect the names of open files for each sample.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
  *
  *  The default value is @c false.
  */
@@ -258,8 +295,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) BOOL disableNetworkCache;
 
 /**
+ *  Record events during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readwrite) BOOL recordEvents;
+
+/**
  *  A set of categories to ignore when profiling.
  *  Use this property to prevent clutter in the Events instrument.
+ *
+ *  Only relevant if @c recordEvents is set to @c true.
  *
  *  The default value is an empty set.
  */

@@ -14,6 +14,10 @@ The **Sampling frequency** option configures how many samples should be collecte
 
 It is recommended to start with the default value and only increase sampling frequency if necessary.
 
+### Performance
+
+The **Record performance** option controls whether performance samples are collected during profiling. Disable this if you want to focus on other instruments, such as network, events or React Native profiling.
+
 ### Threads
 
 The **Record thread information** option controls whether any thread information is recorded during profiling. Recording thread information can provide additional performance metrics per thread. Normally, recording thread information is not an expensive operation and should be enabled unless absolutely not needed.
@@ -35,6 +39,8 @@ The **Record localhost network** option extends the network recording to localho
 The **Disable network cache** option controls whether network cache should be disabled for requests the app makes while recording.
 
 ### Events
+
+The **Record events** option controls whether any events are recorded during profiling.
 
 The **Ignored Categories** button presents the **Ignored Events Categories** screen.
 

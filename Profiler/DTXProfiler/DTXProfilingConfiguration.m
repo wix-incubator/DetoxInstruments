@@ -11,8 +11,9 @@
 
 @interface DTXProfilingConfiguration ()
 
-@property (nonatomic, readwrite) NSTimeInterval samplingInterval;
 @property (nonatomic, readwrite) NSUInteger numberOfSamplesBeforeFlushToDisk;
+@property (nonatomic, readwrite) BOOL recordPerformance;
+@property (nonatomic, readwrite) NSTimeInterval samplingInterval;
 @property (nonatomic, readwrite) BOOL recordThreadInformation;
 @property (nonatomic, readwrite) BOOL collectStackTraces;
 @property (nonatomic, readwrite) BOOL symbolicateStackTraces;
@@ -20,6 +21,7 @@
 @property (nonatomic, readwrite) BOOL recordNetwork;
 @property (nonatomic, readwrite) BOOL recordLocalhostNetwork;
 @property (nonatomic, readwrite) BOOL disableNetworkCache;
+@property (nonatomic, readwrite) BOOL recordEvents;
 @property (nonatomic, copy, readwrite) NSSet<NSString*>* ignoredEventCategories;
 @property (nonatomic, readwrite) BOOL recordLogOutput;
 @property (nonatomic, readwrite) BOOL profileReactNative;
@@ -50,13 +52,15 @@
 {
 	DTXProfilingConfiguration* rv = [self new];
 	rv->_collectOpenFileNames = NO;
+	rv->_recordPerformance = YES;
 	rv->_recordNetwork = YES;
 	rv->_recordThreadInformation = YES;
 	rv->_recordLogOutput = YES;
-	rv->_samplingInterval = 1.0;
+	rv->_samplingInterval = 0.5;
 	rv->_numberOfSamplesBeforeFlushToDisk = 200;
 	rv->_profileReactNative = YES;
 	rv->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
+	rv->_recordEvents = YES;
 	rv->_nonkvc_ignoredEventCategories = [NSSet new];
 	
 	return rv;
@@ -184,8 +188,9 @@
 
 @dynamic defaultProfilingConfiguration, defaultProfilingConfigurationForRemoteProfiling;
 
-@dynamic samplingInterval;
 @dynamic numberOfSamplesBeforeFlushToDisk;
+@dynamic samplingInterval;
+@dynamic recordPerformance;
 @dynamic recordThreadInformation;
 @dynamic collectStackTraces;
 @dynamic symbolicateStackTraces;
@@ -193,6 +198,7 @@
 @dynamic recordNetwork;
 @dynamic recordLocalhostNetwork;
 @dynamic disableNetworkCache;
+@dynamic recordEvents;
 @dynamic ignoredEventCategories;
 @dynamic recordLogOutput;
 @dynamic profileReactNative;

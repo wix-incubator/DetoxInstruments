@@ -146,30 +146,41 @@
 
 	[_plotGroup setHeaderPlotController:headerPlotController];
 
-	_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO];
-	[_plotGroup addPlotController:_cpuPlotController];
-
-	NSFetchRequest* fr = [DTXThreadInfo fetchRequest];
-	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"recording.startTimestamp" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES]];
-
-	_threadsObserver = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-	_threadsObserver.delegate = self;
-	[_threadsObserver performFetch:nil];
-
-	NSArray* threads = _threadsObserver.fetchedObjects;
-	if(threads.count > 0)
+	if(self.document.firstRecording.dtx_profilingConfiguration.recordPerformance)
 	{
-		[threads enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj isForTouchBar:NO] toPlotController:_cpuPlotController];
-		}];
+		_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO];
+		[_plotGroup addPlotController:_cpuPlotController];
+		
+		NSFetchRequest* fr = [DTXThreadInfo fetchRequest];
+		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"recording.startTimestamp" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES]];
+		
+		
+		_threadsObserver = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+		_threadsObserver.delegate = self;
+		[_threadsObserver performFetch:nil];
+		
+		NSArray* threads = _threadsObserver.fetchedObjects;
+		if(threads.count > 0)
+		{
+			[threads enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj isForTouchBar:NO] toPlotController:_cpuPlotController];
+			}];
+		}
+		
+		[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+		[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+		[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	}
-
-	[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
-	[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
-	[_plotGroup addPlotController:[[DTXDiskReadWritesPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	
-	[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
-	[_plotGroup addPlotController:[[DTXEventsPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+	if(self.document.firstRecording.dtx_profilingConfiguration.recordNetwork)
+	{
+		[_plotGroup addPlotController:[[DTXCompactNetworkRequestsPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+	}
+	
+	if(self.document.firstRecording.dtx_profilingConfiguration.recordEvents)
+	{
+		[_plotGroup addPlotController:[[DTXEventsPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+	}
 	
 	if(self.document.firstRecording.hasReactNative && self.document.firstRecording.dtx_profilingConfiguration.profileReactNative)
 	{

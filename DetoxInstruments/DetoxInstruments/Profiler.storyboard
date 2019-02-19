@@ -345,14 +345,14 @@
             <objects>
                 <viewController storyboardIdentifier="DTXPlotControllerPickerController" id="WaS-Vf-Ye7" customClass="DTXPlotControllerPickerController" sceneMemberID="viewController">
                     <scrollView key="view" borderType="none" autohidesScrollers="YES" horizontalLineScroll="67" horizontalPageScroll="10" verticalLineScroll="67" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="xnN-ho-Ti6">
-                        <rect key="frame" x="0.0" y="0.0" width="360" height="200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="360" height="67"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="nuB-hL-TgG">
-                            <rect key="frame" x="0.0" y="0.0" width="360" height="200"/>
+                            <rect key="frame" x="0.0" y="0.0" width="360" height="67"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="65" viewBased="YES" id="n1W-cG-2SO" customClass="DTXKeyDownIgnoringTableView">
-                                    <rect key="frame" x="0.0" y="0.0" width="360" height="200"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="360" height="67"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -431,7 +431,7 @@
                 </viewController>
                 <customObject id="3Tv-au-eQN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2896" y="-1158"/>
+            <point key="canvasLocation" x="2896" y="-1224.5"/>
         </scene>
         <!--Detail Content Controller-->
         <scene sceneID="GNr-8R-oRe">
@@ -1144,7 +1144,7 @@
                                 <rect key="frame" x="0.0" y="771" width="320" height="29"/>
                                 <subviews>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCX-wo-mYx" customClass="DTXSegmentedView">
-                                        <rect key="frame" x="125.5" y="3" width="69" height="23"/>
+                                        <rect key="frame" x="126" y="3" width="69" height="23"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>

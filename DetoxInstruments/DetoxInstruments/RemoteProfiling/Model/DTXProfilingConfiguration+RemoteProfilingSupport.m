@@ -27,11 +27,24 @@
 	DTXProfilingConfiguration* rv = self.defaultProfilingConfigurationForRemoteProfiling;
 	
 	[rv.dictionaryRepresentation enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-		[rv setValue:[NSUserDefaults.standardUserDefaults objectForKey:[NSString stringWithFormat:@"DTXSelectedProfilingConfiguration_%@", key]] forKey:key];
+		id value = [NSUserDefaults.standardUserDefaults objectForKey:[NSString stringWithFormat:@"DTXSelectedProfilingConfiguration_%@", key]];
+		
+		if(value)
+		{
+			[rv setValue:value forKey:key];
+		}
 	}];
 	
 	NSArray* categories = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"] ?: @[];
 	rv.ignoredEventCategories = [NSSet setWithArray:categories];
+	
+	if(rv.recordPerformance == NO && rv.recordNetwork == NO && rv.recordEvents == NO && rv.profileReactNative == NO)
+	{
+		[rv setValue:@YES forKey:@"recordPerformance"];
+		[rv setValue:@YES forKey:@"recordNetwork"];
+		[rv setValue:@YES forKey:@"recordEvents"];
+		[rv setValue:@YES forKey:@"profileReactNative"];
+	}
 	
 	return rv;
 }
