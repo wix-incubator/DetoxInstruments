@@ -252,9 +252,9 @@
                                                                 </textField>
                                                                 <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="X7U-Aq-IEC" customClass="DTXSettingsPopUpButton">
                                                                     <rect key="frame" x="100" y="31" width="38" height="19"/>
-                                                                    <popUpButtonCell key="cell" type="inline" bezelStyle="inline" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="msL-eF-6aG" id="fwB-v5-Dpn">
+                                                                    <popUpButtonCell key="cell" type="roundRect" bezelStyle="roundedRect" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="msL-eF-6aG" id="fwB-v5-Dpn">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="smallSystemBold"/>
+                                                                        <font key="font" metaFont="cellTitle"/>
                                                                         <menu key="menu" id="zaF-Cm-2zO">
                                                                             <items>
                                                                                 <menuItem state="on" image="NSActionTemplate" hidden="YES" id="msL-eF-6aG"/>
