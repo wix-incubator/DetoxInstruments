@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.59" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.59"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.64"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -438,18 +438,18 @@ DQ
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
+                                                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="h7g-eO-sFx">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                     <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="h7g-eO-sFx" id="kF1-Hm-6ER">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
                                                                             <integer key="NSNotApplicablePlaceholder" value="-1"/>
                                                                             <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="h7g-eO-sFx">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                         </dictionary>
                                                                     </binding>
                                                                     <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" id="mnq-q5-dC6"/>
@@ -465,6 +465,13 @@ Collecting stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
+                                                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="7N3-bt-nQp">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="Q3b-wv-JVB"/>
                                                                     <binding destination="cZB-yu-VZN" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="CeR-ms-Y5b" id="F7O-mL-iXh">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -473,13 +480,6 @@ Collecting stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNullPlaceholder" value="-1"/>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="7N3-bt-nQp">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="Q3b-wv-JVB"/>
                                                                     <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="7N3-bt-nQp" id="CeR-ms-Y5b">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -500,14 +500,6 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="cZB-yu-VZN" name="enabled4" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="A48-Dt-FCc" id="mp0-Zi-Uha">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
                                                                     <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="zGi-d0-4uO">
                                                                         <dictionary key="options">
                                                                             <integer key="NSNullPlaceholder" value="1"/>
@@ -520,6 +512,14 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
                                                                             <integer key="NSNotApplicablePlaceholder" value="-1"/>
                                                                             <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="cZB-yu-VZN" name="enabled4" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="A48-Dt-FCc" id="mp0-Zi-Uha">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="-1"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                     <binding destination="cZB-yu-VZN" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="91Q-Hg-BEx" id="A48-Dt-FCc">
@@ -576,6 +576,13 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
+                                                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="97q-4O-PiI">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectOpenFileNames" id="HdT-rn-A4n"/>
                                                                     <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="97q-4O-PiI" id="KvX-vd-4df">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -584,13 +591,6 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNullPlaceholder" value="-1"/>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="97q-4O-PiI">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="cZB-yu-VZN" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectOpenFileNames" id="HdT-rn-A4n"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -732,18 +732,18 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
+                                                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="kUR-72-tW3">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                     <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" previousBinding="kUR-72-tW3" id="kqH-Qc-chL">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
                                                                             <integer key="NSNotApplicablePlaceholder" value="-1"/>
                                                                             <integer key="NSNullPlaceholder" value="-1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="kUR-72-tW3">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
                                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                         </dictionary>
                                                                     </binding>
@@ -760,6 +760,11 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
                                                                         <connections>
+                                                                            <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="809-Ab-Sg7">
+                                                                                <dictionary key="options">
+                                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                                </dictionary>
+                                                                            </binding>
                                                                             <binding destination="cZB-yu-VZN" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordEvents" previousBinding="809-Ab-Sg7" id="JDa-NY-hMW">
                                                                                 <dictionary key="options">
                                                                                     <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -768,11 +773,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                                     <integer key="NSNullPlaceholder" value="-1"/>
                                                                                 </dictionary>
                                                                             </binding>
-                                                                            <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="809-Ab-Sg7">
-                                                                                <dictionary key="options">
-                                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                                </dictionary>
-                                                                            </binding>
+                                                                            <segue destination="Vbw-sJ-bfu" kind="sheet" id="jHX-0i-qkC"/>
                                                                         </connections>
                                                                     </button>
                                                                 </subviews>
