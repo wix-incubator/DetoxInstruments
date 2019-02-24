@@ -77,6 +77,8 @@
 		3939243221AD0A330015A15F /* ZZNewArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */; };
 		39404E2921E66237006A583E /* DTXThreadPerformanceSample+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 39404E2721E66237006A583E /* DTXThreadPerformanceSample+Additions.h */; };
 		39404E2A21E66237006A583E /* DTXThreadPerformanceSample+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39404E2821E66237006A583E /* DTXThreadPerformanceSample+Additions.m */; };
+		394937D522232E1B003198AE /* NSURLProtocol+NetworkRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 394937D322232E1B003198AE /* NSURLProtocol+NetworkRecorder.h */; };
+		394937D622232E1B003198AE /* NSURLProtocol+NetworkRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 394937D422232E1B003198AE /* NSURLProtocol+NetworkRecorder.m */; };
 		39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */; };
 		39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 39498C401F1FAE650030B620 /* DTXSocketConnection.h */; };
 		394A09651F012F8D0030BDB4 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = 394A09631F012F8D0030BDB4 /* fishhook.h */; };
@@ -247,6 +249,8 @@
 		3939240621AD0A320015A15F /* ZZNewArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZNewArchiveEntryWriter.h; sourceTree = "<group>"; };
 		39404E2721E66237006A583E /* DTXThreadPerformanceSample+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXThreadPerformanceSample+Additions.h"; sourceTree = "<group>"; };
 		39404E2821E66237006A583E /* DTXThreadPerformanceSample+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXThreadPerformanceSample+Additions.m"; sourceTree = "<group>"; };
+		394937D322232E1B003198AE /* NSURLProtocol+NetworkRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLProtocol+NetworkRecorder.h"; sourceTree = "<group>"; };
+		394937D422232E1B003198AE /* NSURLProtocol+NetworkRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLProtocol+NetworkRecorder.m"; sourceTree = "<group>"; };
 		39498C3F1F1FAE650030B620 /* DTXSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSocketConnection.m; sourceTree = "<group>"; };
 		39498C401F1FAE650030B620 /* DTXSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSocketConnection.h; sourceTree = "<group>"; };
 		394A09631F012F8D0030BDB4 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = SOURCE_ROOT; };
@@ -555,6 +559,8 @@
 				39B22BE0217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m */,
 				39B22BE3217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h */,
 				39B22BE4217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.m */,
+				394937D322232E1B003198AE /* NSURLProtocol+NetworkRecorder.h */,
+				394937D422232E1B003198AE /* NSURLProtocol+NetworkRecorder.m */,
 				39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */,
 				39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */,
 			);
@@ -712,6 +718,7 @@
 				39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */,
 				3939241621AD0A330015A15F /* ZZStandardCryptoEngine.h in Headers */,
 				39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */,
+				394937D522232E1B003198AE /* NSURLProtocol+NetworkRecorder.h in Headers */,
 				399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */,
 				395B26A02067B12C00FD7368 /* DTXFPSCalculator.h in Headers */,
 				39D40C141ED5B43700157C04 /* NSManagedObject+Additions.h in Headers */,
@@ -920,6 +927,7 @@
 				3939242221AD0A330015A15F /* ZZArchiveEntry.m in Sources */,
 				39EEF37E21EFAE310028061D /* NSURL+UIAdditions.m in Sources */,
 				39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */,
+				394937D622232E1B003198AE /* NSURLProtocol+NetworkRecorder.m in Sources */,
 				39EEF38121EFAE310028061D /* NSMapTable+Subscripting.m in Sources */,
 				396500F21F2E9E9000DA9530 /* DTXDeviceInfo.m in Sources */,
 				39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */,
@@ -973,7 +981,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1002,7 +1010,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "DTX_PROFILER=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1071,7 +1079,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1100,7 +1108,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1130,7 +1138,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1159,7 +1167,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "DTX_PROFILER=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

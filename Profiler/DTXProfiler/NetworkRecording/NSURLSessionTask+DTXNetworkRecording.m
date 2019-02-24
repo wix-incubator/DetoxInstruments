@@ -11,6 +11,8 @@
 #import "NSObject+AttachedObjects.h"
 @import ObjectiveC;
 
+extern _Thread_local BOOL _protocolLoading;
+
 static void* __DTXConnectionUnique = &__DTXConnectionUnique;
 
 static void* __DTXConnectionDidStart = &__DTXConnectionDidStart;
@@ -77,7 +79,10 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	
 	[self dtx_attachObject:unique forKey:__DTXConnectionUnique];
 	
-	__DTXProfilerMarkNetworkRequestBegin(self.currentRequest, unique, NSDate.date);
+	if(_protocolLoading == NO)
+	{
+		__DTXProfilerMarkNetworkRequestBegin(self.currentRequest, unique, NSDate.date);
+	}
 	[self dtx_attachObject:@YES forKey:__DTXConnectionDidStart];
 	
 	[self __dtx_resume];
