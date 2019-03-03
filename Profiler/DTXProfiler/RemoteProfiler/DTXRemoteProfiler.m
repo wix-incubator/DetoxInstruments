@@ -195,7 +195,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	_ctx = recording.managedObjectContext;
 }
 
-- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
+- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
 	if(self.profilingConfiguration.recordNetwork == NO)
 	{
@@ -225,10 +225,16 @@ DTX_CREATE_LOG(RemoteProfiler);
 			preserialized[@"requestHTTPMethod"] = request.HTTPMethod;
 		}
 		
-		if(request.allHTTPHeaderFields.count > 0)
+		NSMutableDictionary* requestHeaders = request.allHTTPHeaderFields.mutableCopy;
+		if(requestHeaders[@"Cookie"] == nil && cookieHeaders != nil)
 		{
-			preserialized[@"requestHeaders"] = request.allHTTPHeaderFields;
-			preserialized[@"requestHeadersFlat"] = request.allHTTPHeaderFields.debugDescription;
+			[requestHeaders addEntriesFromDictionary:cookieHeaders];
+		}
+		
+		if(requestHeaders.count > 0)
+		{
+			preserialized[@"requestHeaders"] = requestHeaders;
+			preserialized[@"requestHeadersFlat"] = requestHeaders.debugDescription;
 		}
 		
 		if(request.HTTPBody.length > 0)

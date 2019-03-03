@@ -656,7 +656,7 @@ DTX_CREATE_LOG(Profiler);
 	}
 }
 
-- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
+- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
@@ -679,8 +679,14 @@ DTX_CREATE_LOG(Profiler);
 		networkSample.url = request.URL.absoluteString;
 		networkSample.requestTimeoutInterval = request.timeoutInterval;
 		networkSample.requestHTTPMethod = request.HTTPMethod;
-		networkSample.requestHeaders = request.allHTTPHeaderFields;
-		networkSample.requestHeadersFlat = request.allHTTPHeaderFields.debugDescription;
+		
+		NSMutableDictionary* requestHeaders = request.allHTTPHeaderFields.mutableCopy;
+		if(requestHeaders[@"Cookie"] == nil && cookieHeaders != nil)
+		{
+			[requestHeaders addEntriesFromDictionary:cookieHeaders];
+		}
+		networkSample.requestHeaders = requestHeaders;
+		networkSample.requestHeadersFlat = requestHeaders.debugDescription;
 		
 		if(request.HTTPBody.length > 0)
 		{

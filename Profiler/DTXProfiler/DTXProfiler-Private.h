@@ -31,7 +31,7 @@ extern NSMutableSet<DTXProfiler*>* __activeProfilers;
 - (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;
 - (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;
 - (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;
-- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
+- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
 - (void)_networkRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
 - (void)_addRNDataFromFunction:(NSString*)function arguments:(NSArray<NSString*>*)arguments returnValue:(NSString*)rv exception:(NSString*)exception isFromNative:(BOOL)isFromNative timestamp:(NSDate*)timestamp;
 
@@ -171,8 +171,17 @@ static
 DTX_ALWAYS_INLINE
 inline void __DTXProfilerMarkNetworkRequestBegin(NSURLRequest* request, NSString* uniqueIdentifier, NSDate* timestamp)
 {
+	//Make sure to take a copy so it is not modified while processing.
+	request = request.copy;
+	id cookies = [NSHTTPCookieStorage.sharedHTTPCookieStorage cookiesForURL:request.URL];
+	NSDictionary<NSString*, NSString*>* cookieHeaders = nil;
+	if(cookies)
+	{
+		cookieHeaders = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
+	}
+	
 	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
-		[profiler _networkRecorderDidStartRequest:request uniqueIdentifier:uniqueIdentifier timestamp:timestamp];
+		[profiler _networkRecorderDidStartRequest:request cookieHeaders:cookieHeaders uniqueIdentifier:uniqueIdentifier timestamp:timestamp];
 	});
 }
 
