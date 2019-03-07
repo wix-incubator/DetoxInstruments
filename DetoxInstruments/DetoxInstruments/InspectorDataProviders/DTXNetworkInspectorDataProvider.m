@@ -13,6 +13,7 @@
 #import <CoreServices/CoreServices.h>
 #import "NSString+FileNames.h"
 #import "NSURL+UIAdditions.h"
+#import "DTXRequestsPlaygroundWindowController.h"
 
 @implementation DTXNetworkInspectorDataProvider
 
@@ -50,6 +51,16 @@
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"URL", @"") description:networkSample.url]];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"HTTP Method", @"") description:networkSample.requestHTTPMethod]];
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Data Size", @"") description:[NSFormatter.dtx_memoryFormatter stringForObjectValue:@(networkSample.requestDataLength)]]];
+	
+	NSButton* requestEditor = [NSButton new];
+	requestEditor.bezelStyle = NSBezelStyleRounded;
+	requestEditor.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
+	requestEditor.title = NSLocalizedString(@"Open in Requests Playground", @"");
+	requestEditor.target = self;
+	requestEditor.action = @selector(openInRequestsPlayground:);
+	requestEditor.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	request.buttons = @[requestEditor];
 	
 	request.content = content;
 	
@@ -285,6 +296,14 @@
 		}
 	}];
 
+}
+
+- (IBAction)openInRequestsPlayground:(id)sender
+{
+	NSStoryboard* storyboard = [NSStoryboard storyboardWithName:@"RequestsPlayground" bundle:nil];
+	DTXRequestsPlaygroundWindowController* wc = [storyboard instantiateInitialController];
+	[wc loadRequestDetailsFromNetworkSample:self.sample];
+	[wc.window makeKeyAndOrderFront:nil];
 }
 
 @end

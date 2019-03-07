@@ -12,6 +12,9 @@
 #import "SharedPrefixHeader.h"
 #import "DTXInstrumentsModelUIExtensions.h"
 #import "DTXInstrumentsApplication.h"
+#if __has_include("NSString+Trimming.h")
+#import "NSString+Trimming.h"
+#endif
 
 extern DTXInstrumentsApplication* DTXApp;
 

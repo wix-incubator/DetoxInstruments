@@ -50,7 +50,7 @@
 		stackTraceFrame = [NSString stringWithFormat:@"%@() at %@%@", obj[@"symbolName"], fullFormat ? obj[@"sourceFileName"] : [obj[@"sourceFileName"] lastPathComponent], obj[@"line"] ? [NSString stringWithFormat:@":%@", obj[@"line"]] : @""];
 	}
 	
-	if([stackTraceFrame stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0)
+	if([stackTraceFrame stringByTrimmingWhiteSpace].length == 0)
 	{
 		stackTraceFrame = @"<native>";
 	}

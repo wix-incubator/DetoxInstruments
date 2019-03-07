@@ -206,6 +206,11 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	DTXGoToHelpPage(@"AppManagement");
 }
 
+- (IBAction)helpRequestsPlayground:(id)sender
+{
+	DTXGoToHelpPage(@"RequestsPlayground");
+}
+
 - (IBAction)showDocumentHelp:(id)sender
 {
 	DTXGoToHelpPage(@"RecordingDocument");

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.68" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="qHr-hd-QCA">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.68"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Window Controller-->
+        <scene sceneID="pge-iq-pnJ">
+            <objects>
+                <windowController id="qHr-hd-QCA" customClass="DTXRequestsPlaygroundWindowController" sceneMemberID="viewController">
+                    <window key="window" title="Requests Playground" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="fFe-p6-bnK">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="245" y="301" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="qHr-hd-QCA" id="ylN-eb-Qcc"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="wwV-rT-pkJ" kind="relationship" relationship="window.shadowedContentViewController" id="QLU-t9-MVT"/>
+                    </connections>
+                </windowController>
+                <customObject id="Tq5-IS-WJ3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-194" y="101"/>
+        </scene>
+        <!--Requests Playground-->
+        <scene sceneID="ItS-Si-CuK">
+            <objects>
+                <viewController title="Requests Playground" id="wwV-rT-pkJ" customClass="DTXRequestsPlaygroundController" sceneMemberID="viewController">
+                    <view key="view" id="bUi-IJ-SX7">
+                        <rect key="frame" x="0.0" y="0.0" width="648" height="476"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vyu-83-S9f">
+                                <rect key="frame" x="18" y="432" width="96" height="25"/>
+                                <popUpButtonCell key="cell" type="push" title="GET" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="mY7-HG-1Vb" id="CdI-H2-a6h">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="bSa-WP-Z9g">
+                                        <items>
+                                            <menuItem title="GET" state="on" id="mY7-HG-1Vb"/>
+                                            <menuItem title="POST" id="oMa-Sk-ldq"/>
+                                            <menuItem title="PUT" id="rIw-XL-v01"/>
+                                            <menuItem title="DELETE" id="lam-Gc-IUR"/>
+                                            <menuItem title="HEAD" id="uKR-7K-gTs"/>
+                                            <menuItem title="TRACE" id="lYZ-CP-oeu"/>
+                                            <menuItem title="OPTIONS" id="Gt0-Ic-70b"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <binding destination="wwV-rT-pkJ" name="selectedValue" keyPath="method" id="3LG-it-hD8"/>
+                                </connections>
+                            </popUpButton>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="POE-QJ-dFl">
+                                <rect key="frame" x="119" y="435" width="509" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="URL" drawsBackground="YES" id="PZ8-SF-Tsr">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="wwV-rT-pkJ" name="value" keyPath="address" id="jE2-wF-Cts">
+                                        <dictionary key="options">
+                                            <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </textField>
+                            <tabView translatesAutoresizingMaskIntoConstraints="NO" id="DnF-oN-sz9">
+                                <rect key="frame" x="13" y="51" width="622" height="370"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="608" id="zr2-RA-znA"/>
+                                </constraints>
+                                <font key="font" metaFont="system"/>
+                                <tabViewItems>
+                                    <tabViewItem label="Headers" identifier="" id="9E8-2h-ppc" customClass="DTXTabViewItem">
+                                        <view key="view" id="X7h-Mo-SaL">
+                                            <rect key="frame" x="10" y="33" width="602" height="324"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <containerView translatesAutoresizingMaskIntoConstraints="NO" id="BUi-qn-GSY">
+                                                    <rect key="frame" x="20" y="20" width="562" height="284"/>
+                                                    <connections>
+                                                        <segue destination="T08-Hd-Tug" kind="embed" id="k7Z-gA-fpx"/>
+                                                    </connections>
+                                                </containerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="BUi-qn-GSY" firstAttribute="leading" secondItem="X7h-Mo-SaL" secondAttribute="leading" constant="20" id="16b-KA-yNj"/>
+                                                <constraint firstAttribute="bottom" secondItem="BUi-qn-GSY" secondAttribute="bottom" constant="20" id="EOu-1F-PdA"/>
+                                                <constraint firstItem="BUi-qn-GSY" firstAttribute="top" secondItem="X7h-Mo-SaL" secondAttribute="top" constant="20" id="EqN-3Y-wWQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="BUi-qn-GSY" secondAttribute="trailing" constant="20" id="Ynz-aY-vOi"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Cookies" identifier="" id="547-BB-fZ9" customClass="DTXTabViewItem">
+                                        <view key="view" id="qcs-xq-OQj">
+                                            <rect key="frame" x="10" y="33" width="601" height="324"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <containerView translatesAutoresizingMaskIntoConstraints="NO" id="BLB-lr-9U1">
+                                                    <rect key="frame" x="20" y="20" width="561" height="284"/>
+                                                    <connections>
+                                                        <segue destination="A1g-1H-9MW" kind="embed" id="Ng6-l7-LhJ"/>
+                                                    </connections>
+                                                </containerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="BLB-lr-9U1" secondAttribute="trailing" constant="20" id="5PO-89-D2B"/>
+                                                <constraint firstItem="BLB-lr-9U1" firstAttribute="top" secondItem="qcs-xq-OQj" secondAttribute="top" constant="20" id="opA-5g-NPd"/>
+                                                <constraint firstItem="BLB-lr-9U1" firstAttribute="leading" secondItem="qcs-xq-OQj" secondAttribute="leading" constant="20" id="sOb-f0-Ree"/>
+                                                <constraint firstAttribute="bottom" secondItem="BLB-lr-9U1" secondAttribute="bottom" constant="20" id="t76-fg-Ban"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Query String" identifier="" id="Te2-Bb-2qZ" customClass="DTXTabViewItem">
+                                        <view key="view" id="qe0-eY-Bma">
+                                            <rect key="frame" x="10" y="33" width="602" height="324"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <containerView translatesAutoresizingMaskIntoConstraints="NO" id="xK8-sK-f0g">
+                                                    <rect key="frame" x="20" y="20" width="562" height="284"/>
+                                                    <connections>
+                                                        <segue destination="JhI-Yg-Szl" kind="embed" id="B0r-gQ-xUe"/>
+                                                    </connections>
+                                                </containerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="xK8-sK-f0g" firstAttribute="top" secondItem="qe0-eY-Bma" secondAttribute="top" constant="20" id="CUd-1C-0xw"/>
+                                                <constraint firstAttribute="trailing" secondItem="xK8-sK-f0g" secondAttribute="trailing" constant="20" id="DK3-th-l7k"/>
+                                                <constraint firstItem="xK8-sK-f0g" firstAttribute="leading" secondItem="qe0-eY-Bma" secondAttribute="leading" constant="20" id="jnm-JE-Qh8"/>
+                                                <constraint firstAttribute="bottom" secondItem="xK8-sK-f0g" secondAttribute="bottom" constant="20" id="wud-a1-PiF"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Body" identifier="" id="lQT-aV-6ll" customClass="DTXTabViewItem">
+                                        <view key="view" id="C52-hw-QwF">
+                                            <rect key="frame" x="10" y="33" width="602" height="324"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <containerView translatesAutoresizingMaskIntoConstraints="NO" id="zjy-3s-jFL">
+                                                    <rect key="frame" x="20" y="20" width="562" height="284"/>
+                                                    <connections>
+                                                        <segue destination="AHl-UU-xrQ" kind="embed" id="KQ5-iu-Uv2"/>
+                                                    </connections>
+                                                </containerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zjy-3s-jFL" firstAttribute="leading" secondItem="C52-hw-QwF" secondAttribute="leading" constant="20" id="ER8-Ys-V44"/>
+                                                <constraint firstItem="zjy-3s-jFL" firstAttribute="top" secondItem="C52-hw-QwF" secondAttribute="top" constant="20" id="MHY-Xo-LGb"/>
+                                                <constraint firstAttribute="trailing" secondItem="zjy-3s-jFL" secondAttribute="trailing" constant="20" id="baf-xT-RrT"/>
+                                                <constraint firstAttribute="bottom" secondItem="zjy-3s-jFL" secondAttribute="bottom" constant="20" id="uf3-jI-YZ6"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Response Headers" identifier="" id="RMn-bt-TSl" customClass="DTXTabViewItem">
+                                        <view key="view" id="Ze0-uO-gin">
+                                            <rect key="frame" x="10" y="33" width="602" height="324"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <containerView translatesAutoresizingMaskIntoConstraints="NO" id="OeQ-ek-bGp">
+                                                    <rect key="frame" x="20" y="20" width="562" height="284"/>
+                                                    <connections>
+                                                        <segue destination="T08-Hd-Tug" kind="embed" id="red-wn-1al"/>
+                                                    </connections>
+                                                </containerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="OeQ-ek-bGp" firstAttribute="leading" secondItem="Ze0-uO-gin" secondAttribute="leading" constant="20" id="6m3-Ld-p2b"/>
+                                                <constraint firstItem="OeQ-ek-bGp" firstAttribute="top" secondItem="Ze0-uO-gin" secondAttribute="top" constant="20" id="TTQ-Rw-maz"/>
+                                                <constraint firstAttribute="bottom" secondItem="OeQ-ek-bGp" secondAttribute="bottom" constant="20" id="uNv-8M-Gt4"/>
+                                                <constraint firstAttribute="trailing" secondItem="OeQ-ek-bGp" secondAttribute="trailing" constant="20" id="zfk-2J-cQk"/>
+                                            </constraints>
+                                        </view>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </tabViewItem>
+                                    <tabViewItem label="Response Body" identifier="" id="IdE-fU-vc4" customClass="DTXTabViewItem">
+                                        <view key="view" id="WUR-VG-keO">
+                                            <rect key="frame" x="10" y="33" width="602" height="324"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <containerView translatesAutoresizingMaskIntoConstraints="NO" id="jGf-2m-qc6">
+                                                    <rect key="frame" x="20" y="20" width="562" height="284"/>
+                                                    <connections>
+                                                        <segue destination="AHl-UU-xrQ" kind="embed" id="fDv-X3-gtL"/>
+                                                    </connections>
+                                                </containerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="jGf-2m-qc6" firstAttribute="leading" secondItem="WUR-VG-keO" secondAttribute="leading" constant="20" id="1ne-eq-ns2"/>
+                                                <constraint firstItem="jGf-2m-qc6" firstAttribute="top" secondItem="WUR-VG-keO" secondAttribute="top" constant="20" id="4b8-23-EVq"/>
+                                                <constraint firstAttribute="bottom" secondItem="jGf-2m-qc6" secondAttribute="bottom" constant="20" id="cix-8I-ZaW"/>
+                                                <constraint firstAttribute="trailing" secondItem="jGf-2m-qc6" secondAttribute="trailing" constant="20" id="hsg-bN-lVI"/>
+                                            </constraints>
+                                        </view>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </tabViewItem>
+                                </tabViewItems>
+                                <connections>
+                                    <outlet property="delegate" destination="wwV-rT-pkJ" id="KPc-2o-tuf"/>
+                                </connections>
+                            </tabView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iEx-EL-yEJ">
+                                <rect key="frame" x="509" y="13" width="125" height="32"/>
+                                <buttonCell key="cell" type="push" title="Send Request" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="N5L-7L-id2">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="sendRequest:" target="wwV-rT-pkJ" id="hJ8-t9-ZNK"/>
+                                </connections>
+                            </button>
+                            <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vsF-zG-iXF">
+                                <rect key="frame" x="491" y="23" width="16" height="16"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="3ea-iE-azH"/>
+                            </imageView>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" maxValue="100" doubleValue="2" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="nOX-If-kSa">
+                                <rect key="frame" x="491" y="23" width="16" height="16"/>
+                            </progressIndicator>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AMa-DY-eVR">
+                                <rect key="frame" x="18" y="16" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cit-hw-Tkb">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="helpRequestsPlayground:" target="MSU-cy-0Ts" id="f2J-XF-Vua"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="AMa-DY-eVR" firstAttribute="leading" secondItem="bUi-IJ-SX7" secondAttribute="leading" constant="20" id="7ok-HC-b54"/>
+                            <constraint firstItem="nOX-If-kSa" firstAttribute="centerY" secondItem="iEx-EL-yEJ" secondAttribute="centerY" id="A5B-bd-VC3"/>
+                            <constraint firstAttribute="trailing" secondItem="iEx-EL-yEJ" secondAttribute="trailing" constant="20" id="Bns-zC-Mlj"/>
+                            <constraint firstItem="vyu-83-S9f" firstAttribute="top" secondItem="bUi-IJ-SX7" secondAttribute="top" constant="20" id="LAC-ns-tyZ"/>
+                            <constraint firstAttribute="trailing" secondItem="DnF-oN-sz9" secondAttribute="trailing" constant="20" id="MYC-fZ-AHF"/>
+                            <constraint firstItem="vyu-83-S9f" firstAttribute="centerY" secondItem="POE-QJ-dFl" secondAttribute="centerY" id="OYX-be-Vuz"/>
+                            <constraint firstItem="vsF-zG-iXF" firstAttribute="height" secondItem="nOX-If-kSa" secondAttribute="height" id="QOJ-Fe-Rvh"/>
+                            <constraint firstItem="iEx-EL-yEJ" firstAttribute="top" secondItem="DnF-oN-sz9" secondAttribute="bottom" constant="20" id="RfQ-MD-RD8"/>
+                            <constraint firstItem="vyu-83-S9f" firstAttribute="leading" secondItem="bUi-IJ-SX7" secondAttribute="leading" constant="20" id="cTZ-wy-tA1"/>
+                            <constraint firstItem="vsF-zG-iXF" firstAttribute="width" secondItem="nOX-If-kSa" secondAttribute="width" id="dDL-B5-ors"/>
+                            <constraint firstItem="nOX-If-kSa" firstAttribute="leading" secondItem="vsF-zG-iXF" secondAttribute="leading" id="gGY-O5-BbH"/>
+                            <constraint firstItem="DnF-oN-sz9" firstAttribute="leading" secondItem="bUi-IJ-SX7" secondAttribute="leading" constant="20" id="h3i-mO-Sf2"/>
+                            <constraint firstAttribute="trailing" secondItem="POE-QJ-dFl" secondAttribute="trailing" constant="20" id="iq1-aO-AY8"/>
+                            <constraint firstItem="vsF-zG-iXF" firstAttribute="centerY" secondItem="nOX-If-kSa" secondAttribute="centerY" id="kOT-nR-erA"/>
+                            <constraint firstItem="iEx-EL-yEJ" firstAttribute="leading" secondItem="nOX-If-kSa" secondAttribute="trailing" constant="8" id="lDZ-3K-58o"/>
+                            <constraint firstItem="DnF-oN-sz9" firstAttribute="top" secondItem="POE-QJ-dFl" secondAttribute="bottom" constant="20" id="mYt-Br-Haz"/>
+                            <constraint firstItem="POE-QJ-dFl" firstAttribute="leading" secondItem="vyu-83-S9f" secondAttribute="trailing" constant="8" id="nsb-wK-z3t"/>
+                            <constraint firstAttribute="bottom" secondItem="AMa-DY-eVR" secondAttribute="bottom" constant="20" id="oT2-TP-yO8"/>
+                            <constraint firstAttribute="bottom" secondItem="iEx-EL-yEJ" secondAttribute="bottom" constant="20" id="xpF-uL-R74"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_bodyTabViewItem" destination="lQT-aV-6ll" id="tP1-Yq-vul"/>
+                        <outlet property="_cookiesTabViewItem" destination="547-BB-fZ9" id="T7I-C9-9Ac"/>
+                        <outlet property="_errorIndicator" destination="vsF-zG-iXF" id="2M0-Hq-ZjA"/>
+                        <outlet property="_headersTabViewItem" destination="9E8-2h-ppc" id="y9r-EH-im2"/>
+                        <outlet property="_progressIndicator" destination="nOX-If-kSa" id="Udc-jj-jH0"/>
+                        <outlet property="_queryTabViewItem" destination="Te2-Bb-2qZ" id="Lh1-A8-Ol0"/>
+                        <outlet property="_responseBodyTabViewItem" destination="IdE-fU-vc4" id="y2K-pw-9LQ"/>
+                        <outlet property="_responseHeadersTabViewItem" destination="RMn-bt-TSl" id="Wvo-6R-bFL"/>
+                        <outlet property="tabView" destination="DnF-oN-sz9" id="K7r-XR-zwF"/>
+                    </connections>
+                </viewController>
+                <customObject id="MSU-cy-0Ts" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="850.5" y="63"/>
+        </scene>
+        <!--Cookies Editor-->
+        <scene sceneID="ngs-dN-kyP">
+            <objects>
+                <viewController id="A1g-1H-9MW" customClass="DTXRPCookiesEditor" sceneMemberID="viewController">
+                    <view key="view" id="QgW-Ao-7cn" customClass="_DTXRPEditorView">
+                        <rect key="frame" x="0.0" y="0.0" width="722" height="427"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="jmV-2O-bg0" customClass="LNPropertyListEditor">
+                                <rect key="frame" x="0.0" y="0.0" width="722" height="427"/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="jmV-2O-bg0" secondAttribute="trailing" id="Jjx-VN-VjT"/>
+                            <constraint firstItem="jmV-2O-bg0" firstAttribute="top" secondItem="QgW-Ao-7cn" secondAttribute="top" id="Mdy-SY-Pl4"/>
+                            <constraint firstItem="jmV-2O-bg0" firstAttribute="leading" secondItem="QgW-Ao-7cn" secondAttribute="leading" id="hYT-Bh-s7b"/>
+                            <constraint firstAttribute="bottom" secondItem="jmV-2O-bg0" secondAttribute="bottom" id="iCh-Xm-EWx"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="plistEditor" destination="jmV-2O-bg0" id="6QL-XH-3gl"/>
+                    </connections>
+                </viewController>
+                <customObject id="kml-rx-OaA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1683" y="64"/>
+        </scene>
+        <!--Request Headers Editor-->
+        <scene sceneID="UcH-lb-KhG">
+            <objects>
+                <viewController id="T08-Hd-Tug" customClass="DTXRequestHeadersEditor" sceneMemberID="viewController">
+                    <view key="view" id="75b-DD-9KP" customClass="_DTXRPEditorView">
+                        <rect key="frame" x="0.0" y="0.0" width="722" height="415"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="7o8-zS-gSm" customClass="LNPropertyListEditor">
+                                <rect key="frame" x="0.0" y="0.0" width="722" height="415"/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="7o8-zS-gSm" firstAttribute="leading" secondItem="75b-DD-9KP" secondAttribute="leading" id="SwS-yJ-vNJ"/>
+                            <constraint firstAttribute="bottom" secondItem="7o8-zS-gSm" secondAttribute="bottom" id="WnK-sq-MT6"/>
+                            <constraint firstItem="7o8-zS-gSm" firstAttribute="top" secondItem="75b-DD-9KP" secondAttribute="top" id="dZY-u4-cmF"/>
+                            <constraint firstAttribute="trailing" secondItem="7o8-zS-gSm" secondAttribute="trailing" id="yDV-w9-As1"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="plistEditor" destination="7o8-zS-gSm" id="PoK-jg-AnV"/>
+                    </connections>
+                </viewController>
+                <customObject id="OXC-gv-evl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1683" y="617"/>
+        </scene>
+        <!--Query String Editor-->
+        <scene sceneID="Mth-nZ-4da">
+            <objects>
+                <viewController id="JhI-Yg-Szl" customClass="DTXRPQueryStringEditor" sceneMemberID="viewController">
+                    <view key="view" id="EdC-dU-ohY" customClass="_DTXRPEditorView">
+                        <rect key="frame" x="0.0" y="0.0" width="722" height="415"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="NvI-WX-hrm" customClass="LNPropertyListEditor">
+                                <rect key="frame" x="0.0" y="0.0" width="722" height="415"/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="NvI-WX-hrm" firstAttribute="top" secondItem="EdC-dU-ohY" secondAttribute="top" id="03Y-Hy-XND"/>
+                            <constraint firstItem="NvI-WX-hrm" firstAttribute="leading" secondItem="EdC-dU-ohY" secondAttribute="leading" id="Asm-wI-SBf"/>
+                            <constraint firstAttribute="bottom" secondItem="NvI-WX-hrm" secondAttribute="bottom" id="rOW-Vi-WC3"/>
+                            <constraint firstAttribute="trailing" secondItem="NvI-WX-hrm" secondAttribute="trailing" id="skK-K0-oPk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="plistEditor" destination="NvI-WX-hrm" id="ZDy-ZY-FBj"/>
+                    </connections>
+                </viewController>
+                <customObject id="omC-1F-gZ9" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="825" y="727"/>
+        </scene>
+        <!--Body Editor-->
+        <scene sceneID="iDV-EV-9Ss">
+            <objects>
+                <viewController id="AHl-UU-xrQ" customClass="DTXRPBodyEditor" sceneMemberID="viewController">
+                    <view key="view" id="9WI-qJ-r0D" customClass="_DTXRPEditorView">
+                        <rect key="frame" x="0.0" y="0.0" width="722" height="411"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView borderType="line" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jce-jg-GwJ">
+                                <rect key="frame" x="0.0" y="0.0" width="722" height="411"/>
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="EsI-a3-g12">
+                                    <rect key="frame" x="1" y="1" width="720" height="409"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="d2U-PR-osf">
+                                            <rect key="frame" x="0.0" y="0.0" width="720" height="409"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="720" height="409"/>
+                                            <size key="maxSize" width="731" height="10000000"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <connections>
+                                                <binding destination="AHl-UU-xrQ" name="value" keyPath="text" id="JFb-PC-7Oh"/>
+                                            </connections>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="s71-UU-7oc">
+                                    <rect key="frame" x="-100" y="-100" width="240" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="pIx-sA-tVM">
+                                    <rect key="frame" x="705" y="1" width="16" height="409"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="jce-jg-GwJ" firstAttribute="top" secondItem="9WI-qJ-r0D" secondAttribute="top" id="9gZ-1l-Fyd"/>
+                            <constraint firstAttribute="bottom" secondItem="jce-jg-GwJ" secondAttribute="bottom" id="MdQ-e0-ama"/>
+                            <constraint firstAttribute="trailing" secondItem="jce-jg-GwJ" secondAttribute="trailing" id="RCQ-nR-Vo6"/>
+                            <constraint firstItem="jce-jg-GwJ" firstAttribute="leading" secondItem="9WI-qJ-r0D" secondAttribute="leading" id="ah4-My-yJz"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_textView" destination="d2U-PR-osf" id="rxu-89-cjh"/>
+                    </connections>
+                </viewController>
+                <customObject id="ECy-OH-9On" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1683" y="-435.5"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="NSCaution" width="32" height="32"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="fDv-X3-gtL"/>
+        <segue reference="k7Z-gA-fpx"/>
+    </inferredMetricsTieBreakers>
+</document>

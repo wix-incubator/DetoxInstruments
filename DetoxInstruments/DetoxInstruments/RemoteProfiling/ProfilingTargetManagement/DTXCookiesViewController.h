@@ -7,8 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXCookiesEditorViewController.h"
 #import "DTXProfilingTargetManagement.h"
 
-@interface DTXCookiesViewController : NSViewController <DTXProfilingTargetManagement>
+@interface DTXCookiesViewController : DTXCookiesEditorViewController <DTXProfilingTargetManagement>
 
 @end

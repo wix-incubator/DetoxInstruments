@@ -278,7 +278,7 @@
 
 - (void)filterSamplesWithFilter:(NSString*)filter;
 {
-	NSString* _filter = [filter stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	NSString* _filter = [filter stringByTrimmingWhiteSpace];
 	
 	_frc.fetchRequest.predicate = [self predicateForFilter:_filter];
 	[_frc performFetch:NULL];
