@@ -13,24 +13,22 @@
 
 @implementation DTXDeviceInfo
 
-+ (NSString*)_machineName
++ (NSDictionary*)_uname
 {
 	struct utsname systemInfo;
-	
 	uname(&systemInfo);
 	
-	return [NSString stringWithCString:systemInfo
-#if ! TARGET_OS_SIMULATOR
-			.machine
-#else
-			.nodename
-#endif
-							  encoding:NSUTF8StringEncoding];
+	return @{@"sysname": [NSString stringWithCString:systemInfo.sysname encoding:NSUTF8StringEncoding],
+			 @"nodename": [NSString stringWithCString:systemInfo.nodename encoding:NSUTF8StringEncoding],
+			 @"release": [NSString stringWithCString:systemInfo.release encoding:NSUTF8StringEncoding],
+			 @"version": [NSString stringWithCString:systemInfo.version encoding:NSUTF8StringEncoding],
+			 @"machine": [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding],
+			 };
 }
 
 + (NSString *)_bundleName
 {
-	return [NSBundle.mainBundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
+	return [NSBundle.mainBundle objectForInfoDictionaryKey:NS(kCFBundleNameKey)];
 }
 
 + (NSString *)_applicationDisplayName
@@ -64,47 +62,57 @@ extern id MGCopyAnswer(NSString *inKey);
 
 + (NSDictionary*)deviceInfo
 {
-	NSProcessInfo* processInfo = [NSProcessInfo processInfo];
-	UIDevice* currentDevice = [UIDevice currentDevice];
+	static NSMutableDictionary* deviceDetails;
 	
-	NSMutableDictionary* deviceDetails = [NSMutableDictionary new];
-	deviceDetails[@"appName"] = self._applicationDisplayName;
-	deviceDetails[@"binaryName"] = processInfo.processName;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		deviceDetails = [NSMutableDictionary new];
+		
+		NSDictionary* uname = self._uname;
+		
+		NSProcessInfo* processInfo = [NSProcessInfo processInfo];
+		UIDevice* currentDevice = [UIDevice currentDevice];
+		
+		deviceDetails[@"appName"] = self._applicationDisplayName;
+		deviceDetails[@"binaryName"] = processInfo.processName;
 #if ! TARGET_OS_SIMULATOR
-	deviceDetails[@"deviceName"] = currentDevice.name;
+		deviceDetails[@"deviceName"] = currentDevice.name;
 #else
-	if(processInfo.operatingSystemVersion.majorVersion < 12)
-	{
-		deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"Simulator (%@)", @""), MGCopyAnswer(@"ComputerName")];
-	}
-	else
-	{
-		deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"%@ (%@)", @""), currentDevice.name, MGCopyAnswer(@"ComputerName")];
-	}
+		if(processInfo.operatingSystemVersion.majorVersion < 12)
+		{
+			deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"Simulator (%@)", @""), MGCopyAnswer(@"ComputerName")];
+		}
+		else
+		{
+			deviceDetails[@"deviceName"] = [NSString stringWithFormat:NSLocalizedString(@"%@ (%@)", @""), currentDevice.name, MGCopyAnswer(@"ComputerName")];
+		}
 #endif
-	deviceDetails[@"deviceOS"] = processInfo.operatingSystemVersionString;
-	deviceDetails[@"deviceOSType"] = @0;
-	deviceDetails[@"devicePhysicalMemory"] = @(processInfo.physicalMemory);
-	deviceDetails[@"deviceProcessorCount"] = @(processInfo.activeProcessorCount);
-	deviceDetails[@"deviceType"] = currentDevice.model;
-	deviceDetails[@"deviceMarketingName"] = MGCopyAnswer(@"marketing-name");
-	deviceDetails[@"deviceResolution"] = NSStringFromCGSize(UIScreen.mainScreen.currentMode.size);
-	deviceDetails[@"processIdentifier"] = @(processInfo.processIdentifier);
-	deviceDetails[@"hasReactNative"] = @([DTXReactNativeSampler reactNativeInstalled]);
-	
-	NSString* version = [NSString stringWithFormat:@"%@.%@", [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleVersion"]];
-	deviceDetails[@"profilerVersion"] = version;
-	
+		deviceDetails[@"deviceOS"] = processInfo.operatingSystemVersionString;
+		deviceDetails[@"deviceOSType"] = @0;
+		deviceDetails[@"devicePhysicalMemory"] = @(processInfo.physicalMemory);
+		deviceDetails[@"deviceProcessorCount"] = @(processInfo.activeProcessorCount);
+		deviceDetails[@"deviceType"] = currentDevice.model;
+		deviceDetails[@"deviceMarketingName"] = MGCopyAnswer(@"marketing-name");
+		deviceDetails[@"deviceResolution"] = NSStringFromCGSize(UIScreen.mainScreen.currentMode.size);
+		deviceDetails[@"processIdentifier"] = @(processInfo.processIdentifier);
+		deviceDetails[@"hasReactNative"] = @([DTXReactNativeSampler reactNativeInstalled]);
+		
+		NSString* version = [NSString stringWithFormat:@"%@.%@", [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+		deviceDetails[@"profilerVersion"] = version;
+		
 #if ! TARGET_OS_SIMULATOR
-	deviceDetails[@"deviceColor"] = MGCopyAnswer(@"DeviceColor");
-	deviceDetails[@"deviceEnclosureColor"] = MGCopyAnswer(@"DeviceEnclosureColor");
-	deviceDetails[@"machineName"] = self._machineName;
+		deviceDetails[@"deviceColor"] = MGCopyAnswer(@"DeviceColor");
+		deviceDetails[@"deviceEnclosureColor"] = MGCopyAnswer(@"DeviceEnclosureColor");
+		deviceDetails[@"machineName"] = uname[@"machine"];
 #else
-	deviceDetails[@"deviceColor"] = @"1";
-	deviceDetails[@"deviceEnclosureColor"] = @"1";
-	NSString* deviceTypeSim = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
-	deviceDetails[@"machineName"] = deviceTypeSim;
+		deviceDetails[@"deviceColor"] = @"1";
+		deviceDetails[@"deviceEnclosureColor"] = @"1";
+		NSString* deviceTypeSim = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
+		deviceDetails[@"machineName"] = deviceTypeSim;
 #endif
+		deviceDetails[@"kernelName"] = uname[@"sysname"];
+		deviceDetails[@"kernelVersion"] = uname[@"release"];
+	});
 	
 	return deviceDetails;
 }

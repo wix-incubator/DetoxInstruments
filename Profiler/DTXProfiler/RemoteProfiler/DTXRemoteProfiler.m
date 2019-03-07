@@ -195,7 +195,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	_ctx = recording.managedObjectContext;
 }
 
-- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
+- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders userAgent:(NSString*)userAgent uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
 	if(self.profilingConfiguration.recordNetwork == NO)
 	{
@@ -225,10 +225,14 @@ DTX_CREATE_LOG(RemoteProfiler);
 			preserialized[@"requestHTTPMethod"] = request.HTTPMethod;
 		}
 		
-		NSMutableDictionary* requestHeaders = request.allHTTPHeaderFields.mutableCopy;
-		if(requestHeaders[@"Cookie"] == nil && cookieHeaders != nil)
+		NSMutableDictionary* requestHeaders = request.allHTTPHeaderFields.mutableCopy ?: [NSMutableDictionary new];
+		if(cookieHeaders != nil && requestHeaders[@"Cookie"] == nil)
 		{
 			[requestHeaders addEntriesFromDictionary:cookieHeaders];
+		}
+		if(userAgent != nil && requestHeaders[@"User-Agent"] == nil)
+		{
+			[requestHeaders setObject:userAgent forKey:@"User-Agent"];
 		}
 		
 		if(requestHeaders.count > 0)

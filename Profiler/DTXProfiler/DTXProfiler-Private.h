@@ -10,6 +10,7 @@
 #import <DTXProfiler/DTXProfiler.h>
 #import <pthread.h>
 #import "DTXPerformanceSampler.h"
+#import "DTXNetworkRecorder.h"
 
 extern pthread_mutex_t __active_profilers_mutex;
 extern NSMutableSet<DTXProfiler*>* __activeProfilers;
@@ -31,7 +32,7 @@ extern NSMutableSet<DTXProfiler*>* __activeProfilers;
 - (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;
 - (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;
 - (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;
-- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
+- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders userAgent:(NSString*)userAgent uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
 - (void)_networkRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
 - (void)_addRNDataFromFunction:(NSString*)function arguments:(NSArray<NSString*>*)arguments returnValue:(NSString*)rv exception:(NSString*)exception isFromNative:(BOOL)isFromNative timestamp:(NSDate*)timestamp;
 
@@ -173,15 +174,17 @@ inline void __DTXProfilerMarkNetworkRequestBegin(NSURLRequest* request, NSString
 {
 	//Make sure to take a copy so it is not modified while processing.
 	request = request.copy;
-	id cookies = [NSHTTPCookieStorage.sharedHTTPCookieStorage cookiesForURL:request.URL];
+	id cookies = request.HTTPShouldHandleCookies ? [NSHTTPCookieStorage.sharedHTTPCookieStorage cookiesForURL:request.URL] : nil;
 	NSDictionary<NSString*, NSString*>* cookieHeaders = nil;
 	if(cookies)
 	{
 		cookieHeaders = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
 	}
 	
+	NSString* userAgent = [DTXNetworkRecorder cfNetworkUserAgent];
+	
 	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
-		[profiler _networkRecorderDidStartRequest:request cookieHeaders:cookieHeaders uniqueIdentifier:uniqueIdentifier timestamp:timestamp];
+		[profiler _networkRecorderDidStartRequest:request cookieHeaders:cookieHeaders userAgent:userAgent uniqueIdentifier:uniqueIdentifier timestamp:timestamp];
 	});
 }
 

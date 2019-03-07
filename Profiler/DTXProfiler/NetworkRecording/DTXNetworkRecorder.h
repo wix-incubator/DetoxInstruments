@@ -10,4 +10,6 @@
 
 @interface DTXNetworkRecorder : NSObject
 
++ (NSString*)cfNetworkUserAgent;
+
 @end

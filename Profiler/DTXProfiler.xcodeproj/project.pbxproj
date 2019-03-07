@@ -96,6 +96,7 @@
 		3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */; };
 		396EE2C120ADB223006C4C55 /* DTXViewHierarchySnapshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = 396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */; };
 		396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */; };
+		39787EEF222F8CCB00AC24B4 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39787EEE222F8CCB00AC24B4 /* CFNetwork.framework */; };
 		3985048A21A4433E00F04573 /* DTXProfilingBasics.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048921A4433E00F04573 /* DTXProfilingBasics.h */; };
 		3985048D21A4434800F04573 /* DTXFileSystemItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3985048B21A4434800F04573 /* DTXFileSystemItem.m */; };
 		3985048E21A4434800F04573 /* DTXFileSystemItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048C21A4434800F04573 /* DTXFileSystemItem.h */; };
@@ -270,6 +271,7 @@
 		3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DTXAddressInfo.mm; sourceTree = "<group>"; };
 		396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXViewHierarchySnapshotter.h; sourceTree = "<group>"; };
 		396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
+		39787EEE222F8CCB00AC24B4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		397A01901FA648DF00ABCB87 /* DTX_JSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTX_JSC.framework; path = JSC/DTX_JSC.framework; sourceTree = "<group>"; };
 		3985048921A4433E00F04573 /* DTXProfilingBasics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfilingBasics.h; sourceTree = "<group>"; };
 		3985048B21A4434800F04573 /* DTXFileSystemItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXFileSystemItem.m; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.m; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39787EEF222F8CCB00AC24B4 /* CFNetwork.framework in Frameworks */,
 				39DBFD7F21B6203A0031B153 /* libMobileGestalt.tbd in Frameworks */,
 				39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */,
 				39281E5D1ED70347002CE905 /* libz.tbd in Frameworks */,
@@ -378,6 +381,7 @@
 		39281E5B1ED70346002CE905 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				39787EEE222F8CCB00AC24B4 /* CFNetwork.framework */,
 				39DBFD7E21B6203A0031B153 /* libMobileGestalt.tbd */,
 				3933E1361F7A31B40081F82F /* QuartzCore.framework */,
 				3933E1341F7A319F0081F82F /* UIKit.framework */,
@@ -831,6 +835,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

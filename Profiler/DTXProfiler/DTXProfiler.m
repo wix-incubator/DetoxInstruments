@@ -180,7 +180,10 @@ DTX_CREATE_LOG(Profiler);
 			
 			NSDictionary* deviceInfo = [DTXDeviceInfo deviceInfo];
 			[deviceInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-				[self->_currentRecording setValue:obj forKey:key];
+				if([self->_currentRecording respondsToSelector:NSSelectorFromString(key)])
+				{
+					[self->_currentRecording setValue:obj forKey:key];
+				}
 			}];
 			
 			[self->_profilerStoryListener createRecording:self->_currentRecording];
@@ -656,7 +659,7 @@ DTX_CREATE_LOG(Profiler);
 	}
 }
 
-- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
+- (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders userAgent:(NSString*)userAgent uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
@@ -680,10 +683,14 @@ DTX_CREATE_LOG(Profiler);
 		networkSample.requestTimeoutInterval = request.timeoutInterval;
 		networkSample.requestHTTPMethod = request.HTTPMethod;
 		
-		NSMutableDictionary* requestHeaders = request.allHTTPHeaderFields.mutableCopy;
-		if(requestHeaders[@"Cookie"] == nil && cookieHeaders != nil)
+		NSMutableDictionary* requestHeaders = request.allHTTPHeaderFields.mutableCopy ?: [NSMutableDictionary new];
+		if(cookieHeaders != nil && requestHeaders[@"Cookie"] == nil)
 		{
 			[requestHeaders addEntriesFromDictionary:cookieHeaders];
+		}
+		if(userAgent != nil && requestHeaders[@"User-Agent"] == nil)
+		{
+			[requestHeaders setObject:userAgent forKey:@"User-Agent"];
 		}
 		networkSample.requestHeaders = requestHeaders;
 		networkSample.requestHeadersFlat = requestHeaders.debugDescription;
