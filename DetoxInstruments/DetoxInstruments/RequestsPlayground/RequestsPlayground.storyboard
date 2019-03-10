@@ -26,6 +26,116 @@
             </objects>
             <point key="canvasLocation" x="-194" y="101"/>
         </scene>
+        <!--Response Body Editor-->
+        <scene sceneID="ikg-rS-jWi">
+            <objects>
+                <viewController id="a0D-br-UbT" customClass="DTXRPResponseBodyEditor" sceneMemberID="viewController">
+                    <view key="view" id="JTc-sJ-UWq" customClass="_DTXRPEditorView">
+                        <rect key="frame" x="0.0" y="0.0" width="648" height="415"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="53" horizontalPageScroll="10" verticalLineScroll="53" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d7v-K4-ReP">
+                                <rect key="frame" x="0.0" y="0.0" width="648" height="415"/>
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="U2t-TH-je5">
+                                    <rect key="frame" x="0.0" y="0.0" width="648" height="415"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="53" rowSizeStyle="automatic" viewBased="YES" id="63v-V9-UqH" customClass="DTXInspectorTableView">
+                                            <rect key="frame" x="0.0" y="0.0" width="648" height="415"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn width="648" minWidth="40" maxWidth="1000000" id="25w-Of-Tjb">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="WOZ-Fs-ISy">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView identifier="DTXTextViewCellView" wantsLayer="YES" id="v2y-Mf-Zz2" customClass="DTXTextViewCellView">
+                                                            <rect key="frame" x="0.0" y="0.0" width="648" height="53"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htS-4m-uLK">
+                                                                    <rect key="frame" x="-2" y="39" width="652" height="14"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="14" id="iEn-U6-puT"/>
+                                                                    </constraints>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="grow" usesSingleLineMode="YES" id="nfi-W4-Edm">
+                                                                        <font key="font" metaFont="systemBold"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hC-Pm-T1H">
+                                                                    <rect key="frame" x="-2" y="13" width="652" height="19"/>
+                                                                    <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Content" id="BLA-H2-ZW5">
+                                                                        <font key="font" size="13" name="Menlo-Regular"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z7h-D1-CfA">
+                                                                    <rect key="frame" x="324" y="0.0" width="0.0" height="5"/>
+                                                                </stackView>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="z7h-D1-CfA" firstAttribute="top" secondItem="7hC-Pm-T1H" secondAttribute="bottom" constant="8" id="AOs-bt-0hg"/>
+                                                                <constraint firstAttribute="bottom" secondItem="z7h-D1-CfA" secondAttribute="bottom" id="AaW-oV-XZP"/>
+                                                                <constraint firstAttribute="trailing" secondItem="htS-4m-uLK" secondAttribute="trailing" id="GsU-Iy-1Uq"/>
+                                                                <constraint firstAttribute="trailing" secondItem="7hC-Pm-T1H" secondAttribute="trailing" id="HDD-tm-wjJ"/>
+                                                                <constraint firstItem="7hC-Pm-T1H" firstAttribute="top" secondItem="htS-4m-uLK" secondAttribute="bottom" constant="7" id="SdO-tn-H4M"/>
+                                                                <constraint firstItem="z7h-D1-CfA" firstAttribute="centerX" secondItem="v2y-Mf-Zz2" secondAttribute="centerX" id="Tnd-HQ-Aeu"/>
+                                                                <constraint firstItem="7hC-Pm-T1H" firstAttribute="leading" secondItem="v2y-Mf-Zz2" secondAttribute="leading" id="eRC-x9-4rx"/>
+                                                                <constraint firstItem="htS-4m-uLK" firstAttribute="top" secondItem="v2y-Mf-Zz2" secondAttribute="top" id="oec-Js-IMK"/>
+                                                                <constraint firstItem="htS-4m-uLK" firstAttribute="leading" secondItem="v2y-Mf-Zz2" secondAttribute="leading" id="uQO-cA-bss"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="buttonsStackView" destination="z7h-D1-CfA" id="fZe-fo-yfW"/>
+                                                                <outlet property="buttonsStackViewConstraint" destination="AaW-oV-XZP" id="Hec-Y8-Qrr"/>
+                                                                <outlet property="contentTextField" destination="7hC-Pm-T1H" id="yP7-99-v8s"/>
+                                                                <outlet property="textField" destination="htS-4m-uLK" id="Mqq-wH-QgP"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                            </tableColumns>
+                                        </tableView>
+                                    </subviews>
+                                    <nil key="backgroundColor"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="2VR-BY-Xc5">
+                                    <rect key="frame" x="2" y="357" width="604" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="V7h-yn-EZm">
+                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="d7v-K4-ReP" firstAttribute="leading" secondItem="JTc-sJ-UWq" secondAttribute="leading" id="DxG-nC-vRL"/>
+                            <constraint firstAttribute="trailing" secondItem="d7v-K4-ReP" secondAttribute="trailing" id="XzA-9G-vAq"/>
+                            <constraint firstAttribute="bottom" secondItem="d7v-K4-ReP" secondAttribute="bottom" id="bXa-4Y-dSH"/>
+                            <constraint firstItem="d7v-K4-ReP" firstAttribute="top" secondItem="JTc-sJ-UWq" secondAttribute="top" id="gIg-Rc-Ase"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_tableView" destination="63v-V9-UqH" id="9Jc-KS-uUQ"/>
+                    </connections>
+                </viewController>
+                <customObject id="uDO-p9-MI7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="850" y="-540.5"/>
+        </scene>
         <!--Requests Playground-->
         <scene sceneID="ItS-Si-CuK">
             <objects>
@@ -35,7 +145,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vyu-83-S9f">
-                                <rect key="frame" x="18" y="432" width="96" height="25"/>
+                                <rect key="frame" x="18" y="432" width="73" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="GET" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="mY7-HG-1Vb" id="CdI-H2-a6h">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -43,11 +153,6 @@
                                         <items>
                                             <menuItem title="GET" state="on" id="mY7-HG-1Vb"/>
                                             <menuItem title="POST" id="oMa-Sk-ldq"/>
-                                            <menuItem title="PUT" id="rIw-XL-v01"/>
-                                            <menuItem title="DELETE" id="lam-Gc-IUR"/>
-                                            <menuItem title="HEAD" id="uKR-7K-gTs"/>
-                                            <menuItem title="TRACE" id="lYZ-CP-oeu"/>
-                                            <menuItem title="OPTIONS" id="Gt0-Ic-70b"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
@@ -56,7 +161,7 @@
                                 </connections>
                             </popUpButton>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="POE-QJ-dFl">
-                                <rect key="frame" x="119" y="435" width="509" height="22"/>
+                                <rect key="frame" x="96" y="435" width="532" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="URL" drawsBackground="YES" id="PZ8-SF-Tsr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -188,7 +293,7 @@
                                                 <containerView translatesAutoresizingMaskIntoConstraints="NO" id="jGf-2m-qc6">
                                                     <rect key="frame" x="20" y="20" width="562" height="284"/>
                                                     <connections>
-                                                        <segue destination="AHl-UU-xrQ" kind="embed" id="fDv-X3-gtL"/>
+                                                        <segue destination="a0D-br-UbT" kind="embed" id="plq-u7-co5"/>
                                                     </connections>
                                                 </containerView>
                                             </subviews>
@@ -235,6 +340,16 @@
                                     <action selector="helpRequestsPlayground:" target="MSU-cy-0Ts" id="f2J-XF-Vua"/>
                                 </connections>
                             </button>
+                            <segmentedControl horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ON6-Vt-hNX">
+                                <rect key="frame" x="260" y="18" width="129" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="momentary" id="4sT-hm-JL2">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="Copy Snippet"/>
+                                        <segment imageScaling="none" tag="1"/>
+                                    </segments>
+                                </segmentedCell>
+                            </segmentedControl>
                         </subviews>
                         <constraints>
                             <constraint firstItem="AMa-DY-eVR" firstAttribute="leading" secondItem="bUi-IJ-SX7" secondAttribute="leading" constant="20" id="7ok-HC-b54"/>
@@ -245,12 +360,14 @@
                             <constraint firstItem="vyu-83-S9f" firstAttribute="centerY" secondItem="POE-QJ-dFl" secondAttribute="centerY" id="OYX-be-Vuz"/>
                             <constraint firstItem="vsF-zG-iXF" firstAttribute="height" secondItem="nOX-If-kSa" secondAttribute="height" id="QOJ-Fe-Rvh"/>
                             <constraint firstItem="iEx-EL-yEJ" firstAttribute="top" secondItem="DnF-oN-sz9" secondAttribute="bottom" constant="20" id="RfQ-MD-RD8"/>
+                            <constraint firstItem="ON6-Vt-hNX" firstAttribute="centerX" secondItem="bUi-IJ-SX7" secondAttribute="centerX" id="akg-0f-b4T"/>
                             <constraint firstItem="vyu-83-S9f" firstAttribute="leading" secondItem="bUi-IJ-SX7" secondAttribute="leading" constant="20" id="cTZ-wy-tA1"/>
                             <constraint firstItem="vsF-zG-iXF" firstAttribute="width" secondItem="nOX-If-kSa" secondAttribute="width" id="dDL-B5-ors"/>
                             <constraint firstItem="nOX-If-kSa" firstAttribute="leading" secondItem="vsF-zG-iXF" secondAttribute="leading" id="gGY-O5-BbH"/>
                             <constraint firstItem="DnF-oN-sz9" firstAttribute="leading" secondItem="bUi-IJ-SX7" secondAttribute="leading" constant="20" id="h3i-mO-Sf2"/>
                             <constraint firstAttribute="trailing" secondItem="POE-QJ-dFl" secondAttribute="trailing" constant="20" id="iq1-aO-AY8"/>
                             <constraint firstItem="vsF-zG-iXF" firstAttribute="centerY" secondItem="nOX-If-kSa" secondAttribute="centerY" id="kOT-nR-erA"/>
+                            <constraint firstAttribute="bottom" secondItem="ON6-Vt-hNX" secondAttribute="bottom" constant="20" id="kfb-VK-JYM"/>
                             <constraint firstItem="iEx-EL-yEJ" firstAttribute="leading" secondItem="nOX-If-kSa" secondAttribute="trailing" constant="8" id="lDZ-3K-58o"/>
                             <constraint firstItem="DnF-oN-sz9" firstAttribute="top" secondItem="POE-QJ-dFl" secondAttribute="bottom" constant="20" id="mYt-Br-Haz"/>
                             <constraint firstItem="POE-QJ-dFl" firstAttribute="leading" secondItem="vyu-83-S9f" secondAttribute="trailing" constant="8" id="nsb-wK-z3t"/>
@@ -261,6 +378,8 @@
                     <connections>
                         <outlet property="_bodyTabViewItem" destination="lQT-aV-6ll" id="tP1-Yq-vul"/>
                         <outlet property="_cookiesTabViewItem" destination="547-BB-fZ9" id="T7I-C9-9Ac"/>
+                        <outlet property="_copyCodeMenu" destination="R84-gc-9j6" id="0Wu-d5-6ti"/>
+                        <outlet property="_copyCodeSegmentedControl" destination="ON6-Vt-hNX" id="tXe-ui-hqB"/>
                         <outlet property="_errorIndicator" destination="vsF-zG-iXF" id="2M0-Hq-ZjA"/>
                         <outlet property="_headersTabViewItem" destination="9E8-2h-ppc" id="y9r-EH-im2"/>
                         <outlet property="_progressIndicator" destination="nOX-If-kSa" id="Udc-jj-jH0"/>
@@ -271,8 +390,33 @@
                     </connections>
                 </viewController>
                 <customObject id="MSU-cy-0Ts" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="Cx9-Uu-XkK" userLabel="Unsupported Methods">
+                    <items>
+                        <menuItem title="HEAD" enabled="NO" id="kQZ-lb-YJY"/>
+                        <menuItem title="OPTIONS" enabled="NO" id="Zni-9Q-GZ5"/>
+                        <menuItem title="DELETE" enabled="NO" id="91t-Os-CzN"/>
+                        <menuItem title="TRACE" enabled="NO" id="WHi-Mq-ulA"/>
+                        <menuItem title="PUT" enabled="NO" id="du4-Yk-mDm"/>
+                    </items>
+                </menu>
+                <menu id="R84-gc-9j6">
+                    <items>
+                        <menuItem image="curl-logo" id="cF2-VM-Rph">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="curl:" target="wwV-rT-pkJ" id="jcL-SG-x9B"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem image="node-logo" id="IhF-Tj-ApH">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="node:" target="wwV-rT-pkJ" id="Dr8-vp-doW"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
-            <point key="canvasLocation" x="850.5" y="63"/>
+            <point key="canvasLocation" x="850" y="63"/>
         </scene>
         <!--Cookies Editor-->
         <scene sceneID="ngs-dN-kyP">
@@ -411,9 +555,10 @@
     </scenes>
     <resources>
         <image name="NSCaution" width="32" height="32"/>
+        <image name="curl-logo" width="47" height="14"/>
+        <image name="node-logo" width="47" height="14"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fDv-X3-gtL"/>
         <segue reference="k7Z-gA-fpx"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -38,19 +38,4 @@
 	return [[NSString alloc] initWithData:self.body encoding:NSUTF8StringEncoding];
 }
 
-- (void)setBody:(NSData *)body response:(NSURLResponse*)response error:(NSError*)error
-{
-	_textView.editable = NO;
-	_textView.selectable = YES;
-	
-	if(error)
-	{
-		self.body = [[error localizedDescription] dataUsingEncoding:NSUTF8StringEncoding];
-	}
-	else
-	{
-		self.body = body;
-	}
-}
-
 @end

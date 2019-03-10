@@ -19,9 +19,13 @@
 
 - (void)setAddress:(NSString *)address
 {
-	_urlComponents = [[NSURLComponents alloc] initWithString:address];
-	
-	[self _reloadPropertyList];
+	NSURLComponents* newComponents = [[NSURLComponents alloc] initWithString:address];
+	if([newComponents isEqual:_urlComponents] == NO)
+	{
+		_urlComponents = newComponents;
+		
+		[self _reloadPropertyList];
+	}
 }
 
 - (NSString *)address

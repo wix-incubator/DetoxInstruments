@@ -26,6 +26,7 @@
 		3905F4BD1EF834CE003E08C1 /* DTXCPUInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905F4BC1EF834CE003E08C1 /* DTXCPUInspectorDataProvider.m */; };
 		390688C12117781900D15C86 /* DTXDebugMenuGenerator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */; };
 		390688DB21177D5000D15C86 /* DTXDebugMenuGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */; };
+		3906B077223505F800E81B9A /* DTXMappingModel9808To9954.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3906B076223505F800E81B9A /* DTXMappingModel9808To9954.xcmappingmodel */; };
 		3908CC7921A164850063B9EA /* DTXClickableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908CC7821A164850063B9EA /* DTXClickableImageView.m */; };
 		3908CC7C21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3908CC7B21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.m */; };
 		390BEDD821874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BEDD721874EC500F0C6EB /* DTXRNBridgeDataDataDataProvider.m */; };
@@ -131,6 +132,7 @@
 		3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978FFE21EEAD06C002BDEFB /* DTXGraphHostingView.m */; };
 		397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */; };
 		397C3F3E1F35555B00BA9159 /* DTXStackedPlotGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */; };
+		397EB6E42234F81000D60513 /* DTXRPResponseBodyEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 397EB6E32234F81000D60513 /* DTXRPResponseBodyEditor.m */; };
 		397FE8CB1EEDC8DB002200B7 /* DTXTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */; };
 		397FE8DB1EEE7ED8002200B7 /* DTXCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8DA1EEE7ED8002200B7 /* DTXCPUDataProvider.m */; };
 		3980C0DF2086C75000789E3B /* DetoxInstruments.help in Resources */ = {isa = PBXBuildFile; fileRef = 3980C0C72086C75000789E3B /* DetoxInstruments.help */; };
@@ -508,6 +510,8 @@
 		390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DTXDebugMenuGenerator.xib; sourceTree = "<group>"; };
 		390688D921177D5000D15C86 /* DTXDebugMenuGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDebugMenuGenerator.h; sourceTree = "<group>"; };
 		390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDebugMenuGenerator.m; sourceTree = "<group>"; };
+		3906B062223505A300E81B9A /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
+		3906B076223505F800E81B9A /* DTXMappingModel9808To9954.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9808To9954.xcmappingmodel; sourceTree = "<group>"; };
 		3908CC7721A164850063B9EA /* DTXClickableImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXClickableImageView.h; sourceTree = "<group>"; };
 		3908CC7821A164850063B9EA /* DTXClickableImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXClickableImageView.m; sourceTree = "<group>"; };
 		3908CC7A21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRemoteProfilingSelectionOutlineView.h; sourceTree = "<group>"; };
@@ -709,6 +713,8 @@
 		397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXRNJSCSourceMapsSupport.m; path = ../../../Profiler/DTXProfiler/ReactNativeProfiling/DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
 		397C3F3C1F35555B00BA9159 /* DTXStackedPlotGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackedPlotGroup.h; sourceTree = "<group>"; };
 		397C3F3D1F35555B00BA9159 /* DTXStackedPlotGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackedPlotGroup.m; sourceTree = "<group>"; };
+		397EB6E22234F81000D60513 /* DTXRPResponseBodyEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRPResponseBodyEditor.h; sourceTree = "<group>"; };
+		397EB6E32234F81000D60513 /* DTXRPResponseBodyEditor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRPResponseBodyEditor.m; sourceTree = "<group>"; };
 		397FE8C91EEDC8DB002200B7 /* DTXTableRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTableRowView.h; sourceTree = "<group>"; };
 		397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTableRowView.m; sourceTree = "<group>"; };
 		397FE8D91EEE7ED8002200B7 /* DTXCPUDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCPUDataProvider.h; sourceTree = "<group>"; };
@@ -1089,6 +1095,7 @@
 			isa = PBXGroup;
 			children = (
 				391176D821EF803900C92A9F /* DTXInstruments.xcdatamodeld */,
+				3906B076223505F800E81B9A /* DTXMappingModel9808To9954.xcmappingmodel */,
 				394C9B3D220883730015A085 /* DTXMappingModel9747To9808.xcmappingmodel */,
 				39356ACB2201A9B200FD23C4 /* DTXMappingModel9620To9747.xcmappingmodel */,
 				390E68F82201931C006F0FF7 /* DTXSignpostSample9620To9747MigrationPolicy.h */,
@@ -1551,6 +1558,8 @@
 				393EF4AA222F3D96001DCE5B /* DTXRPQueryStringEditor.m */,
 				393EF4AC222F48E8001DCE5B /* DTXRPBodyEditor.h */,
 				393EF4AD222F48E8001DCE5B /* DTXRPBodyEditor.m */,
+				397EB6E22234F81000D60513 /* DTXRPResponseBodyEditor.h */,
+				397EB6E32234F81000D60513 /* DTXRPResponseBodyEditor.m */,
 			);
 			path = RequestsPlayground;
 			sourceTree = "<group>";
@@ -1918,6 +1927,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -2254,6 +2264,7 @@
 				39EFF5F520E90D2C00B5AE75 /* DTXSignpostSummaryRootProxy.m in Sources */,
 				39EBDFC01ED36D45005D8AB1 /* main.m in Sources */,
 				3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */,
+				397EB6E42234F81000D60513 /* DTXRPResponseBodyEditor.m in Sources */,
 				395A43EA2081A2FB00DDF995 /* NSImage+UIAdditions.m in Sources */,
 				397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */,
 				390688DB21177D5000D15C86 /* DTXDebugMenuGenerator.m in Sources */,
@@ -2305,6 +2316,7 @@
 				3982D86B21B41D77005FCAEF /* DTXFPSDataExporter.m in Sources */,
 				399E0EE61F0EC8000047CF92 /* DTXFPSInspectorDataProvider.m in Sources */,
 				3947158F20A32EDF00A7068A /* NSWindow+Snapshotting.m in Sources */,
+				3906B077223505F800E81B9A /* DTXMappingModel9808To9954.xcmappingmodel in Sources */,
 				396755DA20844CC00023D562 /* DTXTwoLabelsCellView.m in Sources */,
 				3908CC7C21A168F00063B9EA /* DTXRemoteProfilingSelectionOutlineView.m in Sources */,
 				39C51E0C208ED729007AA717 /* DTXThreadInfo+UIExtensions.m in Sources */,
@@ -2671,6 +2683,7 @@
 		391176D821EF803900C92A9F /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3906B062223505A300E81B9A /* DTXInstruments-9954.xcdatamodel */,
 				394C9B3C220882F20015A085 /* DTXInstruments-9808.xcdatamodel */,
 				390E68E2220191DD006F0FF7 /* DTXInstruments-9747.xcdatamodel */,
 				391176DE21EF803900C92A9F /* DTXInstruments-9620.xcdatamodel */,
@@ -2680,7 +2693,7 @@
 				391176DD21EF803900C92A9F /* DTXInstruments-7742.xcdatamodel */,
 				391176DB21EF803900C92A9F /* DTXInstruments.xcdatamodel */,
 			);
-			currentVersion = 394C9B3C220882F20015A085 /* DTXInstruments-9808.xcdatamodel */;
+			currentVersion = 3906B062223505A300E81B9A /* DTXInstruments-9954.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

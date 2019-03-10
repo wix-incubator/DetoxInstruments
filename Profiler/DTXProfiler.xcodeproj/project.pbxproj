@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		3901A89F1F5D5CA60021916B /* DTXMachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */; };
 		3901A8A01F5D5CA60021916B /* DTXMachUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */; };
+		3906B0832235065A00E81B9A /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3906B0792235065A00E81B9A /* DTXInstruments.xcdatamodeld */; };
 		3922AE021F2B9B960034B1FE /* DTXSourceMapsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3922ADF71F2B9B3A0034B1FE /* DTXSourceMapsParser.m */; };
 		3922AE031F2B9B9B0034B1FE /* _DTXBase64VLQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 3922ADFE1F2B9B620034B1FE /* _DTXBase64VLQ.m */; };
 		3922AE041F2B9B9B0034B1FE /* _DTXBasicSourceMapsConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3922ADFC1F2B9B620034B1FE /* _DTXBasicSourceMapsConsumer.m */; };
@@ -135,7 +136,6 @@
 		39D8B36F21079CCA000895F7 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B3682107997C000895F7 /* DTXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3933E1341F7A319F0081F82F /* UIKit.framework */; };
 		39DBFD7F21B6203A0031B153 /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 39DBFD7E21B6203A0031B153 /* libMobileGestalt.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
-		39DF8A952209C37300595274 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39DF8A8C2209C37300595274 /* DTXInstruments.xcdatamodeld */; };
 		39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */; };
 		39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */; };
 		39E75EBC209C7B8B00C95D15 /* DTXUIPasteboardParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E75EBA209C7B8B00C95D15 /* DTXUIPasteboardParser.h */; };
@@ -188,6 +188,15 @@
 /* Begin PBXFileReference section */
 		3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMachUtilities.h; sourceTree = "<group>"; };
 		3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DTXMachUtilities.c; sourceTree = "<group>"; };
+		3906B07A2235065A00E81B9A /* DTXInstruments-9554.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9554.xcdatamodel"; sourceTree = "<group>"; };
+		3906B07B2235065A00E81B9A /* DTXInstruments-8751.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-8751.xcdatamodel"; sourceTree = "<group>"; };
+		3906B07C2235065A00E81B9A /* DTXInstruments.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DTXInstruments.xcdatamodel; sourceTree = "<group>"; };
+		3906B07D2235065A00E81B9A /* DTXInstruments-8246.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-8246.xcdatamodel"; sourceTree = "<group>"; };
+		3906B07E2235065A00E81B9A /* DTXInstruments-7742.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-7742.xcdatamodel"; sourceTree = "<group>"; };
+		3906B07F2235065A00E81B9A /* DTXInstruments-9808.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9808.xcdatamodel"; sourceTree = "<group>"; };
+		3906B0802235065A00E81B9A /* DTXInstruments-9747.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9747.xcdatamodel"; sourceTree = "<group>"; };
+		3906B0812235065A00E81B9A /* DTXInstruments-9620.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9620.xcdatamodel"; sourceTree = "<group>"; };
+		3906B0822235065A00E81B9A /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		3922ADF71F2B9B3A0034B1FE /* DTXSourceMapsParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DTXSourceMapsParser.m; path = ../../../Shared/DTXSourceMaps/DTXSourceMaps/DTXSourceMapsParser.m; sourceTree = "<group>"; };
 		3922ADF81F2B9B3A0034B1FE /* DTXSourceMapsParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DTXSourceMapsParser.h; path = ../../../Shared/DTXSourceMaps/DTXSourceMaps/DTXSourceMapsParser.h; sourceTree = "<group>"; };
 		3922ADFB1F2B9B620034B1FE /* _DTXBase64VLQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = _DTXBase64VLQ.h; path = ../../../../Shared/DTXSourceMaps/DTXSourceMaps/Private/_DTXBase64VLQ.h; sourceTree = "<group>"; };
@@ -313,14 +322,6 @@
 		39D8B31A21077643000895F7 /* DTXEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEvents.h; sourceTree = "<group>"; };
 		39D8B3682107997C000895F7 /* DTXBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXBase.h; sourceTree = "<group>"; };
 		39DBFD7E21B6203A0031B153 /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
-		39DF8A8D2209C37300595274 /* DTXInstruments-9554.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9554.xcdatamodel"; sourceTree = "<group>"; };
-		39DF8A8E2209C37300595274 /* DTXInstruments-8751.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-8751.xcdatamodel"; sourceTree = "<group>"; };
-		39DF8A8F2209C37300595274 /* DTXInstruments.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DTXInstruments.xcdatamodel; sourceTree = "<group>"; };
-		39DF8A902209C37300595274 /* DTXInstruments-8246.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-8246.xcdatamodel"; sourceTree = "<group>"; };
-		39DF8A912209C37300595274 /* DTXInstruments-7742.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-7742.xcdatamodel"; sourceTree = "<group>"; };
-		39DF8A922209C37300595274 /* DTXInstruments-9808.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9808.xcdatamodel"; sourceTree = "<group>"; };
-		39DF8A932209C37300595274 /* DTXInstruments-9747.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9747.xcdatamodel"; sourceTree = "<group>"; };
-		39DF8A942209C37300595274 /* DTXInstruments-9620.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9620.xcdatamodel"; sourceTree = "<group>"; };
 		39E10B69209F42E800CBB71A /* dtx_libproc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dtx_libproc.h; sourceTree = "<group>"; };
 		39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkRecorder.h; sourceTree = "<group>"; };
 		39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkRecorder.m; sourceTree = "<group>"; };
@@ -654,7 +655,7 @@
 		39D40C041ED5AC0000157C04 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				39DF8A8C2209C37300595274 /* DTXInstruments.xcdatamodeld */,
+				3906B0792235065A00E81B9A /* DTXInstruments.xcdatamodeld */,
 				39D40C071ED5B43700157C04 /* DTXInstrumentsModel.h */,
 				39D40C081ED5B43700157C04 /* DTXRecording+Additions.h */,
 				39D40C091ED5B43700157C04 /* DTXRecording+Additions.m */,
@@ -906,7 +907,6 @@
 				39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */,
 				3939242821AD0A330015A15F /* ZZNewArchiveEntryWriter.mm in Sources */,
 				39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */,
-				39DF8A952209C37300595274 /* DTXInstruments.xcdatamodeld in Sources */,
 				396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */,
 				39B22BE2217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m in Sources */,
 				3939241B21AD0A330015A15F /* ZZFileChannelOutput.m in Sources */,
@@ -917,6 +917,7 @@
 				39D205511F03057200830A0D /* DTXLoggingRecorder.m in Sources */,
 				3985048D21A4434800F04573 /* DTXFileSystemItem.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
+				3906B0832235065A00E81B9A /* DTXInstruments.xcdatamodeld in Sources */,
 				39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
 				396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */,
@@ -1301,19 +1302,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		39DF8A8C2209C37300595274 /* DTXInstruments.xcdatamodeld */ = {
+		3906B0792235065A00E81B9A /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				39DF8A8D2209C37300595274 /* DTXInstruments-9554.xcdatamodel */,
-				39DF8A8E2209C37300595274 /* DTXInstruments-8751.xcdatamodel */,
-				39DF8A8F2209C37300595274 /* DTXInstruments.xcdatamodel */,
-				39DF8A902209C37300595274 /* DTXInstruments-8246.xcdatamodel */,
-				39DF8A912209C37300595274 /* DTXInstruments-7742.xcdatamodel */,
-				39DF8A922209C37300595274 /* DTXInstruments-9808.xcdatamodel */,
-				39DF8A932209C37300595274 /* DTXInstruments-9747.xcdatamodel */,
-				39DF8A942209C37300595274 /* DTXInstruments-9620.xcdatamodel */,
+				3906B07A2235065A00E81B9A /* DTXInstruments-9554.xcdatamodel */,
+				3906B07B2235065A00E81B9A /* DTXInstruments-8751.xcdatamodel */,
+				3906B07C2235065A00E81B9A /* DTXInstruments.xcdatamodel */,
+				3906B07D2235065A00E81B9A /* DTXInstruments-8246.xcdatamodel */,
+				3906B07E2235065A00E81B9A /* DTXInstruments-7742.xcdatamodel */,
+				3906B07F2235065A00E81B9A /* DTXInstruments-9808.xcdatamodel */,
+				3906B0802235065A00E81B9A /* DTXInstruments-9747.xcdatamodel */,
+				3906B0812235065A00E81B9A /* DTXInstruments-9620.xcdatamodel */,
+				3906B0822235065A00E81B9A /* DTXInstruments-9954.xcdatamodel */,
 			);
-			currentVersion = 39DF8A922209C37300595274 /* DTXInstruments-9808.xcdatamodel */;
+			currentVersion = 3906B0822235065A00E81B9A /* DTXInstruments-9954.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -238,22 +238,27 @@
 - (NSString*)_bestGuessFileName
 {
 	DTXNetworkSample* networkSample = self.sample;
-	NSString* fileName = networkSample.url.lastPathComponent;
+	NSString* fileName = networkSample.responseSuggestedFilename;
 	
 	if(fileName.length == 0)
 	{
-		fileName = @"file";
+		fileName = networkSample.url.lastPathComponent;
+		
+		if(fileName.length == 0)
+		{
+			fileName = @"file";
+		}
+		
+		NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL));
+		NSString* extension = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(UTI), kUTTagClassFilenameExtension));
+		
+		if(extension && [fileName.pathExtension isEqualToString:extension] == NO)
+		{
+			fileName = [[fileName stringByDeletingPathExtension] stringByAppendingPathExtension:extension];
+		}
+		
+		fileName = fileName.stringBySanitizingForFileName;
 	}
-	
-	NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL));
-	NSString* extension = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(UTI), kUTTagClassFilenameExtension));
-	
-	if(extension && [fileName.pathExtension isEqualToString:extension] == NO)
-	{
-		fileName = [[fileName stringByDeletingPathExtension] stringByAppendingPathExtension:extension];
-	}
-	
-	fileName = fileName.stringBySanitizingForFileName;
 	
 	return fileName;
 }

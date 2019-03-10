@@ -12,6 +12,7 @@
 #import "DTXRequestHeadersEditor.h"
 #import "DTXRPQueryStringEditor.h"
 #import "DTXRPBodyEditor.h"
+#import "DTXRPResponseBodyEditor.h"
 
 @interface DTXRequestsPlaygroundController () <NSTabViewDelegate>
 
@@ -33,12 +34,15 @@
 	IBOutlet NSProgressIndicator* _progressIndicator;
 	IBOutlet NSImageView* _errorIndicator;
 	
+	IBOutlet NSSegmentedControl* _copyCodeSegmentedControl;
+	IBOutlet NSMenu* _copyCodeMenu;
+	
 	DTXRPQueryStringEditor* _queryStringEditor;
 	DTXRequestHeadersEditor* _headersEditor;
 	DTXRPCookiesEditor* _cookiesEditor;
 	DTXRPBodyEditor* _bodyEditor;
 	DTXRequestHeadersEditor* _responseHeadersEditor;
-	DTXRPBodyEditor* _responseEditor;
+	DTXRPResponseBodyEditor* _responseEditor;
 	
 	DTXNetworkSample* _cachedNetworkSample;
 	
@@ -63,6 +67,9 @@
 	[super viewDidLoad];
 	
 	_progressIndicator.usesThreadedAnimation = YES;
+	
+	[_copyCodeSegmentedControl setMenu:_copyCodeMenu forSegment:1];
+	[_copyCodeSegmentedControl setShowsMenuIndicator:YES forSegment:1];
 }
 
 - (void)viewWillAppear
@@ -217,6 +224,16 @@
 	[self _updateProgressIndicator];
 	
 	[_dataTask resume];
+}
+
+- (IBAction)curl:(id)sender
+{
+	
+}
+
+- (IBAction)node:(id)sender
+{
+	
 }
 
 @end

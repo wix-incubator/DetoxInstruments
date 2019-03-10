@@ -287,6 +287,11 @@ DTX_CREATE_LOG(RemoteProfiler);
 			preserialized[@"responseError"] = error.localizedDescription;
 		}
 		
+		if(response.suggestedFilename.length > 0)
+		{
+			preserialized[@"responseSuggestedFilename"] = response.suggestedFilename;
+		}
+		
 		if(response.MIMEType.length > 0)
 		{
 			preserialized[@"responseMIMEType"] = response.MIMEType;

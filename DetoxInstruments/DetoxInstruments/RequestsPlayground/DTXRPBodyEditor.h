@@ -12,6 +12,4 @@
 
 @property (nonatomic, strong) NSData* body;
 
-- (void)setBody:(NSData *)body response:(NSURLResponse*)response error:(NSError*)error;
-
 @end

@@ -88,6 +88,31 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_updateFromMainWindow) name:NSWindowDidBecomeMainNotification object:nil];
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_updateFromMainWindow) name:NSWindowDidResignMainNotification object:nil];
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_updateFromMainWindow) name:DTXRecordingDocumentStateDidChangeNotification object:nil];
+	
+	[self _updateApril1BadgeIfNeeded];
+	
+	[NSNotificationCenter.defaultCenter addObserverForName:NSCalendarDayChangedNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
+		[self _updateApril1BadgeIfNeeded];
+	}];
+}
+
+- (void)_updateApril1BadgeIfNeeded
+{
+	NSDateComponents* dc = [NSDateComponents new];
+	dc.day = 1;
+	dc.month = 4;
+	dc.year = [NSCalendar.currentCalendar component:NSCalendarUnitYear fromDate:NSDate.date];
+	dc.hour = 12;
+	NSDate* aprilFirst = [NSCalendar.currentCalendar dateFromComponents:dc];
+	
+	if([NSCalendar.currentCalendar isDateInToday:aprilFirst])
+	{
+		NSApplication.sharedApplication.dockTile.badgeLabel = @"🤪";
+	}
+	else
+	{
+		NSApplication.sharedApplication.dockTile.badgeLabel = nil;
+	}
 }
 
 - (void)_updateFromMainWindow

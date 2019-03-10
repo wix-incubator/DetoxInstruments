@@ -736,6 +736,7 @@ DTX_CREATE_LOG(Profiler);
 		networkSample.responseTimestamp = timestamp;
 		networkSample.duration = [timestamp timeIntervalSinceDate:networkSample.timestamp];
 		
+		networkSample.responseSuggestedFilename = response.suggestedFilename;
 		networkSample.responseError = error.localizedDescription;
 		networkSample.responseMIMEType = response.MIMEType;
 		if([response isKindOfClass:[NSHTTPURLResponse class]])
