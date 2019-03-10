@@ -50,6 +50,31 @@
 
 - (void)_reloadTable
 {
+	NSMutableArray* contentArray = [NSMutableArray new];
+	
+	NSUInteger statusCode = 0;
+	NSString* statusLocalized = nil;
+	if([_response isKindOfClass:NSHTTPURLResponse.class])
+	{
+		statusCode = [(NSHTTPURLResponse*)_response statusCode];
+		statusLocalized = [NSHTTPURLResponse localizedStringForStatusCode:statusCode];
+	}
+
+	if(_error != nil || statusCode >= 400)
+	{
+		DTXInspectorContent* responsePreview = [DTXInspectorContent new];
+		responsePreview.title = NSLocalizedString(@"Error", @"");
+		if(_error != nil)
+		{
+			responsePreview.content = @[[DTXInspectorContentRow contentRowWithTitle:nil description:_error.localizedFailureReason ?: _error.localizedDescription]];
+		}
+		else
+		{
+			responsePreview.content = @[[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Response Code", @"") description:[NSString stringWithFormat:@"%@ (%@)", @(statusCode), statusLocalized]]];
+		}
+		[contentArray addObject:responsePreview];
+	}
+	
 	NSImage* image;
 	if(self._hasImage && _body != nil)
 	{
@@ -97,15 +122,10 @@
 		
 		responsePreview.buttons = @[previewButton, saveButton, shareButton];
 		
-		_tableDataSource.contentArray = @[responsePreview];
+		[contentArray addObject:responsePreview];
 	}
-	else if(_error != nil)
-	{
-		DTXInspectorContent* responsePreview = [DTXInspectorContent new];
-		responsePreview.title = NSLocalizedString(@"Error", @"");
-		responsePreview.content = @[[DTXInspectorContentRow contentRowWithTitle:nil description:_error.localizedFailureReason ?: _error.localizedDescription]];
-		_tableDataSource.contentArray = @[responsePreview];
-	}
+	
+	_tableDataSource.contentArray = contentArray;
 }
 
 - (NSString*)_bestGuessFileName

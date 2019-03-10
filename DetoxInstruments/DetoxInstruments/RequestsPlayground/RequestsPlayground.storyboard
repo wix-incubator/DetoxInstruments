@@ -75,15 +75,15 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hC-Pm-T1H">
-                                                                    <rect key="frame" x="-2" y="13" width="652" height="19"/>
+                                                                    <rect key="frame" x="-2" y="15" width="652" height="17"/>
                                                                     <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Content" id="BLA-H2-ZW5">
-                                                                        <font key="font" size="13" name="Menlo-Regular"/>
+                                                                        <font key="font" size="11" name="Menlo-Regular"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z7h-D1-CfA">
-                                                                    <rect key="frame" x="324" y="0.0" width="0.0" height="5"/>
+                                                                    <rect key="frame" x="324" y="0.0" width="0.0" height="7"/>
                                                                 </stackView>
                                                             </subviews>
                                                             <constraints>
@@ -346,9 +346,12 @@
                                     <font key="font" metaFont="system"/>
                                     <segments>
                                         <segment label="Copy Snippet"/>
-                                        <segment imageScaling="none" tag="1"/>
+                                        <segment image="NSDropDownIndicator" imageScaling="none" width="16" tag="1"/>
                                     </segments>
                                 </segmentedCell>
+                                <connections>
+                                    <action selector="copyCodeSnippet:" target="wwV-rT-pkJ" id="3Sg-rL-Ge9"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <constraints>
@@ -401,16 +404,16 @@
                 </menu>
                 <menu id="R84-gc-9j6">
                     <items>
-                        <menuItem image="curl-logo" id="cF2-VM-Rph">
+                        <menuItem title="cURL" id="cF2-VM-Rph">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="curl:" target="wwV-rT-pkJ" id="jcL-SG-x9B"/>
+                                <action selector="setCodeSnippedLanguage:" target="wwV-rT-pkJ" id="xcm-RN-py2"/>
                             </connections>
                         </menuItem>
-                        <menuItem image="node-logo" id="IhF-Tj-ApH">
+                        <menuItem title="Node" tag="1" id="IhF-Tj-ApH">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="node:" target="wwV-rT-pkJ" id="Dr8-vp-doW"/>
+                                <action selector="setCodeSnippedLanguage:" target="wwV-rT-pkJ" id="cc6-up-H7p"/>
                             </connections>
                         </menuItem>
                     </items>
@@ -555,8 +558,7 @@
     </scenes>
     <resources>
         <image name="NSCaution" width="32" height="32"/>
-        <image name="curl-logo" width="47" height="14"/>
-        <image name="node-logo" width="47" height="14"/>
+        <image name="NSDropDownIndicator" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="k7Z-gA-fpx"/>

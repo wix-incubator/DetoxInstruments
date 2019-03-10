@@ -13,6 +13,16 @@
 #import "DTXRPQueryStringEditor.h"
 #import "DTXRPBodyEditor.h"
 #import "DTXRPResponseBodyEditor.h"
+#import "DTXRPCurlSnippetExporter.h"
+#import "DTXRPNodeSnippetExporter.h"
+
+static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.codeSnippet";
+
+@interface NSSegmentedCell ()
+
+- (void)_trackSelectedItemMenu;
+
+@end
 
 @interface DTXRequestsPlaygroundController () <NSTabViewDelegate>
 
@@ -69,7 +79,6 @@
 	_progressIndicator.usesThreadedAnimation = YES;
 	
 	[_copyCodeSegmentedControl setMenu:_copyCodeMenu forSegment:1];
-	[_copyCodeSegmentedControl setShowsMenuIndicator:YES forSegment:1];
 }
 
 - (void)viewWillAppear
@@ -210,7 +219,13 @@
 				return;
 			}
 			
-			if(error != nil)
+			NSUInteger statusCode = 0;
+			if([response isKindOfClass:NSHTTPURLResponse.class])
+			{
+				statusCode = [(NSHTTPURLResponse*)response statusCode];
+			}
+			
+			if(error != nil || statusCode >= 400)
 			{
 				_errorIndicator.hidden = NO;
 			}
@@ -226,14 +241,48 @@
 	[_dataTask resume];
 }
 
-- (IBAction)curl:(id)sender
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+	menuItem.state = [NSUserDefaults.standardUserDefaults integerForKey:__codeSnippetKey] == menuItem.tag ? NSControlStateValueOn : NSControlStateValueOff;
 	
+	return YES;
 }
 
-- (IBAction)node:(id)sender
+- (IBAction)setCodeSnippedLanguage:(NSMenuItem*)sender
 {
+	[NSUserDefaults.standardUserDefaults setInteger:sender.tag forKey:__codeSnippetKey];
+}
+
+- (void)_copyCodeSnippet
+{
+	NSInteger snippetLanguage = [NSUserDefaults.standardUserDefaults integerForKey:__codeSnippetKey];
+	Class exporterClass;
 	
+	switch (snippetLanguage) {
+		case 0:
+			exporterClass = [DTXRPCurlSnippetExporter class];
+			break;
+		case 1:
+			exporterClass = [DTXRPNodeSnippetExporter class];
+			break;
+	}
+	
+	NSString* snippet = [exporterClass snippetWithRequest:self._requestFromData];
+	[NSPasteboard.generalPasteboard clearContents];
+	[NSPasteboard.generalPasteboard setString:snippet forType:NSPasteboardTypeString];
+}
+
+- (IBAction)copyCodeSnippet:(NSSegmentedControl*)sender
+{
+	if(sender.selectedSegment != 0)
+	{
+		[sender.cell _trackSelectedItemMenu];
+		
+		return;
+	}
+	
+	[self.view.window makeFirstResponder:self.view];
+	[self _copyCodeSnippet];
 }
 
 @end
