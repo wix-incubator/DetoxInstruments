@@ -87,7 +87,7 @@ static NSDictionary<NSNumber*, NSString*>* __appleHighlightColorMapping;
 static NSNumber* __defaultSample;
 static NSNumber* __defaultSampleRN;
 static const CGFloat __inspectorPaneOverviewImagePadding = 35;
-static const CGFloat __inspectorPercentage = 0.76;
+static const CGFloat __inspectorPercentage = 0.85;
 static const CGFloat __inspectorLowkeyPercentage = 0.45;
 
 @implementation DTXApplicationDelegate (DocumentationGeneration)

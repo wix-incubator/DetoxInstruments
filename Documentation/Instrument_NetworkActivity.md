@@ -38,4 +38,10 @@ For each sample, the inspector pane shows request and response information, such
 
 ![Network Activity Inspector Pane](Resources/Instrument_NetworkActivity_InspectorPane.png "Network Activity Inspector Pane")
 
-Response data is previewed automatically, and you can save file by right clicking on the preview and selecting **Save As...**.
+Response data is previewed automatically, and you can save file by right clicking on the preview and selecting **Save As...**
+
+#### Requests Playground
+
+You can open the selected request in the **Requests Playground** utility by clicking the **Open in Requests Playground** button. All the headers and data of the request will be transferred.
+
+For more information, see [Requests Playground](RequestsPlayground.md).

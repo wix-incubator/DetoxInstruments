@@ -3,7 +3,7 @@
 //  DTXProfiler
 //
 //  Created by Leo Natan (Wix) on 2/24/19.
-//  Copyright © 2019 Wix. All rights reserved.
+//  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
 #import "NSURLProtocol+NetworkRecorder.h"
