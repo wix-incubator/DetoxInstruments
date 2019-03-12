@@ -19,7 +19,10 @@
 		[rv appendFormat:@"-X %@ ", request.HTTPMethod];
 		
 		NSString* body = [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding];
-		[rv appendFormat:@"--data-binary '%@' ", [body stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"]];
+		if(body.length > 0)
+		{
+			[rv appendFormat:@"--data-binary '%@' ", [body stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"]];
+		}
 	}
 	
 	[request.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
