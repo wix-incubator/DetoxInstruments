@@ -31,6 +31,8 @@
 #import "DTXDebugMenuGenerator.h"
 #import "NSImage+UIAdditions.h"
 
+#import "DTXRequestDocument.h"
+
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 @import ObjectiveC;
@@ -360,6 +362,28 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	[newDocument close];
 	
+	DTXRequestDocument* requestDocument = [NSDocumentController.sharedDocumentController makeDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/RequestsPlayground.dtxrequest"] ofType:@"com.wix.dtxinst.request" error:NULL];
+	[NSDocumentController.sharedDocumentController addDocument:requestDocument];
+	[requestDocument makeWindowControllers];
+	[requestDocument showWindows];
+
+	DTXRequestsPlaygroundWindowController* requestWindowController = requestDocument.windowControllers.firstObject;
+	
+	[windowController _drainLayout];
+	[windowController _drainLayout];
+	[windowController _drainLayout];
+	[windowController _drainLayout];
+	[windowController _drainLayout];
+	
+	NSBitmapImageRep* rplaygroundRep = (NSBitmapImageRep*)[requestWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[rplaygroundRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RequestsPlayground.png"].path atomically:YES];
+	[requestWindowController.window close];
+	
+	[windowController _drainLayout];
+	[windowController _drainLayout];
+	[windowController _drainLayout];
+	[windowController _drainLayout];
+	
 	BOOL oldVal = [NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"];
 	[NSUserDefaults.standardUserDefaults setBool:NO forKey:@"DTXPlotSettingsDisplayLabels"];
 	
@@ -373,6 +397,9 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		[windowController _setBottomSplitAtPercentage:0.53];
 		[windowController _removeDetailVerticalScroller];
 		[windowController _drainLayout];
+		[windowController _drainLayout];
+		[windowController _drainLayout];
+		[windowController _drainLayout];
 		
 		[windowController _selectSampleAtIndex:__defaultSample.integerValue forPlotControllerClass:DTXCPUUsagePlotController.class];
 		
@@ -381,7 +408,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		NSBitmapImageRep* repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Document.png"].path atomically:YES];
 		
-		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:pasteboardRep].representations.firstObject;
+		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:pasteboardRep requestsPlaygroundRep:rplaygroundRep].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
 		
 		[windowController _setWindowSize:NSMakeSize(1344, 945)];
@@ -705,12 +732,13 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	return toolbarImage;
 }
 
-- (NSImage*)_introImageWithRecordingWindowRep:(NSBitmapImageRep*)recWinRep managementWindowRep:(NSBitmapImageRep*)manageRep
+- (NSImage*)_introImageWithRecordingWindowRep:(NSBitmapImageRep*)recWinRep managementWindowRep:(NSBitmapImageRep*)manageRep requestsPlaygroundRep:(NSBitmapImageRep*)requestsPlaygroundRep
 {
 	NSImage* introImage = [[NSImage alloc] initWithSize:NSMakeSize(recWinRep.size.width + manageRep.size.width / 4, recWinRep.size.height + manageRep.size.height / 5)];
 	[introImage lockFocus];
 	
 	[recWinRep drawAtPoint:NSMakePoint(0, introImage.size.height - recWinRep.size.height)];
+	[requestsPlaygroundRep drawInRect:(NSRect){NSMakePoint(introImage.size.width * 0.5 - requestsPlaygroundRep.size.width * 0.5, requestsPlaygroundRep.size.height * 0.1), requestsPlaygroundRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	[manageRep drawInRect:(NSRect){NSMakePoint(introImage.size.width - manageRep.size.width, 0), manageRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	recWinRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, introImage.size}];

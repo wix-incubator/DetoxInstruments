@@ -18,6 +18,7 @@
 #import "DTXInspectorContentController.h"
 #import "NSAppearance+UIAdditions.h"
 #import "DTXPlotAreaContentController.h"
+#import "DTXRequestDocument.h"
 
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma clang diagnostic ignored "-Wincomplete-implementation"

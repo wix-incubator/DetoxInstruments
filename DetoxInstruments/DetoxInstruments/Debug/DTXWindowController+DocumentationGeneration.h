@@ -10,6 +10,7 @@
 
 #import "DTXWindowController.h"
 #import "DTXProfilingTargetManagementWindowController.h"
+#import "DTXRequestsPlaygroundWindowController.h"
 
 @interface DTXWindowController (DocumentationGeneration)
 
