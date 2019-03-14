@@ -31,6 +31,8 @@
 - (void)setText:(NSString *)text
 {
 	self.body = [text dataUsingEncoding:NSUTF8StringEncoding];
+	
+	[self.view.window.windowController.document updateChangeCount:NSChangeDone];
 }
 
 - (NSString *)text

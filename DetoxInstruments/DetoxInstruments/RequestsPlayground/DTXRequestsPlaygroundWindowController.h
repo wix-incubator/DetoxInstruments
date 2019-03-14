@@ -11,6 +11,4 @@
 
 @interface DTXRequestsPlaygroundWindowController : NSWindowController
 
-- (void)loadRequestDetailsFromNetworkSample:(DTXNetworkSample*)networkSample;
-
 @end

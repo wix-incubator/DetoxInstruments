@@ -13,7 +13,8 @@
 #import <CoreServices/CoreServices.h>
 #import "NSString+FileNames.h"
 #import "NSURL+UIAdditions.h"
-#import "DTXRequestsPlaygroundWindowController.h"
+#import "DTXRequestDocument.h"
+//#import "DTXRequestsPlaygroundWindowController.h"
 
 @implementation DTXNetworkInspectorDataProvider
 
@@ -305,10 +306,11 @@
 
 - (IBAction)openInRequestsPlayground:(id)sender
 {
-	NSStoryboard* storyboard = [NSStoryboard storyboardWithName:@"RequestsPlayground" bundle:nil];
-	DTXRequestsPlaygroundWindowController* wc = [storyboard instantiateInitialController];
-	[wc loadRequestDetailsFromNetworkSample:self.sample];
-	[wc.window makeKeyAndOrderFront:nil];
+	DTXRequestDocument* requestDocument = [DTXRequestDocument new];
+	[requestDocument loadRequestDetailsFromNetworkSample:self.sample document:self.document];
+	[NSDocumentController.sharedDocumentController addDocument:requestDocument];
+	[requestDocument makeWindowControllers];
+	[requestDocument showWindows];
 }
 
 @end

@@ -60,6 +60,26 @@
 			<key>NSDocumentClass</key>
 			<string>DTXLegacyRecordingDocument</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>dtxrequest</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>dtxreqicon</string>
+			<key>CFBundleTypeName</key>
+			<string>Requests Playground Request Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.wix.dtxinst.request</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<integer>0</integer>
+			<key>NSDocumentClass</key>
+			<string>DTXRequestDocument</string>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
@@ -78,9 +98,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.10</string>
 	<key>CFBundleVersion</key>
-	<string>9989</string>
+	<string>9999</string>
 	<key>DTXBuildDate</key>
-	<date>2019-03-12T15:58:36Z</date>
+	<date>2019-03-14T20:09:56Z</date>
 	<key>DTXSourceRoot</key>
 	<string>$(DTXSRCROOT)</string>
 	<key>LSMinimumSystemVersion</key>
@@ -140,6 +160,25 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>dtxprof</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Requests Playground Request Document</string>
+			<key>UTTypeIconFile</key>
+			<string>dtxreqicon</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.wix.dtxinst.request</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>dtxrequest</string>
 				</array>
 			</dict>
 		</dict>

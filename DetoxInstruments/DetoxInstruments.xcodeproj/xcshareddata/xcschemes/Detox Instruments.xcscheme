@@ -147,7 +147,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "codesign -s &quot;Developer ID Application: Leo Natan (S9QFG2VH2E)&quot; -f --deep &quot;${ARCHIVE_PRODUCTS_PATH}${INSTALL_PATH}/${FULL_PRODUCT_NAME}&quot;">
+               scriptText = "codesign -s &quot;Developer ID Application: Leo Natan (S9QFG2VH2E)&quot; -f --deep &quot;${ARCHIVE_PRODUCTS_PATH}${INSTALL_PATH}/${FULL_PRODUCT_NAME}&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

@@ -19,7 +19,7 @@
 
 - (void)setAddress:(NSString *)address
 {
-	NSURLComponents* newComponents = [[NSURLComponents alloc] initWithString:address];
+	NSURLComponents* newComponents = [[NSURLComponents alloc] initWithString:address ?: @""];
 	if([newComponents isEqual:_urlComponents] == NO)
 	{
 		_urlComponents = newComponents;
@@ -70,6 +70,8 @@
 - (void)propertyListEditor:(LNPropertyListEditor *)editor willChangeNode:(LNPropertyListNode *)node changeType:(LNPropertyListNodeChangeType)changeType previousKey:(NSString *)previousKey
 {
 	[self _reloadURLComponents];
+	
+	[self.view.window.windowController.document updateChangeCount:NSChangeDone];
 }
 
 @end

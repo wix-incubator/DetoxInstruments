@@ -15,9 +15,4 @@
 
 @implementation DTXRequestsPlaygroundWindowController
 
-- (void)loadRequestDetailsFromNetworkSample:(DTXNetworkSample*)networkSample
-{
-	[(DTXRequestsPlaygroundController*)self.contentViewController loadRequestDetailsFromNetworkSample:networkSample];
-}
-
 @end

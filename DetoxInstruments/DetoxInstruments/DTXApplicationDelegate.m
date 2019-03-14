@@ -13,6 +13,7 @@
 #import "DTXColorTryoutsWindow.h"
 #import "DTXMeasurements.h"
 #import "DTXWindowController.h"
+#import "DTXRequestDocument.h"
 
 #import "DTXLogging.h"
 DTX_CREATE_LOG(ApplicationDelegate)
@@ -119,6 +120,10 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		DTXRecordingDocument* doc = [NSDocumentController.sharedDocumentController documentForWindow:NSApp.mainWindow];
+		if([doc isKindOfClass:DTXRecordingDocument.class] == NO)
+		{
+			doc = nil;
+		}
 		
 		[self willChangeValueForKey:@"hasNoDocumentWindowOpen"];
 		[self willChangeValueForKey:@"hasAnyDocumentWindowOpen"];
@@ -148,6 +153,14 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		[self didChangeValueForKey:@"hasRecordingDocumentWindowOpen"];
 		[self didChangeValueForKey:@"hasSavedDocumentWindowOpen"];
 	});
+}
+
+- (IBAction)newRequestDocument:(id)sender
+{
+	DTXRequestDocument* requestDocument = [DTXRequestDocument new];
+	[NSDocumentController.sharedDocumentController addDocument:requestDocument];
+	[requestDocument makeWindowControllers];
+	[requestDocument showWindows];
 }
 
 - (IBAction)showAboutWindow:(id)sender
@@ -284,6 +297,11 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	NSMutableArray<DTXRecordingDocument*>* recordingDocuments = [NSMutableArray new];
 	
 	[[NSDocumentController sharedDocumentController].documents enumerateObjectsUsingBlock:^(__kindof NSDocument * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if([obj isKindOfClass:DTXRecordingDocument.class] == NO)
+		{
+			return;
+		}
+		
 		if([obj documentState] == DTXRecordingDocumentStateLiveRecording)
 		{
 			[recordingDocuments addObject:obj];

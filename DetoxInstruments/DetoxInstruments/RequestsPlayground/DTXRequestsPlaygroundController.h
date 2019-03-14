@@ -13,5 +13,7 @@
 @property (strong) IBOutlet NSTabView *tabView;
 
 - (void)loadRequestDetailsFromNetworkSample:(DTXNetworkSample*)networkSample;
+- (void)loadRequestDetailsFromURLRequest:(NSURLRequest*)request;
+- (NSURLRequest*)requestForSaving;
 
 @end

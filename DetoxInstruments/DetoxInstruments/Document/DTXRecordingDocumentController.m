@@ -8,6 +8,9 @@
 
 #import "DTXRecordingDocumentController.h"
 #import "DTXRecordingDocument.h"
+#if ! CLI
+#import "DTXRequestDocument.h"
+#endif
 
 @implementation DTXRecordingDocumentController
 
@@ -28,7 +31,18 @@
 
 - (nullable Class)documentClassForType:(NSString *)typeName
 {
-	return [DTXRecordingDocument class];
+	if([typeName isEqualToString:@"com.wix.dtxinst.recording"] || [typeName isEqualToString:@"com.wix.dtxinst.recording.legacy"])
+	{
+		return DTXRecordingDocument.class;
+	}
+#if ! CLI
+	else if([typeName isEqualToString:@"com.wix.dtxinst.request"])
+	{
+		return DTXRequestDocument.class;
+	}
+#endif
+		
+	return nil;
 }
 
 - (BOOL)presentError:(NSError *)error

@@ -9,7 +9,7 @@
         <scene sceneID="pge-iq-pnJ">
             <objects>
                 <windowController id="qHr-hd-QCA" customClass="DTXRequestsPlaygroundWindowController" sceneMemberID="viewController">
-                    <window key="window" title="Requests Playground" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="fFe-p6-bnK">
+                    <window key="window" title="Requests Playground" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="fFe-p6-bnK">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="245" y="301" width="480" height="270"/>
@@ -525,7 +525,11 @@
                                             <size key="maxSize" width="731" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <connections>
-                                                <binding destination="AHl-UU-xrQ" name="value" keyPath="text" id="JFb-PC-7Oh"/>
+                                                <binding destination="AHl-UU-xrQ" name="value" keyPath="text" id="nGG-fU-KxZ">
+                                                    <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                    </dictionary>
+                                                </binding>
                                             </connections>
                                         </textView>
                                     </subviews>
@@ -558,7 +562,7 @@
     </scenes>
     <resources>
         <image name="NSCaution" width="32" height="32"/>
-        <image name="NSDropDownIndicator" width="128" height="128"/>
+        <image name="NSDropDownIndicator" width="7" height="5"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="k7Z-gA-fpx"/>

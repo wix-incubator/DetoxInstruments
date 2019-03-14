@@ -34,6 +34,8 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 
 @implementation DTXRequestsPlaygroundController
 {
+	BOOL _loading;
+	
 	IBOutlet DTXTabViewItem* _headersTabViewItem;
 	IBOutlet DTXTabViewItem* _cookiesTabViewItem;
 	IBOutlet DTXTabViewItem* _queryTabViewItem;
@@ -55,6 +57,7 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	DTXRPResponseBodyEditor* _responseEditor;
 	
 	DTXNetworkSample* _cachedNetworkSample;
+	NSURLRequest* _cachedURLRequest;
 	
 	NSURLSessionDataTask* _dataTask;
 }
@@ -62,14 +65,40 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
+	
+	_loading = YES;
+	self.method = @"GET";
+	self.address = @"";
+	_loading = NO;
 }
 
 - (void)setAddress:(NSString *)address
 {
-	[self willChangeValueForKey:@"address"];
-	_address = address;
-	_queryStringEditor.address = _address;
-	[self didChangeValueForKey:@"address"];
+	if([_address isEqualToString:address] == NO)
+	{
+		[self willChangeValueForKey:@"address"];
+		_address = address;
+		_queryStringEditor.address = _address;
+		if(_loading == NO)
+		{
+			[self.view.window.windowController.document updateChangeCount:NSChangeDone];
+		}
+		[self didChangeValueForKey:@"address"];
+	}
+}
+
+- (void)setMethod:(NSString *)method
+{
+	if([_method isEqualToString:method] == NO)
+	{
+		[self willChangeValueForKey:@"method"];
+		_method = method;
+		if(_loading == NO)
+		{
+			[self.view.window.windowController.document updateChangeCount:NSChangeDone];
+		}
+		[self didChangeValueForKey:@"method"];
+	}
 }
 
 - (void)viewDidLoad
@@ -97,6 +126,11 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 		[self loadRequestDetailsFromNetworkSample:_cachedNetworkSample];
 		_cachedNetworkSample = nil;
 	}
+	else if(_cachedURLRequest)
+	{
+		[self loadRequestDetailsFromURLRequest:_cachedURLRequest];
+		_cachedURLRequest = nil;
+	}
 	
 	[self bind:@"address" toObject:_queryStringEditor withKeyPath:@"address" options:nil];
 }
@@ -109,6 +143,7 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 		return;
 	}
 	
+	_loading = YES;
 	self.method = networkSample.requestHTTPMethod;
 	self.address = networkSample.url;
 	self.requestHeaders = networkSample.requestHeaders;
@@ -116,6 +151,26 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	_headersEditor.requestHeaders = self.requestHeaders;
 	_queryStringEditor.address = self.address;
 	_bodyEditor.body = networkSample.requestData.data;
+	_loading = NO;
+}
+
+- (void)loadRequestDetailsFromURLRequest:(NSURLRequest*)request
+{
+	if(_headersEditor == nil)
+	{
+		_cachedURLRequest = request;
+		return;
+	}
+	
+	_loading = YES;
+	self.method = request.HTTPMethod ?: @"GET";
+	self.address = request.URL.absoluteString ?: @"";
+	self.requestHeaders = request.allHTTPHeaderFields ?: @{};
+	
+	_headersEditor.requestHeaders = self.requestHeaders;
+	_queryStringEditor.address = self.address;
+	_bodyEditor.body = request.HTTPBody;
+	_loading = NO;
 }
 
 - (void)tabView:(NSTabView *)tabView willSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem
@@ -159,12 +214,19 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 
 - (NSURLRequest*)_requestFromData
 {
+	[self.view.window makeFirstResponder:self.view];
+	
 	NSMutableURLRequest* rv = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:self.address]];
 	rv.HTTPShouldHandleCookies = NO;
 	rv.allHTTPHeaderFields = self.requestHeaders;
 	rv.HTTPBody = _bodyEditor.body;
 	rv.HTTPMethod = self.method;
 	return rv;
+}
+
+- (NSURLRequest*)requestForSaving
+{
+	return self._requestFromData;
 }
 
 - (void)_updateProgressIndicator
@@ -193,9 +255,7 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 
 - (IBAction)sendRequest:(id)sender
 {
-	[self.view.window makeFirstResponder:self.view];
-	
-	NSURLRequest* request = [self _requestFromData];
+	NSURLRequest* request = self._requestFromData;
 	
 	if(_dataTask != nil)
 	{
@@ -281,7 +341,6 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 		return;
 	}
 	
-	[self.view.window makeFirstResponder:self.view];
 	[self _copyCodeSnippet];
 }
 
