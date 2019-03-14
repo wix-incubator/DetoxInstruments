@@ -214,8 +214,6 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 
 - (NSURLRequest*)_requestFromData
 {
-	[self.view.window makeFirstResponder:self.view];
-	
 	NSMutableURLRequest* rv = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:self.address]];
 	rv.HTTPShouldHandleCookies = NO;
 	rv.allHTTPHeaderFields = self.requestHeaders;
