@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) NSString* text;
 @property (nonatomic, strong, readwrite) NSData* body;
-@property (nonatomic, strong, readwrite) NSString* contentType;
 
 @end
 
@@ -24,6 +23,9 @@
 	IBOutlet NSTextView* _textView;
 	IBOutlet NSTextField* _contentTypeTextField;
 	IBOutlet NSStackView* _bodyTypeButtonsStackView;
+	IBOutlet NSImageView* _fileImageView;
+	IBOutlet NSStackView* _fileBrowseButtons;
+	IBOutlet NSButton* _fileSaveButton;
 }
 
 - (void)setBody:(NSData *)body
@@ -38,17 +40,28 @@
 	{
 		[self.view.window.windowController.document updateChangeCount:NSChangeDone];
 	}
+	
+	_fileSaveButton.enabled = _body.length > 0;
 }
 
 - (void)setContentType:(NSString *)contentType
 {
-	[self willChangeValueForKey:@"contentType"];
-	_contentType = contentType;
-	[self didChangeValueForKey:@"contentType"];
-	
-	if(_loading == NO)
+	if([contentType isEqualToString:_contentType] == NO)
 	{
-		[self.view.window.windowController.document updateChangeCount:NSChangeDone];
+		_contentType = contentType;
+		
+		if(_loading == NO)
+		{
+			[self.view.window.windowController.document updateChangeCount:NSChangeDone];
+		}
+		
+		if(self.body.length > 0)
+		{
+			NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(contentType), NULL));
+			NSImage* image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];
+			image.size = NSMakeSize(256, 256);
+			_fileImageView.image = image;
+		}
 	}
 }
 
@@ -167,6 +180,16 @@
 	}
 }
 
+- (BOOL)_isContentTypeBinary
+{
+	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(self.contentType), NULL);
+	dtx_defer {
+		CFRelease(UTI);
+	};
+	
+	return UTTypeConformsTo(UTI, kUTTypeText) == NO;
+}
+
 - (void)setBody:(NSData *)body withContentType:(NSString*)contentType
 {
 	_loading = YES;
@@ -174,7 +197,7 @@
 	self.contentType = contentType ?: @"";
 	self.body = body;
 	
-	if(self.body.length == 0)
+	if(self.body.length == 0 && self.contentType.length == 0)
 	{
 		[(NSButton*)[_bodyTypeButtonsStackView viewWithTag:0] setState:NSControlStateValueOn];
 	}
@@ -182,6 +205,10 @@
 	{
 		[(NSButton*)[_bodyTypeButtonsStackView viewWithTag:2] setState:NSControlStateValueOn];
 		[self _reloadURLEncodedForm];
+	}
+	else if(self._isContentTypeBinary)
+	{
+		[(NSButton*)[_bodyTypeButtonsStackView viewWithTag:3] setState:NSControlStateValueOn];
 	}
 	else
 	{
@@ -202,6 +229,8 @@
 	_contentTypeTextField.enabled = isRawText || isFile;
 	_textScrollView.hidden = isRawText == NO;
 	self.plistEditor.hidden = isURLEncoded == NO;
+	_fileImageView.hidden = isFile == NO;
+	_fileBrowseButtons.hidden = isFile == NO;
 	
 	if(isRawText)
 	{
@@ -214,11 +243,57 @@
 	}
 }
 
+- (IBAction)selectFile:(id)sender
+{
+	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+	openPanel.canChooseDirectories = NO;
+	openPanel.canChooseFiles = YES;
+	openPanel.message = NSLocalizedString(@"Select file to use as body content.", @"");
+	
+	[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+		if(returnCode != NSModalResponseOK)
+		{
+			return;
+		}
+		
+		self.body = [[NSData alloc] initWithContentsOfURL:openPanel.URL options:(NSDataReadingMappedIfSafe) error:NULL];
+		NSString* type;
+		[openPanel.URL getResourceValue:&type forKey:NSURLTypeIdentifierKey error:NULL];
+		NSString* MIMEType = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(type), kUTTagClassMIMEType));
+		self.contentType = MIMEType ?: @"application/octet-stream";
+	}];
+}
+
+- (IBAction)saveFile:(id)sender
+{
+	NSSavePanel* savePanel = [NSSavePanel savePanel];
+	
+	NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(self.contentType), NULL));
+	NSString* extension = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(UTI), kUTTagClassFilenameExtension));
+	if(extension == nil)
+	{
+		extension = @"bin";
+	}
+	
+	NSString* fileName = [NSString stringWithFormat:@"Body.%@", extension];
+	
+	savePanel.nameFieldStringValue = fileName;
+	
+	[savePanel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+		if(returnCode != NSModalResponseOK)
+		{
+			return;
+		}
+		
+		[self.body writeToURL:savePanel.URL atomically:YES];
+	}];
+}
+
 #pragma mark NSUserInterfaceValidations
 
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
-	if(self.contentType.length > 0 && [self.contentType hasPrefix:@"application/x-www-form-urlencoded"] == NO)
+	if(item.tag == 2 && self.contentType.length > 0 && [self.contentType hasPrefix:@"application/x-www-form-urlencoded"] == NO)
 	{
 		NSAlert* alert = [NSAlert new];
 		alert.alertStyle = NSAlertStyleWarning;

@@ -507,22 +507,22 @@
             <objects>
                 <viewController id="AHl-UU-xrQ" customClass="DTXRPBodyEditor" sceneMemberID="viewController">
                     <view key="view" id="9WI-qJ-r0D" customClass="_DTXRPEditorView">
-                        <rect key="frame" x="0.0" y="0.0" width="796" height="411"/>
+                        <rect key="frame" x="0.0" y="0.0" width="722" height="489"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="line" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jce-jg-GwJ">
-                                <rect key="frame" x="0.0" y="42" width="796" height="369"/>
+                                <rect key="frame" x="0.0" y="42" width="722" height="447"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="EsI-a3-g12">
-                                    <rect key="frame" x="1" y="1" width="794" height="367"/>
+                                    <rect key="frame" x="1" y="1" width="720" height="445"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="d2U-PR-osf">
-                                            <rect key="frame" x="0.0" y="0.0" width="794" height="367"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="720" height="445"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="794" height="367"/>
-                                            <size key="maxSize" width="794" height="10000000"/>
+                                            <size key="minSize" width="720" height="445"/>
+                                            <size key="maxSize" width="796" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <connections>
                                                 <binding destination="AHl-UU-xrQ" name="value" keyPath="text" id="nGG-fU-KxZ">
@@ -539,12 +539,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="pIx-sA-tVM">
-                                    <rect key="frame" x="779" y="1" width="16" height="367"/>
+                                    <rect key="frame" x="705" y="1" width="16" height="445"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="7RL-KE-vn8" customClass="LNPropertyListEditor">
-                                <rect key="frame" x="0.0" y="42" width="796" height="369"/>
+                                <rect key="frame" x="0.0" y="42" width="722" height="447"/>
                             </customView>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-M5-NPh">
                                 <rect key="frame" x="0.0" y="3" width="426" height="16"/>
@@ -616,7 +616,7 @@
                                 </customSpacing>
                             </stackView>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dXc-Zp-Ulb">
-                                <rect key="frame" x="566" y="0.0" width="230" height="22"/>
+                                <rect key="frame" x="492" y="0.0" width="230" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="230" id="3KD-dc-tMa"/>
                                 </constraints>
@@ -633,26 +633,75 @@
                                     </binding>
                                 </connections>
                             </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vxw-lO-QIt">
+                                <rect key="frame" x="230" y="147" width="262" height="262"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Vxw-lO-QIt" secondAttribute="height" multiplier="1:1" id="VqG-3r-K4d"/>
+                                    <constraint firstAttribute="width" constant="256" id="nh2-gI-hUB"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="aHC-Nu-lB4"/>
+                            </imageView>
+                            <stackView distribution="fillEqually" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uv4-wb-BN7">
+                                <rect key="frame" x="275" y="109" width="172" height="21"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tfb-zT-k1T">
+                                        <rect key="frame" x="-6" y="-7" width="94" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Set File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3Ii-IN-eqo">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="selectFile:" target="AHl-UU-xrQ" id="mCF-Lp-F2r"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MiS-0y-XMg">
+                                        <rect key="frame" x="84" y="-7" width="94" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Save File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="N5G-ga-mBm">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="saveFile:" target="AHl-UU-xrQ" id="lIx-cY-xYA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="jce-jg-GwJ" firstAttribute="top" secondItem="9WI-qJ-r0D" secondAttribute="top" id="9gZ-1l-Fyd"/>
                             <constraint firstItem="dXc-Zp-Ulb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gqM-M5-NPh" secondAttribute="trailing" constant="20" id="BlS-vt-LDo"/>
                             <constraint firstItem="7RL-KE-vn8" firstAttribute="leading" secondItem="9WI-qJ-r0D" secondAttribute="leading" id="EPS-zC-iF0"/>
+                            <constraint firstItem="Vxw-lO-QIt" firstAttribute="centerY" secondItem="9WI-qJ-r0D" secondAttribute="centerY" constant="-33" id="IMT-ty-5G2"/>
                             <constraint firstAttribute="trailing" secondItem="jce-jg-GwJ" secondAttribute="trailing" id="RCQ-nR-Vo6"/>
+                            <constraint firstItem="Uv4-wb-BN7" firstAttribute="centerX" secondItem="Vxw-lO-QIt" secondAttribute="centerX" id="RMe-yT-diW"/>
                             <constraint firstAttribute="bottom" secondItem="dXc-Zp-Ulb" secondAttribute="bottom" id="Un4-aw-5fp"/>
                             <constraint firstItem="gqM-M5-NPh" firstAttribute="centerY" secondItem="dXc-Zp-Ulb" secondAttribute="centerY" id="WJh-gJ-Np1"/>
                             <constraint firstItem="dXc-Zp-Ulb" firstAttribute="top" secondItem="jce-jg-GwJ" secondAttribute="bottom" constant="20" id="XJf-ba-wLR"/>
+                            <constraint firstItem="Uv4-wb-BN7" firstAttribute="top" secondItem="Vxw-lO-QIt" secondAttribute="bottom" constant="20" id="XNS-dw-8Ph"/>
                             <constraint firstItem="jce-jg-GwJ" firstAttribute="leading" secondItem="9WI-qJ-r0D" secondAttribute="leading" id="ah4-My-yJz"/>
+                            <constraint firstItem="Vxw-lO-QIt" firstAttribute="centerX" secondItem="9WI-qJ-r0D" secondAttribute="centerX" id="coc-R0-ABh"/>
                             <constraint firstAttribute="trailing" secondItem="dXc-Zp-Ulb" secondAttribute="trailing" id="kgK-Nv-P7e"/>
                             <constraint firstAttribute="trailing" secondItem="7RL-KE-vn8" secondAttribute="trailing" id="mfq-W8-I7K"/>
                             <constraint firstItem="7RL-KE-vn8" firstAttribute="top" secondItem="9WI-qJ-r0D" secondAttribute="top" id="tH1-tx-x1Q"/>
                             <constraint firstItem="dXc-Zp-Ulb" firstAttribute="top" secondItem="7RL-KE-vn8" secondAttribute="bottom" constant="20" id="tuU-AZ-v8C"/>
+                            <constraint firstItem="Vxw-lO-QIt" firstAttribute="top" relation="greaterThanOrEqual" secondItem="9WI-qJ-r0D" secondAttribute="top" constant="20" id="v2f-5W-xci"/>
                             <constraint firstItem="gqM-M5-NPh" firstAttribute="leading" secondItem="9WI-qJ-r0D" secondAttribute="leading" id="vRd-gH-Xmc"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="_bodyTypeButtonsStackView" destination="gqM-M5-NPh" id="9mM-7F-2Ai"/>
                         <outlet property="_contentTypeTextField" destination="dXc-Zp-Ulb" id="MgB-hH-wDw"/>
+                        <outlet property="_fileBrowseButtons" destination="Uv4-wb-BN7" id="mcs-jM-Xkc"/>
+                        <outlet property="_fileImageView" destination="Vxw-lO-QIt" id="932-kM-dgX"/>
+                        <outlet property="_fileSaveButton" destination="MiS-0y-XMg" id="YAN-mM-Y4O"/>
                         <outlet property="_textScrollView" destination="jce-jg-GwJ" id="7oz-Uo-SUN"/>
                         <outlet property="_textView" destination="d2U-PR-osf" id="rxu-89-cjh"/>
                         <outlet property="plistEditor" destination="7RL-KE-vn8" id="Yhw-nY-HeZ"/>
@@ -660,7 +709,7 @@
                 </viewController>
                 <customObject id="ECy-OH-9On" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1720" y="-435.5"/>
+            <point key="canvasLocation" x="1683" y="-448.5"/>
         </scene>
     </scenes>
     <resources>

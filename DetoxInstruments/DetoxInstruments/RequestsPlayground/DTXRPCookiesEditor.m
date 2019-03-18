@@ -47,6 +47,9 @@
 - (void)propertyListEditor:(LNPropertyListEditor *)editor willChangeNode:(LNPropertyListNode *)node changeType:(LNPropertyListNodeChangeType)changeType previousKey:(NSString *)previousKey
 {
 	[self.view.window.windowController.document updateChangeCount:NSChangeDone];
+	
+	[self willChangeValueForKey:@"cookies"];
+	[self didChangeValueForKey:@"cookies"];
 }
 
 @end

@@ -28,7 +28,9 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 
 @property (nonatomic, copy) NSString* method;
 @property (nonatomic, copy) NSString* address;
-@property (nonatomic, copy) NSDictionary<NSString*, NSString*>* requestHeaders;
+@property (nonatomic, copy) id cookiesFromEditor;
+@property (nonatomic, copy) id contentTypeFromEditor;
+@property (nonatomic, copy) id headersFromEditor;
 
 @end
 
@@ -62,6 +64,8 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	NSURLSessionDataTask* _dataTask;
 }
 
+@dynamic cookiesFromEditor, contentTypeFromEditor, headersFromEditor;
+
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
@@ -76,14 +80,12 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 {
 	if([_address isEqualToString:address] == NO)
 	{
-		[self willChangeValueForKey:@"address"];
 		_address = address;
 		_queryStringEditor.address = _address;
 		if(_loading == NO)
 		{
 			[self.view.window.windowController.document updateChangeCount:NSChangeDone];
 		}
-		[self didChangeValueForKey:@"address"];
 	}
 }
 
@@ -91,13 +93,11 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 {
 	if([_method isEqualToString:method] == NO)
 	{
-		[self willChangeValueForKey:@"method"];
 		_method = method;
 		if(_loading == NO)
 		{
 			[self.view.window.windowController.document updateChangeCount:NSChangeDone];
 		}
-		[self didChangeValueForKey:@"method"];
 	}
 }
 
@@ -146,11 +146,13 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	_loading = YES;
 	self.method = networkSample.requestHTTPMethod;
 	self.address = networkSample.url;
-	self.requestHeaders = networkSample.requestHeaders;
 	
-	_headersEditor.requestHeaders = self.requestHeaders;
+	_headersEditor.requestHeaders = networkSample.requestHeaders;
 	_queryStringEditor.address = self.address;
 	[_bodyEditor setBody:networkSample.requestData.data withContentType:networkSample.requestHeaders[@"Content-Type"]];
+	
+	[self _sharedFinishLoading];
+	
 	_loading = NO;
 }
 
@@ -165,58 +167,121 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	_loading = YES;
 	self.method = request.HTTPMethod ?: @"GET";
 	self.address = request.URL.absoluteString ?: @"";
-	self.requestHeaders = request.allHTTPHeaderFields ?: @{};
 	
-	_headersEditor.requestHeaders = self.requestHeaders;
+	_headersEditor.requestHeaders = request.allHTTPHeaderFields ?: @{};
 	_queryStringEditor.address = self.address;
 	[_bodyEditor setBody:request.HTTPBody withContentType:request.allHTTPHeaderFields[@"Content-Type"]];
+	
+	[self _sharedFinishLoading];
+	
 	_loading = NO;
 }
 
-- (void)tabView:(NSTabView *)tabView willSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem
+- (void)_updateHeader:(NSString*)header withValue:(NSString*)value
 {
-	if(_headersTabViewItem.tabState == NSSelectedTab)
+	NSMutableDictionary* newHeaders = _headersEditor.requestHeaders.mutableCopy;
+	if(value != nil)
 	{
-		self.requestHeaders = _headersEditor.requestHeaders;
-		NSArray* splitCookies = [self.requestHeaders[@"Cookie"] componentsSeparatedByString:@";"];
-		NSMutableDictionary* cookies = [NSMutableDictionary new];
-		[splitCookies enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSArray<NSString*>* components = [obj componentsSeparatedByString:@"="];
-			NSString* key = components.firstObject.stringByTrimmingWhiteSpace;
-			NSString* value = components.count < 2 ? @"" : components.lastObject.stringByTrimmingWhiteSpace;
-			if(value.length > 0 || key.length > 0)
-			{
-				[cookies setValue:value forKey:key];
-			}
-		}];
-		_cookiesEditor.cookies = cookies;
+		newHeaders[header] = value;
 	}
-	if(_cookiesTabViewItem.tabState == NSSelectedTab)
+	else
+	{
+		[newHeaders removeObjectForKey:header];
+	}
+	
+	_headersEditor.requestHeaders = newHeaders;
+}
+
+- (id)cookiesFromEditor
+{
+	return nil;
+}
+
+- (void)setCookiesFromEditor:(NSDictionary*)cookiesFromEditor
+{
+	if([[self _cookiesFromHeaders:_headersEditor.requestHeaders] isEqualToDictionary:cookiesFromEditor])
+	{
+		return;
+	}
+	
+	if(cookiesFromEditor.count > 0)
 	{
 		NSMutableString* cookies = [NSMutableString new];
-		NSMutableDictionary* newHeaders = self.requestHeaders.mutableCopy;
-		if(_cookiesEditor.cookies.count > 0)
-		{
-			[_cookiesEditor.cookies enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
-				[cookies appendFormat:@"%@=%@; ", key, obj];
-			}];
-			newHeaders[@"Cookie"] = cookies;
-		}
-		else
-		{
-			[newHeaders removeObjectForKey:@"Cookie"];
-		}
-		
-		self.requestHeaders = newHeaders;
-		_headersEditor.requestHeaders = newHeaders;
+		[cookiesFromEditor enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+			[cookies appendFormat:@"%@=%@;", key, obj];
+		}];
+		[self _updateHeader:@"Cookie" withValue:cookies];
 	}
+	else
+	{
+		[self _updateHeader:@"Cookie" withValue:nil];
+	}
+}
+
+- (id)contentTypeFromEditor
+{
+	return nil;
+}
+
+- (void)setContentTypeFromEditor:(NSString*)contentTypeFromEditor
+{
+	if(contentTypeFromEditor.length == 0)
+	{
+		contentTypeFromEditor = nil;
+	}
+	
+	[self _updateHeader:@"Content-Type" withValue:contentTypeFromEditor];
+}
+
+- (id)headersFromEditor
+{
+	return nil;
+}
+
+- (NSDictionary*)_cookiesFromHeaders:(NSDictionary*)headers
+{
+	NSArray* splitCookies = [headers[@"Cookie"] componentsSeparatedByString:@";"];
+	NSMutableDictionary* cookies = [NSMutableDictionary new];
+	[splitCookies enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSArray<NSString*>* components = [obj componentsSeparatedByString:@"="];
+		NSString* key = components.firstObject.stringByTrimmingWhiteSpace;
+		NSString* value = components.count < 2 ? @"" : components.lastObject.stringByTrimmingWhiteSpace;
+		if(value.length > 0 || key.length > 0)
+		{
+			[cookies setValue:value forKey:key];
+		}
+	}];
+	return cookies;
+}
+
+- (void)setHeadersFromEditor:(NSDictionary*)headersFromEditor
+{
+	NSDictionary* cookies = [self _cookiesFromHeaders:headersFromEditor];
+	
+	NSString* contentType = headersFromEditor[@"Content-Type"];
+	
+	if(_cookiesEditor.cookies == nil || [_cookiesEditor.cookies isEqualToDictionary:cookies] == NO)
+	{
+		_cookiesEditor.cookies = cookies;
+	}
+	if(_bodyEditor.contentType == nil || [_bodyEditor.contentType isEqualToString:contentType] == NO)
+	{
+		_bodyEditor.contentType = contentType;
+	}
+}
+
+- (void)_sharedFinishLoading
+{
+	[self bind:@"headersFromEditor" toObject:_headersEditor withKeyPath:@"requestHeaders" options:nil];
+	[self bind:@"cookiesFromEditor" toObject:_cookiesEditor withKeyPath:@"cookies" options:nil];
+	[self bind:@"contentTypeFromEditor" toObject:_bodyEditor withKeyPath:@"contentType" options:nil];
 }
 
 - (NSURLRequest*)_requestFromData
 {
 	NSMutableURLRequest* rv = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:self.address]];
 	rv.HTTPShouldHandleCookies = NO;
-	rv.allHTTPHeaderFields = self.requestHeaders;
+	rv.allHTTPHeaderFields = _headersEditor.requestHeaders;
 	rv.HTTPBody = _bodyEditor.body;
 	rv.HTTPMethod = self.method;
 	return rv;

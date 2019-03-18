@@ -12,7 +12,7 @@
 @interface DTXRPBodyEditor : DTXKeyValueEditorViewController
 
 @property (nonatomic, strong, readonly) NSData* body;
-@property (nonatomic, strong, readonly) NSString* contentType;
+@property (nonatomic, strong) NSString* contentType;
 
 - (void)setBody:(NSData *)body withContentType:(NSString*)contentType;
 
