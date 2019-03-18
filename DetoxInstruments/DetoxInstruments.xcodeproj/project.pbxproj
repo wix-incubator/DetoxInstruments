@@ -98,6 +98,7 @@
 		394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B42BB1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m */; };
 		394C9B3E220883730015A085 /* DTXMappingModel9747To9808.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 394C9B3D220883730015A085 /* DTXMappingModel9747To9808.xcmappingmodel */; };
 		394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */; };
+		394E30C6223F9E3E0030462C /* DTXValidatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 394E30C5223F9E3E0030462C /* DTXValidatingButtonCell.m */; };
 		39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D57209B0F48003AF7D3 /* TargetManagement.storyboard */; };
 		39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */; };
 		39538D73209B40F3003AF7D3 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D72209B40F3003AF7D3 /* About.storyboard */; };
@@ -647,6 +648,8 @@
 		394C9B3D220883730015A085 /* DTXMappingModel9747To9808.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9747To9808.xcmappingmodel; sourceTree = "<group>"; };
 		394D9D211EF50A01001220E9 /* DTXNetworkInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkInspectorDataProvider.h; sourceTree = "<group>"; };
 		394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkInspectorDataProvider.m; sourceTree = "<group>"; };
+		394E30C4223F9E3E0030462C /* DTXValidatingButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXValidatingButtonCell.h; sourceTree = "<group>"; };
+		394E30C5223F9E3E0030462C /* DTXValidatingButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXValidatingButtonCell.m; sourceTree = "<group>"; };
 		3952467621B087EC00D73BCF /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39538D57209B0F48003AF7D3 /* TargetManagement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TargetManagement.storyboard; sourceTree = "<group>"; };
 		39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RemoteProfiling.storyboard; sourceTree = "<group>"; };
@@ -1427,6 +1430,8 @@
 				39DF8AD1220C540C00595274 /* DTXSeparatorView.m */,
 				3993BE85221C906800C1C196 /* DTXSettingsPopUpButton.h */,
 				3993BE86221C906800C1C196 /* DTXSettingsPopUpButton.m */,
+				394E30C4223F9E3E0030462C /* DTXValidatingButtonCell.h */,
+				394E30C5223F9E3E0030462C /* DTXValidatingButtonCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2354,6 +2359,7 @@
 				39A876B71EED3DEE00AE62F8 /* DTXCompactNetworkRequestsPlotController.m in Sources */,
 				39FA40A81F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m in Sources */,
 				39DABB9721BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.m in Sources */,
+				394E30C6223F9E3E0030462C /* DTXValidatingButtonCell.m in Sources */,
 				39C646571F249CA100DF0C77 /* DTXRemoteTargetCellView.m in Sources */,
 				3925A2631F1142EC008343ED /* DTXStackTraceCellView.m in Sources */,
 				3905F4B91EF7FE12003E08C1 /* DTXThreadCPUUsagePlotController.m in Sources */,

@@ -8,36 +8,247 @@
 
 #import "DTXRPBodyEditor.h"
 
-@interface DTXRPBodyEditor ()
+@interface DTXRPBodyEditor () <NSUserInterfaceValidations>
 
 @property (nonatomic, strong) NSString* text;
+@property (nonatomic, strong, readwrite) NSData* body;
+@property (nonatomic, strong, readwrite) NSString* contentType;
 
 @end
 
 @implementation DTXRPBodyEditor
 {
+	BOOL _loading;
+	
+	IBOutlet NSScrollView* _textScrollView;
 	IBOutlet NSTextView* _textView;
+	IBOutlet NSTextField* _contentTypeTextField;
+	IBOutlet NSStackView* _bodyTypeButtonsStackView;
 }
 
 - (void)setBody:(NSData *)body
 {
-	[self willChangeValueForKey:@"body"];
 	[self willChangeValueForKey:@"text"];
+	[self willChangeValueForKey:@"body"];
 	_body = body;
-	[self didChangeValueForKey:@"text"];
 	[self didChangeValueForKey:@"body"];
+	[self didChangeValueForKey:@"text"];
+	
+	if(_loading == NO)
+	{
+		[self.view.window.windowController.document updateChangeCount:NSChangeDone];
+	}
+}
+
+- (void)setContentType:(NSString *)contentType
+{
+	[self willChangeValueForKey:@"contentType"];
+	_contentType = contentType;
+	[self didChangeValueForKey:@"contentType"];
+	
+	if(_loading == NO)
+	{
+		[self.view.window.windowController.document updateChangeCount:NSChangeDone];
+	}
+}
+
+- (NSDictionary*)_propertyListFromURLEncodedFormData:(NSData*)data encodingCharset:(NSString*)charset didContainIllegalCharacter:(out BOOL*)didContain
+{
+	*didContain = NO;
+	
+	NSMutableDictionary* rv = [NSMutableDictionary new];
+	
+	NSString* formString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	NSArray* keyValues = [formString componentsSeparatedByString:@"&"];
+	
+	if(keyValues.count == 0)
+	{
+		return rv;
+	}
+	
+	[keyValues enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if(obj.length == 0)
+		{
+			return;
+		}
+		
+		NSArray* keyAndOrValue = [obj componentsSeparatedByString:@"="];
+		NSString* key = keyAndOrValue.firstObject;
+		
+		if([key rangeOfCharacterFromSet:NSCharacterSet.URLQueryAllowedCharacterSet.invertedSet].location != NSNotFound)
+		{
+			*didContain |= YES;
+		}
+		
+		key = [key stringByRemovingPercentEncoding];
+		NSString* value = @"";
+		
+		if(keyAndOrValue.count > 1)
+		{
+			value = keyAndOrValue.lastObject;
+			
+			if([value rangeOfCharacterFromSet:NSCharacterSet.URLQueryAllowedCharacterSet.invertedSet].location != NSNotFound)
+			{
+				*didContain |= YES;
+			}
+			
+			value = [value stringByRemovingPercentEncoding];
+		}
+		
+		rv[key] = value;
+	}];
+	
+	return rv;
+}
+
+-(NSData*)_urlEncodedBodyFromPropertyList
+{
+	NSMutableString* rv = [NSMutableString new];
+	[(NSDictionary*)self.plistEditor.propertyList enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+		key = [key stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.alphanumericCharacterSet];
+		obj = [obj stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.alphanumericCharacterSet];
+		[rv appendFormat:@"%@=%@&", key, obj];
+	}];
+	
+	return [rv dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (void)setText:(NSString *)text
 {
 	self.body = [text dataUsingEncoding:NSUTF8StringEncoding];
-	
-	[self.view.window.windowController.document updateChangeCount:NSChangeDone];
 }
 
 - (NSString *)text
 {
+	if([(NSButton*)[_bodyTypeButtonsStackView viewWithTag:1] state] != NSControlStateValueOn)
+	{
+		return @"";
+	}
+	
 	return [[NSString alloc] initWithData:self.body encoding:NSUTF8StringEncoding];
+}
+
+- (IBAction)setBodyType:(NSButton*)sender
+{
+	switch (sender.tag)
+	{
+		case 0: //None
+			self.body = nil;
+			self.contentType = @"";
+			break;
+		case 1: //Raw Text
+			break;
+		case 2: //URL Encoded Form
+			self.contentType = @"application/x-www-form-urlencoded";
+			break;
+		case 3: //File
+			break;
+		case 4: //Multipart Form
+			break;
+		default:
+			[NSException raise:NSInternalInconsistencyException format:@""];
+			break;
+	}
+	
+	[self _updateToState];
+}
+
+- (void)_reloadURLEncodedForm
+{
+	BOOL containIllegalCharacter = NO;
+	id obj = [self _propertyListFromURLEncodedFormData:_body encodingCharset:nil didContainIllegalCharacter:&containIllegalCharacter];
+	if(obj != nil)
+	{
+		self.plistEditor.propertyList = obj;
+	}
+	else
+	{
+		//TODO: Handle parse error
+	}
+}
+
+- (void)setBody:(NSData *)body withContentType:(NSString*)contentType
+{
+	_loading = YES;
+	
+	self.contentType = contentType ?: @"";
+	self.body = body;
+	
+	if(self.body.length == 0)
+	{
+		[(NSButton*)[_bodyTypeButtonsStackView viewWithTag:0] setState:NSControlStateValueOn];
+	}
+	else if([self.contentType hasPrefix:@"application/x-www-form-urlencoded"])
+	{
+		[(NSButton*)[_bodyTypeButtonsStackView viewWithTag:2] setState:NSControlStateValueOn];
+		[self _reloadURLEncodedForm];
+	}
+	else
+	{
+		[(NSButton*)[_bodyTypeButtonsStackView viewWithTag:1] setState:NSControlStateValueOn];
+	}
+	
+	[self _updateToState];
+	
+	_loading = NO;
+}
+
+- (void)_updateToState
+{
+	BOOL isRawText = [(NSButton*)[_bodyTypeButtonsStackView viewWithTag:1] state] == NSControlStateValueOn;
+	BOOL isFile = [(NSButton*)[_bodyTypeButtonsStackView viewWithTag:3] state] == NSControlStateValueOn;
+	BOOL isURLEncoded = [(NSButton*)[_bodyTypeButtonsStackView viewWithTag:2] state] == NSControlStateValueOn;
+	
+	_contentTypeTextField.enabled = isRawText || isFile;
+	_textScrollView.hidden = isRawText == NO;
+	self.plistEditor.hidden = isURLEncoded == NO;
+	
+	if(isRawText)
+	{
+		[self willChangeValueForKey:@"text"];
+		[self didChangeValueForKey:@"text"];
+	}
+	else if(isURLEncoded)
+	{
+		[self _reloadURLEncodedForm];
+	}
+}
+
+#pragma mark NSUserInterfaceValidations
+
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
+{
+	if(self.contentType.length > 0 && [self.contentType hasPrefix:@"application/x-www-form-urlencoded"] == NO)
+	{
+		NSAlert* alert = [NSAlert new];
+		alert.alertStyle = NSAlertStyleWarning;
+		alert.messageText = NSLocalizedString(@"Incompatible body content type", @"");
+		alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"The body currently has a content type of “%@” which may not be compatible with “application/x-www-form-urlencoded”.\n\nYou can try parsing the existing body with the new content type or clear the body and start fresh.", @""), self.contentType];
+		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
+		[alert addButtonWithTitle:NSLocalizedString(@"Try Parsing", @"")];
+		[alert addButtonWithTitle:NSLocalizedString(@"Clear Body", @"")];
+//		#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+//		NSRunAlertPanel(@"A", @"B", @"Cancel", @"Try Parsing", @"Clear");
+		
+		NSUInteger result = [alert runModal];
+		if(result == NSAlertFirstButtonReturn)
+		{
+			return NO;
+		}
+		else if(result == NSAlertThirdButtonReturn)
+		{
+			self.body = nil;
+		}
+	}
+	
+	return YES;
+}
+
+#pragma mark LNPropertyListEditorDelegate
+
+- (void)propertyListEditor:(LNPropertyListEditor *)editor willChangeNode:(LNPropertyListNode *)node changeType:(LNPropertyListNodeChangeType)changeType previousKey:(NSString *)previousKey
+{
+	self.body = self._urlEncodedBodyFromPropertyList;
 }
 
 @end

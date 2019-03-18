@@ -7,9 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXKeyValueEditorViewController.h"
 
-@interface DTXRPBodyEditor : NSViewController
+@interface DTXRPBodyEditor : DTXKeyValueEditorViewController
 
-@property (nonatomic, strong) NSData* body;
+@property (nonatomic, strong, readonly) NSData* body;
+@property (nonatomic, strong, readonly) NSString* contentType;
+
+- (void)setBody:(NSData *)body withContentType:(NSString*)contentType;
 
 @end

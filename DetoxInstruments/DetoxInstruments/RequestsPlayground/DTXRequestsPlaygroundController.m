@@ -150,7 +150,7 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	
 	_headersEditor.requestHeaders = self.requestHeaders;
 	_queryStringEditor.address = self.address;
-	_bodyEditor.body = networkSample.requestData.data;
+	[_bodyEditor setBody:networkSample.requestData.data withContentType:networkSample.requestHeaders[@"Content-Type"]];
 	_loading = NO;
 }
 
@@ -169,7 +169,7 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	
 	_headersEditor.requestHeaders = self.requestHeaders;
 	_queryStringEditor.address = self.address;
-	_bodyEditor.body = request.HTTPBody;
+	[_bodyEditor setBody:request.HTTPBody withContentType:request.allHTTPHeaderFields[@"Content-Type"]];
 	_loading = NO;
 }
 
