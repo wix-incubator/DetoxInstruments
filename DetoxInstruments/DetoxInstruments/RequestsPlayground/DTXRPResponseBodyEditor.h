@@ -10,6 +10,6 @@
 
 @interface DTXRPResponseBodyEditor : NSViewController
 
-- (void)setBody:(NSData *)body response:(NSURLResponse*)response error:(NSError*)error;
+- (void)setBody:(NSData *)body response:(NSURLResponse*)response error:(NSError*)error metrics:(NSURLSessionTaskMetrics*)metrics;
 
 @end

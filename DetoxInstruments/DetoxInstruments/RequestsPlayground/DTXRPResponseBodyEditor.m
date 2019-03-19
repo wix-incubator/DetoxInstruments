@@ -11,15 +11,18 @@
 #import "NSColor+UIAdditions.h"
 #import "NSURL+UIAdditions.h"
 #import "NSString+FileNames.h"
+#import "NSColor+UIAdditions.h"
+#import "NSFormatter+PlotFormatters.h"
 
 @interface DTXRPResponseBodyEditor ()
 {
 	IBOutlet NSTableView* _tableView;
 	DTXInspectorContentTableDataSource* _tableDataSource;
 	
-	NSURLResponse* _response;
+	NSHTTPURLResponse* _response;
 	NSData* _body;
 	NSError* _error;
+	NSURLSessionTaskMetrics* _metrics;
 }
 
 @end
@@ -36,6 +39,11 @@
 
 - (BOOL)_hasImage
 {
+	if(_response == nil || _body == nil)
+	{
+		return NO;
+	}
+	
 	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(_response.MIMEType), NULL);
 	
 	BOOL rv = UTI != NULL ? UTTypeConformsTo(UTI, kUTTypeScalableVectorGraphics) == NO && UTTypeConformsTo(UTI, kUTTypeImage) : NO;
@@ -63,7 +71,7 @@
 	if(_error != nil || statusCode >= 400)
 	{
 		DTXInspectorContent* responsePreview = [DTXInspectorContent new];
-		responsePreview.title = NSLocalizedString(@"Error", @"");
+		responsePreview.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Error", @"") attributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle), NSForegroundColorAttributeName: [NSColor warning3Color]}];
 		if(_error != nil)
 		{
 			responsePreview.content = @[[DTXInspectorContentRow contentRowWithTitle:nil description:_error.localizedFailureReason ?: _error.localizedDescription]];
@@ -75,6 +83,44 @@
 		[contentArray addObject:responsePreview];
 	}
 	
+	if(_metrics != nil)
+	{
+		DTXInspectorContent* metrics = [DTXInspectorContent new];
+		metrics.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Metrics", @"") attributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}];
+		
+		NSMutableArray* content = [NSMutableArray new];
+
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSDateFormatter localizedStringFromDate:_metrics.taskInterval.startDate dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle]]];
+		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Duration", @"") description:[[NSFormatter dtx_durationFormatter] stringFromTimeInterval:_metrics.taskInterval.duration]]];
+		
+//		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start Date", @"") description:@""]];
+		
+//		[[_response.allHeaderFields.allKeys sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+//			[content addObject:[DTXInspectorContentRow contentRowWithTitle:key description:_response.allHeaderFields[key]]];
+//		}];
+		
+		metrics.content = content;
+		
+		[contentArray addObject:metrics];
+	}
+	
+	if(_response != nil && [_response respondsToSelector:@selector(allHeaderFields)])
+	{
+		DTXInspectorContent* responseHeaders = [DTXInspectorContent new];
+		responseHeaders.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Response Headers", @"") attributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}];
+		
+		NSMutableArray* content = [NSMutableArray new];
+		
+		[[_response.allHeaderFields.allKeys sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:key description:_response.allHeaderFields[key]]];
+		}];
+		
+		responseHeaders.content = content;
+		
+		[contentArray addObject:responseHeaders];
+	}
+	
 	NSImage* image;
 	if(self._hasImage && _body != nil)
 	{
@@ -82,7 +128,7 @@
 	}
 	else
 	{
-		if(_response.MIMEType && _body != nil)
+		if(_response != nil && _response.MIMEType != nil && _body != nil)
 		{
 			NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(_response.MIMEType), NULL));
 			image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];
@@ -93,7 +139,7 @@
 	if(image)
 	{
 		DTXInspectorContent* responsePreview = [DTXInspectorContent new];
-		responsePreview.title = self._bestGuessFileName;
+		responsePreview.attributedTitle = [[NSAttributedString alloc] initWithString:self._bestGuessFileName attributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}];
 		responsePreview.image = image;
 		
 		NSButton* previewButton = [NSButton new];
@@ -203,11 +249,12 @@
 	
 }
 
-- (void)setBody:(NSData *)body response:(NSURLResponse*)response error:(NSError*)error
+- (void)setBody:(NSData *)body response:(NSURLResponse*)response error:(NSError*)error metrics:(NSURLSessionTaskMetrics*)metrics
 {
 	_body = body;
-	_response = response;
+	_response = (id)response;
 	_error = error;
+	_metrics = metrics;
 	[self _reloadTable];
 }
 

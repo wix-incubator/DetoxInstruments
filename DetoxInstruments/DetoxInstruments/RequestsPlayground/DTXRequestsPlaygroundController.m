@@ -24,7 +24,7 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 
 @end
 
-@interface DTXRequestsPlaygroundController () <NSTabViewDelegate>
+@interface DTXRequestsPlaygroundController () <NSTabViewDelegate, NSURLSessionTaskDelegate>
 
 @property (nonatomic, copy) NSString* method;
 @property (nonatomic, copy) NSString* address;
@@ -42,7 +42,6 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	IBOutlet DTXTabViewItem* _cookiesTabViewItem;
 	IBOutlet DTXTabViewItem* _queryTabViewItem;
 	IBOutlet DTXTabViewItem* _bodyTabViewItem;
-	IBOutlet DTXTabViewItem* _responseHeadersTabViewItem;
 	IBOutlet DTXTabViewItem* _responseBodyTabViewItem;
 	
 	IBOutlet NSProgressIndicator* _progressIndicator;
@@ -55,13 +54,14 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	DTXRequestHeadersEditor* _headersEditor;
 	DTXRPCookiesEditor* _cookiesEditor;
 	DTXRPBodyEditor* _bodyEditor;
-	DTXRequestHeadersEditor* _responseHeadersEditor;
 	DTXRPResponseBodyEditor* _responseEditor;
 	
 	DTXNetworkSample* _cachedNetworkSample;
 	NSURLRequest* _cachedURLRequest;
 	
+	NSURLSession* _urlSession;
 	NSURLSessionDataTask* _dataTask;
+	NSURLSessionTaskMetrics* _pendingMetrics;
 }
 
 @dynamic cookiesFromEditor, contentTypeFromEditor, headersFromEditor;
@@ -118,7 +118,6 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	_cookiesEditor = (id)[_cookiesTabViewItem.view viewWithTag:100].nextResponder;
 	_queryStringEditor = (id)[_queryTabViewItem.view viewWithTag:100].nextResponder;
 	_bodyEditor = (id)[_bodyTabViewItem.view viewWithTag:100].nextResponder;
-	_responseHeadersEditor = (id)[_responseHeadersTabViewItem.view viewWithTag:100].nextResponder;
 	_responseEditor = (id)[_responseBodyTabViewItem.view viewWithTag:100].nextResponder;
 	
 	if(_cachedNetworkSample)
@@ -304,9 +303,8 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	}
 }
 
-- (void)_setResponseTabViewItemsEnabled:(BOOL)enabled
+- (void)_setResponseTabViewItemsEnabled:(BOOL)enabled switchToBodyTab:(BOOL)switchToBody
 {
-	_responseHeadersTabViewItem.enabled = enabled;
 	_responseBodyTabViewItem.enabled = enabled;
 	
 //	if((_responseHeadersTabViewItem.enabled == NO && _responseHeadersTabViewItem.tabState == NSSelectedTab) ||
@@ -314,10 +312,20 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 //	{
 //		[_tabView selectTabViewItem:_headersTabViewItem];
 //	}
+	
+	if(switchToBody)
+	{
+		[_tabView selectTabViewItem:_responseBodyTabViewItem];
+	}
 }
 
 - (IBAction)sendRequest:(id)sender
 {
+	NSURLSessionConfiguration* config = NSURLSessionConfiguration.defaultSessionConfiguration;
+	config.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+	config.URLCache = nil;
+	_urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:NSOperationQueue.mainQueue];
+	
 	NSURLRequest* request = self._requestFromData;
 	
 	if(_dataTask != nil)
@@ -327,10 +335,10 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	
 	_errorIndicator.hidden = YES;
 	
-	[self _setResponseTabViewItemsEnabled:NO];
+	[self _setResponseTabViewItemsEnabled:NO switchToBodyTab:NO];
 	
 	_progressIndicator.doubleValue += 1;
-	_dataTask = [NSURLSession.sharedSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+	_dataTask = [_urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			_progressIndicator.doubleValue -= 1;
 			[_progressIndicator startAnimation:nil];
@@ -338,7 +346,7 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 			
 			if(error != nil && error.code == NSURLErrorCancelled)
 			{
-				[self _setResponseTabViewItemsEnabled:NO];
+				[self _setResponseTabViewItemsEnabled:NO switchToBodyTab:NO];
 				return;
 			}
 			
@@ -353,14 +361,15 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 				_errorIndicator.hidden = NO;
 			}
 
-			[_responseHeadersEditor setHeadersWithResponse:(id)response];
-			[_responseEditor setBody:data response:response error:error];
-			[self _setResponseTabViewItemsEnabled:YES];
+			[_responseEditor setBody:data response:response error:error metrics:_pendingMetrics];
+			[self _setResponseTabViewItemsEnabled:YES switchToBodyTab:YES];
+			
+			_dataTask = nil;
+			_pendingMetrics = nil;
 		});
 	}];
 	
 	[self _updateProgressIndicator];
-	
 	[_dataTask resume];
 }
 
@@ -405,6 +414,13 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	}
 	
 	[self _copyCodeSnippet];
+}
+
+#pragma mark NSURLSessionTaskDelegate
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didFinishCollectingMetrics:(NSURLSessionTaskMetrics *)metrics
+{
+	_pendingMetrics = metrics;
 }
 
 @end

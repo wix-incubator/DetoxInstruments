@@ -26,7 +26,43 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 - (void)connection:(id)arg1 didReceiveResponse:(id)arg2 completion:(id)arg3;
 - (void)connection:(id)arg1 didFinishLoadingWithError:(id)arg2;
 - (void)connection:(id)arg1 didReceiveData:(id)arg2 completion:(id)arg3;
+- (void)connection:(id)arg1 didFinishCollectingMetrics:(id)arg2 completion:(id)arg3;
 - (id)initWithOriginalRequest:(id)arg1 updatedRequest:(id)arg2 ident:(NSUInteger)arg3 session:(id)arg4;
+
+- (void)_onqueue_didFinishCollectingMetrics:(id)arg1 completion:(id)arg2;
+
+@end
+
+static _Thread_local BOOL _forActualDelegate;
+
+@interface NSURLSession ()
+
+- (BOOL)can_delegate_task_didFinishCollectingMetrics;
+
+@end
+
+@interface NSURLSession (DTXNetworkRecording) @end
+@implementation NSURLSession (DTXNetworkRecording)
+
++ (void)load
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		Method m1 = class_getInstanceMethod(self, @selector(can_delegate_task_didFinishCollectingMetrics));
+		Method m2 = class_getInstanceMethod(self, @selector(__dtx_can_delegate_task_didFinishCollectingMetrics));
+		method_exchangeImplementations(m1, m2);
+	});
+}
+
+- (BOOL)__dtx_can_delegate_task_didFinishCollectingMetrics
+{
+	if(_forActualDelegate)
+	{
+		return [self __dtx_can_delegate_task_didFinishCollectingMetrics];
+	}
+	
+	return YES;
+}
 
 @end
 
@@ -52,8 +88,16 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didReceiveData:completion:));
 		method_exchangeImplementations(m1, m2);
 		
+		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(connection:didFinishCollectingMetrics:completion:));
+		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didFinishCollectingMetrics:completion:));
+		method_exchangeImplementations(m1, m2);
+		
 		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(initWithOriginalRequest:updatedRequest:ident:session:));
 		m2 = class_getInstanceMethod(self.class, @selector(initWithOriginalRequest__dtx:updatedRequest:ident:session:));
+		method_exchangeImplementations(m1, m2);
+		
+		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(_onqueue_didFinishCollectingMetrics:completion:));
+		m2 = class_getInstanceMethod(self.class, @selector(__dtx_onqueue_didFinishCollectingMetrics:completion:));
 		method_exchangeImplementations(m1, m2);
 	});
 }
@@ -120,6 +164,18 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	[self __dtx_appendAttachedData:data];
 	
 	[self __dtx_connection:arg1 didReceiveData:data completion:arg3];
+}
+
+- (void)__dtx_connection:(id)arg1 didFinishCollectingMetrics:(NSURLSessionTaskMetrics*)arg2 completion:(id)arg3
+{
+	[self __dtx_connection:arg1 didFinishCollectingMetrics:arg2 completion:arg3];
+}
+
+- (void)__dtx_onqueue_didFinishCollectingMetrics:(id)arg1 completion:(id)arg2
+{
+	_forActualDelegate = YES;
+	[self __dtx_onqueue_didFinishCollectingMetrics:arg1 completion:arg2];
+	_forActualDelegate = NO;
 }
 
 @end
