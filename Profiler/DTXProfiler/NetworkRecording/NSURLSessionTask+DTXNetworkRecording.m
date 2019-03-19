@@ -11,7 +11,8 @@
 #import "NSObject+AttachedObjects.h"
 @import ObjectiveC;
 
-extern _Thread_local BOOL _protocolLoading;
+extern thread_local BOOL _protocolLoading;
+static thread_local BOOL _forActualDelegate;
 
 static void* __DTXConnectionUnique = &__DTXConnectionUnique;
 
@@ -32,8 +33,6 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 - (void)_onqueue_didFinishCollectingMetrics:(id)arg1 completion:(id)arg2;
 
 @end
-
-static _Thread_local BOOL _forActualDelegate;
 
 @interface NSURLSession ()
 

@@ -9,7 +9,7 @@
 #import "NSURLProtocol+NetworkRecorder.h"
 #import <objc/runtime.h>
 
-_Thread_local BOOL _protocolLoading;
+thread_local BOOL _protocolLoading;
 
 static NSArray *__DTXClassGetSubclasses(Class parentClass, SEL sel)
 {
