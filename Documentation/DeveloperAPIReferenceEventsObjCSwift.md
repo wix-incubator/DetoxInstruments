@@ -21,23 +21,23 @@ import DTXProfiler.DTXEvents
 ```objective-c
 DTXEventIdentifier identifier = DTXProfilerMarkEventIntervalBegin(@"Category", @"Name", @"Message at start");
 //Long interval
-DTXProfilerMarkEventIntervalEnd(identifier, DTXEventStatusCategory1, @"Message at end");
+DTXProfilerMarkEventIntervalEnd(identifier, DTXEventStatusCompleted, @"Message at end");
 ```
 
 ```swift
 let identifier = DTXProfilerMarkEventIntervalBegin("Category", "Name", "Message at start")
 //Long interval
-DTXProfilerMarkEventIntervalEnd(identifier, .category1, "Message at end")
+DTXProfilerMarkEventIntervalEnd(identifier, .completed, "Message at end")
 ```
 
 #### Single Points in Time
 
 ```objective-c
-DTXProfilerMarkEvent(@"Category", @"Name", DTXEventStatusCategory3, @"Message");
+DTXProfilerMarkEvent(@"Category", @"Name", DTXEventStatusCompleted, @"Message");
 ```
 
 ```swift
-DTXProfilerMarkEvent("Category", "Name", .category3, "Message")
+DTXProfilerMarkEvent("Category", "Name", .completed, "Message")
 ```
 
 
