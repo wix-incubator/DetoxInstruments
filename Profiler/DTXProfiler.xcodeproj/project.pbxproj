@@ -161,6 +161,8 @@
 		39F6421C1FDD5DBF00468FED /* DTXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6421A1FDD5DBF00468FED /* DTXLogging.m */; };
 		39F6F6B21F0E3BE100C7F411 /* DTXProfilingConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */; };
+		431CACED224253610040A56D /* WixProfileCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 431CACEB224253600040A56D /* WixProfileCallback.h */; };
+		431CACEE224253610040A56D /* WixProfileCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = 431CACEC224253600040A56D /* WixProfileCallback.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -348,6 +350,8 @@
 		39F6421A1FDD5DBF00468FED /* DTXLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXLogging.m; path = ../../../../Shared/DTXLoggingInfra/DTXLogging.m; sourceTree = "<group>"; };
 		39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilingConfiguration.h; sourceTree = "<group>"; };
 		39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXProfilingConfiguration.m; sourceTree = "<group>"; };
+		431CACEB224253600040A56D /* WixProfileCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WixProfileCallback.h; sourceTree = "<group>"; };
+		431CACEC224253600040A56D /* WixProfileCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WixProfileCallback.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -577,6 +581,8 @@
 			children = (
 				3968C3A11F2B9A970064B132 /* DTXSourceMaps */,
 				39ADAE591F79FA7700F488A5 /* DTXCustomJSCSupport.h */,
+				431CACEB224253600040A56D /* WixProfileCallback.h */,
+				431CACEC224253600040A56D /* WixProfileCallback.m */,
 				39ADAE5A1F79FA7700F488A5 /* DTXCustomJSCSupport.m */,
 				39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */,
 				39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */,
@@ -749,6 +755,7 @@
 				39D40C0F1ED5B43700157C04 /* DTXInstrumentsModel.h in Headers */,
 				39EEF37421EFAE310028061D /* DTXQuickNSExpressions.h in Headers */,
 				396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */,
+				431CACED224253610040A56D /* WixProfileCallback.h in Headers */,
 				3939239121AB42220015A15F /* DTXRemoteProfilingConnectionManager.h in Headers */,
 				3939240F21AD0A330015A15F /* ZZArchiveEntryWriter.h in Headers */,
 				39EEF37621EFAE310028061D /* NSString+FileNames.h in Headers */,
@@ -901,6 +908,7 @@
 				39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */,
 				3922AE021F2B9B960034B1FE /* DTXSourceMapsParser.m in Sources */,
 				39EEF37721EFAE310028061D /* DTXZipper.m in Sources */,
+				431CACEE224253610040A56D /* WixProfileCallback.m in Sources */,
 				3939243021AD0A330015A15F /* ZZStandardDecryptInputStream.mm in Sources */,
 				39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */,
 				3922AE041F2B9B9B0034B1FE /* _DTXBasicSourceMapsConsumer.m in Sources */,

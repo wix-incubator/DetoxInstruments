@@ -185,6 +185,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy, null_resettable, readonly) NSURL* recordingFileURL;
 
+
+@property(nonatomic, readonly) BOOL recordReactNativeEvents;
+
+
 @end
 
 #pragma mark -
@@ -359,6 +363,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  The default value is a file name with the date and time of the recording, in the documents folder of the profiled app.
  */
 @property (nonatomic, copy, null_resettable, readwrite) NSURL* recordingFileURL;
+
+@property(nonatomic, readwrite) BOOL recordReactNativeEvents;
 
 @end
 
