@@ -239,20 +239,6 @@ static void swz_runRunLoopThread(id self, SEL _cmd)
 	orig_runRunLoopThread(self, _cmd);
 }
 
-//static void installGlobalFunction(JSGlobalContextRef ctx, const char* name, JSFunction function)
-//{
-//	auto jsName = String(ctx, name);
-//	auto functionObj = makeFunction(ctx, jsName, std::move(function));
-//	Object::getGlobalObject(ctx).setProperty(jsName, Value(ctx, functionObj));
-//}
-//
-//static  JSObjectRef makeFunction(JSGlobalContextRef ctx, const char* name, JSObjectCallAsFunctionCallback callback)
-//{
-//	auto jsName = String(ctx, name);
-//	return JSC_JSObjectMakeFunctionWithCallback(ctx, jsName, callback);
-//}
-
-
 //static NSString* DTXJSValueGeneringToNSString(JSContextRef ctx, JSValueRef value)
 //{
 //	NSString* rv = nil;
