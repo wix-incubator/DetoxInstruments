@@ -14,6 +14,7 @@
 #import "DTXProfiler-Private.h"
 
 
+
 typedef struct {
   const char *key;
   int key_len;
@@ -44,6 +45,9 @@ static NSMutableDictionary* asyncSections = nil;
 static NSMutableDictionary* asyncFlows = nil;
 static DTXProfilingConfiguration* dtxConfig = nil;
 
+extern dispatch_queue_t __eventDispatchQueue;
+
+
 #pragma mark help-methods
 void* dtxBeginEvent(const char* eventName, const char* category, const char* additionalInfo)
 {
@@ -56,11 +60,11 @@ void* dtxBeginEvent(const char* eventName, const char* category, const char* add
   	return (void*)CFBridgingRetain(identifier);
 }
 
-void dtxEndEvent(void* eventId)
+void dtxEndEvent(void* eventId, NSDate* timestamp)
 {
 	if(eventId)
 	{
-		__DTXProfilerMarkEventIntervalEnd(NSDate.date,
+		__DTXProfilerMarkEventIntervalEnd(timestamp,
 										  (__bridge DTXEventIdentifier _Nonnull)(eventId),
 										  DTXEventStatusCompleted, nil);
 	}
@@ -117,7 +121,7 @@ void wixProfileBeginSection(__unused uint64_t tag, const char *name, size_t numA
 	});
 
 	void* eventId = dtxBeginEvent(name, "Section",  [getOptionalArgument(numArgs, args) UTF8String]);
-	@synchronized(threadSections){
+	dispatch_async(__eventDispatchQueue, ^{
 		NSInteger threadId = [[NSThread currentThread] sequenceNumber];
 		NSMutableArray* sections = [threadSections objectForKey:@(threadId)];
 		if (sections == nil)
@@ -128,26 +132,27 @@ void wixProfileBeginSection(__unused uint64_t tag, const char *name, size_t numA
 		}
 		else
 		{
-		  [sections addObject:(__bridge id _Nonnull) eventId];
+			[sections addObject:(__bridge id _Nonnull) eventId];
 		}
-	}
+	});
 }
 
 void wixProfileEndSection(__unused uint64_t tag, __unused size_t numArgs, __unused systrace_arg_t *args)
 {
-  @synchronized(threadSections){
-    NSInteger threadId = [[NSThread currentThread] sequenceNumber];
-    NSMutableArray* sections = [threadSections objectForKey:@(threadId)];
-    if (sections != nil)
-	{
-		void* eventId = (__bridge void*)[sections lastObject];
-		if (eventId)
+	NSDate * currDate = NSDate.date;
+	dispatch_async(__eventDispatchQueue, ^{
+		NSInteger threadId = [[NSThread currentThread] sequenceNumber];
+		NSMutableArray* sections = [threadSections objectForKey:@(threadId)];
+		if (sections != nil)
 		{
-			dtxEndEvent(eventId);
-			[sections removeLastObject];
+			void* eventId = (__bridge void*)[sections lastObject];
+			if (eventId)
+			{
+				dtxEndEvent(eventId, currDate);
+				[sections removeLastObject];
+			}
 		}
-    }
-  }
+	});
 }
 
 void wixProfileBeginAsyncSection(uint64_t tag, const char *name, int cookie, size_t numArgs, systrace_arg_t *args)
@@ -158,22 +163,24 @@ void wixProfileBeginAsyncSection(uint64_t tag, const char *name, int cookie, siz
 	});
 	void* eventId = dtxBeginEvent(name, "AsyncSection",  [getOptionalArgument(numArgs, args) UTF8String]);
 	NSNumber* key = @(cookie);
-	@synchronized(asyncSections) {
+	dispatch_async(__eventDispatchQueue, ^{
 		[asyncSections setObject:(__bridge id _Nonnull) eventId forKey:key];
-	}
+	});
 }
 
 void wixProfileEndAsyncSection(uint64_t tag, const char *name, int cookie, size_t numArgs, systrace_arg_t *args)
 {
 	NSNumber* key = @(cookie);
-	@synchronized(asyncSections) {
+	NSDate* currDate = NSDate.date;
+	dispatch_async(__eventDispatchQueue, ^{
 		void* eventId = (__bridge void*)[asyncSections objectForKey:key];
 		if (eventId)
 		{
-			dtxEndEvent(eventId);
+			dtxEndEvent(eventId, currDate);
 			[asyncSections removeObjectForKey:key];
 		}
-	}
+	});
+	
 }
 
 void wixProfileInstantSection(uint64_t tag, const char *name, char scope)
@@ -193,22 +200,23 @@ void wixProfileBeginAsyncFlow(uint64_t tag, const char *name, int cookie)
 	});
 	void* eventId = dtxBeginEvent(name, "AsyncFlow", "");
 	NSNumber* key = @(cookie);
-	@synchronized(asyncFlows) {
+	dispatch_async(__eventDispatchQueue, ^{
 		[asyncFlows setObject:(__bridge id _Nonnull) eventId forKey:key];
-	}
+	});
 }
 
 void wixProfileEndAsyncFlow(uint64_t tag, const char *name, int cookie)
 {
+	NSDate* currDate = NSDate.date;
 	NSNumber* key = @(cookie);
-	@synchronized(asyncFlows) {
+	dispatch_async(__eventDispatchQueue, ^{
 		void* eventId = (__bridge void*)[asyncFlows objectForKey:key];
 		if (eventId)
 		{
-			dtxEndEvent(eventId);
+			dtxEndEvent(eventId, currDate);
 			[asyncFlows removeObjectForKey:key];
 		}
-	}
+	});
 }
 
 RCTProfileCallbacks wixProfileCallbacks = {

@@ -39,7 +39,7 @@ static JSContextRef __rnCtx;
 static dispatch_semaphore_t __rnBacktraceSem;
 static NSString* __rnLastBacktrace;
 
-static dispatch_queue_t __eventDispatchQueue;
+dispatch_queue_t __eventDispatchQueue;
 
 static NSMutableDictionary<NSString*, NSString*>* __JSValuePropertyMapping;
 
@@ -173,7 +173,7 @@ static void installJSTraceEventsHook(JSContext* ctx)
 		{
 			dispatch_async(__eventDispatchQueue, ^{
 				[sectionsRegularEvents addObject: identifier];
-			})
+			});
 		}
 	};
 	
@@ -185,7 +185,7 @@ static void installJSTraceEventsHook(JSContext* ctx)
 			__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, DTXEventStatusCompleted, nil);
 			dispatch_async(__eventDispatchQueue, ^{
 				[sectionsRegularEvents removeLastObject];
-			})
+			});
 		}
 	};
 	
@@ -201,7 +201,7 @@ static void installJSTraceEventsHook(JSContext* ctx)
 		{
 			dispatch_async(__eventDispatchQueue, ^{
 				[asyncSections setObject:identifier forKey:[NSNumber numberWithInt:cookie]];
-			})
+			});
 		}
 	};
 
@@ -215,7 +215,7 @@ static void installJSTraceEventsHook(JSContext* ctx)
 				__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, DTXEventStatusCompleted, nil);
 				dispatch_async(__eventDispatchQueue, ^{
 					[asyncSections removeObjectForKey:_cookie];
-				})
+				});
 			}
 		}
 	};
