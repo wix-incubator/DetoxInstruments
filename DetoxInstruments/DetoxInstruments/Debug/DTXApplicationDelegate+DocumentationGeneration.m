@@ -368,6 +368,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[requestDocument showWindows];
 
 	DTXRequestsPlaygroundWindowController* requestWindowController = requestDocument.windowControllers.firstObject;
+	[(NSTabView*)[requestWindowController.contentViewController valueForKey:@"tabView"] selectTabViewItem:[requestWindowController.contentViewController valueForKey:@"bodyTabViewItem"]];
 	
 	[windowController _drainLayout];
 	[windowController _drainLayout];
