@@ -14,7 +14,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "DTXCustomJSCSupport.h"
 #import "DTXProfiler-Private.h"
-#import "WixProfileCallback.h"
+#import "DTXReactNativeProfilerCallback.h"
 
 
 
@@ -171,9 +171,9 @@ static void installJSTraceEventsHook(JSContext* ctx)
 		DTXEventIdentifier identifier = __DTXProfilerMarkEventIntervalBegin(NSDate.date,@"JSSection",_name,@"",NO,YES,nil);
 		if(identifier)
 		{
-			@synchronized(sectionsRegularEvents) {
+			dispatch_async(__eventDispatchQueue, ^{
 				[sectionsRegularEvents addObject: identifier];
-			}
+			})
 		}
 	};
 	
@@ -183,7 +183,9 @@ static void installJSTraceEventsHook(JSContext* ctx)
 		if(identifier)
 		{
 			__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, DTXEventStatusCompleted, nil);
-			[sectionsRegularEvents removeLastObject];
+			dispatch_async(__eventDispatchQueue, ^{
+				[sectionsRegularEvents removeLastObject];
+			})
 		}
 	};
 	
@@ -197,9 +199,9 @@ static void installJSTraceEventsHook(JSContext* ctx)
 		DTXEventIdentifier identifier = __DTXProfilerMarkEventIntervalBegin(NSDate.date,@"JSAsyncSection",name,@"",NO,YES,nil);
 		if(identifier)
 		{
-			@synchronized (asyncSections) {
+			dispatch_async(__eventDispatchQueue, ^{
 				[asyncSections setObject:identifier forKey:[NSNumber numberWithInt:cookie]];
-			}
+			})
 		}
 	};
 
@@ -211,8 +213,9 @@ static void installJSTraceEventsHook(JSContext* ctx)
 			if(identifier)
 			{
 				__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, DTXEventStatusCompleted, nil);
-				[asyncSections removeObjectForKey:_cookie];
-
+				dispatch_async(__eventDispatchQueue, ^{
+					[asyncSections removeObjectForKey:_cookie];
+				})
 			}
 		}
 	};
