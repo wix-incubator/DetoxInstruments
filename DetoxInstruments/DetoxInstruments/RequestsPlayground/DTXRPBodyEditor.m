@@ -7,8 +7,9 @@
 //
 
 #import "DTXRPBodyEditor.h"
+#import "DTXDraggableImageView.h"
 
-@interface DTXRPBodyEditor () <NSUserInterfaceValidations>
+@interface DTXRPBodyEditor () <NSUserInterfaceValidations, DTXDraggableImageViewDelegate>
 
 @property (nonatomic, strong) NSString* text;
 @property (nonatomic, strong, readwrite) NSData* body;
@@ -23,12 +24,23 @@
 	IBOutlet NSTextView* _textView;
 	IBOutlet NSTextField* _contentTypeTextField;
 	IBOutlet NSStackView* _bodyTypeButtonsStackView;
-	IBOutlet NSImageView* _fileImageView;
+	IBOutlet DTXDraggableImageView* _fileImageView;
 	IBOutlet NSStackView* _fileBrowseButtons;
 	IBOutlet NSButton* _fileSaveButton;
 	IBOutlet NSButton* _clearButton;
 	IBOutlet NSTextField* _noBodyLabel;
 	IBOutlet NSButton* _textBodyTypeButton;
+	IBOutlet NSButton* _noBodyTypeButton;
+}
+
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	
+	_noBodyTypeButton.state = NSControlStateValueOn;
+	[self setBodyType:_noBodyTypeButton];
+	
+	_fileImageView.dragDelegate = self;
 }
 
 - (void)setBody:(NSData *)body
@@ -264,6 +276,15 @@
 	self.contentType = @"";
 }
 
+- (void)_openFileAsBody:(NSURL*)URL
+{
+	self.body = [[NSData alloc] initWithContentsOfURL:URL options:(NSDataReadingMappedIfSafe) error:NULL];
+	NSString* type;
+	[URL getResourceValue:&type forKey:NSURLTypeIdentifierKey error:NULL];
+	NSString* MIMEType = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(type), kUTTagClassMIMEType));
+	self.contentType = MIMEType ?: @"application/octet-stream";
+}
+
 - (IBAction)selectFile:(id)sender
 {
 	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
@@ -277,11 +298,7 @@
 			return;
 		}
 		
-		self.body = [[NSData alloc] initWithContentsOfURL:openPanel.URL options:(NSDataReadingMappedIfSafe) error:NULL];
-		NSString* type;
-		[openPanel.URL getResourceValue:&type forKey:NSURLTypeIdentifierKey error:NULL];
-		NSString* MIMEType = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(type), kUTTagClassMIMEType));
-		self.contentType = MIMEType ?: @"application/octet-stream";
+		[self _openFileAsBody:openPanel.URL];
 	}];
 }
 
@@ -345,6 +362,13 @@
 - (void)propertyListEditor:(LNPropertyListEditor *)editor willChangeNode:(LNPropertyListNode *)node changeType:(LNPropertyListNodeChangeType)changeType previousKey:(NSString *)previousKey
 {
 	self.body = self._urlEncodedBodyFromPropertyList;
+}
+
+#pragma mark DTXDraggableImageViewDelegate
+
+- (void)draggableImageView:(DTXDraggableImageView*)imageView didAcceptURL:(NSURL*)URL
+{
+	[self _openFileAsBody:URL];
 }
 
 @end

@@ -389,7 +389,8 @@
                         <touchBarItem id="41X-Me-zhj">
                             <viewController key="viewController" id="drr-t2-7nD">
                                 <segmentedControl key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0cY-sc-BjA">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="-1.5" width="304" height="3"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="5id-ba-NUq">
                                         <font key="font" metaFont="system" size="15"/>
                                         <segments>
@@ -411,7 +412,8 @@
                         <touchBarItem id="g3j-yS-NKL">
                             <viewController key="viewController" id="Hfp-1a-Xp1">
                                 <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mOz-5r-OpF">
-                                    <rect key="frame" x="0.0" y="0.0" width="108" height="30"/>
+                                    <rect key="frame" x="0.0" y="-11" width="120" height="41"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="push" title="Send Request" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gcw-OM-5jE">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" usesAppearanceFont="YES"/>
@@ -655,7 +657,7 @@
                                     </binding>
                                 </connections>
                             </textField>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vxw-lO-QIt">
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vxw-lO-QIt" customClass="DTXDraggableImageView">
                                 <rect key="frame" x="230" y="110" width="262" height="262"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Vxw-lO-QIt" secondAttribute="height" multiplier="1:1" id="VqG-3r-K4d"/>
@@ -748,6 +750,7 @@
                         <outlet property="_fileImageView" destination="Vxw-lO-QIt" id="932-kM-dgX"/>
                         <outlet property="_fileSaveButton" destination="MiS-0y-XMg" id="YAN-mM-Y4O"/>
                         <outlet property="_noBodyLabel" destination="QPZ-jq-guB" id="EvL-cD-dkf"/>
+                        <outlet property="_noBodyTypeButton" destination="9Pe-eC-Ybw" id="QOF-hJ-P4g"/>
                         <outlet property="_textBodyTypeButton" destination="63i-aR-KpJ" id="nK9-0i-8bG"/>
                         <outlet property="_textScrollView" destination="jce-jg-GwJ" id="7oz-Uo-SUN"/>
                         <outlet property="_textView" destination="d2U-PR-osf" id="rxu-89-cjh"/>
