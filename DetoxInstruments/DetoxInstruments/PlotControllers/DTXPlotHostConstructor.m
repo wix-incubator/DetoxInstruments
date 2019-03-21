@@ -61,11 +61,16 @@
 														  [_plotStackView.heightAnchor constraintEqualToConstant:30],
 														  ]];
 			}
+			else
+			{
+				[NSLayoutConstraint activateConstraints:@[
+														  [_wrapperView.heightAnchor constraintGreaterThanOrEqualToConstant:self.requiredHeight]
+														  ]];
+			}
 			
 			[_wrapperView addSubview:_plotStackView];
 			
 			[NSLayoutConstraint activateConstraints:@[
-													  [_wrapperView.heightAnchor constraintGreaterThanOrEqualToConstant:self.requiredHeight],
 													  [_wrapperView.topAnchor constraintEqualToAnchor:_plotStackView.topAnchor],
 													  [_wrapperView.leadingAnchor constraintEqualToAnchor:_plotStackView.leadingAnchor],
 													  [_wrapperView.trailingAnchor constraintEqualToAnchor:_plotStackView.trailingAnchor],

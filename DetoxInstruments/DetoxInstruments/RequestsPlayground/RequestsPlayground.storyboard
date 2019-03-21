@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.68" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="qHr-hd-QCA">
     <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14490.12"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.68"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
     <scenes>
         <!--Window Controller-->
@@ -179,7 +181,7 @@
                                 </constraints>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
-                                    <tabViewItem label="Headers" identifier="" id="9E8-2h-ppc" customClass="DTXTabViewItem">
+                                    <tabViewItem label="Headers" identifier="0" id="9E8-2h-ppc" customClass="DTXTabViewItem">
                                         <view key="view" id="X7h-Mo-SaL">
                                             <rect key="frame" x="10" y="33" width="602" height="324"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -198,14 +200,17 @@
                                                 <constraint firstAttribute="trailing" secondItem="BUi-qn-GSY" secondAttribute="trailing" constant="20" id="Ynz-aY-vOi"/>
                                             </constraints>
                                         </view>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tabViewItem>
-                                    <tabViewItem label="Cookies" identifier="" id="547-BB-fZ9" customClass="DTXTabViewItem">
+                                    <tabViewItem label="Cookies" identifier="1" id="547-BB-fZ9" customClass="DTXTabViewItem">
                                         <view key="view" id="qcs-xq-OQj">
-                                            <rect key="frame" x="10" y="33" width="601" height="324"/>
+                                            <rect key="frame" x="10" y="33" width="602" height="324"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <containerView translatesAutoresizingMaskIntoConstraints="NO" id="BLB-lr-9U1">
-                                                    <rect key="frame" x="20" y="20" width="561" height="284"/>
+                                                    <rect key="frame" x="20" y="20" width="562" height="284"/>
                                                     <connections>
                                                         <segue destination="A1g-1H-9MW" kind="embed" id="Ng6-l7-LhJ"/>
                                                     </connections>
@@ -218,8 +223,11 @@
                                                 <constraint firstAttribute="bottom" secondItem="BLB-lr-9U1" secondAttribute="bottom" constant="20" id="t76-fg-Ban"/>
                                             </constraints>
                                         </view>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tabViewItem>
-                                    <tabViewItem label="Query String" identifier="" id="Te2-Bb-2qZ" customClass="DTXTabViewItem">
+                                    <tabViewItem label="Query String" identifier="2" id="Te2-Bb-2qZ" customClass="DTXTabViewItem">
                                         <view key="view" id="qe0-eY-Bma">
                                             <rect key="frame" x="10" y="33" width="602" height="324"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -238,8 +246,11 @@
                                                 <constraint firstAttribute="bottom" secondItem="xK8-sK-f0g" secondAttribute="bottom" constant="20" id="wud-a1-PiF"/>
                                             </constraints>
                                         </view>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tabViewItem>
-                                    <tabViewItem label="Body" identifier="" id="lQT-aV-6ll" customClass="DTXTabViewItem">
+                                    <tabViewItem label="Body" identifier="3" id="lQT-aV-6ll" customClass="DTXTabViewItem">
                                         <view key="view" id="C52-hw-QwF">
                                             <rect key="frame" x="10" y="33" width="602" height="324"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -258,8 +269,11 @@
                                                 <constraint firstAttribute="bottom" secondItem="zjy-3s-jFL" secondAttribute="bottom" constant="20" id="uf3-jI-YZ6"/>
                                             </constraints>
                                         </view>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tabViewItem>
-                                    <tabViewItem label="Response" identifier="" id="IdE-fU-vc4" customClass="DTXTabViewItem">
+                                    <tabViewItem label="Response" identifier="4" id="IdE-fU-vc4" customClass="DTXTabViewItem">
                                         <view key="view" id="WUR-VG-keO">
                                             <rect key="frame" x="10" y="33" width="602" height="324"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -362,10 +376,57 @@
                         <outlet property="_progressIndicator" destination="nOX-If-kSa" id="Udc-jj-jH0"/>
                         <outlet property="_queryTabViewItem" destination="Te2-Bb-2qZ" id="Lh1-A8-Ol0"/>
                         <outlet property="_responseBodyTabViewItem" destination="IdE-fU-vc4" id="y2K-pw-9LQ"/>
+                        <outlet property="_tabView" destination="DnF-oN-sz9" id="kBs-tA-Vnm"/>
+                        <outlet property="_touchBarSegmentedControl" destination="0cY-sc-BjA" id="8Ic-vy-p6K"/>
                         <outlet property="tabView" destination="DnF-oN-sz9" id="K7r-XR-zwF"/>
+                        <outlet property="touchBar" destination="vtQ-C9-gpf" id="K4h-F4-ugv"/>
                     </connections>
                 </viewController>
                 <customObject id="MSU-cy-0Ts" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <touchBar id="vtQ-C9-gpf">
+                    <touchBarItems>
+                        <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="o5j-zQ-25H"/>
+                        <touchBarItem id="41X-Me-zhj">
+                            <viewController key="viewController" id="drr-t2-7nD">
+                                <segmentedControl key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0cY-sc-BjA">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="0.0"/>
+                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="5id-ba-NUq">
+                                        <font key="font" metaFont="system" size="15"/>
+                                        <segments>
+                                            <segment label="Headers"/>
+                                            <segment label="Cookies" selected="YES" tag="1"/>
+                                            <segment label="Query String"/>
+                                            <segment label="Body"/>
+                                            <segment label="Response"/>
+                                        </segments>
+                                    </segmentedCell>
+                                    <connections>
+                                        <action selector="_touchBarSegmentedControlAction:" target="wwV-rT-pkJ" id="xqK-yO-izM"/>
+                                    </connections>
+                                </segmentedControl>
+                            </viewController>
+                            <size key="designTimeSize" width="300" height="0.0"/>
+                        </touchBarItem>
+                        <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFixedSpaceSmall" id="nuL-bl-q0A"/>
+                        <touchBarItem id="g3j-yS-NKL">
+                            <viewController key="viewController" id="Hfp-1a-Xp1">
+                                <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mOz-5r-OpF">
+                                    <rect key="frame" x="0.0" y="0.0" width="108" height="30"/>
+                                    <buttonCell key="cell" type="push" title="Send Request" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gcw-OM-5jE">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" usesAppearanceFont="YES"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="sendRequest:" target="wwV-rT-pkJ" id="o08-Tl-Ujl"/>
+                                    </connections>
+                                </button>
+                            </viewController>
+                            <size key="designTimeSize" width="108" height="30"/>
+                        </touchBarItem>
+                        <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="FQR-1j-gVi"/>
+                        <touchBarItemOtherItemsProxy identifier="NSTouchBarItemIdentifierOtherItemsProxy" id="bYd-x4-4lW"/>
+                    </touchBarItems>
+                </touchBar>
                 <menu id="Cx9-Uu-XkK" userLabel="Unsupported Methods">
                     <items>
                         <menuItem title="HEAD" enabled="NO" id="kQZ-lb-YJY"/>

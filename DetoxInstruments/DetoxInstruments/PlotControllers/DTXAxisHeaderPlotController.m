@@ -11,7 +11,6 @@
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXRecording+UIExtensions.h"
-#import "DTXCPTXYAxis.h"
 
 @interface DTXAxisHeaderPlotController () <CPTPlotSpaceDelegate>
 
@@ -93,7 +92,7 @@
 		// Axes
 		
 		// CPTAxisLabelingPolicyAutomatic
-		CPTXYAxis *axisAutomatic = [[DTXCPTXYAxis alloc] init];
+		CPTXYAxis *axisAutomatic = [[CPTXYAxis alloc] init];
 		axisAutomatic.plotSpace = weakSelf.graph.defaultPlotSpace;
 		axisAutomatic.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
 		axisAutomatic.preferredNumberOfMajorTicks = 10;

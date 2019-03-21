@@ -62,4 +62,9 @@
 	return [NSFormatter dtx_memoryFormatter];
 }
 
+- (BOOL)includeSeparatorsInStackView
+{
+	return self.isForTouchBar;
+}
+
 @end

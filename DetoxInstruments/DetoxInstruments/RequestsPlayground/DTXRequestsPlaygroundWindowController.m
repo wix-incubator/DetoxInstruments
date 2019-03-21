@@ -15,4 +15,9 @@
 
 @implementation DTXRequestsPlaygroundWindowController
 
+- (NSTouchBar *)makeTouchBar
+{
+	return self.contentViewController.touchBar;
+}
+
 @end

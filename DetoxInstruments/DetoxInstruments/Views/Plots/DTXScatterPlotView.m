@@ -443,11 +443,16 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 	//	NSLog(@"Took %@s to add %u samples", @(end - start), numberOfPoints);
 }
 
-static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, NSArray<DTXScatterPlotViewPoint*>* _points, double plotClickPosition, BOOL isStepped, NSEdgeInsets insets, BOOL isFlipped, double* delegateClickPosition, double* delegateValue)
+static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, NSArray<DTXScatterPlotViewPoint*>* _points, double plotClickPosition, BOOL isStepped, NSEdgeInsets insets, BOOL isFlipped, BOOL exact, double* delegateClickPosition, double* delegateValue)
 {
 	double pointRange = _points.lastObject.x - _points.firstObject.x;
 	
 	NSUInteger idx = 0;
+	if(self.previousIndexOf >= _points.count)
+	{
+		self.previousIndexOf = _points.count - 1;
+	}
+	
 	if(fabs(_points[self.previousIndexOf].x - plotClickPosition) > pointRange / 4)
 	{
 		DTXScatterPlotViewPoint* testPoint = [DTXScatterPlotViewPoint new];
@@ -536,7 +541,7 @@ static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, N
 		}
 		
 		*delegateClickPosition = plotClickPosition;
-		if(isStepped)
+		if(isStepped || exact)
 		{
 			*delegateValue = point1.y;
 		}
@@ -551,11 +556,11 @@ static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, N
 	return idx;
 }
 
-- (double)valueAtPlotPosition:(double)position
+- (double)valueAtPlotPosition:(double)position exact:(BOOL)exact
 {
 	double throwAwayPosition;
 	double rv;
-	__DTXValueAtPosition(self, _points, position, self.isStepped, self.insets, self.isFlipped, &throwAwayPosition, &rv);
+	__DTXValueAtPosition(self, _points, position, self.isStepped, self.insets, self.isFlipped, exact, &throwAwayPosition, &rv);
 	
 	return rv;
 }
@@ -587,7 +592,7 @@ static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, N
 		value = &throwAwayValue;
 	}
 	
-	return __DTXValueAtPosition(self, _points, plotClickPosition, self.isStepped, self.insets, self.isFlipped, position, value);
+	return __DTXValueAtPosition(self, _points, plotClickPosition, self.isStepped, self.insets, self.isFlipped, NO, position, value);
 }
 
 - (void)_clicked:(NSClickGestureRecognizer *)cgr

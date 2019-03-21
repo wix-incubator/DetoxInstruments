@@ -11,6 +11,7 @@
 @interface DTXRequestsPlaygroundController : NSViewController
 
 @property (strong) IBOutlet NSTabView *tabView;
+@property (strong) IBOutlet NSTouchBar* touchBar;
 
 - (void)loadRequestDetailsFromNetworkSample:(DTXNetworkSample*)networkSample;
 - (void)loadRequestDetailsFromURLRequest:(NSURLRequest*)request;

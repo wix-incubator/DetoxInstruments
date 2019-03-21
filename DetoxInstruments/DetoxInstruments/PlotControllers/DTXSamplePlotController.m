@@ -11,7 +11,6 @@
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
 #import <LNInterpolation/LNInterpolation.h>
-#import "DTXStackedPlotGroup.h"
 #import "DTXDetailController.h"
 #import "NSAppearance+UIAdditions.h"
 #import "DTXRecording+UIExtensions.h"
@@ -185,7 +184,8 @@
 	}
 	
 	NSUInteger plotViewIdx = 0;
-	for (__kindof DTXPlotView* plotView in plotViews) {
+	for (__kindof DTXPlotView* plotView in plotViews)
+	{
 		plotView.globalPlotRange = globalXRange;
 		plotView.plotRange = xRange;
 		plotView.delegate = self;
@@ -388,8 +388,8 @@
 			if([obj isKindOfClass:DTXScatterPlotView.class])
 			{
 				DTXScatterPlotView* scatterPlotView = (id)obj;
-				annotation1.drawsValue = NO;// isShadow == NO;
-				if(isShadow == NO)
+				annotation1.drawsValue = NO;
+				if(isShadow == NO || self.isForTouchBar == YES)
 				{
 					if(idx == plotIndex)
 					{
@@ -397,7 +397,7 @@
 					}
 					else
 					{
-						annotation1.value = [scatterPlotView valueAtPlotPosition:range.locationDouble];
+						annotation1.value = [scatterPlotView valueAtPlotPosition:range.locationDouble exact:YES];
 					}
 					
 					double textValue;
@@ -407,7 +407,7 @@
 					}
 					else
 					{
-						textValue = [scatterPlotView valueAtPlotPosition:range.locationDouble];
+						textValue = annotation1.value;
 					}
 					
 					DTXPlotViewTextAnnotation* text = [DTXPlotViewTextAnnotation new];
@@ -614,7 +614,7 @@
 
 - (BOOL)canReceiveFocus
 {
-	return YES;
+	return self.isForTouchBar == NO;
 }
 
 - (NSArray<NSString *> *)legendTitles

@@ -38,6 +38,7 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 {
 	BOOL _loading;
 	
+	IBOutlet NSTabView* _tabView;
 	IBOutlet DTXTabViewItem* _headersTabViewItem;
 	IBOutlet DTXTabViewItem* _cookiesTabViewItem;
 	IBOutlet DTXTabViewItem* _queryTabViewItem;
@@ -62,6 +63,8 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	NSURLSession* _urlSession;
 	NSURLSessionDataTask* _dataTask;
 	NSURLSessionTaskMetrics* _pendingMetrics;
+	
+	IBOutlet NSSegmentedControl* _touchBarSegmentedControl;
 }
 
 @dynamic cookiesFromEditor, contentTypeFromEditor, headersFromEditor;
@@ -108,6 +111,8 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	_progressIndicator.usesThreadedAnimation = YES;
 	
 	[_copyCodeSegmentedControl setMenu:_copyCodeMenu forSegment:1];
+	
+	[self _setResponseTabViewItemsEnabled:NO switchToBodyTab:NO];
 }
 
 - (void)viewWillAppear
@@ -132,6 +137,8 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	}
 	
 	[self bind:@"address" toObject:_queryStringEditor withKeyPath:@"address" options:nil];
+	
+	[self _synchronizeTabViewToTouchBar];
 }
 
 - (void)loadRequestDetailsFromNetworkSample:(DTXNetworkSample*)networkSample
@@ -306,6 +313,7 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 - (void)_setResponseTabViewItemsEnabled:(BOOL)enabled switchToBodyTab:(BOOL)switchToBody
 {
 	_responseBodyTabViewItem.enabled = enabled;
+	[_touchBarSegmentedControl setEnabled:enabled forSegment:_touchBarSegmentedControl.segmentCount - 1];
 	
 //	if((_responseHeadersTabViewItem.enabled == NO && _responseHeadersTabViewItem.tabState == NSSelectedTab) ||
 //	   (_responseBodyTabViewItem.enabled == NO && _responseBodyTabViewItem.tabState == NSSelectedTab))
@@ -414,6 +422,41 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	}
 	
 	[self _copyCodeSnippet];
+}
+
+- (void)_synchronizeTabViewToTouchBar
+{
+	_touchBarSegmentedControl.selectedSegment = [self.tabView.selectedTabViewItem.identifier integerValue];
+}
+
+- (IBAction)_touchBarSegmentedControlAction:(NSSegmentedControl*)sender
+{
+	[self.tabView selectTabViewItem:self.tabView.tabViewItems[sender.selectedSegment]];
+}
+
+- (NSTouchBar *)makeTouchBar
+{
+	return _touchBar;
+}
+
+#pragma mark NSTabViewDelegate
+
+- (void)tabView:(NSTabView *)tabView willSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem
+{	
+	if(self.view.window.firstResponder == self.view.window)
+	{
+		[self.view.window makeFirstResponder:self.view];
+	}
+}
+
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem
+{
+	[self _synchronizeTabViewToTouchBar];
+	
+	if([self.view.window.firstResponder isKindOfClass:NSView.class] && [(NSView*)self.view.window.firstResponder isHiddenOrHasHiddenAncestor])
+	{
+		[self.view.window makeFirstResponder:self.view];
+	}
 }
 
 #pragma mark NSURLSessionTaskDelegate

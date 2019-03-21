@@ -12,6 +12,17 @@
 #import "DTXCookiesViewController.h"
 #import "DTXPasteboardViewController.h"
 
+@interface CCNPreferencesWindowController ()
+
+- (void)setupToolbar;
+- (void)toolbarItemAction:(NSToolbarItem *)toolbarItem;
+
+@property (strong) NSToolbar *toolbar;
+
+@property (strong) NSMutableOrderedSet *viewControllers;
+
+@end
+
 @interface DTXProfilingTargetManagementWindowController ()
 {
 	NSStoryboard* _storyboard;
@@ -22,6 +33,8 @@
 	
 	NSArray<id<DTXProfilingTargetManagement>>* _controllers;
 }
+
+@property (strong) NSSegmentedControl *touchBarSegmentedControl;
 
 @end
 
@@ -124,5 +137,71 @@
 	
 	[self.window center];
 }
+
+- (void)setupToolbar
+{
+	[super setupToolbar];
+	
+	self.touchBar = [self makeTouchBar];
+}
+
+- (IBAction)_touchBarSegmentedControlAction:(NSSegmentedControl*)sender
+{
+	NSToolbarItem* selectedItem = self.toolbar.items[sender.selectedSegment + 1];
+	
+	self.toolbar.selectedItemIdentifier = selectedItem.itemIdentifier;
+	
+	[self toolbarItemAction:selectedItem];
+}
+
+- (NSTouchBar *)makeTouchBar
+{
+	self.touchBarSegmentedControl = [NSSegmentedControl segmentedControlWithLabels:[self.viewControllers valueForKey:@"preferenceTitle"] trackingMode:NSSegmentSwitchTrackingSelectOne target:self action:@selector(_touchBarSegmentedControlAction:)];
+	
+	[self.viewControllers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[self.touchBarSegmentedControl setWidth:150 forSegment:idx];
+	}];
+	
+	[self _synchronizeToolbarToTouchBarSegmentedControl];
+	
+	NSMutableArray<NSString*>* buttonIdentifiers = [NSMutableArray new];
+	NSMutableSet<NSTouchBarItem*>* buttonsSet = [NSMutableSet new];
+	
+	[buttonIdentifiers addObject:NSTouchBarItemIdentifierFlexibleSpace];
+	
+	NSCustomTouchBarItem *buttonBarItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"Segment"];
+	buttonBarItem.view = self.touchBarSegmentedControl;
+	[buttonIdentifiers addObject:buttonBarItem.identifier];
+	[buttonsSet addObject:buttonBarItem];
+	
+	[buttonIdentifiers addObject:NSTouchBarItemIdentifierFlexibleSpace];
+	
+	NSTouchBar* bar = [NSTouchBar new];
+	bar.defaultItemIdentifiers = buttonIdentifiers;
+	bar.templateItems = buttonsSet;//[NSSet setWithObject:group];
+	
+	return bar;
+}
+
+- (void)toolbarItemAction:(NSToolbarItem *)toolbarItem
+{
+	[super toolbarItemAction:toolbarItem];
+	
+	[self _synchronizeToolbarToTouchBarSegmentedControl];
+}
+
+- (void)_synchronizeToolbarToTouchBarSegmentedControl
+{
+	__block NSUInteger itemIdx = 0;
+	[self.toolbar.items enumerateObjectsUsingBlock:^(__kindof NSToolbarItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if([obj.itemIdentifier isEqualToString:self.toolbar.selectedItemIdentifier])
+		{
+			itemIdx = idx - 1;
+		}
+	}];
+	
+	self.touchBarSegmentedControl.selectedSegment = itemIdx;
+}
+
 
 @end

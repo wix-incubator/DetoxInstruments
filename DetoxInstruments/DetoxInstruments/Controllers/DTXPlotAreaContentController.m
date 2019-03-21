@@ -273,6 +273,7 @@
 	[self.delegate contentController:self updatePlotController:plotController];
 	
 	_selectedPlotController = plotController;
+	_touchBarPlotController.parentPlotController = _selectedPlotController;
 	_touchBarPlotController.sampleClickDelegate = plotController.sampleClickDelegate;
 }
 
@@ -349,11 +350,9 @@
 			return nil;
 		}
 		
-		id<DTXPlotController> plotController = _plotGroup.visiblePlotControllers[idx];
-		
 		_touchBarPlotController = [[_touchBarPlotControllerClass alloc] initWithDocument:self.document isForTouchBar:YES];
 		[_touchBarPlotController requiredHeight];
-		_touchBarPlotController.parentPlotController = plotController;
+		_touchBarPlotController.parentPlotController = _selectedPlotController;
 		_touchBarPlotController.sampleClickDelegate = _selectedPlotController.sampleClickDelegate;
 		
 		[_plotGroup setTouchBarPlotController:_touchBarPlotController];

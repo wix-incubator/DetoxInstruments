@@ -48,7 +48,7 @@
 - (void)addNumberOfPoints:(NSUInteger)numberOfPoints;
 
 - (NSUInteger)indexOfPointAtViewPosition:(CGFloat)viewPosition positionInPlot:(out double *)position valueAtPlotPosition:(out double *)value;
-- (double)valueAtPlotPosition:(double)position;
+- (double)valueAtPlotPosition:(double)position exact:(BOOL)exact;
 - (double)valueOfPointIndex:(NSUInteger)idx;
 
 @end
