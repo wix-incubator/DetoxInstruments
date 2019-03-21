@@ -207,18 +207,19 @@ static void installJSTraceEventsHook(JSContext* ctx)
 
 	ctx[@"nativeTraceEndAsyncSection"] = ^(int tag, NSString* name, int cookie)
 	{
-		@synchronized (asyncSections) {
+		NSDate* currDate = NSDate.date;
+		dispatch_async(__eventDispatchQueue, ^{
+
 			NSNumber* _cookie = [NSNumber numberWithInt:cookie];
 			DTXEventIdentifier identifier = [asyncSections objectForKey:_cookie];
 			if(identifier)
 			{
-				__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, DTXEventStatusCompleted, nil);
-				dispatch_async(__eventDispatchQueue, ^{
-					[asyncSections removeObjectForKey:_cookie];
-				});
+				__DTXProfilerMarkEventIntervalEnd(currDate, identifier, DTXEventStatusCompleted, nil);
+				[asyncSections removeObjectForKey:_cookie];
 			}
-		}
+		});
 	};
+
 	
 	ctx[@"nativeTraceBeginLegacy"] = ^()
 	{
