@@ -739,7 +739,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[introImage lockFocus];
 	
 	[recWinRep drawAtPoint:NSMakePoint(0, introImage.size.height - recWinRep.size.height)];
-	[requestsPlaygroundRep drawInRect:(NSRect){NSMakePoint(introImage.size.width * 0.5 - requestsPlaygroundRep.size.width * 0.5, requestsPlaygroundRep.size.height * 0.1), requestsPlaygroundRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[requestsPlaygroundRep drawInRect:(NSRect){NSMakePoint(introImage.size.width * 0.5 - requestsPlaygroundRep.size.width * 0.5, manageRep.size.height / 10), requestsPlaygroundRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	[manageRep drawInRect:(NSRect){NSMakePoint(introImage.size.width - manageRep.size.width, 0), manageRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	recWinRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, introImage.size}];
