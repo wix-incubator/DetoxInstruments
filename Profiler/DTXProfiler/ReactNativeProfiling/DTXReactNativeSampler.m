@@ -30,7 +30,7 @@ static atomic_uintmax_t __bridgeJSToNCallCount = 0;
 static NSMutableArray* sectionsRegularEvents = nil;
 static NSMutableDictionary* asyncSections = nil;
 
-static _Atomic thread_t __rnThread = MACH_PORT_NULL;
+static atomic_thread __rnThread = MACH_PORT_NULL;
 
 static JSContextRef __rnCtx;
 

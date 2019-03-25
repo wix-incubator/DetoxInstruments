@@ -13,8 +13,8 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 
 @interface DTXFPSCalculator ()
 {
-	_Atomic uint64_t _frameCount;
-	_Atomic BOOL _enabled;
+	atomic_ulong _frameCount;
+	atomic_bool _enabled;
 }
 
 @property (nonatomic, strong) CADisplayLink *displayLink;

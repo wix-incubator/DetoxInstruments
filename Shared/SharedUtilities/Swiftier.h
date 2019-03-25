@@ -20,10 +20,21 @@
 #endif
 
 #if ! defined(__cplusplus)
+#import <stdatomic.h>
+
 #if ! defined(thread_local)
 #define thread_local _Thread_local
 #endif
+
 #define auto __auto_type
+#endif
+
+typedef _Atomic(void*) atomic_voidptr;
+typedef _Atomic(const void*) atomic_constvoidptr;
+
+#if __has_include(<mach/mach_types.h>)
+#import <mach/mach_types.h>
+typedef _Atomic(thread_t) atomic_thread;
 #endif
 
 #define dtx_defer_block_name_with_prefix(prefix, suffix) prefix ## suffix
