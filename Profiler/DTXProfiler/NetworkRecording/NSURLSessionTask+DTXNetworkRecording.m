@@ -55,12 +55,12 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 
 - (BOOL)__dtx_can_delegate_task_didFinishCollectingMetrics
 {
-	if(_forActualDelegate)
-	{
+//	if(_forActualDelegate)
+//	{
 		return [self __dtx_can_delegate_task_didFinishCollectingMetrics];
-	}
-	
-	return YES;
+//	}
+//	
+//	return YES;
 }
 
 @end
