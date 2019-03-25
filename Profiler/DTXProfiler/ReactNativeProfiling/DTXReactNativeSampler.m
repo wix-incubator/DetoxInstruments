@@ -16,8 +16,6 @@
 #import "DTXProfiler-Private.h"
 #import "DTXReactNativeProfilerCallback.h"
 
-
-
 @import ObjectiveC;
 @import Darwin;
 @import UIKit;
@@ -41,7 +39,8 @@ static NSString* __rnLastBacktrace;
 
 dispatch_queue_t __eventDispatchQueue;
 
-static NSMutableDictionary<NSString*, NSString*>* __JSValuePropertyMapping;
+static NSMutableDictionary<NSString*, NSString*>* __rn_valuePropertyMapping;
+static JSObjectRef __rn_pendingFunctionObject;
 
 static void resetAtomicVars()
 {
@@ -232,9 +231,6 @@ static void installJSTraceEventsHook(JSContext* ctx)
 	};
 }
 
-
-
-
 static void (*orig_runRunLoopThread)(id, SEL) = NULL;
 static void swz_runRunLoopThread(id self, SEL _cmd)
 {
@@ -286,7 +282,7 @@ static NSString* DTXJSValueJSONStringToNSString(JSContextRef ctx, JSValueRef val
 static JSValueRef (*__orig_JSObjectCallAsFunction)(JSContextRef ctx, JSObjectRef object, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 static JSValueRef __dtx_JSObjectCallAsFunction(JSContextRef ctx, JSObjectRef object, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 {
-	NSString* funcName = __JSValuePropertyMapping[[NSString stringWithFormat:@"%p", object]];
+	NSString* funcName = __rn_valuePropertyMapping[[NSString stringWithFormat:@"%p", object]];
 	
 	atomic_fetch_add(&__bridgeNToJSCallCount, 1);
 	
@@ -325,8 +321,15 @@ static JSValueRef __dtx_JSObjectCallAsFunction(JSContextRef ctx, JSObjectRef obj
 	return rv;
 }
 
+static JSObjectRef __dtx_JSObjectMakeFunctionWithCallbackWrapper(JSContextRef ctx, JSStringRef name, JSObjectCallAsFunctionCallback callAsFunction, JSValueRef functionValue);
 static JSObjectRef (*__orig_JSObjectMakeFunctionWithCallback)(JSContextRef ctx, JSStringRef name, JSObjectCallAsFunctionCallback callAsFunction);
 static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSStringRef name, JSObjectCallAsFunctionCallback callAsFunction)
+{
+	return __dtx_JSObjectMakeFunctionWithCallbackWrapper(ctx, name, callAsFunction, NULL);
+}
+
+
+static JSObjectRef __dtx_JSObjectMakeFunctionWithCallbackWrapper(JSContextRef ctx, JSStringRef name, JSObjectCallAsFunctionCallback callAsFunction, JSValueRef functionValue)
 {
 	if(name != NULL)
 	{
@@ -342,7 +345,14 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 		
 		__rnCtx = ctx;
 		
-		NSString* str = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, name);
+		NSString* str = (__bridge_transfer NSString*)__jscWrapper.JSStringCopyCFString(kCFAllocatorDefault, name);
+
+		//The JSValue must be retained here or else it will release the private data 🤯
+		JSManagedValue* managed = nil;
+		if(functionValue != nil)
+		{
+			managed = [[JSManagedValue alloc] initWithValue:[JSValue valueWithJSValueRef:functionValue inContext:objcCtx]];
+		}
 		
 		objcCtx[str] = ^ {
 			atomic_fetch_add(&__bridgeJSToNCallCount, 1);
@@ -376,8 +386,14 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 			NSString* exc;
 			
 			JSValueRef exception = NULL;
+			
+			JSValueRef functionValue = managed.value.JSValueRef;
+			if(functionValue == NULL)
+			{
+				functionValue = [__jscWrapper.JSContext currentCallee].JSValueRef;
+			}
 
-			JSValueRef rvRef = callAsFunction(ctx, __jscWrapper.JSValueToObject(ctx, [__jscWrapper.JSContext currentCallee].JSValueRef, NULL), __jscWrapper.JSValueToObject(ctx, [__jscWrapper.JSContext currentThis].JSValueRef, NULL), [__jscWrapper.JSContext currentArguments].count, arguments, &exception);
+			JSValueRef rvRef = callAsFunction(ctx, __jscWrapper.JSValueToObject(ctx, functionValue, NULL), __jscWrapper.JSValueToObject(ctx, [__jscWrapper.JSContext currentThis].JSValueRef, NULL), [__jscWrapper.JSContext currentArguments].count, arguments, &exception);
 
 //			if(exception)
 //			{
@@ -406,14 +422,76 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 	return __orig_JSObjectMakeFunctionWithCallback(ctx, name, callAsFunction);
 }
 
+static JSObjectInitializeCallback __rn_initialize;
+static void __dtx_initialize(JSContextRef ctx, JSObjectRef object)
+{
+	__rn_initialize(ctx, object);
+	
+	__rn_pendingFunctionObject = object;
+}
+
+static JSObjectFinalizeCallback __rn_finalize;
+static void __dtx_finalize(JSObjectRef object)
+{
+	__rn_finalize(object);
+}
+
+static JSObjectCallAsFunctionCallback __rn_callAsFunction;
+static JSValueRef __dtx_callAsFunction(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+{
+	return __rn_callAsFunction(ctx, function, thisObject, argumentCount, arguments, exception);
+}
+
+static JSClassRef (*__orig_JSClassCreate)(const JSClassDefinition *definition);
+static JSClassRef __dtx_JSClassCreate(const JSClassDefinition *definition)
+{
+	const JSClassDefinition* definitionToUse = definition;
+	JSClassDefinition* newDef = NULL;
+	dtx_defer {
+		if(newDef != NULL)
+		{
+			free(newDef);
+		}
+	};
+	
+	if(definition->callAsFunction != NULL)
+	{
+		newDef = malloc(sizeof(JSClassDefinition));
+		memcpy(newDef, definition, sizeof(JSClassDefinition));
+		__rn_initialize = newDef->initialize;
+		newDef->initialize = __dtx_initialize;
+		__rn_finalize = newDef->finalize;
+		newDef->finalize = __dtx_finalize;
+		__rn_callAsFunction = newDef->callAsFunction;
+		newDef->callAsFunction = __dtx_callAsFunction;
+		definitionToUse = newDef;
+	}
+	
+	return __orig_JSClassCreate(definitionToUse);
+}
+
+static void (*__orig_JSObjectSetProperty)(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef value, JSPropertyAttributes attributes, JSValueRef* exception);
+static void __dtx_JSObjectSetProperty(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef value, JSPropertyAttributes attributes, JSValueRef* exception)
+{
+	if(__jscWrapper.JSContextGetGlobalObject(ctx) != object || __rn_pendingFunctionObject == NULL || __rn_pendingFunctionObject != value)
+	{
+		//Normal path
+		__orig_JSObjectSetProperty(ctx, object, propertyName, value, attributes, exception);
+		return;
+	}
+
+	JSObjectRef functionObject = __dtx_JSObjectMakeFunctionWithCallbackWrapper(ctx, propertyName, __rn_callAsFunction, __rn_pendingFunctionObject);
+	__rn_pendingFunctionObject = NULL;
+}
+
 static JSValueRef (*__orig_JSObjectGetProperty)(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef *exception);
 static JSValueRef __dtx_JSObjectGetProperty(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef *exception)
 {
 	JSValueRef rv = __orig_JSObjectGetProperty(ctx, object, propertyName, exception);
 	
-	NSString* pName = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, propertyName);
+	NSString* pName = (__bridge_transfer NSString*)__jscWrapper.JSStringCopyCFString(kCFAllocatorDefault, propertyName);
 	
-	__JSValuePropertyMapping[[NSString stringWithFormat:@"%p", rv]] = pName;
+	__rn_valuePropertyMapping[[NSString stringWithFormat:@"%p", rv]] = pName;
 	
 	return rv;
 }
@@ -448,16 +526,6 @@ static int __dtxinst_UIApplication_run(id self, SEL _cmd)
 	if(DTXReactNativeSampler.isReactNativeInstalled)
 	{
 		//Modern RN
-		
-		__orig_JSObjectMakeFunctionWithCallback = __jscWrapper.JSObjectMakeFunctionWithCallback;
-		
-		rebind_symbols((struct rebinding[]){
-			{"JSObjectMakeFunctionWithCallback",
-				__dtx_JSObjectMakeFunctionWithCallback,
-				NULL
-			},
-		}, 1);
-		
 		Class cls = NSClassFromString(@"RCTCxxBridge");
 		
 		Method m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoop"));
@@ -487,23 +555,18 @@ static void __DTXInitializeRNSampler()
 	__rnBacktraceSem = dispatch_semaphore_create(0);
 	BOOL didLoadCustomJSCWrapper = DTXLoadJSCWrapper(&__jscWrapper);
 	
-	__JSValuePropertyMapping = [NSMutableDictionary new];
+	__rn_valuePropertyMapping = [NSMutableDictionary new];
 	
 	if(didLoadCustomJSCWrapper == YES)
 	{
 		DTXInitializeSourceMapsSupport(&__jscWrapper);
-		__orig_JSObjectCallAsFunction = __jscWrapper.JSObjectCallAsFunction;
-		__orig_JSObjectGetProperty = __jscWrapper.JSObjectGetProperty;
-	}
-	else
-	{
-		__orig_JSObjectCallAsFunction = dlsym(RTLD_DEFAULT, "JSObjectCallAsFunction");
-		__orig_JSObjectGetProperty = dlsym(RTLD_DEFAULT, "JSObjectGetProperty");
 	}
 	
-	Method m = class_getInstanceMethod(UIApplication.class, NSSelectorFromString(@"_run"));
-	__orig_UIApplication_run = (void*)method_getImplementation(m);
-	method_setImplementation(m, (void*)__dtxinst_UIApplication_run);
+	__orig_JSObjectCallAsFunction = __jscWrapper.JSObjectCallAsFunction;
+	__orig_JSObjectGetProperty = __jscWrapper.JSObjectGetProperty;
+	__orig_JSClassCreate = __jscWrapper.JSClassCreate;
+	__orig_JSObjectSetProperty = __jscWrapper.JSObjectSetProperty;
+	__orig_JSObjectMakeFunctionWithCallback = __jscWrapper.JSObjectMakeFunctionWithCallback;
 	
 	rebind_symbols((struct rebinding[]){
 		{"JSObjectCallAsFunction",
@@ -514,7 +577,26 @@ static void __DTXInitializeRNSampler()
 			__dtx_JSObjectGetProperty,
 			NULL
 		},
-	}, 2);
+		{
+			"JSObjectMakeFunctionWithCallback",
+			__dtx_JSObjectMakeFunctionWithCallback,
+			NULL
+		},
+		{
+			"JSClassCreate",
+			__dtx_JSClassCreate,
+			NULL
+		},
+		{
+			"JSObjectSetProperty",
+			__dtx_JSObjectSetProperty,
+			NULL
+		},
+	}, 5);
+	
+	Method m = class_getInstanceMethod(UIApplication.class, NSSelectorFromString(@"_run"));
+	__orig_UIApplication_run = (void*)method_getImplementation(m);
+	method_setImplementation(m, (void*)__dtxinst_UIApplication_run);
 	
 	struct sigaction sa;
 	sigfillset(&sa.sa_mask);
