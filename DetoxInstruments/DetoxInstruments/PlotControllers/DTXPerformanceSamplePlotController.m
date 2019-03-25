@@ -40,7 +40,7 @@
 
 - (CGFloat)plotHeightMultiplier;
 {
-	return self.isForTouchBar ? 1.0 : 1.15;
+	return 1.15;
 }
 
 - (CGFloat)minimumValueForPlotHeight

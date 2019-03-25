@@ -13,9 +13,6 @@
 @end
 
 @implementation DTXRequestHeadersEditor
-{
-	BOOL _readOnly;
-}
 
 - (void)setRequestHeaders:(NSDictionary<NSString *,NSString *> *)requestHeaders
 {
@@ -25,13 +22,6 @@
 - (NSDictionary<NSString *,NSString *> *)requestHeaders
 {
 	return (id)self.plistEditor.propertyList;
-}
-
-- (void)setHeadersWithResponse:(NSHTTPURLResponse*)response
-{
-	_readOnly = YES;
-
-	self.plistEditor.propertyList = response.allHeaderFields;
 }
 
 #pragma mark LNPropertyListEditorDelegate
@@ -44,32 +34,7 @@
 	return rv;
 }
 
-- (BOOL)propertyListEditor:(LNPropertyListEditor *)editor canEditKeyOfNode:(LNPropertyListNode*)node
-{
-	return _readOnly == NO;
-}
-
-- (BOOL)propertyListEditor:(LNPropertyListEditor *)editor canEditValueOfNode:(LNPropertyListNode*)node
-{
-	return _readOnly == NO;
-}
-
-- (BOOL)propertyListEditor:(LNPropertyListEditor *)editor canDeleteNode:(LNPropertyListNode*)node
-{
-	return _readOnly == NO;
-}
-
-- (BOOL)propertyListEditor:(LNPropertyListEditor *)editor canAddNewNodeInNode:(LNPropertyListNode*)node
-{
-	return _readOnly == NO;
-}
-
-- (BOOL)propertyListEditor:(LNPropertyListEditor *)editor canPasteNode:(LNPropertyListNode*)pastedNode inNode:(LNPropertyListNode*)node
-{
-	return _readOnly == NO;
-}
-
-- (void)propertyListEditor:(LNPropertyListEditor *)editor willChangeNode:(LNPropertyListNode *)node changeType:(LNPropertyListNodeChangeType)changeType previousKey:(NSString *)previousKey
+- (void)propertyListEditor:(LNPropertyListEditor *)editor didChangeNode:(LNPropertyListNode *)node changeType:(LNPropertyListNodeChangeType)changeType previousKey:(NSString *)previousKey
 {
 	[self.view.window.windowController.document updateChangeCount:NSChangeDone];
 	

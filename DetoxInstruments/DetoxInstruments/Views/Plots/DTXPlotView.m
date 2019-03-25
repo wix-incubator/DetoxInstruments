@@ -317,6 +317,7 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	if(self)
 	{
 		_cgr = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_clicked:)];
+		_cgr.allowedTouchTypes = NSTouchTypeMaskDirect;
 		_cgr.delegate = self;
 		[self addGestureRecognizer:_cgr];
 		

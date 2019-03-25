@@ -76,5 +76,9 @@
 	return [NSFormatter dtx_stringFormatter];
 }
 
+- (BOOL)includeSeparatorsInStackView
+{
+	return self.isForTouchBar;
+}
 
 @end

@@ -19,8 +19,10 @@
 #define DTX_WARN_UNUSED_RESULT __attribute__((__warn_unused_result__))
 #endif
 
-#if defined(__cplusplus)
-#else
+#if ! defined(__cplusplus)
+#if ! defined(thread_local)
+#define thread_local _Thread_local
+#endif
 #define auto __auto_type
 #endif
 

@@ -351,15 +351,38 @@
 		[cell contentTextField].selectable = YES;
 		targetForWindowWideCopy = [cell contentTextField];
 		
-		[cell textField].hidden = content.title.length == 0;
+		[cell textField].hidden = content.attributedTitle.length == 0 && content.title.length == 0;
 		[cell titleContentConstraint].active = content.title.length != 0;
 	}
 	
-	cell.textField.stringValue = content.title ?: @"Title";
+	if(content.attributedTitle.length > 0)
+	{
+		NSMutableAttributedString* mas = content.attributedTitle.mutableCopy;
+		if([mas fontAttributesInRange:NSMakeRange(0, mas.length)][NSFontAttributeName] == nil)
+		{
+			[mas addAttributes:@{NSFontAttributeName: cell.textField.font} range:NSMakeRange(0, mas.length)];
+		}
+		
+		cell.textField.attributedStringValue = mas;
+	}
+	else
+	{
+		cell.textField.stringValue = content.title ?: @"Title";
+	}
+	
 	cell.imageView.image = content.titleImage;
-	if([cell respondsToSelector:@selector(titleContainer)])
+	if(content.attributedTitle.length == 0)
+	{
+		cell.textField.textColor = NSColor.labelColor;
+	}
+	
+	if([cell respondsToSelector:@selector(titleContainer)] && [cell titleContainer] != nil && content.titleColor)
 	{
 		[cell titleContainer].fillColor = content.titleColor;
+	}
+	else if(content.attributedTitle.length == 0 && content.titleColor != nil)
+	{
+		cell.textField.textColor = content.titleColor;
 	}
 	
 	if(content.image)

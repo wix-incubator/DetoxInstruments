@@ -46,6 +46,9 @@
 - (void)addChildPlotController:(id<DTXPlotController>)childPlotController toPlotController:(id<DTXPlotController>)plotController;
 - (void)removeChildPlotController:(id<DTXPlotController>)childPlotController ofPlotController:(id<DTXPlotController>)plotController;
 
+//Selected plot controller
+@property (nonatomic, readonly) id<DTXPlotController> selectedPlotController;
+
 //Group plot range control
 - (void)setLocalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp;
 - (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp ignoreSmaller:(BOOL)ignoreSmaller;

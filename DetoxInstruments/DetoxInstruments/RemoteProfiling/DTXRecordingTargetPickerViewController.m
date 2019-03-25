@@ -17,7 +17,7 @@
 
 @import QuartzCore;
 
-@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteTargetDelegate, NSPopoverDelegate>
+@interface DTXRecordingTargetPickerViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, DTXRemoteTargetDelegate, NSPopoverDelegate, NSTouchBarDelegate>
 {
 	IBOutlet NSView* _containerView;
 	IBOutlet NSLayoutConstraint* _containerConstraint;
@@ -180,6 +180,8 @@
 			}
 		}];
 	}
+	
+	self.touchBar = [self makeTouchBar];
 }
 
 - (void)_removeActionButtonsWithProvider:(id<_DTXActionButtonProvider>)provider
@@ -194,6 +196,8 @@
 			[_moreButtonsStackView removeView:button];
 		}];
 	}
+	
+	self.touchBar = [self makeTouchBar];
 }
 
 - (void)_transitionToController:(NSViewController<_DTXActionButtonProvider>*)controller
@@ -581,5 +585,70 @@
 {
 	_warningPopover = nil;
 }
+
+#pragma mark NSTouchBarProvider
+
+- (NSCustomTouchBarItem*)_touchBarButtonItemWithButton:(NSButton*)obj identifier:(NSString*)identifier
+{
+	NSButton *button = [NSButton buttonWithTitle:obj.title target:obj.target action:obj.action];
+	button.bezelStyle = obj.bezelStyle;
+	if(button.bezelStyle == NSBezelStyleHelpButton)
+	{
+		button.bezelStyle = NSBezelStyleRounded;
+		button.title = NSLocalizedString(@"Help", @"");
+	}
+	button.keyEquivalent = obj.keyEquivalent;
+	NSCustomTouchBarItem *buttonBarItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:identifier];
+	buttonBarItem.view = button;
+	
+	return buttonBarItem;
+}
+
+- (NSTouchBar *)makeTouchBar
+{
+	NSMutableArray<NSString*>* buttonIdentifiers = [NSMutableArray new];
+	NSMutableSet<NSTouchBarItem*>* buttonsSet = [NSMutableSet new];
+	
+	[buttonIdentifiers addObject:NSTouchBarItemIdentifierFlexibleSpace];
+	
+	[_moreButtonsStackView.arrangedSubviews enumerateObjectsUsingBlock:^(__kindof NSButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSString* identifier = [NSString stringWithFormat:@"MoreButton%@", @(idx)];
+		
+		NSCustomTouchBarItem *buttonBarItem = [self _touchBarButtonItemWithButton:obj identifier:identifier];
+		
+		[buttonIdentifiers addObject:identifier];
+		[buttonsSet addObject:buttonBarItem];
+	}];
+	
+	[buttonIdentifiers addObject:NSTouchBarItemIdentifierFixedSpaceLarge];
+	
+	[_actionButtonsStackView.arrangedSubviews enumerateObjectsUsingBlock:^(__kindof NSButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSString* identifier = [NSString stringWithFormat:@"Button%@", @(idx)];
+	
+		NSCustomTouchBarItem *buttonBarItem = [self _touchBarButtonItemWithButton:obj identifier:identifier];
+		
+		[buttonIdentifiers addObject:identifier];
+		[buttonsSet addObject:buttonBarItem];
+	}];
+	
+	[buttonIdentifiers addObject:NSTouchBarItemIdentifierFlexibleSpace];
+	
+	NSGroupTouchBarItem* group = [NSGroupTouchBarItem alertStyleGroupItemWithIdentifier:@"DTXRecordingTargetPickerButtons"];
+	group.groupTouchBar.defaultItemIdentifiers = buttonIdentifiers;
+	group.groupTouchBar.templateItems = buttonsSet;
+	
+	NSTouchBar* bar = [NSTouchBar new];
+	bar.defaultItemIdentifiers = @[@"DTXRecordingTargetPickerButtons"];
+	bar.templateItems = [NSSet setWithObject:group];
+	
+	return bar;
+}
+
+#pragma mark NSTouchBarDelegate
+
+//- (nullable NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
+//{
+//
+//}
 
 @end

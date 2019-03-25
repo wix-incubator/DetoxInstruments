@@ -19,7 +19,7 @@ os_log_t __log_disk;
 os_log_t __log_network;
 os_log_t __log_general;
 
-@interface ViewController ()
+@interface ViewController () <NSURLSessionDataDelegate>
 
 @property (nonatomic, weak) IBOutlet UISwitch* useProtocolSwitch;
 @property (nonatomic, weak) IBOutlet UIButton* startDemoButton;
@@ -122,7 +122,7 @@ os_log_t __log_general;
 		config.protocolClasses = protocols;
 	}
 	
-	NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+	NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
 	
 	os_signpost_id_t nwIndex = os_signpost_id_generate(__log_network);
 	os_signpost_interval_begin(__log_network, nwIndex, "Requesting Index");

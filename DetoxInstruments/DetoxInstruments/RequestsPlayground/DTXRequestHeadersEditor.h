@@ -13,6 +13,4 @@
 
 @property (nonatomic, strong) NSDictionary<NSString*, NSString*>* requestHeaders;
 
-- (void)setHeadersWithResponse:(NSHTTPURLResponse*)response;
-
 @end

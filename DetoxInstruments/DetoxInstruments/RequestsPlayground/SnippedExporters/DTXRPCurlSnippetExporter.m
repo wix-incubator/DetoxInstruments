@@ -12,22 +12,28 @@
 
 + (NSString*)snippetWithRequest:(NSURLRequest*)request
 {
-	NSMutableString* rv = @"curl ".mutableCopy;
+	NSMutableString* rv = [NSMutableString new];
 	
+	NSString* body = nil;
 	if([request.HTTPMethod isEqualToString:@"GET"] == NO)
 	{
-		[rv appendFormat:@"-X %@ ", request.HTTPMethod];
-		
-		NSString* body = [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding];
+		body = [request.HTTPBody base64EncodedStringWithOptions:0];
 		if(body.length > 0)
 		{
-			[rv appendFormat:@"--data-binary '%@' ", [body stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"]];
+			[rv appendFormat:@"echo '%@' | base64 --decode | ", [body stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"]];
 		}
 	}
+
+	[rv appendFormat:@"curl -X %@ ", request.HTTPMethod];
 	
 	[request.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
 		[rv appendFormat:@"-H '%@: %@' ", key, obj];
 	}];
+	
+	if(body.length > 0)
+	{
+		[rv appendString:@"-d @- "];
+	}
 	
 	[rv appendString:request.URL.absoluteString];
 	

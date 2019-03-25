@@ -38,31 +38,32 @@
 	
 	[rv appendString:@"\n\t}\n};\n\n"];
 	
-	[rv appendString:@"const request = https.request(options, (response) => {\n\
-\tconst chunks = [];\n\
-\tconsole.log(`statusCode: ${response.statusCode}`);\n\
-\t\n\
-\tresponse.on('data', (chunk) => {\n\
-\t\tchunks.push(chunk);\n\
-\t});\n\
-\t\n\
-\tresponse.on('end', (chunk) => {\n\
-\t\tconst body = Buffer.concat(chunks);\n\
-\t\tconsole.log(body.toString());\n\
-\t});\n\
-});\n\
-\t\n\
-request.on('error', (error) => {\n\
-\tconsole.error(error);\n\
-});\n\
-\n"];
-	
+	[rv appendString:@"const request = https.request(options, (response) => {\n"];
+	[rv appendString:@"\tconst chunks = [];\n"];
+	[rv appendString:@"\tconsole.log(`statusCode: ${response.statusCode}`);\n"];
+	[rv appendString:@"\t\n"];
+	[rv appendString:@"\tresponse.on('data', (chunk) => {\n"];
+	[rv appendString:@"\t\tchunks.push(chunk);\n"];
+	[rv appendString:@"\t});\n"];
+	[rv appendString:@"\t\n"];
+	[rv appendString:@"\tresponse.on('end', (chunk) => {\n"];
+	[rv appendString:@"\t\tconst body = Buffer.concat(chunks);\n"];
+	[rv appendString:@"\t\tconsole.log(body.toString());\n"];
+	[rv appendString:@"\t});\n"];
+	[rv appendString:@"});\n"];
+	[rv appendString:@"\t\n"];
+	[rv appendString:@"request.on('error', (error) => {\n"];
+	[rv appendString:@"\tconsole.error(error);\n"];
+	[rv appendString:@"});\n"];
+	[rv appendString:@"\n"];
+
 	if([request.HTTPMethod isEqualToString:@"GET"] == NO)
 	{
-		NSString* body = [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding];
+		NSString* body = [request.HTTPBody base64EncodedStringWithOptions:0];
 		if(body.length > 0)
 		{
-			[rv appendFormat:@"const data = '%@';\n", [[body stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"] stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"]];
+			[rv appendFormat:@"const base64Data = '%@';\n", body];
+			[rv appendString:@"const data = Buffer.from(base64Data, 'base64');\n"];
 			[rv appendString:@"request.write(data);\n"];
 		}
 	}

@@ -46,6 +46,11 @@
 	__weak DTXRecordingDocument* _document;
 }
 
+- (id<DTXPlotController>)selectedPlotController
+{
+	return _currentlySelectedPlotController;
+}
+
 - (instancetype)initWithHostingOutlineView:(NSOutlineView*)outlineView document:(DTXRecordingDocument*)document
 {
 	self = [super init];
@@ -518,7 +523,7 @@
 		[_touchBarPlotController setPlotRange:plotRange];
 	}
 	
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_visiblePlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		if(obj == pc)
 		{
 			return;
@@ -534,7 +539,7 @@
 {
 	_savedHighlightRange = highlightRange;
 	
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_visiblePlotControllers usingBlock:^(id<DTXPlotController> obj) {
 		if(obj == pc)
 		{
 			return;
@@ -556,7 +561,7 @@
 {
 	_savedHighlightRange = nil;
 	
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotControllerPrivate> obj) {
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_visiblePlotControllers usingBlock:^(id<DTXPlotControllerPrivate> obj) {
 		if(obj == pc)
 		{
 			return;
@@ -661,9 +666,7 @@
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotControllerPrivate> obj) {
-		[obj _removeHighlightNotifyingDelegate:NO];
-	}];
+	[self plotControllerDidRemoveHighlight:nil];
 	
 	id<DTXPlotController> plotController = [_hostingOutlineView itemAtRow:_hostingOutlineView.selectedRow];
 	_currentlySelectedPlotController = plotController;

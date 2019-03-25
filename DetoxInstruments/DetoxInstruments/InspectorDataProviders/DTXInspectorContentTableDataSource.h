@@ -29,6 +29,7 @@
 @interface DTXInspectorContent : NSObject
 
 @property (nonatomic, copy) NSString* title;
+@property (nonatomic, copy) NSAttributedString* attributedTitle;
 @property (nonatomic, copy) NSImage* titleImage;
 @property (nonatomic, copy) NSColor* titleColor;
 

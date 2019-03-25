@@ -15,40 +15,49 @@ ul { padding-left: 1.3em; }
 <title>Detox Instruments Help</title></head><body>
 <h1>
 <a name="user-content-requests-playground" class="anchor" href="#requests-playground"><span class="octicon octicon-link"></span></a>Requests Playground</h1>
-<p>Detox Instruments includes a utility for replaying and modifying network requests, called Requests Playground.</p>
-<p>Start by selecting a network request from an existing recording. In the inspector pane, scroll down to the <strong>Request</strong> section and click on the <strong>Open in Requests Playground</strong> button. The Requests Playground window will open with the details of the request.</p>
+<p>Detox Instruments includes a utility for replaying and modifying network requests, called Requests Playground. These requests can be saved as a document for future reference and testing.</p>
+<p>Create a new request document by either selecting <strong>File</strong> ➔ <strong>New</strong> ➔ <strong>Request</strong>, or by selecting a network request from a profiling recording and clicking the <strong>Open in Requests Playground</strong> button in the inspector pane.</p>
 <p><a href="Resources/RequestsPlayground.png" target="_blank"><img src="Resources/RequestsPlayground.png" alt="Requests Playground" style="max-width:100%;" /></a></p>
-<p>At the top section, you can select the HTTP request method and modify the request URL.</p>
-<p>At the middle section, you can modify the parameters of your request.</p>
+<p>The document window includes three sections: the top section, gives control over the URL and the HTTP method of the request; the middle section gives control over the request’s content; and the bottom section has actions to perform for the request.</p>
+<h3>
+<a name="user-content-request-url-and-http-method" class="anchor" href="#request-url-and-http-method"><span class="octicon octicon-link"></span></a>Request URL And HTTP Method</h3>
+<p>In this section, you set the HTTP method and the URL of the request. Modifying the URL will automatically regenerate the content in the <strong>Query String</strong> section.</p>
+<h3>
+<a name="user-content-request--response-content" class="anchor" href="#request--response-content"><span class="octicon octicon-link"></span></a>Request &amp; Response Content</h3>
+<p>This section gives you control of the request content as well as the output from the response.</p>
+<h4>
+<a name="user-content-headers" class="anchor" href="#headers"><span class="octicon octicon-link"></span></a>Headers</h4>
+<p>You modify the headers of the request in this section. Modifying the <code>Cookie</code> header will automatically regenerate the <strong>Cookies</strong> section. Modifying the <code>Content-Type</code> header will automatically modify the content type in the <strong>Body</strong> section.</p>
+<h4>
+<a name="user-content-cookies" class="anchor" href="#cookies"><span class="octicon octicon-link"></span></a>Cookies</h4>
+<p>You modify the cookies of the request in this section. Modifying items in this list will override the <code>Cookie</code> header in the <strong>Headers</strong> section.</p>
+<h4>
+<a name="user-content-query-string" class="anchor" href="#query-string"><span class="octicon octicon-link"></span></a>Query String</h4>
+<p>You modify the query string arguments of the request in this section. Modifying items in this list will cause the URL of the request to be regenerated.</p>
+<h4>
+<a name="user-content-body" class="anchor" href="#body"><span class="octicon octicon-link"></span></a>Body</h4>
+<p>You modify the body of the request in this section. At the bottom of the section, you can select the body types supported by Requests Playground, as well as the content type.</p>
+<p>Supported body types:</p>
 <ul>
-<li>
-<p><strong>Headers</strong>—Modify the headers of the request</p>
-</li>
-<li>
-<p><strong>Cookies</strong>—Modify the cookies of the request; modifying this list will override the <code>Cookie</code> header</p>
-</li>
-<li>
-<p><strong>Query String</strong>—Modify the query string arguments of the request; modifying this list will modify the address of the request</p>
-</li>
-<li>
-<p><strong>Body</strong>—Modify the body of the request</p>
+<li>None</li>
+<li>Raw Text</li>
+<li>URL Encoded Form</li>
+<li>File</li>
+</ul>
+<p>Selecting the <strong>URL Encoded Form</strong> body type will attempt to interpret the body content as URL encoded key/value pairs. Selecting or dragging a file when in <strong>File</strong> body type will attempt to set the body content type from the file type of the file.</p>
+<p>The <strong>Content Type</strong> text field allows you to manually set the body content type in MIME format. Setting this field or making changes to the body type will cause the <code>Content-Type</code> header to be regenerated.</p>
+<h4>
+<a name="user-content-response" class="anchor" href="#response"><span class="octicon octicon-link"></span></a>Response</h4>
+<p>You view the response metrics and response headers and content in this section. If there was an error when executing the request, it will be displayed in this section. You can open the response content or save it as a file.</p>
+<h3>
+<a name="user-content-request-actions" class="anchor" href="#request-actions"><span class="octicon octicon-link"></span></a>Request Actions</h3>
+<p>Once you finish modifying your request, you can execute it by clicking the <strong>Send Request</strong> button. When the request execution finishes, the <strong>Response</strong> section will be enabled.</p>
+<p>You can also copy a code snippet for executing the request in your environment. The supported snippet environments are:</p>
 <ul>
-<li>
-<blockquote>
-<p>Note: Currently, only text body content is supported.</p>
-</blockquote>
-</li>
+<li>cURL</li>
+<li>Node</li>
 </ul>
-</li>
-<li>
-<p><strong>Response Headers</strong>—View the response headers after sending a request</p>
-</li>
-<li>
-<p><strong>Response Body</strong>—View the response content or the error received when executing the request</p>
-</li>
-</ul>
-<p>Once you finish modifying your request, you can execute it by clicking the <strong>Send Request</strong> button or you can copy a code snippet for executing the request in your environment.</p>
 <blockquote>
-<p>Note: Currently, cURL and Node are supported snippet languages.</p>
+<p>Copying a snippet with a long body is not recommended as the body content will be copied as base 64.</p>
 </blockquote>
 </body></html>

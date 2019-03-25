@@ -7,8 +7,9 @@
 //
 
 #import "DTXRPBodyEditor.h"
+#import "DTXDraggableImageView.h"
 
-@interface DTXRPBodyEditor () <NSUserInterfaceValidations>
+@interface DTXRPBodyEditor () <NSUserInterfaceValidations, DTXDraggableImageViewDelegate>
 
 @property (nonatomic, strong) NSString* text;
 @property (nonatomic, strong, readwrite) NSData* body;
@@ -23,9 +24,23 @@
 	IBOutlet NSTextView* _textView;
 	IBOutlet NSTextField* _contentTypeTextField;
 	IBOutlet NSStackView* _bodyTypeButtonsStackView;
-	IBOutlet NSImageView* _fileImageView;
+	IBOutlet DTXDraggableImageView* _fileImageView;
 	IBOutlet NSStackView* _fileBrowseButtons;
 	IBOutlet NSButton* _fileSaveButton;
+	IBOutlet NSButton* _clearButton;
+	IBOutlet NSTextField* _noBodyLabel;
+	IBOutlet NSButton* _textBodyTypeButton;
+	IBOutlet NSButton* _noBodyTypeButton;
+}
+
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	
+	_noBodyTypeButton.state = NSControlStateValueOn;
+	[self setBodyType:_noBodyTypeButton];
+	
+	_fileImageView.dragDelegate = self;
 }
 
 - (void)setBody:(NSData *)body
@@ -42,6 +57,7 @@
 	}
 	
 	_fileSaveButton.enabled = _body.length > 0;
+	_clearButton.enabled = _body.length > 0;
 }
 
 - (void)setContentType:(NSString *)contentType
@@ -62,6 +78,12 @@
 			image.size = NSMakeSize(256, 256);
 			_fileImageView.image = image;
 		}
+		else
+		{
+			_fileImageView.image = nil;
+		}
+		
+//		_textBodyTypeButton.enabled = self._isContentTypeBinary == NO;
 	}
 }
 
@@ -184,7 +206,10 @@
 {
 	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(self.contentType), NULL);
 	dtx_defer {
-		CFRelease(UTI);
+		if(UTI != NULL)
+		{
+			CFRelease(UTI);
+		}
 	};
 	
 	return UTTypeConformsTo(UTI, kUTTypeText) == NO;
@@ -194,8 +219,8 @@
 {
 	_loading = YES;
 	
-	self.contentType = contentType ?: @"";
 	self.body = body;
+	self.contentType = contentType ?: @"";
 	
 	if(self.body.length == 0 && self.contentType.length == 0)
 	{
@@ -222,6 +247,7 @@
 
 - (void)_updateToState
 {
+	BOOL isNoBody = [(NSButton*)[_bodyTypeButtonsStackView viewWithTag:0] state] == NSControlStateValueOn;
 	BOOL isRawText = [(NSButton*)[_bodyTypeButtonsStackView viewWithTag:1] state] == NSControlStateValueOn;
 	BOOL isFile = [(NSButton*)[_bodyTypeButtonsStackView viewWithTag:3] state] == NSControlStateValueOn;
 	BOOL isURLEncoded = [(NSButton*)[_bodyTypeButtonsStackView viewWithTag:2] state] == NSControlStateValueOn;
@@ -231,6 +257,7 @@
 	self.plistEditor.hidden = isURLEncoded == NO;
 	_fileImageView.hidden = isFile == NO;
 	_fileBrowseButtons.hidden = isFile == NO;
+	_noBodyLabel.hidden = isNoBody == NO;
 	
 	if(isRawText)
 	{
@@ -241,6 +268,21 @@
 	{
 		[self _reloadURLEncodedForm];
 	}
+}
+
+- (IBAction)clearFile:(id)sender
+{
+	self.body = nil;
+	self.contentType = @"";
+}
+
+- (void)_openFileAsBody:(NSURL*)URL
+{
+	self.body = [[NSData alloc] initWithContentsOfURL:URL options:(NSDataReadingMappedIfSafe) error:NULL];
+	NSString* type;
+	[URL getResourceValue:&type forKey:NSURLTypeIdentifierKey error:NULL];
+	NSString* MIMEType = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(type), kUTTagClassMIMEType));
+	self.contentType = MIMEType ?: @"application/octet-stream";
 }
 
 - (IBAction)selectFile:(id)sender
@@ -256,11 +298,7 @@
 			return;
 		}
 		
-		self.body = [[NSData alloc] initWithContentsOfURL:openPanel.URL options:(NSDataReadingMappedIfSafe) error:NULL];
-		NSString* type;
-		[openPanel.URL getResourceValue:&type forKey:NSURLTypeIdentifierKey error:NULL];
-		NSString* MIMEType = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(type), kUTTagClassMIMEType));
-		self.contentType = MIMEType ?: @"application/octet-stream";
+		[self _openFileAsBody:openPanel.URL];
 	}];
 }
 
@@ -324,6 +362,13 @@
 - (void)propertyListEditor:(LNPropertyListEditor *)editor willChangeNode:(LNPropertyListNode *)node changeType:(LNPropertyListNodeChangeType)changeType previousKey:(NSString *)previousKey
 {
 	self.body = self._urlEncodedBodyFromPropertyList;
+}
+
+#pragma mark DTXDraggableImageViewDelegate
+
+- (void)draggableImageView:(DTXDraggableImageView*)imageView didAcceptURL:(NSURL*)URL
+{
+	[self _openFileAsBody:URL];
 }
 
 @end

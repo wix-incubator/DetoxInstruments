@@ -60,7 +60,7 @@ This will install Detox Instruments under `/Applications`.
 
 In order to begin profiling your app, you need to integrate the Profiler framework in your app's project. See [Profiler Framework Integration Guide](Documentation/XcodeIntegrationGuide.md) for more information.
 
-#### Developer API Reference
+### Developer API Reference
 
 By integrating Detox Instruments in your app, many of the included instruments can automatically collect data. Some instruments require you to explicitly call the provided APIs so that specific data can be collected.
 
@@ -70,7 +70,7 @@ See the [Developer API Reference](Documentation/DeveloperAPIReferenceIntro.md) f
 
 Once you've installed Detox Instruments and integrated the Profiler framework with your app's project, you can start profiling your app.
 
-#### The App Selection Dialog
+### The App Selection Dialog
 
 After launching Detox Instruments or selecting **File** ➔ **New Recording...**, you will be presented with an app selection dialog, displaying a list of available apps to profile. Launch your app on your mobile device or simulator and your app will appear in the list.
 
@@ -82,13 +82,13 @@ To start profiling, select your app and click on the Profile button.
 
 To configure profiling options, such as sampling frequency and recording features, click on the Options button. For an in-depth look at profiling options, see [Profiling Options](Documentation/ProfilingOptions.md).
 
-#### App Management
+### App Management
 
 ![App Management](Documentation/Resources/Management_All.png "App Management")
 
 To manage your app, click on the **Manage** button (![Gear Button](Documentation/Resources/Button_Manage.png)) in the app selection dialog. You can manage multiple apps at the same time. For an in-depth look at app management, see [App Management](Documentation/AppManagement.md).
 
-#### The Recording Document
+### The Recording Document
 
 A recording document is used to initiate new profiling and view and analyze the results of profiling. You create a new recording document by selecting **File** ➔ **New Recording...** and choosing an app to profile.
 
@@ -98,13 +98,19 @@ You can also save and reopen recording documents in which you’ve collected dat
 
 For detailed information on the recording document, see [The Recording Document](Documentation/RecordingDocument.md).
 
-#### Instruments
+### Instruments
 
 Detox Instruments includes many instruments to analyze many aspects of your app.
 
 ![Instruments](Documentation/Resources/RecordingDocument_TimelinePane.png "Instruments")
 
 For a list of available instruments and their description, see [Available Instruments](Documentation/AvailableInstruments.md).
+
+### Requests Playground
+
+![Requests Playground](Documentation/Resources/RequestsPlayground.png "Requests Playground")
+
+Detox Instruments includes a utility for replaying and modifying network requests, called Requests Playground. These requests can be saved as a document for future reference and testing. For an in-depth look at app management, see [Requests Playground](Documentation/RequestsPlayground.md).
 
 ## Acknowledgements
 
