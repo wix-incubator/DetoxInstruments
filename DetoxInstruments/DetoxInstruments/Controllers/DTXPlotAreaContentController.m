@@ -336,15 +336,6 @@
 			_touchBarPlotControllerClass = _plotGroup.visiblePlotControllers.firstObject.class;
 		}
 		
-//		NSUInteger idx = [_plotGroup.visiblePlotControllers indexOfObjectPassingTest:^BOOL(id<DTXPlotController>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//			if([obj isKindOfClass:_touchBarPlotControllerClass.class])
-//			{
-//				return YES;
-//			}
-//			
-//			return NO;
-//		}];
-		
 		if(_plotGroup.visiblePlotControllers.count == 0)
 		{
 			return nil;
@@ -386,6 +377,11 @@
 			auto button = [DTXClassSelectionButton buttonWithTitle:plotController.displayName target:self action:@selector(_handleTouchBarSelection:)];
 			button.selectionClass = plotController.class;
 			button.image = plotController.smallDisplayIcon;
+			[button setButtonType:NSButtonTypeOnOff];
+			if(plotController.class == _touchBarPlotController.class)
+			{
+				button.state = NSControlStateValueOn;
+			}
 			button.imagePosition = NSImageLeading;
 			button.imageHugsTitle = YES;
 			button.translatesAutoresizingMaskIntoConstraints = NO;
