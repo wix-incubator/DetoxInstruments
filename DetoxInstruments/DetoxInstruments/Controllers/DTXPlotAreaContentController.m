@@ -336,14 +336,14 @@
 			_touchBarPlotControllerClass = _plotGroup.visiblePlotControllers.firstObject.class;
 		}
 		
-		NSUInteger idx = [_plotGroup.visiblePlotControllers indexOfObjectPassingTest:^BOOL(id<DTXPlotController>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			if([obj isKindOfClass:_touchBarPlotControllerClass.class])
-			{
-				return YES;
-			}
-			
-			return NO;
-		}];
+//		NSUInteger idx = [_plotGroup.visiblePlotControllers indexOfObjectPassingTest:^BOOL(id<DTXPlotController>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//			if([obj isKindOfClass:_touchBarPlotControllerClass.class])
+//			{
+//				return YES;
+//			}
+//			
+//			return NO;
+//		}];
 		
 		if(_plotGroup.visiblePlotControllers.count == 0)
 		{
