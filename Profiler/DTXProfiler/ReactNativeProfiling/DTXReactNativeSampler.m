@@ -14,7 +14,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "DTXCustomJSCSupport.h"
 #import "DTXProfiler-Private.h"
-#import "DTXReactNativeProfilerCallback.h"
+#import "DTXReactNativeProfilerSupport.h"
 
 @import ObjectiveC;
 @import Darwin;
@@ -26,9 +26,6 @@ static atomic_uintmax_t __bridgeNToJSDataSize = 0;
 static atomic_uintmax_t __bridgeNToJSCallCount = 0;
 static atomic_uintmax_t __bridgeJSToNDataSize = 0;
 static atomic_uintmax_t __bridgeJSToNCallCount = 0;
-
-static NSMutableArray* sectionsRegularEvents = nil;
-static NSMutableDictionary* asyncSections = nil;
 
 static atomic_thread __rnThread = MACH_PORT_NULL;
 
@@ -50,7 +47,7 @@ static void resetAtomicVars()
 	atomic_store(&__bridgeJSToNDataSize, 0);
 }
 
-static void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
+__unused static void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
 {
 	const char* bt = __jscWrapper.JSContextCreateBacktrace_unsafe(__rnCtx, UINT_MAX);
 	if(bt == NULL)
@@ -158,79 +155,6 @@ static void installDTXSignpostHook(JSContext* ctx)
 	};
 }
 
-static void installJSTraceEventsHook(JSContext* ctx)
-{
-	ctx[@"nativeTraceBeginSection"] = ^ (int tag, NSString* _name , id args)
-	{
-		static dispatch_once_t onceToken;
-		dispatch_once(&onceToken, ^{
-			sectionsRegularEvents = [[NSMutableArray alloc] init];
-		});
-		
-		DTXEventIdentifier identifier = __DTXProfilerMarkEventIntervalBegin(NSDate.date,@"JSSection",_name,@"",NO,YES,nil);
-		if(identifier)
-		{
-			dispatch_async(__eventDispatchQueue, ^{
-				[sectionsRegularEvents addObject: identifier];
-			});
-		}
-	};
-	
-	ctx[@"nativeTraceEndSection"] = ^ (int tag)
-	{
-		DTXEventIdentifier identifier = [sectionsRegularEvents lastObject];
-		if(identifier)
-		{
-			__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, DTXEventStatusCompleted, nil);
-			dispatch_async(__eventDispatchQueue, ^{
-				[sectionsRegularEvents removeLastObject];
-			});
-		}
-	};
-	
-	ctx[@"nativeTraceBeginAsyncSection"] = ^(int tag, NSString* name, int cookie)
-	{
-		static dispatch_once_t onceToken;
-		dispatch_once(&onceToken, ^{
-			asyncSections = [[NSMutableDictionary alloc] init];
-		});
-		
-		DTXEventIdentifier identifier = __DTXProfilerMarkEventIntervalBegin(NSDate.date,@"JSAsyncSection",name,@"",NO,YES,nil);
-		if(identifier)
-		{
-			dispatch_async(__eventDispatchQueue, ^{
-				[asyncSections setObject:identifier forKey:[NSNumber numberWithInt:cookie]];
-			});
-		}
-	};
-
-	ctx[@"nativeTraceEndAsyncSection"] = ^(int tag, NSString* name, int cookie)
-	{
-		NSDate* currDate = NSDate.date;
-		dispatch_async(__eventDispatchQueue, ^{
-
-			NSNumber* _cookie = [NSNumber numberWithInt:cookie];
-			DTXEventIdentifier identifier = [asyncSections objectForKey:_cookie];
-			if(identifier)
-			{
-				__DTXProfilerMarkEventIntervalEnd(currDate, identifier, DTXEventStatusCompleted, nil);
-				[asyncSections removeObjectForKey:_cookie];
-			}
-		});
-	};
-
-	
-	ctx[@"nativeTraceBeginLegacy"] = ^()
-	{
-		NSLog(@"nativeTraceBeginLegacy called");
-	};
-	
-	ctx[@"nativeTraceEndLegacy"] = ^()
-	{
-		NSLog(@"nativeTraceEndLegacy called");
-	};
-}
-
 static void (*orig_runRunLoopThread)(id, SEL) = NULL;
 static void swz_runRunLoopThread(id self, SEL _cmd)
 {
@@ -328,7 +252,6 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 	return __dtx_JSObjectMakeFunctionWithCallbackWrapper(ctx, name, callAsFunction, NULL);
 }
 
-
 static JSObjectRef __dtx_JSObjectMakeFunctionWithCallbackWrapper(JSContextRef ctx, JSStringRef name, JSObjectCallAsFunctionCallback callAsFunction, JSValueRef functionValue)
 {
 	if(name != NULL)
@@ -340,7 +263,7 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallbackWrapper(JSContextRef ct
 			resetAtomicVars();
 			installDTXNativeLoggingHook(objcCtx);
 			installDTXSignpostHook(objcCtx);
-			installJSTraceEventsHook(objcCtx);
+			DTXInstallRNJSProfilerHooks(objcCtx);
 		}
 		
 		__rnCtx = ctx;
@@ -512,14 +435,6 @@ static double __rnCPUUsage(thread_t safeRNThread)
 	return threadBasicInfo->cpu_usage / (double)TH_USAGE_SCALE;
 }
 
-static void (*__orig_RCTBridge_setUp)(id self, SEL _cmd);
-static void __dtxinst_RCTBridge_setUp(id self, SEL _cmd)
-{
-	__orig_RCTBridge_setUp(self, _cmd);
-	void (*RCTProfileInit)(id) = (void*)dlsym(RTLD_DEFAULT, "RCTProfileInit");
-	RCTProfileInit([self valueForKey:@"batchedBridge"]);
-}
-
 static int (*__orig_UIApplication_run)(id self, SEL _cmd);
 static int __dtxinst_UIApplication_run(id self, SEL _cmd)
 {
@@ -540,10 +455,7 @@ static int __dtxinst_UIApplication_run(id self, SEL _cmd)
 			method_setImplementation(m, (IMP)swz_runRunLoopThread);
 		}
 		
-		cls = NSClassFromString(@"RCTBridge");
-		m = class_getInstanceMethod(cls, NSSelectorFromString(@"setUp"));
-		__orig_RCTBridge_setUp = (void*)method_getImplementation(m);
-		method_setImplementation(m, (IMP)__dtxinst_RCTBridge_setUp);
+		DTXRegisterRNProfilerCallbacks();
 	}
 	
 	return __orig_UIApplication_run(self, _cmd);
@@ -598,16 +510,14 @@ static void __DTXInitializeRNSampler()
 	__orig_UIApplication_run = (void*)method_getImplementation(m);
 	method_setImplementation(m, (void*)__dtxinst_UIApplication_run);
 	
-	struct sigaction sa;
-	sigfillset(&sa.sa_mask);
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = DTXJSCStackTraceSignalHandler;
-	sigaction(SIGCHLD, &sa, NULL);
+//	struct sigaction sa;
+//	sigfillset(&sa.sa_mask);
+//	sa.sa_flags = SA_SIGINFO;
+//	sa.sa_sigaction = DTXJSCStackTraceSignalHandler;
+//	sigaction(SIGCHLD, &sa, NULL);
 	
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
 	__eventDispatchQueue = dispatch_queue_create("com.wix.DTXRNSampler-Events", qosAttribute);
-	
-	startListening();
 }
 
 @implementation DTXReactNativeSampler

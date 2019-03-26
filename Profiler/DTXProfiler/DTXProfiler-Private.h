@@ -60,6 +60,8 @@ inline void __DTXProfilerAddActiveProfiler(DTXProfiler* profiler)
 	[__activeProfilers addObject:profiler];
 	
 	pthread_mutex_unlock(&__active_profilers_mutex);
+	
+	//TODO: Send notification on new profiler.
 }
 
 static
@@ -71,6 +73,8 @@ inline void __DTXProfilerRemoveActiveProfiler(DTXProfiler* profiler)
 	[__activeProfilers removeObject:profiler];
 	
 	pthread_mutex_unlock(&__active_profilers_mutex);
+	
+	//TODO: Send notification removed profiler.
 }
 
 static
