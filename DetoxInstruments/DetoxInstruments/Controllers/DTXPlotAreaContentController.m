@@ -58,6 +58,9 @@
 	_tableView.enclosingScrollView.autohidesScrollers = NO;
 	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.target = self;
 	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.action = @selector(_horizontalScrollerDidScroll:);
+	
+	//Workaround Apple bugs
+	_tableView.rowHeight = 80;
 }
 
 - (void)_horizontalScrollerDidScroll:(NSScroller*)sender
