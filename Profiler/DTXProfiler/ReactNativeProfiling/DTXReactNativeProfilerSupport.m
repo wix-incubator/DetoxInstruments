@@ -70,7 +70,7 @@ static NSString* getOptionalArgument(size_t numArgs, systrace_arg_t *args)
 	}
 	NSMutableString* output = [[NSMutableString alloc] init];
 	if (numArgs == 1)
-	{
+	{		
 		[output appendFormat:@"%@", @(args[0].value)];
 	}
 	else
@@ -92,8 +92,6 @@ static NSString* getOptionalArgument(size_t numArgs, systrace_arg_t *args)
 static NSMutableDictionary<NSNumber*, DTXEventIdentifier>* asyncSections = nil;
 static NSMutableDictionary<NSNumber*, DTXEventIdentifier>* asyncFlows = nil;
 
-extern dispatch_queue_t __eventDispatchQueue;
-
 static char* __DTXProfileStart()
 {
 	return NULL;
@@ -105,34 +103,30 @@ static void __DTXProfileBeginSection(__unused uint64_t tag, const char *name, si
 {
 	NSDate* date = NSDate.date;
 	NSThread* thread = NSThread.currentThread;
-	dispatch_async(__eventDispatchQueue, ^{
-		DTXEventIdentifier eventIdentifier = __startEvent(date, name, "Section",  [getOptionalArgument(numArgs, args) UTF8String]);
-		NSMutableArray* sections = thread.threadDictionary[@"DTXSections"];
-		if(sections == nil)
-		{
-			sections = [[NSMutableArray alloc] init];
-			thread.threadDictionary[@"DTXSections"] = sections;
-		}
-		
-		[sections addObject:eventIdentifier];
-	});
+	DTXEventIdentifier eventIdentifier = __startEvent(date, name, "Section",  [getOptionalArgument(numArgs, args) UTF8String]);
+	NSMutableArray* sections = thread.threadDictionary[@"DTXSections"];
+	if(sections == nil)
+	{
+		sections = [[NSMutableArray alloc] init];
+		thread.threadDictionary[@"DTXSections"] = sections;
+	}
+	
+	[sections addObject:eventIdentifier];
 }
 
 static void __DTXProfileEndSection(__unused uint64_t tag, __unused size_t numArgs, __unused systrace_arg_t *args)
 {
 	NSDate* date = NSDate.date;
 	NSThread* thread = NSThread.currentThread;
-	dispatch_async(__eventDispatchQueue, ^{
-		NSMutableArray* sections = thread.threadDictionary[@"DTXSections"];
-		if(sections == nil || sections.count == 0)
-		{
-			return;
-		}
-		
-		DTXEventIdentifier eventIdentifier = sections.lastObject;
-		__endEvent(eventIdentifier, date);
-		[sections removeLastObject];
-	});
+	NSMutableArray* sections = thread.threadDictionary[@"DTXSections"];
+	if(sections == nil || sections.count == 0)
+	{
+		return;
+	}
+	
+	DTXEventIdentifier eventIdentifier = sections.lastObject;
+	__endEvent(eventIdentifier, date);
+	[sections removeLastObject];
 }
 
 static void __DTXProfileBeginAsyncSection(uint64_t tag, const char *name, int cookie, size_t numArgs, systrace_arg_t *args)
@@ -143,25 +137,20 @@ static void __DTXProfileBeginAsyncSection(uint64_t tag, const char *name, int co
 	});
 	
 	NSDate* date = NSDate.date;
-	dispatch_async(__eventDispatchQueue, ^{
-		DTXEventIdentifier eventIdentifier = __startEvent(date, name, "AsyncSection",  [getOptionalArgument(numArgs, args) UTF8String]);
-		[asyncSections setObject:eventIdentifier forKey:@(cookie)];
-	});
+	DTXEventIdentifier eventIdentifier = __startEvent(date, name, "AsyncSection",  [getOptionalArgument(numArgs, args) UTF8String]);
+	[asyncSections setObject:eventIdentifier forKey:@(cookie)];
 }
 
 static void __DTXProfileEndAsyncSection(uint64_t tag, const char *name, int cookie, size_t numArgs, systrace_arg_t *args)
 {
 	NSDate* currDate = NSDate.date;
-	dispatch_async(__eventDispatchQueue, ^{
-		NSNumber* key = @(cookie);
-		DTXEventIdentifier eventIdentifier = asyncSections[key];
-		if(eventIdentifier)
-		{
-			__endEvent(eventIdentifier, currDate);
-			[asyncSections removeObjectForKey:key];
-		}
-	});
-	
+	NSNumber* key = @(cookie);
+	DTXEventIdentifier eventIdentifier = asyncSections[key];
+	if(eventIdentifier)
+	{
+		__endEvent(eventIdentifier, currDate);
+		[asyncSections removeObjectForKey:key];
+	}
 }
 
 static void __DTXProfileInstantSection(uint64_t tag, const char *name, char scope)
@@ -181,24 +170,20 @@ static void __DTXProfileBeginAsyncFlow(uint64_t tag, const char *name, int cooki
 	});
 	
 	NSDate* date = NSDate.date;
-	dispatch_async(__eventDispatchQueue, ^{
-		DTXEventIdentifier eventId = __startEvent(date, name, "AsyncFlow", "");
-		[asyncFlows setObject:eventId forKey:@(cookie)];
-	});
+	DTXEventIdentifier eventId = __startEvent(date, name, "AsyncFlow", "");
+	[asyncFlows setObject:eventId forKey:@(cookie)];
 }
 
 static void __DTXProfileEndAsyncFlow(uint64_t tag, const char *name, int cookie)
 {
 	NSDate* date = NSDate.date;
-	dispatch_async(__eventDispatchQueue, ^{
-		NSNumber* key = @(cookie);
-		DTXEventIdentifier eventId = asyncFlows[key];
-		if (eventId)
-		{
-			__endEvent(eventId, date);
-			[asyncFlows removeObjectForKey:key];
-		}
-	});
+	NSNumber* key = @(cookie);
+	DTXEventIdentifier eventId = asyncFlows[key];
+	if (eventId)
+	{
+		__endEvent(eventId, date);
+		[asyncFlows removeObjectForKey:key];
+	}
 }
 
 void DTXInstallRNJSProfilerHooks(JSContext* ctx)
@@ -236,6 +221,7 @@ void DTXInstallRNJSProfilerHooks(JSContext* ctx)
 }
 
 
+
 static void (*__orig_RCTBridge_setUp)(id self, SEL _cmd);
 static void __dtxinst_RCTBridge_setUp(id self, SEL _cmd)
 {
@@ -249,7 +235,7 @@ void DTXRegisterRNProfilerCallbacks()
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		RCTProfileCallbacks wixProfileCallbacks =
+		static RCTProfileCallbacks callbacks =
 		{
 			__DTXProfileStart,
 			__DTXProfileStop,
@@ -265,7 +251,7 @@ void DTXRegisterRNProfilerCallbacks()
 		void (*RCTProfileRegisterCallbacks)(RCTProfileCallbacks *) = dlsym(RTLD_DEFAULT, "RCTProfileRegisterCallbacks");
 		if(RCTProfileRegisterCallbacks != NULL)
 		{
-			RCTProfileRegisterCallbacks(&wixProfileCallbacks);
+			RCTProfileRegisterCallbacks(&callbacks);
 		}
 		
 		Class cls = NSClassFromString(@"RCTBridge");
