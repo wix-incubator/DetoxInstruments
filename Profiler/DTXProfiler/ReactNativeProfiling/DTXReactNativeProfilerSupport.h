@@ -9,6 +9,8 @@
 #ifndef DTXReactNativeProfilerSupport_h
 #define DTXReactNativeProfilerSupport_h
 
+@import JavaScriptCore;
+
 void DTXInstallRNJSProfilerHooks(JSContext* ctx);
 void DTXRegisterRNProfilerCallbacks(void);
 

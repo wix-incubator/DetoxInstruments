@@ -1,16 +1,6 @@
 
 #import "DTXProfiler-Private.h"
 
-pthread_mutex_t __active_profilers_mutex;
-NSMutableSet<DTXProfiler*>* __activeProfilers;
-
-__attribute((constructor))
-static void __DTXProfilerActiveProfilersInit()
-{
-	__activeProfilers = [NSMutableSet new];
-	pthread_mutex_init(&__active_profilers_mutex, NULL);
-}
-
 /**
  *  Adds a tag.
  *

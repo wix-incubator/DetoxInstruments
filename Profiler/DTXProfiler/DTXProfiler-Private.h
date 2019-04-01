@@ -12,6 +12,9 @@
 #import "DTXPerformanceSampler.h"
 #import "DTXNetworkRecorder.h"
 
+extern NSString* const __DTXDidAddActiveProfilerNotification;
+extern NSString* const __DTXDidRemoveActiveProfilerNotification;
+
 extern pthread_mutex_t __active_profilers_mutex;
 extern NSMutableSet<DTXProfiler*>* __activeProfilers;
 
@@ -61,7 +64,7 @@ inline void __DTXProfilerAddActiveProfiler(DTXProfiler* profiler)
 	
 	pthread_mutex_unlock(&__active_profilers_mutex);
 	
-	//TODO: Send notification on new profiler.
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(), CF(__DTXDidAddActiveProfilerNotification), CF(profiler), nil, YES);
 }
 
 static
@@ -74,12 +77,12 @@ inline void __DTXProfilerRemoveActiveProfiler(DTXProfiler* profiler)
 	
 	pthread_mutex_unlock(&__active_profilers_mutex);
 	
-	//TODO: Send notification removed profiler.
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(), CF(__DTXDidRemoveActiveProfilerNotification), CF(profiler), nil, YES);
 }
 
 static
 DTX_ALWAYS_INLINE
-inline void __DTXProfilerEnumerateWithBlock(void (^block)(DTXProfiler* profiler))
+inline void __DTXProfilerEnumerateActiveProfilersWithBlock(void (^block)(DTXProfiler* profiler))
 {
 	pthread_mutex_lock(&__active_profilers_mutex);
 	
@@ -95,7 +98,7 @@ static
 DTX_ALWAYS_INLINE
 inline void __DTXProfilerAddTag(NSDate* timestamp, NSString* tag)
 {
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
 		[profiler _addTag:tag timestamp:timestamp];
 	});
 }
@@ -104,7 +107,7 @@ static
 DTX_ALWAYS_INLINE
 inline void __DTXProfilerAddLogLine(NSDate* timestamp, NSString* line)
 {
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
 		[profiler _addLogLine:line timestamp:timestamp];
 	});
 }
@@ -113,7 +116,7 @@ static
 DTX_ALWAYS_INLINE
 inline void __DTXProfilerAddLogLineWithObjects(NSDate* timestamp, NSString* line, NSArray* objects)
 {
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
 		[profiler _addLogLine:line objects:objects timestamp:timestamp];
 	});
 }
@@ -123,7 +126,8 @@ DTX_ALWAYS_INLINE
 inline void __DTXProfilerMarkEventIntervalBeginIdentifier(NSString* identifier, NSDate* timestamp, NSString* category, NSString* name, NSString* additionalInfo, BOOL isTimer, BOOL isRNNativeEvent , NSArray* stackTrace)
 {
 	uint64_t threadIdentifier = _DTXThreadIdentifierForCurrentThread();
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
+		BOOL __ = isRNNativeEvent;
 		[profiler _markEventIntervalBeginWithIdentifier:identifier category:category name:name additionalInfo:additionalInfo isTimer:isTimer isRNNativeEvent:isRNNativeEvent stackTrace:stackTrace threadIdentifier:threadIdentifier timestamp:timestamp];
 	});
 }
@@ -134,7 +138,7 @@ inline NSString* __DTXProfilerMarkEventIntervalBegin(NSDate* timestamp, NSString
 {
 	NSString* rv = NSUUID.UUID.UUIDString;
 	
-	__DTXProfilerMarkEventIntervalBeginIdentifier(rv, timestamp, category, name, additionalInfo, isTimer,isRNNativeEvent,  stackTrace);
+	__DTXProfilerMarkEventIntervalBeginIdentifier(rv, timestamp, category, name, additionalInfo, isTimer, isRNNativeEvent, stackTrace);
 	
 	return rv;
 }
@@ -145,7 +149,7 @@ inline void __DTXProfilerMarkEventIntervalEnd(NSDate* timestamp, NSString* ident
 {
 	uint64_t threadIdentifier = _DTXThreadIdentifierForCurrentThread();
 	
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
 		[profiler _markEventIntervalEndWithIdentifier:identifier eventStatus:eventStatus additionalInfo:additionalInfo threadIdentifier:threadIdentifier timestamp:timestamp];
 	});
 }
@@ -156,7 +160,7 @@ inline void __DTXProfilerMarkEventIdentifier(NSString* identifier, NSDate* times
 {
 	uint64_t threadIdentifier = _DTXThreadIdentifierForCurrentThread();
 	
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
 		[profiler _markEventWithIdentifier:identifier category:category name:name eventStatus:eventStatus additionalInfo:additionInfo threadIdentifier:threadIdentifier timestamp:timestamp];
 	});
 }
@@ -186,7 +190,7 @@ inline void __DTXProfilerMarkNetworkRequestBegin(NSURLRequest* request, NSString
 	
 	NSString* userAgent = [DTXNetworkRecorder cfNetworkUserAgent];
 	
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
 		[profiler _networkRecorderDidStartRequest:request cookieHeaders:cookieHeaders userAgent:userAgent uniqueIdentifier:uniqueIdentifier timestamp:timestamp];
 	});
 }
@@ -195,7 +199,7 @@ static
 DTX_ALWAYS_INLINE
 inline void __DTXProfilerMarkNetworkResponseEnd(NSURLResponse* response, NSData* data, NSError* error, NSString* uniqueIdentifier, NSDate* timestamp)
 {
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
 		[profiler _networkRecorderDidFinishWithResponse:response data:data error:error forRequestWithUniqueIdentifier:uniqueIdentifier timestamp:timestamp];
 	});
 }
@@ -209,7 +213,7 @@ inline void __DTXProfilerAddRNBridgeDataCapture(NSString* functionName, NSArray<
 		return;
 	}
 	
-	__DTXProfilerEnumerateWithBlock(^(DTXProfiler *profiler) {
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
 		[profiler _addRNDataFromFunction:functionName arguments:arguments returnValue:returnValue exception:exception isFromNative:isFromNative timestamp:NSDate.date];
 	});
 }

@@ -6,12 +6,12 @@
 //  Copyright © 2019 Wix. All rights reserved.
 //
 
+#import "DTXReactNativeProfilerSupport.h"
+
 @import ObjectiveC;
 @import Darwin;
-@import JavaScriptCore;
 #import <Foundation/Foundation.h>
 #import <DTXProfiler/DTXEvents.h>
-#import "DTXReactNativeProfilerSupport.h"
 #import "DTXProfiler-Private.h"
 
 #pragma mark React Native Structs
@@ -47,13 +47,13 @@ RCTProfileCallbacks;
 
 #pragma mark Helper Methods
 DTX_ALWAYS_INLINE
-static DTXEventIdentifier __startEvent(NSDate* timestamp, const char* eventName, const char* category, const char* additionalInfo)
+static DTXEventIdentifier __beginInterval(NSDate* timestamp, const char* eventName, const char* category, const char* additionalInfo)
 {
 	return __DTXProfilerMarkEventIntervalBegin(timestamp, @(category), @(eventName), @(additionalInfo), NO, YES, nil);
 }
 
 DTX_ALWAYS_INLINE
-static void __endEvent(DTXEventIdentifier eventId, NSDate* timestamp)
+static void __endInterval(DTXEventIdentifier eventId, NSDate* timestamp)
 {
 	if(eventId)
 	{
@@ -103,7 +103,7 @@ static void __DTXProfileBeginSection(__unused uint64_t tag, const char *name, si
 {
 	NSDate* date = NSDate.date;
 	NSThread* thread = NSThread.currentThread;
-	DTXEventIdentifier eventIdentifier = __startEvent(date, name, "Section",  [getOptionalArgument(numArgs, args) UTF8String]);
+	DTXEventIdentifier eventIdentifier = __beginInterval(date, name, "Section",  [getOptionalArgument(numArgs, args) UTF8String]);
 	NSMutableArray* sections = thread.threadDictionary[@"DTXSections"];
 	if(sections == nil)
 	{
@@ -125,7 +125,7 @@ static void __DTXProfileEndSection(__unused uint64_t tag, __unused size_t numArg
 	}
 	
 	DTXEventIdentifier eventIdentifier = sections.lastObject;
-	__endEvent(eventIdentifier, date);
+	__endInterval(eventIdentifier, date);
 	[sections removeLastObject];
 }
 
@@ -137,7 +137,7 @@ static void __DTXProfileBeginAsyncSection(uint64_t tag, const char *name, int co
 	});
 	
 	NSDate* date = NSDate.date;
-	DTXEventIdentifier eventIdentifier = __startEvent(date, name, "AsyncSection",  [getOptionalArgument(numArgs, args) UTF8String]);
+	DTXEventIdentifier eventIdentifier = __beginInterval(date, name, "AsyncSection",  [getOptionalArgument(numArgs, args) UTF8String]);
 	[asyncSections setObject:eventIdentifier forKey:@(cookie)];
 }
 
@@ -148,7 +148,7 @@ static void __DTXProfileEndAsyncSection(uint64_t tag, const char *name, int cook
 	DTXEventIdentifier eventIdentifier = asyncSections[key];
 	if(eventIdentifier)
 	{
-		__endEvent(eventIdentifier, currDate);
+		__endInterval(eventIdentifier, currDate);
 		[asyncSections removeObjectForKey:key];
 	}
 }
@@ -170,7 +170,7 @@ static void __DTXProfileBeginAsyncFlow(uint64_t tag, const char *name, int cooki
 	});
 	
 	NSDate* date = NSDate.date;
-	DTXEventIdentifier eventId = __startEvent(date, name, "AsyncFlow", "");
+	DTXEventIdentifier eventId = __beginInterval(date, name, "AsyncFlow", "");
 	[asyncFlows setObject:eventId forKey:@(cookie)];
 }
 
@@ -181,7 +181,7 @@ static void __DTXProfileEndAsyncFlow(uint64_t tag, const char *name, int cookie)
 	DTXEventIdentifier eventId = asyncFlows[key];
 	if (eventId)
 	{
-		__endEvent(eventId, date);
+		__endInterval(eventId, date);
 		[asyncFlows removeObjectForKey:key];
 	}
 }
@@ -220,15 +220,55 @@ void DTXInstallRNJSProfilerHooks(JSContext* ctx)
 	};
 }
 
+static id __activeBridge;
+static NSUInteger __activeListeningProfilers;
+static dispatch_queue_t __activeListeningProfilersQueue;
 
+static void (*__RCTProfileInit)(id);
+static void (*__RCTProfileEnd)(id bridge, void (^callback)(NSString *));
 
 static void (*__orig_RCTBridge_setUp)(id self, SEL _cmd);
 static void __dtxinst_RCTBridge_setUp(id self, SEL _cmd)
 {
 	__orig_RCTBridge_setUp(self, _cmd);
-	void (*RCTProfileInit)(id) = (void*)dlsym(RTLD_DEFAULT, "RCTProfileInit");
 	//Can also call +[RCTBridge currentBridge], if batchedBridge is ever removed.
-	RCTProfileInit([self valueForKey:@"batchedBridge"]);
+	__activeBridge = [self valueForKey:@"batchedBridge"];
+	dispatch_sync(__activeListeningProfilersQueue, ^{
+		if(__activeListeningProfilers > 0)
+		{
+			__RCTProfileInit(__activeBridge);
+		}
+	});
+}
+
+static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, CFNotificationName name, const void *object, CFDictionaryRef userInfo)
+{
+	DTXProfiler* profiler = NS(object);
+	if(profiler.profilingConfiguration.recordInternalReactNativeEvents == YES)
+	{
+		dispatch_sync(__activeListeningProfilersQueue, ^{
+			__activeListeningProfilers += 1;
+			if(__activeListeningProfilers == 1 && __activeBridge != nil)
+			{
+				__RCTProfileInit(__activeBridge);
+			}
+		});
+	}
+}
+
+static void __DTXDidRemoveProfiler(CFNotificationCenterRef center, void *observer, CFNotificationName name, const void *object, CFDictionaryRef userInfo)
+{
+	DTXProfiler* profiler = NS(object);
+	if(profiler.profilingConfiguration.recordInternalReactNativeEvents == YES)
+	{
+		dispatch_sync(__activeListeningProfilersQueue, ^{
+			__activeListeningProfilers -= 1;
+			if(__activeListeningProfilers == 0 && __activeBridge != nil)
+			{
+				__RCTProfileEnd(__activeBridge, ^ (NSString* string) {});
+			}
+		});
+	}
 }
 
 void DTXRegisterRNProfilerCallbacks()
@@ -253,6 +293,14 @@ void DTXRegisterRNProfilerCallbacks()
 		{
 			RCTProfileRegisterCallbacks(&callbacks);
 		}
+		
+		__RCTProfileInit = (void*)dlsym(RTLD_DEFAULT, "RCTProfileInit");
+		__RCTProfileEnd = (void*)dlsym(RTLD_DEFAULT, "RCTProfileEnd");
+		__activeListeningProfilersQueue = dispatch_queue_create("com.wix.activeProfilersQueue", NULL);
+		__activeBridge = nil;
+		
+		CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidAddProfiler, CF(__DTXDidAddActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
+		CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidRemoveProfiler, CF(__DTXDidRemoveActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
 		
 		Class cls = NSClassFromString(@"RCTBridge");
 		Method m = class_getInstanceMethod(cls, NSSelectorFromString(@"setUp"));

@@ -9,19 +9,27 @@
 #import "DTXFPSCalculator.h"
 @import Darwin;
 
+#define FPS_CALCULATOR_ENFORCE_THREAD_SAFETY 1
+
 static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 
 @interface DTXFPSCalculator ()
 {
-	atomic_ulong _frameCount;
 	atomic_bool _enabled;
+#if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
+	atomic_ulong _frameCount;
+#else
+	uint64_t _frameCount;
+#endif
+
+#if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
+	atomic_double _lastKnownFPS;
+#else
+	double _lastKnownFPS;
+#endif
 }
 
 @property (nonatomic, strong) CADisplayLink *displayLink;
-
-//Handle last known fps - must use synchronized access for thread safety
-@property (nonatomic, strong) dispatch_queue_t lastKnownFPSQueue;
-@property (nonatomic, assign) CGFloat lastKnownFPS;
 
 @end
 
@@ -51,8 +59,6 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 
 - (void)setupFPSMonitoring
 {
-	self.lastKnownFPSQueue = dispatch_queue_create("com.wix.DTXProfilerLastKnownFPSQueue", DISPATCH_QUEUE_SERIAL);
-	
 	self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkTick)];
 	[self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 	
@@ -88,19 +94,29 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 {
 	if(atomic_load(&_enabled) == NO)
 	{
-		dispatch_sync(_lastKnownFPSQueue, ^ {
-			self.lastKnownFPS = 0;
-		});
+#if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
+		atomic_store(&_lastKnownFPS, 0);
+#else
+		_lastKnownFPS = 0;
+#endif
 		
 		return;
 	}
 	
+#if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
 	uint64_t frameCount = atomic_exchange(&_frameCount, 0);
-	CGFloat fps = MIN(frameCount / interval, DBFPSCalculatorTargetFramerate);
+#else
+	uint64_t frameCount = _frameCount;
+	_frameCount = 0;
+#endif
+	double fps = MIN(frameCount / interval, DBFPSCalculatorTargetFramerate);
 	
-	dispatch_sync(_lastKnownFPSQueue, ^{
-		self.lastKnownFPS = fps;
-	});
+#if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
+	atomic_store(&_lastKnownFPS, fps);
+#else
+	_lastKnownFPS = fps;
+#endif
+	
 }
 
 - (void)displayLinkTick
@@ -129,7 +145,11 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 
 - (void)applicationDidBecomeActiveNotification:(NSNotification *)notification
 {
+#if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
 	atomic_exchange(&_frameCount, 0);
+#else
+	_frameCount = 0;
+#endif
 	[self.displayLink setPaused:NO];
 	atomic_store(&_enabled, YES);
 }
@@ -145,14 +165,12 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 
 - (CGFloat)fps
 {
-	__block CGFloat fps;
+	double fps;
 	
 #if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
-	dispatch_sync(_lastKnownFPSQueue, ^{
-#endif
-		fps = self.lastKnownFPS;
-#if FPS_CALCULATOR_ENFORCE_THREAD_SAFETY
-	});
+	fps = atomic_load(&_lastKnownFPS);
+#else
+	fps = _lastKnownFPS;
 #endif
 	
 	return fps;

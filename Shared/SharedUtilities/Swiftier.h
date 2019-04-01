@@ -31,6 +31,7 @@
 
 typedef _Atomic(void*) atomic_voidptr;
 typedef _Atomic(const void*) atomic_constvoidptr;
+typedef _Atomic(double) atomic_double;
 
 #if __has_include(<mach/mach_types.h>)
 #import <mach/mach_types.h>
