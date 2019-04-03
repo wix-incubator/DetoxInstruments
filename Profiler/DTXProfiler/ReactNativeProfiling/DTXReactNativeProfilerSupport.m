@@ -43,6 +43,23 @@ typedef struct
 }
 RCTProfileCallbacks;
 
+@protocol RCTDevSettingsDataSource <NSObject>
+
+/**
+ * Updates the setting with the given key to the given value.
+ * How the data source's state changes depends on the implementation.
+ */
+- (void)updateSettingWithValue:(id)value forKey:(NSString *)key;
+
+/**
+ * Returns the value for the setting with the given key.
+ */
+- (id)settingForKey:(NSString *)key;
+
+@end
+
+NSString* const __RCTProfilingEnabled = @"profilingEnabled";
+
 #pragma Implementation
 
 #pragma mark Helper Methods
@@ -221,6 +238,7 @@ void DTXInstallRNJSProfilerHooks(JSContext* ctx)
 }
 
 static id __activeBridge;
+static BOOL __bridgeShouldProfile;
 static NSUInteger __activeListeningProfilers;
 static dispatch_queue_t __activeListeningProfilersQueue;
 
@@ -232,13 +250,22 @@ static void __dtxinst_RCTBridge_setUp(id self, SEL _cmd)
 {
 	__orig_RCTBridge_setUp(self, _cmd);
 	//Can also call +[RCTBridge currentBridge], if batchedBridge is ever removed.
-	__activeBridge = [self valueForKey:@"batchedBridge"];
 	dispatch_sync(__activeListeningProfilersQueue, ^{
+		__activeBridge = [self valueForKey:@"batchedBridge"];
 		if(__activeListeningProfilers > 0)
 		{
 			__RCTProfileInit(__activeBridge);
 		}
 	});
+}
+
+static id (*__orig_RCTDevSettings_initWithDataSource)(id self, SEL _cmd, id<RCTDevSettingsDataSource> dataSource);
+static id __dtxinst_RCTDevSettings_initWithDataSource(id self, SEL _cmd, id<RCTDevSettingsDataSource> dataSource)
+{
+	dispatch_sync(__activeListeningProfilersQueue, ^{
+		[dataSource updateSettingWithValue:@(__bridgeShouldProfile) forKey:__RCTProfilingEnabled];
+	});
+	return __orig_RCTDevSettings_initWithDataSource(self, _cmd, dataSource);
 }
 
 static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, CFNotificationName name, const void *object, CFDictionaryRef userInfo)
@@ -248,9 +275,12 @@ static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, 
 	{
 		dispatch_sync(__activeListeningProfilersQueue, ^{
 			__activeListeningProfilers += 1;
+			__bridgeShouldProfile = YES;
 			if(__activeListeningProfilers == 1 && __activeBridge != nil)
 			{
-				__RCTProfileInit(__activeBridge);
+				dispatch_async(dispatch_get_main_queue(), ^{
+					__RCTProfileInit(__activeBridge);
+				});
 			}
 		});
 	}
@@ -263,9 +293,18 @@ static void __DTXDidRemoveProfiler(CFNotificationCenterRef center, void *observe
 	{
 		dispatch_sync(__activeListeningProfilersQueue, ^{
 			__activeListeningProfilers -= 1;
-			if(__activeListeningProfilers == 0 && __activeBridge != nil)
+			if(__activeListeningProfilers == 0)
 			{
-				__RCTProfileEnd(__activeBridge, ^ (NSString* string) {});
+				__bridgeShouldProfile = NO;
+				
+				if(__activeBridge != nil)
+				{
+					dispatch_async(dispatch_get_main_queue(), ^{
+						__RCTProfileEnd(__activeBridge, ^ (NSString* string) {} );
+						id devSettings = [__activeBridge valueForKey:@"devSettings"];
+						[devSettings setValue:@NO forKey:__RCTProfilingEnabled];
+					});
+				}
 			}
 		});
 	}
@@ -306,5 +345,10 @@ void DTXRegisterRNProfilerCallbacks()
 		Method m = class_getInstanceMethod(cls, NSSelectorFromString(@"setUp"));
 		__orig_RCTBridge_setUp = (void*)method_getImplementation(m);
 		method_setImplementation(m, (IMP)__dtxinst_RCTBridge_setUp);
+		
+		cls = NSClassFromString(@"RCTDevSettings");
+		m = class_getInstanceMethod(cls, NSSelectorFromString(@"initWithDataSource:"));
+		__orig_RCTDevSettings_initWithDataSource = (void*)method_getImplementation(m);
+		method_setImplementation(m, (IMP)__dtxinst_RCTDevSettings_initWithDataSource);
 	});
 }
