@@ -948,7 +948,6 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="zDv-Kn-gnL" name="hidden" keyPath="hideThis" previousBinding="fJY-ML-vN3" id="RPV-xc-oX0"/>
                                                                     <binding destination="cZB-yu-VZN" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="wXk-df-S1a">
                                                                         <dictionary key="options">
                                                                             <integer key="NSNullPlaceholder" value="1"/>

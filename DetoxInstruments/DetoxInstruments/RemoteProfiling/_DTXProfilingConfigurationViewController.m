@@ -129,9 +129,4 @@
 	return _lastValidationFailed == NO;
 }
 
-- (BOOL)hideThis
-{
-	return YES;
-}
-
 @end
