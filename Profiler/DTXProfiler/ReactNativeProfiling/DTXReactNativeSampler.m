@@ -14,6 +14,8 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "DTXCustomJSCSupport.h"
 #import "DTXProfiler-Private.h"
+#import "DTXReactNativeProfilerSupport.h"
+
 @import ObjectiveC;
 @import Darwin;
 @import UIKit;
@@ -25,14 +27,14 @@ static atomic_uintmax_t __bridgeNToJSCallCount = 0;
 static atomic_uintmax_t __bridgeJSToNDataSize = 0;
 static atomic_uintmax_t __bridgeJSToNCallCount = 0;
 
-static _Atomic thread_t __rnThread = MACH_PORT_NULL;
+static atomic_thread __rnThread = MACH_PORT_NULL;
 
 static JSContextRef __rnCtx;
 
 static dispatch_semaphore_t __rnBacktraceSem;
 static NSString* __rnLastBacktrace;
 
-static dispatch_queue_t __eventDispatchQueue;
+dispatch_queue_t __eventDispatchQueue;
 
 static NSMutableDictionary<NSString*, NSString*>* __rn_valuePropertyMapping;
 static JSObjectRef __rn_pendingFunctionObject;
@@ -45,7 +47,7 @@ static void resetAtomicVars()
 	atomic_store(&__bridgeJSToNDataSize, 0);
 }
 
-static void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
+__unused static void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
 {
 	const char* bt = __jscWrapper.JSContextCreateBacktrace_unsafe(__rnCtx, UINT_MAX);
 	if(bt == NULL)
@@ -72,7 +74,6 @@ static void installDTXNativeLoggingHook(JSContext* ctx)
 				[objects addObject:object];
 			}
 		}
-		
 		DTXProfilerAddLogLineWithObjects([logLine stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", "]], objects);
 	};
 }
@@ -99,7 +100,7 @@ inline static void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL
 			{
 				additionalInfo = nil;
 			}
-			__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], additionalInfo, [params[@"3"] boolValue], [params[@"4"] componentsSeparatedByString:@"\n"]);
+			__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], additionalInfo, [params[@"3"] boolValue], NO,  [params[@"4"] componentsSeparatedByString:@"\n"]);
 		}	break;
 		case 1:
 		{
@@ -251,7 +252,6 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallback(JSContextRef ctx, JSSt
 	return __dtx_JSObjectMakeFunctionWithCallbackWrapper(ctx, name, callAsFunction, NULL);
 }
 
-
 static JSObjectRef __dtx_JSObjectMakeFunctionWithCallbackWrapper(JSContextRef ctx, JSStringRef name, JSObjectCallAsFunctionCallback callAsFunction, JSValueRef functionValue)
 {
 	if(name != NULL)
@@ -263,6 +263,7 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallbackWrapper(JSContextRef ct
 			resetAtomicVars();
 			installDTXNativeLoggingHook(objcCtx);
 			installDTXSignpostHook(objcCtx);
+			DTXInstallRNJSProfilerHooks(objcCtx);
 		}
 		
 		__rnCtx = ctx;
@@ -437,11 +438,11 @@ static double __rnCPUUsage(thread_t safeRNThread)
 static int (*__orig_UIApplication_run)(id self, SEL _cmd);
 static int __dtxinst_UIApplication_run(id self, SEL _cmd)
 {
-	Class cls = NSClassFromString(@"RCTCxxBridge");
-	
-	if(cls)
+	if(DTXReactNativeSampler.isReactNativeInstalled)
 	{
 		//Modern RN
+		Class cls = NSClassFromString(@"RCTCxxBridge");
+		
 		Method m = class_getClassMethod(cls, NSSelectorFromString(@"runRunLoop"));
 		if(m == NULL)
 		{
@@ -453,6 +454,8 @@ static int __dtxinst_UIApplication_run(id self, SEL _cmd)
 			orig_runRunLoopThread = (void(*)(id, SEL))method_getImplementation(m);
 			method_setImplementation(m, (IMP)swz_runRunLoopThread);
 		}
+		
+		DTXRegisterRNProfilerCallbacks();
 	}
 	
 	return __orig_UIApplication_run(self, _cmd);
@@ -507,11 +510,11 @@ static void __DTXInitializeRNSampler()
 	__orig_UIApplication_run = (void*)method_getImplementation(m);
 	method_setImplementation(m, (void*)__dtxinst_UIApplication_run);
 	
-	struct sigaction sa;
-	sigfillset(&sa.sa_mask);
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = DTXJSCStackTraceSignalHandler;
-	sigaction(SIGCHLD, &sa, NULL);
+//	struct sigaction sa;
+//	sigfillset(&sa.sa_mask);
+//	sa.sa_flags = SA_SIGINFO;
+//	sa.sa_sigaction = DTXJSCStackTraceSignalHandler;
+//	sigaction(SIGCHLD, &sa, NULL);
 	
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
 	__eventDispatchQueue = dispatch_queue_create("com.wix.DTXRNSampler-Events", qosAttribute);
@@ -533,7 +536,7 @@ static void __DTXInitializeRNSampler()
 	BOOL _shouldSymbolicate;
 }
 
-+ (BOOL)reactNativeInstalled
++ (BOOL)isReactNativeInstalled
 {
 	return NSClassFromString(@"RCTBridge") != nil;
 }

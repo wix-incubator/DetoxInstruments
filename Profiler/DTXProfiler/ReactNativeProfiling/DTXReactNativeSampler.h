@@ -12,7 +12,7 @@
 
 @interface DTXReactNativeSampler : NSObject <DTXPollable>
 
-+ (BOOL)reactNativeInstalled;
++ (BOOL)isReactNativeInstalled;
 
 - (instancetype)initWithConfiguration:(DTXProfilingConfiguration *)configuration;
 

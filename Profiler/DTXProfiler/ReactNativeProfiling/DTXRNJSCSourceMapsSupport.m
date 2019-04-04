@@ -15,9 +15,9 @@
 @import JavaScriptCore;
 @import ObjectiveC;
 
-static _Atomic(const void*) __rnSourceURL;
-static _Atomic(const void*) __sourceMapsURL;
-static _Atomic(const void*) __rnSourceMapsParser;
+static atomic_constvoidptr __rnSourceURL;
+static atomic_constvoidptr __sourceMapsURL;
+static atomic_constvoidptr __rnSourceMapsParser;
 
 static JSValueRef (*__orig_JSEvaluateScript)(JSContextRef ctx, JSStringRef script, JSObjectRef thisObject, JSStringRef sourceURL, int startingLineNumber, JSValueRef* exception);
 

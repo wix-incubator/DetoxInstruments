@@ -1934,7 +1934,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -2214,7 +2213,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/bash -e";
-			shellScript = "cd \"${SRCROOT}\"/../CLI\nexport CODE_SIGNING_REQUIRED=NO && xcodebuild -project CLI.xcodeproj -configuration Release build BUILD_DIR=build\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n    # If a code signing identity is not specified, use ad hoc signing\n    IDENTITY=\"-\"\nfi\n\necho codesign --verbose --force -o runtime --sign \"$IDENTITY\" build/Release/dtxinst\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" build/Release/dtxinst\n\ncp -f build/Release/dtxinst \"${CONFIGURATION_BUILD_DIR}/${EXECUTABLE_FOLDER_PATH}/\"\n";
+			shellScript = "cd \"${SRCROOT}\"/../CLI\nexport CODE_SIGNING_REQUIRED=NO && xcodebuild -project CLI.xcodeproj -configuration \"${CONFIGURATION}\" build BUILD_DIR=build\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\n\nif [ -n \"$IDENTITY\" ]; then\necho codesign --verbose --force -o runtime --sign \"$IDENTITY\" build/\"${CONFIGURATION}\"/dtxinst\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" build/\"${CONFIGURATION}\"/dtxinst\nfi\n\ncp -f build/\"${CONFIGURATION}\"/dtxinst \"${CONFIGURATION_BUILD_DIR}/${EXECUTABLE_FOLDER_PATH}/\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

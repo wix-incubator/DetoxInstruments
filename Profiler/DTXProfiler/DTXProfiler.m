@@ -25,7 +25,18 @@
 #import "NSString+Hashing.h"
 #import <Foundation/Foundation.h>
 
-extern NSString* _NSFullMethodName(Class cls, SEL sel);
+NSString* const __DTXDidAddActiveProfilerNotification = @"__DTXDidAddActiveProfilerNotification";
+NSString* const __DTXDidRemoveActiveProfilerNotification = @"__DTXDidRemoveActiveProfilerNotification";
+
+pthread_mutex_t __active_profilers_mutex;
+NSMutableSet<DTXProfiler*>* __activeProfilers;
+
+__attribute((constructor))
+static void __DTXProfilerActiveProfilersInit()
+{
+	pthread_mutex_init(&__active_profilers_mutex, NULL);
+	__activeProfilers = [NSMutableSet new];
+}
 
 #define DTXAssert(condition, desc, ...)	\
 do {				\
@@ -330,7 +341,6 @@ DTX_CREATE_LOG(Profiler);
 		
 		self->_container = nil;
 		
-		self->_currentProfilingConfiguration = nil;
 		self.recording = NO;
 		
 		dtx_log_info(@"Stopped profiling");
@@ -339,6 +349,8 @@ DTX_CREATE_LOG(Profiler);
 		{
 			handler(err);
 		}
+		
+		self->_currentProfilingConfiguration = nil;
 	}];
 }
 
@@ -380,11 +392,16 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer isRNNativeEvent:(BOOL)isRNNativeEvent stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
 	if(self->_currentProfilingConfiguration.recordEvents == NO)
+	{
+		return;
+	}
+	
+	if(self->_currentProfilingConfiguration.recordInternalReactNativeEvents == NO && isRNNativeEvent)
 	{
 		return;
 	}

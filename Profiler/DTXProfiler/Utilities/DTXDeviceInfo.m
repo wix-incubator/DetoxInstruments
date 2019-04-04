@@ -95,7 +95,7 @@ extern id MGCopyAnswer(NSString *inKey);
 		deviceDetails[@"deviceMarketingName"] = MGCopyAnswer(@"marketing-name");
 		deviceDetails[@"deviceResolution"] = NSStringFromCGSize(UIScreen.mainScreen.currentMode.size);
 		deviceDetails[@"processIdentifier"] = @(processInfo.processIdentifier);
-		deviceDetails[@"hasReactNative"] = @([DTXReactNativeSampler reactNativeInstalled]);
+		deviceDetails[@"hasReactNative"] = @([DTXReactNativeSampler isReactNativeInstalled]);
 		
 		NSString* version = [NSString stringWithFormat:@"%@.%@", [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"CFBundleVersion"]];
 		deviceDetails[@"profilerVersion"] = version;

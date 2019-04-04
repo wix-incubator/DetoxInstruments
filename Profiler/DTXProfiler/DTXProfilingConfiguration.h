@@ -168,6 +168,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) BOOL recordReactNativeTimersAsEvents;
 
+/**
+ *  Record internal React Native events.
+ *
+ *  Taps into the internal profiling mechanisms to collect internal React Native profiling events.
+ *
+ *  The default value is @c false.
+ */
+@property(nonatomic, readonly) BOOL recordInternalReactNativeEvents;
+
 /* Output Configuration */
 
 /**
@@ -342,6 +351,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  The default value is @c false.
  */
 @property (nonatomic, readwrite) BOOL recordReactNativeTimersAsEvents;
+
+/**
+ *  Record internal React Native events.
+ *
+ *  Taps into the internal profiling mechanisms to collect internal React Native profiling events.
+ *
+ *  The default value is @c false.
+ */
+@property(nonatomic, readwrite) BOOL recordInternalReactNativeEvents;
 
 /* Output Configuration */
 

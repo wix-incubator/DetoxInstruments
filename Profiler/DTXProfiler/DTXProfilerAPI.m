@@ -1,16 +1,6 @@
 
 #import "DTXProfiler-Private.h"
 
-pthread_mutex_t __active_profilers_mutex;
-NSMutableSet<DTXProfiler*>* __activeProfilers;
-
-__attribute((constructor))
-static void __DTXProfilerActiveProfilersInit()
-{
-	__activeProfilers = [NSMutableSet new];
-	pthread_mutex_init(&__active_profilers_mutex, NULL);
-}
-
 /**
  *  Adds a tag.
  *
@@ -54,7 +44,7 @@ void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable object
 
 DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable startMessage)
 {
-	return __DTXProfilerMarkEventIntervalBegin(NSDate.date, category, name, startMessage, NO, nil);
+	return __DTXProfilerMarkEventIntervalBegin(NSDate.date, category, name, startMessage, NO,NO , nil);
 }
 
 void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable endMessage)

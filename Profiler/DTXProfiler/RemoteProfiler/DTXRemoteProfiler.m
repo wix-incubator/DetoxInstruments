@@ -390,9 +390,14 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[tag.managedObjectContext save:NULL];
 }
 
-- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer isRNNativeEvent:(BOOL)isRNNativeEvent stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	if(self.profilingConfiguration.recordEvents == NO)
+	{
+		return;
+	}
+	
+	if(self.profilingConfiguration.recordInternalReactNativeEvents == NO && isRNNativeEvent)
 	{
 		return;
 	}

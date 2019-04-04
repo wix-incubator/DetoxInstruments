@@ -546,9 +546,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = S3GLW74Y8N;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREFIX_HEADER = CLI/PrefixHeader.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (

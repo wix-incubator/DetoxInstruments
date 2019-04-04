@@ -28,6 +28,7 @@
 @property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
 @property (nonatomic, readwrite) BOOL recordReactNativeTimersAsEvents;
 @property (nonatomic, copy, null_resettable, readwrite) NSURL* recordingFileURL;
+@property (nonatomic, readwrite) BOOL recordInternalReactNativeEvents;
 @property (nonatomic, readwrite) NSArray<NSString*>* _ignoredEventCategoriesArray;
 
 @end
@@ -61,7 +62,7 @@
 	rv->_profileReactNative = YES;
 	rv->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
 	rv->_recordEvents = YES;
-	rv->_nonkvc_ignoredEventCategories = [NSSet new];
+	rv->_nonkvc_ignoredEventCategories = NSSet.set;
 	
 	return rv;
 }
@@ -69,7 +70,6 @@
 + (instancetype)defaultProfilingConfigurationForRemoteProfiling
 {
 	DTXProfilingConfiguration* rv = self.defaultProfilingConfiguration;
-	
 	return rv;
 }
 
@@ -205,6 +205,7 @@
 @dynamic recordReactNativeBridgeData;
 @dynamic recordReactNativeTimersAsEvents;
 @dynamic recordingFileURL;
+@dynamic recordInternalReactNativeEvents;
 
 - (void)setRecordingFileURL:(NSURL *)recordingFileURL
 {
