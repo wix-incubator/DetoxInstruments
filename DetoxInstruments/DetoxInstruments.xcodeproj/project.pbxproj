@@ -94,13 +94,17 @@
 		394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */; };
 		394E30C6223F9E3E0030462C /* DTXValidatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 394E30C5223F9E3E0030462C /* DTXValidatingButtonCell.m */; };
 		394ED700225A37DB001875C3 /* ContributionsGH.json in Resources */ = {isa = PBXBuildFile; fileRef = 394ED6FF225A37DB001875C3 /* ContributionsGH.json */; };
-		394ED715225A37EB001875C3 /* ContributionsGit.json in Resources */ = {isa = PBXBuildFile; fileRef = 394ED714225A37EB001875C3 /* ContributionsGit.json */; };
 		394ED738225A4E1C001875C3 /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED734225A4DF1001875C3 /* ZipZap.framework */; };
 		394ED739225A4E1C001875C3 /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED734225A4DF1001875C3 /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		394ED73A225A4E1C001875C3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39443F40219482C500E9C0EA /* Sparkle.framework */; };
 		394ED73B225A4E1C001875C3 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 39443F40219482C500E9C0EA /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		394ED73C225A4E1C001875C3 /* CorePlot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED730225A4766001875C3 /* CorePlot.framework */; };
 		394ED73D225A4E1C001875C3 /* CorePlot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED730225A4766001875C3 /* CorePlot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		394ED754225A57A8001875C3 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED753225A57A8001875C3 /* SDWebImage.framework */; };
+		394ED755225A57B0001875C3 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED753225A57A8001875C3 /* SDWebImage.framework */; };
+		394ED756225A57B0001875C3 /* SDWebImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED753225A57A8001875C3 /* SDWebImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		394ED759225A57F0001875C3 /* DTXContributorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394ED758225A57F0001875C3 /* DTXContributorsViewController.m */; };
+		394ED764225A6F5C001875C3 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 394ED763225A6F52001875C3 /* Localizable.stringsdict */; };
 		39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D57209B0F48003AF7D3 /* TargetManagement.storyboard */; };
 		39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */; };
 		39538D73209B40F3003AF7D3 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D72209B40F3003AF7D3 /* About.storyboard */; };
@@ -347,6 +351,7 @@
 				392D52C11FAA008000A28938 /* DTXSourceMaps.framework in Embed Frameworks */,
 				394516B71EEF442B0093E503 /* LNInterpolation.framework in Embed Frameworks */,
 				394ED73B225A4E1C001875C3 /* Sparkle.framework in Embed Frameworks */,
+				394ED756225A57B0001875C3 /* SDWebImage.framework in Embed Frameworks */,
 				394ED739225A4E1C001875C3 /* ZipZap.framework in Embed Frameworks */,
 				39D76EA22086B8470033BDE2 /* LNPropertyListEditor.framework in Embed Frameworks */,
 			);
@@ -526,9 +531,12 @@
 		394E30C4223F9E3E0030462C /* DTXValidatingButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXValidatingButtonCell.h; sourceTree = "<group>"; };
 		394E30C5223F9E3E0030462C /* DTXValidatingButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXValidatingButtonCell.m; sourceTree = "<group>"; };
 		394ED6FF225A37DB001875C3 /* ContributionsGH.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContributionsGH.json; sourceTree = "<group>"; };
-		394ED714225A37EB001875C3 /* ContributionsGit.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContributionsGit.json; sourceTree = "<group>"; };
 		394ED730225A4766001875C3 /* CorePlot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CorePlot.framework; path = "core-plot/framework/build/macosx/Release/CorePlot.framework"; sourceTree = SOURCE_ROOT; };
 		394ED734225A4DF1001875C3 /* ZipZap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipZap.framework; path = ../../../Shared/ZipZap/build/macosx/Release/ZipZap.framework; sourceTree = "<group>"; };
+		394ED753225A57A8001875C3 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = SDWebImage/build/macosx/Release/SDWebImage.framework; sourceTree = SOURCE_ROOT; };
+		394ED757225A57F0001875C3 /* DTXContributorsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXContributorsViewController.h; sourceTree = "<group>"; };
+		394ED758225A57F0001875C3 /* DTXContributorsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXContributorsViewController.m; sourceTree = "<group>"; };
+		394ED762225A6F52001875C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		3952467621B087EC00D73BCF /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39538D57209B0F48003AF7D3 /* TargetManagement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TargetManagement.storyboard; sourceTree = "<group>"; };
 		39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RemoteProfiling.storyboard; sourceTree = "<group>"; };
@@ -847,10 +855,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				394ED755225A57B0001875C3 /* SDWebImage.framework in Frameworks */,
 				394ED738225A4E1C001875C3 /* ZipZap.framework in Frameworks */,
 				394ED73C225A4E1C001875C3 /* CorePlot.framework in Frameworks */,
 				392D52C01FAA008000A28938 /* DTXSourceMaps.framework in Frameworks */,
 				394516B61EEF442B0093E503 /* LNInterpolation.framework in Frameworks */,
+				394ED754225A57A8001875C3 /* SDWebImage.framework in Frameworks */,
 				394ED73A225A4E1C001875C3 /* Sparkle.framework in Frameworks */,
 				39D76EA12086B8470033BDE2 /* LNPropertyListEditor.framework in Frameworks */,
 			);
@@ -1166,6 +1176,14 @@
 			name = CorePlot;
 			sourceTree = "<group>";
 		};
+		394ED752225A579A001875C3 /* SDWebImage */ = {
+			isa = PBXGroup;
+			children = (
+				394ED753225A57A8001875C3 /* SDWebImage.framework */,
+			);
+			name = SDWebImage;
+			sourceTree = "<group>";
+		};
 		3954CAA620883EBA00934BCE /* ProfilingTargetManagement */ = {
 			isa = PBXGroup;
 			children = (
@@ -1397,6 +1415,7 @@
 				393922C021AB190D0015A15F /* ZipZap */,
 				3968DE4C2056F5580089609A /* Sparkle */,
 				394ED72F225A4750001875C3 /* CorePlot */,
+				394ED752225A579A001875C3 /* SDWebImage */,
 				3954CAAA20884C5100934BCE /* CCNPreferencesWindowController */,
 				39D76E832086B8290033BDE2 /* LNPropertyListEditor */,
 				3919DF781FA6342900F47DD6 /* SourceMaps */,
@@ -1531,6 +1550,8 @@
 				3989D35D222C3D8600231EE3 /* DTXCookiesEditorViewController.m */,
 				393EF4A1222D6BDA001DCE5B /* DTXKeyValueEditorViewController.h */,
 				393EF4A2222D6BDA001DCE5B /* DTXKeyValueEditorViewController.m */,
+				394ED757225A57F0001875C3 /* DTXContributorsViewController.h */,
+				394ED758225A57F0001875C3 /* DTXContributorsViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1670,6 +1691,7 @@
 				399A6A9620B2CB13006E711B /* Controllers */,
 				396202451EF0313900D04E96 /* Views */,
 				3989D346222B91DF00231EE3 /* RequestsPlayground */,
+				39538D72209B40F3003AF7D3 /* About.storyboard */,
 				3967739220B594B200851154 /* Main.storyboard */,
 				399B4DCC1ED574E70098D2AC /* Profiler.storyboard */,
 				39EBDFBF1ED36D45005D8AB1 /* main.m */,
@@ -1681,11 +1703,10 @@
 				3904E1541EFABE7600FF2707 /* DTXInstrumentsApplication.m */,
 				393E66DA1FC594B30092EE89 /* PrefixHeader.pch */,
 				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
-				39538D72209B40F3003AF7D3 /* About.storyboard */,
 				3972E67820694E6800F099DE /* Acknowledgements.html */,
 				3980C0C72086C75000789E3B /* DetoxInstruments.help */,
 				394ED6FF225A37DB001875C3 /* ContributionsGH.json */,
-				394ED714225A37EB001875C3 /* ContributionsGit.json */,
+				394ED763225A6F52001875C3 /* Localizable.stringsdict */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
 				39487CB81F435F090063E66D /* SharedSupport */,
 				39FD87D9211A62E1007FE6A5 /* CompatLayer */,
@@ -1787,7 +1808,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -1861,9 +1881,9 @@
 				3972E67920694E6800F099DE /* Acknowledgements.html in Resources */,
 				390688C12117781900D15C86 /* DTXDebugMenuGenerator.xib in Resources */,
 				39725F8E21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist in Resources */,
-				394ED715225A37EB001875C3 /* ContributionsGit.json in Resources */,
 				399B4DCD1ED574E70098D2AC /* Profiler.storyboard in Resources */,
 				39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */,
+				394ED764225A6F5C001875C3 /* Localizable.stringsdict in Resources */,
 				3989D35B222B91FD00231EE3 /* RequestsPlayground.storyboard in Resources */,
 				39ED0C5B21C13F3C0026E306 /* DTXColorTryoutsWindow.xib in Resources */,
 			);
@@ -1888,7 +1908,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -e";
-			shellScript = "#!/bin/bash -e\n\n# $1: framework path \n# $2: scheme name\n# $3: Expected framework name\n\nfunction rebuild_framework {\necho \"Building $(basename $1)\"\nxcodebuild -project \"$1\" -scheme \"$2\" -configuration Release BUILD_DIR=build/macosx build \n#&> /dev/null\n}\n\nfunction rebuild_framework_if_needed {\nSHASUM=$(find \"$(dirname $1)\" -not -path \"*build*\" -type f -print0 | xargs -0 shasum | awk '{print $1}' | shasum | cut -d' ' -f1)\nif [ ! -d \"$(dirname $1)\"/build/macosx/Release/\"$3\" ] || [ \"$(< $(dirname $1)/build/macosx/sum.txt)\" != \"$SHASUM\" ] ; then\nrebuild_framework \"$1\" \"$2\"\necho $SHASUM > \"$(dirname $1)\"/build/macosx/sum.txt\nfi\n}\n\nrebuild_framework_if_needed \"Sparkle/Sparkle.xcodeproj\" \"Sparkle\" \"Sparkle.framework\"\nrebuild_framework_if_needed \"core-plot/framework/CorePlot.xcodeproj\" \"CorePlot Mac\" \"CorePlot.framework\"\nrebuild_framework_if_needed \"../Shared/ZipZap/ZipZap.xcodeproj\" \"ZipZap (macOS Framework)\" \"ZipZap.framework\"\n";
+			shellScript = "#!/bin/bash -e\n\n# $1: framework path \n# $2: scheme name\n# $3: Expected framework name\n\nfunction rebuild_framework {\necho \"Building $(basename $1)\"\nxcodebuild -project \"$1\" -scheme \"$2\" -configuration Release BUILD_DIR=build/macosx build \n#&> /dev/null\n}\n\nfunction rebuild_framework_if_needed {\nSHASUM=$(find \"$(dirname $1)\" -not -path \"*build*\" -type f -print0 | xargs -0 shasum | awk '{print $1}' | shasum | cut -d' ' -f1)\nif [ ! -d \"$(dirname $1)\"/build/macosx/Release/\"$3\" ] || [ \"$(< $(dirname $1)/build/macosx/sum.txt)\" != \"$SHASUM\" ] ; then\nrebuild_framework \"$1\" \"$2\"\necho $SHASUM > \"$(dirname $1)\"/build/macosx/sum.txt\nfi\n}\n\nrebuild_framework_if_needed \"Sparkle/Sparkle.xcodeproj\" \"Sparkle\" \"Sparkle.framework\"\nrebuild_framework_if_needed \"core-plot/framework/CorePlot.xcodeproj\" \"CorePlot Mac\" \"CorePlot.framework\"\nrebuild_framework_if_needed \"../Shared/ZipZap/ZipZap.xcodeproj\" \"ZipZap (macOS Framework)\" \"ZipZap.framework\"\nrebuild_framework_if_needed \"SDWebImage/SDWebImage.xcodeproj\" \"SDWebImage\" \"SDWebImage.framework\"\n";
 			showEnvVarsInLog = 0;
 		};
 		397AC318219456A6009E62BB /* Sign Sparkle with Hardened Runtime */ = {
@@ -2021,6 +2041,7 @@
 				390688DB21177D5000D15C86 /* DTXDebugMenuGenerator.m in Sources */,
 				39E2642921B0410800A21256 /* DTXDataExporter.m in Sources */,
 				39008F2A1EF2AB740013B584 /* DTXSegmentedView.m in Sources */,
+				394ED759225A57F0001875C3 /* DTXContributorsViewController.m in Sources */,
 				396828EB1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m in Sources */,
 				39F6F6C61F0E3D2400C7F411 /* DTXProfilingConfiguration.m in Sources */,
 				39E70FD821B9620900272188 /* DTXEntitySampleContainerProxy.m in Sources */,
@@ -2213,6 +2234,17 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		394ED763225A6F52001875C3 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				394ED762225A6F52001875C3 /* en */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		39EBDFCD1ED36D45005D8AB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2341,6 +2373,7 @@
 					"$(PROJECT_DIR)/Sparkle/build/macosx/Release",
 					"$(PROJECT_DIR)/core-plot/framework/build/macosx/Release",
 					"$(PROJECT_DIR)/../Shared/ZipZap/build/macosx/Release",
+					"$(PROJECT_DIR)/SDWebImage/build/macosx/Release",
 				);
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -2383,6 +2416,7 @@
 					"$(PROJECT_DIR)/Sparkle/build/macosx/Release",
 					"$(PROJECT_DIR)/core-plot/framework/build/macosx/Release",
 					"$(PROJECT_DIR)/../Shared/ZipZap/build/macosx/Release",
+					"$(PROJECT_DIR)/SDWebImage/build/macosx/Release",
 				);
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;

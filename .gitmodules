@@ -28,3 +28,6 @@
 [submodule "CLI/ObjCCLIInfra"]
 	path = CLI/ObjCCLIInfra
 	url = https://github.com/wix/ObjCCLIInfra.git
+[submodule "DetoxInstruments/SDWebImage"]
+	path = DetoxInstruments/SDWebImage
+	url = https://LeoNatan@github.com/SDWebImage/SDWebImage.git

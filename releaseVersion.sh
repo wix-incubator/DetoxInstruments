@@ -58,6 +58,7 @@ if [ -z "$DRY_RUN" ]; then
 fi
 
 Scripts/updateCopyright.sh
+Scripts/updateContributors.sh
 
 if [ "$NO_DOCS" == "0" ]; then
 	echo -e "\033[1;34mUpdating acknowledgements and Apple Help\033[0m"

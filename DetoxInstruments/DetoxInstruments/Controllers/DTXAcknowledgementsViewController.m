@@ -31,4 +31,11 @@
 	_textView.textContainerInset = NSMakeSize(20, 20);
 }
 
+- (void)viewDidAppear
+{
+	[super viewDidAppear];
+	
+	self.view.window.preventsApplicationTerminationWhenModal = NO;
+}
+
 @end
