@@ -56,8 +56,6 @@
 		393528E121E6175600880E7D /* DTXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 393528DF21E6175500880E7D /* DTXLogging.m */; };
 		39356AC72201A71500FD23C4 /* NSString+Hashing.m in Sources */ = {isa = PBXBuildFile; fileRef = 39356AC62201A71500FD23C4 /* NSString+Hashing.m */; };
 		39356ACC2201A9B200FD23C4 /* DTXMappingModel9620To9747.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 39356ACB2201A9B200FD23C4 /* DTXMappingModel9620To9747.xcmappingmodel */; };
-		3939233621AB33DC0015A15F /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3939232D21AB33CB0015A15F /* ZipZap.framework */; };
-		3939233721AB33DC0015A15F /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3939232D21AB33CB0015A15F /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3939247121AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3939247021AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.m */; };
 		393973C01EDB02DF0064D4C8 /* DTXInspectorContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973BF1EDB02DF0064D4C8 /* DTXInspectorContentController.m */; };
 		393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973D91EDC1C590064D4C8 /* DTXSample+UIExtensions.m */; };
@@ -86,8 +84,6 @@
 		3943CA851EEEF46F0009AD88 /* NSColor+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA841EEEF46F0009AD88 /* NSColor+UIAdditions.m */; };
 		3943CA951EEEFB3F0009AD88 /* DTXDiskDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA941EEEFB3F0009AD88 /* DTXDiskDataProvider.m */; };
 		3943CA981EEF1A150009AD88 /* DTXNetworkDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA971EEF1A150009AD88 /* DTXNetworkDataProvider.m */; };
-		39443F41219482C500E9C0EA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39443F40219482C500E9C0EA /* Sparkle.framework */; };
-		39443F43219482DF00E9C0EA /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 39443F40219482C500E9C0EA /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		394516B61EEF442B0093E503 /* LNInterpolation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394516B11EEF44090093E503 /* LNInterpolation.framework */; };
 		394516B71EEF442B0093E503 /* LNInterpolation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394516B11EEF44090093E503 /* LNInterpolation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3947158C20A2FB0E00A7068A /* NSView+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947158B20A2FB0E00A7068A /* NSView+UIAdditions.m */; };
@@ -97,6 +93,14 @@
 		394C9B3E220883730015A085 /* DTXMappingModel9747To9808.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 394C9B3D220883730015A085 /* DTXMappingModel9747To9808.xcmappingmodel */; };
 		394D9D231EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */; };
 		394E30C6223F9E3E0030462C /* DTXValidatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 394E30C5223F9E3E0030462C /* DTXValidatingButtonCell.m */; };
+		394ED700225A37DB001875C3 /* ContributionsGH.json in Resources */ = {isa = PBXBuildFile; fileRef = 394ED6FF225A37DB001875C3 /* ContributionsGH.json */; };
+		394ED715225A37EB001875C3 /* ContributionsGit.json in Resources */ = {isa = PBXBuildFile; fileRef = 394ED714225A37EB001875C3 /* ContributionsGit.json */; };
+		394ED738225A4E1C001875C3 /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED734225A4DF1001875C3 /* ZipZap.framework */; };
+		394ED739225A4E1C001875C3 /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED734225A4DF1001875C3 /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		394ED73A225A4E1C001875C3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39443F40219482C500E9C0EA /* Sparkle.framework */; };
+		394ED73B225A4E1C001875C3 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 39443F40219482C500E9C0EA /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		394ED73C225A4E1C001875C3 /* CorePlot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED730225A4766001875C3 /* CorePlot.framework */; };
+		394ED73D225A4E1C001875C3 /* CorePlot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED730225A4766001875C3 /* CorePlot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D57209B0F48003AF7D3 /* TargetManagement.storyboard */; };
 		39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */; };
 		39538D73209B40F3003AF7D3 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D72209B40F3003AF7D3 /* About.storyboard */; };
@@ -159,8 +163,6 @@
 		3989D361222C406100231EE3 /* DTXRPCookiesEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3989D360222C406100231EE3 /* DTXRPCookiesEditor.m */; };
 		3989D365222C430F00231EE3 /* DTXRequestsPlaygroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3989D363222C430F00231EE3 /* DTXRequestsPlaygroundController.m */; };
 		3989D369222CCBA500231EE3 /* DTXTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3989D368222CCBA500231EE3 /* DTXTabViewItem.m */; };
-		398D6E751EE03E9B00AA9C11 /* CorePlot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398D6E741EE03E9B00AA9C11 /* CorePlot.framework */; };
-		398D6E761EE03E9B00AA9C11 /* CorePlot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 398D6E741EE03E9B00AA9C11 /* CorePlot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		398D6EA51EE0596500AA9C11 /* DTXPlotHostingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA41EE0596500AA9C11 /* DTXPlotHostingTableCellView.m */; };
 		398D6EA91EE061FE00AA9C11 /* DTXPlotAreaContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA81EE061FE00AA9C11 /* DTXPlotAreaContentController.m */; };
 		398D6EAC1EE0626400AA9C11 /* DTXSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */; };
@@ -283,62 +285,6 @@
 			remoteGlobalIDString = 39352F8F1F0A23C800D033B2;
 			remoteInfo = DTXSourceMaps;
 		};
-		3939232821AB33CB0015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D87BA1F81B3D6DEA00ED7EB3;
-			remoteInfo = "ZipZap (iOS Framework)";
-		};
-		3939232A21AB33CB0015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D899CFB0162C5EEB00112F49;
-			remoteInfo = "ZipZap (iOS Static Library)";
-		};
-		3939232C21AB33CB0015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D8D140D31B423B1100C411B0;
-			remoteInfo = "ZipZap (macOS Framework)";
-		};
-		3939232E21AB33CB0015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D899CF82162C5EC100112F49;
-			remoteInfo = "ZipZap (macOS Static Library)";
-		};
-		3939233021AB33CB0015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BF8624CB1BB7495200C12EEE;
-			remoteInfo = "ZipZap (tvOS Framework)";
-		};
-		3939233221AB33CB0015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BF8624EF1BB74B1F00C12EEE;
-			remoteInfo = "ZipZap (tvOS Static Library)";
-		};
-		3939233421AB33CB0015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D899CF96162C5EC100112F49;
-			remoteInfo = ZipZapTests;
-		};
-		3939233821AB33DC0015A15F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D8D140D21B423B1100C411B0;
-			remoteInfo = "ZipZap (macOS Framework)";
-		};
 		394516B01EEF44090093E503 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
@@ -346,75 +292,12 @@
 			remoteGlobalIDString = 39EE692B1DA4E1B100F19FA9;
 			remoteInfo = LNInterpolation;
 		};
-		394516B21EEF44190093E503 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = "CorePlot Mac";
-		};
 		397A01781FA6355600ABCB87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 39EE692A1DA4E1B100F19FA9;
 			remoteInfo = LNInterpolation;
-		};
-		398D6E871EE052EC00AA9C11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = "CorePlot Mac";
-		};
-		398D6E891EE052EC00AA9C11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0730F600109492D800E95162;
-			remoteInfo = "UnitTests Mac";
-		};
-		398D6E8B1EE052EC00AA9C11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C38A09781A46185200D45436;
-			remoteInfo = "CorePlot iOS";
-		};
-		398D6E8D1EE052EC00AA9C11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C38A09821A46185300D45436;
-			remoteInfo = "UnitTests iOS";
-		};
-		398D6E8F1EE052EC00AA9C11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C38A09BA1A4619A900D45436;
-			remoteInfo = "CorePlot-CocoaTouch";
-		};
-		398D6E911EE052EC00AA9C11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C38A09C41A4619A900D45436;
-			remoteInfo = "CorePlot-CocoaTouchTests";
-		};
-		398D6E931EE052EC00AA9C11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C37EA6921BC83F2A0091C8F7;
-			remoteInfo = "CorePlot tvOS";
-		};
-		398D6E951EE052EC00AA9C11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C37EA6B71BC83F2D0091C8F7;
-			remoteInfo = "UnitTests tvOS";
 		};
 		39D76E9F2086B83B0033BDE2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -460,11 +343,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3939233721AB33DC0015A15F /* ZipZap.framework in Embed Frameworks */,
+				394ED73D225A4E1C001875C3 /* CorePlot.framework in Embed Frameworks */,
 				392D52C11FAA008000A28938 /* DTXSourceMaps.framework in Embed Frameworks */,
-				398D6E761EE03E9B00AA9C11 /* CorePlot.framework in Embed Frameworks */,
-				39443F43219482DF00E9C0EA /* Sparkle.framework in Embed Frameworks */,
 				394516B71EEF442B0093E503 /* LNInterpolation.framework in Embed Frameworks */,
+				394ED73B225A4E1C001875C3 /* Sparkle.framework in Embed Frameworks */,
+				394ED739225A4E1C001875C3 /* ZipZap.framework in Embed Frameworks */,
 				39D76EA22086B8470033BDE2 /* LNPropertyListEditor.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -577,7 +460,6 @@
 		39356AC52201A71500FD23C4 /* NSString+Hashing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Hashing.h"; sourceTree = "<group>"; };
 		39356AC62201A71500FD23C4 /* NSString+Hashing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hashing.m"; sourceTree = "<group>"; };
 		39356ACB2201A9B200FD23C4 /* DTXMappingModel9620To9747.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9620To9747.xcmappingmodel; sourceTree = "<group>"; };
-		3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipZap.xcodeproj; path = ../../../Shared/ZipZap/ZipZap.xcodeproj; sourceTree = "<group>"; };
 		3939246F21AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.h; sourceTree = "<group>"; };
 		3939247021AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.m; sourceTree = "<group>"; };
 		393973BE1EDB02DF0064D4C8 /* DTXInspectorContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXInspectorContentController.h; sourceTree = "<group>"; };
@@ -624,7 +506,7 @@
 		3943CA941EEEFB3F0009AD88 /* DTXDiskDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDiskDataProvider.m; sourceTree = "<group>"; };
 		3943CA961EEF1A150009AD88 /* DTXNetworkDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkDataProvider.h; sourceTree = "<group>"; };
 		3943CA971EEF1A150009AD88 /* DTXNetworkDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkDataProvider.m; sourceTree = "<group>"; };
-		39443F40219482C500E9C0EA /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/build/Release/Sparkle.framework; sourceTree = SOURCE_ROOT; };
+		39443F40219482C500E9C0EA /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/build/macosx/Release/Sparkle.framework; sourceTree = SOURCE_ROOT; };
 		394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNInterpolation.xcodeproj; path = LNInterpolation/LNInterpolation/LNInterpolation.xcodeproj; sourceTree = SOURCE_ROOT; };
 		3947158720A2899800A7068A /* DTXWindowController+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXWindowController+DocumentationGeneration.h"; sourceTree = "<group>"; };
 		3947158820A2899800A7068A /* DTXWindowController+DocumentationGeneration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXWindowController+DocumentationGeneration.m"; sourceTree = "<group>"; };
@@ -643,6 +525,10 @@
 		394D9D221EF50A01001220E9 /* DTXNetworkInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkInspectorDataProvider.m; sourceTree = "<group>"; };
 		394E30C4223F9E3E0030462C /* DTXValidatingButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXValidatingButtonCell.h; sourceTree = "<group>"; };
 		394E30C5223F9E3E0030462C /* DTXValidatingButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXValidatingButtonCell.m; sourceTree = "<group>"; };
+		394ED6FF225A37DB001875C3 /* ContributionsGH.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContributionsGH.json; sourceTree = "<group>"; };
+		394ED714225A37EB001875C3 /* ContributionsGit.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContributionsGit.json; sourceTree = "<group>"; };
+		394ED730225A4766001875C3 /* CorePlot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CorePlot.framework; path = "core-plot/framework/build/macosx/Release/CorePlot.framework"; sourceTree = SOURCE_ROOT; };
+		394ED734225A4DF1001875C3 /* ZipZap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipZap.framework; path = ../../../Shared/ZipZap/build/macosx/Release/ZipZap.framework; sourceTree = "<group>"; };
 		3952467621B087EC00D73BCF /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39538D57209B0F48003AF7D3 /* TargetManagement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TargetManagement.storyboard; sourceTree = "<group>"; };
 		39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RemoteProfiling.storyboard; sourceTree = "<group>"; };
@@ -768,8 +654,6 @@
 		3989D363222C430F00231EE3 /* DTXRequestsPlaygroundController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRequestsPlaygroundController.m; sourceTree = "<group>"; };
 		3989D367222CCBA500231EE3 /* DTXTabViewItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTabViewItem.h; sourceTree = "<group>"; };
 		3989D368222CCBA500231EE3 /* DTXTabViewItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTabViewItem.m; sourceTree = "<group>"; };
-		398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CorePlot.xcodeproj; path = "../core-plot/framework/CorePlot.xcodeproj"; sourceTree = "<group>"; };
-		398D6E741EE03E9B00AA9C11 /* CorePlot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorePlot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		398D6EA31EE0596500AA9C11 /* DTXPlotHostingTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXPlotHostingTableCellView.h; sourceTree = "<group>"; };
 		398D6EA41EE0596500AA9C11 /* DTXPlotHostingTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXPlotHostingTableCellView.m; sourceTree = "<group>"; };
 		398D6EA61EE060A300AA9C11 /* DTXPlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXPlotController.h; sourceTree = "<group>"; };
@@ -963,11 +847,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3939233621AB33DC0015A15F /* ZipZap.framework in Frameworks */,
+				394ED738225A4E1C001875C3 /* ZipZap.framework in Frameworks */,
+				394ED73C225A4E1C001875C3 /* CorePlot.framework in Frameworks */,
 				392D52C01FAA008000A28938 /* DTXSourceMaps.framework in Frameworks */,
-				398D6E751EE03E9B00AA9C11 /* CorePlot.framework in Frameworks */,
-				39443F41219482C500E9C0EA /* Sparkle.framework in Frameworks */,
 				394516B61EEF442B0093E503 /* LNInterpolation.framework in Frameworks */,
+				394ED73A225A4E1C001875C3 /* Sparkle.framework in Frameworks */,
 				39D76EA12086B8470033BDE2 /* LNPropertyListEditor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1213,23 +1097,9 @@
 		393922C021AB190D0015A15F /* ZipZap */ = {
 			isa = PBXGroup;
 			children = (
-				3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */,
+				394ED734225A4DF1001875C3 /* ZipZap.framework */,
 			);
 			name = ZipZap;
-			sourceTree = "<group>";
-		};
-		3939231F21AB33CA0015A15F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3939232921AB33CB0015A15F /* ZipZap.framework */,
-				3939232B21AB33CB0015A15F /* libZipZap.a */,
-				3939232D21AB33CB0015A15F /* ZipZap.framework */,
-				3939232F21AB33CB0015A15F /* libZipZap.a */,
-				3939233121AB33CB0015A15F /* ZipZap.framework */,
-				3939233321AB33CB0015A15F /* libZipZap.a */,
-				3939233521AB33CB0015A15F /* ZipZapTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		393F41BF1F0E5E0B00F4DC1F /* ReactNative */ = {
@@ -1286,6 +1156,14 @@
 				3939247021AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.m */,
 			);
 			name = InternalViewControllers;
+			sourceTree = "<group>";
+		};
+		394ED72F225A4750001875C3 /* CorePlot */ = {
+			isa = PBXGroup;
+			children = (
+				394ED730225A4766001875C3 /* CorePlot.framework */,
+			);
+			name = CorePlot;
 			sourceTree = "<group>";
 		};
 		3954CAA620883EBA00934BCE /* ProfilingTargetManagement */ = {
@@ -1517,11 +1395,11 @@
 			children = (
 				391176E021EF80AE00C92A9F /* SharedUtilities */,
 				393922C021AB190D0015A15F /* ZipZap */,
+				3968DE4C2056F5580089609A /* Sparkle */,
+				394ED72F225A4750001875C3 /* CorePlot */,
 				3954CAAA20884C5100934BCE /* CCNPreferencesWindowController */,
 				39D76E832086B8290033BDE2 /* LNPropertyListEditor */,
-				3968DE4C2056F5580089609A /* Sparkle */,
 				3919DF781FA6342900F47DD6 /* SourceMaps */,
-				398D6E731EE03E8B00AA9C11 /* CorePlot */,
 				394516AB1EEF43FC0093E503 /* LNInterpolation */,
 				39F6F6C81F0E3D3900C7F411 /* AutoCoding */,
 				393528DE21E6174400880E7D /* Logging */,
@@ -1570,31 +1448,6 @@
 				397EB6E32234F81000D60513 /* DTXRPResponseBodyEditor.m */,
 			);
 			path = RequestsPlayground;
-			sourceTree = "<group>";
-		};
-		398D6E731EE03E8B00AA9C11 /* CorePlot */ = {
-			isa = PBXGroup;
-			children = (
-				398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */,
-				398D6E741EE03E9B00AA9C11 /* CorePlot.framework */,
-			);
-			name = CorePlot;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		398D6E781EE052EC00AA9C11 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				398D6E881EE052EC00AA9C11 /* CorePlot.framework */,
-				398D6E8A1EE052EC00AA9C11 /* UnitTests.xctest */,
-				398D6E8C1EE052EC00AA9C11 /* CorePlot.framework */,
-				398D6E8E1EE052EC00AA9C11 /* UnitTests iOS.xctest */,
-				398D6E901EE052EC00AA9C11 /* libCorePlot-CocoaTouch.a */,
-				398D6E921EE052EC00AA9C11 /* CorePlot-CocoaTouchTests.xctest */,
-				398D6E941EE052EC00AA9C11 /* CorePlot.framework */,
-				398D6E961EE052EC00AA9C11 /* UnitTests tvOS.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		398D6EA21EE058F600AA9C11 /* PlotControllers */ = {
@@ -1831,6 +1684,8 @@
 				39538D72209B40F3003AF7D3 /* About.storyboard */,
 				3972E67820694E6800F099DE /* Acknowledgements.html */,
 				3980C0C72086C75000789E3B /* DetoxInstruments.help */,
+				394ED6FF225A37DB001875C3 /* ContributionsGH.json */,
+				394ED714225A37EB001875C3 /* ContributionsGit.json */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
 				39487CB81F435F090063E66D /* SharedSupport */,
 				39FD87D9211A62E1007FE6A5 /* CompatLayer */,
@@ -1876,7 +1731,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 39EBDFCF1ED36D45005D8AB1 /* Build configuration list for PBXNativeTarget "DetoxInstruments" */;
 			buildPhases = (
-				39443F442194837E00E9C0EA /* Build Sparkle if Needed */,
+				39443F442194837E00E9C0EA /* Build Third-Party Frameworks */,
 				39EBDFB41ED36D45005D8AB1 /* Sources */,
 				398922FC1F3F2EA600129537 /* Update Build Numbers */,
 				39EBDFB51ED36D45005D8AB1 /* Frameworks */,
@@ -1893,10 +1748,8 @@
 			dependencies = (
 				392D52B01FA9FC6F00A28938 /* PBXTargetDependency */,
 				397A01791FA6355600ABCB87 /* PBXTargetDependency */,
-				394516B31EEF44190093E503 /* PBXTargetDependency */,
 				392D52C31FAA008000A28938 /* PBXTargetDependency */,
 				39D76EA42086B8470033BDE2 /* PBXTargetDependency */,
-				3939233921AB33DC0015A15F /* PBXTargetDependency */,
 			);
 			name = DetoxInstruments;
 			productName = "Detox Instruments";
@@ -1934,6 +1787,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1941,10 +1795,6 @@
 			productRefGroup = 39EBDFB91ED36D45005D8AB1 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = 398D6E781EE052EC00AA9C11 /* Products */;
-					ProjectRef = 398D6E531EE03E8300AA9C11 /* CorePlot.xcodeproj */;
-				},
 				{
 					ProductGroup = 392D52A41FA9FC0800A28938 /* Products */;
 					ProjectRef = 397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */;
@@ -1956,10 +1806,6 @@
 				{
 					ProductGroup = 39D76E9C2086B83B0033BDE2 /* Products */;
 					ProjectRef = 39D76E9B2086B83B0033BDE2 /* LNPropertyListEditor.xcodeproj */;
-				},
-				{
-					ProductGroup = 3939231F21AB33CA0015A15F /* Products */;
-					ProjectRef = 3939231E21AB33CA0015A15F /* ZipZap.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1984,116 +1830,11 @@
 			remoteRef = 392D52AA1FA9FC0800A28938 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3939232921AB33CB0015A15F /* ZipZap.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipZap.framework;
-			remoteRef = 3939232821AB33CB0015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939232B21AB33CB0015A15F /* libZipZap.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libZipZap.a;
-			remoteRef = 3939232A21AB33CB0015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939232D21AB33CB0015A15F /* ZipZap.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipZap.framework;
-			remoteRef = 3939232C21AB33CB0015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939232F21AB33CB0015A15F /* libZipZap.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libZipZap.a;
-			remoteRef = 3939232E21AB33CB0015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939233121AB33CB0015A15F /* ZipZap.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipZap.framework;
-			remoteRef = 3939233021AB33CB0015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939233321AB33CB0015A15F /* libZipZap.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libZipZap.a;
-			remoteRef = 3939233221AB33CB0015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3939233521AB33CB0015A15F /* ZipZapTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ZipZapTests.xctest;
-			remoteRef = 3939233421AB33CB0015A15F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		394516B11EEF44090093E503 /* LNInterpolation.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = LNInterpolation.framework;
 			remoteRef = 394516B01EEF44090093E503 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		398D6E881EE052EC00AA9C11 /* CorePlot.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CorePlot.framework;
-			remoteRef = 398D6E871EE052EC00AA9C11 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		398D6E8A1EE052EC00AA9C11 /* UnitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = UnitTests.xctest;
-			remoteRef = 398D6E891EE052EC00AA9C11 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		398D6E8C1EE052EC00AA9C11 /* CorePlot.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CorePlot.framework;
-			remoteRef = 398D6E8B1EE052EC00AA9C11 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		398D6E8E1EE052EC00AA9C11 /* UnitTests iOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "UnitTests iOS.xctest";
-			remoteRef = 398D6E8D1EE052EC00AA9C11 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		398D6E901EE052EC00AA9C11 /* libCorePlot-CocoaTouch.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libCorePlot-CocoaTouch.a";
-			remoteRef = 398D6E8F1EE052EC00AA9C11 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		398D6E921EE052EC00AA9C11 /* CorePlot-CocoaTouchTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "CorePlot-CocoaTouchTests.xctest";
-			remoteRef = 398D6E911EE052EC00AA9C11 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		398D6E941EE052EC00AA9C11 /* CorePlot.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CorePlot.framework;
-			remoteRef = 398D6E931EE052EC00AA9C11 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		398D6E961EE052EC00AA9C11 /* UnitTests tvOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "UnitTests tvOS.xctest";
-			remoteRef = 398D6E951EE052EC00AA9C11 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		39D76EA02086B83B0033BDE2 /* LNPropertyListEditor.framework */ = {
@@ -2115,10 +1856,12 @@
 				39538D73209B40F3003AF7D3 /* About.storyboard in Resources */,
 				39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */,
 				3967739320B594B200851154 /* Main.storyboard in Resources */,
+				394ED700225A37DB001875C3 /* ContributionsGH.json in Resources */,
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
 				3972E67920694E6800F099DE /* Acknowledgements.html in Resources */,
 				390688C12117781900D15C86 /* DTXDebugMenuGenerator.xib in Resources */,
 				39725F8E21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist in Resources */,
+				394ED715225A37EB001875C3 /* ContributionsGit.json in Resources */,
 				399B4DCD1ED574E70098D2AC /* Profiler.storyboard in Resources */,
 				39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */,
 				3989D35B222B91FD00231EE3 /* RequestsPlayground.storyboard in Resources */,
@@ -2129,7 +1872,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		39443F442194837E00E9C0EA /* Build Sparkle if Needed */ = {
+		39443F442194837E00E9C0EA /* Build Third-Party Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2138,14 +1881,14 @@
 			);
 			inputPaths = (
 			);
-			name = "Build Sparkle if Needed";
+			name = "Build Third-Party Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -e";
-			shellScript = "function rebuild_sparkle {\n    echo \"Building Sparkle.framework\"\n    xcodebuild -project \"${SRCROOT}\"/Sparkle/Sparkle.xcodeproj -scheme Sparkle -configuration Release BUILD_DIR=build build &> /dev/null\n}\n\nSPARKLE_SHASUM=$(find \"${SRCROOT}\"/Sparkle -not -path \"*build*\" -type f -print0 | xargs -0 shasum | awk '{print $1}' | shasum | cut -d' ' -f1)\nif [ ! -d \"${SRCROOT}\"/Sparkle/build/Release/Sparkle.framework ] || [ \"$(< \"${SRCROOT}\"/Sparkle/build/sum.txt)\" != \"$SPARKLE_SHASUM\" ] ; then\n    rebuild_sparkle\n    echo $SPARKLE_SHASUM > \"${SRCROOT}\"/Sparkle/build/sum.txt\nfi\n\n";
+			shellScript = "#!/bin/bash -e\n\n# $1: framework path \n# $2: scheme name\n# $3: Expected framework name\n\nfunction rebuild_framework {\necho \"Building $(basename $1)\"\nxcodebuild -project \"$1\" -scheme \"$2\" -configuration Release BUILD_DIR=build/macosx build \n#&> /dev/null\n}\n\nfunction rebuild_framework_if_needed {\nSHASUM=$(find \"$(dirname $1)\" -not -path \"*build*\" -type f -print0 | xargs -0 shasum | awk '{print $1}' | shasum | cut -d' ' -f1)\nif [ ! -d \"$(dirname $1)\"/build/macosx/Release/\"$3\" ] || [ \"$(< $(dirname $1)/build/macosx/sum.txt)\" != \"$SHASUM\" ] ; then\nrebuild_framework \"$1\" \"$2\"\necho $SHASUM > \"$(dirname $1)\"/build/macosx/sum.txt\nfi\n}\n\nrebuild_framework_if_needed \"Sparkle/Sparkle.xcodeproj\" \"Sparkle\" \"Sparkle.framework\"\nrebuild_framework_if_needed \"core-plot/framework/CorePlot.xcodeproj\" \"CorePlot Mac\" \"CorePlot.framework\"\nrebuild_framework_if_needed \"../Shared/ZipZap/ZipZap.xcodeproj\" \"ZipZap (macOS Framework)\" \"ZipZap.framework\"\n";
 			showEnvVarsInLog = 0;
 		};
 		397AC318219456A6009E62BB /* Sign Sparkle with Hardened Runtime */ = {
@@ -2458,16 +2201,6 @@
 			name = DTXSourceMaps;
 			targetProxy = 392D52C21FAA008000A28938 /* PBXContainerItemProxy */;
 		};
-		3939233921AB33DC0015A15F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "ZipZap (macOS Framework)";
-			targetProxy = 3939233821AB33DC0015A15F /* PBXContainerItemProxy */;
-		};
-		394516B31EEF44190093E503 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "CorePlot Mac";
-			targetProxy = 394516B21EEF44190093E503 /* PBXContainerItemProxy */;
-		};
 		397A01791FA6355600ABCB87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = LNInterpolation;
@@ -2605,7 +2338,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Sparkle/build/Release",
+					"$(PROJECT_DIR)/Sparkle/build/macosx/Release",
+					"$(PROJECT_DIR)/core-plot/framework/build/macosx/Release",
+					"$(PROJECT_DIR)/../Shared/ZipZap/build/macosx/Release",
 				);
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -2645,7 +2380,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Sparkle/build/Release",
+					"$(PROJECT_DIR)/Sparkle/build/macosx/Release",
+					"$(PROJECT_DIR)/core-plot/framework/build/macosx/Release",
+					"$(PROJECT_DIR)/../Shared/ZipZap/build/macosx/Release",
 				);
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;

@@ -1,0 +1,1474 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5B503930187069E4002B2B12 /* ZZStandardCryptoEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B50392E187069E4002B2B12 /* ZZStandardCryptoEngine.cpp */; };
+		5B503931187069E4002B2B12 /* ZZStandardCryptoEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B50392F187069E4002B2B12 /* ZZStandardCryptoEngine.h */; };
+		5B50393418707C37002B2B12 /* ZZStandardDecryptInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B50393218707C36002B2B12 /* ZZStandardDecryptInputStream.h */; };
+		5BC58CA618745940002FAE04 /* large-test-encrypted-standard.zip in Resources */ = {isa = PBXBuildFile; fileRef = 5BC58CA418745940002FAE04 /* large-test-encrypted-standard.zip */; };
+		5BC58CA718745940002FAE04 /* small-test-encrypted-standard.zip in Resources */ = {isa = PBXBuildFile; fileRef = 5BC58CA518745940002FAE04 /* small-test-encrypted-standard.zip */; };
+		5BC58CAC18745D22002FAE04 /* ZZStandardCryptoEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B50392E187069E4002B2B12 /* ZZStandardCryptoEngine.cpp */; };
+		BF8624AD1BB7495200C12EEE /* ZZAESDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D8ABBF3D18883528002858BE /* ZZAESDecryptInputStream.mm */; };
+		BF8624AE1BB7495200C12EEE /* ZZArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDB162C608300112F49 /* ZZArchive.mm */; };
+		BF8624AF1BB7495200C12EEE /* ZZArchiveEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFD9162C608300112F49 /* ZZArchiveEntry.m */; };
+		BF8624B01BB7495200C12EEE /* ZZConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CB4D019B5A91000815A36 /* ZZConstants.m */; };
+		BF8624B11BB7495200C12EEE /* ZZDataChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44AE16A0E8D600CF00A9 /* ZZDataChannel.m */; };
+		BF8624B21BB7495200C12EEE /* ZZDataChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44CE16A0F8B400CF00A9 /* ZZDataChannelOutput.m */; };
+		BF8624B31BB7495200C12EEE /* ZZDeflateOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDF162C608300112F49 /* ZZDeflateOutputStream.m */; };
+		BF8624B41BB7495200C12EEE /* ZZError.m in Sources */ = {isa = PBXBuildFile; fileRef = D8366ACD16B1F8B400BC012E /* ZZError.m */; };
+		BF8624B51BB7495200C12EEE /* ZZFileChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A416A0E2F400CF00A9 /* ZZFileChannel.m */; };
+		BF8624B61BB7495200C12EEE /* ZZFileChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A916A0E30B00CF00A9 /* ZZFileChannelOutput.m */; };
+		BF8624B71BB7495200C12EEE /* ZZInflateInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D834255F1876747200E7A559 /* ZZInflateInputStream.m */; };
+		BF8624B81BB7495200C12EEE /* ZZNewArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE6162C608300112F49 /* ZZNewArchiveEntry.mm */; };
+		BF8624B91BB7495200C12EEE /* ZZNewArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE8162C608300112F49 /* ZZNewArchiveEntryWriter.mm */; };
+		BF8624BA1BB7495200C12EEE /* ZZOldArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D88E8E06163816FD002207B3 /* ZZOldArchiveEntry.mm */; };
+		BF8624BB1BB7495200C12EEE /* ZZOldArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE3162C608300112F49 /* ZZOldArchiveEntryWriter.mm */; };
+		BF8624BC1BB7495200C12EEE /* ZZStandardCryptoEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B50392E187069E4002B2B12 /* ZZStandardCryptoEngine.cpp */; };
+		BF8624BD1BB7495200C12EEE /* ZZStandardDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D834256218767E1900E7A559 /* ZZStandardDecryptInputStream.mm */; };
+		BF8624BE1BB7495200C12EEE /* ZZStoreOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE1162C608300112F49 /* ZZStoreOutputStream.m */; };
+		BF8624C01BB7495200C12EEE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D87BA2281B3D6F8500ED7EB3 /* libz.dylib */; };
+		BF8624C21BB7495200C12EEE /* ZipZap.h in Headers */ = {isa = PBXBuildFile; fileRef = D8B0FD611640A6B000727A70 /* ZipZap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF8624C31BB7495200C12EEE /* ZZArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFDA162C608300112F49 /* ZZArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF8624C41BB7495200C12EEE /* ZZArchiveEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFD8162C608300112F49 /* ZZArchiveEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF8624C51BB7495200C12EEE /* ZZConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B50392518706368002B2B12 /* ZZConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF8624C61BB7495200C12EEE /* ZZError.h in Headers */ = {isa = PBXBuildFile; fileRef = D8366ACC16B1F8B400BC012E /* ZZError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF8624D31BB74B1F00C12EEE /* ZZAESDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D8ABBF3D18883528002858BE /* ZZAESDecryptInputStream.mm */; };
+		BF8624D41BB74B1F00C12EEE /* ZZArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDB162C608300112F49 /* ZZArchive.mm */; };
+		BF8624D51BB74B1F00C12EEE /* ZZArchiveEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFD9162C608300112F49 /* ZZArchiveEntry.m */; };
+		BF8624D61BB74B1F00C12EEE /* ZZConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CB4D019B5A91000815A36 /* ZZConstants.m */; };
+		BF8624D71BB74B1F00C12EEE /* ZZDataChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44AE16A0E8D600CF00A9 /* ZZDataChannel.m */; };
+		BF8624D81BB74B1F00C12EEE /* ZZDataChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44CE16A0F8B400CF00A9 /* ZZDataChannelOutput.m */; };
+		BF8624D91BB74B1F00C12EEE /* ZZDeflateOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDF162C608300112F49 /* ZZDeflateOutputStream.m */; };
+		BF8624DA1BB74B1F00C12EEE /* ZZError.m in Sources */ = {isa = PBXBuildFile; fileRef = D8366ACD16B1F8B400BC012E /* ZZError.m */; };
+		BF8624DB1BB74B1F00C12EEE /* ZZFileChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A416A0E2F400CF00A9 /* ZZFileChannel.m */; };
+		BF8624DC1BB74B1F00C12EEE /* ZZFileChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A916A0E30B00CF00A9 /* ZZFileChannelOutput.m */; };
+		BF8624DD1BB74B1F00C12EEE /* ZZInflateInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D834255F1876747200E7A559 /* ZZInflateInputStream.m */; };
+		BF8624DE1BB74B1F00C12EEE /* ZZNewArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE6162C608300112F49 /* ZZNewArchiveEntry.mm */; };
+		BF8624DF1BB74B1F00C12EEE /* ZZNewArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE8162C608300112F49 /* ZZNewArchiveEntryWriter.mm */; };
+		BF8624E01BB74B1F00C12EEE /* ZZOldArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE3162C608300112F49 /* ZZOldArchiveEntryWriter.mm */; };
+		BF8624E11BB74B1F00C12EEE /* ZZOldArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D88E8E06163816FD002207B3 /* ZZOldArchiveEntry.mm */; };
+		BF8624E21BB74B1F00C12EEE /* ZZStandardCryptoEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B50392E187069E4002B2B12 /* ZZStandardCryptoEngine.cpp */; };
+		BF8624E31BB74B1F00C12EEE /* ZZStandardDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D834256218767E1900E7A559 /* ZZStandardDecryptInputStream.mm */; };
+		BF8624E41BB74B1F00C12EEE /* ZZStoreOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE1162C608300112F49 /* ZZStoreOutputStream.m */; };
+		BF8624E71BB74B1F00C12EEE /* ZipZap.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8B0FD611640A6B000727A70 /* ZipZap.h */; };
+		BF8624E81BB74B1F00C12EEE /* ZZConstants.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B50392518706368002B2B12 /* ZZConstants.h */; };
+		BF8624E91BB74B1F00C12EEE /* ZZArchive.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D899CFDA162C608300112F49 /* ZZArchive.h */; };
+		BF8624EA1BB74B1F00C12EEE /* ZZArchiveEntry.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D899CFD8162C608300112F49 /* ZZArchiveEntry.h */; };
+		BF8624EB1BB74B1F00C12EEE /* ZZError.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8366ACC16B1F8B400BC012E /* ZZError.h */; };
+		D81DD92C19B761E100325687 /* ZZDecryptTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DD92B19B761E100325687 /* ZZDecryptTests.m */; };
+		D83425601876747200E7A559 /* ZZInflateInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D834255F1876747200E7A559 /* ZZInflateInputStream.m */; };
+		D83425611876747200E7A559 /* ZZInflateInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D834255F1876747200E7A559 /* ZZInflateInputStream.m */; };
+		D834256318767E1900E7A559 /* ZZStandardDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D834256218767E1900E7A559 /* ZZStandardDecryptInputStream.mm */; };
+		D834256418767E1900E7A559 /* ZZStandardDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D834256218767E1900E7A559 /* ZZStandardDecryptInputStream.mm */; };
+		D8366ACE16B1F8B400BC012E /* ZZError.h in Headers */ = {isa = PBXBuildFile; fileRef = D8366ACC16B1F8B400BC012E /* ZZError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8366ACF16B1F8B400BC012E /* ZZError.m in Sources */ = {isa = PBXBuildFile; fileRef = D8366ACD16B1F8B400BC012E /* ZZError.m */; };
+		D8366AD016B1F8B400BC012E /* ZZError.m in Sources */ = {isa = PBXBuildFile; fileRef = D8366ACD16B1F8B400BC012E /* ZZError.m */; };
+		D84A449F16A0D91B00CF00A9 /* ZZChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = D84A449E16A0D91B00CF00A9 /* ZZChannel.h */; };
+		D84A44A216A0D99C00CF00A9 /* ZZChannelOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = D84A44A116A0D99C00CF00A9 /* ZZChannelOutput.h */; };
+		D84A44A516A0E2F400CF00A9 /* ZZFileChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = D84A44A316A0E2F300CF00A9 /* ZZFileChannel.h */; };
+		D84A44A616A0E2F400CF00A9 /* ZZFileChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A416A0E2F400CF00A9 /* ZZFileChannel.m */; };
+		D84A44A716A0E2F400CF00A9 /* ZZFileChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A416A0E2F400CF00A9 /* ZZFileChannel.m */; };
+		D84A44AA16A0E30C00CF00A9 /* ZZFileChannelOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = D84A44A816A0E30B00CF00A9 /* ZZFileChannelOutput.h */; };
+		D84A44AB16A0E30C00CF00A9 /* ZZFileChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A916A0E30B00CF00A9 /* ZZFileChannelOutput.m */; };
+		D84A44AC16A0E30C00CF00A9 /* ZZFileChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A916A0E30B00CF00A9 /* ZZFileChannelOutput.m */; };
+		D84A44AF16A0E8D600CF00A9 /* ZZDataChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = D84A44AD16A0E8D600CF00A9 /* ZZDataChannel.h */; };
+		D84A44B016A0E8D600CF00A9 /* ZZDataChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44AE16A0E8D600CF00A9 /* ZZDataChannel.m */; };
+		D84A44B116A0E8D600CF00A9 /* ZZDataChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44AE16A0E8D600CF00A9 /* ZZDataChannel.m */; };
+		D84A44CF16A0F8B400CF00A9 /* ZZDataChannelOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = D84A44CD16A0F8B400CF00A9 /* ZZDataChannelOutput.h */; };
+		D84A44D016A0F8B400CF00A9 /* ZZDataChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44CE16A0F8B400CF00A9 /* ZZDataChannelOutput.m */; };
+		D84A44D116A0F8B400CF00A9 /* ZZDataChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44CE16A0F8B400CF00A9 /* ZZDataChannelOutput.m */; };
+		D85CB4D119B5A91000815A36 /* ZZConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CB4D019B5A91000815A36 /* ZZConstants.m */; };
+		D85CB4D219B5A91000815A36 /* ZZConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CB4D019B5A91000815A36 /* ZZConstants.m */; };
+		D86B400C18A8A0BA00017A91 /* ZZConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B50392518706368002B2B12 /* ZZConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D86B400D18A8A0DA00017A91 /* ZZConstants.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B50392518706368002B2B12 /* ZZConstants.h */; };
+		D86B400E18A8A0FF00017A91 /* ZZError.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8366ACC16B1F8B400BC012E /* ZZError.h */; };
+		D87BA1B01B3D5B2900ED7EB3 /* dog.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D87BA1AA1B3D5B2900ED7EB3 /* dog.jpg */; };
+		D87BA1B11B3D5B2900ED7EB3 /* dog.png in Resources */ = {isa = PBXBuildFile; fileRef = D87BA1AB1B3D5B2900ED7EB3 /* dog.png */; };
+		D87BA1B21B3D5B2900ED7EB3 /* li-europan-lingues.txt in Resources */ = {isa = PBXBuildFile; fileRef = D87BA1AC1B3D5B2900ED7EB3 /* li-europan-lingues.txt */; };
+		D87BA1B31B3D5B2900ED7EB3 /* lorem-ipsum.txt in Resources */ = {isa = PBXBuildFile; fileRef = D87BA1AD1B3D5B2900ED7EB3 /* lorem-ipsum.txt */; };
+		D87BA1B41B3D5B2900ED7EB3 /* pangram.txt in Resources */ = {isa = PBXBuildFile; fileRef = D87BA1AE1B3D5B2900ED7EB3 /* pangram.txt */; };
+		D87BA1B51B3D5B2900ED7EB3 /* 拉链.txt in Resources */ = {isa = PBXBuildFile; fileRef = D87BA1AF1B3D5B2900ED7EB3 /* 拉链.txt */; };
+		D87BA1F21B3D6A8300ED7EB3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D87BA1F11B3D6A8300ED7EB3 /* libz.dylib */; };
+		D87BA2111B3D6F5900ED7EB3 /* ZZAESDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D8ABBF3D18883528002858BE /* ZZAESDecryptInputStream.mm */; };
+		D87BA2121B3D6F5900ED7EB3 /* ZZArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDB162C608300112F49 /* ZZArchive.mm */; };
+		D87BA2131B3D6F5900ED7EB3 /* ZZArchiveEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFD9162C608300112F49 /* ZZArchiveEntry.m */; };
+		D87BA2141B3D6F5900ED7EB3 /* ZZConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CB4D019B5A91000815A36 /* ZZConstants.m */; };
+		D87BA2151B3D6F5900ED7EB3 /* ZZDataChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44AE16A0E8D600CF00A9 /* ZZDataChannel.m */; };
+		D87BA2161B3D6F5900ED7EB3 /* ZZDataChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44CE16A0F8B400CF00A9 /* ZZDataChannelOutput.m */; };
+		D87BA2171B3D6F5900ED7EB3 /* ZZDeflateOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDF162C608300112F49 /* ZZDeflateOutputStream.m */; };
+		D87BA2181B3D6F5900ED7EB3 /* ZZError.m in Sources */ = {isa = PBXBuildFile; fileRef = D8366ACD16B1F8B400BC012E /* ZZError.m */; };
+		D87BA2191B3D6F5900ED7EB3 /* ZZFileChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A416A0E2F400CF00A9 /* ZZFileChannel.m */; };
+		D87BA21A1B3D6F5900ED7EB3 /* ZZFileChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A916A0E30B00CF00A9 /* ZZFileChannelOutput.m */; };
+		D87BA21B1B3D6F5900ED7EB3 /* ZZInflateInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D834255F1876747200E7A559 /* ZZInflateInputStream.m */; };
+		D87BA21C1B3D6F5900ED7EB3 /* ZZNewArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE6162C608300112F49 /* ZZNewArchiveEntry.mm */; };
+		D87BA21D1B3D6F5900ED7EB3 /* ZZNewArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE8162C608300112F49 /* ZZNewArchiveEntryWriter.mm */; };
+		D87BA21E1B3D6F5900ED7EB3 /* ZZOldArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D88E8E06163816FD002207B3 /* ZZOldArchiveEntry.mm */; };
+		D87BA21F1B3D6F5900ED7EB3 /* ZZOldArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE3162C608300112F49 /* ZZOldArchiveEntryWriter.mm */; };
+		D87BA2201B3D6F5900ED7EB3 /* ZZStandardCryptoEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B50392E187069E4002B2B12 /* ZZStandardCryptoEngine.cpp */; };
+		D87BA2211B3D6F5900ED7EB3 /* ZZStandardDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D834256218767E1900E7A559 /* ZZStandardDecryptInputStream.mm */; };
+		D87BA2221B3D6F5900ED7EB3 /* ZZStoreOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE1162C608300112F49 /* ZZStoreOutputStream.m */; };
+		D87BA2231B3D6F6F00ED7EB3 /* ZipZap.h in Headers */ = {isa = PBXBuildFile; fileRef = D8B0FD611640A6B000727A70 /* ZipZap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D87BA2241B3D6F6F00ED7EB3 /* ZZArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFDA162C608300112F49 /* ZZArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D87BA2251B3D6F6F00ED7EB3 /* ZZArchiveEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFD8162C608300112F49 /* ZZArchiveEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D87BA2261B3D6F6F00ED7EB3 /* ZZConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B50392518706368002B2B12 /* ZZConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D87BA2271B3D6F6F00ED7EB3 /* ZZError.h in Headers */ = {isa = PBXBuildFile; fileRef = D8366ACC16B1F8B400BC012E /* ZZError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D87BA2291B3D6F8500ED7EB3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D87BA2281B3D6F8500ED7EB3 /* libz.dylib */; };
+		D88E8E07163816FD002207B3 /* ZZOldArchiveEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = D88E8E05163816FD002207B3 /* ZZOldArchiveEntry.h */; };
+		D88E8E08163816FD002207B3 /* ZZOldArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D88E8E06163816FD002207B3 /* ZZOldArchiveEntry.mm */; };
+		D88E8E09163816FD002207B3 /* ZZOldArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D88E8E06163816FD002207B3 /* ZZOldArchiveEntry.mm */; };
+		D899CF9C162C5EC100112F49 /* libZipZap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D899CF82162C5EC100112F49 /* libZipZap.a */; };
+		D899CFA2162C5EC100112F49 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D899CFA0162C5EC100112F49 /* InfoPlist.strings */; };
+		D899CFEA162C608300112F49 /* ZZArchiveEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFD8162C608300112F49 /* ZZArchiveEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D899CFEB162C608300112F49 /* ZZArchiveEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFD9162C608300112F49 /* ZZArchiveEntry.m */; };
+		D899CFEC162C608300112F49 /* ZZArchiveEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFD9162C608300112F49 /* ZZArchiveEntry.m */; };
+		D899CFED162C608300112F49 /* ZZArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFDA162C608300112F49 /* ZZArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D899CFEE162C608300112F49 /* ZZArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDB162C608300112F49 /* ZZArchive.mm */; };
+		D899CFEF162C608300112F49 /* ZZArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDB162C608300112F49 /* ZZArchive.mm */; };
+		D899CFF0162C608300112F49 /* ZZInflateInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFDC162C608300112F49 /* ZZInflateInputStream.h */; };
+		D899CFF3162C608300112F49 /* ZZDeflateOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFDE162C608300112F49 /* ZZDeflateOutputStream.h */; };
+		D899CFF4162C608300112F49 /* ZZDeflateOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDF162C608300112F49 /* ZZDeflateOutputStream.m */; };
+		D899CFF5162C608300112F49 /* ZZDeflateOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDF162C608300112F49 /* ZZDeflateOutputStream.m */; };
+		D899CFF6162C608300112F49 /* ZZStoreOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFE0162C608300112F49 /* ZZStoreOutputStream.h */; };
+		D899CFF7162C608300112F49 /* ZZStoreOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE1162C608300112F49 /* ZZStoreOutputStream.m */; };
+		D899CFF8162C608300112F49 /* ZZStoreOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE1162C608300112F49 /* ZZStoreOutputStream.m */; };
+		D899CFF9162C608300112F49 /* ZZOldArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFE2162C608300112F49 /* ZZOldArchiveEntryWriter.h */; };
+		D899CFFA162C608300112F49 /* ZZOldArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE3162C608300112F49 /* ZZOldArchiveEntryWriter.mm */; };
+		D899CFFB162C608300112F49 /* ZZOldArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE3162C608300112F49 /* ZZOldArchiveEntryWriter.mm */; };
+		D899CFFC162C608300112F49 /* ZZHeaders.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFE4162C608300112F49 /* ZZHeaders.h */; };
+		D899CFFD162C608300112F49 /* ZZNewArchiveEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFE5162C608300112F49 /* ZZNewArchiveEntry.h */; settings = {ATTRIBUTES = (); }; };
+		D899CFFE162C608300112F49 /* ZZNewArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE6162C608300112F49 /* ZZNewArchiveEntry.mm */; };
+		D899CFFF162C608300112F49 /* ZZNewArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE6162C608300112F49 /* ZZNewArchiveEntry.mm */; };
+		D899D000162C608300112F49 /* ZZNewArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFE7162C608300112F49 /* ZZNewArchiveEntryWriter.h */; };
+		D899D001162C608300112F49 /* ZZNewArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE8162C608300112F49 /* ZZNewArchiveEntryWriter.mm */; };
+		D899D002162C608300112F49 /* ZZNewArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE8162C608300112F49 /* ZZNewArchiveEntryWriter.mm */; };
+		D899D003162C608300112F49 /* ZZArchiveEntryWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFE9162C608300112F49 /* ZZArchiveEntryWriter.h */; };
+		D899D01A162CCF9700112F49 /* ZZUnzipTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D899D019162CCF9700112F49 /* ZZUnzipTests.m */; };
+		D899D021162F6C9700112F49 /* ZZZipTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D899D020162F6C9700112F49 /* ZZZipTests.m */; };
+		D899D0241631888100112F49 /* ZZTasks.m in Sources */ = {isa = PBXBuildFile; fileRef = D899D0231631888000112F49 /* ZZTasks.m */; };
+		D8ABBF3E18883528002858BE /* ZZAESDecryptInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = D8ABBF3C18883528002858BE /* ZZAESDecryptInputStream.h */; };
+		D8ABBF3F18883528002858BE /* ZZAESDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D8ABBF3D18883528002858BE /* ZZAESDecryptInputStream.mm */; };
+		D8ABBF4018883528002858BE /* ZZAESDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D8ABBF3D18883528002858BE /* ZZAESDecryptInputStream.mm */; };
+		D8B0FD621640A6B000727A70 /* ZipZap.h in Headers */ = {isa = PBXBuildFile; fileRef = D8B0FD611640A6B000727A70 /* ZipZap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8B0FD661640A77F00727A70 /* ZipZap.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8B0FD611640A6B000727A70 /* ZipZap.h */; };
+		D8B0FD671640A77F00727A70 /* ZZArchive.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D899CFDA162C608300112F49 /* ZZArchive.h */; };
+		D8B0FD681640A77F00727A70 /* ZZArchiveEntry.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D899CFD8162C608300112F49 /* ZZArchiveEntry.h */; };
+		D8B83A7719B7CBB400CF72B6 /* ZZZipNewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B83A7619B7CBB400CF72B6 /* ZZZipNewTests.m */; };
+		D8B83A7D19B7D39200CF72B6 /* ZZZipOldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B83A7C19B7D39200CF72B6 /* ZZZipOldTests.m */; };
+		D8B83A8319B7DEC400CF72B6 /* ZZChannelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B83A8219B7DEC400CF72B6 /* ZZChannelTests.m */; };
+		D8B83A8519B7DEDE00CF72B6 /* ZZFileChannelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B83A8419B7DEDE00CF72B6 /* ZZFileChannelTests.m */; };
+		D8B83A8A19B7F7DF00CF72B6 /* ZZDataChannelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B83A8919B7F7DF00CF72B6 /* ZZDataChannelTests.m */; };
+		D8D140EC1B423C4C00C411B0 /* ZZAESDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D8ABBF3D18883528002858BE /* ZZAESDecryptInputStream.mm */; };
+		D8D140ED1B423C4C00C411B0 /* ZZArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDB162C608300112F49 /* ZZArchive.mm */; };
+		D8D140EE1B423C4C00C411B0 /* ZZArchiveEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFD9162C608300112F49 /* ZZArchiveEntry.m */; };
+		D8D140EF1B423C4C00C411B0 /* ZZConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CB4D019B5A91000815A36 /* ZZConstants.m */; };
+		D8D140F01B423C4C00C411B0 /* ZZDataChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44AE16A0E8D600CF00A9 /* ZZDataChannel.m */; };
+		D8D140F11B423C4C00C411B0 /* ZZDataChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44CE16A0F8B400CF00A9 /* ZZDataChannelOutput.m */; };
+		D8D140F21B423C4C00C411B0 /* ZZDeflateOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFDF162C608300112F49 /* ZZDeflateOutputStream.m */; };
+		D8D140F31B423C4C00C411B0 /* ZZError.m in Sources */ = {isa = PBXBuildFile; fileRef = D8366ACD16B1F8B400BC012E /* ZZError.m */; };
+		D8D140F41B423C4C00C411B0 /* ZZFileChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A416A0E2F400CF00A9 /* ZZFileChannel.m */; };
+		D8D140F51B423C4C00C411B0 /* ZZFileChannelOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = D84A44A916A0E30B00CF00A9 /* ZZFileChannelOutput.m */; };
+		D8D140F61B423C4C00C411B0 /* ZZInflateInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D834255F1876747200E7A559 /* ZZInflateInputStream.m */; };
+		D8D140F71B423C4C00C411B0 /* ZZNewArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE6162C608300112F49 /* ZZNewArchiveEntry.mm */; };
+		D8D140F81B423C4C00C411B0 /* ZZNewArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE8162C608300112F49 /* ZZNewArchiveEntryWriter.mm */; };
+		D8D140F91B423C4C00C411B0 /* ZZOldArchiveEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = D88E8E06163816FD002207B3 /* ZZOldArchiveEntry.mm */; };
+		D8D140FA1B423C4C00C411B0 /* ZZOldArchiveEntryWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE3162C608300112F49 /* ZZOldArchiveEntryWriter.mm */; };
+		D8D140FB1B423C4C00C411B0 /* ZZStandardCryptoEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B50392E187069E4002B2B12 /* ZZStandardCryptoEngine.cpp */; };
+		D8D140FC1B423C4C00C411B0 /* ZZStandardDecryptInputStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = D834256218767E1900E7A559 /* ZZStandardDecryptInputStream.mm */; };
+		D8D140FD1B423C4C00C411B0 /* ZZStoreOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = D899CFE1162C608300112F49 /* ZZStoreOutputStream.m */; };
+		D8D140FE1B423C5A00C411B0 /* ZipZap.h in Headers */ = {isa = PBXBuildFile; fileRef = D8B0FD611640A6B000727A70 /* ZipZap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D140FF1B423C5A00C411B0 /* ZZArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFDA162C608300112F49 /* ZZArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D141001B423C5A00C411B0 /* ZZArchiveEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = D899CFD8162C608300112F49 /* ZZArchiveEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D141011B423C5A00C411B0 /* ZZConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B50392518706368002B2B12 /* ZZConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D141021B423C5A00C411B0 /* ZZError.h in Headers */ = {isa = PBXBuildFile; fileRef = D8366ACC16B1F8B400BC012E /* ZZError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D141031B423C8E00C411B0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D87BA1F11B3D6A8300ED7EB3 /* libz.dylib */; };
+		D8E366F0188832C0009F3008 /* large-test-encrypted-aes128.zip in Resources */ = {isa = PBXBuildFile; fileRef = D8E366EA188832C0009F3008 /* large-test-encrypted-aes128.zip */; };
+		D8E366F1188832C0009F3008 /* large-test-encrypted-aes192.zip in Resources */ = {isa = PBXBuildFile; fileRef = D8E366EB188832C0009F3008 /* large-test-encrypted-aes192.zip */; };
+		D8E366F2188832C0009F3008 /* large-test-encrypted-aes256.zip in Resources */ = {isa = PBXBuildFile; fileRef = D8E366EC188832C0009F3008 /* large-test-encrypted-aes256.zip */; };
+		D8E366F3188832C0009F3008 /* small-test-encrypted-aes128.zip in Resources */ = {isa = PBXBuildFile; fileRef = D8E366ED188832C0009F3008 /* small-test-encrypted-aes128.zip */; };
+		D8E366F4188832C0009F3008 /* small-test-encrypted-aes192.zip in Resources */ = {isa = PBXBuildFile; fileRef = D8E366EE188832C0009F3008 /* small-test-encrypted-aes192.zip */; };
+		D8E366F5188832C0009F3008 /* small-test-encrypted-aes256.zip in Resources */ = {isa = PBXBuildFile; fileRef = D8E366EF188832C0009F3008 /* small-test-encrypted-aes256.zip */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D899CF9A162C5EC100112F49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D899CF77162C5E8400112F49 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D899CF81162C5EC100112F49;
+			remoteInfo = ZipZap;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BF8624E61BB74B1F00C12EEE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				BF8624E71BB74B1F00C12EEE /* ZipZap.h in CopyFiles */,
+				BF8624E81BB74B1F00C12EEE /* ZZConstants.h in CopyFiles */,
+				BF8624E91BB74B1F00C12EEE /* ZZArchive.h in CopyFiles */,
+				BF8624EA1BB74B1F00C12EEE /* ZZArchiveEntry.h in CopyFiles */,
+				BF8624EB1BB74B1F00C12EEE /* ZZError.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D899CFAE162C5EEB00112F49 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				D8B0FD661640A77F00727A70 /* ZipZap.h in CopyFiles */,
+				D86B400D18A8A0DA00017A91 /* ZZConstants.h in CopyFiles */,
+				D8B0FD671640A77F00727A70 /* ZZArchive.h in CopyFiles */,
+				D8B0FD681640A77F00727A70 /* ZZArchiveEntry.h in CopyFiles */,
+				D86B400E18A8A0FF00017A91 /* ZZError.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		5B50392518706368002B2B12 /* ZZConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZConstants.h; sourceTree = "<group>"; };
+		5B50392E187069E4002B2B12 /* ZZStandardCryptoEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZStandardCryptoEngine.cpp; sourceTree = "<group>"; };
+		5B50392F187069E4002B2B12 /* ZZStandardCryptoEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZStandardCryptoEngine.h; sourceTree = "<group>"; };
+		5B50393218707C36002B2B12 /* ZZStandardDecryptInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZStandardDecryptInputStream.h; sourceTree = "<group>"; };
+		5BC58CA418745940002FAE04 /* large-test-encrypted-standard.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "large-test-encrypted-standard.zip"; sourceTree = "<group>"; };
+		5BC58CA518745940002FAE04 /* small-test-encrypted-standard.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "small-test-encrypted-standard.zip"; sourceTree = "<group>"; };
+		BF8624CB1BB7495200C12EEE /* ZipZap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZipZap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF8624EF1BB74B1F00C12EEE /* libZipZap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZipZap.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D804E4C8187645FE00289404 /* ZZDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZDataProvider.h; sourceTree = "<group>"; };
+		D81DD92A19B761E100325687 /* ZZDecryptTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDecryptTests.h; sourceTree = "<group>"; };
+		D81DD92B19B761E100325687 /* ZZDecryptTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDecryptTests.m; sourceTree = "<group>"; };
+		D81DF41E1871471E00501A61 /* ZZScopeGuard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZScopeGuard.h; sourceTree = "<group>"; };
+		D834255F1876747200E7A559 /* ZZInflateInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZInflateInputStream.m; sourceTree = "<group>"; };
+		D834256218767E1900E7A559 /* ZZStandardDecryptInputStream.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZStandardDecryptInputStream.mm; sourceTree = "<group>"; };
+		D8366ACC16B1F8B400BC012E /* ZZError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZError.h; sourceTree = "<group>"; };
+		D8366ACD16B1F8B400BC012E /* ZZError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZError.m; sourceTree = "<group>"; };
+		D84247E4196535B700B62453 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		D84A449E16A0D91B00CF00A9 /* ZZChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZChannel.h; sourceTree = "<group>"; };
+		D84A44A116A0D99C00CF00A9 /* ZZChannelOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZChannelOutput.h; sourceTree = "<group>"; };
+		D84A44A316A0E2F300CF00A9 /* ZZFileChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZFileChannel.h; sourceTree = "<group>"; };
+		D84A44A416A0E2F400CF00A9 /* ZZFileChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZFileChannel.m; sourceTree = "<group>"; };
+		D84A44A816A0E30B00CF00A9 /* ZZFileChannelOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZFileChannelOutput.h; sourceTree = "<group>"; };
+		D84A44A916A0E30B00CF00A9 /* ZZFileChannelOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZFileChannelOutput.m; sourceTree = "<group>"; };
+		D84A44AD16A0E8D600CF00A9 /* ZZDataChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDataChannel.h; sourceTree = "<group>"; };
+		D84A44AE16A0E8D600CF00A9 /* ZZDataChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDataChannel.m; sourceTree = "<group>"; };
+		D84A44CD16A0F8B400CF00A9 /* ZZDataChannelOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDataChannelOutput.h; sourceTree = "<group>"; };
+		D84A44CE16A0F8B400CF00A9 /* ZZDataChannelOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDataChannelOutput.m; sourceTree = "<group>"; };
+		D85CB4D019B5A91000815A36 /* ZZConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZConstants.m; sourceTree = "<group>"; };
+		D87BA1AA1B3D5B2900ED7EB3 /* dog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpg; sourceTree = "<group>"; };
+		D87BA1AB1B3D5B2900ED7EB3 /* dog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dog.png; sourceTree = "<group>"; };
+		D87BA1AC1B3D5B2900ED7EB3 /* li-europan-lingues.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "li-europan-lingues.txt"; sourceTree = "<group>"; };
+		D87BA1AD1B3D5B2900ED7EB3 /* lorem-ipsum.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "lorem-ipsum.txt"; sourceTree = "<group>"; };
+		D87BA1AE1B3D5B2900ED7EB3 /* pangram.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pangram.txt; sourceTree = "<group>"; };
+		D87BA1AF1B3D5B2900ED7EB3 /* 拉链.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "拉链.txt"; sourceTree = "<group>"; };
+		D87BA1F11B3D6A8300ED7EB3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D87BA1F81B3D6DEA00ED7EB3 /* ZipZap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZipZap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D87BA1FB1B3D6DEA00ED7EB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D87BA2281B3D6F8500ED7EB3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		D88E8E05163816FD002207B3 /* ZZOldArchiveEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZOldArchiveEntry.h; sourceTree = "<group>"; };
+		D88E8E06163816FD002207B3 /* ZZOldArchiveEntry.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZOldArchiveEntry.mm; sourceTree = "<group>"; };
+		D899CF82162C5EC100112F49 /* libZipZap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZipZap.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D899CF96162C5EC100112F49 /* ZipZapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZipZapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D899CF9F162C5EC100112F49 /* ZipZapTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZipZapTests-Info.plist"; sourceTree = "<group>"; };
+		D899CFA1162C5EC100112F49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D899CFB0162C5EEB00112F49 /* libZipZap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZipZap.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D899CFD8162C608300112F49 /* ZZArchiveEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZArchiveEntry.h; sourceTree = "<group>"; };
+		D899CFD9162C608300112F49 /* ZZArchiveEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZArchiveEntry.m; sourceTree = "<group>"; };
+		D899CFDA162C608300112F49 /* ZZArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZArchive.h; sourceTree = "<group>"; };
+		D899CFDB162C608300112F49 /* ZZArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZArchive.mm; sourceTree = "<group>"; };
+		D899CFDC162C608300112F49 /* ZZInflateInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZInflateInputStream.h; sourceTree = "<group>"; };
+		D899CFDE162C608300112F49 /* ZZDeflateOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDeflateOutputStream.h; sourceTree = "<group>"; };
+		D899CFDF162C608300112F49 /* ZZDeflateOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDeflateOutputStream.m; sourceTree = "<group>"; };
+		D899CFE0162C608300112F49 /* ZZStoreOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZStoreOutputStream.h; sourceTree = "<group>"; };
+		D899CFE1162C608300112F49 /* ZZStoreOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZStoreOutputStream.m; sourceTree = "<group>"; };
+		D899CFE2162C608300112F49 /* ZZOldArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZOldArchiveEntryWriter.h; sourceTree = "<group>"; };
+		D899CFE3162C608300112F49 /* ZZOldArchiveEntryWriter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZOldArchiveEntryWriter.mm; sourceTree = "<group>"; };
+		D899CFE4162C608300112F49 /* ZZHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZHeaders.h; sourceTree = "<group>"; };
+		D899CFE5162C608300112F49 /* ZZNewArchiveEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ZZNewArchiveEntry.h; sourceTree = "<group>"; };
+		D899CFE6162C608300112F49 /* ZZNewArchiveEntry.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = ZZNewArchiveEntry.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		D899CFE7162C608300112F49 /* ZZNewArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZNewArchiveEntryWriter.h; sourceTree = "<group>"; };
+		D899CFE8162C608300112F49 /* ZZNewArchiveEntryWriter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZNewArchiveEntryWriter.mm; sourceTree = "<group>"; };
+		D899CFE9162C608300112F49 /* ZZArchiveEntryWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZArchiveEntryWriter.h; sourceTree = "<group>"; };
+		D899D018162CCF9700112F49 /* ZZUnzipTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZUnzipTests.h; sourceTree = "<group>"; };
+		D899D019162CCF9700112F49 /* ZZUnzipTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZUnzipTests.m; sourceTree = "<group>"; };
+		D899D01F162F6C9700112F49 /* ZZZipTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZZipTests.h; sourceTree = "<group>"; };
+		D899D020162F6C9700112F49 /* ZZZipTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZZipTests.m; sourceTree = "<group>"; };
+		D899D0221631888000112F49 /* ZZTasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZTasks.h; sourceTree = "<group>"; };
+		D899D0231631888000112F49 /* ZZTasks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZTasks.m; sourceTree = "<group>"; };
+		D8A32627163BFF3D008606AC /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
+		D8A32673163C2240008606AC /* LICENSE.text */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.text; sourceTree = "<group>"; };
+		D8ABBF3C18883528002858BE /* ZZAESDecryptInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZAESDecryptInputStream.h; sourceTree = "<group>"; };
+		D8ABBF3D18883528002858BE /* ZZAESDecryptInputStream.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZAESDecryptInputStream.mm; sourceTree = "<group>"; };
+		D8B0FD611640A6B000727A70 /* ZipZap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipZap.h; sourceTree = "<group>"; };
+		D8B83A7619B7CBB400CF72B6 /* ZZZipNewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZZipNewTests.m; sourceTree = "<group>"; };
+		D8B83A7819B7CBD000CF72B6 /* ZZZipNewTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ZZZipNewTests.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		D8B83A7C19B7D39200CF72B6 /* ZZZipOldTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZZipOldTests.m; sourceTree = "<group>"; };
+		D8B83A7E19B7D3A700CF72B6 /* ZZZipOldTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZZipOldTests.h; sourceTree = "<group>"; };
+		D8B83A8219B7DEC400CF72B6 /* ZZChannelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZChannelTests.m; sourceTree = "<group>"; };
+		D8B83A8419B7DEDE00CF72B6 /* ZZFileChannelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZFileChannelTests.m; sourceTree = "<group>"; };
+		D8B83A8619B7DEF700CF72B6 /* ZZFileChannelTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZFileChannelTests.h; sourceTree = "<group>"; };
+		D8B83A8719B7DF9E00CF72B6 /* ZZChannelTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZChannelTests.h; sourceTree = "<group>"; };
+		D8B83A8819B7F7DF00CF72B6 /* ZZDataChannelTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDataChannelTests.h; sourceTree = "<group>"; };
+		D8B83A8919B7F7DF00CF72B6 /* ZZDataChannelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDataChannelTests.m; sourceTree = "<group>"; };
+		D8B83A8D19B8101B00CF72B6 /* zipzap.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = zipzap.podspec.json; sourceTree = "<group>"; };
+		D8D140D31B423B1100C411B0 /* ZipZap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZipZap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8E366EA188832C0009F3008 /* large-test-encrypted-aes128.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "large-test-encrypted-aes128.zip"; sourceTree = "<group>"; };
+		D8E366EB188832C0009F3008 /* large-test-encrypted-aes192.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "large-test-encrypted-aes192.zip"; sourceTree = "<group>"; };
+		D8E366EC188832C0009F3008 /* large-test-encrypted-aes256.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "large-test-encrypted-aes256.zip"; sourceTree = "<group>"; };
+		D8E366ED188832C0009F3008 /* small-test-encrypted-aes128.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "small-test-encrypted-aes128.zip"; sourceTree = "<group>"; };
+		D8E366EE188832C0009F3008 /* small-test-encrypted-aes192.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "small-test-encrypted-aes192.zip"; sourceTree = "<group>"; };
+		D8E366EF188832C0009F3008 /* small-test-encrypted-aes256.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "small-test-encrypted-aes256.zip"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BF8624BF1BB7495200C12EEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF8624C01BB7495200C12EEE /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF8624E51BB74B1F00C12EEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D87BA1F41B3D6DEA00ED7EB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D87BA2291B3D6F8500ED7EB3 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D899CF7F162C5EC100112F49 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D899CF92162C5EC100112F49 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D87BA1F21B3D6A8300ED7EB3 /* libz.dylib in Frameworks */,
+				D899CF9C162C5EC100112F49 /* libZipZap.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D899CFAD162C5EEB00112F49 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8D140CF1B423B1100C411B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8D141031B423C8E00C411B0 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2757532D16AEE58D00388503 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				D8B0FD611640A6B000727A70 /* ZipZap.h */,
+				D899CFDA162C608300112F49 /* ZZArchive.h */,
+				D899CFD8162C608300112F49 /* ZZArchiveEntry.h */,
+				5B50392518706368002B2B12 /* ZZConstants.h */,
+				D8366ACC16B1F8B400BC012E /* ZZError.h */,
+			);
+			name = Public;
+			sourceTree = "<group>";
+		};
+		2757532E16AEE59F00388503 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				D8ABBF3C18883528002858BE /* ZZAESDecryptInputStream.h */,
+				D8ABBF3D18883528002858BE /* ZZAESDecryptInputStream.mm */,
+				D899CFDB162C608300112F49 /* ZZArchive.mm */,
+				D899CFD9162C608300112F49 /* ZZArchiveEntry.m */,
+				D899CFE9162C608300112F49 /* ZZArchiveEntryWriter.h */,
+				D84A449E16A0D91B00CF00A9 /* ZZChannel.h */,
+				D84A44A116A0D99C00CF00A9 /* ZZChannelOutput.h */,
+				D85CB4D019B5A91000815A36 /* ZZConstants.m */,
+				D84A44AD16A0E8D600CF00A9 /* ZZDataChannel.h */,
+				D84A44AE16A0E8D600CF00A9 /* ZZDataChannel.m */,
+				D84A44CD16A0F8B400CF00A9 /* ZZDataChannelOutput.h */,
+				D84A44CE16A0F8B400CF00A9 /* ZZDataChannelOutput.m */,
+				D804E4C8187645FE00289404 /* ZZDataProvider.h */,
+				D899CFDE162C608300112F49 /* ZZDeflateOutputStream.h */,
+				D899CFDF162C608300112F49 /* ZZDeflateOutputStream.m */,
+				D8366ACD16B1F8B400BC012E /* ZZError.m */,
+				D84A44A316A0E2F300CF00A9 /* ZZFileChannel.h */,
+				D84A44A416A0E2F400CF00A9 /* ZZFileChannel.m */,
+				D84A44A816A0E30B00CF00A9 /* ZZFileChannelOutput.h */,
+				D84A44A916A0E30B00CF00A9 /* ZZFileChannelOutput.m */,
+				D899CFE4162C608300112F49 /* ZZHeaders.h */,
+				D899CFDC162C608300112F49 /* ZZInflateInputStream.h */,
+				D834255F1876747200E7A559 /* ZZInflateInputStream.m */,
+				D899CFE5162C608300112F49 /* ZZNewArchiveEntry.h */,
+				D899CFE6162C608300112F49 /* ZZNewArchiveEntry.mm */,
+				D899CFE7162C608300112F49 /* ZZNewArchiveEntryWriter.h */,
+				D899CFE8162C608300112F49 /* ZZNewArchiveEntryWriter.mm */,
+				D88E8E05163816FD002207B3 /* ZZOldArchiveEntry.h */,
+				D88E8E06163816FD002207B3 /* ZZOldArchiveEntry.mm */,
+				D899CFE2162C608300112F49 /* ZZOldArchiveEntryWriter.h */,
+				D899CFE3162C608300112F49 /* ZZOldArchiveEntryWriter.mm */,
+				D81DF41E1871471E00501A61 /* ZZScopeGuard.h */,
+				5B50392F187069E4002B2B12 /* ZZStandardCryptoEngine.h */,
+				5B50392E187069E4002B2B12 /* ZZStandardCryptoEngine.cpp */,
+				5B50393218707C36002B2B12 /* ZZStandardDecryptInputStream.h */,
+				D834256218767E1900E7A559 /* ZZStandardDecryptInputStream.mm */,
+				D899CFE0162C608300112F49 /* ZZStoreOutputStream.h */,
+				D899CFE1162C608300112F49 /* ZZStoreOutputStream.m */,
+			);
+			name = Private;
+			sourceTree = "<group>";
+		};
+		5BC58CA318745940002FAE04 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				D87BA1AA1B3D5B2900ED7EB3 /* dog.jpg */,
+				D87BA1AB1B3D5B2900ED7EB3 /* dog.png */,
+				D8E366EA188832C0009F3008 /* large-test-encrypted-aes128.zip */,
+				D8E366EB188832C0009F3008 /* large-test-encrypted-aes192.zip */,
+				D8E366EC188832C0009F3008 /* large-test-encrypted-aes256.zip */,
+				5BC58CA418745940002FAE04 /* large-test-encrypted-standard.zip */,
+				D87BA1AC1B3D5B2900ED7EB3 /* li-europan-lingues.txt */,
+				D87BA1AD1B3D5B2900ED7EB3 /* lorem-ipsum.txt */,
+				D87BA1AE1B3D5B2900ED7EB3 /* pangram.txt */,
+				D8E366ED188832C0009F3008 /* small-test-encrypted-aes128.zip */,
+				D8E366EE188832C0009F3008 /* small-test-encrypted-aes192.zip */,
+				D8E366EF188832C0009F3008 /* small-test-encrypted-aes256.zip */,
+				5BC58CA518745940002FAE04 /* small-test-encrypted-standard.zip */,
+				D87BA1AF1B3D5B2900ED7EB3 /* 拉链.txt */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		D87BA1FA1B3D6DEA00ED7EB3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D87BA1FB1B3D6DEA00ED7EB3 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D899CF75162C5E8400112F49 = {
+			isa = PBXGroup;
+			children = (
+				D899CF8B162C5EC100112F49 /* ZipZap */,
+				D899CF9D162C5EC100112F49 /* ZipZapTests */,
+				D899CF84162C5EC100112F49 /* Frameworks */,
+				D899CF83162C5EC100112F49 /* Products */,
+				D84247E4196535B700B62453 /* .travis.yml */,
+				D8A32673163C2240008606AC /* LICENSE.text */,
+				D8A32627163BFF3D008606AC /* README.markdown */,
+				D8B83A8D19B8101B00CF72B6 /* zipzap.podspec.json */,
+			);
+			indentWidth = 4;
+			sourceTree = "<group>";
+			tabWidth = 4;
+			usesTabs = 1;
+		};
+		D899CF83162C5EC100112F49 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D899CF82162C5EC100112F49 /* libZipZap.a */,
+				D899CF96162C5EC100112F49 /* ZipZapTests.xctest */,
+				D899CFB0162C5EEB00112F49 /* libZipZap.a */,
+				D87BA1F81B3D6DEA00ED7EB3 /* ZipZap.framework */,
+				D8D140D31B423B1100C411B0 /* ZipZap.framework */,
+				BF8624CB1BB7495200C12EEE /* ZipZap.framework */,
+				BF8624EF1BB74B1F00C12EEE /* libZipZap.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D899CF84162C5EC100112F49 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D87BA2281B3D6F8500ED7EB3 /* libz.dylib */,
+				D87BA1F11B3D6A8300ED7EB3 /* libz.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D899CF8B162C5EC100112F49 /* ZipZap */ = {
+			isa = PBXGroup;
+			children = (
+				2757532D16AEE58D00388503 /* Public */,
+				2757532E16AEE59F00388503 /* Private */,
+				D87BA1FA1B3D6DEA00ED7EB3 /* Supporting Files */,
+			);
+			path = ZipZap;
+			sourceTree = "<group>";
+		};
+		D899CF9D162C5EC100112F49 /* ZipZapTests */ = {
+			isa = PBXGroup;
+			children = (
+				D8B83A8719B7DF9E00CF72B6 /* ZZChannelTests.h */,
+				D8B83A8219B7DEC400CF72B6 /* ZZChannelTests.m */,
+				D8B83A8819B7F7DF00CF72B6 /* ZZDataChannelTests.h */,
+				D8B83A8919B7F7DF00CF72B6 /* ZZDataChannelTests.m */,
+				D81DD92A19B761E100325687 /* ZZDecryptTests.h */,
+				D81DD92B19B761E100325687 /* ZZDecryptTests.m */,
+				D8B83A8619B7DEF700CF72B6 /* ZZFileChannelTests.h */,
+				D8B83A8419B7DEDE00CF72B6 /* ZZFileChannelTests.m */,
+				D899D0221631888000112F49 /* ZZTasks.h */,
+				D899D0231631888000112F49 /* ZZTasks.m */,
+				D899D018162CCF9700112F49 /* ZZUnzipTests.h */,
+				D899D019162CCF9700112F49 /* ZZUnzipTests.m */,
+				D8B83A7819B7CBD000CF72B6 /* ZZZipNewTests.h */,
+				D8B83A7619B7CBB400CF72B6 /* ZZZipNewTests.m */,
+				D8B83A7E19B7D3A700CF72B6 /* ZZZipOldTests.h */,
+				D8B83A7C19B7D39200CF72B6 /* ZZZipOldTests.m */,
+				D899D01F162F6C9700112F49 /* ZZZipTests.h */,
+				D899D020162F6C9700112F49 /* ZZZipTests.m */,
+				D899CF9E162C5EC100112F49 /* Supporting Files */,
+			);
+			path = ZipZapTests;
+			sourceTree = "<group>";
+		};
+		D899CF9E162C5EC100112F49 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5BC58CA318745940002FAE04 /* assets */,
+				D899CF9F162C5EC100112F49 /* ZipZapTests-Info.plist */,
+				D899CFA0162C5EC100112F49 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		BF8624C11BB7495200C12EEE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF8624C21BB7495200C12EEE /* ZipZap.h in Headers */,
+				BF8624C31BB7495200C12EEE /* ZZArchive.h in Headers */,
+				BF8624C41BB7495200C12EEE /* ZZArchiveEntry.h in Headers */,
+				BF8624C51BB7495200C12EEE /* ZZConstants.h in Headers */,
+				BF8624C61BB7495200C12EEE /* ZZError.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D87BA1F51B3D6DEA00ED7EB3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D87BA2231B3D6F6F00ED7EB3 /* ZipZap.h in Headers */,
+				D87BA2241B3D6F6F00ED7EB3 /* ZZArchive.h in Headers */,
+				D87BA2251B3D6F6F00ED7EB3 /* ZZArchiveEntry.h in Headers */,
+				D87BA2261B3D6F6F00ED7EB3 /* ZZConstants.h in Headers */,
+				D87BA2271B3D6F6F00ED7EB3 /* ZZError.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D899CF80162C5EC100112F49 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8B0FD621640A6B000727A70 /* ZipZap.h in Headers */,
+				D899CFED162C608300112F49 /* ZZArchive.h in Headers */,
+				D899CFEA162C608300112F49 /* ZZArchiveEntry.h in Headers */,
+				D86B400C18A8A0BA00017A91 /* ZZConstants.h in Headers */,
+				D8366ACE16B1F8B400BC012E /* ZZError.h in Headers */,
+				D899D003162C608300112F49 /* ZZArchiveEntryWriter.h in Headers */,
+				D8ABBF3E18883528002858BE /* ZZAESDecryptInputStream.h in Headers */,
+				D899CFF0162C608300112F49 /* ZZInflateInputStream.h in Headers */,
+				D899CFF3162C608300112F49 /* ZZDeflateOutputStream.h in Headers */,
+				D899CFFC162C608300112F49 /* ZZHeaders.h in Headers */,
+				D899CFFD162C608300112F49 /* ZZNewArchiveEntry.h in Headers */,
+				D899D000162C608300112F49 /* ZZNewArchiveEntryWriter.h in Headers */,
+				D899CFF9162C608300112F49 /* ZZOldArchiveEntryWriter.h in Headers */,
+				D88E8E07163816FD002207B3 /* ZZOldArchiveEntry.h in Headers */,
+				D899CFF6162C608300112F49 /* ZZStoreOutputStream.h in Headers */,
+				D84A449F16A0D91B00CF00A9 /* ZZChannel.h in Headers */,
+				5B50393418707C37002B2B12 /* ZZStandardDecryptInputStream.h in Headers */,
+				D84A44A216A0D99C00CF00A9 /* ZZChannelOutput.h in Headers */,
+				D84A44A516A0E2F400CF00A9 /* ZZFileChannel.h in Headers */,
+				D84A44AA16A0E30C00CF00A9 /* ZZFileChannelOutput.h in Headers */,
+				D84A44AF16A0E8D600CF00A9 /* ZZDataChannel.h in Headers */,
+				5B503931187069E4002B2B12 /* ZZStandardCryptoEngine.h in Headers */,
+				D84A44CF16A0F8B400CF00A9 /* ZZDataChannelOutput.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8D140D01B423B1100C411B0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8D140FE1B423C5A00C411B0 /* ZipZap.h in Headers */,
+				D8D140FF1B423C5A00C411B0 /* ZZArchive.h in Headers */,
+				D8D141001B423C5A00C411B0 /* ZZArchiveEntry.h in Headers */,
+				D8D141011B423C5A00C411B0 /* ZZConstants.h in Headers */,
+				D8D141021B423C5A00C411B0 /* ZZError.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		BF8624AB1BB7495200C12EEE /* ZipZap (tvOS Framework) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF8624C81BB7495200C12EEE /* Build configuration list for PBXNativeTarget "ZipZap (tvOS Framework)" */;
+			buildPhases = (
+				BF8624AC1BB7495200C12EEE /* Sources */,
+				BF8624BF1BB7495200C12EEE /* Frameworks */,
+				BF8624C11BB7495200C12EEE /* Headers */,
+				BF8624C71BB7495200C12EEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ZipZap (tvOS Framework)";
+			productName = ZipZap;
+			productReference = BF8624CB1BB7495200C12EEE /* ZipZap.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BF8624D11BB74B1F00C12EEE /* ZipZap (tvOS Static Library) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF8624EC1BB74B1F00C12EEE /* Build configuration list for PBXNativeTarget "ZipZap (tvOS Static Library)" */;
+			buildPhases = (
+				BF8624D21BB74B1F00C12EEE /* Sources */,
+				BF8624E51BB74B1F00C12EEE /* Frameworks */,
+				BF8624E61BB74B1F00C12EEE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ZipZap (tvOS Static Library)";
+			productName = ZipZap;
+			productReference = BF8624EF1BB74B1F00C12EEE /* libZipZap.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D87BA1F71B3D6DEA00ED7EB3 /* ZipZap (iOS Framework) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D87BA20F1B3D6DEA00ED7EB3 /* Build configuration list for PBXNativeTarget "ZipZap (iOS Framework)" */;
+			buildPhases = (
+				D87BA1F31B3D6DEA00ED7EB3 /* Sources */,
+				D87BA1F41B3D6DEA00ED7EB3 /* Frameworks */,
+				D87BA1F51B3D6DEA00ED7EB3 /* Headers */,
+				D87BA1F61B3D6DEA00ED7EB3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ZipZap (iOS Framework)";
+			productName = ZipZap;
+			productReference = D87BA1F81B3D6DEA00ED7EB3 /* ZipZap.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D899CF81162C5EC100112F49 /* ZipZap (macOS Static Library) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D899CFA6162C5EC100112F49 /* Build configuration list for PBXNativeTarget "ZipZap (macOS Static Library)" */;
+			buildPhases = (
+				D899CF7E162C5EC100112F49 /* Sources */,
+				D899CF7F162C5EC100112F49 /* Frameworks */,
+				D899CF80162C5EC100112F49 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ZipZap (macOS Static Library)";
+			productName = ZipZap;
+			productReference = D899CF82162C5EC100112F49 /* libZipZap.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D899CF95162C5EC100112F49 /* ZipZapTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D899CFA9162C5EC100112F49 /* Build configuration list for PBXNativeTarget "ZipZapTests" */;
+			buildPhases = (
+				D899CF91162C5EC100112F49 /* Sources */,
+				D899CF92162C5EC100112F49 /* Frameworks */,
+				D899CF93162C5EC100112F49 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D899CF9B162C5EC100112F49 /* PBXTargetDependency */,
+			);
+			name = ZipZapTests;
+			productName = ZipZapTests;
+			productReference = D899CF96162C5EC100112F49 /* ZipZapTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D899CFAF162C5EEB00112F49 /* ZipZap (iOS Static Library) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D899CFD0162C5EEC00112F49 /* Build configuration list for PBXNativeTarget "ZipZap (iOS Static Library)" */;
+			buildPhases = (
+				D899CFAC162C5EEB00112F49 /* Sources */,
+				D899CFAD162C5EEB00112F49 /* Frameworks */,
+				D899CFAE162C5EEB00112F49 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ZipZap (iOS Static Library)";
+			productName = ZipZap;
+			productReference = D899CFB0162C5EEB00112F49 /* libZipZap.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D8D140D21B423B1100C411B0 /* ZipZap (macOS Framework) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8D140EA1B423B1100C411B0 /* Build configuration list for PBXNativeTarget "ZipZap (macOS Framework)" */;
+			buildPhases = (
+				D8D140CE1B423B1100C411B0 /* Sources */,
+				D8D140CF1B423B1100C411B0 /* Frameworks */,
+				D8D140D01B423B1100C411B0 /* Headers */,
+				D8D140D11B423B1100C411B0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ZipZap (macOS Framework)";
+			productName = ZipZap;
+			productReference = D8D140D31B423B1100C411B0 /* ZipZap.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D899CF77162C5E8400112F49 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0810;
+				TargetAttributes = {
+					D87BA1F71B3D6DEA00ED7EB3 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+					D8D140D21B423B1100C411B0 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+				};
+			};
+			buildConfigurationList = D899CF7A162C5E8400112F49 /* Build configuration list for PBXProject "ZipZap" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D899CF75162C5E8400112F49;
+			productRefGroup = D899CF83162C5EC100112F49 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D87BA1F71B3D6DEA00ED7EB3 /* ZipZap (iOS Framework) */,
+				D899CFAF162C5EEB00112F49 /* ZipZap (iOS Static Library) */,
+				D8D140D21B423B1100C411B0 /* ZipZap (macOS Framework) */,
+				D899CF81162C5EC100112F49 /* ZipZap (macOS Static Library) */,
+				BF8624AB1BB7495200C12EEE /* ZipZap (tvOS Framework) */,
+				BF8624D11BB74B1F00C12EEE /* ZipZap (tvOS Static Library) */,
+				D899CF95162C5EC100112F49 /* ZipZapTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BF8624C71BB7495200C12EEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D87BA1F61B3D6DEA00ED7EB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D899CF93162C5EC100112F49 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8E366F5188832C0009F3008 /* small-test-encrypted-aes256.zip in Resources */,
+				D899CFA2162C5EC100112F49 /* InfoPlist.strings in Resources */,
+				D8E366F0188832C0009F3008 /* large-test-encrypted-aes128.zip in Resources */,
+				D8E366F2188832C0009F3008 /* large-test-encrypted-aes256.zip in Resources */,
+				5BC58CA718745940002FAE04 /* small-test-encrypted-standard.zip in Resources */,
+				D87BA1B51B3D5B2900ED7EB3 /* 拉链.txt in Resources */,
+				D8E366F1188832C0009F3008 /* large-test-encrypted-aes192.zip in Resources */,
+				D87BA1B01B3D5B2900ED7EB3 /* dog.jpg in Resources */,
+				D8E366F3188832C0009F3008 /* small-test-encrypted-aes128.zip in Resources */,
+				D87BA1B31B3D5B2900ED7EB3 /* lorem-ipsum.txt in Resources */,
+				D87BA1B41B3D5B2900ED7EB3 /* pangram.txt in Resources */,
+				D87BA1B21B3D5B2900ED7EB3 /* li-europan-lingues.txt in Resources */,
+				D8E366F4188832C0009F3008 /* small-test-encrypted-aes192.zip in Resources */,
+				D87BA1B11B3D5B2900ED7EB3 /* dog.png in Resources */,
+				5BC58CA618745940002FAE04 /* large-test-encrypted-standard.zip in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8D140D11B423B1100C411B0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BF8624AC1BB7495200C12EEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF8624AD1BB7495200C12EEE /* ZZAESDecryptInputStream.mm in Sources */,
+				BF8624AE1BB7495200C12EEE /* ZZArchive.mm in Sources */,
+				BF8624AF1BB7495200C12EEE /* ZZArchiveEntry.m in Sources */,
+				BF8624B01BB7495200C12EEE /* ZZConstants.m in Sources */,
+				BF8624B11BB7495200C12EEE /* ZZDataChannel.m in Sources */,
+				BF8624B21BB7495200C12EEE /* ZZDataChannelOutput.m in Sources */,
+				BF8624B31BB7495200C12EEE /* ZZDeflateOutputStream.m in Sources */,
+				BF8624B41BB7495200C12EEE /* ZZError.m in Sources */,
+				BF8624B51BB7495200C12EEE /* ZZFileChannel.m in Sources */,
+				BF8624B61BB7495200C12EEE /* ZZFileChannelOutput.m in Sources */,
+				BF8624B71BB7495200C12EEE /* ZZInflateInputStream.m in Sources */,
+				BF8624B81BB7495200C12EEE /* ZZNewArchiveEntry.mm in Sources */,
+				BF8624B91BB7495200C12EEE /* ZZNewArchiveEntryWriter.mm in Sources */,
+				BF8624BA1BB7495200C12EEE /* ZZOldArchiveEntry.mm in Sources */,
+				BF8624BB1BB7495200C12EEE /* ZZOldArchiveEntryWriter.mm in Sources */,
+				BF8624BC1BB7495200C12EEE /* ZZStandardCryptoEngine.cpp in Sources */,
+				BF8624BD1BB7495200C12EEE /* ZZStandardDecryptInputStream.mm in Sources */,
+				BF8624BE1BB7495200C12EEE /* ZZStoreOutputStream.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF8624D21BB74B1F00C12EEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF8624D31BB74B1F00C12EEE /* ZZAESDecryptInputStream.mm in Sources */,
+				BF8624D41BB74B1F00C12EEE /* ZZArchive.mm in Sources */,
+				BF8624D51BB74B1F00C12EEE /* ZZArchiveEntry.m in Sources */,
+				BF8624D61BB74B1F00C12EEE /* ZZConstants.m in Sources */,
+				BF8624D71BB74B1F00C12EEE /* ZZDataChannel.m in Sources */,
+				BF8624D81BB74B1F00C12EEE /* ZZDataChannelOutput.m in Sources */,
+				BF8624D91BB74B1F00C12EEE /* ZZDeflateOutputStream.m in Sources */,
+				BF8624DA1BB74B1F00C12EEE /* ZZError.m in Sources */,
+				BF8624DB1BB74B1F00C12EEE /* ZZFileChannel.m in Sources */,
+				BF8624DC1BB74B1F00C12EEE /* ZZFileChannelOutput.m in Sources */,
+				BF8624DD1BB74B1F00C12EEE /* ZZInflateInputStream.m in Sources */,
+				BF8624DE1BB74B1F00C12EEE /* ZZNewArchiveEntry.mm in Sources */,
+				BF8624DF1BB74B1F00C12EEE /* ZZNewArchiveEntryWriter.mm in Sources */,
+				BF8624E01BB74B1F00C12EEE /* ZZOldArchiveEntryWriter.mm in Sources */,
+				BF8624E11BB74B1F00C12EEE /* ZZOldArchiveEntry.mm in Sources */,
+				BF8624E21BB74B1F00C12EEE /* ZZStandardCryptoEngine.cpp in Sources */,
+				BF8624E31BB74B1F00C12EEE /* ZZStandardDecryptInputStream.mm in Sources */,
+				BF8624E41BB74B1F00C12EEE /* ZZStoreOutputStream.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D87BA1F31B3D6DEA00ED7EB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D87BA2111B3D6F5900ED7EB3 /* ZZAESDecryptInputStream.mm in Sources */,
+				D87BA2121B3D6F5900ED7EB3 /* ZZArchive.mm in Sources */,
+				D87BA2131B3D6F5900ED7EB3 /* ZZArchiveEntry.m in Sources */,
+				D87BA2141B3D6F5900ED7EB3 /* ZZConstants.m in Sources */,
+				D87BA2151B3D6F5900ED7EB3 /* ZZDataChannel.m in Sources */,
+				D87BA2161B3D6F5900ED7EB3 /* ZZDataChannelOutput.m in Sources */,
+				D87BA2171B3D6F5900ED7EB3 /* ZZDeflateOutputStream.m in Sources */,
+				D87BA2181B3D6F5900ED7EB3 /* ZZError.m in Sources */,
+				D87BA2191B3D6F5900ED7EB3 /* ZZFileChannel.m in Sources */,
+				D87BA21A1B3D6F5900ED7EB3 /* ZZFileChannelOutput.m in Sources */,
+				D87BA21B1B3D6F5900ED7EB3 /* ZZInflateInputStream.m in Sources */,
+				D87BA21C1B3D6F5900ED7EB3 /* ZZNewArchiveEntry.mm in Sources */,
+				D87BA21D1B3D6F5900ED7EB3 /* ZZNewArchiveEntryWriter.mm in Sources */,
+				D87BA21E1B3D6F5900ED7EB3 /* ZZOldArchiveEntry.mm in Sources */,
+				D87BA21F1B3D6F5900ED7EB3 /* ZZOldArchiveEntryWriter.mm in Sources */,
+				D87BA2201B3D6F5900ED7EB3 /* ZZStandardCryptoEngine.cpp in Sources */,
+				D87BA2211B3D6F5900ED7EB3 /* ZZStandardDecryptInputStream.mm in Sources */,
+				D87BA2221B3D6F5900ED7EB3 /* ZZStoreOutputStream.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D899CF7E162C5EC100112F49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8ABBF3F18883528002858BE /* ZZAESDecryptInputStream.mm in Sources */,
+				D899CFEE162C608300112F49 /* ZZArchive.mm in Sources */,
+				D899CFEB162C608300112F49 /* ZZArchiveEntry.m in Sources */,
+				D85CB4D119B5A91000815A36 /* ZZConstants.m in Sources */,
+				D84A44B016A0E8D600CF00A9 /* ZZDataChannel.m in Sources */,
+				D84A44D016A0F8B400CF00A9 /* ZZDataChannelOutput.m in Sources */,
+				D899CFF4162C608300112F49 /* ZZDeflateOutputStream.m in Sources */,
+				D8366ACF16B1F8B400BC012E /* ZZError.m in Sources */,
+				D84A44A616A0E2F400CF00A9 /* ZZFileChannel.m in Sources */,
+				D84A44AB16A0E30C00CF00A9 /* ZZFileChannelOutput.m in Sources */,
+				D83425601876747200E7A559 /* ZZInflateInputStream.m in Sources */,
+				D899CFFE162C608300112F49 /* ZZNewArchiveEntry.mm in Sources */,
+				D899D001162C608300112F49 /* ZZNewArchiveEntryWriter.mm in Sources */,
+				D88E8E08163816FD002207B3 /* ZZOldArchiveEntry.mm in Sources */,
+				D899CFFA162C608300112F49 /* ZZOldArchiveEntryWriter.mm in Sources */,
+				5B503930187069E4002B2B12 /* ZZStandardCryptoEngine.cpp in Sources */,
+				D834256318767E1900E7A559 /* ZZStandardDecryptInputStream.mm in Sources */,
+				D899CFF7162C608300112F49 /* ZZStoreOutputStream.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D899CF91162C5EC100112F49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8B83A8319B7DEC400CF72B6 /* ZZChannelTests.m in Sources */,
+				D8B83A8A19B7F7DF00CF72B6 /* ZZDataChannelTests.m in Sources */,
+				D81DD92C19B761E100325687 /* ZZDecryptTests.m in Sources */,
+				D8B83A8519B7DEDE00CF72B6 /* ZZFileChannelTests.m in Sources */,
+				D899D0241631888100112F49 /* ZZTasks.m in Sources */,
+				D899D01A162CCF9700112F49 /* ZZUnzipTests.m in Sources */,
+				D8B83A7719B7CBB400CF72B6 /* ZZZipNewTests.m in Sources */,
+				D8B83A7D19B7D39200CF72B6 /* ZZZipOldTests.m in Sources */,
+				D899D021162F6C9700112F49 /* ZZZipTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D899CFAC162C5EEB00112F49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8ABBF4018883528002858BE /* ZZAESDecryptInputStream.mm in Sources */,
+				D899CFEF162C608300112F49 /* ZZArchive.mm in Sources */,
+				D899CFEC162C608300112F49 /* ZZArchiveEntry.m in Sources */,
+				D85CB4D219B5A91000815A36 /* ZZConstants.m in Sources */,
+				D84A44B116A0E8D600CF00A9 /* ZZDataChannel.m in Sources */,
+				D84A44D116A0F8B400CF00A9 /* ZZDataChannelOutput.m in Sources */,
+				D899CFF5162C608300112F49 /* ZZDeflateOutputStream.m in Sources */,
+				D8366AD016B1F8B400BC012E /* ZZError.m in Sources */,
+				D84A44A716A0E2F400CF00A9 /* ZZFileChannel.m in Sources */,
+				D84A44AC16A0E30C00CF00A9 /* ZZFileChannelOutput.m in Sources */,
+				D83425611876747200E7A559 /* ZZInflateInputStream.m in Sources */,
+				D899CFFF162C608300112F49 /* ZZNewArchiveEntry.mm in Sources */,
+				D899D002162C608300112F49 /* ZZNewArchiveEntryWriter.mm in Sources */,
+				D899CFFB162C608300112F49 /* ZZOldArchiveEntryWriter.mm in Sources */,
+				D88E8E09163816FD002207B3 /* ZZOldArchiveEntry.mm in Sources */,
+				5BC58CAC18745D22002FAE04 /* ZZStandardCryptoEngine.cpp in Sources */,
+				D834256418767E1900E7A559 /* ZZStandardDecryptInputStream.mm in Sources */,
+				D899CFF8162C608300112F49 /* ZZStoreOutputStream.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8D140CE1B423B1100C411B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8D140EC1B423C4C00C411B0 /* ZZAESDecryptInputStream.mm in Sources */,
+				D8D140ED1B423C4C00C411B0 /* ZZArchive.mm in Sources */,
+				D8D140EE1B423C4C00C411B0 /* ZZArchiveEntry.m in Sources */,
+				D8D140EF1B423C4C00C411B0 /* ZZConstants.m in Sources */,
+				D8D140F01B423C4C00C411B0 /* ZZDataChannel.m in Sources */,
+				D8D140F11B423C4C00C411B0 /* ZZDataChannelOutput.m in Sources */,
+				D8D140F21B423C4C00C411B0 /* ZZDeflateOutputStream.m in Sources */,
+				D8D140F31B423C4C00C411B0 /* ZZError.m in Sources */,
+				D8D140F41B423C4C00C411B0 /* ZZFileChannel.m in Sources */,
+				D8D140F51B423C4C00C411B0 /* ZZFileChannelOutput.m in Sources */,
+				D8D140F61B423C4C00C411B0 /* ZZInflateInputStream.m in Sources */,
+				D8D140F71B423C4C00C411B0 /* ZZNewArchiveEntry.mm in Sources */,
+				D8D140F81B423C4C00C411B0 /* ZZNewArchiveEntryWriter.mm in Sources */,
+				D8D140F91B423C4C00C411B0 /* ZZOldArchiveEntry.mm in Sources */,
+				D8D140FA1B423C4C00C411B0 /* ZZOldArchiveEntryWriter.mm in Sources */,
+				D8D140FB1B423C4C00C411B0 /* ZZStandardCryptoEngine.cpp in Sources */,
+				D8D140FC1B423C4C00C411B0 /* ZZStandardDecryptInputStream.mm in Sources */,
+				D8D140FD1B423C4C00C411B0 /* ZZStoreOutputStream.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D899CF9B162C5EC100112F49 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D899CF81162C5EC100112F49 /* ZipZap (macOS Static Library) */;
+			targetProxy = D899CF9A162C5EC100112F49 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D899CFA0162C5EC100112F49 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D899CFA1162C5EC100112F49 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BF8624C91BB7495200C12EEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 8;
+				DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				INFOPLIST_FILE = ZipZap/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pixelglow.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		BF8624CA1BB7495200C12EEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 8;
+				DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				INFOPLIST_FILE = ZipZap/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pixelglow.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		BF8624ED1BB74B1F00C12EEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		BF8624EE1BB74B1F00C12EEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Release;
+		};
+		D87BA20B1B3D6DEA00ED7EB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 8;
+				DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				INFOPLIST_FILE = ZipZap/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pixelglow.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D87BA20C1B3D6DEA00ED7EB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 8;
+				DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				INFOPLIST_FILE = ZipZap/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pixelglow.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		D899CF7C162C5E8400112F49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 8;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		D899CF7D162C5E8400112F49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 8;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		D899CFA7162C5EC100112F49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		D899CFA8162C5EC100112F49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Release;
+		};
+		D899CFAA162C5EC100112F49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				HEADER_SEARCH_PATHS = ../ZipZap;
+				INFOPLIST_FILE = "ZipZapTests/ZipZapTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pixelglow.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = ZipZapTests;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D899CFAB162C5EC100112F49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				HEADER_SEARCH_PATHS = ../ZipZap;
+				INFOPLIST_FILE = "ZipZapTests/ZipZapTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pixelglow.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = ZipZapTests;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D899CFD1162C5EEC00112F49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		D899CFD2162C5EEC00112F49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Release;
+		};
+		D8D140E61B423B1100C411B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 8;
+				DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				INFOPLIST_FILE = ZipZap/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pixelglow.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D8D140E71B423B1100C411B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 8;
+				DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				INFOPLIST_FILE = ZipZap/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-exceptions",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pixelglow.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ZipZap;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BF8624C81BB7495200C12EEE /* Build configuration list for PBXNativeTarget "ZipZap (tvOS Framework)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF8624C91BB7495200C12EEE /* Debug */,
+				BF8624CA1BB7495200C12EEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF8624EC1BB74B1F00C12EEE /* Build configuration list for PBXNativeTarget "ZipZap (tvOS Static Library)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF8624ED1BB74B1F00C12EEE /* Debug */,
+				BF8624EE1BB74B1F00C12EEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D87BA20F1B3D6DEA00ED7EB3 /* Build configuration list for PBXNativeTarget "ZipZap (iOS Framework)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D87BA20B1B3D6DEA00ED7EB3 /* Debug */,
+				D87BA20C1B3D6DEA00ED7EB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D899CF7A162C5E8400112F49 /* Build configuration list for PBXProject "ZipZap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D899CF7C162C5E8400112F49 /* Debug */,
+				D899CF7D162C5E8400112F49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D899CFA6162C5EC100112F49 /* Build configuration list for PBXNativeTarget "ZipZap (macOS Static Library)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D899CFA7162C5EC100112F49 /* Debug */,
+				D899CFA8162C5EC100112F49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D899CFA9162C5EC100112F49 /* Build configuration list for PBXNativeTarget "ZipZapTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D899CFAA162C5EC100112F49 /* Debug */,
+				D899CFAB162C5EC100112F49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D899CFD0162C5EEC00112F49 /* Build configuration list for PBXNativeTarget "ZipZap (iOS Static Library)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D899CFD1162C5EEC00112F49 /* Debug */,
+				D899CFD2162C5EEC00112F49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D8D140EA1B423B1100C411B0 /* Build configuration list for PBXNativeTarget "ZipZap (macOS Framework)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8D140E61B423B1100C411B0 /* Debug */,
+				D8D140E71B423B1100C411B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D899CF77162C5E8400112F49 /* Project object */;
+}

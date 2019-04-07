@@ -10,6 +10,7 @@ SUBMODULES=$(git submodule --quiet foreach git config --get remote.origin.url)
 SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/mozilla/source-map.git")
 SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/phranck/CCNPreferencesWindowController.git")
 SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/nicklockwood/AutoCoding.git")
+SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/pixelglow/ZipZap.git")
 SUBMODULES=$(echo "$SUBMODULES" | sort --ignore-case)
 
 while read -r line; do  
