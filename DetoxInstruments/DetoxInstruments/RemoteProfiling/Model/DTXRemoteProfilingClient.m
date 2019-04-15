@@ -85,7 +85,7 @@ return; }\
 	return self;
 }
 
-- (void)_resetOpportunisticSamplesTimer
+- (void)_resetOpportunisticSamplesTimerIfNeeded
 {
 	pthread_mutex_lock(&_opportunisticSourceMutex);
 	if(_opportunisticQueue == nil)
@@ -94,14 +94,14 @@ return; }\
 		return;
 	}
 	
-	if(_opportunisticSource)
+	if(_opportunisticSource != nil)
 	{
-		dispatch_source_cancel(_opportunisticSource);
-		_opportunisticSource = nil;
+		pthread_mutex_unlock(&_opportunisticSourceMutex);
+		return;
 	}
 	
 	_opportunisticSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _opportunisticQueue);
-	uint64_t interval = 0.5 * NSEC_PER_SEC;
+	uint64_t interval = 0.75 * NSEC_PER_SEC;
 	dispatch_source_set_timer(_opportunisticSource, dispatch_time(DISPATCH_TIME_NOW, interval), interval, interval);
 	dispatch_source_set_event_handler(_opportunisticSource, ^{
 		pthread_mutex_lock(&_opportunisticSourceMutex);
@@ -140,7 +140,7 @@ return; }\
 	{
 		dispatch_cancel(_opportunisticSource);
 		
-		[self _flushPendingOpportunisticSamplesAndUpdates];
+		[self _flushPendingOpportunisticSamplesAndUpdatesNow];
 	}
 	_opportunisticQueue = nil;
 	pthread_mutex_unlock(&_opportunisticSourceMutex);
@@ -160,7 +160,7 @@ return; }\
 	
 	_opportunisticSamples[mutableSample[@"sampleIdentifier"]] = mutableSample;
 	
-	[self _resetOpportunisticSamplesTimer];
+	[self _resetOpportunisticSamplesTimerIfNeeded];
 }
 
 - (void)_addOpportunisticUpdate:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
@@ -169,35 +169,47 @@ return; }\
 	
 	_opportunisticUpdates[sampleDict[@"sampleIdentifier"]] = sampleDict;
 	
-	[self _resetOpportunisticSamplesTimer];
+	[self _resetOpportunisticSamplesTimerIfNeeded];
+}
+
+- (void)_flushPendingOpportunisticSamplesAndUpdatesInternal
+{
+	for(NSString* sampleIdentifier in _opportunisticSamples)
+	{
+		NSMutableDictionary* sample = _opportunisticSamples[sampleIdentifier];
+		NSEntityDescription* entityDescription = [NSClassFromString(sample[@"__dtx_className"]) entity];
+		
+		[self _addSample:sample entityDescription:entityDescription saveContext:NO];
+	}
+	
+	[_opportunisticSamples removeAllObjects];
+	
+	NSArray* allUpdates = _opportunisticUpdates.allKeys;
+	
+	NSFetchRequest* fr = [DTXSample fetchRequest];
+	fr.predicate = [NSPredicate predicateWithFormat:@"sampleIdentifier in %@", allUpdates];
+	NSArray* samples = [_managedObjectContext executeFetchRequest:fr error:NULL];
+	
+	for(DTXSample* sample in samples)
+	{
+		NSDictionary* update = _opportunisticUpdates[sample.sampleIdentifier];
+		[sample updateWithPropertyListDictionaryRepresentation:update];
+	}
+	
+	[_opportunisticUpdates removeAllObjects];
+}
+
+- (void)_flushPendingOpportunisticSamplesAndUpdatesNow
+{
+	[_managedObjectContext performBlockAndWait:^{
+		[self _flushPendingOpportunisticSamplesAndUpdatesInternal];
+	}];
 }
 
 - (void)_flushPendingOpportunisticSamplesAndUpdates
 {
 	[_managedObjectContext performBlock:^{
-		for(NSString* sampleIdentifier in _opportunisticSamples)
-		{
-			NSMutableDictionary* sample = _opportunisticSamples[sampleIdentifier];
-			NSEntityDescription* entityDescription = [NSClassFromString(sample[@"__dtx_className"]) entity];
-			
-			[self _addSample:sample entityDescription:entityDescription saveContext:NO];
-		}
-		
-		[_opportunisticSamples removeAllObjects];
-		
-		NSArray* allUpdates = _opportunisticUpdates.allKeys;
-		
-		NSFetchRequest* fr = [DTXSample fetchRequest];
-		fr.predicate = [NSPredicate predicateWithFormat:@"sampleIdentifier in %@", allUpdates];
-		NSArray* samples = [_managedObjectContext executeFetchRequest:fr error:NULL];
-		
-		for(DTXSample* sample in samples)
-		{
-			NSDictionary* update = _opportunisticUpdates[sample.sampleIdentifier];
-			[sample updateWithPropertyListDictionaryRepresentation:update];
-		}
-		
-		[_opportunisticUpdates removeAllObjects];
+		[self _flushPendingOpportunisticSamplesAndUpdatesInternal];
 	}];
 }
 
