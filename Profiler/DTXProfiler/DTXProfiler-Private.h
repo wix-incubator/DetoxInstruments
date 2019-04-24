@@ -127,7 +127,6 @@ inline void __DTXProfilerMarkEventIntervalBeginIdentifier(NSString* identifier, 
 {
 	uint64_t threadIdentifier = _DTXThreadIdentifierForCurrentThread();
 	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
-		BOOL __ = isRNNativeEvent;
 		[profiler _markEventIntervalBeginWithIdentifier:identifier category:category name:name additionalInfo:additionalInfo isTimer:isTimer isRNNativeEvent:isRNNativeEvent stackTrace:stackTrace threadIdentifier:threadIdentifier timestamp:timestamp];
 	});
 }

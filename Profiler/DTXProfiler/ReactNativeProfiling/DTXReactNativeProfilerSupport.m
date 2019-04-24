@@ -63,23 +63,31 @@ NSString* const __RCTProfilingEnabled = @"profilingEnabled";
 #pragma Implementation
 
 #pragma mark Helper Methods
-DTX_ALWAYS_INLINE
-static DTXEventIdentifier __beginInterval(NSDate* timestamp, const char* eventName, const char* category, const char* additionalInfo)
-{
-	return __DTXProfilerMarkEventIntervalBegin(timestamp, @(category), @(eventName), @(additionalInfo), NO, YES, nil);
-}
 
 DTX_ALWAYS_INLINE
-static void __endInterval(DTXEventIdentifier eventId, NSDate* timestamp)
+static NSDictionary* __DTXGetArgumentsFromSystraceArgs(size_t args_count, systrace_arg_t* args)
 {
-	if(eventId)
+	if(args_count == 0)
 	{
-		__DTXProfilerMarkEventIntervalEnd(timestamp, eventId, DTXEventStatusCompleted, nil);
+		return nil;
 	}
+	
+	NSMutableDictionary* rv = [NSMutableDictionary new];
+	
+	for (NSUInteger idx = 0; idx < args_count; idx++)
+	{
+		NSString* key = [[NSString alloc] initWithBytes:args[idx].key length:args[idx].key_len encoding:NSUTF8StringEncoding];
+		NSString* value = [[NSString alloc] initWithBytes:args[idx].value length:args[idx].value_len encoding:NSUTF8StringEncoding];
+		
+		rv[key] = value;
+		
+//		[rv addObject:@{key: value}];
+	}
+	
+	return rv;
 }
 
-DTX_ALWAYS_INLINE
-static NSString* getOptionalArgument(size_t numArgs, systrace_arg_t *args)
+static NSString* __DTXGetOptionalArgument(size_t numArgs, systrace_arg_t *args)
 {
 	if (numArgs == 0)
 	{
@@ -116,11 +124,59 @@ static char* __DTXProfileStart()
 
 static void __DTXProfileStop(){}
 
-static void __DTXProfileBeginSection(__unused uint64_t tag, const char *name, size_t numArgs, systrace_arg_t *args)
+static void __DTXPreprocessRNName(NSString* rnName, uint64_t tag, NSArray* arguments, BOOL isFromJS, NSString** proposedCategory, NSString** proposedName, NSString** proposedMessage)
+{
+	if(isFromJS)
+	{
+		if([rnName hasPrefix:@"JS_require"])
+		{
+			NSString* moduleName = [rnName substringFromIndex:11];
+			
+			*proposedCategory = @"React Native (JS Require)";
+			*proposedName = moduleName;
+			*proposedMessage = [arguments description];
+			
+			return;
+		}
+	
+		*proposedCategory = @"React Native (JS Lifecycle)";
+	}
+	else
+	{
+		*proposedCategory = @"React Native (Native Lifecycle)";
+	}
+	
+	NSString* moduleName;
+	if(arguments.count > 0 && (moduleName = [arguments valueForKeyPath:@"moduleClass"]) != nil && [moduleName isKindOfClass:NSNull.class] == NO)
+	{
+		*proposedCategory = @"React Native (Native Modules Setup)";
+		*proposedName = moduleName;
+		*proposedMessage = rnName;
+		
+		return;
+	}
+	
+	if(arguments.count > 0)
+	{
+		NSLog(@"🤦‍♂️ %@ %@ %@", rnName, @(tag), NSThread.currentThread);
+	}
+	
+	*proposedName = rnName;
+	*proposedMessage = [arguments description];
+}
+
+static void __DTXProfileBeginSectionInner(__unused uint64_t tag, NSString* name, id arguments, BOOL isFromJS)
 {
 	NSDate* date = NSDate.date;
 	NSThread* thread = NSThread.currentThread;
-	DTXEventIdentifier eventIdentifier = __beginInterval(date, name, "Section",  [getOptionalArgument(numArgs, args) UTF8String]);
+	
+	NSString* eventCategory = @"React Native";
+	NSString* eventName;
+	NSString* eventMessage;
+	
+	__DTXPreprocessRNName(name, tag, arguments, isFromJS, &eventCategory, &eventName, &eventMessage);
+	
+	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, NO, YES, nil);
 	NSMutableArray* sections = thread.threadDictionary[@"DTXSections"];
 	if(sections == nil)
 	{
@@ -129,6 +185,11 @@ static void __DTXProfileBeginSection(__unused uint64_t tag, const char *name, si
 	}
 	
 	[sections addObject:eventIdentifier];
+}
+
+static void __DTXProfileBeginSection(__unused uint64_t tag, const char *name, size_t args_count, systrace_arg_t *args)
+{
+	__DTXProfileBeginSectionInner(tag, @(name), __DTXGetArgumentsFromSystraceArgs(args_count, args), NO);
 }
 
 static void __DTXProfileEndSection(__unused uint64_t tag, __unused size_t numArgs, __unused systrace_arg_t *args)
@@ -142,11 +203,17 @@ static void __DTXProfileEndSection(__unused uint64_t tag, __unused size_t numArg
 	}
 	
 	DTXEventIdentifier eventIdentifier = sections.lastObject;
-	__endInterval(eventIdentifier, date);
+	
+	if(eventIdentifier == nil)
+	{
+		return;
+	}
+	
+	__DTXProfilerMarkEventIntervalEnd(date, eventIdentifier, DTXEventStatusCompleted, nil);
 	[sections removeLastObject];
 }
 
-static void __DTXProfileBeginAsyncSection(uint64_t tag, const char *name, int cookie, size_t numArgs, systrace_arg_t *args)
+static void __DTXProfileBeginAsyncSectionInner(uint64_t tag, NSString* name, int cookie, id arguments, BOOL isFromJS)
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
@@ -154,60 +221,74 @@ static void __DTXProfileBeginAsyncSection(uint64_t tag, const char *name, int co
 	});
 	
 	NSDate* date = NSDate.date;
-	DTXEventIdentifier eventIdentifier = __beginInterval(date, name, "AsyncSection",  [getOptionalArgument(numArgs, args) UTF8String]);
+	
+	NSString* eventCategory = @"React Native";
+	NSString* eventName;
+	NSString* eventMessage;
+	
+	__DTXPreprocessRNName(name, tag, arguments, isFromJS, &eventCategory, &eventName, &eventMessage);
+	
+	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, NO, YES, nil);
 	[asyncSections setObject:eventIdentifier forKey:@(cookie)];
+}
+
+static void __DTXProfileBeginAsyncSection(uint64_t tag, const char *name, int cookie, size_t args_count, systrace_arg_t *args)
+{
+	__DTXProfileBeginAsyncSectionInner(tag, @(name), cookie, __DTXGetArgumentsFromSystraceArgs(args_count, args), NO);
 }
 
 static void __DTXProfileEndAsyncSection(uint64_t tag, const char *name, int cookie, size_t numArgs, systrace_arg_t *args)
 {
-	NSDate* currDate = NSDate.date;
+	NSDate* date = NSDate.date;
 	NSNumber* key = @(cookie);
 	DTXEventIdentifier eventIdentifier = asyncSections[key];
-	if(eventIdentifier)
+	if(eventIdentifier == nil)
 	{
-		__endInterval(eventIdentifier, currDate);
-		[asyncSections removeObjectForKey:key];
+		return;
 	}
+	
+	__DTXProfilerMarkEventIntervalEnd(date, eventIdentifier, DTXEventStatusCompleted, nil);
+	[asyncSections removeObjectForKey:key];
 }
 
 static void __DTXProfileInstantSection(uint64_t tag, const char *name, char scope)
 {
-	__DTXProfilerMarkEvent(NSDate.date,
-						   @"InstantSection",
-						   @(name),
-						   DTXEventStatusCompleted,
-						   nil);
+//	__DTXProfilerMarkEvent(NSDate.date,
+//						   @"React Native",
+//						   @(name),
+//						   DTXEventStatusCompleted,
+//						   nil);
 }
 
 static void __DTXProfileBeginAsyncFlow(uint64_t tag, const char *name, int cookie)
 {
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		asyncFlows = [[NSMutableDictionary alloc] init];
-	});
-	
-	NSDate* date = NSDate.date;
-	DTXEventIdentifier eventId = __beginInterval(date, name, "AsyncFlow", "");
-	[asyncFlows setObject:eventId forKey:@(cookie)];
+//	static dispatch_once_t onceToken;
+//	dispatch_once(&onceToken, ^{
+//		asyncFlows = [[NSMutableDictionary alloc] init];
+//	});
+//
+//	NSDate* date = NSDate.date;
+//	DTXEventIdentifier eventId = __beginInterval(date, name, "AsyncFlow", "");
+//	[asyncFlows setObject:eventId forKey:@(cookie)];
 }
 
 static void __DTXProfileEndAsyncFlow(uint64_t tag, const char *name, int cookie)
 {
-	NSDate* date = NSDate.date;
-	NSNumber* key = @(cookie);
-	DTXEventIdentifier eventId = asyncFlows[key];
-	if (eventId)
-	{
-		__endInterval(eventId, date);
-		[asyncFlows removeObjectForKey:key];
-	}
+//	NSDate* date = NSDate.date;
+//	NSNumber* key = @(cookie);
+//	DTXEventIdentifier eventId = asyncFlows[key];
+//	if (eventId)
+//	{
+//		__endInterval(eventId, date);
+//		[asyncFlows removeObjectForKey:key];
+//	}
 }
 
 void DTXInstallRNJSProfilerHooks(JSContext* ctx)
 {
 	ctx[@"nativeTraceBeginSection"] = ^ (int tag, NSString* name , id args)
 	{
-		__DTXProfileBeginSection(tag, name.UTF8String, 0, NULL);
+		__DTXProfileBeginSectionInner(tag, name, args, YES);
 	};
 	
 	ctx[@"nativeTraceEndSection"] = ^ (int tag)
@@ -217,7 +298,7 @@ void DTXInstallRNJSProfilerHooks(JSContext* ctx)
 	
 	ctx[@"nativeTraceBeginAsyncSection"] = ^(int tag, NSString* name, int cookie)
 	{
-		__DTXProfileBeginAsyncSection(tag, name.UTF8String, cookie, 0, NULL);
+		__DTXProfileBeginAsyncSectionInner(tag, name, cookie, nil, YES);
 	};
 	
 	ctx[@"nativeTraceEndAsyncSection"] = ^(int tag, NSString* name, int cookie)

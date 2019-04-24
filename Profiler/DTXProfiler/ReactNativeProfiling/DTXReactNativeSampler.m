@@ -403,7 +403,7 @@ static void __dtx_JSObjectSetProperty(JSContextRef ctx, JSObjectRef object, JSSt
 		return;
 	}
 
-	JSObjectRef functionObject = __dtx_JSObjectMakeFunctionWithCallbackWrapper(ctx, propertyName, __rn_callAsFunction, __rn_pendingFunctionObject);
+	__dtx_JSObjectMakeFunctionWithCallbackWrapper(ctx, propertyName, __rn_callAsFunction, __rn_pendingFunctionObject);
 	__rn_pendingFunctionObject = NULL;
 }
 
