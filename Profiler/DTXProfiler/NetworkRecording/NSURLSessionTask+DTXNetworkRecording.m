@@ -71,31 +71,37 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		Method m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(resume));
+		Class cls = NSClassFromString(@"__NSCFLocalDataTask");
+		
+		Method m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalDataTask"), NSSelectorFromString(@"greyswizzled_resume"));
+		if(m1 == NULL)
+		{
+			m1 = class_getInstanceMethod(cls, @selector(resume));
+		}
 		Method m2 = class_getInstanceMethod(self.class, @selector(__dtx_resume));
 		method_exchangeImplementations(m1, m2);
 		
-		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(connection:didReceiveResponse:completion:));
+		m1 = class_getInstanceMethod(cls, @selector(connection:didReceiveResponse:completion:));
 		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didReceiveResponse:completion:));
 		method_exchangeImplementations(m1, m2);
 		
-		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(connection:didFinishLoadingWithError:));
+		m1 = class_getInstanceMethod(cls, @selector(connection:didFinishLoadingWithError:));
 		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didFinishLoadingWithError:));
 		method_exchangeImplementations(m1, m2);
 		
-		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(connection:didReceiveData:completion:));
+		m1 = class_getInstanceMethod(cls, @selector(connection:didReceiveData:completion:));
 		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didReceiveData:completion:));
 		method_exchangeImplementations(m1, m2);
 		
-		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(connection:didFinishCollectingMetrics:completion:));
+		m1 = class_getInstanceMethod(cls, @selector(connection:didFinishCollectingMetrics:completion:));
 		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didFinishCollectingMetrics:completion:));
 		method_exchangeImplementations(m1, m2);
 		
-		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(initWithOriginalRequest:updatedRequest:ident:session:));
+		m1 = class_getInstanceMethod(cls, @selector(initWithOriginalRequest:updatedRequest:ident:session:));
 		m2 = class_getInstanceMethod(self.class, @selector(initWithOriginalRequest__dtx:updatedRequest:ident:session:));
 		method_exchangeImplementations(m1, m2);
 		
-		m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalSessionTask"), @selector(_onqueue_didFinishCollectingMetrics:completion:));
+		m1 = class_getInstanceMethod(cls, @selector(_onqueue_didFinishCollectingMetrics:completion:));
 		m2 = class_getInstanceMethod(self.class, @selector(__dtx_onqueue_didFinishCollectingMetrics:completion:));
 		method_exchangeImplementations(m1, m2);
 	});
