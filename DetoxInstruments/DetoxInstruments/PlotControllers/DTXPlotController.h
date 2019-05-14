@@ -10,6 +10,8 @@
 #import <CorePlot/CorePlot.h>
 #import "DTXRecordingDocument.h"
 
+extern NSString* const DTXPlotControllerRequiredHeightDidChangeNotification;
+
 @class DTXDetailController, DTXFilteredDataProvider;
 
 @protocol DTXPlotController;

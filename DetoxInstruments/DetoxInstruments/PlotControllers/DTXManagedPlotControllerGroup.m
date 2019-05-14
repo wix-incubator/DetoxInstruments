@@ -68,7 +68,7 @@
 		_hostingOutlineView.indentationMarkerFollowsCell = NO;
 		_hostingOutlineView.dataSource = self;
 		_hostingOutlineView.delegate = self;
-		_hostingOutlineView.usesAutomaticRowHeights = YES;
+//		_hostingOutlineView.usesAutomaticRowHeights = YES;
 		
 		_timelineView = [DTXTimelineIndicatorView new];
 		_timelineView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -134,8 +134,21 @@
 	}
 }
 
+- (void)_plotControllerRequiredHeightDidChange:(NSNotification*)note
+{
+	if([self.visiblePlotControllers containsObject:note.object])
+	{
+		[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+			context.duration = 0.0;
+			[_hostingOutlineView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[_hostingOutlineView rowForItem:note.object]]];
+		}];
+	}
+}
+
 - (void)addPlotController:(id<DTXPlotController>)plotController
 {
+	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_plotControllerRequiredHeightDidChange:) name:DTXPlotControllerRequiredHeightDidChangeNotification object:plotController];
+	
 	[self _insertPlotController:plotController afterPlotController:_managedPlotControllers.lastObject parentPlotController:nil inCollection:_managedPlotControllers];
 }
 
@@ -367,6 +380,8 @@
 
 - (void)addChildPlotController:(id<DTXPlotController>)childPlotController toPlotController:(id<DTXPlotController>)plotController
 {
+	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_plotControllerRequiredHeightDidChange:) name:DTXPlotControllerRequiredHeightDidChangeNotification object:plotController];
+	
 	childPlotController.parentPlotController = plotController;
 	NSMutableArray* children = [self _childrenArrayForPlotController:plotController create:YES];
 	[self _insertPlotController:childPlotController afterPlotController:children.lastObject parentPlotController:plotController inCollection:children];
@@ -654,10 +669,10 @@
 	return nil;
 }
 
-//- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
-//{
-//	return [item requiredHeight];
-//}
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
+{
+	return [item requiredHeight];
+}
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {

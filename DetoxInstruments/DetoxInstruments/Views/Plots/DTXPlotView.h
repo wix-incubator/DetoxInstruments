@@ -45,6 +45,10 @@
 
 - (void)plotViewDidChangePlotRange:(DTXPlotView*)plotView;
 
+@optional
+
+- (void)plotViewIntrinsicContentSizeDidChange:(DTXPlotView*)plotView;
+
 @end
 
 @protocol DTXPlotViewDataSource <NSObject>
@@ -60,6 +64,7 @@
 
 @property (nonatomic) NSEdgeInsets insets;
 @property (nonatomic) CGFloat minimumHeight;
+@property (readonly) NSSize intrinsicContentSize;
 
 @property (nonatomic, strong) NSArray<DTXPlotViewAnnotation*>* annotations;
 

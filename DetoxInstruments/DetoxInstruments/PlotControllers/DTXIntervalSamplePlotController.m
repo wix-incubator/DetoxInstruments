@@ -295,6 +295,18 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 
 #pragma mark DTXRangePlotViewDelegate
 
+- (void)plotViewIntrinsicContentSizeDidChange:(DTXPlotView *)plotView
+{
+	[NSNotificationCenter.defaultCenter postNotificationName:DTXPlotControllerRequiredHeightDidChangeNotification object:self];
+}
+
+- (CGFloat)requiredHeight
+{
+	CGFloat height = self.plotStackView.fittingSize.height;
+	
+	return MAX(height, super.requiredHeight);
+}
+
 - (void)plotView:(DTXRangePlotView *)plotView didClickRangeAtIndex:(NSUInteger)idx
 {
 	if(self.isForTouchBar)

@@ -369,6 +369,16 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	[self setNeedsDisplay:YES];
 }
 
+- (void)invalidateIntrinsicContentSize
+{
+	[super invalidateIntrinsicContentSize];
+	
+	if([self.delegate respondsToSelector:@selector(plotViewIntrinsicContentSizeDidChange:)])
+	{
+		[self.delegate plotViewIntrinsicContentSizeDidChange:self];
+	}
+}
+
 - (void)setGlobalPlotRange:(CPTPlotRange *)globalXRange
 {
 	_globalPlotRange = globalXRange;

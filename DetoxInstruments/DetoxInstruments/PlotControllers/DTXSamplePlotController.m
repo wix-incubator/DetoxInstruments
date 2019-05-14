@@ -17,6 +17,8 @@
 #import "DTXScatterPlotView.h"
 #import "DTXSeparatorView.h"
 
+NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlotControllerRequiredHeightDidChangeNotification";
+
 @interface DTXSamplePlotController () <CPTScatterPlotDelegate>
 
 @end
