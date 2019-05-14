@@ -605,7 +605,10 @@ DTX_CREATE_LOG(Profiler);
 			if(self->_currentProfilingConfiguration.collectStackTraces)
 			{
 				[perfSample setHeaviestThreadIdx:@(cpu.heaviestThreadIdx)];
-				[perfSample setHeaviestThread:@([perfSample threadSamples][cpu.heaviestThreadIdx].threadInfo.number)];
+				if(perfSample.threadSamples.count > 0)
+				{
+					[perfSample setHeaviestThread:@(perfSample.threadSamples[cpu.heaviestThreadIdx].threadInfo.number)];
+				}
 				[perfSample setHeaviestStackTrace:stackTrace];
 				[perfSample setStackTraceIsSymbolicated:NO];
 			}
