@@ -416,20 +416,50 @@ void DTXRegisterRNProfilerCallbacks()
 		
 		__RCTProfileInit = (void*)dlsym(RTLD_DEFAULT, "RCTProfileInit");
 		__RCTProfileEnd = (void*)dlsym(RTLD_DEFAULT, "RCTProfileEnd");
+		
+		if(__RCTProfileInit == NULL || __RCTProfileEnd == NULL)
+		{
+			return;
+		}
+		
+		Class cls = NSClassFromString(@"RCTBridge");
+		
+		if(cls == nil)
+		{
+			return;
+		}
+		
+		Method m = class_getInstanceMethod(cls, NSSelectorFromString(@"setUp"));
+		
+		if(m == NULL)
+		{
+			return;
+		}
+		
+		__orig_RCTBridge_setUp = (void*)method_getImplementation(m);
+		method_setImplementation(m, (IMP)__dtxinst_RCTBridge_setUp);
+		
+		cls = NSClassFromString(@"RCTDevSettings");
+		
+		if(cls == nil)
+		{
+			return;
+		}
+		
+		m = class_getInstanceMethod(cls, NSSelectorFromString(@"initWithDataSource:"));
+		
+		if(m == NULL)
+		{
+			return;
+		}
+		
+		__orig_RCTDevSettings_initWithDataSource = (void*)method_getImplementation(m);
+		method_setImplementation(m, (IMP)__dtxinst_RCTDevSettings_initWithDataSource);
+		
 		__activeListeningProfilersQueue = dispatch_queue_create("com.wix.activeProfilersQueue", NULL);
 		__activeBridge = nil;
 		
 		CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidAddProfiler, CF(__DTXDidAddActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
 		CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidRemoveProfiler, CF(__DTXDidRemoveActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
-		
-		Class cls = NSClassFromString(@"RCTBridge");
-		Method m = class_getInstanceMethod(cls, NSSelectorFromString(@"setUp"));
-		__orig_RCTBridge_setUp = (void*)method_getImplementation(m);
-		method_setImplementation(m, (IMP)__dtxinst_RCTBridge_setUp);
-		
-		cls = NSClassFromString(@"RCTDevSettings");
-		m = class_getInstanceMethod(cls, NSSelectorFromString(@"initWithDataSource:"));
-		__orig_RCTDevSettings_initWithDataSource = (void*)method_getImplementation(m);
-		method_setImplementation(m, (IMP)__dtxinst_RCTDevSettings_initWithDataSource);
 	});
 }
