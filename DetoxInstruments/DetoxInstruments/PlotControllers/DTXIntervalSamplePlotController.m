@@ -66,6 +66,8 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 			configurator();
 		}
 		
+		self.plotStackView.distribution = NSStackViewDistributionGravityAreas;
+		
 		[self _reloadData];
 	}
 	

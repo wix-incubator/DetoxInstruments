@@ -30,6 +30,21 @@
 	[self setUpWithView:view insets:NSEdgeInsetsMake(0, 0, 0, 0)];
 }
 
+@synthesize plotStackView=_plotStackView;
+- (DTXPlotStackView *)plotStackView
+{
+	if(_plotStackView == nil)
+	{
+		_plotStackView = [DTXPlotStackView new];
+		_plotStackView.translatesAutoresizingMaskIntoConstraints = NO;
+		_plotStackView.orientation = NSUserInterfaceLayoutOrientationVertical;
+		_plotStackView.distribution = NSStackViewDistributionFillEqually;
+		_plotStackView.spacing = 0;
+	}
+	
+	return _plotStackView;
+}
+
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets
 {
 	if(_wrapperView)
@@ -46,11 +61,7 @@
 		
 		if(usesInternalPlots)
 		{
-			_plotStackView = [DTXPlotStackView new];
-			_plotStackView.translatesAutoresizingMaskIntoConstraints = NO;
-			_plotStackView.orientation = NSUserInterfaceLayoutOrientationVertical;
-			_plotStackView.distribution = NSStackViewDistributionFillEqually;
-			_plotStackView.spacing = 0;
+			[self plotStackView];
 			
 			[_plotStackView setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
 			[_plotStackView setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
