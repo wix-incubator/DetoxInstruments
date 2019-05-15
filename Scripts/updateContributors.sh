@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/zsh -e
 
 # GIT_FILE=./DetoxInstruments/DetoxInstruments/ContributionsGit.json
 GH_FILE=./DetoxInstruments/DetoxInstruments/ContributionsGH.json
