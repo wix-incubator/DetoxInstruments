@@ -28,18 +28,18 @@ if [ ! -z "$DRY_RUN" ]; then
 	printf >&2 "\033[1;31mPerforming a dry run.\033[0m\n"
 fi
 
-if  [[ -n $(git status --porcelain) ]]; then
-	printf >&2 "\033[1;31mCannot release version because there are unstaged changes, aborting.\nChanges:\033[0m\n"
-	git status --short
-	exit -1
-fi
-
-if [[ -n $(git log --branches --not --remotes) ]]; then
-	echo -e "\033[1;34mPushing pending commits to git\033[0m"
-	if [ -z "$DRY_RUN" ]; then
-		git push
-	fi
-fi
+# if  [[ -n $(git status --porcelain) ]]; then
+#   printf >&2 "\033[1;31mCannot release version because there are unstaged changes, aborting.\nChanges:\033[0m\n"
+#   git status --short
+#   exit -1
+# fi
+#
+# if [[ -n $(git log --branches --not --remotes) ]]; then
+#   echo -e "\033[1;34mPushing pending commits to git\033[0m"
+#   if [ -z "$DRY_RUN" ]; then
+#     git push
+#   fi
+# fi
 
 echo -e "\033[1;34mCreating release notes\033[0m"
 
