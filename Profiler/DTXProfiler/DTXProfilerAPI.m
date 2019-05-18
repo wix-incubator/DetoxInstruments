@@ -1,5 +1,20 @@
 
-#import "DTXProfiler-Private.h"
+#import "DTXProfilerAPI-Private.h"
+
+NSString* const __DTXDidAddActiveProfilerNotification = @"__DTXDidAddActiveProfilerNotification";
+NSString* const __DTXDidRemoveActiveProfilerNotification = @"__DTXDidRemoveActiveProfilerNotification";
+
+pthread_mutex_t __active_profilers_mutex;
+NSMutableSet<DTXProfiler*>* __activeProfilers;
+
+void __DTXProfilerActiveProfilersInit(void)
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		pthread_mutex_init(&__active_profilers_mutex, NULL);
+		__activeProfilers = [NSMutableSet new];
+	});
+}
 
 /**
  *  Adds a tag.

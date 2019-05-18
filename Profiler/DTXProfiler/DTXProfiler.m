@@ -7,6 +7,7 @@
 //
 
 #import "DTXProfiler-Private.h"
+#import "DTXProfilerAPI-Private.h"
 #import "AutoCoding.h"
 #import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
@@ -24,19 +25,6 @@
 #import "DTXRecording+Additions.h"
 #import "NSString+Hashing.h"
 #import <Foundation/Foundation.h>
-
-NSString* const __DTXDidAddActiveProfilerNotification = @"__DTXDidAddActiveProfilerNotification";
-NSString* const __DTXDidRemoveActiveProfilerNotification = @"__DTXDidRemoveActiveProfilerNotification";
-
-pthread_mutex_t __active_profilers_mutex;
-NSMutableSet<DTXProfiler*>* __activeProfilers;
-
-__attribute((constructor))
-static void __DTXProfilerActiveProfilersInit()
-{
-	pthread_mutex_init(&__active_profilers_mutex, NULL);
-	__activeProfilers = [NSMutableSet new];
-}
 
 #define DTXAssert(condition, desc, ...)	\
 do {				\

@@ -7,7 +7,7 @@
 //
 
 #import "NSURLSessionTask+DTXNetworkRecording.h"
-#import "DTXProfiler-Private.h"
+#import "DTXProfilerAPI-Private.h"
 #import "NSObject+AttachedObjects.h"
 @import ObjectiveC;
 

@@ -329,6 +329,7 @@
 		39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNetworkRecorder.m; sourceTree = "<group>"; };
 		39E75EBA209C7B8B00C95D15 /* DTXUIPasteboardParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXUIPasteboardParser.h; sourceTree = "<group>"; };
 		39E75EBB209C7B8B00C95D15 /* DTXUIPasteboardParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXUIPasteboardParser.m; sourceTree = "<group>"; };
+		39ED91332290669B005EDB56 /* DTXProfilerAPI-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilerAPI-Private.h"; sourceTree = "<group>"; };
 		39EEF36121EFAE310028061D /* NSObject+AttachedObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AttachedObjects.m"; sourceTree = "<group>"; };
 		39EEF36221EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
 		39EEF36321EFAE310028061D /* DTXQuickNSExpressions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXQuickNSExpressions.h; sourceTree = "<group>"; };
@@ -646,6 +647,7 @@
 				39D8B3682107997C000895F7 /* DTXBase.h */,
 				39D8B31A21077643000895F7 /* DTXEvents.h */,
 				39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */,
+				39ED91332290669B005EDB56 /* DTXProfilerAPI-Private.h */,
 				39C44C3220F3A24900279955 /* DTXProfilerAPI.m */,
 				39F6F6B01F0E3BE100C7F411 /* DTXProfilingConfiguration.h */,
 				39F6F6B11F0E3BE100C7F411 /* DTXProfilingConfiguration.m */,

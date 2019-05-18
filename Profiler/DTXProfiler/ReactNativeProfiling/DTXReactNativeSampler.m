@@ -13,7 +13,7 @@
 #import "DTXLoggingRecorder.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "DTXCustomJSCSupport.h"
-#import "DTXProfiler-Private.h"
+#import "DTXProfilerAPI-Private.h"
 #import "DTXReactNativeProfilerSupport.h"
 
 @import ObjectiveC;

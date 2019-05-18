@@ -202,12 +202,12 @@ DTX_CREATE_LOG(RemoteProfiler);
 		return;
 	}
 	
+	if(self.profilingConfiguration.recordLocalhostNetwork == NO && ([request.URL.host isEqualToString:@"localhost"] || [request.URL.host isEqualToString:@"127.0.0.1"]))
+	{
+		return;
+	}
+	
 	[_ctx performBlock:^{
-		if(self.profilingConfiguration.recordLocalhostNetwork == NO && ([request.URL.host isEqualToString:@"localhost"] || [request.URL.host isEqualToString:@"127.0.0.1"]))
-		{
-			return;
-		}
-		
 		NSMutableDictionary* preserialized = @{
 											   @"__dtx_className": @"DTXNetworkSample",
 											   @"__dtx_entityName": @"NetworkSample",

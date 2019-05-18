@@ -12,7 +12,7 @@
 @import Darwin;
 #import <Foundation/Foundation.h>
 #import <DTXProfiler/DTXEvents.h>
-#import "DTXProfiler-Private.h"
+#import "DTXProfilerAPI-Private.h"
 
 #pragma mark React Native Structs
 
