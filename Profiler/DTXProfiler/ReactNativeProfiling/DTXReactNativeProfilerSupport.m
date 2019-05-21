@@ -156,10 +156,10 @@ static void __DTXPreprocessRNName(NSString* rnName, uint64_t tag, NSArray* argum
 		return;
 	}
 	
-	if(arguments.count > 0)
-	{
-		NSLog(@"🤦‍♂️ %@ %@ %@", rnName, @(tag), NSThread.currentThread);
-	}
+//	if(arguments.count > 0)
+//	{
+//		NSLog(@"🤦‍♂️ %@ %@ %@", rnName, @(tag), NSThread.currentThread);
+//	}
 	
 	*proposedName = rnName;
 	*proposedMessage = [arguments description];
@@ -323,6 +323,7 @@ static BOOL __bridgeShouldProfile;
 static NSUInteger __activeListeningProfilers;
 static dispatch_queue_t __activeListeningProfilersQueue;
 
+BOOL (*__RCTProfileIsProfiling)(void);
 static void (*__RCTProfileInit)(id);
 static void (*__RCTProfileEnd)(id bridge, void (^callback)(NSString *));
 
@@ -395,6 +396,13 @@ void DTXRegisterRNProfilerCallbacks()
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
+		void (*RCTProfileRegisterCallbacks)(RCTProfileCallbacks *) = dlsym(RTLD_DEFAULT, "RCTProfileRegisterCallbacks");
+		
+		if(RCTProfileRegisterCallbacks == NULL)
+		{
+			return;
+		}
+		
 		static RCTProfileCallbacks callbacks =
 		{
 			__DTXProfileStart,
@@ -407,17 +415,13 @@ void DTXRegisterRNProfilerCallbacks()
 			__DTXProfileBeginAsyncFlow,
 			__DTXProfileEndAsyncFlow
 		};
+		RCTProfileRegisterCallbacks(&callbacks);
 		
-		void (*RCTProfileRegisterCallbacks)(RCTProfileCallbacks *) = dlsym(RTLD_DEFAULT, "RCTProfileRegisterCallbacks");
-		if(RCTProfileRegisterCallbacks != NULL)
-		{
-			RCTProfileRegisterCallbacks(&callbacks);
-		}
-		
+		__RCTProfileIsProfiling = (void*)dlsym(RTLD_DEFAULT, "RCTProfileIsProfiling");
 		__RCTProfileInit = (void*)dlsym(RTLD_DEFAULT, "RCTProfileInit");
 		__RCTProfileEnd = (void*)dlsym(RTLD_DEFAULT, "RCTProfileEnd");
 		
-		if(__RCTProfileInit == NULL || __RCTProfileEnd == NULL)
+		if(__RCTProfileIsProfiling == NULL || __RCTProfileInit == NULL || __RCTProfileEnd == NULL)
 		{
 			return;
 		}

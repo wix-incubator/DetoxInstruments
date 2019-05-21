@@ -45,13 +45,23 @@
 	return YES;
 }
 
+- (instancetype)_init
+{
+	return [super init];
+}
+
+- (instancetype)init
+{
+	return [self.class defaultProfilingConfiguration];
+}
+
 //Bust be non-kvc compliant so that this property does not end in AutoCoding's dictionaryRepresentation.
 @synthesize recordingFileURL = _nonkvc_recordingFileURL;
 @synthesize ignoredEventCategories = _nonkvc_ignoredEventCategories;
 
 + (instancetype)defaultProfilingConfiguration
 {
-	DTXProfilingConfiguration* rv = [self new];
+	DTXProfilingConfiguration* rv = [[self alloc] _init];
 	rv->_collectOpenFileNames = NO;
 	rv->_recordPerformance = YES;
 	rv->_recordNetwork = YES;
@@ -117,7 +127,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	DTXProfilingConfiguration* copy = [DTXProfilingConfiguration new];
+	DTXProfilingConfiguration* copy = [[DTXProfilingConfiguration alloc] _init];
 	
 	[DTXProfilingConfiguration.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop) {
 		[copy setValue:[self valueForKey:key] forKey:key];
@@ -135,7 +145,7 @@
 
 - (id)mutableCopyWithZone:(NSZone *)zone
 {
-	DTXProfilingConfiguration* copy = [DTXMutableProfilingConfiguration new];
+	DTXProfilingConfiguration* copy = [[DTXMutableProfilingConfiguration alloc] _init];
 	
 	[DTXProfilingConfiguration.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop) {
 		[copy setValue:[self valueForKey:key] forKey:key];
