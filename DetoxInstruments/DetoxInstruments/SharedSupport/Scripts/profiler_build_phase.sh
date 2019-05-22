@@ -24,6 +24,7 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 	if [[ " ${ALLOWED_CONFIGURATIONS[@]} " =~ " ${CONFIGURATION} " ]]; then
 		cp -Rf "${PROFILER_FRAMEWORK_PATH}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/
 		rm -fr "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/Frameworks/"${PROFILER_SHIM_FRAMEWORK_NAME}"
+		## 🤦‍♂️ rdar://45972646 "Notarization service fails for an app with an iOS framework embedded in it"
 		openssl enc -aes-256-cbc -d -k zubur1 -in "${PROFILER_FRAMEWORK_PATH}"/DTXProfiler -out "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
 		echo "Profiler framework has been integrated in ${CODESIGNING_FOLDER_PATH}."
 	else
@@ -31,6 +32,7 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 		cp -f "${PROFILER_FRAMEWORK_PATH}"/Info.plist "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${SHIM_FRAMEWORK_NAME}"
 		mv "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${SHIM_FRAMEWORK_NAME}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"
 		mv "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfilerShim "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
+		## 🤦‍♂️ rdar://45972646 "Notarization service fails for an app with an iOS framework embedded in it"
 		openssl enc -aes-256-cbc -d -k zubur1 -in "${SHIM_FRAMEWORK_PATH}"/DTXProfilerShim -out "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
 		# install_name_tool -id "DTXProfiler" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
 		echo "Profiler framework not integrated: current build configuration “${CONFIGURATION}” is not included in the ALLOWED_CONFIGURATIONS list."

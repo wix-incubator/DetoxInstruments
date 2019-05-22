@@ -261,7 +261,23 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (IBAction)revealProfilerFramework:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[[NSBundle mainBundle].bundleURL URLByAppendingPathComponent:@"Contents/SharedSupport/ProfilerFramework/DTXProfiler.framework"]]];
+	NSURL* actualFrameworkURL = [[NSBundle mainBundle].bundleURL URLByAppendingPathComponent:@"Contents/SharedSupport/ProfilerFramework/DTXProfiler.framework" isDirectory:NO];
+	
+	NSURL* tempFrameworkContainerURL = [NSURL fileURLWithPath:@"/tmp/ProfilerFramework" isDirectory:YES];
+	NSURL* tempFrameworkURL = [tempFrameworkContainerURL URLByAppendingPathComponent:@"DTXProfiler.framework" isDirectory:NO];
+	[NSFileManager.defaultManager removeItemAtURL:tempFrameworkURL error:NULL];
+	[NSFileManager.defaultManager createDirectoryAtURL:tempFrameworkContainerURL withIntermediateDirectories:YES attributes:nil error:NULL];
+	[NSFileManager.defaultManager copyItemAtURL:actualFrameworkURL toURL:tempFrameworkURL error:NULL];
+	
+	// 🤦‍♂️ rdar://45972646 "Notarization service fails for an app with an iOS framework embedded in it"
+	NSTask * task = [NSTask new];
+	task.executableURL = [NSURL fileURLWithPath:@"/usr/bin/openSSL"];
+	task.arguments = @[@"enc", @"-aes-256-cbc", @"-d", @"-k", @"zubur1", @"-in", [actualFrameworkURL URLByAppendingPathComponent:@"DTXProfiler" isDirectory:NO].path, @"-out", [tempFrameworkURL URLByAppendingPathComponent:@"DTXProfiler" isDirectory:NO].path];
+	task.qualityOfService = NSQualityOfServiceUserInteractive;
+	[task launchAndReturnError:NULL];
+	[task waitUntilExit];
+	
+	[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[tempFrameworkURL]];
 }
 
 - (IBAction)openIssuesPage:(id)sender
