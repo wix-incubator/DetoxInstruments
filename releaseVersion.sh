@@ -165,6 +165,29 @@ curl -o "${SUBMISSION_IN_ARCHIVE}/audit.log" "${LOG_URL}" &> /dev/null
 /usr/libexec/PlistBuddy -c "Add Distributions:0:processingCompletedEvent:title string 'Ready to distribute'" ${ARCHIVE}/Info.plist
 /usr/libexec/PlistBuddy -c "Add Distributions:0:processingCompletedEvent:date date $(date)" ${ARCHIVE}/Info.plist
 
+echo -e "\033[1;34mUpdating cask with latest release\033[0m"
+
+if [ -z "$DRY_RUN" ]; then
+	pushd . &> /dev/null
+	cd Distribution/homebrew-brew/Casks/
+	git checkout master
+	git fetch
+	git pull --rebase
+	sed -i '' -e 's/url .*/url '"'https:\/\/github.com\/wix\/DetoxInstruments\/releases\/download\/${VERSION}\/$(basename ${ZIP_FILE})'"'/g' detox-instruments.rb
+	git add -A
+	git commit -m "Detox Instruments ${VERSION}" &> /dev/null
+	git push
+	popd &> /dev/null
+fi
+
+echo -e "\033[1;34mPushing updated versions\033[0m"
+
+if [ -z "$DRY_RUN" ]; then
+	git add -A &> /dev/null
+	git commit -m "${VERSION}" &> /dev/null
+	git push
+fi
+
 if [ -z "$DRY_RUN" ]; then
 	#Escape user input in markdown to valid JSON string using PHP 🤦‍♂️ (https://stackoverflow.com/a/13466143/983912)
 	RELEASENOTESCONTENTS=$(printf '%s' "$(<"${RELEASE_NOTES_FILE}")" | php -r 'echo json_encode(file_get_contents("php://stdin"));')
@@ -203,29 +226,6 @@ if [ -z "$DRY_RUN" ]; then
 	npm publish
 	git checkout package.json
 	popd &> /dev/null
-fi
-
-echo -e "\033[1;34mUpdating cask with latest release\033[0m"
-
-if [ -z "$DRY_RUN" ]; then
-	pushd . &> /dev/null
-	cd Distribution/homebrew-brew/Casks/
-	git checkout master
-	git fetch
-	git pull --rebase
-	sed -i '' -e 's/url .*/url '"'https:\/\/github.com\/wix\/DetoxInstruments\/releases\/download\/${VERSION}\/$(basename ${ZIP_FILE})'"'/g' detox-instruments.rb
-	git add -A
-	git commit -m "Detox Instruments ${VERSION}" &> /dev/null
-	git push
-	popd &> /dev/null
-fi
-
-echo -e "\033[1;34mPushing updated versions\033[0m"
-
-if [ -z "$DRY_RUN" ]; then
-	git add -A &> /dev/null
-	git commit -m "${VERSION}" &> /dev/null
-	git push
 fi
 
 echo -e "\033[1;34mOpening archive in Xcode\033[0m"
