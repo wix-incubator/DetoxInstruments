@@ -76,10 +76,8 @@ rm -fr Distribution/*.zip
 rm -fr "${ARCHIVE}"
 rm -fr "${EXPORT_DIR}"
 
-export CODE_SIGNING_REQUIRED=NO && xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" -configuration release clean archive -archivePath "${ARCHIVE}" DTXBundleName="Detox Instruments" ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon"  | xcpretty
-# xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -exportArchive -archivePath "${ARCHIVE}" -exportOptionsPlist Distribution/exportOptions.plist -exportPath "${EXPORT_DIR}" | xcpretty
-mkdir -p "${EXPORT_DIR}"
-cp -R "${ARCHIVE}"/Products/Applications/*.app "${EXPORT_DIR}"/
+export CODE_SIGNING_REQUIRED=NO && xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -scheme "Detox Instruments" -configuration release clean archive -archivePath "${ARCHIVE}" DTXBundleName="Detox Instruments" ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon"
+xcodebuild -project DetoxInstruments/DetoxInstruments.xcodeproj -exportArchive -archivePath "${ARCHIVE}" -exportOptionsPlist Distribution/exportOptions.plist -exportPath "${EXPORT_DIR}"
 
 SHORT_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "${EXPORT_DIR}"/*.app/Contents/Info.plist)
 BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${EXPORT_DIR}"/*.app/Contents/Info.plist)
@@ -90,31 +88,48 @@ ZIP_FILE=Distribution/DetoxInstruments-v"${SHORT_VERSION}".b"${BUILD_NUMBER}".zi
 
 echo -e "\033[1;34mVersion is: $VERSION\033[0m"
 
-echo -e "\033[1;34mUpdating cask with latest release\033[0m"
-
-if [ -z "$DRY_RUN" ]; then
-	pushd . &> /dev/null
-	cd Distribution/homebrew-brew/Casks/
-	git checkout master
-	git fetch
-	git pull --rebase
-	sed -i '' -e 's/url .*/url '"'https:\/\/github.com\/wix\/DetoxInstruments\/releases\/download\/${VERSION}\/$(basename ${ZIP_FILE})'"'/g' detox-instruments.rb
-	git add -A
-	git commit -m "Detox Instruments ${VERSION}" &> /dev/null
-	git push
-	popd &> /dev/null
-fi
-
-echo -e "\033[1;34mPushing updated versions\033[0m"
-
-if [ -z "$DRY_RUN" ]; then
-	git add -A &> /dev/null
-	git commit -m "${VERSION}" &> /dev/null
-	git push
-fi
-
 echo -e "\033[1;34mCreating ZIP file\033[0m"
 
+ditto -c -k --sequesterRsrc --keepParent "${EXPORT_DIR}"/*.app "${ZIP_FILE}" &> /dev/null
+
+# https://developer.apple.com/documentation/security/notarizing_your_app_before_distribution/customizing_the_notarization_workflow
+
+echo -e "\033[1;34mSubmitting to notarization service\033[0m"
+
+NOTARIZATION_UUID=$(xcrun altool --notarize-app --primary-bundle-id "com.wix.DetoxInstruments" --username "lnatan@wix.com" --password "@keychain:notary_password" --file "$ZIP_FILE" 2>&1 | grep RequestUUID | awk '{print $3'})
+
+echo -e "\033[1;34mAwaiting notarization success for ${NOTARIZATION_UUID}\033[0m"
+
+NOTARIZATION_SUCCESS=0
+for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+    PROGRESS=$(xcrun altool --notarization-info "${NOTARIZATION_UUID}" --username "lnatan@wix.com" --password "@keychain:notary_password" 2>&1 )
+    Echo "${PROGRESS}"
+ 
+    if [ $? -ne 0 ] || [[ "${PROGRESS}" =~ "Invalid" ]] ; then
+        echo "Notarization failed"
+		exit -1
+        break
+    fi
+ 
+    if [[ "${PROGRESS}" =~ "success" ]]; then
+        NOTARIZATION_SUCCESS=1
+        break
+    fi
+    sleep 30
+done
+
+if [ $NOTARIZATION_SUCCESS -ne 1 ] ; then
+	echo "Notarization timed out"
+	exit -1
+fi
+
+echo -e "\033[1;34mStapling notarization ticket\033[0m"
+
+xcrun stapler staple "${EXPORT_DIR}/Detox Instruments.app"
+
+echo -e "\033[1;34mCreating stapled ZIP file\033[0m"
+
+rm "${ZIP_FILE}"
 ditto -c -k --sequesterRsrc --keepParent "${EXPORT_DIR}"/*.app "${ZIP_FILE}" &> /dev/null
 
 if [ -z "$DRY_RUN" ]; then
@@ -153,6 +168,29 @@ if [ -z "$DRY_RUN" ]; then
 	npm publish
 	git checkout package.json
 	popd &> /dev/null
+fi
+
+echo -e "\033[1;34mUpdating cask with latest release\033[0m"
+
+if [ -z "$DRY_RUN" ]; then
+	pushd . &> /dev/null
+	cd Distribution/homebrew-brew/Casks/
+	git checkout master
+	git fetch
+	git pull --rebase
+	sed -i '' -e 's/url .*/url '"'https:\/\/github.com\/wix\/DetoxInstruments\/releases\/download\/${VERSION}\/$(basename ${ZIP_FILE})'"'/g' detox-instruments.rb
+	git add -A
+	git commit -m "Detox Instruments ${VERSION}" &> /dev/null
+	git push
+	popd &> /dev/null
+fi
+
+echo -e "\033[1;34mPushing updated versions\033[0m"
+
+if [ -z "$DRY_RUN" ]; then
+	git add -A &> /dev/null
+	git commit -m "${VERSION}" &> /dev/null
+	git push
 fi
 
 echo -e "\033[1;34mOpening archive in Xcode\033[0m"
