@@ -96,7 +96,7 @@ ditto -c -k --sequesterRsrc --keepParent "${EXPORT_DIR}"/*.app "${ZIP_FILE}" &> 
 
 echo -e "\033[1;34mSubmitting to notarization service\033[0m"
 
-NOTARIZATION_UUID=$(xcrun altool --notarize-app --primary-bundle-id "com.wix.DetoxInstruments" --username "lnatan@wix.com" --password "@keychain:notary_password" --file "$ZIP_FILE" 2>&1 | grep RequestUUID | awk '{print $3'})
+NOTARIZATION_UUID=$(xcrun altool --notarize-app --primary-bundle-id "com.wix.DetoxInstruments" --username "lnatan@wix.com" --password "@keychain:notary_password" --file "$ZIP_FILE" 2>&1 | grep RequestUUID | awk '{print $3}')
 
 echo -e "\033[1;34mAwaiting notarization success for ${NOTARIZATION_UUID}\033[0m"
 
@@ -132,6 +132,39 @@ echo -e "\033[1;34mCreating stapled ZIP file\033[0m"
 rm "${ZIP_FILE}"
 ditto -c -k --sequesterRsrc --keepParent "${EXPORT_DIR}"/*.app "${ZIP_FILE}" &> /dev/null
 
+echo -e "\033[1;34mUpdating archive with submission\033[0m"
+
+SUBMISSION_IN_ARCHIVE="${ARCHIVE}/Submissions/${NOTARIZATION_UUID}"
+
+mkdir -p "${SUBMISSION_IN_ARCHIVE}"
+cp -r "${EXPORT_DIR}/Detox Instruments.app" "${SUBMISSION_IN_ARCHIVE}/"
+
+LOG_URL=$(xcrun altool --notarization-info "${NOTARIZATION_UUID}" --username "lnatan@wix.com" --password "@keychain:notary_password" 2>&1 | grep LogFileURL | awk '{print $2}')
+curl -o "${SUBMISSION_IN_ARCHIVE}/audit.log" "${LOG_URL}" &> /dev/null
+
+/usr/libexec/PlistBuddy -c "Add Distributions array" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0 dict" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:destination string upload" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:identifier string ${NOTARIZATION_UUID}" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:task string distribute" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:teamID string S3GLW74Y8N" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:uploadDestination string 'Developer ID'" ${ARCHIVE}/Info.plist
+
+/usr/libexec/PlistBuddy -c "Add Distributions:0:uploadEvent:shortTitle string Uploaded" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:uploadEvent:state string success" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:uploadEvent:title string 'Uploaded to Apple'" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:uploadEvent:date date $(date)" ${ARCHIVE}/Info.plist
+
+/usr/libexec/PlistBuddy -c "Add Distributions:0:preparationEvent:shortTitle string Prepared" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:preparationEvent:state string success" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:preparationEvent:title string 'Prepared archive for uploading'" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:preparationEvent:date date $(date)" ${ARCHIVE}/Info.plist
+
+/usr/libexec/PlistBuddy -c "Add Distributions:0:processingCompletedEvent:shortTitle string 'Ready to distribute'" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:processingCompletedEvent:state string success" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:processingCompletedEvent:title string 'Ready to distribute'" ${ARCHIVE}/Info.plist
+/usr/libexec/PlistBuddy -c "Add Distributions:0:processingCompletedEvent:date date $(date)" ${ARCHIVE}/Info.plist
+
 if [ -z "$DRY_RUN" ]; then
 	#Escape user input in markdown to valid JSON string using PHP 🤦‍♂️ (https://stackoverflow.com/a/13466143/983912)
 	RELEASENOTESCONTENTS=$(printf '%s' "$(<"${RELEASE_NOTES_FILE}")" | php -r 'echo json_encode(file_get_contents("php://stdin"));')
@@ -155,6 +188,8 @@ echo -e "\033[1;34mTriggering gh-pages rebuild\033[0m"
 if [ -z "$DRY_RUN" ]; then
 	curl -H "Content-Type: application/json; charset=UTF-8" -X PUT -d '{"message": "Rebuild GH Pages", "committer": { "name": "PublishScript", "email": "somefakeaddress@wix.com" }, "content": "LnB1Ymxpc2gK", "sha": "3f949857e8ed4cb106f9744e40b638a7aabf647f", "branch": "gh-pages"}' https://api.github.com/repos/wix/DetoxInstruments/contents/.publish?access_token=${GITHUB_RELEASES_TOKEN} | jq "."
 fi
+
+echo -e "\033[1;34mCreating an NPM release\033[0m"
 
 if [ -z "$DRY_RUN" ]; then
 	pushd . &> /dev/null
