@@ -1,0 +1,12 @@
+{
+  "name": "detox-instruments",
+  "version": "1.4.7499",
+  "description": "You probably shouldn't use this.",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "./postinstall.sh"
+  },
+  "author": "Leo Natan (lnatan@wix.com)",
+  "license": "MIT",
+  "homepage": "https://wix.com"
+}
