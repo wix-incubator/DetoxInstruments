@@ -318,6 +318,18 @@ void DTXInstallRNJSProfilerHooks(JSContext* ctx)
 	};
 }
 
+//Workaround for
+//	https://github.com/wix/DetoxInstruments/issues/44
+//	https://github.com/facebook/react-native/issues/24952
+@interface NSObject ()
+
+@property (nonatomic, readonly) id uiManager;
+- (id)viewForReactTag:(id)arg1;
+
+@end
+
+static void (*__RCTProfileUnhookInstance)(id instance);
+
 static id __activeBridge;
 static BOOL __bridgeShouldProfile;
 static NSUInteger __activeListeningProfilers;
@@ -333,7 +345,16 @@ static void __dtxinst_RCTBridge_setUp(id self, SEL _cmd)
 	__orig_RCTBridge_setUp(self, _cmd);
 	//Can also call +[RCTBridge currentBridge], if batchedBridge is ever removed.
 	dispatch_sync(__activeListeningProfilersQueue, ^{
+		id oldActiveBridge = __activeBridge;
 		__activeBridge = [self valueForKey:@"batchedBridge"];
+		
+		if(oldActiveBridge != nil)
+		{
+			for (id view in [oldActiveBridge valueForKey:@"viewRegistry"]) {
+				__RCTProfileUnhookInstance([[oldActiveBridge uiManager] viewForReactTag:view]);
+			}
+		}
+		
 		if(__activeListeningProfilers > 0)
 		{
 			__RCTProfileInit(__activeBridge);
@@ -420,8 +441,9 @@ void DTXRegisterRNProfilerCallbacks()
 		__RCTProfileIsProfiling = (void*)dlsym(RTLD_DEFAULT, "RCTProfileIsProfiling");
 		__RCTProfileInit = (void*)dlsym(RTLD_DEFAULT, "RCTProfileInit");
 		__RCTProfileEnd = (void*)dlsym(RTLD_DEFAULT, "RCTProfileEnd");
+		__RCTProfileUnhookInstance = (void*)dlsym(RTLD_DEFAULT, "RCTProfileUnhookInstance");
 		
-		if(__RCTProfileIsProfiling == NULL || __RCTProfileInit == NULL || __RCTProfileEnd == NULL)
+		if(__RCTProfileIsProfiling == NULL || __RCTProfileInit == NULL || __RCTProfileEnd == NULL || __RCTProfileUnhookInstance == NULL)
 		{
 			return;
 		}
