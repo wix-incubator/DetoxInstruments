@@ -217,6 +217,7 @@ echo -e "\033[1;34mCreating an NPM release\033[0m"
 if [ -z "$DRY_RUN" ]; then
 	pushd . &> /dev/null
 	cd Distribution
+	mv package package.json
 	NPM_VERSION="${SHORT_VERSION}"
 	if [[ $(echo ${NPM_VERSION} | grep -o "\." | grep -c "\.") == 1 ]]; then
 		NPM_VERSION="${NPM_VERSION}."
@@ -224,7 +225,8 @@ if [ -z "$DRY_RUN" ]; then
 	NPM_VERSION="${NPM_VERSION}${BUILD_NUMBER}"	
 	npm version "${NPM_VERSION}" --allow-same-version &> /dev/null
 	npm publish
-	git checkout package.json
+	mv package.json package
+	git checkout package
 	popd &> /dev/null
 fi
 
