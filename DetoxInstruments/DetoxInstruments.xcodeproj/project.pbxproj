@@ -1758,7 +1758,7 @@
 				39EBDFB51ED36D45005D8AB1 /* Frameworks */,
 				39EBDFB61ED36D45005D8AB1 /* Resources */,
 				398D6E771EE03E9B00AA9C11 /* Embed Frameworks */,
-				39A829541F43780100A5FE3D /* Embed Profiler Framework */,
+				39A829541F43780100A5FE3D /* Embed Profiler Frameworks */,
 				39EEF3A621F6275A0028061D /* Embed CLI Tool */,
 				397AC318219456A6009E62BB /* Sign Sparkle with Hardened Runtime */,
 				39487CB71F435EFA0063E66D /* Copy Shared Support Items */,
@@ -1946,19 +1946,19 @@
 			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nshortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n";
 			showEnvVarsInLog = 0;
 		};
-		39A829541F43780100A5FE3D /* Embed Profiler Framework */ = {
+		39A829541F43780100A5FE3D /* Embed Profiler Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Profiler Framework";
+			name = "Embed Profiler Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = "/bin/bash -e";
-			shellScript = "rm -fr /tmp/DTXProfiler.dst\nrm -fr /tmp/DTXProfilerShim.dst\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphoneos\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphonesimulator\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-universal\nrm -fr \"${SRCROOT}\"/../ProfilerShim/build\n\npushd .\ncd \"${SRCROOT}\"/../Profiler\nxcodebuild -project DTXProfiler.xcodeproj -configuration Release_External -target DTXProfilerFramework ENABLE_HARDENED_RUNTIME=NO build\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\ncp -fr /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -k zubur1 -in /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework/DTXProfiler -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/DTXProfiler.framework/DTXProfiler\npopd\n\npushd .\ncd \"${SRCROOT}\"/../ProfilerShim\nxcodebuild -project DTXProfilerShim.xcodeproj -configuration Release -target DTXProfilerShimFramework ENABLE_HARDENED_RUNTIME=NO build\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\ncp -fr /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -k zubur1 -in /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework/DTXProfilerShim -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/DTXProfilerShim.framework/DTXProfilerShim\npopd\n";
+			shellScript = "rm -fr /tmp/DTXProfiler.dst\nrm -fr /tmp/DTXProfilerShim.dst\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphoneos\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphonesimulator\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-universal\nrm -fr \"${SRCROOT}\"/../ProfilerShim/build\n\npushd .\ncd \"${SRCROOT}\"/../Profiler\nxcodebuild -project DTXProfiler.xcodeproj -configuration Release_External -target DTXProfilerFramework ENABLE_HARDENED_RUNTIME=NO build\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\ncp -fr /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework/DTXProfiler -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/DTXProfiler.framework/DTXProfiler\npopd\n\npushd .\ncd \"${SRCROOT}\"/../ProfilerShim\nxcodebuild -project DTXProfilerShim.xcodeproj -configuration Release -target DTXProfilerShimFramework ENABLE_HARDENED_RUNTIME=NO build\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\ncp -fr /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework/DTXProfilerShim -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/DTXProfilerShim.framework/DTXProfilerShim\npopd\n";
 			showEnvVarsInLog = 0;
 		};
 		39EEF3A621F6275A0028061D /* Embed CLI Tool */ = {
