@@ -165,6 +165,11 @@
 	}
 }
 
+- (void)setDataLimitRange:(DTXPlotRange *)plotRange
+{
+	
+}
+
 - (NSString *)displayName
 {
 	return @"";

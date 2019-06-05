@@ -237,8 +237,8 @@
 	NSDate* startTimestamp = [note.object firstRecording].defactoStartTimestamp;
 	NSDate* endTimestamp = [note.object lastRecording].defactoEndTimestamp;
 	
-	[_plotGroup setGlobalStartTimestamp:startTimestamp endTimestamp:endTimestamp ignoreSmaller:YES];
 	[_plotGroup setDataStartTimestamp:startTimestamp endTimestamp:endTimestamp];
+	[_plotGroup setGlobalStartTimestamp:startTimestamp endTimestamp:endTimestamp ignoreSmaller:YES];
 	
 	if(_nowModeEnabled)
 	{

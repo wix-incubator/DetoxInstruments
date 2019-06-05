@@ -386,6 +386,13 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	[self setNeedsDisplay:YES];
 }
 
+- (void)setDataLimitRange:(DTXPlotRange *)dataLimitRange
+{
+	_dataLimitRange = dataLimitRange.copy;
+	
+	[self setNeedsDisplay:YES];
+}
+
 - (void)setPlotRange:(DTXPlotRange *)range
 {
 	[self _setPlotRange:range notifyDelegate:NO];

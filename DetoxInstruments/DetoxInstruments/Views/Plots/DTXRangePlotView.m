@@ -257,6 +257,7 @@ void __DTXDrawLinesFastPath(DTXRangePlotView* self, CGContextRef ctx, NSRect dir
 {
 	DTXPlotRange* globalRange = self.globalPlotRange;
 	DTXPlotRange* range = self.plotRange;
+	DTXPlotRange* dataLimitRange = self.dataLimitRange;
 	
 	NSCParameterAssert(globalRange != nil);
 	NSCParameterAssert(globalRange.position == 0);
@@ -285,7 +286,7 @@ void __DTXDrawLinesFastPath(DTXRangePlotView* self, CGContextRef ctx, NSRect dir
 			NSString* title = line.title;
 			
 			double start = MAX(dirtyRect.origin.x, offset + line.start * graphViewRatio);
-			double end = MIN(dirtyRect.origin.x + dirtyRect.size.width, offset + line.end * graphViewRatio);
+			double end = MIN(MIN(dirtyRect.origin.x + dirtyRect.size.width, offset + line.end * graphViewRatio), offset + dataLimitRange.length * graphViewRatio);
 			CGFloat height = spacing * line.height + lineHeight / 2.0 + topInset;
 			
 			//Out of bounds lines should not be drawn
@@ -329,6 +330,7 @@ static DTX_ALWAYS_INLINE void __DTXDrawLinesSlowPath(DTXRangePlotView* self, CGC
 {
 	DTXPlotRange* globalRange = self.globalPlotRange;
 	DTXPlotRange* range = self.plotRange;
+	DTXPlotRange* dataLimitRange = self.dataLimitRange;
 	
 	NSCParameterAssert(globalRange != nil);
 	NSCParameterAssert(globalRange.position == 0);
@@ -357,7 +359,7 @@ static DTX_ALWAYS_INLINE void __DTXDrawLinesSlowPath(DTXRangePlotView* self, CGC
 			NSString* title = line.title;
 			
 			double start = MAX(dirtyRect.origin.x, offset + line.start * graphViewRatio);
-			double end = MIN(dirtyRect.origin.x + dirtyRect.size.width, offset + line.end * graphViewRatio);
+			double end = MIN(MIN(dirtyRect.origin.x + dirtyRect.size.width, offset + line.end * graphViewRatio), offset + dataLimitRange.length * graphViewRatio);
 			CGFloat height = spacing * line.height + lineHeight / 2.0 + topInset;
 			
 			//Out of bounds lines should not be drawn

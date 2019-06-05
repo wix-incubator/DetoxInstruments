@@ -65,7 +65,7 @@
 
 - (NSDate*)endTimestampForSample:(DTXNetworkSample*)sample
 {
-	return sample.responseTimestamp ?: [sample.timestamp dateByAddingTimeInterval:1];
+	return sample.responseTimestamp ?: NSDate.distantFuture;
 }
 
 - (NSColor*)colorForSample:(DTXNetworkSample*)sample

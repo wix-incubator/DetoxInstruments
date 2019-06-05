@@ -59,6 +59,11 @@
 	return [self _copyWithClass:DTXMutablePlotRange.class zone:zone];
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"%@ (%f, %f)", super.description, self.position, self.length];
+}
+
 @end
 
 @implementation DTXMutablePlotRange

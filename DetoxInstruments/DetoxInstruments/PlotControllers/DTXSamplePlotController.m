@@ -27,6 +27,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 {
 	DTXPlotRange* _pendingGlobalPlotRange;
 	DTXPlotRange* _pendingPlotRange;
+	DTXPlotRange* _pendingDataLimitRange;
 	
 	NSStoryboard* _scene;
 	
@@ -185,11 +186,19 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 		_pendingPlotRange = nil;
 	}
 	
+	DTXPlotRange* dataLimitRange = globalRange;
+	if(_pendingDataLimitRange)
+	{
+		dataLimitRange = _pendingDataLimitRange;
+		_pendingDataLimitRange = nil;
+	}
+	
 	NSUInteger plotViewIdx = 0;
 	for (__kindof DTXPlotView* plotView in plotViews)
 	{
 		plotView.globalPlotRange = globalRange;
 		plotView.plotRange = range;
+		plotView.dataLimitRange = dataLimitRange;
 		plotView.delegate = self;
 		
 		plotView.plotIndex = plotViewIdx;
@@ -242,7 +251,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 }
 
 - (void)setGlobalPlotRange:(DTXPlotRange*)globalPlotRange
-{
+{	
 	if(self.graph != nil)
 	{
 		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange.cptPlotRange];
@@ -274,6 +283,20 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	else
 	{
 		_pendingPlotRange = plotRange;
+	}
+}
+
+- (void)setDataLimitRange:(DTXPlotRange*)plotRange;
+{
+	if(self.plotStackView.arrangedSubviews.count > 0)
+	{
+		for (DTXPlotView* plotView in self.plotViews) {
+			plotView.dataLimitRange = plotRange;
+		}
+	}
+	else
+	{
+		_pendingDataLimitRange = plotRange;
 	}
 }
 

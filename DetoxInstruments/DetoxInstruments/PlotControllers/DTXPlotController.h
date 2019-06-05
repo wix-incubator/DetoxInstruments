@@ -61,6 +61,7 @@ extern NSString* const DTXPlotControllerRequiredHeightDidChangeNotification;
 
 - (void)setGlobalPlotRange:(DTXPlotRange*)globalPlotRange;
 - (void)setPlotRange:(DTXPlotRange*)plotRange;
+- (void)setDataLimitRange:(DTXPlotRange*)plotRange;
 - (void)zoomIn;
 - (void)zoomOut;
 - (void)zoomToFitAllData;

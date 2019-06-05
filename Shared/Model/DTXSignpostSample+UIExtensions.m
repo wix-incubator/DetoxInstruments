@@ -98,7 +98,7 @@
 
 - (NSDate*)defactoEndTimestamp
 {
-	return self.endTimestamp ?: [self.timestamp dateByAddingTimeInterval:1];
+	return self.endTimestamp ?: NSDate.distantFuture;
 }
 
 - (DTXThreadInfo*)startThread

@@ -460,6 +460,10 @@
 	
 	if(ignoreSmaller == YES && length < _savedGlobalPlotRange.length)
 	{
+		[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+			[obj setDataLimitRange:[DTXPlotRange plotRangeWithPosition:0 length:_savedDataEnd]];
+		}];
+		
 		return;
 	}
 	
@@ -469,6 +473,7 @@
 	[_headerPlotController setGlobalPlotRange:_savedGlobalPlotRange];
 	[_touchBarPlotController setGlobalPlotRange:_savedGlobalPlotRange];
 	[self _enumerateAllPlotControllersIncludingChildrenIn:_managedPlotControllers usingBlock:^(id<DTXPlotController> obj) {
+		[obj setDataLimitRange:_savedGlobalPlotRange];
 		[obj setGlobalPlotRange:_savedGlobalPlotRange];
 	}];
 

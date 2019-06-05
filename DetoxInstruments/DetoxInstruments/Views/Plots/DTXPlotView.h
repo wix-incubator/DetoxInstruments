@@ -70,6 +70,7 @@
 
 @property (nonatomic, copy) DTXPlotRange* plotRange;
 @property (nonatomic, copy) DTXPlotRange* globalPlotRange;
+@property (nonatomic, copy) DTXPlotRange* dataLimitRange;
 - (void)scalePlotRange:(double)scale atPoint:(CGPoint)point;
 
 - (void)reloadData;
