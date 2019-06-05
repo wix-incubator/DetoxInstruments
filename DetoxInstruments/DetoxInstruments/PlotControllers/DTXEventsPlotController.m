@@ -157,7 +157,7 @@ static NSDictionary* _tagToKeyPathMapping;
 	NSMenuItem* noGrouping = [NSMenuItem new];
 	noGrouping.title = @"None";
 	noGrouping.target = self;
-	noGrouping.action = @selector(test:);
+	noGrouping.action = @selector(reloadSections:);
 	noGrouping.tag = 0;
 	noGrouping.state = _sectionTag == noGrouping.tag;
 	[menu addItem:noGrouping];
@@ -165,7 +165,7 @@ static NSDictionary* _tagToKeyPathMapping;
 	NSMenuItem* sectionGrouping = [NSMenuItem new];
 	sectionGrouping.title = @"Category";
 	sectionGrouping.target = self;
-	sectionGrouping.action = @selector(test:);
+	sectionGrouping.action = @selector(reloadSections:);
 	sectionGrouping.tag = 1;
 	sectionGrouping.state = _sectionTag == sectionGrouping.tag;
 	[menu addItem:sectionGrouping];
@@ -173,7 +173,7 @@ static NSDictionary* _tagToKeyPathMapping;
 	NSMenuItem* threadGrouping = [NSMenuItem new];
 	threadGrouping.title = @"Starting Thread";
 	threadGrouping.target = self;
-	threadGrouping.action = @selector(test:);
+	threadGrouping.action = @selector(reloadSections:);
 	threadGrouping.tag = 2;
 	threadGrouping.state = _sectionTag == threadGrouping.tag;
 	[menu addItem:threadGrouping];
@@ -201,7 +201,7 @@ static NSString* __DTXPlotControllerCacheKeyForObject(id<NSObject> object)
 }
 
 
-- (IBAction)test:(NSMenuItem*)sender
+- (IBAction)reloadSections:(NSMenuItem*)sender
 {
 	NSUInteger sectionTag = sender.tag;
 	

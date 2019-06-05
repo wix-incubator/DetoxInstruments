@@ -39,4 +39,16 @@
 	}
 }
 
+- (NSView *)hitTest:(NSPoint)point
+{
+	NSView* rv = [super hitTest:point];
+	
+	if(rv == self)
+	{
+		return self.arrangedSubviews.firstObject;
+	}
+	
+	return rv;
+}
+
 @end

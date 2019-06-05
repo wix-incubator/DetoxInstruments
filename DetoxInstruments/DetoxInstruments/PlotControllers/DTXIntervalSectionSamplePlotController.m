@@ -65,10 +65,6 @@
 		{
 			_plotView.lineSpacing = 0.0;
 		}
-//		else
-//		{
-//			_plotView.minimumHeight = 80;
-//		}
 		
 		_plotView.translatesAutoresizingMaskIntoConstraints = NO;
 		_plotView.dataSource = self;

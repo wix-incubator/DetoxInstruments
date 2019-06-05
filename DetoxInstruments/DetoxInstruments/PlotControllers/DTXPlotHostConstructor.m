@@ -8,6 +8,11 @@
 
 #import "DTXPlotHostConstructor.h"
 
+CGFloat DTXCurrentTouchBarHeight(void)
+{
+	return 30;
+}
+
 @implementation DTXPlotHostConstructor
 
 @dynamic requiredHeight;
@@ -47,6 +52,10 @@
 
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets
 {
+	[view.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj removeFromSuperview];
+	}];
+	
 	if(_wrapperView)
 	{
 		[_wrapperView removeFromSuperview];
@@ -69,7 +78,7 @@
 			if(_isForTouchBar)
 			{
 				[NSLayoutConstraint activateConstraints:@[
-														  [_plotStackView.heightAnchor constraintEqualToConstant:30],
+														  [_plotStackView.heightAnchor constraintEqualToConstant:DTXCurrentTouchBarHeight()],
 														  ]];
 			}
 			else
@@ -113,8 +122,6 @@
 			}];
 			
 			_hostingView.hostedGraph = _graph;
-			
-			_hostingView.layer.backgroundColor = NSColor.redColor.CGColor;
 			
 			[_wrapperView addSubview:_hostingView];
 			

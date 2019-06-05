@@ -11,6 +11,8 @@
 #import "DTXGraphHostingView.h"
 #import "DTXPlotStackView.h"
 
+CGFloat DTXCurrentTouchBarHeight(void);
+
 @interface DTXPlotHostConstructor : NSObject
 
 @property (nonatomic, strong, readonly) DTXLayerView* wrapperView;

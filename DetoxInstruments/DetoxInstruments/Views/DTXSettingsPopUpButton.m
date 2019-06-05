@@ -26,7 +26,7 @@
 	titleGrouping.target = self;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-	titleGrouping.action = @selector(test:);
+	titleGrouping.action = @selector(reloadSections:);
 	#pragma clang diagnostic pop
 	
 	[menu insertItem:titleGrouping atIndex:1];

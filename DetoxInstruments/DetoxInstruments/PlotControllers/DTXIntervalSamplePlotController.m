@@ -81,14 +81,14 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 	fr.relationshipKeyPathsForPrefetching = self.relationshipsToFetch;
 	
 	NSMutableArray* sortDescriptors = (self.sortDescriptors ?: @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]).mutableCopy;
-	if(self.sectionKeyPath != nil)
+	if(self.isForTouchBar == NO && self.sectionKeyPath != nil)
 	{
 		[sortDescriptors insertObject:[NSSortDescriptor sortDescriptorWithKey:self.sectionKeyPath ascending:YES] atIndex:0];
 	}
 	
 	fr.sortDescriptors = sortDescriptors;
 	
-	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:self.sectionKeyPath cacheName:nil];
+	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:self.isForTouchBar ? nil : self.sectionKeyPath cacheName:nil];
 	_frc.delegate = self;
 	NSError* error;
 	[_frc performFetch:&error];
@@ -147,7 +147,7 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 - (id)_sectionForSample:(DTXSample*)sample
 {
 	id section;
-	if(self.sectionKeyPath == nil)
+	if(self.isForTouchBar || self.sectionKeyPath == nil)
 	{
 		section = @0;
 	}
