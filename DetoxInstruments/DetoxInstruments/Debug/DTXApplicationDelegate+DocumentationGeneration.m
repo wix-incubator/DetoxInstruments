@@ -446,7 +446,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		
 		[windowController _deselectAnyPlotControllers];
 		rep = (NSBitmapImageRep*)[windowController _snapshotForOnlyPlotOfPlotControllerOfClass:DTXCompactNetworkRequestsPlotController.class].representations.firstObject;
-		[[__DTXThemeBackgroundRep(__DTXCroppedRep(rep, NSEdgeInsetsMake(0, 0, 3 * rep.size.height / 4, 0))) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane_Labels.png"].path atomically:YES];
+		[[__DTXThemeBackgroundRep(__DTXCroppedRep(rep, NSEdgeInsetsMake(0, 0, 3.35 * rep.size.height / 4, 0))) representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"RecordingDocument_TimelinePane_Labels.png"].path atomically:YES];
 		
 		[windowController fitAllData:nil];
 		
