@@ -19,7 +19,7 @@ typedef NSString * DTXEventIdentifier;
 /*!
  The status of the event
  */
-typedef NS_ENUM(NSUInteger, DTXEventStatus) {
+typedef NS_ENUM(int32_t, DTXEventStatus) {
 	DTXEventStatusCompleted,
 	DTXEventStatusError,
 	DTXEventStatusCancelled

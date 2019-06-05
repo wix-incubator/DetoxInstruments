@@ -109,7 +109,7 @@ inline static void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL
 			{
 				additionalInfo = nil;
 			}
-			__DTXProfilerMarkEventIntervalEnd(timestamp, identifier, [params[@"0"] unsignedIntegerValue], additionalInfo);
+			__DTXProfilerMarkEventIntervalEnd(timestamp, identifier, [params[@"0"] intValue], additionalInfo);
 		}	break;
 		case 10:
 		{
@@ -118,7 +118,7 @@ inline static void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL
 			{
 				additionalInfo = nil;
 			}
-			__DTXProfilerMarkEventIdentifier(identifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] unsignedIntegerValue], additionalInfo);
+			__DTXProfilerMarkEventIdentifier(identifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] intValue], additionalInfo);
 		}	break;
 		default:
 			break;

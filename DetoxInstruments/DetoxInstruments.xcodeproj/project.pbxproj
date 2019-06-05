@@ -100,7 +100,6 @@
 		394ED73B225A4E1C001875C3 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 39443F40219482C500E9C0EA /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		394ED73C225A4E1C001875C3 /* CorePlot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED730225A4766001875C3 /* CorePlot.framework */; };
 		394ED73D225A4E1C001875C3 /* CorePlot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED730225A4766001875C3 /* CorePlot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		394ED754225A57A8001875C3 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED753225A57A8001875C3 /* SDWebImage.framework */; };
 		394ED755225A57B0001875C3 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED753225A57A8001875C3 /* SDWebImage.framework */; };
 		394ED756225A57B0001875C3 /* SDWebImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED753225A57A8001875C3 /* SDWebImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		394ED759225A57F0001875C3 /* DTXContributorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394ED758225A57F0001875C3 /* DTXContributorsViewController.m */; };
@@ -863,7 +862,6 @@
 				394ED73C225A4E1C001875C3 /* CorePlot.framework in Frameworks */,
 				392D52C01FAA008000A28938 /* DTXSourceMaps.framework in Frameworks */,
 				394516B61EEF442B0093E503 /* LNInterpolation.framework in Frameworks */,
-				394ED754225A57A8001875C3 /* SDWebImage.framework in Frameworks */,
 				394ED73A225A4E1C001875C3 /* Sparkle.framework in Frameworks */,
 				39D76EA12086B8470033BDE2 /* LNPropertyListEditor.framework in Frameworks */,
 			);
@@ -1788,7 +1786,7 @@
 		39EBDFB01ED36D45005D8AB1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
 					39EBDFB71ED36D45005D8AB1 = {
@@ -1810,10 +1808,9 @@
 			};
 			buildConfigurationList = 39EBDFB31ED36D45005D8AB1 /* Build configuration list for PBXProject "DetoxInstruments" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -2301,6 +2298,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -2350,6 +2348,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -2385,6 +2384,7 @@
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				IBSC_NOTICES = NO;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
@@ -2429,6 +2429,7 @@
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				IBSC_NOTICES = NO;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
