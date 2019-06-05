@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CorePlot/CPTMutablePlotRange.h>
+#import "DTXPlotRange.h"
 
 @interface DTXPlotViewAnnotation : NSObject
 
@@ -68,8 +68,8 @@
 
 @property (nonatomic, strong) NSArray<DTXPlotViewAnnotation*>* annotations;
 
-@property (nonatomic, copy) CPTPlotRange *plotRange;
-@property (nonatomic, copy) CPTPlotRange *globalPlotRange;
+@property (nonatomic, copy) DTXPlotRange* plotRange;
+@property (nonatomic, copy) DTXPlotRange* globalPlotRange;
 - (void)scalePlotRange:(double)scale atPoint:(CGPoint)point;
 
 - (void)reloadData;

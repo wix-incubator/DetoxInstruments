@@ -18,8 +18,8 @@
 
 @implementation DTXAxisHeaderPlotController
 {
-	CPTPlotRange* _pendingGlobalXPlotRange;
-	CPTPlotRange* _pendingXPlotRange;
+	DTXPlotRange* _pendingGlobalXPlotRange;
+	DTXPlotRange* _pendingXPlotRange;
 	CPTMutablePlotRange* _globalYRange;
 }
 
@@ -56,7 +56,7 @@
 	plotSpace.delegate = self;
 	if(_pendingGlobalXPlotRange)
 	{
-		plotSpace.globalXRange = _pendingGlobalXPlotRange;
+		plotSpace.globalXRange = _pendingGlobalXPlotRange.cptPlotRange;
 		_pendingGlobalXPlotRange = nil;
 	}
 	else
@@ -67,7 +67,7 @@
 	
 	if(_pendingXPlotRange)
 	{
-		plotSpace.xRange = _pendingXPlotRange;
+		plotSpace.xRange = _pendingXPlotRange.cptPlotRange;
 		_pendingXPlotRange = nil;
 	}
 	
@@ -133,7 +133,7 @@
 	}
 	
 	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
-	[_delegate plotController:self didChangeToPlotRange:plotSpace.xRange];
+	[_delegate plotController:self didChangeToPlotRange:[DTXPlotRange plotRangeWithCPTPlotRange:plotSpace.xRange]];
 }
 
 - (void)zoomIn {}
@@ -141,11 +141,11 @@
 - (void)zoomToFitAllData {}
 
 
-- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange
+- (void)setGlobalPlotRange:(DTXPlotRange*)globalPlotRange
 {
 	if(self.graph != nil)
 	{
-		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
+		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange.cptPlotRange];
 	}
 	else
 	{
@@ -153,11 +153,11 @@
 	}
 }
 
-- (void)setPlotRange:(CPTPlotRange *)plotRange
+- (void)setPlotRange:(DTXPlotRange *)plotRange
 {
 	if(self.graph != nil)
 	{
-		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setXRange:plotRange];
+		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setXRange:plotRange.cptPlotRange];
 	}
 	else
 	{

@@ -7,7 +7,7 @@
 //
 
 @import Cocoa;
-#import <CorePlot/CorePlot.h>
+#import "DTXPlotRange.h"
 #import "DTXRecordingDocument.h"
 
 extern NSString* const DTXPlotControllerRequiredHeightDidChangeNotification;
@@ -18,9 +18,9 @@ extern NSString* const DTXPlotControllerRequiredHeightDidChangeNotification;
 
 @protocol DTXPlotControllerDelegate <NSObject>
 
-- (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange;
+- (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(DTXPlotRange *)plotRange;
 - (void)plotControllerUserDidClickInPlotBounds:(id<DTXPlotController>)pc;
-- (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(CPTPlotRange*)highlightRange;
+- (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(DTXPlotRange*)highlightRange;
 - (void)plotControllerDidRemoveHighlight:(id<DTXPlotController>)pc;
 
 @end
@@ -59,8 +59,8 @@ extern NSString* const DTXPlotControllerRequiredHeightDidChangeNotification;
 - (void)setUpWithView:(NSView*)view;
 - (void)setUpWithView:(NSView *)view insets:(NSEdgeInsets)insets;
 
-- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange;
-- (void)setPlotRange:(CPTPlotRange*)plotRange;
+- (void)setGlobalPlotRange:(DTXPlotRange*)globalPlotRange;
+- (void)setPlotRange:(DTXPlotRange*)plotRange;
 - (void)zoomIn;
 - (void)zoomOut;
 - (void)zoomToFitAllData;
@@ -71,7 +71,7 @@ extern NSString* const DTXPlotControllerRequiredHeightDidChangeNotification;
 @property (nonatomic, weak) id<DTXPlotControllerSampleClickHandlingDelegate> sampleClickDelegate;
 
 - (void)highlightSample:(id)sample;
-- (void)shadowHighlightRange:(CPTPlotRange*)range;
+- (void)shadowHighlightRange:(DTXPlotRange*)range;
 - (void)removeHighlight;
 
 @property (nonatomic, assign, readonly) BOOL canReceiveFocus;

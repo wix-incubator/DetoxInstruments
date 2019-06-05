@@ -25,8 +25,8 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 
 @implementation DTXSamplePlotController
 {
-	CPTPlotRange* _pendingGlobalXPlotRange;
-	CPTPlotRange* _pendingXPlotRange;
+	DTXPlotRange* _pendingGlobalPlotRange;
+	DTXPlotRange* _pendingPlotRange;
 	
 	NSStoryboard* _scene;
 	
@@ -167,29 +167,29 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 {
 	NSArray<__kindof DTXPlotView*>* plotViews = self.plotViews;
 	
-	CPTPlotRange *globalXRange;
-	if(_pendingGlobalXPlotRange)
+	DTXPlotRange *globalRange;
+	if(_pendingGlobalPlotRange)
 	{
-		globalXRange = _pendingGlobalXPlotRange;
-		_pendingGlobalXPlotRange = nil;
+		globalRange = _pendingGlobalPlotRange;
+		_pendingGlobalPlotRange = nil;
 	}
 	else
 	{
-		globalXRange = [CPTPlotRange plotRangeWithLocation:@0 length:@([_document.lastRecording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate])];
+		globalRange = [DTXPlotRange plotRangeWithPosition:0 length:[_document.lastRecording.defactoEndTimestamp timeIntervalSinceReferenceDate] - [_document.firstRecording.defactoStartTimestamp timeIntervalSinceReferenceDate]];
 	}
 	
-	CPTPlotRange* xRange = globalXRange;
-	if(_pendingXPlotRange)
+	DTXPlotRange* range = globalRange;
+	if(_pendingPlotRange)
 	{
-		xRange = _pendingXPlotRange;
-		_pendingXPlotRange = nil;
+		range = _pendingPlotRange;
+		_pendingPlotRange = nil;
 	}
 	
 	NSUInteger plotViewIdx = 0;
 	for (__kindof DTXPlotView* plotView in plotViews)
 	{
-		plotView.globalPlotRange = globalXRange;
-		plotView.plotRange = xRange;
+		plotView.globalPlotRange = globalRange;
+		plotView.plotRange = range;
 		plotView.delegate = self;
 		
 		plotView.plotIndex = plotViewIdx;
@@ -241,11 +241,11 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	};
 }
 
-- (void)setGlobalPlotRange:(CPTPlotRange*)globalPlotRange
+- (void)setGlobalPlotRange:(DTXPlotRange*)globalPlotRange
 {
 	if(self.graph != nil)
 	{
-		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange];
+		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange.cptPlotRange];
 	}
 	else if(self.plotStackView)
 	{
@@ -255,15 +255,15 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	}
 	else
 	{
-		_pendingGlobalXPlotRange = globalPlotRange;
+		_pendingGlobalPlotRange = globalPlotRange;
 	}
 }
 
-- (void)setPlotRange:(CPTPlotRange *)plotRange
+- (void)setPlotRange:(DTXPlotRange *)plotRange
 {
 	if(self.graph != nil)
 	{
-		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setXRange:plotRange];
+		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setXRange:plotRange.cptPlotRange];
 	}
 	else if(self.plotStackView)
 	{
@@ -273,7 +273,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	}
 	else
 	{
-		_pendingXPlotRange = plotRange;
+		_pendingPlotRange = plotRange;
 	}
 }
 
@@ -308,18 +308,18 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 - (void)zoomToFitAllData
 {
 	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[obj scalePlotRange:obj.plotRange.lengthDouble / obj.globalPlotRange.lengthDouble atPoint:NSZeroPoint];
+		[obj scalePlotRange:obj.plotRange.length / obj.globalPlotRange.length atPoint:NSZeroPoint];
 	}];
 }
 
-- (CPTPlotRange*)plotRangeForSample:(DTXSample*) sample
+- (DTXPlotRange*)plotRangeForSample:(DTXSample*) sample
 {
-	return [CPTPlotRange plotRangeWithLocation:@(sample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate) length:@0];
+	return [DTXPlotRange plotRangeWithPosition:sample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate length:0];
 }
 
 - (void)highlightSample:(DTXSample*)sample
 {
-	CPTPlotRange* range = [self plotRangeForSample:sample];
+	DTXPlotRange* range = [self plotRangeForSample:sample];
 	
 	[self.delegate plotController:self didHighlightRange:range];
 	
@@ -328,33 +328,33 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 
 - (void)_highlightSample:(DTXSample*)sample sampleIndex:(NSUInteger)sampleIdx plotIndex:(NSUInteger)plotIndex positionInPlot:(double)position valueAtClickPosition:(double)value
 {
-	CPTPlotRange* range = [CPTPlotRange plotRangeWithLocation:@(position) length:@0];
+	DTXPlotRange* range = [DTXPlotRange plotRangeWithPosition:position length:0];
 	
 	[self.delegate plotController:self didHighlightRange:range];
 	
 	[self _highlightRange:range sampleIndex:sampleIdx isShadow:NO plotIndex:plotIndex valueAtClickPosition:value nofityDelegate:NO];
 }
 
-- (void)shadowHighlightRange:(CPTPlotRange*)range
+- (void)shadowHighlightRange:(DTXPlotRange*)range
 {
 	[self _highlightRange:range sampleIndex:NSNotFound isShadow:YES plotIndex:NSNotFound valueAtClickPosition:0 nofityDelegate:NO];
 }
 
-- (void)_highlightRange:(CPTPlotRange*)range sampleIndex:(NSUInteger)sampleIdx isShadow:(BOOL)isShadow plotIndex:(NSUInteger)plotIndex valueAtClickPosition:(double)value nofityDelegate:(BOOL)notifyDelegate
+- (void)_highlightRange:(DTXPlotRange*)range sampleIndex:(NSUInteger)sampleIdx isShadow:(BOOL)isShadow plotIndex:(NSUInteger)plotIndex valueAtClickPosition:(double)value nofityDelegate:(BOOL)notifyDelegate
 {
 	[self _removeHighlightNotifyingDelegate:NO];
 	
 	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSMutableArray* annotations = [NSMutableArray new];
-		if(range.lengthDouble > 0)
+		if(range.length > 0)
 		{
 			DTXPlotViewRangeAnnotation* annotation1 = [DTXPlotViewRangeAnnotation new];
 			annotation1.position = 0;
-			annotation1.end = range.locationDouble;
+			annotation1.end = range.position;
 			annotation1.opacity = 0.0;
 			
 			DTXPlotViewRangeAnnotation* annotation2 = [DTXPlotViewRangeAnnotation new];
-			annotation2.position = range.locationDouble + range.lengthDouble;
+			annotation2.position = range.position + range.length;
 			annotation2.end = DBL_MAX;
 			annotation2.opacity = 0.0;
 			
@@ -362,14 +362,14 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 			[annotations addObject:annotation2];
 			
 			DTXPlotViewLineAnnotation* annotation3 = [DTXPlotViewLineAnnotation new];
-			annotation3.position = range.locationDouble;
+			annotation3.position = range.position;
 			if(self.isForTouchBar == NO)
 			{
 				annotation3.opacity = 0.4;
 			}
 			
 			DTXPlotViewLineAnnotation* annotation4 = [DTXPlotViewLineAnnotation new];
-			annotation4.position = range.locationDouble + range.lengthDouble;
+			annotation4.position = range.position + range.length;
 			if(self.isForTouchBar == NO)
 			{
 				annotation4.opacity = 0.4;
@@ -381,7 +381,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 		else
 		{
 			DTXPlotViewLineAnnotation* annotation1 = [DTXPlotViewLineAnnotation new];
-			annotation1.position = range.locationDouble;
+			annotation1.position = range.position;
 			if(self.isForTouchBar == NO)
 			{
 				annotation1.opacity = self.wrapperView.effectiveAppearance.isDarkAppearance ? 1.0 : isShadow ? 0.4 : 1.0;
@@ -399,7 +399,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 					}
 					else
 					{
-						annotation1.value = [scatterPlotView valueAtPlotPosition:range.locationDouble exact:YES];
+						annotation1.value = [scatterPlotView valueAtPlotPosition:range.position exact:YES];
 					}
 					
 					double textValue;

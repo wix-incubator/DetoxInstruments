@@ -185,6 +185,7 @@
 		399E733420919A52006EAD6E /* DTXPlotRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E733320919A52006EAD6E /* DTXPlotRowView.m */; };
 		399E73512091BF5E006EAD6E /* DTXLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E73502091BF5E006EAD6E /* DTXLayerView.m */; };
 		399E73582091D1B0006EAD6E /* DTXPlotHostConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E73572091D1B0006EAD6E /* DTXPlotHostConstructor.m */; };
+		399FE06122A7B4D800E8DA05 /* DTXPlotRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 399FE06022A7B4D800E8DA05 /* DTXPlotRange.m */; };
 		39A6A2E21F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A6A2E11F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m */; };
 		39A876B71EED3DEE00AE62F8 /* DTXCompactNetworkRequestsPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A876A91EED3D2E00AE62F8 /* DTXCompactNetworkRequestsPlotController.m */; };
 		39A876BA1EED61B800AE62F8 /* DTXScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A876B91EED61B800AE62F8 /* DTXScrollView.m */; };
@@ -698,6 +699,8 @@
 		399E73502091BF5E006EAD6E /* DTXLayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLayerView.m; sourceTree = "<group>"; };
 		399E73562091D1B0006EAD6E /* DTXPlotHostConstructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotHostConstructor.h; sourceTree = "<group>"; };
 		399E73572091D1B0006EAD6E /* DTXPlotHostConstructor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotHostConstructor.m; sourceTree = "<group>"; };
+		399FE05F22A7B4D800E8DA05 /* DTXPlotRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotRange.h; sourceTree = "<group>"; };
+		399FE06022A7B4D800E8DA05 /* DTXPlotRange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotRange.m; sourceTree = "<group>"; };
 		39A6A2E01F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLogLineInspectorDataProvider.h; sourceTree = "<group>"; };
 		39A6A2E11F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLogLineInspectorDataProvider.m; sourceTree = "<group>"; };
 		39A876A81EED3D2E00AE62F8 /* DTXCompactNetworkRequestsPlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCompactNetworkRequestsPlotController.h; sourceTree = "<group>"; };
@@ -1341,6 +1344,8 @@
 		3978A58C21D09C0E00B739E2 /* Plots */ = {
 			isa = PBXGroup;
 			children = (
+				399FE05F22A7B4D800E8DA05 /* DTXPlotRange.h */,
+				399FE06022A7B4D800E8DA05 /* DTXPlotRange.m */,
 				3978A58D21D09C3B00B739E2 /* DTXPlotView.h */,
 				39D9861021DD794100AFC48B /* DTXPlotView-Private.h */,
 				3978A58E21D09C3B00B739E2 /* DTXPlotView.m */,
@@ -2102,6 +2107,7 @@
 				39FA40A81F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m in Sources */,
 				39DABB9721BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.m in Sources */,
 				394E30C6223F9E3E0030462C /* DTXValidatingButtonCell.m in Sources */,
+				399FE06122A7B4D800E8DA05 /* DTXPlotRange.m in Sources */,
 				39C646571F249CA100DF0C77 /* DTXRemoteTargetCellView.m in Sources */,
 				3925A2631F1142EC008343ED /* DTXStackTraceCellView.m in Sources */,
 				3905F4B91EF7FE12003E08C1 /* DTXThreadCPUUsagePlotController.m in Sources */,
@@ -2385,6 +2391,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
+				OTHER_CFLAGS = "-ferror-limit=0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
 				PRODUCT_NAME = "Detox Instruments";
 				PROVISIONING_PROFILE = "";
@@ -2427,6 +2434,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
+				OTHER_CFLAGS = "-ferror-limit=0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
 				PRODUCT_NAME = "Detox Instruments";
 				PROVISIONING_PROFILE = "";

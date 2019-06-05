@@ -98,7 +98,7 @@ static DTX_ALWAYS_INLINE void __DTXFlushPaths(DTXScatterPlotView* self, CGContex
 static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContextRef ctx)
 {
 	NSMutableArray<DTXScatterPlotViewPoint*>* points = self._points;
-	CPTPlotRange* plotRange = self.plotRange;
+	DTXPlotRange* plotRange = self.plotRange;
 	double maxHeight = (self.heightSynchronizer ? self.heightSynchronizer.maximumPlotHeight : self.maxHeight);
 	NSEdgeInsets insets = self.insets;
 	BOOL isStepped = self.isStepped;
@@ -116,9 +116,9 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 		return;
 	}
 	
-	CGFloat graphViewRatio = selfBounds.size.width / plotRange.lengthDouble;
+	CGFloat graphViewRatio = selfBounds.size.width / plotRange.length;
 	CGFloat graphHeightViewRatio = (selfBounds.size.height - insets.top - insets.bottom) / (maxHeight * self.plotHeightMultiplier);
-	CGFloat offset = - graphViewRatio * plotRange.locationDouble;
+	CGFloat offset = - graphViewRatio * plotRange.position;
 	
 	NSUInteger firstPointIdx = 0;
 	NSUInteger lastPointIdx = points.count - 1;
@@ -577,7 +577,7 @@ static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, N
 		return NSNotFound;
 	}
 	
-	double plotClickPosition = self.plotRange.locationDouble + viewPosition * self.plotRange.lengthDouble / self.bounds.size.width;
+	double plotClickPosition = self.plotRange.position + viewPosition * self.plotRange.length / self.bounds.size.width;
 	
 	double throwAwayPosition;
 	double throwAwayValue;

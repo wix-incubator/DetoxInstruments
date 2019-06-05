@@ -220,8 +220,8 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 		double topInset = viewHeightRatio * self.insets.top;
 		double spacing = viewHeightRatio * (_lineWidth + _fontCharacterSize.height + _lineSpacing);
 		
-		CGFloat graphViewRatio = selfBounds.size.width / self.plotRange.lengthDouble;
-		CGFloat offset = - graphViewRatio * self.plotRange.locationDouble;
+		CGFloat graphViewRatio = selfBounds.size.width / self.plotRange.length;
+		CGFloat offset = - graphViewRatio * self.plotRange.position;
 		
 		double start = offset + newRange.start * graphViewRatio;
 		double end = offset + newRange.end * graphViewRatio;
@@ -255,12 +255,12 @@ static
 DTX_ALWAYS_INLINE
 void __DTXDrawLinesFastPath(DTXRangePlotView* self, CGContextRef ctx, NSRect dirtyRect)
 {
-	CPTPlotRange* globalXRange = self.globalPlotRange;
-	CPTPlotRange* xRange = self.plotRange;
+	DTXPlotRange* globalRange = self.globalPlotRange;
+	DTXPlotRange* range = self.plotRange;
 	
-	NSCParameterAssert(globalXRange != nil);
-	NSCParameterAssert(globalXRange.locationDouble == 0);
-	NSCParameterAssert(xRange != nil);
+	NSCParameterAssert(globalRange != nil);
+	NSCParameterAssert(globalRange.position == 0);
+	NSCParameterAssert(range != nil);
 	
 	CGRect selfBounds = self.bounds;
 	double viewHeightRatio = MIN(1.0, selfBounds.size.height / self.intrinsicContentSize.height);
@@ -269,8 +269,8 @@ void __DTXDrawLinesFastPath(DTXRangePlotView* self, CGContextRef ctx, NSRect dir
 	double topInset = viewHeightRatio * self.insets.top;
 	double spacing = viewHeightRatio * (self->_lineWidth  + self->_fontCharacterSize.height + self->_lineSpacing);
 	
-	CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
-	CGFloat offset = - graphViewRatio * xRange.locationDouble;
+	CGFloat graphViewRatio = selfBounds.size.width / range.length;
+	CGFloat offset = - graphViewRatio * range.position;
 	
 	CGContextSetLineWidth(ctx, lineHeight);
 	CGContextSetLineCap(ctx, kCGLineCapButt);
@@ -327,12 +327,12 @@ void __DTXDrawLinesFastPath(DTXRangePlotView* self, CGContextRef ctx, NSRect dir
 
 static DTX_ALWAYS_INLINE void __DTXDrawLinesSlowPath(DTXRangePlotView* self, CGContextRef ctx, NSRect dirtyRect, NSMutableArray<_DTXDrawingZone*>* zones)
 {
-	CPTPlotRange* globalXRange = self.globalPlotRange;
-	CPTPlotRange* xRange = self.plotRange;
+	DTXPlotRange* globalRange = self.globalPlotRange;
+	DTXPlotRange* range = self.plotRange;
 	
-	NSCParameterAssert(globalXRange != nil);
-	NSCParameterAssert(globalXRange.locationDouble == 0);
-	NSCParameterAssert(xRange != nil);
+	NSCParameterAssert(globalRange != nil);
+	NSCParameterAssert(globalRange.position == 0);
+	NSCParameterAssert(range != nil);
 	
 	CGRect selfBounds = self.bounds;
 	double viewHeightRatio = MIN(1.0, selfBounds.size.height / self.intrinsicContentSize.height);
@@ -341,8 +341,8 @@ static DTX_ALWAYS_INLINE void __DTXDrawLinesSlowPath(DTXRangePlotView* self, CGC
 	double topInset = viewHeightRatio * self.insets.top;
 	double spacing = viewHeightRatio * (self->_lineWidth  + self->_fontCharacterSize.height + self->_lineSpacing);
 	
-	CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
-	CGFloat offset = - graphViewRatio * xRange.locationDouble;
+	CGFloat graphViewRatio = selfBounds.size.width / range.length;
+	CGFloat offset = - graphViewRatio * range.position;
 	
 	CGContextSetLineWidth(ctx, lineHeight);
 	CGContextSetLineCap(ctx, kCGLineCapButt);
@@ -495,10 +495,10 @@ static DTX_ALWAYS_INLINE void __DTXDrawLinesSlowPath(DTXRangePlotView* self, CGC
 	double topInset = viewHeightRatio * self.insets.top;
 	double spacing = viewHeightRatio * (_lineWidth + _fontCharacterSize.height + _lineSpacing);
 	
-	CPTPlotRange* xRange = self.plotRange;
-	double previousLocation = xRange.locationDouble;
+	DTXPlotRange* range = self.plotRange;
+	double previousLocation = range.position;
 	
-	double pointOnGraph = previousLocation + clickPoint.x * xRange.lengthDouble / selfBounds.size.width;
+	double pointOnGraph = previousLocation + clickPoint.x * range.length / selfBounds.size.width;
 	
 	BOOL found = NO;
 	NSUInteger idx = 0;
@@ -515,7 +515,7 @@ static DTX_ALWAYS_INLINE void __DTXDrawLinesSlowPath(DTXRangePlotView* self, CGC
 			continue;
 		}
 		
-		double lineHeightOnGraph = lineHeight * xRange.lengthDouble / selfBounds.size.width;
+		double lineHeightOnGraph = lineHeight * range.length / selfBounds.size.width;
 		
 		if(line.start == line.end && (fabs(line.start - pointOnGraph) > lineHeightOnGraph / 2.0 ||
 									  fabs(height - clickPoint.y) > ((0.5 * spacing) + lineHeight) / 2.0)

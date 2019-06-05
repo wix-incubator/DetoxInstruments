@@ -22,9 +22,9 @@
 	
 	NSUInteger _ignoringPlotRangeNotificationsCount;
 	DTXTimelineIndicatorView* _timelineView;
-	CPTPlotRange* _savedPlotRange;
-	CPTPlotRange* _savedGlobalPlotRange;
-	CPTPlotRange* _savedHighlightRange;
+	DTXPlotRange* _savedPlotRange;
+	DTXPlotRange* _savedGlobalPlotRange;
+	DTXPlotRange* _savedHighlightRange;
 	
 	id<DTXPlotController> _currentlySelectedPlotController;
 	
@@ -406,7 +406,7 @@
 	}];
 }
 
-- (void)_resetSavedPlotRange:(CPTPlotRange*)plotRange updatePlotControllers:(BOOL)update notifyDelegate:(BOOL)notify byUser:(BOOL)byUser
+- (void)_resetSavedPlotRange:(DTXPlotRange*)plotRange updatePlotControllers:(BOOL)update notifyDelegate:(BOOL)notify byUser:(BOOL)byUser
 {
 	_savedPlotRange = plotRange;
 	
@@ -429,8 +429,8 @@
 
 - (void)_updateDelegateForScrollerChangeByUser:(BOOL)byUser
 {
-	CGFloat proportion = _savedPlotRange.lengthDouble / _savedGlobalPlotRange.lengthDouble;
-	CGFloat value = _savedPlotRange.locationDouble / (_savedGlobalPlotRange.lengthDouble - _savedPlotRange.lengthDouble);
+	CGFloat proportion = _savedPlotRange.length / _savedGlobalPlotRange.length;
+	CGFloat value = _savedPlotRange.position / (_savedGlobalPlotRange.length - _savedPlotRange.length);
 	
 	NSEventType type = _hostingOutlineView.window.currentEvent.type;
 	BOOL isUserEvent = type == NSEventTypeMagnify || type == NSEventTypeLeftMouseDragged || type == NSEventTypeScrollWheel;
@@ -445,25 +445,25 @@
 
 - (void)scrollToDataEnd
 {
-	NSTimeInterval length = _savedPlotRange.lengthDouble;
-	[self _resetSavedPlotRange:[CPTPlotRange plotRangeWithLocation:@(MAX(0, _savedDataEnd - length)) length:@(length)] updatePlotControllers:YES notifyDelegate:YES byUser:NO];
+	NSTimeInterval length = _savedPlotRange.length;
+	[self _resetSavedPlotRange:[DTXPlotRange plotRangeWithPosition:MAX(0, _savedDataEnd - length) length:length] updatePlotControllers:YES notifyDelegate:YES byUser:NO];
 }
 
 - (void)setLocalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp
 {
-	[self _resetSavedPlotRange:[CPTPlotRange plotRangeWithLocation:@0 length:@(endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate)] updatePlotControllers:NO notifyDelegate:YES byUser:NO];
+	[self _resetSavedPlotRange:[DTXPlotRange plotRangeWithPosition:0 length:endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate] updatePlotControllers:NO notifyDelegate:YES byUser:NO];
 }
 
 - (void)setGlobalStartTimestamp:(NSDate*)startTimestamp endTimestamp:(NSDate*)endTimestamp ignoreSmaller:(BOOL)ignoreSmaller
 {
 	NSTimeInterval length = endTimestamp.timeIntervalSinceReferenceDate - startTimestamp.timeIntervalSinceReferenceDate;
 	
-	if(ignoreSmaller == YES && length < _savedGlobalPlotRange.lengthDouble)
+	if(ignoreSmaller == YES && length < _savedGlobalPlotRange.length)
 	{
 		return;
 	}
 	
-	_savedGlobalPlotRange = [CPTPlotRange plotRangeWithLocation:@0 length:@(length)];
+	_savedGlobalPlotRange = [DTXPlotRange plotRangeWithPosition:0 length:length];
 	
 	_ignoringPlotRangeNotificationsCount ++;
 	[_headerPlotController setGlobalPlotRange:_savedGlobalPlotRange];
@@ -497,9 +497,9 @@
 
 - (void)scrollToValue:(CGFloat)value
 {
-	value = value - (value * _savedPlotRange.lengthDouble / _savedGlobalPlotRange.lengthDouble);
+	value = value - (value * _savedPlotRange.length / _savedGlobalPlotRange.length);
 	
-	CPTPlotRange* newPlotRange = [CPTPlotRange plotRangeWithLocation:@(value * _savedGlobalPlotRange.lengthDouble) length:_savedPlotRange.length];
+	DTXPlotRange* newPlotRange = [DTXPlotRange plotRangeWithPosition:value * _savedGlobalPlotRange.length length:_savedPlotRange.length];
 	
 	[self _resetSavedPlotRange:newPlotRange updatePlotControllers:YES notifyDelegate:YES byUser:NO];
 }
@@ -517,7 +517,7 @@
 
 #pragma mark DTXPlotControllerDelegate
 
-- (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(CPTPlotRange *)plotRange
+- (void)plotController:(id<DTXPlotController>)pc didChangeToPlotRange:(DTXPlotRange *)plotRange
 {
 	if(_ignoringPlotRangeNotificationsCount > 0)
 	{
@@ -550,7 +550,7 @@
 	_ignoringPlotRangeNotificationsCount --;
 }
 
-- (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(CPTPlotRange*)highlightRange
+- (void)plotController:(id<DTXPlotController>)pc didHighlightRange:(DTXPlotRange*)highlightRange
 {
 	_savedHighlightRange = highlightRange;
 	

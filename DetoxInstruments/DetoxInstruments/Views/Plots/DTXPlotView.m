@@ -151,10 +151,10 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
 	CGContextResetClip(ctx);
 	
-	CPTPlotRange* xRange = _containingPlotView.plotRange;
+	DTXPlotRange* range = _containingPlotView.plotRange;
 	
-	CGFloat graphViewRatio = selfBounds.size.width / xRange.lengthDouble;
-	CGFloat offset = - graphViewRatio * xRange.locationDouble;
+	CGFloat graphViewRatio = selfBounds.size.width / range.length;
+	CGFloat offset = - graphViewRatio * range.position;
 	
 	//Somehow the 0.5 pixel offset on 1x screens with antialiasing disabled make it appear better 🤷‍♂️
 	double valuePixelOffset = self.window.backingScaleFactor == 1.0 ? 0.5 : 0.0;
@@ -379,21 +379,21 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	}
 }
 
-- (void)setGlobalPlotRange:(CPTPlotRange *)globalXRange
+- (void)setGlobalPlotRange:(DTXPlotRange *)globalRange
 {
-	_globalPlotRange = globalXRange;
+	_globalPlotRange = globalRange.copy;
 	
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setPlotRange:(CPTPlotRange *)xRange
+- (void)setPlotRange:(DTXPlotRange *)range
 {
-	[self _setPlotRange:xRange notifyDelegate:NO];
+	[self _setPlotRange:range notifyDelegate:NO];
 }
 
-- (void)_setPlotRange:(CPTPlotRange *)xRange notifyDelegate:(BOOL)notify
+- (void)_setPlotRange:(DTXPlotRange *)range notifyDelegate:(BOOL)notify
 {
-	_plotRange = xRange;
+	_plotRange = range.copy;
 	
 	[self setNeedsDisplay:YES];
 	
@@ -482,18 +482,18 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 		return;
 	}
 	
-	CPTMutablePlotRange* xRange = [self.plotRange mutableCopy];
+	DTXMutablePlotRange* range = self.plotRange.mutableCopy;
 	CGFloat selfWidth = self.bounds.size.width;
 	
-	double previousLocation = xRange.locationDouble;
+	double previousLocation = range.position;
 	
-	double maxLocation = self.globalPlotRange.lengthDouble - xRange.lengthDouble;
+	double maxLocation = self.globalPlotRange.length - range.length;
 	
-	xRange.locationDouble = MIN(maxLocation, MAX(0, xRange.locationDouble - xRange.lengthDouble * delta / selfWidth));
+	range.position = MIN(maxLocation, MAX(0, range.position - range.length * delta / selfWidth));
 	
-	if(xRange.locationDouble != previousLocation)
+	if(range.position != previousLocation)
 	{
-		[self _setPlotRange:xRange notifyDelegate:YES];
+		[self _setPlotRange:range notifyDelegate:YES];
 	}
 }
 
@@ -504,28 +504,28 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 		return;
 	}
 	
-	CPTMutablePlotRange* xRange = [self.plotRange mutableCopy];
+	DTXMutablePlotRange* range = self.plotRange.mutableCopy;
 	
 	CGFloat selfWidth = self.bounds.size.width;
 	
-	double previousLocation = xRange.locationDouble;
-	double previousLength = xRange.lengthDouble;
+	double previousLocation = range.position;
+	double previousLength = range.length;
 	
-	double pointOnGraph = previousLocation + point.x * xRange.lengthDouble / selfWidth;
+	double pointOnGraph = previousLocation + point.x * range.length / selfWidth;
 	
-	xRange.lengthDouble = MIN(self.globalPlotRange.lengthDouble, xRange.lengthDouble / scale);
+	range.length = MIN(self.globalPlotRange.length, range.length / scale);
 	
 	double newLocationX = 0;
-	double oldFirstLengthX = pointOnGraph - xRange.minLimitDouble;
+	double oldFirstLengthX = pointOnGraph - range.minLimit;
 	double newFirstLengthX = oldFirstLengthX / scale;
 	newLocationX = pointOnGraph - newFirstLengthX;
 	
-	double maxLocation = self.globalPlotRange.lengthDouble - xRange.lengthDouble;
-	xRange.locationDouble = MIN(maxLocation, MAX(0, newLocationX));
+	double maxLocation = self.globalPlotRange.length - range.length;
+	range.position = MIN(maxLocation, MAX(0, newLocationX));
 	
-	if(xRange.locationDouble != previousLocation || xRange.lengthDouble != previousLength)
+	if(range.position != previousLocation || range.length != previousLength)
 	{
-		[self _setPlotRange:xRange notifyDelegate:YES];
+		[self _setPlotRange:range notifyDelegate:YES];
 	}
 }
 
@@ -626,7 +626,7 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 
 - (void)magnifyWithEvent:(nonnull NSEvent *)event
 {
-	CGFloat scale = event.magnification + CPTFloat(1.0);
+	CGFloat scale = event.magnification + 1.0;
 	CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
 	
 	[self scalePlotRange:scale atPoint:point];

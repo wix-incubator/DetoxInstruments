@@ -24,8 +24,8 @@ static DTX_ALWAYS_INLINE double lerp(double a, double b, double t)
 
 static DTX_ALWAYS_INLINE void __DTXFillZones(DTXPlotView* self, NSMutableArray<_DTXDrawingZone*>* zones)
 {
-	CGFloat graphViewRatio = self.bounds.size.width / self.plotRange.lengthDouble;
-	CGFloat offset = - graphViewRatio * self.plotRange.locationDouble;
+	CGFloat graphViewRatio = self.bounds.size.width / self.plotRange.length;
+	CGFloat offset = - graphViewRatio * self.plotRange.position;
 	
 	_DTXDrawingZone* zone = [_DTXDrawingZone new];
 	zone.start = offset + graphViewRatio * 0;

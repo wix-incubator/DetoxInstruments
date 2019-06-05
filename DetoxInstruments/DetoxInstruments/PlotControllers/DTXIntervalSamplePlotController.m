@@ -137,11 +137,11 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 	
 }
 
-- (CPTPlotRange*)plotRangeForSample:(DTXSample*) sample
+- (DTXPlotRange*)plotRangeForSample:(DTXSample*) sample
 {
 	NSTimeInterval timestamp =  sample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
 	NSTimeInterval responseTimestamp = [self endTimestampForSample:sample].timeIntervalSinceReferenceDate  - self.document.firstRecording.defactoStartTimestamp.timeIntervalSinceReferenceDate;
-	return [CPTPlotRange plotRangeWithLocation:@(timestamp) length:@(responseTimestamp - timestamp)];
+	return [DTXPlotRange plotRangeWithPosition:timestamp length:responseTimestamp - timestamp];
 }
 
 - (id)_sectionForSample:(DTXSample*)sample
