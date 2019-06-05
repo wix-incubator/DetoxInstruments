@@ -247,7 +247,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	{
 		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange.cptPlotRange];
 	}
-	else if(self.plotStackView)
+	else if(self.plotStackView.arrangedSubviews.count > 0)
 	{
 		for (DTXPlotView* plotView in self.plotViews) {
 			plotView.globalPlotRange = globalPlotRange;
@@ -265,7 +265,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	{
 		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setXRange:plotRange.cptPlotRange];
 	}
-	else if(self.plotStackView)
+	else if(self.plotStackView.arrangedSubviews.count > 0)
 	{
 		for (DTXPlotView* plotView in self.plotViews) {
 			plotView.plotRange = plotRange;
