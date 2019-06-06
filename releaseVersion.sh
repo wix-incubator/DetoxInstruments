@@ -11,7 +11,7 @@
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if [ ! "$BRANCH" = "master" ]; then
-	printf >&2 "\033[1;31mNot on master branch, performing a dry run.\033[0m\n"
+	printf >&2 "\033[1;31mNot on master branch, performing a dry run\033[0m\n"
 	DRY_RUN="1"
 else 
 	if [ "$1" = "--dry" ]; then
@@ -25,7 +25,7 @@ if [ "$1" = "docs" ]; then
 fi
 
 if [ ! -z "$DRY_RUN" ]; then
-	printf >&2 "\033[1;31mPerforming a dry run.\033[0m\n"
+	printf >&2 "\033[1;31mPerforming a dry run\033[0m\n"
 fi
 
 # if  [[ -n $(git status --porcelain) ]]; then
@@ -51,14 +51,14 @@ if [ -z "$DRY_RUN" ]; then
 	open -Wn "${RELEASE_NOTES_FILE}"
 
 	if ! [ -s "${RELEASE_NOTES_FILE}" ]; then
-		echo -e >&2 "\033[1;31mNo release notes provided, aborting.\033[0m"
+		echo -e >&2 "\033[1;31mNo release notes provided, aborting\033[0m"
 		rm -f "${RELEASE_NOTES_FILE}"
 		exit -1
 	fi
 fi
 
 Scripts/updateCopyright.sh
-# Scripts/updateContributors.sh
+Scripts/updateContributors.sh
 
 if [ "$NO_DOCS" == "0" ]; then
 	echo -e "\033[1;34mUpdating acknowledgements and Apple Help\033[0m"
@@ -106,7 +106,7 @@ for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
     Echo "${PROGRESS}"
  
     if [ $? -ne 0 ] || [[ "${PROGRESS}" =~ "Invalid" ]] ; then
-        echo "Notarization failed"
+		echo -e >&2 "\033[1;31mNotarization failed\033[0m"
 		exit -1
         break
     fi
@@ -119,7 +119,7 @@ for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
 done
 
 if [ $NOTARIZATION_SUCCESS -ne 1 ] ; then
-	echo "Notarization timed out"
+	echo -e >&2 "\033[1;31mNotarization timed out\033[0m"
 	exit -1
 fi
 
