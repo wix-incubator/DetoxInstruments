@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DTXProfiler : NSObject
 
+/**
+ *  The version string of the Profiler framework.
+ */
 @property (class, nonatomic, readonly, copy) NSString* version;
 
 /**
@@ -29,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (atomic, assign, readonly, getter=isRecording) BOOL recording;
 
 /**
- * The profiling configuration provided to @c startProfilingWithConfiguration:. Will be null before calling that method.
+ *  The profiling configuration provided to @c startProfilingWithConfiguration:. Will be null before calling that method.
  */
 @property (atomic, copy, readonly, nullable) DTXProfilingConfiguration* profilingConfiguration;
 
@@ -39,6 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param configuration The configuration to use for profiling.
  */
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
+
+/**
+ *  Continues an existing profiling recording with the provided configuration, or if one does not exist, starts a new profiling recording.
+ *  If a recording is continued, the previous configuration is used.
+ *
+ *  @param configuration The configuration to use for profiling.
+ */
+- (void)continueProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
 
 /**
  *  Stops the profiling recording.

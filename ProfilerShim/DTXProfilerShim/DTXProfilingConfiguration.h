@@ -8,31 +8,29 @@
 
 @import Foundation;
 
+@class DTXMutableProfilingConfiguration;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Profiling configuration object for the Profiler.
  */
-@interface DTXProfilingConfiguration : NSObject <NSCopying, NSMutableCopying>
+@interface DTXProfilingConfiguration : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
+
+- (DTXProfilingConfiguration*)copy;
+- (DTXMutableProfilingConfiguration*)mutableCopy;
 
 /**
- *  Returns a newly created default profiling configuration object.
+ *  A newly created default profiling configuration object.
  */
-+ (instancetype)defaultProfilingConfiguration;
+@property (class, nonatomic, strong, readonly) DTXProfilingConfiguration* defaultProfilingConfiguration;
 
 /**
- *  Returns a newly created default profiling configuration object fore remote profiling.
+ *  A newly created default profiling configuration object fore remote profiling.
  */
-+ (instancetype)defaultProfilingConfigurationForRemoteProfiling;
+@property (class, nonatomic, strong, readonly) DTXProfilingConfiguration* defaultProfilingConfigurationForRemoteProfiling;
 
-// Sampling Configuration
-
-/**
- *  The sampling interval of the Profiler.
- *
- *  The default value is 0.5.
- */
-@property (nonatomic, readonly) NSTimeInterval samplingInterval;
+#pragma mark Recording Configuration
 
 /**
  *  The minimum number of samples to keep in memory before flushing to disk.
@@ -43,10 +41,55 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSUInteger numberOfSamplesBeforeFlushToDisk;
 
-//Recording Configuration
+/**
+ *  Record performance information during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readonly) BOOL recordPerformance;
+
+/**
+ *  The sampling interval of the Profiler.
+ *
+ *  The default value is 0.5.
+ */
+@property (nonatomic, readonly) NSTimeInterval samplingInterval;
+
+/**
+ *  Record thread information during profiling.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readonly) BOOL recordThreadInformation;
+
+/**
+ *  Collect stack trace information where appropriate.
+ *
+ *  Collecting stack traces may introduce some performance hit.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL collectStackTraces;
+
+/**
+ *  Symbolicate stack traces at runtime.
+ *
+ *  Symbolicating stack traces may introduce some performance hit.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL symbolicateStackTraces;
 
 /**
  *  Collect the names of open files for each sample.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
  *
  *  The default value is @c false.
  */
@@ -69,29 +112,30 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL recordLocalhostNetwork;
 
 /**
- *  Record thread information during profiling.
+ *  Disables cache for network requests.
+ *
+ *  Only relevant if @c recordNetwork is set to @c true.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readonly) BOOL disableNetworkCache;
+
+/**
+ *  Record events during profiling.
  *
  *  The default value is @c true.
  */
-@property (nonatomic, readonly) BOOL recordThreadInformation;
+@property (nonatomic, readonly) BOOL recordEvents;
 
 /**
- *  Collect stack trace information where appropriate.
+ *  A set of categories to ignore when profiling.
+ *  Use this property to prevent clutter in the Events instrument.
  *
- *  Collecting stack traces may introduce some performance hit.
+ *  Only relevant if @c recordEvents is set to @c true.
  *
- *  The default value is @c false.
+ *  The default value is an empty set.
  */
-@property (nonatomic, readonly) BOOL collectStackTraces;
-
-/**
- *  Symbolicate stack traces at runtime.
- *
- *  Symbolicating stack traces may introduce some performance hit.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readonly) BOOL symbolicateStackTraces;
+@property (nonatomic, copy, null_resettable, readonly) NSSet<NSString*>* ignoredEventCategories;
 
 /**
  *  Record log output during profiling.
@@ -111,34 +155,29 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL profileReactNative;
 
 /**
- *  Collect JavaScript stack trace information where appropriate.
- *
- *  Collecting JavaScript stack traces may introduce some performance hit.
- *
- *  JavaScript stack trace collection is implemented using signals. Specifically, @c SIGPROF and @c SIGCHLD are used.
- *  If your application uses those signals or installs custom handlers for those signals, there may be collision issues.
+ *  Record React Native bridge data during profiling.
  *
  *  The default value is @c false.
  */
-@property (nonatomic, readonly) BOOL collectJavaScriptStackTraces;
+@property (nonatomic, readonly) BOOL recordReactNativeBridgeData;
 
 /**
- *  Symbolicate JavaScript stack traces at runtime using source maps (if available).
- *
- *  Symbolicating JavaScript stack traces may introduce some performance hit.
+ *  Record React Native timers (created using @c setTimeout() in JavaScript) as events.
  *
  *  The default value is @c false.
  */
-@property (nonatomic, readonly) BOOL symbolicateJavaScriptStackTraces;
+@property (nonatomic, readonly) BOOL recordReactNativeTimersAsEvents;
+
+/**
+ *  Record internal React Native events.
+ *
+ *  Taps into the internal profiling mechanisms to collect internal React Native profiling events.
+ *
+ *  The default value is @c false.
+ */
+@property(nonatomic, readonly) BOOL recordInternalReactNativeEvents;
 
 /* Output Configuration */
-
-/**
- *  Prints the JSON portion of the output in a pretty manner.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readonly) BOOL prettyPrintJSONOutput;
 
 /**
  *  The recording file URL to save to.
@@ -147,11 +186,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  If the URL is a file URL, a new recording will be created with that name.
  *
- *  The extension of the recording package is always @c .dtxprof.
+ *  The extension of the recording package is always @c .dtxrec.
  *
- *  If set to @c nil, the value will reset to the default value.
+ *  If set to @c nil, the URL will reset to the default value.
  *
- *  The default value is a file name with the date and time of the recording, in the documents folder of the device.
+ *  The default value is a file name with the date and time of the recording, in the documents folder of the profiled app.
  */
 @property (nonatomic, copy, null_resettable, readonly) NSURL* recordingFileURL;
 
@@ -165,11 +204,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DTXMutableProfilingConfiguration : DTXProfilingConfiguration
 
 /**
- *  The sampling interval of the Profiler.
- *
- *  The default value is 0.5.
+ *  A newly created default profiling configuration object.
  */
-@property (nonatomic, readwrite) NSTimeInterval samplingInterval;
+@property (class, nonatomic, strong, readonly) DTXMutableProfilingConfiguration* defaultProfilingConfiguration;
+
+/**
+ *  A newly created default profiling configuration object fore remote profiling.
+ */
+@property (class, nonatomic, strong, readonly) DTXMutableProfilingConfiguration* defaultProfilingConfigurationForRemoteProfiling;
+
+#pragma mark Recording Configuration
 
 /**
  *  The minimum number of samples to keep in memory before flushing to disk.
@@ -180,10 +224,55 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readwrite) NSUInteger numberOfSamplesBeforeFlushToDisk;
 
-//Recording Configuration
+/**
+ *  Record performance information during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readwrite) BOOL recordPerformance;
+
+/**
+ *  The sampling interval of the Profiler.
+ *
+ *  The default value is 0.5.
+ */
+@property (nonatomic, readwrite) NSTimeInterval samplingInterval;
+
+/**
+ *  Record thread information during profiling.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readwrite) BOOL recordThreadInformation;
+
+/**
+ *  Collect stack trace information where appropriate.
+ *
+ *  Collecting stack traces may introduce some performance hit.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readwrite) BOOL collectStackTraces;
+
+/**
+ *  Symbolicate stack traces at runtime.
+ *
+ *  Symbolicating stack traces may introduce some performance hit.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readwrite) BOOL symbolicateStackTraces;
 
 /**
  *  Collect the names of open files for each sample.
+ *
+ *  Only relevant if @c recordPerformance is set to @c true.
  *
  *  The default value is @c false.
  */
@@ -206,29 +295,30 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) BOOL recordLocalhostNetwork;
 
 /**
- *  Record thread information during profiling.
+ *  Disables cache for network requests.
+ *
+ *  Only relevant if @c recordNetwork is set to @c true.
+ *
+ *  The default value is @c false.
+ */
+@property (nonatomic, readwrite) BOOL disableNetworkCache;
+
+/**
+ *  Record events during profiling.
  *
  *  The default value is @c true.
  */
-@property (nonatomic, readwrite) BOOL recordThreadInformation;
+@property (nonatomic, readwrite) BOOL recordEvents;
 
 /**
- *  Collect stack trace information where appropriate.
+ *  A set of categories to ignore when profiling.
+ *  Use this property to prevent clutter in the Events instrument.
  *
- *  Collecting stack traces may introduce some performance hit.
+ *  Only relevant if @c recordEvents is set to @c true.
  *
- *  The default value is @c false.
+ *  The default value is an empty set.
  */
-@property (nonatomic, readwrite) BOOL collectStackTraces;
-
-/**
- *  Symbolicate stack traces at runtime.
- *
- *  Symbolicating stack traces may introduce some performance hit.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readwrite) BOOL symbolicateStackTraces;
+@property (nonatomic, copy, null_resettable, readwrite) NSSet<NSString*>* ignoredEventCategories;
 
 /**
  *  Record log output during profiling.
@@ -248,34 +338,30 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) BOOL profileReactNative;
 
 /**
- *  Collect JavaScript stack trace information where appropriate.
- *
- *  Collecting JavaScript stack traces may introduce some performance hit.
- *
- *  JavaScript stack trace collection is implemented using signals. Specifically, @c SIGPROF and @c SIGCHLD are used.
- *  If your application uses those signals or installs custom handlers for those signals, there may be collision issues.
+ *  Record React Native bridge data during profiling.
  *
  *  The default value is @c false.
  */
-@property (nonatomic, readwrite) BOOL collectJavaScriptStackTraces;
+@property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
 
 /**
- *  Symbolicate JavaScript stack traces at runtime using source maps (if available).
- *
- *  Symbolicating JavaScript stack traces may introduce some performance hit.
+ *  Record React Native timers (created using @c setTimeout() in JavaScript) as events.
+ *  Timers will appear as interval events in the Events instrument.
  *
  *  The default value is @c false.
  */
-@property (nonatomic, readonly) BOOL symbolicateJavaScriptStackTraces;
+@property (nonatomic, readwrite) BOOL recordReactNativeTimersAsEvents;
+
+/**
+ *  Record internal React Native events.
+ *
+ *  Taps into the internal profiling mechanisms to collect internal React Native profiling events.
+ *
+ *  The default value is @c false.
+ */
+@property(nonatomic, readwrite) BOOL recordInternalReactNativeEvents;
 
 /* Output Configuration */
-
-/**
- *  Prints the JSON portion of the output in a pretty manner.
- *
- *  The default value is @c false.
- */
-@property (nonatomic, readwrite) BOOL prettyPrintJSONOutput;
 
 /**
  *  The recording file URL to save to.
@@ -284,11 +370,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  If the URL is a file URL, a new recording will be created with that name.
  *
- *  The extension of the recording package is always @c .dtxprof.
+ *  The extension of the recording package is always @c .dtxrec.
  *
- *  If set to @c nil, the value will reset to the default value.
+ *  If set to @c nil, the URL will reset to the default value.
  *
- *  The default value is a file name with the date and time of the recording, in the documents folder of the device.
+ *  The default value is a file name with the date and time of the recording, in the documents folder of the profiled app.
  */
 @property (nonatomic, copy, null_resettable, readwrite) NSURL* recordingFileURL;
 

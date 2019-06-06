@@ -12,6 +12,11 @@
 #pragma clang diagnostic ignored "-Wobjc-property-implementation"
 
 #import <DTXProfilerShim/DTXProfiler.h>
+#import "DTXLogging.h"
+
+DTX_CREATE_LOG(ProfilerShim)
+#define shim_log_function() dtx_log_debug(@"%s called on shim framework", __FUNCTION__)
+#define shim_log_invocation(invocation) dtx_log_debug(@"%@ called on shim framework", NSStringFromSelector(invocation.selector))
 
 @implementation DTXProfilingConfiguration
 
@@ -20,11 +25,15 @@
 
 + (instancetype)defaultProfilingConfiguration
 {
+	shim_log_function();
+	
 	return [self new];
 }
 
 + (instancetype)defaultProfilingConfigurationForRemoteProfiling
 {
+	shim_log_function();
+	
 	return [self new];
 }
 
@@ -40,7 +49,7 @@
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation
 {
-	
+	shim_log_invocation(anInvocation);
 }
 
 @end
@@ -52,11 +61,13 @@
 
 + (instancetype)defaultProfilingConfiguration
 {
+	shim_log_function();
 	return [self new];
 }
 
 + (instancetype)defaultProfilingConfigurationForRemoteProfiling
 {
+	shim_log_function();
 	return [self new];
 }
 
@@ -72,7 +83,7 @@
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation
 {
-	
+	shim_log_invocation(anInvocation);
 }
 
 @end
@@ -94,33 +105,34 @@
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation
 {
-	
+	shim_log_invocation(anInvocation);
 }
 
 @end
 
 void DTXProfilerAddTag(NSString* tag)
 {
-	
+	shim_log_function();
 }
 void DTXProfilerAddLogLine(NSString* line)
 {
-	
+	shim_log_function();
 }
 void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects)
 {
-	
+	shim_log_function();
 }
 
 DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable additionalInfo)
 {
+	shim_log_function();
 	return @"0";
 }
 void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable additionalInfo)
 {
-	
+	shim_log_function();
 }
 void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable additionalInfo)
 {
-	
+	shim_log_function();
 }

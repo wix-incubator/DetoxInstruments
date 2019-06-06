@@ -11,9 +11,15 @@
 
 #import "DTXBase.h"
 
+/*!
+ Event identifier
+ */
 typedef NSString * DTXEventIdentifier;
 
-typedef NS_ENUM(NSUInteger, DTXEventStatus) {
+/*!
+ The status of the event
+ */
+typedef NS_ENUM(int32_t, DTXEventStatus) {
 	DTXEventStatusCompleted,
 	DTXEventStatusError,
 	DTXEventStatusCancelled
@@ -34,14 +40,14 @@ __BEGIN_DECLS
  * @param name
  * The name of this event.
  *
- * @param additionalInfo
+ * @param message
  * Additional information to include with this event.
  *
  * @result
  * Returns a valid event identifier to be used with @c DTXProfilerMarkEventIntervalEnd.
  */
 DTX_NOTHROW DTX_WARN_UNUSED_RESULT
-extern DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable additionalInfo);
+extern DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable message);
 
 /*!
  * @function DTXProfilerMarkEventIntervalEnd
@@ -55,11 +61,11 @@ extern DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, 
  * @param eventStatus
  * The status of this event.
  *
- * @param additionalInfo
+ * @param endMessage
  * Additional information to include with this event.
  */
 DTX_NOTHROW
-extern void DTXProfilerMarkEventIntervalEnd(DTXEventIdentifier identifier, DTXEventStatus eventStatus, NSString* __nullable additionalInfo);
+extern void DTXProfilerMarkEventIntervalEnd(DTXEventIdentifier identifier, DTXEventStatus eventStatus, NSString* __nullable endMessage);
 
 /*!
  * @function DTXProfilerMarkEvent
@@ -76,11 +82,11 @@ extern void DTXProfilerMarkEventIntervalEnd(DTXEventIdentifier identifier, DTXEv
  * @param eventStatus
  * The status of this event.
  *
- * @param additionalInfo
+ * @param startMessage
  * Additional information to include with this event.
  */
 DTX_NOTHROW
-extern void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable additionalInfo);
+extern void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable startMessage);
 
 __END_DECLS
 NS_ASSUME_NONNULL_END
