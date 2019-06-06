@@ -283,7 +283,6 @@
 		396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXViewHierarchySnapshotter.h; sourceTree = "<group>"; };
 		396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
 		39787EEE222F8CCB00AC24B4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		397A01901FA648DF00ABCB87 /* DTX_JSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTX_JSC.framework; path = JSC/DTX_JSC.framework; sourceTree = "<group>"; };
 		3985048921A4433E00F04573 /* DTXProfilingBasics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfilingBasics.h; sourceTree = "<group>"; };
 		3985048B21A4434800F04573 /* DTXFileSystemItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXFileSystemItem.m; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.m; sourceTree = "<group>"; };
 		3985048C21A4434800F04573 /* DTXFileSystemItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXFileSystemItem.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.h; sourceTree = "<group>"; };
@@ -529,14 +528,6 @@
 			path = ViewHierarchy;
 			sourceTree = "<group>";
 		};
-		397A017D1FA63DAD00ABCB87 /* JSC */ = {
-			isa = PBXGroup;
-			children = (
-				397A01901FA648DF00ABCB87 /* DTX_JSC.framework */,
-			);
-			name = JSC;
-			sourceTree = "<group>";
-		};
 		399E0EEB1F0ECA720047CF92 /* PerformanceProfiling */ = {
 			isa = PBXGroup;
 			children = (
@@ -616,7 +607,6 @@
 			isa = PBXGroup;
 			children = (
 				39D40BFB1ED5ABD200157C04 /* DTXProfiler */,
-				397A017D1FA63DAD00ABCB87 /* JSC */,
 				39D40BFA1ED5ABD200157C04 /* Products */,
 				39281E5B1ED70346002CE905 /* Frameworks */,
 			);
