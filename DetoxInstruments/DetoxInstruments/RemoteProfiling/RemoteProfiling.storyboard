@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14810.11" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14810.11"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -10,7 +11,7 @@
             <objects>
                 <viewController storyboardIdentifier="_DTXTargetsOutlineViewContoller" id="oEP-Mf-Ucg" customClass="_DTXTargetsOutlineViewContoller" sceneMemberID="viewController">
                     <view key="view" id="YYg-w9-p9Z">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="317"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="316"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" autohidesScrollers="YES" horizontalLineScroll="93" horizontalPageScroll="10" verticalLineScroll="93" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQU-Bz-tCA">
@@ -59,7 +60,7 @@
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="cDm-Qd-AaT"/>
                                                                 </imageView>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h8g-4z-MlV">
-                                                                    <rect key="frame" x="79" y="54" width="109" height="19"/>
+                                                                    <rect key="frame" x="79" y="53" width="109" height="19"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="StressTestApp" usesSingleLineMode="YES" id="9P6-mc-nee">
                                                                         <font key="font" metaFont="system" size="16"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -67,7 +68,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xEi-6o-1U5">
-                                                                    <rect key="frame" x="79" y="37" width="121" height="17"/>
+                                                                    <rect key="frame" x="79" y="37" width="121" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Leo Natan's iPhone" usesSingleLineMode="YES" id="FUC-RN-WDX">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -188,7 +189,7 @@
                                 </scroller>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Ed4-VH-IKz">
-                                <rect key="frame" x="18" y="290" width="149" height="17"/>
+                                <rect key="frame" x="18" y="290" width="149" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select an app to profile:" id="zCb-U1-8nK">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -208,15 +209,23 @@
                     <connections>
                         <outlet property="_constraint" destination="eTf-bY-xJ8" id="Ykg-64-Y9l"/>
                         <outlet property="_helpButton" destination="qVd-pj-fbZ" id="Y35-9j-etc"/>
+                        <outlet property="_localOnlyButton" destination="iPM-4T-FHh" id="ZBt-FS-CLe"/>
                         <outlet property="_optionsButton" destination="ysI-Zd-Cs9" id="7w1-Mg-AfV"/>
                         <outlet property="_selectButton" destination="ZNA-iM-FHP" id="AR6-BE-YvR"/>
                         <outlet property="outlineView" destination="65u-RA-Spb" id="jXS-wo-eOw"/>
                     </connections>
                 </viewController>
                 <customObject id="Jrb-X6-yjY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <button verticalHuggingPriority="750" id="ZNA-iM-FHP">
-                    <rect key="frame" x="0.0" y="0.0" width="102" height="32"/>
+                <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" id="iPM-4T-FHh">
+                    <rect key="frame" x="0.0" y="0.0" width="126" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Local Apps Only" bezelStyle="regularSquare" imagePosition="leading" inset="2" id="g7v-pD-TnY">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ZNA-iM-FHP">
+                    <rect key="frame" x="0.0" y="0.0" width="102" height="32"/>
                     <buttonCell key="cell" type="push" title="Profile" bezelStyle="rounded" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hHH-AU-6OG">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -228,9 +237,8 @@ DQ
                         <action selector="selectProfilingTarget:" target="Jrb-X6-yjY" id="LQI-yy-bGy"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" id="ysI-Zd-Cs9">
+                <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ysI-Zd-Cs9">
                     <rect key="frame" x="0.0" y="0.0" width="102" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Options" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mSo-a3-9cz">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -262,16 +270,16 @@ DQ
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Cb8-lV-Wk4">
-                                <rect key="frame" x="67" y="-2" width="407" height="559"/>
+                                <rect key="frame" x="67" y="6" width="407" height="551"/>
                                 <subviews>
                                     <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CRb-Sn-oUp">
-                                        <rect key="frame" x="0.0" y="0.0" width="407" height="559"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="407" height="551"/>
                                         <subviews>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H1I-Ex-fvR" userLabel="Configuration Stack View">
-                                                <rect key="frame" x="0.0" y="522" width="407" height="17"/>
+                                                <rect key="frame" x="0.0" y="515" width="407" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="s4B-us-kgy">
-                                                        <rect key="frame" x="-2" y="0.0" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Configuration:" id="Kgg-Uk-WEI">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -311,10 +319,10 @@ DQ
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W6a-m9-Brb" userLabel="Sampling Frequency Stack View">
-                                                <rect key="frame" x="0.0" y="481" width="407" height="21"/>
+                                                <rect key="frame" x="0.0" y="474" width="407" height="21"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="999" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5ra-8J-JPb">
-                                                        <rect key="frame" x="-2" y="2" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="3" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Sampling frequency:" id="5ao-u9-aKE">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -371,10 +379,10 @@ DQ
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uGd-nK-IQQ" userLabel="Performance Stack View">
-                                                <rect key="frame" x="0.0" y="444" width="407" height="17"/>
+                                                <rect key="frame" x="0.0" y="438" width="407" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="cC6-xt-WtN">
-                                                        <rect key="frame" x="-2" y="0.0" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Performance:" id="2Aq-9V-dBp">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -418,10 +426,10 @@ DQ
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yKE-c4-MWY" userLabel="Threads Stack View">
-                                                <rect key="frame" x="0.0" y="364" width="407" height="60"/>
+                                                <rect key="frame" x="0.0" y="359" width="407" height="59"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="gvZ-Vg-zOa">
-                                                        <rect key="frame" x="-2" y="43" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="43" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Threads:" id="LGH-hy-c8V">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -556,10 +564,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kgx-yb-WIb" userLabel="Disk Usage Stack View">
-                                                <rect key="frame" x="0.0" y="327" width="407" height="17"/>
+                                                <rect key="frame" x="0.0" y="323" width="407" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6VV-ob-TAT">
-                                                        <rect key="frame" x="-2" y="0.0" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Disk Usage:" id="1O2-bu-Bcb">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -612,10 +620,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SGr-5t-Weg" userLabel="Network Stack View">
-                                                <rect key="frame" x="0.0" y="247" width="407" height="60"/>
+                                                <rect key="frame" x="0.0" y="244" width="407" height="59"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="VS0-3c-1X7">
-                                                        <rect key="frame" x="-2" y="43" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="43" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Network:" id="gW5-XS-nVp">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -712,10 +720,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RuR-pS-INk" userLabel="Events Stack View">
-                                                <rect key="frame" x="0.0" y="181" width="407" height="46"/>
+                                                <rect key="frame" x="0.0" y="179" width="407" height="45"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="4u0-Zs-EF8">
-                                                        <rect key="frame" x="-2" y="29" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="29" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Events:" id="N2w-XC-Q9c">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -807,10 +815,10 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AA1-Ym-Tm1" userLabel="Log Stack View">
-                                                <rect key="frame" x="0.0" y="144" width="407" height="17"/>
+                                                <rect key="frame" x="0.0" y="143" width="407" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="XPX-AY-wTx">
-                                                        <rect key="frame" x="-2" y="0.0" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Log:" id="0oZ-HP-AW2">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -855,10 +863,10 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fGa-ln-bGa" userLabel="React Native Stack View">
-                                                <rect key="frame" x="0.0" y="42" width="407" height="82"/>
+                                                <rect key="frame" x="0.0" y="42" width="407" height="81"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="fAs-nv-Tc8">
-                                                        <rect key="frame" x="-2" y="65" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="65" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="React Native:" id="uw5-4a-ayF">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -993,7 +1001,7 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                 <rect key="frame" x="0.0" y="0.0" width="407" height="22"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="UxC-yT-2DW">
-                                                        <rect key="frame" x="-2" y="3" width="136" height="17"/>
+                                                        <rect key="frame" x="-2" y="3" width="136" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Recording Time Limit:" id="D8g-eS-M0g">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1004,10 +1012,10 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                         <rect key="frame" x="140" y="0.0" width="267" height="22"/>
                                                         <subviews>
                                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KJu-Yl-3x3">
-                                                                <rect key="frame" x="0.0" y="0.0" width="123" height="22"/>
+                                                                <rect key="frame" x="0.0" y="1" width="123" height="21"/>
                                                                 <subviews>
                                                                     <textField toolTip="Limit the recording duration" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="STB-dD-UdS">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="22"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="30" id="l2r-qg-XTX"/>
                                                                         </constraints>
@@ -1028,7 +1036,7 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                                         </connections>
                                                                     </textField>
                                                                     <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="qyK-Z5-fOQ">
-                                                                        <rect key="frame" x="36" y="-2" width="90" height="25"/>
+                                                                        <rect key="frame" x="36" y="-3" width="90" height="25"/>
                                                                         <popUpButtonCell key="cell" type="push" title="minutes" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="WIu-ZM-yw7" id="RlS-i7-qMN">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="menu"/>
@@ -1197,7 +1205,7 @@ Gw
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A1s-lp-6k3">
+                            <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A1s-lp-6k3">
                                 <rect key="frame" x="495" y="18" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="Ap2-JS-bjY"/>
@@ -1216,6 +1224,7 @@ Gw
                             <constraint firstAttribute="bottom" secondItem="MLZ-Yu-ZWM" secondAttribute="bottom" constant="20" id="3b3-Qk-QD8"/>
                             <constraint firstItem="7GZ-nF-iEl" firstAttribute="leading" secondItem="hzm-lQ-Nhr" secondAttribute="leading" id="7Q3-33-qdR"/>
                             <constraint firstItem="MLZ-Yu-ZWM" firstAttribute="leading" secondItem="hzm-lQ-Nhr" secondAttribute="leading" constant="20" id="8Hy-Ao-DJ3"/>
+                            <constraint firstItem="A1s-lp-6k3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MLZ-Yu-ZWM" secondAttribute="trailing" constant="20" id="8PA-Na-QLt"/>
                             <constraint firstItem="MLZ-Yu-ZWM" firstAttribute="centerY" secondItem="A1s-lp-6k3" secondAttribute="centerY" id="LSV-h0-zQe"/>
                             <constraint firstItem="MLZ-Yu-ZWM" firstAttribute="top" secondItem="7GZ-nF-iEl" secondAttribute="bottom" constant="20" id="OSK-DV-w5t"/>
                             <constraint firstAttribute="trailing" secondItem="A1s-lp-6k3" secondAttribute="trailing" constant="20" id="RCJ-z9-bgG"/>
@@ -1233,7 +1242,7 @@ Gw
                 </viewController>
                 <customObject id="0Dm-R6-VsD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="468" y="-1439.5"/>
+            <point key="canvasLocation" x="468" y="-1440"/>
         </scene>
         <!--Ignored Event Categories-->
         <scene sceneID="Gma-h5-Jhx">

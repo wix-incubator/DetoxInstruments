@@ -14,6 +14,9 @@
 #import "_DTXTargetsOutlineViewContoller.h"
 #import "_DTXProfilingConfigurationViewController.h"
 #import "DTXProfilingTargetManagementWindowController.h"
+#import <arpa/inet.h>
+
+static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTargetPickerLocalOnlyKey";
 
 @import QuartzCore;
 
@@ -34,7 +37,11 @@
 	IBOutlet NSButton* _cancelButton;
 	
 	NSNetServiceBrowser* _browser;
-	NSMutableArray<DTXRemoteTarget*>* _targets;
+	
+	NSMutableArray<DTXRemoteTarget*>* _resolvingTargets;
+	NSMutableArray<DTXRemoteTarget*>* _localTargets;
+	NSMutableArray<DTXRemoteTarget*>* _remoteTargets;
+	
 	NSMapTable<NSNetService*, DTXRemoteTarget*>* _serviceToTargetMapping;
 	NSMapTable<DTXRemoteTarget*, NSNetService*>* _targetToServiceMapping;
 	
@@ -44,6 +51,8 @@
 	
 	NSPopover* _warningPopover;
 }
+
+@property (nonatomic) BOOL hideRemoteTargets;
 
 @end
 
@@ -84,7 +93,10 @@
 	_activeController = _outlineController;
 	[self _validateSelectButton];
 	
-	_targets = [NSMutableArray new];
+	_resolvingTargets = [NSMutableArray new];
+	_localTargets = [NSMutableArray new];
+	_remoteTargets = [NSMutableArray new];
+	
 	_serviceToTargetMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 	_targetToServiceMapping = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 	
@@ -101,6 +113,20 @@
 	_browser.delegate = self;
 	
 	_targetManagementControllers = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
+	
+	self.hideRemoteTargets = [NSUserDefaults.standardUserDefaults boolForKey:DTXRecordingTargetPickerLocalOnlyKey];
+	[_outlineController.localOnlyButton bind:NSValueBinding toObject:self withKeyPath:@"hideRemoteTargets" options:nil];
+}
+
+- (void)setHideRemoteTargets:(BOOL)hideRemoteTargets
+{
+	_hideRemoteTargets = hideRemoteTargets;
+	
+	[NSUserDefaults.standardUserDefaults setBool:hideRemoteTargets forKey:DTXRecordingTargetPickerLocalOnlyKey];
+	
+	[_outlineView reloadData];
+	
+	[self _validateSelectButton];
 }
 
 - (void)viewDidAppear
@@ -119,7 +145,7 @@
 		return;
 	}
 	
-	DTXRemoteTarget* target = _targets[_outlineView.selectedRow];
+	DTXRemoteTarget* target = [_outlineView itemAtRow:_outlineView.selectedRow];
 	
 	if(target.state != DTXRemoteTargetStateDeviceInfoLoaded)
 	{
@@ -128,7 +154,7 @@
 	
 	DTXProfilingConfiguration* config = [DTXProfilingConfiguration profilingConfigurationForRemoteProfilingFromDefaults];
 	
-	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:_targets[_outlineView.selectedRow] profilingConfiguration:config];
+	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:target profilingConfiguration:config];
 }
 
 - (IBAction)cancel:(id)sender
@@ -163,7 +189,7 @@
 	[provider.actionButtons enumerateObjectsUsingBlock:^(NSButton * _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
 		button.translatesAutoresizingMaskIntoConstraints = NO;
 		[_actionButtonsStackView insertArrangedSubview:button atIndex:0];
-		if(button.bezelStyle != NSBezelStyleHelpButton && [button.title isEqualToString:@"Refresh"] == NO)
+		if(button.bezelStyle == NSBezelStyleRounded && [button.title isEqualToString:@"Refresh"] == NO)
 		{
 			[NSLayoutConstraint activateConstraints:@[[button.widthAnchor constraintEqualToAnchor:_cancelButton.widthAnchor]]];
 		}
@@ -174,7 +200,7 @@
 		[provider.moreButtons enumerateObjectsUsingBlock:^(NSButton * _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
 			button.translatesAutoresizingMaskIntoConstraints = NO;
 			[_moreButtonsStackView addArrangedSubview:button];
-			if(button.bezelStyle != NSBezelStyleHelpButton && [button.title isEqualToString:@"Refresh"] == NO)
+			if(button.bezelStyle == NSBezelStyleRounded && [button.title isEqualToString:@"Refresh"] == NO)
 			{
 				[NSLayoutConstraint activateConstraints:@[[button.widthAnchor constraintEqualToAnchor:_cancelButton.widthAnchor]]];
 			}
@@ -239,26 +265,109 @@
 	[self _validateSelectButton];
 }
 
+- (void)_addLocalTarget:(DTXRemoteTarget*)target forService:(NSNetService*)service announceToOutlineView:(BOOL)announce
+{
+	[self _addTarget:target forService:service];
+	
+	[_localTargets addObject:target];
+	
+	if(announce == YES)
+	{
+		NSIndexSet* itemIndexSet = [NSIndexSet indexSetWithIndex:_localTargets.count - 1];
+		[_outlineView insertItemsAtIndexes:itemIndexSet inParent:nil withAnimation:NSTableViewAnimationEffectNone];
+		if(itemIndexSet.firstIndex == 0)
+		{
+			[_outlineView selectRowIndexes:itemIndexSet byExtendingSelection:NO];
+		}
+	}
+}
+
+- (void)_addRemoteTarget:(DTXRemoteTarget*)target forService:(NSNetService*)service announceToOutlineView:(BOOL)announce
+{
+	[self _addTarget:target forService:service];
+	
+	[_remoteTargets addObject:target];
+	
+	if(announce == YES && _hideRemoteTargets == NO)
+	{
+		NSIndexSet* itemIndexSet = [NSIndexSet indexSetWithIndex:_localTargets.count + _remoteTargets.count - 1];
+		[_outlineView insertItemsAtIndexes:itemIndexSet inParent:nil withAnimation:NSTableViewAnimationEffectNone];
+		if(itemIndexSet.firstIndex == 0)
+		{
+			[_outlineView selectRowIndexes:itemIndexSet byExtendingSelection:NO];
+		}
+	}
+}
+
+- (void)_addResolvingTarget:(DTXRemoteTarget*)target forService:(NSNetService*)service announceToOutlineView:(BOOL)announce
+{
+	[self _addTarget:target forService:service];
+	
+	[_resolvingTargets addObject:target];
+	
+	NSUInteger offset = _localTargets.count;
+	if(_hideRemoteTargets == NO)
+	{
+		offset += _remoteTargets.count;
+	}
+	
+	if(announce == YES)
+	{
+		NSIndexSet* itemIndexSet = [NSIndexSet indexSetWithIndex:offset + _resolvingTargets.count - 1];
+		[_outlineView insertItemsAtIndexes:itemIndexSet inParent:nil withAnimation:NSTableViewAnimationEffectNone];
+		if(itemIndexSet.firstIndex == 0)
+		{
+			[_outlineView selectRowIndexes:itemIndexSet byExtendingSelection:NO];
+		}
+	}
+}
+
 - (void)_addTarget:(DTXRemoteTarget*)target forService:(NSNetService*)service
 {
 	[_serviceToTargetMapping setObject:target forKey:service];
 	[_targetToServiceMapping setObject:service forKey:target];
-	[_targets addObject:target];
-	
-	NSIndexSet* itemIndexSet = [NSIndexSet indexSetWithIndex:_targets.count - 1];
-	[_outlineView beginUpdates];
-	[_outlineView insertItemsAtIndexes:itemIndexSet inParent:nil withAnimation:NSTableViewAnimationEffectNone];
-	[_outlineView endUpdates];
-	if(itemIndexSet.firstIndex == 0)
-	{
-		[_outlineView selectRowIndexes:itemIndexSet byExtendingSelection:NO];
-	}
 }
 
-- (void)_removeTargetForService:(NSNetService*)service
+- (NSUInteger)_indexOfTarget:(DTXRemoteTarget*)target
+{
+	NSUInteger rv = [_localTargets indexOfObject:target];
+	if(rv == NSNotFound)
+	{
+		NSUInteger other;
+		NSUInteger offset = _localTargets.count;
+		
+		if(_hideRemoteTargets == NO)
+		{
+			other = [_remoteTargets indexOfObject:target];
+			if(other != NSNotFound)
+			{
+				rv = _localTargets.count + other;
+				return rv;
+			}
+			
+			offset += _remoteTargets.count;
+		}
+		
+		other = [_resolvingTargets indexOfObject:target];
+		if(other != NSNotFound)
+		{
+			rv = offset + other;
+		}
+	}
+	
+	return rv;
+}
+
+- (void)_removeTargetForService:(NSNetService*)service announceToOutlineView:(BOOL)announce
 {
 	DTXRemoteTarget* target = [_serviceToTargetMapping objectForKey:service];
 	if(target == nil)
+	{
+		return;
+	}
+	
+	NSUInteger index = [self _indexOfTarget:target];
+	if(index == NSNotFound)
 	{
 		[_outlineView reloadData];
 		
@@ -268,27 +377,25 @@
 	[[_targetManagementControllers objectForKey:target] dismissPreferencesWindow];
 	[_targetManagementControllers removeObjectForKey:target];
 	
-	NSInteger index = [_targets indexOfObject:target];
-	
-	if(index == NSNotFound)
-	{
-		[_outlineView reloadData];
-		
-		return;
-	}
-	
-	[_targets removeObjectAtIndex:index];
+	[_localTargets removeObject:target];
+	[_remoteTargets removeObject:target];
+	[_resolvingTargets removeObject:target];
 	[_serviceToTargetMapping removeObjectForKey:service];
 	[_targetToServiceMapping removeObjectForKey:target];
 	
-	[_outlineView beginUpdates];
-	[_outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:nil withAnimation:NSTableViewAnimationEffectFade];
-	[_outlineView endUpdates];
+	if(announce == YES)
+	{
+		[_outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:nil withAnimation:NSTableViewAnimationEffectFade];
+		
+		[self _validateSelectButton];
+	}
 }
 
 - (void)_updateTarget:(DTXRemoteTarget*)target
 {
 	[_outlineView reloadItem:target];
+	
+	[self _validateSelectButton];
 }
 
 - (IBAction)_manageProfilingTarget:(NSButton*)sender
@@ -299,7 +406,7 @@
 		return;
 	}
 	
-	id target = _targets[row];
+	id target = [_outlineView itemAtRow:row];
 	
 	DTXProfilingTargetManagementWindowController* targetManagement = [_targetManagementControllers objectForKey:target];
 	if(targetManagement == nil)
@@ -320,7 +427,7 @@
 		return;
 	}
 	
-	DTXRemoteTarget* target = _targets[row];
+	DTXRemoteTarget* target = [_outlineView itemAtRow:row];
 	
 	[target captureViewHierarchy];
 }
@@ -333,7 +440,7 @@
 		return;
 	}
 	
-	DTXRemoteTarget* target = _targets[row];
+	DTXRemoteTarget* target = [_outlineView itemAtRow:row];
 	
 	auto alert = [NSAlert new];
 	
@@ -394,7 +501,7 @@
 		return;
 	}
 	
-	DTXRemoteTarget* target = _targets[_outlineView.clickedRow];
+	DTXRemoteTarget* target = [_outlineView itemAtRow:_outlineView.clickedRow];
 	
 	if(target.state != DTXRemoteTargetStateDeviceInfoLoaded)
 	{
@@ -408,7 +515,7 @@
 	
 	DTXProfilingConfiguration* config = [DTXProfilingConfiguration profilingConfigurationForRemoteProfilingFromDefaults];
 	
-	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:_targets[_outlineView.selectedRow] profilingConfiguration:config];
+	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:target profilingConfiguration:config];
 }
 
 - (void)dealloc
@@ -430,12 +537,35 @@
 		return 0;
 	}
 	
-	return _targets.count;
+	NSUInteger count = _localTargets.count + _resolvingTargets.count;
+	if(_hideRemoteTargets == NO)
+	{
+		count += _remoteTargets.count;
+	}
+	
+	return count;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(nullable id)item
 {
-	return _targets[index];
+	if(index < _localTargets.count)
+	{
+		return _localTargets[index];
+	}
+	
+	index -= _localTargets.count;
+	
+	if(_hideRemoteTargets == NO)
+	{
+		if(index < _remoteTargets.count)
+		{
+			return _remoteTargets[index];
+		}
+		
+		index -= _remoteTargets.count;
+	}
+	
+	return _resolvingTargets[index];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
@@ -464,15 +594,18 @@
 - (void)_validateSelectButton
 {
 	BOOL hasSelection = _outlineView.selectedRowIndexes.count > 0;
+	BOOL hasLoaded = NO;
 	BOOL hasCompatibleVersion = NO;
 	
 	if(hasSelection)
 	{
 		DTXRemoteTarget* target = [_outlineController.outlineView itemAtRow:_outlineView.selectedRow];
+		
+		hasLoaded = target.state >= DTXRemoteTargetStateDeviceInfoLoaded;
 		hasCompatibleVersion = target.isCompatibleWithInstruments;
 	}
 	
-	_outlineController.selectButton.enabled = hasSelection && hasCompatibleVersion;
+	_outlineController.selectButton.enabled = hasSelection && hasLoaded && hasCompatibleVersion;
 }
 
 #pragma mark NSNetServiceBrowserDelegate
@@ -483,7 +616,7 @@
 	
 	DTXRemoteTarget* target = [DTXRemoteTarget new];
 	target.delegate = self;
-	[self _addTarget:target forService:service];
+	[self _addResolvingTarget:target forService:service announceToOutlineView:YES];
 	
 	[service resolveWithTimeout:2];
 }
@@ -493,7 +626,7 @@
 	DTXRemoteTarget* target = [_serviceToTargetMapping objectForKey:service];
 	if(target.state < DTXRemoteTargetStateResolved)
 	{
-		[self _removeTargetForService:service];
+		[self _removeTargetForService:service announceToOutlineView:YES];
 	}
 }
 
@@ -502,6 +635,41 @@
 - (void)netServiceDidResolveAddress:(NSNetService *)sender
 {
 	DTXRemoteTarget* target = [_serviceToTargetMapping objectForKey:sender];
+	
+	NSArray* currentAddresses = NSHost.currentHost.addresses;
+	
+	__block BOOL isLocalHost = NO;
+	[sender.addresses enumerateObjectsUsingBlock:^(NSData * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
+	{
+		struct sockaddr * socketAddress = (struct sockaddr *)obj.bytes;
+		if(socketAddress != nil)
+		{
+			char buffer[256];
+			if(inet_ntop(socketAddress->sa_family, &((struct sockaddr_in *)socketAddress)->sin_addr, buffer, 255))
+			{
+				NSString* address = [NSString stringWithCString:buffer encoding:NSUTF8StringEncoding];
+				
+				if([currentAddresses containsObject:address])
+				{
+					isLocalHost = YES;
+					*stop = YES;
+					return;
+				}
+			}
+		}
+	}];
+	
+	[_outlineView beginUpdates];
+	[self _removeTargetForService:sender announceToOutlineView:YES];
+	if(isLocalHost == YES)
+	{
+		[self _addLocalTarget:target forService:sender announceToOutlineView:YES];
+	}
+	else
+	{
+		[self _addRemoteTarget:target forService:sender announceToOutlineView:YES];
+	}
+	[_outlineView endUpdates];
 	
 	[target _connectWithHostName:sender.hostName port:sender.port workQueue:_workQueue];
 	
@@ -512,7 +680,7 @@
 
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary<NSString *, NSNumber *> *)errorDict
 {
-	[self _removeTargetForService:sender];
+	[self _removeTargetForService:sender announceToOutlineView:YES];
 }
 
 #pragma mark DTXRemoteTargetDelegate
@@ -520,7 +688,7 @@
 - (void)connectionDidCloseForProfilingTarget:(DTXRemoteTarget*)target
 {
 	dispatch_async(dispatch_get_main_queue(), ^ {
-		[self _removeTargetForService:[_targetToServiceMapping objectForKey:target]];
+		[self _removeTargetForService:[_targetToServiceMapping objectForKey:target] announceToOutlineView:YES];
 	});
 }
 

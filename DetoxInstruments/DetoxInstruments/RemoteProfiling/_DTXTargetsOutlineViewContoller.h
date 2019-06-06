@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong, readonly) NSOutlineView* outlineView;
 @property (nonatomic, strong, readonly) NSButton* selectButton;
+@property (nonatomic, strong, readonly) NSButton* localOnlyButton;
 
 @end

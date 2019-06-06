@@ -12,6 +12,7 @@
 {
 	IBOutlet NSLayoutConstraint* _constraint;
 	IBOutlet NSButton* _selectButton;
+	IBOutlet NSButton* _localOnlyButton;
 	IBOutlet NSButton* _optionsButton;
 	
 	IBOutlet NSButton* _helpButton;
@@ -25,7 +26,7 @@
 
 - (NSArray<NSButton *> *)actionButtons
 {
-	return @[_selectButton, _optionsButton];
+	return @[_selectButton, _optionsButton, _localOnlyButton];
 }
 
 - (NSArray<NSButton *> *)moreButtons

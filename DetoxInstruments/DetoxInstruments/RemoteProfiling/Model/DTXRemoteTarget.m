@@ -28,6 +28,11 @@
 
 @implementation DTXRemoteTarget
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"%@ name: %@", super.description, self.hostName];
+}
+
 #pragma mark Connection and Commands
 
 + (NSData*)_dataForNetworkCommand:(NSDictionary*)cmd

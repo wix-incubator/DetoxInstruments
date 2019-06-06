@@ -85,5 +85,4 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 
 - (void)captureViewHierarchy;
 
-
 @end
