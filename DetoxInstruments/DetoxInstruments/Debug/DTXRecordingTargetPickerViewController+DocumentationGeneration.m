@@ -75,7 +75,7 @@
 
 @interface DTXRecordingTargetPickerViewController ()
 
-- (void)_addTarget:(DTXRemoteTarget*)target forService:(NSNetService*)service;
+- (void)_addLocalTarget:(DTXRemoteTarget*)target forService:(NSNetService*)service announceToOutlineView:(BOOL)announce;
 - (IBAction)_manageProfilingTarget:(NSButton*)sender;
 
 @end
@@ -96,7 +96,7 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	
 	fakeTarget.delegate = (id)self;
 	
-	[self _addTarget:(id)fakeTarget forService:(id)[NSObject new]];
+	[self _addLocalTarget:(id)fakeTarget forService:(id)[NSObject new] announceToOutlineView:YES];
 	
 	__FAKE_DTXRemoteTarget* fakeTarget = [__FAKE_DTXRemoteTarget new];
 	fakeTarget.appName = @"Another App";
@@ -108,7 +108,7 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	
 	fakeTarget.delegate = (id)self;
 	
-	[self _addTarget:(id)fakeTarget forService:(id)[NSObject new]];
+	[self _addLocalTarget:(id)fakeTarget forService:(id)[NSObject new] announceToOutlineView:YES];
 }
 
 - (DTXProfilingTargetManagementWindowController*)_openManagementWindowController
