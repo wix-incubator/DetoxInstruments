@@ -59,6 +59,11 @@ CGFloat DTXCurrentTouchBarHeight(void)
 	if(_wrapperView)
 	{
 		[_wrapperView removeFromSuperview];
+		
+		CGRect frame = view.frame;
+		frame.size.height = _wrapperView.fittingSize.height;
+		view.frame = frame;
+		
 		_wrapperView.frame = view.bounds;
 	}
 	else
