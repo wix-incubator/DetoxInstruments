@@ -9,6 +9,7 @@
 #import "DTXPlotView-Private.h"
 #import "NSAppearance+UIAdditions.h"
 #import "DTXScatterPlotView-Private.h"
+#import "NSFont+UIAdditions.h"
 @import QuartzCore;
 
 static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
@@ -74,53 +75,62 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 
 @end
 
-@implementation _DTXAnnotationOverlay
+static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSColor* textColor, NSString* additionalText, NSColor* additionalTextColor, CGRect bounds, CGFloat x, CGFloat y, CGRect* drawRect, double* minComfortableWidth, double fontSizeToUse)
 {
-	NSDictionary* _stringDrawingAttributesLarge;
-	double _minWidthRequiredLarge;
-	double _minHeightRequiredForLarge;
-	double _rectDXInsetsLarge;
-	double _rectDYInsetsLarge;
+	static double _largestFontSize;
 	
-	NSDictionary* _stringDrawingAttributesSmall;
-	double _minWidthRequiredSmall;
-	double _rectDXInsetsSmall;
-	double _rectDYInsetsSmall;
+	static NSDictionary* _stringDrawingAttributes;
 	
-	double _labelOffset;
-}
-
-- (instancetype)init
-{
-	self = [super init];
+	static double _minWidth;
 	
-	if(self)
-	{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_largestFontSize = [NSFont systemFontSizeForControlSize:NSControlSizeRegular];
+		
 		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		style.lineBreakMode = NSLineBreakByTruncatingTail;
+		style.lineBreakMode = NSLineBreakByWordWrapping;
 		style.alignment = NSTextAlignmentCenter;
 		style.allowsDefaultTighteningForTruncation = NO;
 		
-		_stringDrawingAttributesLarge = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeRegular]], NSParagraphStyleAttributeName: style};
-		CGSize size = [@"A" sizeWithAttributes:_stringDrawingAttributesLarge];
-		_minWidthRequiredLarge = 4 * size.width;
-		_minHeightRequiredForLarge = size.height + 10;
-		_rectDXInsetsLarge = -3;
-		_rectDYInsetsLarge = -1.5;
-		
-		_stringDrawingAttributesSmall = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]], NSParagraphStyleAttributeName: style};
-		_minWidthRequiredSmall = 4 * [@"A" sizeWithAttributes:_stringDrawingAttributesSmall].width;
-		_rectDXInsetsSmall = -2.5;
-		_rectDYInsetsSmall = -0.0;
-		
-		NSOperatingSystemVersion atLeastVersion = (NSOperatingSystemVersion){ 10, 14, 4 };
-		if([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:atLeastVersion])
-		{
-			_labelOffset = -0.3;
-		}
+		_stringDrawingAttributes = @{NSParagraphStyleAttributeName: style};
+	});
+
+	if(fontSizeToUse == 0)
+	{
+		fontSizeToUse = _largestFontSize;
 	}
 	
-	return self;
+	NSMutableDictionary* usedAttributes = _stringDrawingAttributes.mutableCopy;
+	usedAttributes[NSFontAttributeName] = [NSFont dtx_monospacedSystemFontOfSize:fontSizeToUse weight:fontSizeToUse <= 10 ? NSFontWeightBold : NSFontWeightRegular];
+	
+	NSString* textToUse = additionalText == nil ? text : [NSString stringWithFormat:@"%@\n%@", text, additionalText];
+	
+	NSMutableDictionary* attrs = usedAttributes.mutableCopy;
+	attrs[NSForegroundColorAttributeName] = textColor;
+	NSMutableAttributedString* attr = [[NSMutableAttributedString alloc] initWithString:textToUse attributes:attrs];
+	if(additionalText)
+	{
+		[attr addAttributes:@{NSForegroundColorAttributeName: additionalTextColor} range:NSMakeRange(attr.length - additionalText.length, additionalText.length)];
+	}
+	
+	CGRect boundingRect = [attr boundingRectWithSize:CGSizeMake(bounds.size.width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading];
+	
+	*drawRect = (CGRect){x + __DTXPlotViewAnnotationValueWidth, y, CGSizeMake(boundingRect.size.width + (0.5*fontSizeToUse), boundingRect.size.height)};
+	
+	if(drawRect->size.height >= bounds.size.height * 0.8)
+	{
+		return _DTXGetAttributedStringForDrawing(text, textColor, additionalText, additionalTextColor, bounds, x, y, drawRect, minComfortableWidth, fontSizeToUse - 0.5);
+	}
+	
+	_minWidth = MAX(_minWidth, drawRect->size.width);
+	*minComfortableWidth = _minWidth;
+	
+	return attr;
+}
+
+@implementation _DTXAnnotationOverlay
+{
+	
 }
 
 - (NSView *)hitTest:(NSPoint)point
@@ -156,9 +166,6 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 	CGFloat graphViewRatio = selfBounds.size.width / range.length;
 	CGFloat offset = - graphViewRatio * range.position;
 	
-	//Somehow the 0.5 pixel offset on 1x screens with antialiasing disabled make it appear better 🤷‍♂️
-	double valuePixelOffset = self.window.backingScaleFactor == 1.0 ? 0.5 : 0.0;
-	
 	for (DTXPlotViewAnnotation * _Nonnull annotation in _containingPlotView.annotations)
 	{
 		CGFloat position = offset + graphViewRatio * annotation.position;
@@ -172,30 +179,12 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 				continue;
 			}
 			
-			position += valuePixelOffset;
-			
-			CGContextSetLineWidth(ctx, 1);
-			CGContextSetAllowsAntialiasing(ctx, NO);
+			CGContextSetLineWidth(ctx, 1.0);
+			CGContextSetAllowsAntialiasing(ctx, self.window.backingScaleFactor != 1.0);
 			CGContextSetStrokeColorWithColor(ctx, [line.color colorWithAlphaComponent:line.color.alphaComponent * line.opacity].CGColor);
 			CGContextMoveToPoint(ctx, position, dirtyRect.origin.y);
 			CGContextAddLineToPoint(ctx, position, dirtyRect.origin.y + dirtyRect.size.height);
 			CGContextStrokePath(ctx);
-			
-			if(line.drawsValue == YES && [_containingPlotView isKindOfClass:DTXScatterPlotView.class])
-			{
-				DTXScatterPlotView* scatterPlotView = (id)_containingPlotView;
-				double maxHeight = (scatterPlotView.heightSynchronizer ? scatterPlotView.heightSynchronizer.maximumPlotHeight : scatterPlotView.maxHeight);
-				CGFloat graphHeightViewRatio = (selfBounds.size.height - scatterPlotView.insets.top - scatterPlotView.insets.bottom) / (maxHeight * scatterPlotView.plotHeightMultiplier);
-				
-				double value = line.value * graphHeightViewRatio + __DTXBottomInset(scatterPlotView.insets, scatterPlotView.isFlipped);
-				
-				CGContextSetAllowsAntialiasing(ctx, YES);
-				CGContextSetFillColorWithColor(ctx, line.valueColor.CGColor);
-				CGContextSetLineWidth(ctx, 1.5);
-				NSBezierPath* elipse = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(position - __DTXPlotViewAnnotationValueWidth / 2, value - __DTXPlotViewAnnotationValueWidth / 2, __DTXPlotViewAnnotationValueWidth, __DTXPlotViewAnnotationValueWidth)];
-				[elipse fill];
-				[elipse stroke];
-			}
 		}
 		else if(annotation.class == DTXPlotViewTextAnnotation.class)
 		{
@@ -219,35 +208,14 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 			}
 			
 			CGContextSaveGState(ctx);
-			CGContextSetLineWidth(ctx, 1.5);
 			CGContextSetAllowsAntialiasing(ctx, YES);
 			
-			NSColor* textColor = self.effectiveAppearance.isDarkAppearance ? NSColor.textColor : textAnnotation.color;
+			NSColor* textColor = textAnnotation.textColor;
+			NSColor* additionalTextColor = textAnnotation.additionalTextColor;
 			
-			NSDictionary* usedAttributes;
+			CGRect drawRect;
 			double minWidth;
-			double dx, dy;
-			if(self.bounds.size.height >= _minHeightRequiredForLarge)
-			{
-				usedAttributes = _stringDrawingAttributesLarge;
-				minWidth = _minWidthRequiredLarge;
-				dx = _rectDXInsetsLarge;
-				dy = _rectDYInsetsLarge;
-			}
-			else
-			{
-				usedAttributes = _stringDrawingAttributesSmall;
-				minWidth = _minWidthRequiredSmall;
-				dx = _rectDXInsetsSmall;
-				dy = _rectDYInsetsSmall;
-			}
-			
-			NSMutableDictionary* attrs = usedAttributes.mutableCopy;
-			attrs[NSForegroundColorAttributeName] = textColor;
-			NSAttributedString* attr = [[NSAttributedString alloc] initWithString:textAnnotation.text attributes:attrs];
-			
-			CGRect boundingRect = CGRectInset([attr boundingRectWithSize:selfBounds.size options:0], dx, dy);
-			CGRect drawRect = (CGRect){position + __DTXPlotViewAnnotationValueWidth, value, boundingRect.size.width, [attrs[NSFontAttributeName] pointSize] + 2};
+			NSAttributedString* attr = _DTXGetAttributedStringForDrawing(textAnnotation.text, textColor, textAnnotation.additionalText, additionalTextColor, self.bounds, position, value, &drawRect, &minWidth, 0);
 			
 			if(drawRect.origin.y < 5.0 + _containingPlotView.insets.bottom)
 			{
@@ -264,29 +232,31 @@ static const CGFloat __DTXPlotViewAnnotationValueWidth = 7.0;
 			}
 			
 			CGMutablePathRef path = CGPathCreateMutable();
-			CGPathAddRoundedRect(path, NULL, drawRect, 4, 4);
+			CGPathAddRoundedRect(path, NULL, drawRect, MIN(drawRect.size.width, 8) / 2, MIN(drawRect.size.height, 8) / 2);
 			
-			NSColor* fillColor = self.effectiveAppearance.isDarkAppearance ? textAnnotation.valueColor : NSColor.textBackgroundColor;
+			CGContextSetLineWidth(ctx, 1.0);
+			
+			NSColor* fillColor = textAnnotation.textBackgroundColor;
 			CGContextSetFillColorWithColor(ctx, fillColor.CGColor);
 			CGContextAddPath(ctx, path);
 			CGContextClip(ctx);
 			CGContextFillRect(ctx, drawRect);
 			CGContextResetClip(ctx);
 			
-			NSColor* strokeColor = self.effectiveAppearance.isDarkAppearance ? NSColor.textColor : textAnnotation.color;
+			NSColor* strokeColor = textAnnotation.color;
 			CGContextSetStrokeColorWithColor(ctx, strokeColor.CGColor);
 			CGContextAddPath(ctx, path);
 			CGContextStrokePath(ctx);
 			
 			CGPathRelease(path);
 			
-			[attr drawInRect:CGRectOffset(drawRect, 0, -0.3)];
+			[attr drawWithRect:CGRectOffset(drawRect, 0, -0.5) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading];
 			
 			CGContextSetStrokeColorWithColor(ctx, textAnnotation.color.CGColor);
 			CGContextSetFillColorWithColor(ctx, textAnnotation.valueColor.CGColor);
-			CGContextSetLineWidth(ctx, 1.5);
 			NSBezierPath* elipse = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(position - __DTXPlotViewAnnotationValueWidth / 2, value - __DTXPlotViewAnnotationValueWidth / 2, __DTXPlotViewAnnotationValueWidth, __DTXPlotViewAnnotationValueWidth)];
 			[elipse fill];
+			elipse.lineWidth = 1.0;
 			[elipse stroke];
 			
 			CGContextRestoreGState(ctx);

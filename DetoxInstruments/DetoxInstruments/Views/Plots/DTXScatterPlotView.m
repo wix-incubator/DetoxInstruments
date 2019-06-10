@@ -7,18 +7,22 @@
 //
 
 #import "DTXScatterPlotView-Private.h"
+#import "NSAppearance+UIAdditions.h"
 
 @interface DTXScatterPlotView ()
 
 @property (nonatomic, strong) NSMutableArray<DTXScatterPlotViewPoint*>* _points;
+@property (nonatomic, strong) NSMutableArray<DTXScatterPlotViewPoint*>* _additionalPoints;
 
 @end
 
-static DTX_ALWAYS_INLINE double __DTXValueAtIndex(NSArray<DTXScatterPlotViewPoint*>* points, DTXScatterPlotViewPoint* point, double test, NSUInteger idx, double graphHeightViewRatio)
+static DTX_ALWAYS_INLINE double __DTXValueAtIndex(NSArray<DTXScatterPlotViewPoint*>* points, DTXScatterPlotViewPoint* point, double test, NSUInteger idx, double graphHeightViewRatio, BOOL hideLower)
 {
+	double rv;
+	
 	if(test == 1)
 	{
-		return graphHeightViewRatio * point.y;
+		rv = graphHeightViewRatio * point.y;
 	}
 	else
 	{
@@ -28,8 +32,15 @@ static DTX_ALWAYS_INLINE double __DTXValueAtIndex(NSArray<DTXScatterPlotViewPoin
 			DTXScatterPlotViewPoint* point = [points objectAtIndex:innerIdx];
 			value = MAX(value, (graphHeightViewRatio * point.y));
 		}
-		return value;
+		rv = value;
 	}
+	
+	if(rv < 0.5 && hideLower)
+	{
+		rv = -1.0;
+	}
+	
+	return rv;
 }
 
 static DTX_ALWAYS_INLINE void __DTXStartPaths(CGMutablePathRef* closedPath, CGMutablePathRef* openPath, NSEdgeInsets insets, BOOL isFlipped, CGFloat position, CGFloat value, BOOL isStepped)
@@ -41,15 +52,12 @@ static DTX_ALWAYS_INLINE void __DTXStartPaths(CGMutablePathRef* closedPath, CGMu
 	CGPathMoveToPoint(*openPath, NULL, position, value);
 }
 
-static DTX_ALWAYS_INLINE void __DTXFlushPaths(DTXScatterPlotView* self, CGContextRef ctx, CGMutablePathRef closedPath, CGMutablePathRef openPath, CGFloat position, NSUInteger drawingType)
+static DTX_ALWAYS_INLINE void __DTXFlushPaths(DTXScatterPlotView* self, NSColor* fillColor1, NSColor* fillColor2, NSColor* lineColor, CGContextRef ctx, CGMutablePathRef closedPath, CGMutablePathRef openPath, CGFloat position, NSUInteger drawingType, BOOL dashedLine, double fillStart, double fillLimit)
 {
 	CGPathAddLineToPoint(closedPath, NULL, position, __DTXBottomInset(self.insets, self.isFlipped));
 	
 	CGContextAddPath(ctx, closedPath);
 	CGContextClip(ctx);
-	
-	NSColor* fillColor1 = self.fillColor1;
-	NSColor* fillColor2 = self.fillColor2;
 	
 	if(drawingType == 1)
 	{
@@ -61,7 +69,7 @@ static DTX_ALWAYS_INLINE void __DTXFlushPaths(DTXScatterPlotView* self, CGContex
 	if([fillColor1 isEqualTo:fillColor2] == NO)
 	{
 		CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)@[(__bridge id)fillColor1.CGColor, (__bridge id)fillColor2.CGColor], NULL);
-		CGContextDrawLinearGradient(ctx, gradient, CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMinY(self.bounds)), CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMaxY(self.bounds)), 0);
+		CGContextDrawLinearGradient(ctx, gradient, CGPointMake(CGRectGetMidX(self.bounds), fillStart), CGPointMake(CGRectGetMidX(self.bounds), fillLimit), kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
 		CGGradientRelease(gradient);
 	}
 	else
@@ -76,8 +84,6 @@ static DTX_ALWAYS_INLINE void __DTXFlushPaths(DTXScatterPlotView* self, CGContex
 	BOOL isFlipped = self.isFlipped;
 	CGContextClipToRect(ctx, NSMakeRect(self.bounds.origin.x, self.bounds.origin.y + __DTXBottomInset(insets, isFlipped), selfBounds.size.width, selfBounds.size.height - insets.bottom - insets.top));
 	
-	NSColor* lineColor = self.lineColor;
-	
 	if(drawingType == 1)
 	{
 		lineColor = [NSColor.systemGrayColor colorWithAlphaComponent:lineColor.alphaComponent * 0.5];
@@ -85,6 +91,10 @@ static DTX_ALWAYS_INLINE void __DTXFlushPaths(DTXScatterPlotView* self, CGContex
 	
 	if(self.lineWidth > 0.0 && self.lineColor.alphaComponent > 0.0)
 	{
+		if(dashedLine)
+		{
+			CGContextSetLineDash(ctx, 0.0, (CGFloat[]){4.0, 4.0}, 2);
+		}
 		CGContextSetStrokeColorWithColor(ctx, lineColor.CGColor);
 		CGContextSetLineWidth(ctx, self.lineWidth);
 		CGContextAddPath(ctx, openPath);
@@ -95,9 +105,8 @@ static DTX_ALWAYS_INLINE void __DTXFlushPaths(DTXScatterPlotView* self, CGContex
 	CGPathRelease(openPath);
 }
 
-static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContextRef ctx)
+static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, NSArray<DTXScatterPlotViewPoint*>* points, NSColor* fillColor1, NSColor* fillColor2, double fillStartValue, double fillLimitValue, NSColor* lineColor, BOOL dashedLine, CGContextRef ctx)
 {
-	NSMutableArray<DTXScatterPlotViewPoint*>* points = self._points;
 	DTXPlotRange* plotRange = self.plotRange;
 	double maxHeight = (self.heightSynchronizer ? self.heightSynchronizer.maximumPlotHeight : self.maxHeight);
 	NSEdgeInsets insets = self.insets;
@@ -122,6 +131,18 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 	
 	NSUInteger firstPointIdx = 0;
 	NSUInteger lastPointIdx = points.count - 1;
+	
+	double fillStart = CGRectGetMinY(self.bounds);
+	if(fillStartValue >= 0)
+	{
+		fillStart = fillStartValue * graphHeightViewRatio;
+	}
+	
+	double fillLimit = CGRectGetMaxY(self.bounds);
+	if(fillLimitValue >= 0)
+	{
+		fillLimit = fillLimitValue * graphHeightViewRatio;
+	}
 	
 	for(NSUInteger idx = 0; idx < points.count; idx++)
 	{
@@ -152,7 +173,7 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 	
 	DTXScatterPlotViewPoint* point = points[firstPointIdx];
 	double oldPosition = offset + graphViewRatio * point.x;
-	double oldValue = graphHeightViewRatio * point.y + __DTXBottomInset(insets, isFlipped);
+	double oldValue = __DTXValueAtIndex(points, point, 1, firstPointIdx, graphHeightViewRatio, dashedLine) + __DTXBottomInset(insets, isFlipped) + __DTXBottomInset(insets, isFlipped);
 	
 	NSUInteger currentZoneIdx = 0;
 	for(NSUInteger idx = 0; idx < zones.count; idx++)
@@ -170,11 +191,11 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 	
 	NSUInteger test = ceil(MIN(80, MAX(1.0, (lastPointIdx - firstPointIdx) / (selfBounds.size.width))));
 	
-	for(NSUInteger idx = firstPointIdx + 1; idx <= lastPointIdx; idx += 1 /*test*/)
+	for(NSUInteger idx = firstPointIdx + 1; idx <= lastPointIdx; idx += 1)
 	{
 		point = [points objectAtIndex:idx];
 		double nextPosition = offset + graphViewRatio * point.x;
-		double nextValue = __DTXValueAtIndex(points, point, test, idx, graphHeightViewRatio) + __DTXBottomInset(insets, isFlipped);
+		double nextValue = __DTXValueAtIndex(points, point, test, idx, graphHeightViewRatio, dashedLine) + __DTXBottomInset(insets, isFlipped);
 			
 		while(currentZoneIdx < zones.count - 1 && nextPosition > zones[currentZoneIdx + 1].start)
 		{
@@ -187,7 +208,7 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 				CGPathAddLineToPoint(closedPath, NULL, midPosition, oldValue);
 				CGPathAddLineToPoint(openPath, NULL, midPosition, oldValue);
 				
-				__DTXFlushPaths(self, ctx, closedPath, openPath, midPosition, zones[currentZoneIdx].drawingType);
+				__DTXFlushPaths(self, self.fillColor1, self.fillColor2, self.lineColor, ctx, closedPath, openPath, midPosition, zones[currentZoneIdx].drawingType, dashedLine, fillStart, fillLimit);
 				__DTXStartPaths(&closedPath, &openPath, insets, isFlipped, midPosition, oldValue, isStepped);
 				
 				CGPathAddLineToPoint(closedPath, NULL, nextPosition, oldValue);
@@ -200,7 +221,7 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 				CGPathAddLineToPoint(closedPath, NULL, midPosition, midValue);
 				CGPathAddLineToPoint(openPath, NULL, midPosition, midValue);
 				
-				__DTXFlushPaths(self, ctx, closedPath, openPath, midPosition, zones[currentZoneIdx].drawingType);
+				__DTXFlushPaths(self, fillColor1, fillColor2, lineColor, ctx, closedPath, openPath, midPosition, zones[currentZoneIdx].drawingType, dashedLine, fillStart, fillLimit);
 				__DTXStartPaths(&closedPath, &openPath, insets, isFlipped, midPosition, midValue, isStepped);
 			}
 			
@@ -220,7 +241,7 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 		oldValue = nextValue;
 	}
 	
-	__DTXFlushPaths(self, ctx, closedPath, openPath, oldPosition, zones[currentZoneIdx].drawingType);
+	__DTXFlushPaths(self, fillColor1, fillColor2, lineColor, ctx, closedPath, openPath, oldPosition, zones[currentZoneIdx].drawingType, dashedLine, fillStart, fillLimit);
 }
 
 @implementation DTXScatterPlotViewPoint
@@ -232,47 +253,11 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 
 @end
 
-@interface _DTXLineLayer : CALayer
-
-@property (nonatomic, weak) DTXScatterPlotView* view;
-
-@end
-
-@implementation _DTXLineLayer
-
-- (instancetype)init
-{
-	self = [super init];
-	
-	self.drawsAsynchronously = NO;
-	
-	return self;
-}
-
-- (id<CAAction>)actionForKey:(NSString *)event
-{
-	return nil;
-}
-
-- (BOOL)canDrawConcurrently
-{
-	return YES;
-}
-
-- (void)drawInContext:(CGContextRef)ctx
-{
-	__DTXDrawPoints(_view, ctx);
-}
-
-@end
-
 @implementation DTXScatterPlotView
-{
-	_DTXLineLayer* _layer;
-}
 
 @dynamic dataSource, delegate;
 @synthesize _points=_points;
+@synthesize _additionalPoints=_additionalPoints;
 @synthesize maxHeight=_maxHeight;
 
 - (instancetype)initWithFrame:(NSRect)frameRect
@@ -283,38 +268,27 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 	{
 		self.wantsLayer = YES;
 		self.layer.drawsAsynchronously = NO;
+		self.additionalFillLimitValue = -1.0;
+		self.additionalFillStartValue = -1.0;
 		//For furure live resize support.
 		//		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 		//		self.layerContentsPlacement = NSViewLayerContentsPlacementLeft;
 		_lineWidth = 1.0;
 		self.insets = NSEdgeInsetsZero;
 		self.plotHeightMultiplier = 1.0;
-		
-		//		_layer = _DTXLineLayer.layer;
-		//		_layer.view = self;
-		//		[self.layer addSublayer:_layer];
-		//		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawBeforeViewResize;
 	}
 	
 	return self;
 }
 
-- (void)setFrame:(NSRect)frame
-{
-	[super setFrame:frame];
-	
-	_layer.frame = self.bounds;
-}
-
-//- (void)drawRect:(NSRect)dirtyRect
-//{
-//	[_layer setNeedsDisplayInRect:dirtyRect];
-//}
-
 - (void)drawRect:(NSRect)dirtyRect
 {
 	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
-	__DTXDrawPoints(self, ctx);
+	__DTXDrawPoints(self, _points, self.fillColor1, self.fillColor2, -1.0, -1.0, self.lineColor, NO, ctx);
+	if(_additionalPoints != nil)
+	{
+		__DTXDrawPoints(self, _additionalPoints, self.additionalFillColor1 ?: self.fillColor1, self.additionalFillColor2 ?: self.fillColor2, self.additionalFillStartValue, self.additionalFillLimitValue, self.additionalLineColor ?: NSColor.clearColor, YES, ctx);
+	}
 	[super drawRect:dirtyRect];
 }
 
@@ -346,9 +320,17 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 	[self setNeedsDisplay:YES];
 }
 
-- (void)_insertPoint:(DTXScatterPlotViewPoint*)point atIndex:(NSUInteger)idx
+- (void)_insertPoint:(DTXScatterPlotViewPoint*)point additionalPoint:(DTXScatterPlotViewPoint*)additionalPoint atIndex:(NSUInteger)idx
 {
 	_points[idx] = point;
+	
+	if(additionalPoint)
+	{
+		DTXScatterPlotViewPoint* actualAdditionalPoint = [DTXScatterPlotViewPoint new];
+		actualAdditionalPoint.x = point.x;
+		actualAdditionalPoint.y = additionalPoint.y;
+		_additionalPoints[idx] = actualAdditionalPoint;
+	}
 	
 	_maxHeight = MAX(0.01, MAX(_heightSynchronizer.maximumPlotHeight, MAX(_maxHeight, MAX(_minimumValueForPlotHeight, point.y))));
 	_heightSynchronizer.maximumPlotHeight = _maxHeight;
@@ -380,6 +362,11 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 	return NSMakeSize(NSViewNoIntrinsicMetric, NSViewNoIntrinsicMetric);
 }
 
+- (BOOL)hasAdditionalPoints
+{
+	return _additionalPoints != nil;
+}
+
 - (void)reloadData
 {
 	//	CFTimeInterval start = CACurrentMediaTime();
@@ -390,12 +377,29 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 		
 		_points = [[NSMutableArray alloc] initWithCapacity:count];
 		
+		BOOL hasAdditionalPoints = [self.dataSource hasAdditionalPointsForPlotView:self];
+		if(hasAdditionalPoints)
+		{
+			_additionalPoints = [[NSMutableArray alloc] initWithCapacity:count];
+		}
+		else
+		{
+			_additionalPoints = nil;
+		}
+		
 		for(NSUInteger idx = 0; idx < count; idx++)
 		{
 			DTXScatterPlotViewPoint* point = [self.dataSource plotView:self pointAtIndex:idx];
 			NSParameterAssert(point != nil);
 			
-			[self _insertPoint:point atIndex:idx];
+			DTXScatterPlotViewPoint* additionalPoint = nil;
+			if(hasAdditionalPoints)
+			{
+				additionalPoint = [self.dataSource plotView:self additionalPointAtIndex:idx];
+				NSParameterAssert(additionalPoint != nil);
+			}
+			
+			[self _insertPoint:point additionalPoint:additionalPoint atIndex:idx];
 		}
 		
 		[super reloadData];
@@ -412,10 +416,16 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 	//	CFTimeInterval start = CACurrentMediaTime();
 	
 	DTXScatterPlotViewPoint* newPoint = [self.dataSource plotView:self pointAtIndex:index];
-	
 	NSParameterAssert(newPoint != nil);
 	
-	[self _insertPoint:newPoint atIndex:index];
+	DTXScatterPlotViewPoint* additionalPoint = nil;
+	if([self.dataSource hasAdditionalPointsForPlotView:self])
+	{
+		additionalPoint = [self.dataSource plotView:self additionalPointAtIndex:index];
+		NSParameterAssert(additionalPoint != nil);
+	}
+	
+	[self _insertPoint:newPoint additionalPoint:additionalPoint atIndex:index];
 	
 	[self setNeedsDisplay:YES];
 	
@@ -427,6 +437,8 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 {
 	//	CFTimeInterval start = CACurrentMediaTime();
 	
+	BOOL hasAdditionalPoints = [self.dataSource hasAdditionalPointsForPlotView:self];
+	
 	NSUInteger count = _points.count + numberOfPoints;
 	for(NSUInteger idx = _points.count; idx < count; idx++)
 	{
@@ -434,7 +446,14 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, CGContex
 		
 		NSParameterAssert(point != nil);
 		
-		[self _insertPoint:point atIndex:idx];
+		DTXScatterPlotViewPoint* additionalPoint = nil;
+		if(hasAdditionalPoints)
+		{
+			additionalPoint = [self.dataSource plotView:self additionalPointAtIndex:idx];
+			NSParameterAssert(additionalPoint != nil);
+		}
+		
+		[self _insertPoint:point additionalPoint:additionalPoint atIndex:idx];
 	}
 	
 	[self setNeedsDisplay:YES];
@@ -565,9 +584,23 @@ static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, N
 	return rv;
 }
 
+- (double)additionalValueAtPlotPosition:(double)position exact:(BOOL)exact
+{
+	double throwAwayPosition;
+	double rv;
+	__DTXValueAtPosition(self, _additionalPoints, position, self.isStepped, self.insets, self.isFlipped, exact, &throwAwayPosition, &rv);
+	
+	return rv;
+}
+
 - (double)valueOfPointIndex:(NSUInteger)idx
 {
 	return _points[idx].y;
+}
+
+- (double)additionalValueOfPointIndex:(NSUInteger)idx
+{
+	return _additionalPoints[idx].y;
 }
 
 - (NSUInteger)indexOfPointAtViewPosition:(CGFloat)viewPosition positionInPlot:(out double *)position valueAtPlotPosition:(out double *)value

@@ -12,6 +12,7 @@
 #import "NSColor+UIAdditions.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXSamplePlotController-Private.h"
+@import LNInterpolation;
 
 @interface DTXPerformanceSamplePlotController () <NSFetchedResultsControllerDelegate, DTXScatterPlotViewDataSource, DTXScatterPlotViewDelegate>
 {
@@ -99,11 +100,11 @@
 
 - (void)updateLayerHandler
 {
-	NSArray<NSColor*>* plotColors = self.plotColors;
-	
 	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXScatterPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		BOOL isDark = self.wrapperView.effectiveAppearance.isDarkAppearance;
 		BOOL isTouchBar = self.wrapperView.effectiveAppearance.isTouchBarAppearance;
+		
+		NSColor* plotColorForIdx = [self _plotColorForIdx:idx];
 		
 		NSColor* lineColor;
 		
@@ -111,14 +112,15 @@
 		{
 			if(isDark || isTouchBar)
 			{
-				lineColor = NSColor.whiteColor;//[plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:1.0];
+				lineColor = NSColor.whiteColor;
 			}
 			else
 			{
-				lineColor = [plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
+				lineColor = [plotColorForIdx deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
 			}
 			
 			obj.lineColor = lineColor;
+			
 			CGFloat maxWidth = isDark ? 1.5 : 1.0;
 			obj.lineWidth = isTouchBar ? 0.0 : MAX(1.0, maxWidth / self.wrapperView.layer.contentsScale);
 			
@@ -127,25 +129,46 @@
 			
 			if(isTouchBar)
 			{
-				startColor = self.plotColors[idx];
+				startColor = plotColorForIdx;
 				//			startColor = [startColor colorWithAlphaComponent:0.4];
 				endColor = startColor;
 			}
 			else if(isDark)
 			{
-				endColor = [self.plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.25];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.1];//[plotColors[idx] colorWithAlphaComponent:0.5];
-				startColor = [self.plotColors[idx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.25];//[plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];//[plotColors[idx] colorWithAlphaComponent:0.85];
-				startColor = [startColor colorWithAlphaComponent:0.9];
+				startColor = [[plotColorForIdx deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.25] colorWithAlphaComponent:0.9];
 				endColor = startColor;
 			}
 			else
 			{
-				startColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.5];
-				endColor = [plotColors[idx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.7];
+				startColor = [plotColorForIdx shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.5];
+				endColor = [plotColorForIdx shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.7];
 			}
 			
 			obj.fillColor1 = startColor;
 			obj.fillColor2 = endColor;
+			
+			if([self hasAdditionalPointsForPlotView:obj])
+			{
+				NSColor* additionalPlotColor = [self _additionalPlotColorForIdx:idx];
+				
+				if(isTouchBar)
+				{
+					obj.additionalFillColor1 = [additionalPlotColor colorWithAlphaComponent:0.85];
+					obj.additionalFillColor2 = obj.additionalFillColor1;
+				}
+				else if(isDark)
+				{
+					obj.additionalLineColor = [additionalPlotColor shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
+					obj.additionalFillColor2 = [startColor interpolateToValue:additionalPlotColor progress:0.25];
+					obj.additionalFillColor1 = obj.additionalFillColor2;
+				}
+				else
+				{
+					obj.additionalLineColor = additionalPlotColor;
+					obj.additionalFillColor2 = [startColor interpolateToValue:additionalPlotColor progress:0.15];
+					obj.additionalFillColor1 = obj.additionalFillColor2;
+				}
+			}
 		}
 		else
 		{
@@ -237,6 +260,11 @@
 	return [self samplesForPlotIndex:plotView.plotIndex].count;
 }
 
+- (BOOL)hasAdditionalPointsForPlotView:(DTXScatterPlotView *)plotView
+{
+	return NO;
+}
+
 - (DTXScatterPlotViewPoint*)plotView:(DTXScatterPlotView*)plotView pointAtIndex:(NSUInteger)idx
 {
 	NSUInteger plotIdx = plotView.plotIndex;
@@ -246,6 +274,11 @@
 	rv.y = [[self transformedValueForFormatter:[[self samplesForPlotIndex:plotIdx][idx] valueForKey:self.sampleKeys[plotIdx]]] doubleValue];
 	
 	return rv;
+}
+
+- (DTXScatterPlotViewPoint *)plotView:(DTXScatterPlotView *)plotView additionalPointAtIndex:(NSUInteger)idx
+{
+	return nil;
 }
 
 #pragma mark NSFetchedResultsControllerDelegate

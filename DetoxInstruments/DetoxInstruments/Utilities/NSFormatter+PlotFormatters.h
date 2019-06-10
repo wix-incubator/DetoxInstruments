@@ -14,6 +14,9 @@
 
 @end
 
+@interface DTXMainThreadUsageFormatter : NSFormatter
+
+@end
 
 @interface NSFormatter (PlotFormatters)
 
@@ -22,5 +25,6 @@
 + (NSNumberFormatter*)dtx_percentFormatter;
 + (DTXSecondsFormatter*)dtx_secondsFormatter;
 + (NSDateComponentsFormatter*)dtx_durationFormatter;
++ (DTXMainThreadUsageFormatter*)dtx_mainThreadFormatter;
 
 @end

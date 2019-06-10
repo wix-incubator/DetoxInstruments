@@ -27,10 +27,12 @@
 - (NSArray<NSString*>*)propertiesToFetch;
 - (NSArray<NSString*>*)relationshipsToFetch;
 - (NSArray<NSColor*>*)plotColors;
+- (NSArray<NSColor*>*)additionalPlotColors;
 - (NSArray<NSString*>*)plotTitles;
 - (NSEdgeInsets)rangeInsets;
 
 + (NSFormatter*)formatterForDataPresentation;
++ (NSFormatter*)additionalFormatterForDataPresentation;
 - (id)transformedValueForFormatter:(id)value;
 
 - (void)updateLayerHandler;

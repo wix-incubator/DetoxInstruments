@@ -9,6 +9,8 @@
 #import "DTXCPUUsagePlotController.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXCPUDataProvider.h"
+#import "DTXScatterPlotView.h"
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXCPUUsagePlotController
 
@@ -52,9 +54,19 @@
 	return @[NSColor.cpuUsagePlotControllerColor];
 }
 
+- (NSArray<NSColor *> *)additionalPlotColors
+{
+	return @[[NSColor randomColorWithSeed:DTXThreadInfo.mainThreadFriendlyName]];
+}
+
 + (NSFormatter*)formatterForDataPresentation
 {
 	return [NSFormatter dtx_percentFormatter];
+}
+
++ (NSFormatter *)additionalFormatterForDataPresentation
+{
+	return [NSFormatter dtx_mainThreadFormatter];
 }
 
 - (id)transformedValueForFormatter:(id)value
@@ -65,6 +77,27 @@
 - (CGFloat)minimumValueForPlotHeight
 {
 	return 1.0;
+}
+
+#pragma mark DTXScatterPlotViewDataSource
+
+- (BOOL)hasAdditionalPointsForPlotView:(DTXScatterPlotView *)plotView
+{
+	return [self isMemberOfClass:DTXCPUUsagePlotController.class] && self.document.firstRecording.dtx_profilingConfiguration.recordThreadInformation;
+}
+
+- (DTXScatterPlotViewPoint *)plotView:(DTXScatterPlotView *)plotView additionalPointAtIndex:(NSUInteger)idx
+{
+	NSUInteger plotIdx = plotView.plotIndex;
+	
+	DTXPerformanceSample* sample = [self samplesForPlotIndex:plotIdx][idx];
+	DTXThreadPerformanceSample* threadSample = sample.threadSamples.firstObject;
+	
+	DTXScatterPlotViewPoint* rv = [DTXScatterPlotViewPoint new];
+	rv.x = 0;
+	rv.y = threadSample == nil ? 0.0 : [[self transformedValueForFormatter:@(threadSample.cpuUsage)] doubleValue];
+	
+	return rv;
 }
 
 @end

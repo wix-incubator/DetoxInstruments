@@ -8,6 +8,7 @@
 
 #import "DTXPlotView-Private.h"
 #import "DTXRangePlotView.h"
+#import "NSFont+UIAdditions.h"
 
 const CGFloat DTXRangePlotViewDefaultLineWidth = 6.0;
 const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
@@ -65,7 +66,7 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 		style.lineBreakMode = NSLineBreakByTruncatingTail;
 		style.allowsDefaultTighteningForTruncation = NO;
 		
-		_stringDrawingAttributes = @{NSFontAttributeName: [NSFont userFixedPitchFontOfSize:NSFont.smallSystemFontSize], NSParagraphStyleAttributeName: style};
+		_stringDrawingAttributes = @{NSFontAttributeName: [NSFont dtx_monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightRegular], NSParagraphStyleAttributeName: style};
 		
 		self.flipped = YES;
 		

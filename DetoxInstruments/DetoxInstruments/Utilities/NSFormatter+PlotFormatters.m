@@ -124,6 +124,15 @@
 
 @end
 
+@implementation DTXMainThreadUsageFormatter
+
+- (NSString *)stringForObjectValue:(id)obj
+{
+	return [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"MT", @"'Main Thread' abbreviation"), [NSFormatter.dtx_percentFormatter stringForObjectValue:obj]];
+}
+
+@end
+
 @implementation DTXSecondsFormatter
 {
 	NSDateComponentsFormatter* _secondsFormatter;
@@ -261,5 +270,15 @@
 	return (id)durationFormatter;
 }
 
++ (DTXMainThreadUsageFormatter*)dtx_mainThreadFormatter;
+{
+	static DTXMainThreadUsageFormatter* mainThreadFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		mainThreadFormatter = [DTXMainThreadUsageFormatter new];
+	});
+	
+	return mainThreadFormatter;
+}
 
 @end

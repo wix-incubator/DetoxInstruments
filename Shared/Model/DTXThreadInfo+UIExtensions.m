@@ -13,6 +13,11 @@ static void* THREAD_MAPPING = &THREAD_MAPPING;
 
 @implementation DTXThreadInfo (UIExtensions)
 
++ (NSString *)mainThreadFriendlyName
+{
+	return NSLocalizedString(@"Main Thread", @"");
+}
+
 + (DTXThreadInfo*)threadInfoForThreadNumber:(int64_t)threadNumber inManagedObjectContext:(NSManagedObjectContext*)ctx
 {
 	NSMutableDictionary* mapping = [ctx dtx_attachedObjectForKey:THREAD_MAPPING];
@@ -38,7 +43,7 @@ static void* THREAD_MAPPING = &THREAD_MAPPING;
 {
 	if(self.number == 0)
 	{
-		return NSLocalizedString(@"Main Thread", @"");
+		return DTXThreadInfo.mainThreadFriendlyName;
 	}
 	
 	return [NSString stringWithFormat:@"%@%@%@", self.name.length == 0 ? NSLocalizedString(@"Thread ", @"") : @"", @(self.number + 1), self.name.length > 0 ? [NSString stringWithFormat:@" (%@)", self.name] : @""];

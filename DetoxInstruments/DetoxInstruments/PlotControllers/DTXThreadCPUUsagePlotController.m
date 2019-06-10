@@ -8,6 +8,7 @@
 
 #import "DTXThreadCPUUsagePlotController.h"
 #import "DTXThreadInfo+UIExtensions.h"
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXThreadCPUUsagePlotController
 {
@@ -35,6 +36,11 @@
 {
 	return _threadInfo.friendlyName;
 }
+
+//- (NSArray<NSColor*>*)plotColors
+//{
+//	return @[[NSColor randomColorWithSeed:_threadInfo.friendlyName]];
+//}
 
 - (NSString *)toolTip
 {

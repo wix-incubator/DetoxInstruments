@@ -20,11 +20,6 @@
 
 @interface DTXPlotViewLineAnnotation : DTXPlotViewAnnotation
 
-@property (nonatomic) double value;
-
-@property (nonatomic) bool drawsValue;
-@property (nonatomic, strong) NSColor* valueColor;
-
 @end
 
 @interface DTXPlotViewRangeAnnotation : DTXPlotViewAnnotation
@@ -35,8 +30,16 @@
 
 @interface DTXPlotViewTextAnnotation : DTXPlotViewAnnotation
 
-@property (nonatomic, strong) NSString* text;
+@property (nonatomic) double value;
 @property (nonatomic, strong) NSColor* valueColor;
+
+@property (nonatomic, strong) NSString* text;
+@property (nonatomic, strong) NSColor* textColor;
+@property (nonatomic, strong) NSColor* textBackgroundColor;
+
+@property (nonatomic, strong) NSString* additionalText;
+@property (nonatomic, strong) NSColor* additionalTextColor;
+
 @end
 
 @class DTXPlotView;

@@ -10,6 +10,8 @@
 
 @interface DTXThreadInfo (UIExtensions)
 
++ (NSString*)mainThreadFriendlyName;
+
 + (DTXThreadInfo*)threadInfoForThreadNumber:(int64_t)threadNumber inManagedObjectContext:(NSManagedObjectContext*)ctx;
 
 @property (nonatomic, readonly) NSString* friendlyName;

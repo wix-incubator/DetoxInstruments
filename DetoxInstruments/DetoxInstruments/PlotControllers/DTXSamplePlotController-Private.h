@@ -11,6 +11,9 @@
 
 @interface DTXSamplePlotController () <DTXPlotControllerPrivate>
 
+- (NSColor*)_plotColorForIdx:(NSUInteger)idx;
+- (NSColor*)_additionalPlotColorForIdx:(NSUInteger)idx;
+
 - (void)_highlightSample:(DTXSample*)sample sampleIndex:(NSUInteger)sampleIdx plotIndex:(NSUInteger)plotIndex positionInPlot:(double)position valueAtClickPosition:(double)value;
 
 @end

@@ -34,6 +34,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	NSArray<DTXPlotViewTextAnnotation*>* _textAnnotations;
 	
 	NSArray* _cachedPlotColors;
+	NSArray* _cachedAdditionalPlotColors;
 	
 	NSMenu* _cachedGroupingMenu;
 }
@@ -109,7 +110,14 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 			
 			double value = [scatterPlotView valueOfPointIndex:pointIdx];
 
-			[dataPoints addObject:@{@"position": @(position), @"value": [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(value)]]}];
+			NSMutableDictionary* dataPoint = @{@"position": @(position), @"value": [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(value)]]}.mutableCopy;
+			if(scatterPlotView.hasAdditionalPoints)
+			{
+				double additionalValue = [scatterPlotView additionalValueOfPointIndex:pointIdx];
+				dataPoint[@"additionalValue"] = [self.class.additionalFormatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(additionalValue)]];
+			}
+			
+			[dataPoints addObject:dataPoint];
 		}
 	}
 
@@ -121,9 +129,10 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	NSMutableArray* textAnnotations = [NSMutableArray new];
 
 	[dataPoints enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull presentable, NSUInteger idx, BOOL * _Nonnull stop) {
-		auto textAnnotation = [DTXPlotViewTextAnnotation new];
+		DTXPlotViewTextAnnotation* textAnnotation = [DTXPlotViewTextAnnotation new];
 		textAnnotation.position = [presentable[@"position"] doubleValue];
 		textAnnotation.text = presentable[@"value"];
+		textAnnotation.additionalText = presentable[@"additionalValue"];
 		textAnnotation.priority = 1000;
 
 		[self _updateAnnotationColors:@[textAnnotation] forPlotIndex:idx];
@@ -416,18 +425,8 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 			if([obj isKindOfClass:DTXScatterPlotView.class])
 			{
 				DTXScatterPlotView* scatterPlotView = (id)obj;
-				annotation1.drawsValue = NO;
 				if(isShadow == NO || self.isForTouchBar == YES)
 				{
-					if(idx == plotIndex)
-					{
-						annotation1.value = value;
-					}
-					else
-					{
-						annotation1.value = [scatterPlotView valueAtPlotPosition:range.position exact:YES];
-					}
-					
 					double textValue;
 					if(sampleIdx != NSNotFound)
 					{
@@ -435,11 +434,41 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 					}
 					else
 					{
-						textValue = annotation1.value;
+						if(idx == plotIndex)
+						{
+							textValue = value;
+						}
+						else
+						{
+							textValue = [scatterPlotView valueAtPlotPosition:range.position exact:YES];
+						}
 					}
 					
 					DTXPlotViewTextAnnotation* text = [DTXPlotViewTextAnnotation new];
 					text.text = [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(textValue)]];
+					
+					if(scatterPlotView.hasAdditionalPoints)
+					{
+						double additionalTextValue;
+						if(sampleIdx != NSNotFound)
+						{
+							additionalTextValue = [scatterPlotView additionalValueOfPointIndex:sampleIdx];
+						}
+						else
+						{
+							if(idx == plotIndex)
+							{
+								additionalTextValue = value;
+							}
+							else
+							{
+								additionalTextValue = [scatterPlotView additionalValueAtPlotPosition:range.position exact:YES];
+							}
+						}
+						
+						text.additionalText = [self.class.additionalFormatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(additionalTextValue)]];
+					}
+					
 					text.position = annotation1.position;
 					[annotations addObject:text];
 				}
@@ -498,6 +527,16 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	return _cachedPlotColors;
 }
 
+- (NSArray<NSColor*>*)_cachedAdditionalPlotColors
+{
+	if(_cachedAdditionalPlotColors == nil)
+	{
+		_cachedAdditionalPlotColors = self.additionalPlotColors;
+	}
+	
+	return _cachedAdditionalPlotColors;
+}
+
 - (NSColor*)_plotColorForIdx:(NSUInteger)idx
 {
 	if(idx >= self._cachedPlotColors.count)
@@ -508,8 +547,20 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	return self._cachedPlotColors[idx];
 }
 
+- (NSColor*)_additionalPlotColorForIdx:(NSUInteger)idx
+{
+	if(idx >= self._cachedAdditionalPlotColors.count)
+	{
+		return self._cachedAdditionalPlotColors.lastObject;
+	}
+	
+	return self._cachedAdditionalPlotColors[idx];
+}
+
 - (void)_updateAnnotationColors:(NSArray<DTXPlotViewAnnotation*>*)annotations forPlotIndex:(NSUInteger)plotIdx
 {
+	BOOL isDark = self.wrapperView.effectiveAppearance.isDarkAppearance;
+	
 	[annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull annotation, NSUInteger idx, BOOL * _Nonnull stop) {
 		if([annotation isKindOfClass:DTXPlotViewLineAnnotation.class])
 		{
@@ -523,21 +574,25 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 			{
 				line.color =  [[self _plotColorForIdx:plotIdx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
 			}
-			
-			line.valueColor = [[self _plotColorForIdx:plotIdx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
 		}
 		else if([annotation isKindOfClass:DTXPlotViewTextAnnotation.class])
 		{
 			DTXPlotViewTextAnnotation* text = (id)annotation;
 			
-			if(self.wrapperView.effectiveAppearance.isDarkAppearance)
+			if(isDark)
 			{
-				text.color = NSColor.whiteColor;
+				text.color = NSColor.textColor;
+				text.textBackgroundColor = [[self _plotColorForIdx:plotIdx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
+				text.additionalTextColor = [[self _additionalPlotColorForIdx:plotIdx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.4];
 			}
 			else
 			{
-				text.color =  [[self _plotColorForIdx:plotIdx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
+				text.color = [[self _plotColorForIdx:plotIdx] deeperColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.3];
+				text.textBackgroundColor = NSColor.textBackgroundColor;
+				text.additionalTextColor = [self _additionalPlotColorForIdx:plotIdx];
 			}
+			
+			text.textColor = text.color;
 			text.valueColor = [[self _plotColorForIdx:plotIdx] shallowerColorWithAppearance:self.wrapperView.effectiveAppearance modifier:0.15];
 		}
 	}];
@@ -615,6 +670,11 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	return @[];
 }
 
+- (NSArray<NSColor*>*)additionalPlotColors;
+{
+	return nil;
+}
+
 - (NSArray<NSString *>*)plotTitles
 {
 	return @[];
@@ -626,6 +686,11 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 }
 
 + (NSFormatter*)formatterForDataPresentation
+{
+	return [NSFormatter dtx_stringFormatter];
+}
+
++ (NSFormatter *)additionalFormatterForDataPresentation
 {
 	return [NSFormatter dtx_stringFormatter];
 }
