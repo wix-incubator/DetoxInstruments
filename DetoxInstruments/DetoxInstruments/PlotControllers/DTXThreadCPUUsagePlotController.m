@@ -9,6 +9,7 @@
 #import "DTXThreadCPUUsagePlotController.h"
 #import "DTXThreadInfo+UIExtensions.h"
 #import "NSColor+UIAdditions.h"
+#import "DTXSamplePlotController-Private.h"
 
 @implementation DTXThreadCPUUsagePlotController
 {
@@ -22,9 +23,35 @@
 	if(self)
 	{
 		_threadInfo = threadInfo;
+		
+		if([self isMemberOfClass:DTXThreadCPUUsagePlotController.class])
+		{
+			[NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:DTXPlotSettingsCPUThreadColorize options:NSKeyValueObservingOptionNew context:NULL];
+		}
 	}
 	
 	return self;
+}
+
+- (void)dealloc
+{
+	if([self isMemberOfClass:DTXThreadCPUUsagePlotController.class])
+	{
+		[NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:DTXPlotSettingsCPUThreadColorize];
+	}
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+	if([keyPath isEqualToString:DTXPlotSettingsCPUThreadColorize])
+	{
+		[self _resetCachedPlotColors];
+		[self updateLayerHandler];
+		
+		return;
+	}
+	
+	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 - (NSImage *)displayIcon
@@ -37,10 +64,15 @@
 	return _threadInfo.friendlyName;
 }
 
-//- (NSArray<NSColor*>*)plotColors
-//{
-//	return @[[NSColor randomColorWithSeed:_threadInfo.friendlyName]];
-//}
+- (NSArray<NSColor*>*)plotColors
+{
+	if([NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsCPUThreadColorize])
+	{
+		return @[[NSColor randomColorWithSeed:_threadInfo.friendlyName]];
+	}
+	
+	return [super plotColors];
+}
 
 - (NSString *)toolTip
 {

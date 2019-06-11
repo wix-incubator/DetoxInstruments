@@ -15,10 +15,19 @@
 
 @implementation DTXProfilingConfiguration (RemoteProfilingSupport)
 
-- (void)setAsDefaultRemoteProfilingConfiguration
++ (void)registerRemoteProfilingDefaults
 {
-	[self.dictionaryRepresentation enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-		[[NSUserDefaults standardUserDefaults] setObject:obj forKey:[NSString stringWithFormat:@"DTXSelectedProfilingConfiguration_%@", key]];
+	NSMutableDictionary* registerAsThis = [NSMutableDictionary new];
+	[DTXProfilingConfiguration.defaultProfilingConfigurationForRemoteProfiling.dictionaryRepresentation enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+		registerAsThis[[NSString stringWithFormat:@"DTXSelectedProfilingConfiguration_%@", key]] = obj;
+	}];
+	[NSUserDefaults.standardUserDefaults registerDefaults:registerAsThis];
+}
+
++ (void)resetRemoteProfilingDefaults
+{
+	[self.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop) {
+		[NSUserDefaults.standardUserDefaults removeObjectForKey:[NSString stringWithFormat:@"DTXSelectedProfilingConfiguration_%@", key]];
 	}];
 }
 
@@ -35,7 +44,7 @@
 		}
 	}];
 	
-	NSArray* categories = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"] ?: @[];
+	NSArray* categories = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"] ?: @[];
 	rv.ignoredEventCategories = [NSSet setWithArray:categories];
 	
 	if(rv.recordPerformance == NO && rv.recordNetwork == NO && rv.recordEvents == NO && rv.profileReactNative == NO)

@@ -15,6 +15,9 @@
 #if __has_include("NSString+Trimming.h")
 #import "NSString+Trimming.h"
 #endif
+#if __has_include("PreferenceKeys.h")
+#import "PreferenceKeys.h"
+#endif
 
 extern DTXInstrumentsApplication* DTXApp;
 

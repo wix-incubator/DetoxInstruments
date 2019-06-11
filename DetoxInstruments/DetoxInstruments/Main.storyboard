@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14810.11" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14810.11"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -173,7 +174,11 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                            <connections>
+                                                <action selector="showPreferencesWindow:" target="Voe-Tx-rLC" id="KOm-kP-Ecn"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Check for Updates…" id="1Pd-40-g1P">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -641,7 +646,7 @@ CA
                                                 <action selector="timelineSectionGrouping_noop:" target="Voe-Tx-rLC" id="2J4-b2-tta"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Show Interval Labels" keyEquivalent="l" identifier="ShowSampleLabels" id="IFp-xu-wKG">
+                                        <menuItem title="Show Labels in Interval Plots" keyEquivalent="l" identifier="ShowSampleLabels" id="IFp-xu-wKG">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleShowTimelineLabels:" target="Voe-Tx-rLC" id="ni0-Dd-aJY"/>
@@ -813,7 +818,7 @@ CA
                             </popUpButtonCell>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
-                            <rect key="frame" x="33" y="24" width="51" height="17"/>
+                            <rect key="frame" x="33" y="25" width="51" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="7Wr-AB-JVL">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

@@ -82,7 +82,7 @@
 
 - (NSMutableArray*)_serializedCategories
 {
-	NSArray<NSString*>* categories = [[NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"] ?: @[] sortedArrayUsingSelector:@selector(compare:)];
+	NSArray<NSString*>* categories = [[NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"] ?: @[] sortedArrayUsingSelector:@selector(compare:)];
 	NSMutableArray* rv = [NSMutableArray new];
 	
 	[categories enumerateObjectsUsingBlock:^(NSString* _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -94,7 +94,7 @@
 
 - (void)_serializeCategories
 {
-	[NSUserDefaults.standardUserDefaults setObject:[self.categories valueForKeyPath:@"@distinctUnionOfObjects.category"] forKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"];
+	[NSUserDefaults.standardUserDefaults setObject:[self.categories valueForKeyPath:@"@distinctUnionOfObjects.category"] forKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
 }
 
 @end

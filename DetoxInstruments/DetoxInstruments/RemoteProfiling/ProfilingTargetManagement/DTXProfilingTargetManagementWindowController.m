@@ -50,6 +50,7 @@
 		
 		self.allowsVibrancy = NO;
 		self.centerToolbarItems = YES;
+		self.animateContent = YES;
 	}
 	
 	return self;
@@ -130,8 +131,6 @@
 	}];
 	
 	[self setPreferencesViewControllers:_controllers];
-	
-//	self.window.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
 	
 	[super showPreferencesWindow];
 	

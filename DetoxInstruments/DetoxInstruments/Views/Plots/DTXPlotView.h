@@ -30,13 +30,16 @@
 
 @interface DTXPlotViewTextAnnotation : DTXPlotViewAnnotation
 
+@property (nonatomic) BOOL showsValue;
 @property (nonatomic) double value;
 @property (nonatomic, strong) NSColor* valueColor;
 
+@property (nonatomic) BOOL showsText;
 @property (nonatomic, strong) NSString* text;
 @property (nonatomic, strong) NSColor* textColor;
 @property (nonatomic, strong) NSColor* textBackgroundColor;
 
+@property (nonatomic) BOOL showsAdditionalText;
 @property (nonatomic, strong) NSString* additionalText;
 @property (nonatomic, strong) NSColor* additionalTextColor;
 
@@ -62,14 +65,15 @@
 
 @interface DTXPlotView : NSView
 
-@property (nonatomic, weak) id<DTXPlotViewDelegate> delegate;
-@property (nonatomic, weak) id<DTXPlotViewDataSource> dataSource;
+@property (nonatomic, weak) IBOutlet id<DTXPlotViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<DTXPlotViewDataSource> dataSource;
 
 @property (nonatomic) NSEdgeInsets insets;
 @property (nonatomic) CGFloat minimumHeight;
 @property (readonly) NSSize intrinsicContentSize;
 
 @property (nonatomic, strong) NSArray<DTXPlotViewAnnotation*>* annotations;
+@property (nonatomic) BOOL fadesOnRangeAnnotation;
 
 @property (nonatomic, copy) DTXPlotRange* plotRange;
 @property (nonatomic, copy) DTXPlotRange* globalPlotRange;
@@ -77,7 +81,7 @@
 - (void)scalePlotRange:(double)scale atPoint:(CGPoint)point;
 
 - (void)reloadData;
-@property (nonatomic) BOOL isDataLoaded;
+@property (nonatomic, readonly, getter=isDataLoaded) BOOL dataLoaded;
 
 @property (getter=isFlipped, readwrite) BOOL flipped;
 

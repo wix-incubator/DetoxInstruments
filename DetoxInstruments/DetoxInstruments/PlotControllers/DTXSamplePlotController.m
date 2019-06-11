@@ -31,12 +31,16 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	
 	NSStoryboard* _scene;
 	
-	NSArray<DTXPlotViewTextAnnotation*>* _textAnnotations;
+	NSOrderedSet<DTXPlotViewTextAnnotation*>* _hoverAnnotations;
 	
 	NSArray* _cachedPlotColors;
 	NSArray* _cachedAdditionalPlotColors;
 	
 	NSMenu* _cachedGroupingMenu;
+	
+	BOOL _fadesIntervals;
+	BOOL _showsHoverAnnotationsText;
+	BOOL _showsHighlightAnnotationsText;
 }
 
 @synthesize delegate = _delegate;
@@ -64,10 +68,55 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 		_document = document;
 		_scene = [NSStoryboard storyboardWithName:@"Profiler" bundle:nil];
 		
+		_fadesIntervals = [NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsIntervalFadeOut];
+		[NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:DTXPlotSettingsIntervalFadeOut options:NSKeyValueObservingOptionNew context:NULL];
+		
+		_showsHoverAnnotationsText = [NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsDisplayHoverTextAnnotations];
+		[NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:DTXPlotSettingsDisplayHoverTextAnnotations options:NSKeyValueObservingOptionNew context:NULL];
+		
+		_showsHighlightAnnotationsText = [NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsDisplaySelectionTextAnnotations];
+		[NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:DTXPlotSettingsDisplaySelectionTextAnnotations options:NSKeyValueObservingOptionNew context:NULL];
+		
 		[self plotViews];
 	}
 	
 	return self;
+}
+
+- (void)dealloc
+{
+	[NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:DTXPlotSettingsIntervalFadeOut];
+	[NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:DTXPlotSettingsDisplayHoverTextAnnotations];
+	[NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:DTXPlotSettingsDisplaySelectionTextAnnotations];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+	if([keyPath isEqualToString:DTXPlotSettingsIntervalFadeOut])
+	{
+		_fadesIntervals = [NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsIntervalFadeOut];
+		[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			obj.fadesOnRangeAnnotation = _fadesIntervals;
+		}];
+		
+		return;
+	}
+	else if([keyPath isEqualToString:DTXPlotSettingsDisplayHoverTextAnnotations])
+	{
+		_showsHoverAnnotationsText = [NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsDisplayHoverTextAnnotations];
+		[self _updateTextAnnotationsVisibility];
+		
+		return;
+	}
+	else if([keyPath isEqualToString:DTXPlotSettingsDisplaySelectionTextAnnotations])
+	{
+		_showsHighlightAnnotationsText = [NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsDisplaySelectionTextAnnotations];
+		[self _updateTextAnnotationsVisibility];
+		
+		return;
+	}
+	
+	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 - (NSArray<DTXDetailController*>*)dataProviderControllers
@@ -126,10 +175,11 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 		return;
 	}
 
-	NSMutableArray* textAnnotations = [NSMutableArray new];
+	NSMutableOrderedSet* textAnnotations = [NSMutableOrderedSet new];
 
 	[dataPoints enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull presentable, NSUInteger idx, BOOL * _Nonnull stop) {
 		DTXPlotViewTextAnnotation* textAnnotation = [DTXPlotViewTextAnnotation new];
+		textAnnotation.showsValue = textAnnotation.showsAdditionalText = textAnnotation.showsText = _showsHoverAnnotationsText;
 		textAnnotation.position = [presentable[@"position"] doubleValue];
 		textAnnotation.text = presentable[@"value"];
 		textAnnotation.additionalText = presentable[@"additionalValue"];
@@ -143,9 +193,9 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	[self _updateTextAnnotations:textAnnotations];
 }
 
-- (void)_updateTextAnnotations:(NSArray*)newTextAnnotations
+- (void)_updateTextAnnotations:(NSOrderedSet*)newTextAnnotations
 {
-	[_textAnnotations enumerateObjectsUsingBlock:^(DTXPlotViewTextAnnotation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	[_hoverAnnotations enumerateObjectsUsingBlock:^(DTXPlotViewTextAnnotation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		DTXPlotView* plotView = self.plotViews[idx];
 		NSMutableArray* newAnnotations = plotView.annotations.mutableCopy ?: [NSMutableArray new];
 		[newAnnotations removeObject:obj];
@@ -153,11 +203,11 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 		{
 			[newAnnotations addObject:newTextAnnotations[idx]];
 		}
-		
+
 		plotView.annotations = newAnnotations;
 	}];
-	
-	_textAnnotations = newTextAnnotations;
+
+	_hoverAnnotations = newTextAnnotations;
 }
 
 - (void)updateLayerHandler
@@ -212,6 +262,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 		plotView.dataLimitRange = dataLimitRange;
 		plotView.delegate = self;
 		plotView.minimumHeight = requiredMinHeight;
+		plotView.fadesOnRangeAnnotation = _fadesIntervals;
 		
 		plotView.plotIndex = plotViewIdx;
 		plotViewIdx++;
@@ -234,8 +285,6 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 
 - (void)reloadPlotViews
 {
-	[self _removeHighlightNotifyingDelegate:YES];
-	
 	[self.plotStackView.arrangedSubviews.copy enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[obj removeFromSuperviewWithoutNeedingDisplay];
 	}];
@@ -417,10 +466,6 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 		{
 			DTXPlotViewLineAnnotation* annotation1 = [DTXPlotViewLineAnnotation new];
 			annotation1.position = range.position;
-			if(self.isForTouchBar == NO)
-			{
-				annotation1.opacity = self.wrapperView.effectiveAppearance.isDarkAppearance ? 1.0 : isShadow ? 0.4 : 1.0;
-			}
 			
 			if([obj isKindOfClass:DTXScatterPlotView.class])
 			{
@@ -445,6 +490,9 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 					}
 					
 					DTXPlotViewTextAnnotation* text = [DTXPlotViewTextAnnotation new];
+					text.showsValue = YES;
+					text.showsText = _showsHighlightAnnotationsText;
+					text.showsAdditionalText = _showsHighlightAnnotationsText;
 					text.text = [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(textValue)]];
 					
 					if(scatterPlotView.hasAdditionalPoints)
@@ -477,9 +525,9 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 			[annotations addObject:annotation1];
 		}
 		
-		if(_textAnnotations != nil)
+		if(_hoverAnnotations != nil)
 		{
-			[annotations addObject:_textAnnotations[idx]];
+			[annotations addObject:_hoverAnnotations[idx]];
 		}
 		
 		[self _updateAnnotationColors:annotations forPlotIndex:idx];
@@ -501,9 +549,9 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 - (void)_removeHighlightNotifyingDelegate:(BOOL)notify;
 {
 	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if(_textAnnotations != nil)
+		if(_hoverAnnotations != nil)
 		{
-			obj.annotations = @[_textAnnotations[idx]];
+			obj.annotations = @[_hoverAnnotations[idx]];
 		}
 		else
 		{
@@ -515,6 +563,12 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	{
 		[self.delegate plotControllerDidRemoveHighlight:self];
 	}
+}
+
+- (void)_resetCachedPlotColors;
+{
+	_cachedPlotColors = nil;
+	_cachedAdditionalPlotColors = nil;
 }
 
 - (NSArray<NSColor*>*)_cachedPlotColors
@@ -555,6 +609,30 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	}
 	
 	return self._cachedAdditionalPlotColors[idx];
+}
+
+- (void)_updateTextAnnotationsVisibility
+{
+	[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj.annotations enumerateObjectsUsingBlock:^(DTXPlotViewAnnotation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			if([obj isKindOfClass:DTXPlotViewTextAnnotation.class] == NO)
+			{
+				return;
+			}
+			
+			DTXPlotViewTextAnnotation* textAnnoation = (id)obj;
+			
+			if([_hoverAnnotations containsObject:textAnnoation])
+			{
+				textAnnoation.showsValue = textAnnoation.showsAdditionalText = textAnnoation.showsText = _showsHoverAnnotationsText;
+			}
+			else
+			{
+				textAnnoation.showsAdditionalText = textAnnoation.showsText = _showsHighlightAnnotationsText;
+			}
+		}];
+		obj.annotations = obj.annotations;
+	}];
 }
 
 - (void)_updateAnnotationColors:(NSArray<DTXPlotViewAnnotation*>*)annotations forPlotIndex:(NSUInteger)plotIdx

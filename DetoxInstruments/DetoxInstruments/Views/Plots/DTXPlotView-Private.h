@@ -31,6 +31,11 @@ static DTX_ALWAYS_INLINE void __DTXFillZones(DTXPlotView* self, NSMutableArray<_
 	zone.start = offset + graphViewRatio * 0;
 	[zones addObject:zone];
 	
+	if(self.fadesOnRangeAnnotation == NO)
+	{
+		return;
+	}
+	
 	for(DTXPlotViewRangeAnnotation* annotation in self.annotations)
 	{
 		if([annotation isKindOfClass:DTXPlotViewRangeAnnotation.class] == NO)
@@ -69,6 +74,7 @@ static DTX_ALWAYS_INLINE double __DTXBottomInset(NSEdgeInsets insets, BOOL isFli
 
 @interface DTXPlotView ()
 
+- (void)_commonInit;
 - (BOOL)_hasRangeAnnotations;
 - (void)_clicked:(NSClickGestureRecognizer*)cgr;
 

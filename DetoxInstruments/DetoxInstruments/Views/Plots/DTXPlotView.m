@@ -190,12 +190,8 @@ static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSC
 		{
 			DTXPlotViewTextAnnotation* textAnnotation = (id)annotation;
 			
-			if(textAnnotation.text.length == 0)
-			{
-				continue;
-			}
-			
 			double value = selfBounds.size.height / 2;
+			
 			if([_containingPlotView isKindOfClass:DTXScatterPlotView.class])
 			{
 				DTXScatterPlotView* scatterPlotView = (id)_containingPlotView;
@@ -207,6 +203,21 @@ static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSC
 				value = value * graphHeightViewRatio + __DTXBottomInset(scatterPlotView.insets, scatterPlotView.isFlipped);
 			}
 			
+			if(textAnnotation.showsValue == YES)
+			{
+				CGContextSetStrokeColorWithColor(ctx, textAnnotation.color.CGColor);
+				CGContextSetFillColorWithColor(ctx, textAnnotation.valueColor.CGColor);
+				NSBezierPath* elipse = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(position - __DTXPlotViewAnnotationValueWidth / 2, value - __DTXPlotViewAnnotationValueWidth / 2, __DTXPlotViewAnnotationValueWidth, __DTXPlotViewAnnotationValueWidth)];
+				[elipse fill];
+				elipse.lineWidth = 1.0;
+				[elipse stroke];
+			}
+			
+			if(textAnnotation.showsText == NO || textAnnotation.text.length == 0)
+			{
+				continue;
+			}
+			
 			CGContextSaveGState(ctx);
 			CGContextSetAllowsAntialiasing(ctx, YES);
 			
@@ -215,7 +226,7 @@ static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSC
 			
 			CGRect drawRect;
 			double minWidth;
-			NSAttributedString* attr = _DTXGetAttributedStringForDrawing(textAnnotation.text, textColor, textAnnotation.additionalText, additionalTextColor, self.bounds, position, value, &drawRect, &minWidth, 0);
+			NSAttributedString* attr = _DTXGetAttributedStringForDrawing(textAnnotation.text, textColor, textAnnotation.showsAdditionalText ? textAnnotation.additionalText : nil, additionalTextColor, self.bounds, position, value, &drawRect, &minWidth, 0);
 			
 			if(drawRect.origin.y < 5.0 + _containingPlotView.insets.bottom)
 			{
@@ -250,14 +261,8 @@ static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSC
 			
 			CGPathRelease(path);
 			
-			[attr drawWithRect:CGRectOffset(drawRect, 0, -0.5) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading];
-			
-			CGContextSetStrokeColorWithColor(ctx, textAnnotation.color.CGColor);
-			CGContextSetFillColorWithColor(ctx, textAnnotation.valueColor.CGColor);
-			NSBezierPath* elipse = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(position - __DTXPlotViewAnnotationValueWidth / 2, value - __DTXPlotViewAnnotationValueWidth / 2, __DTXPlotViewAnnotationValueWidth, __DTXPlotViewAnnotationValueWidth)];
-			[elipse fill];
-			elipse.lineWidth = 1.0;
-			[elipse stroke];
+			double textOffset = self.window.backingScaleFactor != 1.0 ? -0.5 : 0.0;
+			[attr drawWithRect:CGRectOffset(drawRect, 0, textOffset) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading];
 			
 			CGContextRestoreGState(ctx);
 		}
@@ -280,37 +285,55 @@ static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSC
 
 @synthesize flipped=_flipped;
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+	self = [super initWithCoder:coder];
+	
+	if(self)
+	{
+		[self _commonInit];
+	}
+	
+	return self;
+}
+
 - (instancetype)initWithFrame:(NSRect)frameRect
 {
 	self = [super initWithFrame:frameRect];
 	
 	if(self)
 	{
-		_cgr = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_clicked:)];
-		_cgr.allowedTouchTypes = NSTouchTypeMaskDirect;
-		_cgr.delegate = self;
-		[self addGestureRecognizer:_cgr];
-		
-		[self setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
-		[self setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
-		
-		_minimumHeight = -1;
-	
-		_overlay = [_DTXAnnotationOverlay new];
-		_overlay.layerContentsRedrawPolicy = NSViewLayerContentsRedrawDuringViewResize;
-		_overlay.containingPlotView = self;
-		_overlay.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		[self addSubview:_overlay];
-		
-		[NSLayoutConstraint activateConstraints:@[
-												  [_overlay.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
-												  [_overlay.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
-												  [_overlay.topAnchor constraintEqualToAnchor:self.topAnchor],
-												  [_overlay.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
-												  ]];
+		[self _commonInit];
 	}
 	return self;
+}
+
+- (void)_commonInit
+{
+	_cgr = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_clicked:)];
+	_cgr.allowedTouchTypes = NSTouchTypeMaskDirect;
+	_cgr.delegate = self;
+	[self addGestureRecognizer:_cgr];
+	
+	[self setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
+	[self setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
+	
+	_minimumHeight = -1;
+	_fadesOnRangeAnnotation = YES;
+	
+	_overlay = [_DTXAnnotationOverlay new];
+	_overlay.layerContentsRedrawPolicy = NSViewLayerContentsRedrawDuringViewResize;
+	_overlay.containingPlotView = self;
+	_overlay.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	[self addSubview:_overlay];
+	
+	[NSLayoutConstraint activateConstraints:@[
+											  [_overlay.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+											  [_overlay.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+											  [_overlay.topAnchor constraintEqualToAnchor:self.topAnchor],
+											  [_overlay.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
+											  ]];
 }
 
 - (BOOL)gestureRecognizer:(NSGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(NSGestureRecognizer *)otherGestureRecognizer
@@ -328,6 +351,13 @@ static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSC
 	_minimumHeight = minimumHeight;
 	
 	[self invalidateIntrinsicContentSize];
+	[self setNeedsDisplay:YES];
+}
+
+- (void)setFadesOnRangeAnnotation:(BOOL)fadeOnRangeAnnotation
+{
+	_fadesOnRangeAnnotation = fadeOnRangeAnnotation;
+	
 	[self setNeedsDisplay:YES];
 }
 
@@ -437,7 +467,7 @@ static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSC
 		return;
 	}
 	
-	_isDataLoaded = YES;
+	_dataLoaded = YES;
 	
 	[self setNeedsDisplay:YES];
 }
@@ -446,7 +476,7 @@ static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSC
 {
 	_dataSource = dataSource;
 	
-	if(_isDataLoaded)
+	if(_dataLoaded)
 	{
 		[self reloadData];
 	}

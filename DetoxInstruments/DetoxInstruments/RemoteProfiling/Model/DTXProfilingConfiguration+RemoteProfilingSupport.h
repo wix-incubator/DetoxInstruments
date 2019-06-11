@@ -10,7 +10,8 @@
 
 @interface DTXProfilingConfiguration (RemoteProfilingSupport)
 
-- (void)setAsDefaultRemoteProfilingConfiguration;
++ (void)registerRemoteProfilingDefaults;
++ (void)resetRemoteProfilingDefaults;
 + (instancetype)profilingConfigurationForRemoteProfilingFromDefaults;
 
 @end

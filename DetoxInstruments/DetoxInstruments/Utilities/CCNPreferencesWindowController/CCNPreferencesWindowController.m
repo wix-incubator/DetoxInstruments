@@ -291,11 +291,18 @@ static unsigned short const CCNEscapeKey = 53;
         self.window.contentView = view;
     }
 	
-	[newContentView setAlphaValue:1.0];
+	if(self.animateContent)
+	{
+		[newContentView setAlphaValue:1.0];
+	}
 	
 	[self.window setFrame:newWindowFrame display:animate animate:animate];
 	
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(animate * [self.window animationResizeTime:newWindowFrame] * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		if(self.animateContent == NO)
+		{
+			[newContentView setAlphaValue:1.0];
+		}
 		self.activeViewController = viewController;
 	});
 }

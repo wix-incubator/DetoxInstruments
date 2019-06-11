@@ -36,6 +36,7 @@
 #pragma mark - Preferences Window Behaviour
 
 @property (copy, nonatomic) NSString* titleOverride;
+@property (nonatomic) BOOL animateContent;
 
 /** @name Preferences Window Behaviour */
 
@@ -47,7 +48,7 @@
 
  The default is `NO`.
 */
-@property (assign, nonatomic) BOOL keepWindowAlwaysOnTop;
+@property (assign, nonatomic) BOOL keepWindowAlwaysOnTop; 
 
 /**
  Boolean property that defines whether the title is shown or not.

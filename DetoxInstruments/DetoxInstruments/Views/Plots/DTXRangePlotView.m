@@ -47,40 +47,35 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 @dynamic delegate;
 @dynamic dataSource;
 
-- (instancetype)initWithFrame:(NSRect)frameRect
+- (void)_commonInit
 {
-	self = [super initWithFrame:frameRect];
+	[super _commonInit];
 	
-	if(self)
+	self.wantsLayer = YES;
+	self.layer.drawsAsynchronously = YES;
+	//For furure live resize support.
+	//		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	//		self.layerContentsPlacement = NSViewLayerContentsPlacementLeft;
+	_lineWidth = DTXRangePlotViewDefaultLineWidth;
+	_lineSpacing = DTXRangePlotViewDefaultLineSpacing;
+	self.insets = NSEdgeInsetsMake(5, 0, 5, 0);
+	
+	NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	style.lineBreakMode = NSLineBreakByTruncatingTail;
+	style.allowsDefaultTighteningForTruncation = NO;
+	
+	_stringDrawingAttributes = @{NSFontAttributeName: [NSFont dtx_monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightRegular], NSParagraphStyleAttributeName: style};
+	
+	self.flipped = YES;
+	
+	[self setDrawTitles:NO];
+	
+	_labelOffset = 1.5;
+	NSOperatingSystemVersion atLeastVersion = (NSOperatingSystemVersion){ 10, 14, 4 };
+	if([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:atLeastVersion])
 	{
-		self.wantsLayer = YES;
-		self.layer.drawsAsynchronously = YES;
-		//For furure live resize support.
-//		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-//		self.layerContentsPlacement = NSViewLayerContentsPlacementLeft;
-		_lineWidth = DTXRangePlotViewDefaultLineWidth;
-		_lineSpacing = DTXRangePlotViewDefaultLineSpacing;
-		self.insets = NSEdgeInsetsMake(5, 0, 5, 0);
-		
-		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		style.lineBreakMode = NSLineBreakByTruncatingTail;
-		style.allowsDefaultTighteningForTruncation = NO;
-		
-		_stringDrawingAttributes = @{NSFontAttributeName: [NSFont dtx_monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightRegular], NSParagraphStyleAttributeName: style};
-		
-		self.flipped = YES;
-		
-		[self setDrawTitles:NO];
-		
-		_labelOffset = 1.5;
-		NSOperatingSystemVersion atLeastVersion = (NSOperatingSystemVersion){ 10, 14, 4 };
-		if([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:atLeastVersion])
-		{
-			_labelOffset = 0.0;
-		}
+		_labelOffset = 0.0;
 	}
-	
-	return self;
 }
 
 //- (BOOL)canDrawConcurrently
@@ -461,6 +456,11 @@ static DTX_ALWAYS_INLINE void __DTXDrawLinesSlowPath(DTXRangePlotView* self, CGC
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+	if(self.isDataLoaded == NO)
+	{
+		[self reloadData];
+	}
+	
 //	CFTimeInterval start = CACurrentMediaTime();
 //	NSUInteger linesDrawn = 0;
 	

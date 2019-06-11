@@ -14,6 +14,26 @@
 
 @implementation DTXCPUUsagePlotController
 
+- (instancetype)initWithDocument:(DTXRecordingDocument *)document isForTouchBar:(BOOL)isForTouchBar
+{
+	self = [super initWithDocument:document isForTouchBar:isForTouchBar];
+	
+	if(self && [self isMemberOfClass:DTXCPUUsagePlotController.class])
+	{
+		[NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:DTXPlotSettingsCPUDisplayMTOverlay options:NSKeyValueObservingOptionNew context:NULL];
+	}
+	
+	return self;
+}
+
+- (void)dealloc
+{
+	if([self isMemberOfClass:DTXCPUUsagePlotController.class])
+	{
+		[NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:DTXPlotSettingsCPUDisplayMTOverlay];
+	}
+}
+
 + (Class)UIDataProviderClass
 {
 	return [DTXCPUDataProvider class];
@@ -79,11 +99,25 @@
 	return 1.0;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+	if([keyPath isEqualToString:DTXPlotSettingsCPUDisplayMTOverlay])
+	{
+		[self.plotViews enumerateObjectsUsingBlock:^(__kindof DTXPlotView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			[obj reloadData];
+		}];
+		
+		return;
+	}
+	
+	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
 #pragma mark DTXScatterPlotViewDataSource
 
 - (BOOL)hasAdditionalPointsForPlotView:(DTXScatterPlotView *)plotView
 {
-	return [self isMemberOfClass:DTXCPUUsagePlotController.class] && self.document.firstRecording.dtx_profilingConfiguration.recordThreadInformation;
+	return [self isMemberOfClass:DTXCPUUsagePlotController.class] && self.document.firstRecording.dtx_profilingConfiguration.recordThreadInformation && [NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsCPUDisplayMTOverlay];
 }
 
 - (DTXScatterPlotViewPoint *)plotView:(DTXScatterPlotView *)plotView additionalPointAtIndex:(NSUInteger)idx

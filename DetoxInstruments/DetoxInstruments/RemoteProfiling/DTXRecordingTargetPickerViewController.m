@@ -31,7 +31,6 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	_DTXTargetsOutlineViewContoller* _outlineController;
 	NSOutlineView* _outlineView;
 	
-	_DTXProfilingConfigurationViewController* _profilingConfigurationController;
 	NSViewController<_DTXActionButtonProvider>* _activeController;
 	
 	IBOutlet NSButton* _cancelButton;
@@ -81,11 +80,6 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	_outlineView.dataSource = self;
 	_outlineView.delegate = self;
 	_outlineView.doubleAction = @selector(_doubleClicked:);
-	
-	_profilingConfigurationController = [self.storyboard instantiateControllerWithIdentifier:@"_DTXProfilingConfigurationViewController"];
-	[self addChildViewController:_profilingConfigurationController];
-	
-	[_profilingConfigurationController view];
 	
 	[_containerView addSubview:_outlineController.view];
 	
@@ -177,11 +171,6 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	}
 	
 	[self.delegate recordingTargetPickerDidCancel:self];
-}
-
-- (IBAction)options:(id)sender
-{
-	[self _transitionToController:_profilingConfigurationController];
 }
 
 - (void)_setupActionButtonsWithProvider:(id<_DTXActionButtonProvider>)provider

@@ -260,29 +260,29 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, NSArray<
 @synthesize _additionalPoints=_additionalPoints;
 @synthesize maxHeight=_maxHeight;
 
-- (instancetype)initWithFrame:(NSRect)frameRect
+- (void)_commonInit
 {
-	self = [super initWithFrame:frameRect];
+	[super _commonInit];
 	
-	if(self)
-	{
-		self.wantsLayer = YES;
-		self.layer.drawsAsynchronously = NO;
-		self.additionalFillLimitValue = -1.0;
-		self.additionalFillStartValue = -1.0;
-		//For furure live resize support.
-		//		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-		//		self.layerContentsPlacement = NSViewLayerContentsPlacementLeft;
-		_lineWidth = 1.0;
-		self.insets = NSEdgeInsetsZero;
-		self.plotHeightMultiplier = 1.0;
-	}
-	
-	return self;
+	self.wantsLayer = YES;
+	self.layer.drawsAsynchronously = NO;
+	self.additionalFillLimitValue = -1.0;
+	self.additionalFillStartValue = -1.0;
+	//For furure live resize support.
+	//		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	//		self.layerContentsPlacement = NSViewLayerContentsPlacementLeft;
+	_lineWidth = 1.0;
+	self.insets = NSEdgeInsetsZero;
+	self.plotHeightMultiplier = 1.0;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+	if(self.isDataLoaded == NO)
+	{
+		[self reloadData];
+	}
+	
 	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
 	__DTXDrawPoints(self, _points, self.fillColor1, self.fillColor2, -1.0, -1.0, self.lineColor, NO, ctx);
 	if(_additionalPoints != nil)

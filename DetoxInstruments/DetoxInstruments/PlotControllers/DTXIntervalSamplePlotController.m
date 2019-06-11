@@ -120,13 +120,6 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 	[super updateLayerHandler];
 }
 
-//- (void)prepareSamples
-//{
-//
-//
-//	[self reloadPlotViews];
-//}
-
 - (BOOL)wantsGestureRecognizerForPlots
 {
 	return YES;
@@ -187,6 +180,8 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 
 - (void)invalidateSections;
 {
+	[self _removeHighlightNotifyingDelegate:YES];
+	
 	[self _reloadData];
 	[self reloadPlotViews];
 }

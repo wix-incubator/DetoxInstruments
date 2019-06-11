@@ -31,6 +31,8 @@
 @property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeRichTextColor;
 @property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeTextColor;
 
+@property (class, nonatomic, strong, readonly) NSColor* graphitePlotColor;
+
 @end
 
 typedef NS_ENUM(NSUInteger, DTXColorEffect) {

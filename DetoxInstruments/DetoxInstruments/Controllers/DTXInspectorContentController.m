@@ -13,7 +13,7 @@
 #import "DTXSegmentedView.h"
 #import "DTXRecording+UIExtensions.h"
 
-static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
+static NSString* const DTXInspectorTabKey = @"DTXInspectorTabKey";
 
 @interface DTXInspectorContentController () <DTXSegmentedViewDelegate>
 {
@@ -36,9 +36,9 @@ static NSString* const __DTXInspectorTabKey = @"__DTXInspectorTabKey";
 	self.view.wantsLayer = YES;
 	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
-	_tabSwitcher.selectedSegment = [[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey];
+	_tabSwitcher.selectedSegment = [[NSUserDefaults standardUserDefaults] integerForKey:DTXInspectorTabKey];
 	
-	[self segmentedView:_tabSwitcher didSelectSegmentAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:__DTXInspectorTabKey]];
+	[self segmentedView:_tabSwitcher didSelectSegmentAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:DTXInspectorTabKey]];
 	
 	_tabSwitcher.delegate = self;
 }
@@ -196,7 +196,7 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 - (void)selectExtendedDetail
 {
 	_tabSwitcher.selectedSegment = 0;
-	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:__DTXInspectorTabKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:DTXInspectorTabKey];
 	
 	_recordingDescriptionDataSource.managedTableView = nil;
 	_sampleDescriptionDataSource.managedTableView = _recordingInfoTableView;
@@ -207,7 +207,7 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 - (void)selectProfilingInfo
 {
 	_tabSwitcher.selectedSegment = 1;
-	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:__DTXInspectorTabKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:DTXInspectorTabKey];
 	
 	_sampleDescriptionDataSource.managedTableView = nil;
 	_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;

@@ -273,8 +273,8 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 
 - (NSImage*)_snapshotForIgnoredCategories
 {
-	NSArray* oldCategories = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"];
-	[NSUserDefaults.standardUserDefaults setObject:@[@"FirstIgnoredCategory", @"SecondIgnoredCategory"] forKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"];
+	NSArray* oldCategories = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
+	[NSUserDefaults.standardUserDefaults setObject:@[@"FirstIgnoredCategory", @"SecondIgnoredCategory"] forKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
 	
 	[self _drainLayout];
 	[self _drainLayout];
@@ -292,7 +292,7 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	NSWindow* window = self.window.sheets.firstObject.sheets.firstObject;
 	auto rv = [window snapshotForCachingDisplay];
 	
-	[NSUserDefaults.standardUserDefaults setObject:oldCategories forKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"];
+	[NSUserDefaults.standardUserDefaults setObject:oldCategories forKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
 	
 	return rv;
 }

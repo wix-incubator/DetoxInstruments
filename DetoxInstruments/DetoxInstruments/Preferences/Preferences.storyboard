@@ -1,0 +1,1390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14810.11" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14810.11"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Display Preferences View Controller-->
+        <scene sceneID="G3L-yd-FEQ">
+            <objects>
+                <viewController storyboardIdentifier="DisplayPreferences" id="iBR-l8-6jQ" customClass="DTXDisplayPreferencesViewController" sceneMemberID="viewController">
+                    <view key="view" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="njl-VN-X3K">
+                        <rect key="frame" x="0.0" y="0.0" width="598" height="354"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d9e-Lu-8zk">
+                                <rect key="frame" x="102" y="71" width="395" height="263"/>
+                                <subviews>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfF-3P-5CW">
+                                        <rect key="frame" x="0.0" y="191" width="330" height="72"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="CCr-V4-NpS">
+                                                <rect key="frame" x="-2" y="24" width="81" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Appearance:" id="7pd-m7-vqW">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3X3-h1-1gZ">
+                                                <rect key="frame" x="89" y="0.0" width="241" height="72"/>
+                                                <subviews>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uXB-oa-rjK">
+                                                        <rect key="frame" x="0.0" y="0.0" width="67" height="72"/>
+                                                        <subviews>
+                                                            <button toolTip="Use the system appearance for the application." translatesAutoresizingMaskIntoConstraints="NO" id="sB4-v0-9K4">
+                                                                <rect key="frame" x="0.0" y="24" width="67" height="48"/>
+                                                                <buttonCell key="cell" type="inline" bezelStyle="inline" image="pref_appearance_auto" imagePosition="only" alignment="center" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="YT4-9l-oGR">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="smallSystemBold"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="changeAppearance:" target="iBR-l8-6jQ" id="gLQ-jc-CMm"/>
+                                                                </connections>
+                                                            </button>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fms-tW-zcH">
+                                                                <rect key="frame" x="17" y="0.0" width="33" height="16"/>
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Auto" id="hLd-HY-5jt">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isb-qf-u9N">
+                                                        <rect key="frame" x="87" y="0.0" width="67" height="72"/>
+                                                        <subviews>
+                                                            <button toolTip="Always use a light appearance for the application." tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="va4-pD-T1d">
+                                                                <rect key="frame" x="0.0" y="24" width="67" height="48"/>
+                                                                <buttonCell key="cell" type="inline" bezelStyle="inline" image="pref_appearance_light" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="F3j-1O-K9L">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="smallSystemBold"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="changeAppearance:" target="iBR-l8-6jQ" id="7xb-Yd-awO"/>
+                                                                </connections>
+                                                            </button>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BUh-fn-xag">
+                                                                <rect key="frame" x="16" y="0.0" width="35" height="16"/>
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Light" id="V0e-Kd-7kF">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6A-4t-D0O">
+                                                        <rect key="frame" x="174" y="0.0" width="67" height="72"/>
+                                                        <subviews>
+                                                            <button toolTip="Always use a dark appearance for the application." tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="7mA-tR-f4A">
+                                                                <rect key="frame" x="0.0" y="24" width="67" height="48"/>
+                                                                <buttonCell key="cell" type="inline" bezelStyle="inline" image="pref_appearance_dark" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Avu-4J-h6S">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="smallSystemBold"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="changeAppearance:" target="iBR-l8-6jQ" id="w0r-6w-3m1"/>
+                                                                </connections>
+                                                            </button>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="geG-VR-TYO">
+                                                                <rect key="frame" x="17" y="0.0" width="33" height="16"/>
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Dark" id="gbN-iV-Lff">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <real value="1000"/>
+                                            <real value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <customView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="o3d-j6-X2F">
+                                        <rect key="frame" x="0.0" y="171" width="0.0" height="0.0"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="53b-QG-Sy8"/>
+                                            <constraint firstAttribute="height" id="saM-VF-TaJ"/>
+                                        </constraints>
+                                    </customView>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5hd-yA-BIx">
+                                        <rect key="frame" x="0.0" y="114" width="377" height="37"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5NM-qz-Lrx">
+                                                <rect key="frame" x="-2" y="21" width="108" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="CPU usage plot:" id="MtT-UP-5Ad">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bHL-pu-D4J">
+                                                <rect key="frame" x="112" y="0.0" width="265" height="36"/>
+                                                <subviews>
+                                                    <button toolTip="Overlay the main thread CPU usage portion on top of the general CPU usage plot." horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="R9Q-Ml-cqV">
+                                                        <rect key="frame" x="-2" y="20" width="184" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Overlay main thread usage" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8Cc-8s-qSf">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <binding destination="SdW-M3-nbg" name="value" keyPath="values.DTXPlotSettingsCPUDisplayMTOverlay" id="Wgd-8d-XQT"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button toolTip="Colorize each thread CPU usage plot with a color derived from its name." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="336-PD-vX4">
+                                                        <rect key="frame" x="-2" y="-2" width="269" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Colorize threads according to their name" bezelStyle="regularSquare" imagePosition="left" inset="2" id="LYi-ZP-9Vy">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <binding destination="oKu-C1-HMN" name="value" keyPath="values.DTXPlotSettingsCPUThreadColorize" id="Qpt-vJ-5Dw"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Qb-Ti-aRT">
+                                        <rect key="frame" x="0.0" y="57" width="395" height="37"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="qO2-vi-a0t">
+                                                <rect key="frame" x="-2" y="21" width="108" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Interval plots:" id="osh-KS-NLn">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2wL-XN-7De">
+                                                <rect key="frame" x="112" y="0.0" width="283" height="36"/>
+                                                <subviews>
+                                                    <button toolTip="Display interval value label in interval plots." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YEu-h7-DHY">
+                                                        <rect key="frame" x="-2" y="20" width="95" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Show labels" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="LO6-2e-Rcm">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <binding destination="SdW-M3-nbg" name="value" keyPath="values.DTXPlotSettingsDisplayLabels" id="nN7-CZ-R4f"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button toolTip="Fade out samples outside of selected interval range." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kkk-nT-MjL">
+                                                        <rect key="frame" x="-2" y="-2" width="287" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Fade out samples outside of selected range" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="orE-FO-YTl">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <binding destination="rsa-bF-hg2" name="value" keyPath="values.DTXPlotSettingsIntervalFadeOut" id="yOF-BJ-s8k"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mRQ-5m-yiq">
+                                        <rect key="frame" x="0.0" y="0.0" width="297" height="37"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="oI8-i3-Op3">
+                                                <rect key="frame" x="-2" y="21" width="108" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Text annotations:" id="Ohj-Hm-oD0">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K1b-ML-kzS">
+                                                <rect key="frame" x="112" y="0.0" width="185" height="36"/>
+                                                <subviews>
+                                                    <button toolTip="Display text annotations on sample highlight." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HFX-Mf-1AX">
+                                                        <rect key="frame" x="-2" y="20" width="189" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Display on sample highlight" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="HTE-od-EAi">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <binding destination="rsa-bF-hg2" name="value" keyPath="values.DTXPlotSettingsDisplaySelectionTextAnnotations" id="Hlx-cE-sqI"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button toolTip="Display text annotations on mouse hover." horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="brx-nT-Hbk">
+                                                        <rect key="frame" x="-2" y="-2" width="167" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Display on mouse hover" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="UJt-1I-JqX">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <binding destination="rsa-bF-hg2" name="value" keyPath="values.DTXPlotSettingsDisplayHoverTextAnnotations" id="FyQ-gk-Fhc"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="qO2-vi-a0t" firstAttribute="width" secondItem="5NM-qz-Lrx" secondAttribute="width" id="RUt-7j-Ghz"/>
+                                    <constraint firstItem="oI8-i3-Op3" firstAttribute="width" secondItem="5NM-qz-Lrx" secondAttribute="width" id="f1c-Ee-mvY"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9KO-8S-rk8">
+                                <rect key="frame" x="555" y="16" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CFn-K6-cva">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="helpGeneralPreferences:" target="wAg-Mk-4fk" id="u92-1s-jh7"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="d9e-Lu-8zk" firstAttribute="top" secondItem="njl-VN-X3K" secondAttribute="top" constant="20" id="V0T-jH-9pa"/>
+                            <constraint firstAttribute="trailing" secondItem="9KO-8S-rk8" secondAttribute="trailing" constant="20" id="cXX-e5-Vwn"/>
+                            <constraint firstItem="d9e-Lu-8zk" firstAttribute="centerX" secondItem="njl-VN-X3K" secondAttribute="centerX" id="kJA-kU-hae"/>
+                            <constraint firstAttribute="bottom" secondItem="9KO-8S-rk8" secondAttribute="bottom" constant="20" id="sPN-5E-hgz"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_autoAppearanceButton" destination="sB4-v0-9K4" id="SYs-gK-TKX"/>
+                        <outlet property="_darkAppearanceButton" destination="7mA-tR-f4A" id="i0p-SK-5To"/>
+                        <outlet property="_lightAppearanceButton" destination="va4-pD-T1d" id="Bbg-Vd-2du"/>
+                    </connections>
+                </viewController>
+                <customObject id="wAg-Mk-4fk" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController id="SdW-M3-nbg"/>
+                <userDefaultsController id="oKu-C1-HMN"/>
+                <userDefaultsController id="rsa-bF-hg2"/>
+            </objects>
+            <point key="canvasLocation" x="-706" y="-1746"/>
+        </scene>
+        <!--Profiling Configuration View Controller-->
+        <scene sceneID="hzY-TX-Ecw">
+            <objects>
+                <viewController storyboardIdentifier="RecordingPreferences" id="OpI-ll-TgO" customClass="_DTXProfilingConfigurationViewController" sceneMemberID="viewController">
+                    <view key="view" id="DJP-gy-DtW">
+                        <rect key="frame" x="0.0" y="0.0" width="598" height="575"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="FB8-hs-zf7">
+                                <rect key="frame" x="96" y="60" width="407" height="495"/>
+                                <subviews>
+                                    <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yI3-6e-MaY">
+                                        <rect key="frame" x="0.0" y="0.0" width="407" height="495"/>
+                                        <subviews>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zvP-Hz-LmE" userLabel="Sampling Frequency Stack View">
+                                                <rect key="frame" x="0.0" y="474" width="407" height="21"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="999" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="XzW-iA-Skh">
+                                                        <rect key="frame" x="-2" y="3" width="136" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Sampling frequency:" id="B2H-SR-Zbz">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uy3-xO-dSJ">
+                                                        <rect key="frame" x="140" y="0.0" width="267" height="21"/>
+                                                        <subviews>
+                                                            <popUpButton verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="gNl-oo-giS">
+                                                                <rect key="frame" x="-2" y="-3" width="271" height="25"/>
+                                                                <popUpButtonCell key="cell" type="push" title="Very often (4 samples every second)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="25" imageScaling="proportionallyDown" inset="2" selectedItem="i3p-6Z-N6J" id="T9z-h8-fBH">
+                                                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                                    <font key="font" metaFont="menu"/>
+                                                                    <menu key="menu" id="NmJ-S7-Llh">
+                                                                        <items>
+                                                                            <menuItem title="Very often (4 samples every second)" state="on" tag="25" id="i3p-6Z-N6J"/>
+                                                                            <menuItem title="More often (2 samples every second)" tag="50" id="QVc-rH-JaO"/>
+                                                                            <menuItem title="Normal (1 sample every second)" tag="100" id="Ump-fo-QAK"/>
+                                                                            <menuItem title="Less often (1 sample every 2 seconds)" tag="200" id="dLv-N6-Sfe"/>
+                                                                        </items>
+                                                                    </menu>
+                                                                </popUpButtonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="inw-cu-wgb">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="selectedTag" keyPath="values.DTXSelectedProfilingConfiguration_samplingInterval" id="fXU-2d-3bB">
+                                                                        <dictionary key="options">
+                                                                            <string key="NSValueTransformerName">_DTXProfilingConfigurationIntervalToTag</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                </connections>
+                                                            </popUpButton>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kKa-rT-pJr" userLabel="Performance Stack View">
+                                                <rect key="frame" x="0.0" y="438" width="407" height="16"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="l40-Fo-Y6V">
+                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Performance:" id="K2a-VT-4Ay">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gxG-eP-R5y">
+                                                        <rect key="frame" x="140" y="1" width="267" height="14"/>
+                                                        <subviews>
+                                                            <button toolTip="Record performance information during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="o6T-tP-cWG">
+                                                                <rect key="frame" x="-2" y="-2" width="147" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Record performance" bezelStyle="regularSquare" imagePosition="left" inset="2" id="4Cj-Cd-kq3">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="uB0-9V-RFt">
+                                                                        <dictionary key="options">
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" id="Dbl-uE-4si"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i8R-ML-Kiq" userLabel="Threads Stack View">
+                                                <rect key="frame" x="0.0" y="359" width="407" height="59"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="afx-j5-wgm">
+                                                        <rect key="frame" x="-2" y="43" width="136" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Threads:" id="xA9-Dg-rUF">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v14-k9-NLt">
+                                                        <rect key="frame" x="140" y="0.0" width="267" height="58"/>
+                                                        <subviews>
+                                                            <button toolTip="Record thread information during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="F26-30-YaI">
+                                                                <rect key="frame" x="-2" y="42" width="181" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Record thread information" bezelStyle="regularSquare" imagePosition="left" inset="2" id="M7L-sW-G3P">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="IdN-2W-qz0">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="IdN-2W-qz0" id="lo9-ry-3nA">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="-1"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" id="Arl-n6-VFC"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="3TN-Po-bOV">
+                                                                <rect key="frame" x="-2" y="20" width="143" height="18"/>
+                                                                <string key="toolTip">Collect stack trace information where appropriate.
+
+Collecting stack traces may introduce some performance hit.</string>
+                                                                <buttonCell key="cell" type="check" title="Collect stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Mls-0A-S6T">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="K0i-KN-ivM">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="Yo6-gC-6JP"/>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="8jW-9a-7s5" id="ffP-yp-wNy">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="-1"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="K0i-KN-ivM" id="8jW-9a-7s5">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                </connections>
+                                                            </button>
+                                                            <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="svv-ID-yR1">
+                                                                <rect key="frame" x="-2" y="-2" width="175" height="18"/>
+                                                                <string key="toolTip">Symbolicate stack traces at runtime.
+
+Symbolicating stack traces may introduce some performance hit.</string>
+                                                                <buttonCell key="cell" type="check" title="Symbolicate stack traces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="SMj-6w-CLT">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Zaw-ev-e0N">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" previousBinding="Zaw-ev-e0N" id="KOS-Xt-qpX">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled4" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="BkF-Az-gir" id="RX6-So-tNQ">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="-1"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="KOS-Xt-qpX" id="BkF-Az-gir">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_symbolicateStackTraces" id="Uca-ig-LDF"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Akq-8f-KTC" userLabel="Disk Usage Stack View">
+                                                <rect key="frame" x="0.0" y="323" width="407" height="16"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="bKK-92-CPC">
+                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Disk Usage:" id="QHP-Np-Zyq">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sLF-vh-sP2">
+                                                        <rect key="frame" x="140" y="1" width="267" height="14"/>
+                                                        <subviews>
+                                                            <button toolTip="Collect names of files open in the app at the time of sampling." verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="xPd-U1-DAt">
+                                                                <rect key="frame" x="-2" y="-2" width="164" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Collect open file names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="d6c-lb-Bz3">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Ff1-0g-moZ">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectOpenFileNames" id="DMQ-F9-O1K"/>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="Ff1-0g-moZ" id="ZWR-bL-DHf">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="-1"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7wV-gW-uwo" userLabel="Network Stack View">
+                                                <rect key="frame" x="0.0" y="244" width="407" height="59"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8xK-CT-02C">
+                                                        <rect key="frame" x="-2" y="43" width="136" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Network:" id="JRU-8m-g7Z">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jwz-Nl-uP9">
+                                                        <rect key="frame" x="140" y="0.0" width="267" height="58"/>
+                                                        <subviews>
+                                                            <button toolTip="Record network requests during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="JAM-51-dQ2">
+                                                                <rect key="frame" x="-2" y="42" width="118" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Record network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="a9T-7e-wdo">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="eqQ-f6-yru">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" id="DQQ-1G-NKD"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button toolTip="Record localhost network requests during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="jfm-sB-jhY">
+                                                                <rect key="frame" x="-2" y="20" width="176" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Record localhost network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="eyk-hA-00W">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Y92-Rd-s1l">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLocalhostNetwork" id="9Ab-7a-UWr"/>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" previousBinding="Y92-Rd-s1l" id="8lZ-jl-Z7x">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                </connections>
+                                                            </button>
+                                                            <button toolTip="Disables cache for network requests." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="vod-jy-C5Y">
+                                                                <rect key="frame" x="-2" y="-2" width="160" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Disable network cache" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ifR-t0-AmG">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="cTa-r6-8xb">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_disableNetworkCache" id="1hY-69-58K"/>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" previousBinding="cTa-r6-8xb" id="S0o-2e-y2b">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqq-v5-n1K" userLabel="Events Stack View">
+                                                <rect key="frame" x="0.0" y="179" width="407" height="45"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="z6W-cp-Vt6">
+                                                        <rect key="frame" x="-2" y="29" width="136" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Events:" id="0ci-1t-pkd">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dmq-2o-PMa">
+                                                        <rect key="frame" x="140" y="0.0" width="267" height="44"/>
+                                                        <subviews>
+                                                            <button toolTip="Record events during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Qdt-VA-kIa">
+                                                                <rect key="frame" x="-2" y="28" width="109" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Record events" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZMe-Nb-56v">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="36I-8x-tAl">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" previousBinding="36I-8x-tAl" id="I0q-Xt-U8t">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="-1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordEvents" id="CsI-aN-f2q"/>
+                                                                </connections>
+                                                            </button>
+                                                            <customView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QaT-yC-jne">
+                                                                <rect key="frame" x="0.0" y="0.0" width="259" height="22"/>
+                                                                <subviews>
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="plB-LA-vJu">
+                                                                        <rect key="frame" x="-6" y="-6" width="156" height="32"/>
+                                                                        <string key="toolTip">Edit the event categories to ignore when profiling.
+
+Use this feature to prevent clutter in the Events instrument.</string>
+                                                                        <buttonCell key="cell" type="push" title="Ignored Categories" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VYw-BU-7gP">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <connections>
+                                                                            <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Cpd-pl-yje">
+                                                                                <dictionary key="options">
+                                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                                </dictionary>
+                                                                            </binding>
+                                                                            <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordEvents" previousBinding="Cpd-pl-yje" id="weh-Pw-NrO">
+                                                                                <dictionary key="options">
+                                                                                    <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                                    <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                                    <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                                    <integer key="NSNullPlaceholder" value="-1"/>
+                                                                                </dictionary>
+                                                                            </binding>
+                                                                            <segue destination="urf-AH-8rX" kind="sheet" identifier="PresentIgnoredCategoriesSegue" id="xnz-Bk-Vxi"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="plB-LA-vJu" firstAttribute="leading" secondItem="QaT-yC-jne" secondAttribute="leading" id="36d-aW-ss7"/>
+                                                                    <constraint firstAttribute="height" constant="22" id="isB-Jd-WGt"/>
+                                                                    <constraint firstItem="plB-LA-vJu" firstAttribute="centerY" secondItem="QaT-yC-jne" secondAttribute="centerY" id="yZe-Yb-5Kr"/>
+                                                                </constraints>
+                                                            </customView>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cRB-di-s5O" userLabel="Log Stack View">
+                                                <rect key="frame" x="0.0" y="143" width="407" height="16"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="kxx-bo-FHN">
+                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Log:" id="pUl-0p-6Tm">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GLI-40-lSF">
+                                                        <rect key="frame" x="140" y="1" width="267" height="14"/>
+                                                        <subviews>
+                                                            <button toolTip="Record log output during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="w6Q-EN-wGe">
+                                                                <rect key="frame" x="-2" y="-2" width="131" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Record log output" bezelStyle="regularSquare" imagePosition="left" inset="2" id="mp7-HY-XLP">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="ZnZ-Xa-tDq">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLogOutput" id="mJ2-Bs-APL"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y8h-d7-mBG" userLabel="React Native Stack View">
+                                                <rect key="frame" x="0.0" y="42" width="407" height="81"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lEl-y6-uLC">
+                                                        <rect key="frame" x="-2" y="65" width="136" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="React Native:" id="44V-23-JWq">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHh-zC-CeP">
+                                                        <rect key="frame" x="140" y="0.0" width="267" height="80"/>
+                                                        <subviews>
+                                                            <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="34Z-pu-E1Y">
+                                                                <rect key="frame" x="-2" y="64" width="219" height="18"/>
+                                                                <string key="toolTip">Profile React Native application.
+
+Currently, only one active React Native bridge is supported.</string>
+                                                                <buttonCell key="cell" type="check" title="Profile React Native (if available)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ji0-LJ-5Ey">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="uTB-Hq-QIR">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="TKx-I7-bbV"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button toolTip="Record React Native bridge data during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iYq-WM-een">
+                                                                <rect key="frame" x="-2" y="42" width="138" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Record bridge data" bezelStyle="regularSquare" imagePosition="left" inset="2" id="kHu-3D-fRm">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="XMP-oD-Pxr">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="XMP-oD-Pxr" id="fZo-QZ-Ew7">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeBridgeData" id="jF4-nR-RFe"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Rqu-7F-RGF">
+                                                                <rect key="frame" x="-2" y="20" width="168" height="18"/>
+                                                                <string key="toolTip">Record React Native timers, created using setTimeout() in Java Script, as events.
+
+Timers will appear as interval events in the Events instrument. This option requires the detox-instruments-react-native-utils package be installed in the profiled React Native app.</string>
+                                                                <buttonCell key="cell" type="check" title="Record timers as events" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ccd-Kd-4zv">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="bnE-8a-zKY">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="bnE-8a-zKY" id="i4a-lv-auE">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeTimersAsEvents" id="d0f-Yj-1fI"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iQv-ND-aT4">
+                                                                <rect key="frame" x="-2" y="-2" width="238" height="18"/>
+                                                                <string key="toolTip">Record internal React Native events.
+
+Taps into the internal profiling mechanisms to collect internal React Native profiling events.</string>
+                                                                <buttonCell key="cell" type="check" title="Record internal React Native events" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8sn-FF-qxa">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="dvk-Fb-56i">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="dvk-Fb-56i" id="zRb-Wu-W4v">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordInternalReactNativeEvents" id="dPc-hT-Rdt"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BnW-Ht-cKY" userLabel="Time Limit Stack View">
+                                                <rect key="frame" x="0.0" y="0.0" width="407" height="22"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="M2a-3h-pYo">
+                                                        <rect key="frame" x="-2" y="3" width="136" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Recording Time Limit:" id="Sj0-aR-lrA">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <customView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="p5K-rZ-AxN">
+                                                        <rect key="frame" x="140" y="0.0" width="267" height="22"/>
+                                                        <subviews>
+                                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t8S-TB-Yky">
+                                                                <rect key="frame" x="0.0" y="1" width="123" height="21"/>
+                                                                <subviews>
+                                                                    <textField toolTip="Limit the recording duration" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g86-Hv-NyJ">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="21"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="30" id="Foz-rZ-jf2"/>
+                                                                        </constraints>
+                                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="SCW-YE-g0k">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        </textFieldCell>
+                                                                        <connections>
+                                                                            <binding destination="OpI-ll-TgO" name="value" keyPath="self.timeLimit" id="gNd-hr-4XG">
+                                                                                <dictionary key="options">
+                                                                                    <bool key="NSAlwaysPresentsApplicationModalAlerts" value="YES"/>
+                                                                                    <bool key="NSValidatesImmediately" value="YES"/>
+                                                                                </dictionary>
+                                                                            </binding>
+                                                                            <outlet property="delegate" destination="OpI-ll-TgO" id="x8G-is-Jc8"/>
+                                                                            <outlet property="nextKeyView" destination="DJP-gy-DtW" id="UC4-Cb-xYt"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="juM-MR-ByT">
+                                                                        <rect key="frame" x="36" y="-3" width="90" height="25"/>
+                                                                        <popUpButtonCell key="cell" type="push" title="minutes" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="FtC-kq-5re" id="bZl-8I-s0g">
+                                                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="menu"/>
+                                                                            <menu key="menu" id="NRP-oF-Vde">
+                                                                                <items>
+                                                                                    <menuItem title="seconds" id="7Ky-G7-PbH" userLabel="Seconds"/>
+                                                                                    <menuItem title="minutes" state="on" id="FtC-kq-5re" userLabel="Minutes"/>
+                                                                                    <menuItem title="hours" id="Lqm-Mb-vt1" userLabel="Hours"/>
+                                                                                </items>
+                                                                            </menu>
+                                                                        </popUpButtonCell>
+                                                                        <connections>
+                                                                            <binding destination="rBM-gZ-tlD" name="selectedIndex" keyPath="values.DTXSelectedProfilingConfiguration_timeLimitType" id="EFZ-CZ-2NO">
+                                                                                <dictionary key="options">
+                                                                                    <integer key="NSNullPlaceholder" value="1"/>
+                                                                                </dictionary>
+                                                                            </binding>
+                                                                        </connections>
+                                                                    </popUpButton>
+                                                                </subviews>
+                                                                <visibilityPriorities>
+                                                                    <integer value="1000"/>
+                                                                    <integer value="1000"/>
+                                                                </visibilityPriorities>
+                                                                <customSpacing>
+                                                                    <real value="3.4028234663852886e+38"/>
+                                                                    <real value="3.4028234663852886e+38"/>
+                                                                </customSpacing>
+                                                            </stackView>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="t8S-TB-Yky" firstAttribute="leading" secondItem="p5K-rZ-AxN" secondAttribute="leading" id="Azw-eQ-GR4"/>
+                                                            <constraint firstAttribute="height" constant="22" id="VHu-VU-uro"/>
+                                                            <constraint firstItem="t8S-TB-Yky" firstAttribute="top" secondItem="p5K-rZ-AxN" secondAttribute="top" id="XkY-gj-Iaw"/>
+                                                        </constraints>
+                                                    </customView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="M2a-3h-pYo" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="21f-jN-vXW"/>
+                                            <constraint firstItem="lEl-y6-uLC" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="79n-CL-hge"/>
+                                            <constraint firstItem="8xK-CT-02C" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="IPT-jZ-16R"/>
+                                            <constraint firstItem="afx-j5-wgm" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="Mxf-Nc-lSo"/>
+                                            <constraint firstItem="kxx-bo-FHN" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="Pw7-aC-NYO"/>
+                                            <constraint firstItem="l40-Fo-Y6V" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="Rer-cn-Zjt"/>
+                                            <constraint firstItem="z6W-cp-Vt6" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="W8k-Jo-ywN"/>
+                                            <constraint firstItem="bKK-92-CPC" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="vKJ-PF-7Ph"/>
+                                        </constraints>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="yI3-6e-MaY" secondAttribute="bottom" id="4fW-h5-Gmc"/>
+                                    <constraint firstItem="yI3-6e-MaY" firstAttribute="leading" secondItem="FB8-hs-zf7" secondAttribute="leading" id="Cbl-aO-Rai"/>
+                                    <constraint firstItem="yI3-6e-MaY" firstAttribute="top" secondItem="FB8-hs-zf7" secondAttribute="top" id="hWh-ol-Wb5"/>
+                                    <constraint firstAttribute="trailing" secondItem="yI3-6e-MaY" secondAttribute="trailing" id="rb6-yV-EId"/>
+                                </constraints>
+                            </customView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P5N-oP-6Oc">
+                                <rect key="frame" x="555" y="16" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gJD-pS-rds">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="helpProfilingOptions:" target="niG-fH-XKz" id="2FD-V0-foy"/>
+                                </connections>
+                            </button>
+                            <button toolTip="Restore the default profiling " verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3R9-3l-Btv">
+                                <rect key="frame" x="410" y="13" width="141" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="63H-md-RM8"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e1X-gu-2wy">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="_useDefaultConfiguration:" target="OpI-ll-TgO" id="JLB-Gd-KwR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="P5N-oP-6Oc" secondAttribute="trailing" constant="20" id="1Lc-hg-yqc"/>
+                            <constraint firstItem="3R9-3l-Btv" firstAttribute="centerY" secondItem="P5N-oP-6Oc" secondAttribute="centerY" id="FOC-mm-riz"/>
+                            <constraint firstItem="P5N-oP-6Oc" firstAttribute="leading" secondItem="3R9-3l-Btv" secondAttribute="trailing" constant="12" id="Mwd-57-1v8"/>
+                            <constraint firstAttribute="bottom" secondItem="P5N-oP-6Oc" secondAttribute="bottom" constant="20" id="Wgq-Bb-Ddb"/>
+                            <constraint firstItem="FB8-hs-zf7" firstAttribute="top" secondItem="DJP-gy-DtW" secondAttribute="top" constant="20" id="XQj-eX-8sf"/>
+                            <constraint firstItem="FB8-hs-zf7" firstAttribute="centerX" secondItem="DJP-gy-DtW" secondAttribute="centerX" id="oh3-wR-4tj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_containerView" destination="FB8-hs-zf7" id="azM-JD-H4r"/>
+                        <outlet property="_helpButton" destination="P5N-oP-6Oc" id="MnK-8C-sZg"/>
+                        <outlet property="_topStackView" destination="yI3-6e-MaY" id="6gh-qR-VYq"/>
+                    </connections>
+                </viewController>
+                <customObject id="niG-fH-XKz" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="rBM-gZ-tlD"/>
+            </objects>
+            <point key="canvasLocation" x="-33" y="-1699.5"/>
+        </scene>
+        <!--Ignored Event Categories-->
+        <scene sceneID="p61-99-AOW">
+            <objects>
+                <viewController title="Ignored Event Categories" storyboardIdentifier="IgnoredCategoriesViewController" id="urf-AH-8rX" customClass="_DTXProfilingConfigurationIgnoredEventsCategoriesViewController" sceneMemberID="viewController">
+                    <view key="view" id="OIE-0h-ip8">
+                        <rect key="frame" x="0.0" y="0.0" width="460" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ed-55-XAQ">
+                                <rect key="frame" x="20" y="61" width="420" height="219"/>
+                                <clipView key="contentView" id="qcr-4K-OIi">
+                                    <rect key="frame" x="1" y="1" width="418" height="217"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="znt-J8-vB9">
+                                            <rect key="frame" x="0.0" y="0.0" width="418" height="217"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <size key="intercellSpacing" width="3" height="2"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn width="415" minWidth="40" maxWidth="1000" id="kqP-Eh-iwO">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="Xkw-lQ-7HX">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
+                                                    <connections>
+                                                        <binding destination="69h-he-xLZ" name="value" keyPath="arrangedObjects.category" id="Uko-99-nZT"/>
+                                                    </connections>
+                                                </tableColumn>
+                                            </tableColumns>
+                                            <connections>
+                                                <binding destination="69h-he-xLZ" name="content" keyPath="arrangedObjects" id="Y4T-ai-82s"/>
+                                                <binding destination="69h-he-xLZ" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="Y4T-ai-82s" id="IEi-po-1h2"/>
+                                                <outlet property="delegate" destination="urf-AH-8rX" id="P5u-bc-Gln"/>
+                                            </connections>
+                                        </tableView>
+                                    </subviews>
+                                </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="219" id="JnT-0U-CmP"/>
+                                    <constraint firstAttribute="width" constant="420" id="dVo-2Y-QcS"/>
+                                </constraints>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="HJX-3p-yCD">
+                                    <rect key="frame" x="1" y="243" width="408" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="oLb-Eq-vEY">
+                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Le5-LR-tak">
+                                <rect key="frame" x="364" y="13" width="82" height="32"/>
+                                <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LRk-X3-Qyg">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="urf-AH-8rX" id="nBM-PX-qjw"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WL9-KP-4FZ">
+                                <rect key="frame" x="47" y="13" width="89" height="32"/>
+                                <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m8r-Et-Pq8">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="add:" target="69h-he-xLZ" id="sfT-vR-Y4r"/>
+                                    <binding destination="69h-he-xLZ" name="enabled" keyPath="canInsert" id="GQN-1e-HmO"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XOg-4P-H58">
+                                <rect key="frame" x="136" y="13" width="89" height="32"/>
+                                <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hvj-jn-83L">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="remove:" target="69h-he-xLZ" id="Upz-2j-Id1"/>
+                                    <binding destination="69h-he-xLZ" name="enabled" keyPath="selectedObjects.@count" id="dkT-sC-jhM"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7EH-17-K7Z">
+                                <rect key="frame" x="282" y="13" width="82" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qvR-9M-bBb">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancel:" target="wLM-Dn-AYj" id="n8N-H6-uOQ"/>
+                                </connections>
+                            </button>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lpg-0b-Fba">
+                                <rect key="frame" x="18" y="16" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SX6-Zd-Db4">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="helpIgnoreCategories:" target="wLM-Dn-AYj" id="gdh-nB-oZB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="5Ed-55-XAQ" firstAttribute="top" secondItem="OIE-0h-ip8" secondAttribute="top" constant="20" id="7aX-cg-AYT"/>
+                            <constraint firstItem="XOg-4P-H58" firstAttribute="leading" secondItem="WL9-KP-4FZ" secondAttribute="trailing" constant="12" id="7z5-8p-Oqf"/>
+                            <constraint firstItem="Le5-LR-tak" firstAttribute="leading" secondItem="7EH-17-K7Z" secondAttribute="trailing" constant="12" id="JDJ-TJ-0CP"/>
+                            <constraint firstItem="7EH-17-K7Z" firstAttribute="width" secondItem="Le5-LR-tak" secondAttribute="width" id="MVY-Lo-kby"/>
+                            <constraint firstAttribute="bottom" secondItem="lpg-0b-Fba" secondAttribute="bottom" constant="20" id="ako-Px-uXn"/>
+                            <constraint firstAttribute="bottom" secondItem="Le5-LR-tak" secondAttribute="bottom" constant="20" id="bbm-Cs-KRI"/>
+                            <constraint firstItem="Le5-LR-tak" firstAttribute="top" secondItem="5Ed-55-XAQ" secondAttribute="bottom" constant="20" id="gai-zk-9TG"/>
+                            <constraint firstAttribute="trailing" secondItem="5Ed-55-XAQ" secondAttribute="trailing" constant="20" id="iac-cA-6v4"/>
+                            <constraint firstItem="WL9-KP-4FZ" firstAttribute="leading" secondItem="lpg-0b-Fba" secondAttribute="trailing" constant="12" id="miu-Jr-juc"/>
+                            <constraint firstItem="lpg-0b-Fba" firstAttribute="leading" secondItem="OIE-0h-ip8" secondAttribute="leading" constant="20" id="mnB-4O-Afy"/>
+                            <constraint firstAttribute="bottom" secondItem="WL9-KP-4FZ" secondAttribute="bottom" constant="20" id="naz-nX-iiP"/>
+                            <constraint firstItem="XOg-4P-H58" firstAttribute="firstBaseline" secondItem="WL9-KP-4FZ" secondAttribute="firstBaseline" id="nzo-Ws-7tF"/>
+                            <constraint firstItem="7EH-17-K7Z" firstAttribute="firstBaseline" secondItem="Le5-LR-tak" secondAttribute="firstBaseline" id="rAY-lJ-gnZ"/>
+                            <constraint firstItem="WL9-KP-4FZ" firstAttribute="width" secondItem="XOg-4P-H58" secondAttribute="width" id="smy-Ng-YqR"/>
+                            <constraint firstAttribute="trailing" secondItem="Le5-LR-tak" secondAttribute="trailing" constant="20" id="t5c-CU-5Dv"/>
+                            <constraint firstItem="5Ed-55-XAQ" firstAttribute="leading" secondItem="OIE-0h-ip8" secondAttribute="leading" constant="20" id="udc-Ft-Pa6"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_arrayController" destination="69h-he-xLZ" id="cxd-eV-hCu"/>
+                        <outlet property="_tableView" destination="znt-J8-vB9" id="puA-HX-iJS"/>
+                    </connections>
+                </viewController>
+                <customObject id="wLM-Dn-AYj" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <arrayController objectClassName="_DTXIgnoredCategory" automaticallyPreparesContent="YES" id="69h-he-xLZ" customClass="DTXTableEditingArrayController">
+                    <connections>
+                        <binding destination="urf-AH-8rX" name="contentArray" keyPath="categories" id="H7Q-nO-TO8"/>
+                    </connections>
+                </arrayController>
+            </objects>
+            <point key="canvasLocation" x="738" y="-1681"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="pref_appearance_auto" width="67" height="44"/>
+        <image name="pref_appearance_dark" width="67" height="44"/>
+        <image name="pref_appearance_light" width="67" height="44"/>
+    </resources>
+</document>

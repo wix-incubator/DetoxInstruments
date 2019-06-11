@@ -12,8 +12,13 @@
 
 #define DTX_NAMED_COLOR_IMPL(NAME)	\
 + (NSColor*)NAME	\
-{	\
-	return [NSColor colorNamed:@#NAME];	\
+{\
+	static NSColor* rv = nil;\
+	static dispatch_once_t onceToken; \
+	dispatch_once(&onceToken, ^{ \
+		rv = [NSColor colorNamed:@#NAME]; \
+	}); \
+	return 	rv;\
 }
 
 @implementation NSColor (NamedColors)
@@ -35,6 +40,8 @@ DTX_NAMED_COLOR_IMPL(pasteboardTypeImageColor)
 DTX_NAMED_COLOR_IMPL(pasteboardTypeLinkColor)
 DTX_NAMED_COLOR_IMPL(pasteboardTypeRichTextColor)
 DTX_NAMED_COLOR_IMPL(pasteboardTypeTextColor)
+
+DTX_NAMED_COLOR_IMPL(graphitePlotColor)
 
 + (NSColor*)signpostPlotControllerColorForCategory:(DTXEventStatusPrivate)eventStatus
 {

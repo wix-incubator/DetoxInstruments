@@ -7,13 +7,13 @@
 //
 
 #import "DTXApplicationDelegate.h"
-#import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
 #import "DTXRecordingDocument.h"
 #import "DTXAboutWindowController.h"
 #import "DTXColorTryoutsWindow.h"
 #import "DTXMeasurements.h"
 #import "DTXWindowController.h"
 #import "DTXRequestDocument.h"
+#import "DTXInstrumentsPreferencesWindowController.h"
 
 #import "DTXLogging.h"
 DTX_CREATE_LOG(ApplicationDelegate)
@@ -61,6 +61,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	__strong IBOutlet SUUpdater* _updater;
 	
 	DTXAboutWindowController* _aboutWindowController;
+	DTXInstrumentsPreferencesWindowController* _preferencesWindowController;
 	
 	DTXColorTryoutsWindowController* _colorPlaygroundController;
 }
@@ -165,40 +166,45 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (IBAction)showAboutWindow:(id)sender
 {
-	if(_aboutWindowController != nil)
+	if(_aboutWindowController == nil)
 	{
-		[_aboutWindowController showWindow:nil];
-		return;
+		_aboutWindowController = [NSStoryboard storyboardWithName:@"About" bundle:NSBundle.mainBundle].instantiateInitialController;
+		[_aboutWindowController.window center];
+		
+		__block id observer;
+		observer = [NSNotificationCenter.defaultCenter addObserverForName:NSWindowWillCloseNotification object:_aboutWindowController.window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+			
+			_aboutWindowController = nil;
+			
+			[NSNotificationCenter.defaultCenter removeObserver:observer];
+			observer = nil;
+		}];
 	}
 	
-	_aboutWindowController = [NSStoryboard storyboardWithName:@"About" bundle:NSBundle.mainBundle].instantiateInitialController;
 	[_aboutWindowController showWindow:nil];
-	[_aboutWindowController.window center];
+}
+
+- (IBAction)showPreferencesWindow:(id)sender
+{
+	if(_preferencesWindowController == nil)
+	{
+		_preferencesWindowController = [DTXInstrumentsPreferencesWindowController new];
+		
+		__block id observer;
+		observer = [NSNotificationCenter.defaultCenter addObserverForName:NSWindowWillCloseNotification object:_preferencesWindowController.window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+			
+			_aboutWindowController = nil;
+			
+			[NSNotificationCenter.defaultCenter removeObserver:observer];
+			observer = nil;
+		}];
+	}
 	
-	__block id observer;
-	observer = [NSNotificationCenter.defaultCenter addObserverForName:NSWindowWillCloseNotification object:_aboutWindowController.window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-		
-		_aboutWindowController = nil;
-		
-		[NSNotificationCenter.defaultCenter removeObserver:observer];
-		observer = nil;
-	}];
+	[_preferencesWindowController showPreferencesWindow];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXProfilingConfigurationUseDefaultConfiguration": @YES}];
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_timeLimit": @2}];
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_timeLimitType": @1}];
-	
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_recordPerformance": @YES}];
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_recordEvents": @YES}];
-	
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"DTXProfilingConfigurationUseDefaultConfiguration"])
-	{
-		[DTXProfilingConfiguration.defaultProfilingConfigurationForRemoteProfiling setAsDefaultRemoteProfilingConfiguration];
-	}
-	
 	[NSHelpManager.sharedHelpManager registerBooksInBundle:NSBundle.mainBundle];
 	
 	[NSTask launchedTaskWithExecutableURL:[NSURL fileURLWithPath:@"/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister"] arguments:@[@"-f", NSBundle.mainBundle.bundlePath, @"-R", @"-lint"] error:NULL terminationHandler:^(NSTask * _Nonnull task) {
@@ -224,9 +230,14 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	DTXGoToHelpPage(@"XcodeIntegrationGuide");
 }
 
+- (IBAction)helpGeneralPreferences:(id)sender
+{
+	DTXGoToHelpPage(@"Preferences_General");
+}
+
 - (IBAction)helpProfilingOptions:(id)sender
 {
-	DTXGoToHelpPage(@"ProfilingOptions");
+	DTXGoToHelpPage(@"Preferences_Profiling");
 }
 
 - (IBAction)helpProfilingDiscovery:(id)sender
@@ -373,7 +384,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		
 		BOOL toggled = [NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"];
 		
-		menuItem.title =  toggled ? NSLocalizedString(@"Hide Interval Labels", @"") : NSLocalizedString(@"Show Interval Labels", @"");
+		menuItem.title =  toggled ? NSLocalizedString(@"Hide Labels in Interval Plots", @"") : NSLocalizedString(@"Show Labels in Interval Plots", @"");
 		
 		return YES;
 	}
@@ -501,7 +512,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 
 - (IBAction)toggleShowTimelineLabels:(id)sender
 {
-	[NSUserDefaults.standardUserDefaults setBool:![NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"] forKey:@"DTXPlotSettingsDisplayLabels"];
+	[NSUserDefaults.standardUserDefaults setBool:![NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsDisplayLabels] forKey:DTXPlotSettingsDisplayLabels];
 }
 
 - (NSURL*)_CLIUtilityURL

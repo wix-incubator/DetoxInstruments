@@ -11,6 +11,7 @@
 
 @interface DTXSamplePlotController () <DTXPlotControllerPrivate>
 
+- (void)_resetCachedPlotColors;
 - (NSColor*)_plotColorForIdx:(NSUInteger)idx;
 - (NSColor*)_additionalPlotColorForIdx:(NSUInteger)idx;
 

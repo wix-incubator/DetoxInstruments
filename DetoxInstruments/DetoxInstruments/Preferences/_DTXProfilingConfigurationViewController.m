@@ -8,6 +8,7 @@
 
 #import "_DTXProfilingConfigurationViewController.h"
 #import "DTXProfilingConfiguration+RemoteProfilingSupport.h"
+#import "CCNPreferencesWindowControllerProtocol.h"
 
 @interface _DTXProfilingConfigurationIntervalToTag : NSValueTransformer @end
 
@@ -37,7 +38,7 @@
 
 @end
 
-@interface _DTXProfilingConfigurationViewController () <NSControlTextEditingDelegate, NSUserInterfaceValidations>
+@interface _DTXProfilingConfigurationViewController () <NSControlTextEditingDelegate, NSUserInterfaceValidations, CCNPreferencesWindowControllerProtocol>
 
 @end
 
@@ -48,6 +49,21 @@
 	IBOutlet NSStackView* _topStackView;
 	
 	BOOL _lastValidationFailed;
+}
+
+- (NSImage *)preferenceIcon
+{
+	return [NSImage imageNamed:NSImageNameAdvanced];
+}
+
+- (NSString *)preferenceIdentifier
+{
+	return @"Recording";
+}
+
+- (NSString *)preferenceTitle
+{
+	return NSLocalizedString(@"Profiling", @"");
 }
 
 - (id)timeLimit
@@ -99,22 +115,11 @@
 	
 	self.view.wantsLayer = YES;
 	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	
-	NSLayoutConstraint* bottomConstraint = [_containerView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor];
-	bottomConstraint.priority = NSLayoutPriorityDefaultHigh;
-	
-	[NSLayoutConstraint activateConstraints:@[
-											  [_containerView.heightAnchor constraintEqualToConstant:_topStackView.fittingSize.height],
-											  bottomConstraint
-											  ]];
 }
 
-- (IBAction)_useDefaultConfigurationValueChanged:(NSButton *)sender
+- (IBAction)_useDefaultConfiguration:(NSButton *)sender
 {
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"DTXProfilingConfigurationUseDefaultConfiguration"])
-	{
-		[DTXProfilingConfiguration.defaultProfilingConfigurationForRemoteProfiling setAsDefaultRemoteProfilingConfiguration];
-	}
+	[DTXProfilingConfiguration resetRemoteProfilingDefaults];
 }
 
 - (NSArray<NSButton *> *)actionButtons
