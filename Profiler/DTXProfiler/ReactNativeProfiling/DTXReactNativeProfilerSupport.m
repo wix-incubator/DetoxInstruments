@@ -328,7 +328,12 @@ void DTXInstallRNJSProfilerHooks(JSContext* ctx)
 
 @end
 
-static void (*__RCTProfileUnhookInstance)(id instance);
+static void __dtx_RCTProfileUnhookInstance(id instance)
+{
+	if ([instance class] != object_getClass(instance)) {
+		object_setClass(instance, [instance class]);
+	}
+}
 
 static id __activeBridge;
 static BOOL __bridgeShouldProfile;
@@ -351,7 +356,7 @@ static void __dtxinst_RCTBridge_setUp(id self, SEL _cmd)
 		if(oldActiveBridge != nil)
 		{
 			for (id view in [oldActiveBridge valueForKey:@"viewRegistry"]) {
-				__RCTProfileUnhookInstance([[oldActiveBridge uiManager] viewForReactTag:view]);
+				__dtx_RCTProfileUnhookInstance([[oldActiveBridge uiManager] viewForReactTag:view]);
 			}
 		}
 		
@@ -441,9 +446,8 @@ void DTXRegisterRNProfilerCallbacks()
 		__RCTProfileIsProfiling = (void*)dlsym(RTLD_DEFAULT, "RCTProfileIsProfiling");
 		__RCTProfileInit = (void*)dlsym(RTLD_DEFAULT, "RCTProfileInit");
 		__RCTProfileEnd = (void*)dlsym(RTLD_DEFAULT, "RCTProfileEnd");
-		__RCTProfileUnhookInstance = (void*)dlsym(RTLD_DEFAULT, "RCTProfileUnhookInstance");
 		
-		if(__RCTProfileIsProfiling == NULL || __RCTProfileInit == NULL || __RCTProfileEnd == NULL || __RCTProfileUnhookInstance == NULL)
+		if(__RCTProfileIsProfiling == NULL || __RCTProfileInit == NULL || __RCTProfileEnd == NULL)
 		{
 			return;
 		}
