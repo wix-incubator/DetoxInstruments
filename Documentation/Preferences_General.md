@@ -2,7 +2,7 @@
 
 Use the General preferences to manage the appearance and behavior of Detox Instruments.
 
-To open the General preferences, select **Detox Instruments** ➔ **Preferences**, and select the **Profiling** tab.
+To open the General preferences, select **Detox Instruments** ➔ **Preferences**, and select the **General** tab.
 
 ![General Preferences](Resources/Preferences_General.png "General Preferences")
 
