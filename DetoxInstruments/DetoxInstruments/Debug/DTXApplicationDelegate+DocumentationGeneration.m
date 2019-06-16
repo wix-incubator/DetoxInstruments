@@ -10,7 +10,9 @@
 
 #import "DTXApplicationDelegate+DocumentationGeneration.h"
 #import "DTXWindowController+DocumentationGeneration.h"
+#import "CCNPreferencesWindowController+DocumentationGeneration.h"
 #import "DTXProfilingTargetManagementWindowController+DocumentationGeneration.h"
+#import "DTXInstrumentsPreferencesWindowController+DocumentationGeneration.h"
 #import "NSWindow+Snapshotting.h"
 
 #import "DTXAxisHeaderPlotController.h"
@@ -354,13 +356,23 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[managementWindowController _drainLayout];
 	[windowController _drainLayout];
 	
-	rep = (NSBitmapImageRep*)[windowController _snapshotForRecordingSettings].representations.firstObject;
-	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"ProfilingOptions_ProfilingOptions.png"].path atomically:YES];
-	
-	rep = (NSBitmapImageRep*)[windowController _snapshotForIgnoredCategories].representations.firstObject;
-	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"ProfilingOptions_IgnoredEventsCategories.png"].path atomically:YES];
-	
 	[newDocument close];
+	
+	NSObject* delegate = NSApp.delegate;
+	[delegate performSelector:NSSelectorFromString(@"showPreferencesWindow:") withObject:nil];
+	DTXInstrumentsPreferencesWindowController* prefs = [delegate valueForKey:@"_preferencesWindowController"];
+	
+	rep = (NSBitmapImageRep*)[self _snapshotForGeneralFromPrefs:prefs].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Preferences_General.png"].path atomically:YES];
+	
+	rep = (NSBitmapImageRep*)[self _snapshotForRecordingSettingsFromPrefs:prefs].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Preferences_Profiling.png"].path atomically:YES];
+	
+	rep = (NSBitmapImageRep*)[self _snapshotForIgnoredCategoriesFromPrefs:prefs].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Preferences_Profiling_IgnoredEventsCategories.png"].path atomically:YES];
+	
+	[prefs.window close];
+	[prefs _drainLayout];
 	
 	DTXRequestDocument* requestDocument = [NSDocumentController.sharedDocumentController makeDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/RequestsPlayground.dtxrequest"] ofType:@"com.wix.dtxinst.request" error:NULL];
 	[NSDocumentController.sharedDocumentController addDocument:requestDocument];
@@ -964,6 +976,55 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Instrument_Events_Menu.png"].path atomically:YES];
 }
 
+- (NSImage*)_snapshotForGeneralFromPrefs:(DTXInstrumentsPreferencesWindowController*)prefs
+{
+	[prefs _drainLayout];
+	[prefs _drainLayout];
+	
+	[prefs _activateControllerAtIndex:0];
+	
+	[prefs _drainLayout];
+	[prefs _drainLayout];
+	
+	return [prefs.window snapshotForCachingDisplay];
+}
+
+- (NSImage*)_snapshotForRecordingSettingsFromPrefs:(DTXInstrumentsPreferencesWindowController*)prefs
+{
+	[prefs _drainLayout];
+	[prefs _drainLayout];
+
+	[prefs _activateControllerAtIndex:1];
+	
+	[prefs _drainLayout];
+	[prefs _drainLayout];
+
+	return [prefs.window snapshotForCachingDisplay];
+}
+
+- (NSImage*)_snapshotForIgnoredCategoriesFromPrefs:(DTXInstrumentsPreferencesWindowController*)prefs
+{
+	NSArray* oldCategories = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
+	[NSUserDefaults.standardUserDefaults setObject:@[@"FirstIgnoredCategory", @"SecondIgnoredCategory"] forKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
+	
+	[prefs _drainLayout];
+	[prefs _drainLayout];
+	
+	[prefs _activateControllerAtIndex:1];
+	
+	NSViewController* targetPicker = [prefs valueForKey:@"_activeViewController"];
+	[targetPicker performSegueWithIdentifier:@"PresentIgnoredCategoriesSegue" sender:nil];
+
+	[prefs _drainLayout];
+	[prefs _drainLayout];
+
+	NSWindow* window = prefs.window.sheets.firstObject;
+	auto rv = [window snapshotForCachingDisplay];
+	
+	[NSUserDefaults.standardUserDefaults setObject:oldCategories forKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
+	
+	return rv;
+}
 
 @end
 

@@ -4,7 +4,7 @@ Detox Instruments includes many instruments to analyze many aspects of your app.
 
 ### CPU Usage
 
-The CPU Usage instrument captures information about the app's load on the CPU. It can record information from multiple threads when the **Record thread information** profiling option is enabled.
+The CPU Usage instrument captures information about the app's load on the CPU. It can record information from multiple threads when the **Record thread information** profiling preference is enabled.
 
 ![CPU Usage](Resources/Instrument_CPUUsage.png "CPU Usage")
 
@@ -36,7 +36,7 @@ For an in-depth look at the Disk Activity instrument, see [Disk Activity Instrum
 
 ### Network Activity
 
-The Network Activity instrument captures information about your app's network activity. It can record localhost information when the **Record localhost network** profiling option is enabled.
+The Network Activity instrument captures information about your app's network activity. It can record localhost information when the **Record localhost network** profiling preference is enabled.
 
 ![Network Activity](Resources/Instrument_NetworkActivity.png "Network Activity")
 

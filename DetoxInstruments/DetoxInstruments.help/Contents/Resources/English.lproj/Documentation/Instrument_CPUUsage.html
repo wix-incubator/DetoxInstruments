@@ -3,7 +3,7 @@
 <head>
 <meta name="AppleTitle" content="CPU Usage Instrument" />
 <title>CPU Usage Instrument</title>
-<meta name="description" content="The CPU Usage instrument captures information about the app's load on the CPU. It can record information from multiple threads when the Record thread information profiling option is enabled." /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
+<meta name="description" content="The CPU Usage instrument captures information about the app's load on the CPU. It can record information from multiple threads when the Record thread information profiling preference is enabled." /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
 </style>
 <style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
 h1 { text-align: center; margin-left: -16px; margin-right: -16px; padding-bottom: 20px; background: linear-gradient(to bottom, #ffffff 0%,#f3f2f3 100%); }
@@ -15,17 +15,17 @@ ul { padding-left: 1.3em; }
 <title>Detox Instruments Help</title></head><body>
 <h1>
 <a name="user-content-cpu-usage-instrument" class="anchor" href="#cpu-usage-instrument"><span class="octicon octicon-link"></span></a>CPU Usage Instrument</h1>
-<p>The CPU Usage instrument captures information about the app's load on the CPU. It can record information from multiple threads when the <strong>Record thread information</strong> profiling option is enabled.</p>
+<p>The CPU Usage instrument captures information about the app's load on the CPU. It can record information from multiple threads when the <strong>Record thread information</strong> profiling preference is enabled.</p>
 <p><a href="Resources/Instrument_CPUUsage.png" target="_blank"><img src="Resources/Instrument_CPUUsage.png" alt="CPU Usage" title="CPU Usage" style="max-width:100%;" /></a></p>
 <p>Expanding the timeline reveals each thread's CPU load.</p>
 <h3>
 <a name="user-content-discussion" class="anchor" href="#discussion"><span class="octicon octicon-link"></span></a>Discussion</h3>
 <p>Use the information captured by this instrument to inspect your app's general CPU usage, as well as debug CPU peaks and high usage.</p>
-<p>Enable the <strong>Record thread information</strong> profiling option to capture information about the threads in your app. Enable the <strong>Collect stack traces</strong> and <strong>Symbolicate stack traces</strong> to collect the heaviest thread's stack trace and symbolicate symbols to assist in debugging of your app's CPU load.</p>
-<p>For an in-depth look at profiling options, see <a href="ProfilingOptions.html">Profiling Options</a>.</p>
+<p>Enable the <strong>Record thread information</strong> profiling preference to capture information about the threads in your app. Enable the <strong>Collect stack traces</strong> and <strong>Symbolicate stack traces</strong> to collect the heaviest thread's stack trace and symbolicate symbols to assist in debugging of your app's CPU load.</p>
+<p>For an in-depth look at the profiling preferences, see <a href="Preferences_Profiling.html">Profiling Preferences</a>.</p>
 <h3>
 <a name="user-content-detail-pane" class="anchor" href="#detail-pane"><span class="octicon octicon-link"></span></a>Detail Pane</h3>
-<p>The detail pane includes your app's CPU usage at the time of the sample. If the <strong>Record thread information</strong> profiling option was enabled during recording, the heaviest thread will also be noted for each sample.</p>
+<p>The detail pane includes your app's CPU usage at the time of the sample. If the <strong>Record thread information</strong> profiling preference was enabled during recording, the heaviest thread will also be noted for each sample.</p>
 <p><a href="Resources/Instrument_CPUUsage_DetailPane.png" target="_blank"><img src="Resources/Instrument_CPUUsage_DetailPane.png" alt="CPU Usage Detail Pane" title="CPU Usage Detail Pane" style="max-width:100%;" /></a></p>
 <p>Samples will be highlighted in red (warning 3) when:</p>
 <ul>
@@ -44,7 +44,7 @@ ul { padding-left: 1.3em; }
 </ul>
 <h3>
 <a name="user-content-inspector-pane" class="anchor" href="#inspector-pane"><span class="octicon octicon-link"></span></a>Inspector Pane</h3>
-<p>For each sample, the inspector pane shows the time of the sample and the CPU usage. If the <strong>Record thread information</strong> profiling option was enabled during recording, the inspector pane will display a threads breakdown pie chart and a list of the most active threads. If the <strong>Collect stack traces</strong> profiling option was enabled during recording, the inspector pane will display the heaviest thread's stack trace.</p>
+<p>For each sample, the inspector pane shows the time of the sample and the CPU usage. If the <strong>Record thread information</strong> profiling preference was enabled during recording, the inspector pane will display a threads breakdown pie chart and a list of the most active threads. If the <strong>Collect stack traces</strong> profiling preference was enabled during recording, the inspector pane will display the heaviest thread's stack trace.</p>
 <p><a href="Resources/Instrument_CPUUsage_InspectorPane.png" target="_blank"><img src="Resources/Instrument_CPUUsage_InspectorPane.png" alt="CPU Usage Inspector Pane" title="CPU Usage Inspector Pane" style="max-width:100%;" /></a></p>
 <p>You can select the one or more stack trace symbols and copy them in a debugging-friendly format for further investigation, symbolication, etc.</p>
 </body></html>

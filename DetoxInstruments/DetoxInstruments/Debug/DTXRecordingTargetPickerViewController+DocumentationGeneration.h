@@ -6,6 +6,8 @@
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
+#if DEBUG
+
 #import "DTXRecordingTargetPickerViewController.h"
 #import "DTXProfilingTargetManagementWindowController.h"
 
@@ -15,3 +17,5 @@
 - (DTXProfilingTargetManagementWindowController*)_openManagementWindowController;
 
 @end
+
+#endif

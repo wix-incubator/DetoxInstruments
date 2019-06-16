@@ -12,11 +12,11 @@ Use the information captured by this instrument to inspect the data passed in yo
 
 The detail pane includes your app's React Native bridge data at the time of the sample; N ➔ JS (native to JavaScript) and JS ➔ N (JavaScript to native) are displayed in columns of delta as well as total.
 
-If the **Record bridge data** option was enabled during recording, you can select to view **Samples** or **Bridge Data** in the navigation bar.
+If the **Record bridge data** preference was enabled during recording, you can select to view **Samples** or **Bridge Data** in the navigation bar.
 
 ![React Native Bridge Data Navigation Menu](Resources/Instrument_RNBridgeData_Menu.png "React Native Bridge Data Navigation Menu")
 
-For an in-depth look at profiling options, see [Profiling Options](ProfilingOptions.md).
+For an in-depth look at the profiling preferences, see [Profiling Preferences](Preferences_Profiling.md).
 
 #### Samples
 
@@ -30,6 +30,6 @@ For an in-depth look at profiling options, see [Profiling Options](ProfilingOpti
 
 #### Bridge Data
 
-If the **Record bridge data** option was enabled during recording, the inspector pane shows information about React Native bridge data packets.
+If the **Record bridge data** preference was enabled during recording, the inspector pane shows information about React Native bridge data packets.
 
 ![CPU Usage Inspector Pane](Resources/Instrument_RNBridgeData_InspectorPane_BridgeData.png "Bridge Data Inspector Pane")

@@ -196,6 +196,8 @@
 		39B3B3B221EE163200D5C1BE /* DTXBorderlessKeyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B3B3B121EE163200D5C1BE /* DTXBorderlessKeyWindow.m */; };
 		39B706A31F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */; };
 		39BDC8BC21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDC8BB21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.m */; };
+		39BEA8F122B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEA8F022B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.m */; };
+		39BEA8F522B6D4A500B2F24E /* CCNPreferencesWindowController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEA8F422B6D4A500B2F24E /* CCNPreferencesWindowController+DocumentationGeneration.m */; };
 		39C1415F1F3C47F7008CF5B9 /* DTXStackTraceFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */; };
 		39C51E0C208ED729007AA717 /* DTXThreadInfo+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C51E0B208ED729007AA717 /* DTXThreadInfo+UIExtensions.m */; };
 		39C63AFB212396D700946581 /* DTXKeyDownIgnoringTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C63AFA212396D700946581 /* DTXKeyDownIgnoringTableView.m */; };
@@ -736,6 +738,10 @@
 		39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingTargetPickerViewController.m; sourceTree = "<group>"; };
 		39BDC8BA21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAutomaticallyAnimatingProgressIndicator.h; sourceTree = "<group>"; };
 		39BDC8BB21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAutomaticallyAnimatingProgressIndicator.m; sourceTree = "<group>"; };
+		39BEA8EF22B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXInstrumentsPreferencesWindowController+DocumentationGeneration.h"; sourceTree = "<group>"; };
+		39BEA8F022B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXInstrumentsPreferencesWindowController+DocumentationGeneration.m"; sourceTree = "<group>"; };
+		39BEA8F322B6D4A500B2F24E /* CCNPreferencesWindowController+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCNPreferencesWindowController+DocumentationGeneration.h"; sourceTree = "<group>"; };
+		39BEA8F422B6D4A500B2F24E /* CCNPreferencesWindowController+DocumentationGeneration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CCNPreferencesWindowController+DocumentationGeneration.m"; sourceTree = "<group>"; };
 		39BEE166207A1C80003AF93E /* _DTXActionButtonProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DTXActionButtonProvider.h; sourceTree = "<group>"; };
 		39C1415D1F3C47F7008CF5B9 /* DTXStackTraceFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackTraceFrame.h; sourceTree = "<group>"; };
 		39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackTraceFrame.m; sourceTree = "<group>"; };
@@ -1020,9 +1026,13 @@
 				3947158820A2899800A7068A /* DTXWindowController+DocumentationGeneration.m */,
 				3947159020A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.h */,
 				3947159120A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m */,
+				39BEA8F322B6D4A500B2F24E /* CCNPreferencesWindowController+DocumentationGeneration.h */,
+				39BEA8F422B6D4A500B2F24E /* CCNPreferencesWindowController+DocumentationGeneration.m */,
 				396CC43920AB07E300756459 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.h */,
 				396CC43A20AB07E300756459 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.m */,
 				39725FA721A0CDEA001D6BFD /* DevicePreviewImagesDocumentationGeneration.h */,
+				39BEA8EF22B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.h */,
+				39BEA8F022B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.m */,
 			);
 			path = Debug;
 			sourceTree = "<group>";
@@ -2155,6 +2165,7 @@
 				39DE8E7A2091EDFD00ED16B4 /* DTXCookiesViewController.m in Sources */,
 				39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */,
 				390BEE0021875E0A00F0C6EB /* DTXRNBridgeDataDataInspectorDataProvider.m in Sources */,
+				39BEA8F522B6D4A500B2F24E /* CCNPreferencesWindowController+DocumentationGeneration.m in Sources */,
 				39356ACC2201A9B200FD23C4 /* DTXMappingModel9620To9747.xcmappingmodel in Sources */,
 				D8243F941F5401530005CF4B /* DTXFilterField.m in Sources */,
 				39EBDFBD1ED36D45005D8AB1 /* DTXApplicationDelegate.m in Sources */,
@@ -2283,6 +2294,7 @@
 				3982AF2A21B843970023E19C /* DTXSignpostFlatDataProvider.m in Sources */,
 				395F01C61EE81DA200695236 /* DTXTimelineIndicatorView.m in Sources */,
 				39775F241EE826F2001F69CC /* DTXValueIndicatorView.m in Sources */,
+				39BEA8F122B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.m in Sources */,
 				396E7DB520ED331F00F6F4DD /* DTXEventInspectorDataProvider.m in Sources */,
 				39B1CB091F34F679002C5239 /* _DTXProfilingConfigurationViewController.m in Sources */,
 				391176F521EF80AE00C92A9F /* NSMapTable+Subscripting.m in Sources */,

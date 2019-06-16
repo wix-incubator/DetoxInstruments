@@ -6,6 +6,8 @@
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
+#if DEBUG
+
 #import "DTXProfilingTargetManagementWindowController+DocumentationGeneration.h"
 
 @interface NSObject ()
@@ -14,26 +16,7 @@
 
 @end
 
-@interface DTXProfilingTargetManagementWindowController ()
-
-- (void)activateViewController:(id<CCNPreferencesWindowControllerProtocol>)viewController animate:(BOOL)animate;
-
-@end
-
 @implementation DTXProfilingTargetManagementWindowController (DocumentationGeneration)
-
-- (void)_drainLayout
-{
-	[self.window layoutIfNeeded];
-	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
-}
-
-- (void)_activateControllerAtIndex:(NSUInteger)index
-{
-	id vc = [[self valueForKey:@"viewControllers"] objectAtIndex:index];
-	self.window.toolbar.selectedItemIdentifier = [vc preferenceIdentifier];
-	[self activateViewController:vc animate:NO];
-}
 
 - (void)_expandFolders
 {
@@ -76,3 +59,5 @@
 }
 
 @end
+
+#endif

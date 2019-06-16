@@ -3,7 +3,7 @@
 <head>
 <meta name="AppleTitle" content="Network Activity Instrument" />
 <title>Network Activity Instrument</title>
-<meta name="description" content="The Network Activity instrument captures information about your app's network activity. It can record localhost information when the Record localhost network profiling option is enabled." />
+<meta name="description" content="The Network Activity instrument captures information about your app's network activity. It can record localhost information when the Record localhost network profiling preference is enabled." />
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
 </style>
@@ -17,17 +17,17 @@ ul { padding-left: 1.3em; }
 <title>Detox Instruments Help</title></head><body>
 <h1>
 <a name="user-content-network-activity-instrument" class="anchor" href="#network-activity-instrument"><span class="octicon octicon-link"></span></a>Network Activity Instrument</h1>
-<p>The Network Activity instrument captures information about your app's network activity. It can record localhost information when the <strong>Record localhost network</strong> profiling option is enabled.</p>
+<p>The Network Activity instrument captures information about your app's network activity. It can record localhost information when the <strong>Record localhost network</strong> profiling preference is enabled.</p>
 <p><a href="Resources/Instrument_NetworkActivity.png" target="_blank"><img src="Resources/Instrument_NetworkActivity.png" alt="Network Activity" title="Network Activity" style="max-width:100%;" /></a></p>
 <h3>
 <a name="user-content-discussion" class="anchor" href="#discussion"><span class="octicon octicon-link"></span></a>Discussion</h3>
 <p>Use the information captured by this instrument to inspect your app's general network activity.</p>
 <p>Network requests appear as segmented lines on the timeline in the timeline pane. Multiple requests made concurrently will appear below each other. Making many concurrent requests may hurt your app's performance.</p>
-<p>Enable the <strong>Record localhost network</strong> profiling option to capture requests sent to localhost to further investigate your app's network activity.</p>
-<p>For an in-depth look at profiling options, see <a href="ProfilingOptions.html">Profiling Options</a>.</p>
+<p>Enable the <strong>Record localhost network</strong> profiling preference to capture requests sent to localhost to further investigate your app's network activity.</p>
+<p>For an in-depth look at the profiling preferences, see <a href="Preferences_Profiling.html">Profiling Preferences</a>.</p>
 <h3>
 <a name="user-content-detail-pane" class="anchor" href="#detail-pane"><span class="octicon octicon-link"></span></a>Detail Pane</h3>
-<p>The detail pane includes your app's Network Activity at the time of the sample. If the <strong>Record thread information</strong> profiling option was enabled during recording, the heaviest thread will also be noted for each sample.</p>
+<p>The detail pane includes your app's Network Activity at the time of the sample. If the <strong>Record thread information</strong> profiling preference was enabled during recording, the heaviest thread will also be noted for each sample.</p>
 <p><a href="Resources/Instrument_NetworkActivity_DetailPane.png" target="_blank"><img src="Resources/Instrument_NetworkActivity_DetailPane.png" alt="Network Activity Detail Pane" title="Network Activity Detail Pane" style="max-width:100%;" /></a></p>
 <p>Samples will be highlighted in red (warning 3) when:</p>
 <ul>

@@ -6,6 +6,8 @@
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
+#if DEBUG
+
 #import "DTXRecordingTargetPickerViewController+DocumentationGeneration.h"
 #import "DevicePreviewImagesDocumentationGeneration.h"
 
@@ -119,3 +121,5 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 }
 
 @end
+
+#endif

@@ -252,51 +252,6 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	return __DTXThemeBorderedImage([[self valueForKey:@"inspectorContentController"] view].snapshotForCachingDisplay);
 }
 
-- (NSImage*)_snapshotForRecordingSettings
-{
-	[self _drainLayout];
-	[self _drainLayout];
-	DTXRecordingTargetPickerViewController* targetPicker = (id)self.window.sheets.firstObject.contentViewController;
-	[targetPicker options:nil];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	
-	NSWindow* window = self.window.sheets.firstObject;
-	return [window snapshotForCachingDisplay];
-}
-
-- (NSImage*)_snapshotForIgnoredCategories
-{
-	NSArray* oldCategories = [NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
-	[NSUserDefaults.standardUserDefaults setObject:@[@"FirstIgnoredCategory", @"SecondIgnoredCategory"] forKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
-	
-	[self _drainLayout];
-	[self _drainLayout];
-	NSViewController* targetPicker = [self.window.sheets.firstObject.contentViewController valueForKey:@"_activeController"];
-	[targetPicker performSegueWithIdentifier:@"PresentIgnoredCategoriesSegue" sender:nil];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	[self _drainLayout];
-	
-	NSWindow* window = self.window.sheets.firstObject.sheets.firstObject;
-	auto rv = [window snapshotForCachingDisplay];
-	
-	[NSUserDefaults.standardUserDefaults setObject:oldCategories forKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
-	
-	return rv;
-}
-
 - (NSImage*)_snapshotForTargetSelection
 {
 	[self _drainLayout];

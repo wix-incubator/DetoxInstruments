@@ -79,7 +79,7 @@ For some instruments, the extended detail area in the inspector pane shows addit
 
 #### Recording Info
 
-The recording info area includes information about the recording and the profiling options which were used for the recording.
+The recording info area includes information about the recording and the profiling preferences which were used for the recording.
 
 ### Touch Bar
 

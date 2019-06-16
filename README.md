@@ -80,11 +80,11 @@ See [App Discovery](Documentation/AppDiscovery.md) for more information and trou
 
 To start profiling, select your app and click on the Profile button. 
 
-To configure profiling options, such as sampling frequency and recording features, click on the Options button. For an in-depth look at profiling options, see [Profiling Options](Documentation/ProfilingOptions.md).
+To manage profiling options, such as sampling frequency and recording features, see **Profiling** in the preferences. For an in-depth look at profiling preferences, see [Profiling Preferences](Documentation/Preferences_Profiling.md).
 
 ### App Management
 
-![App Management](Documentation/Resources/Management_All.png "App Management")
+![App Management](Documentation/Resources/Management_All.png"App Management")
 
 To manage your app, click on the **Manage** button (![Gear Button](Documentation/Resources/Button_Manage.png)) in the app selection dialog. You can manage multiple apps at the same time. For an in-depth look at app management, see [App Management](Documentation/AppManagement.md).
 
@@ -97,6 +97,8 @@ A recording document is used to initiate new profiling and view and analyze the 
 You can also save and reopen recording documents in which you’ve collected data previously. A recording document can contain a lot of extremely detailed information, and this information is presented to you through a number of panes and areas.
 
 For detailed information on the recording document, see [The Recording Document](Documentation/RecordingDocument.md).
+
+For detailed information on the preferences, see [General Preferences](Documentation/Preferences_General.md)
 
 ### Instruments
 

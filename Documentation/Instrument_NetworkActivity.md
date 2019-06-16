@@ -1,6 +1,6 @@
 # Network Activity Instrument
 
-The Network Activity instrument captures information about your app's network activity. It can record localhost information when the **Record localhost network** profiling option is enabled.
+The Network Activity instrument captures information about your app's network activity. It can record localhost information when the **Record localhost network** profiling preference is enabled.
 
 ![Network Activity](Resources/Instrument_NetworkActivity.png "Network Activity")
 
@@ -10,13 +10,13 @@ Use the information captured by this instrument to inspect your app's general ne
 
 Network requests appear as segmented lines on the timeline in the timeline pane. Multiple requests made concurrently will appear below each other. Making many concurrent requests may hurt your app's performance.
 
-Enable the **Record localhost network** profiling option to capture requests sent to localhost to further investigate your app's network activity.
+Enable the **Record localhost network** profiling preference to capture requests sent to localhost to further investigate your app's network activity.
 
-For an in-depth look at profiling options, see [Profiling Options](ProfilingOptions.md).
+For an in-depth look at the profiling preferences, see [Profiling Preferences](Preferences_Profiling.md).
 
 ### Detail Pane
 
-The detail pane includes your app's Network Activity at the time of the sample. If the **Record thread information** profiling option was enabled during recording, the heaviest thread will also be noted for each sample.
+The detail pane includes your app's Network Activity at the time of the sample. If the **Record thread information** profiling preference was enabled during recording, the heaviest thread will also be noted for each sample.
 
 ![Network Activity Detail Pane](Resources/Instrument_NetworkActivity_DetailPane.png "Network Activity Detail Pane")
 

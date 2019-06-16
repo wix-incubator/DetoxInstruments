@@ -6,6 +6,8 @@
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
+#if DEBUG
+
 #ifndef DevicePreviewImagesDocumentationGeneration_h
 #define DevicePreviewImagesDocumentationGeneration_h
 
@@ -20,3 +22,5 @@ static inline NSImage* __DTXiPadScreenshot(void)
 }
 
 #endif /* DevicePreviewImagesDocumentationGeneration_h */
+
+#endif

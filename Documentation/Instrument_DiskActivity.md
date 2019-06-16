@@ -18,7 +18,7 @@ The detail pane includes your app's disk activity at the time of the sample; rea
 
 ### Inspector Pane
 
-For each sample, the inspector pane shows the delta size of read and written data, as well as the total data read and written up to that sample. If the **Collect open file names** profiling option was enabled during recording, the inspector pane will display the open files at the time of the sample.
+For each sample, the inspector pane shows the delta size of read and written data, as well as the total data read and written up to that sample. If the **Collect open file names** profiling preference was enabled during recording, the inspector pane will display the open files at the time of the sample.
 
 ![Disk Acitivy Inspector Pane](Resources/Instrument_DiskActivity_InspectorPane.png "Disk Acitivy Inspector Pane")
 

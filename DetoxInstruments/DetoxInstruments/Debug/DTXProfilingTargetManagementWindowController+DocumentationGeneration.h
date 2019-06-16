@@ -6,12 +6,11 @@
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
+#if DEBUG
+
 #import "DTXProfilingTargetManagementWindowController.h"
 
 @interface DTXProfilingTargetManagementWindowController (DocumentationGeneration)
-
-- (void)_drainLayout;
-- (void)_activateControllerAtIndex:(NSUInteger)index;
 
 - (void)_expandFolders;
 - (void)_expandDefaults;
@@ -20,3 +19,5 @@
 - (void)_selectSomethingInDefaults;
 
 @end
+
+#endif

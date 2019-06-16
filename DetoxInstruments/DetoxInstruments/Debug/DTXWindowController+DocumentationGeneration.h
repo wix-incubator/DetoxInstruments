@@ -32,8 +32,6 @@
 - (void)_selectDetailPaneIndex:(NSUInteger)idx;
 
 - (NSImage*)_snapshotForTargetSelection;
-- (NSImage*)_snapshotForRecordingSettings;
-- (NSImage*)_snapshotForIgnoredCategories;
 
 - (NSImage*)_snapshotForInstrumentsCustomization;
 
