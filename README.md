@@ -84,7 +84,7 @@ To manage profiling options, such as sampling frequency and recording features, 
 
 ### App Management
 
-![App Management](Documentation/Resources/Management_All.png"App Management")
+![App Management](Documentation/Resources/Management_All.png "App Management")
 
 To manage your app, click on the **Manage** button (![Gear Button](Documentation/Resources/Button_Manage.png)) in the app selection dialog. You can manage multiple apps at the same time. For an in-depth look at app management, see [App Management](Documentation/AppManagement.md).
 
