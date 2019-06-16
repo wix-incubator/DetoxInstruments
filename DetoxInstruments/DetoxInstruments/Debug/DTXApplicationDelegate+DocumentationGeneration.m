@@ -176,7 +176,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 								   NSStringFromClass(DTXRNBridgeDataTransferPlotController.class): @{@"name": @"RNBridgeData", @"lowkeyInspector": @YES},
 								   };
 		
-		__defaultSample = @22;
+		__defaultSample = @30;
 		__defaultSampleRN = @22;
 		
 		__appleAccentColorMapping = @{
