@@ -15,6 +15,9 @@
 	IBOutlet NSButton* _lightAppearanceButton;
 	IBOutlet NSButton* _darkAppearanceButton;
 	IBOutlet NSButton* _autoAppearanceButton;
+	
+//	NSURL* _cachedWallpaperURL;
+//	NSImage* _cachedWallpaperImage;
 }
 
 @end
@@ -53,12 +56,35 @@
 			[path stroke];
 		}
 		
+		NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(1.5, 1.5, image.size.width, image.size.height)
+															 xRadius:5
+															 yRadius:5];
+		[path addClip];
+		
+//		NSURL* currentWallpaperURL = [NSWorkspace.sharedWorkspace desktopImageURLForScreen:NSScreen.mainScreen];
+//		if([_cachedWallpaperURL isEqualTo:currentWallpaperURL] == NO)
+//		{
+//			_cachedWallpaperURL = currentWallpaperURL;
+//			_cachedWallpaperImage = [[NSImage alloc] initWithContentsOfURL:_cachedWallpaperURL];
+//			_cachedWallpaperImage.size = image.size;
+//		}
+//		[_cachedWallpaperImage drawInRect:CGRectMake(1.5, 1.5, image.size.width, image.size.height)];
 		[image drawInRect:CGRectMake(1.5, 1.5, image.size.width, image.size.height)];
 		[overlayImage drawInRect:CGRectMake(1.5, 1.5, overlayImage.size.width, overlayImage.size.height)];
 		
 		if(overlayImageName.length > 0)
 		{
 			NSBezierPath* path = [NSBezierPath bezierPathWithRect:NSMakeRect(1.5 + 12, image.size.height - 6 + 1.5, 32, 6)];
+			[NSColor.controlAccentColor setFill];
+			[path fill];
+		}
+		else
+		{
+			NSBezierPath* path = [NSBezierPath bezierPathWithRect:NSMakeRect(1.5 + 12, image.size.height - 6 + 1.5, 21, 6)];
+			[NSColor.controlAccentColor setFill];
+			[path fill];
+			
+			path = [NSBezierPath bezierPathWithRect:NSMakeRect(1.5 + 46, image.size.height - 6 + 1.5, 21, 6)];
 			[NSColor.controlAccentColor setFill];
 			[path fill];
 		}
