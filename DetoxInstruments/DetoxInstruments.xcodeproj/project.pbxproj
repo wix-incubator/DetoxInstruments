@@ -232,10 +232,6 @@
 		39E2642921B0410800A21256 /* DTXDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2642821B0410800A21256 /* DTXDataExporter.m */; };
 		39E3B7112097A7B6006F9D43 /* DTXPasteboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E3B7102097A7B6006F9D43 /* DTXPasteboardViewController.m */; };
 		39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */; };
-		39E6916C22AE599F000DA567 /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6916B22AE599F000DA567 /* QuickLookThumbnailing.framework */; };
-		39E6916D22AE599F000DA567 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 393E17DA207EEE88002E6136 /* Quartz.framework */; };
-		39E6917122AE59A0000DA567 /* ThumbnailProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E6917022AE59A0000DA567 /* ThumbnailProvider.m */; };
-		39E6917622AE59A0000DA567 /* Thumbnails.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 39E6916A22AE599F000DA567 /* Thumbnails.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		39E70FD821B9620900272188 /* DTXEntitySampleContainerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E70FD721B9620900272188 /* DTXEntitySampleContainerProxy.m */; };
 		39E88CA521D9132100339954 /* DTXScatterPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E88CA421D9132100339954 /* DTXScatterPlotView.m */; };
 		39EA56C120DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA56C020DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.m */; };
@@ -326,13 +322,6 @@
 			remoteGlobalIDString = 393E1838207F6119002E6136;
 			remoteInfo = LNPropertyListEditor;
 		};
-		39E6917422AE59A0000DA567 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39EBDFB01ED36D45005D8AB1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 39E6916922AE599F000DA567;
-			remoteInfo = Thumbnails;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -342,7 +331,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				39E6917622AE59A0000DA567 /* Thumbnails.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -814,7 +802,6 @@
 		39E3B7102097A7B6006F9D43 /* DTXPasteboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPasteboardViewController.m; sourceTree = "<group>"; };
 		39E578E820DA66AD0034560C /* DTXIntervalSamplePlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXIntervalSamplePlotController.h; sourceTree = "<group>"; };
 		39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXIntervalSamplePlotController.m; sourceTree = "<group>"; };
-		39E6916A22AE599F000DA567 /* Thumbnails.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Thumbnails.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E6916B22AE599F000DA567 /* QuickLookThumbnailing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLookThumbnailing.framework; path = System/Library/Frameworks/QuickLookThumbnailing.framework; sourceTree = SDKROOT; };
 		39E6916F22AE59A0000DA567 /* ThumbnailProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailProvider.h; sourceTree = "<group>"; };
 		39E6917022AE59A0000DA567 /* ThumbnailProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThumbnailProvider.m; sourceTree = "<group>"; };
@@ -885,15 +872,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		39E6916722AE599F000DA567 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				39E6916C22AE599F000DA567 /* QuickLookThumbnailing.framework in Frameworks */,
-				39E6916D22AE599F000DA567 /* Quartz.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		39EBDFB51ED36D45005D8AB1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1749,7 +1727,6 @@
 			isa = PBXGroup;
 			children = (
 				39EBDFB81ED36D45005D8AB1 /* Detox Instruments.app */,
-				39E6916A22AE599F000DA567 /* Thumbnails.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1823,23 +1800,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		39E6916922AE599F000DA567 /* Thumbnails */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 39E6917A22AE59A0000DA567 /* Build configuration list for PBXNativeTarget "Thumbnails" */;
-			buildPhases = (
-				39E6916622AE599F000DA567 /* Sources */,
-				39E6916722AE599F000DA567 /* Frameworks */,
-				39E6916822AE599F000DA567 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Thumbnails;
-			productName = Thumbnails;
-			productReference = 39E6916A22AE599F000DA567 /* Thumbnails.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		39EBDFB71ED36D45005D8AB1 /* DetoxInstruments */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 39EBDFCF1ED36D45005D8AB1 /* Build configuration list for PBXNativeTarget "DetoxInstruments" */;
@@ -1863,7 +1823,6 @@
 				397A01791FA6355600ABCB87 /* PBXTargetDependency */,
 				392D52C31FAA008000A28938 /* PBXTargetDependency */,
 				39D76EA42086B8470033BDE2 /* PBXTargetDependency */,
-				39E6917522AE59A0000DA567 /* PBXTargetDependency */,
 			);
 			name = DetoxInstruments;
 			productName = "Detox Instruments";
@@ -1879,10 +1838,6 @@
 				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
-					39E6916922AE599F000DA567 = {
-						CreatedOnToolsVersion = 11.0;
-						ProvisioningStyle = Automatic;
-					};
 					39EBDFB71ED36D45005D8AB1 = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Manual;
@@ -1928,7 +1883,6 @@
 			projectRoot = "";
 			targets = (
 				39EBDFB71ED36D45005D8AB1 /* DetoxInstruments */,
-				39E6916922AE599F000DA567 /* Thumbnails */,
 			);
 		};
 /* End PBXProject section */
@@ -1965,13 +1919,6 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		39E6916822AE599F000DA567 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		39EBDFB61ED36D45005D8AB1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2088,14 +2035,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		39E6916622AE599F000DA567 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				39E6917122AE59A0000DA567 /* ThumbnailProvider.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		39EBDFB41ED36D45005D8AB1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2351,11 +2290,6 @@
 			name = LNPropertyListEditor;
 			targetProxy = 39D76EA32086B8470033BDE2 /* PBXContainerItemProxy */;
 		};
-		39E6917522AE59A0000DA567 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 39E6916922AE599F000DA567 /* Thumbnails */;
-			targetProxy = 39E6917422AE59A0000DA567 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -2370,45 +2304,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		39E6917722AE59A0000DA567 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = Thumbnails/Thumbnails.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Thumbnails/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments.Thumbnails;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		39E6917822AE59A0000DA567 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = Thumbnails/Thumbnails.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S3GLW74Y8N;
-				ENABLE_NS_ASSERTIONS = NO;
-				INFOPLIST_FILE = Thumbnails/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments.Thumbnails;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		39EBDFCD1ED36D45005D8AB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2613,15 +2508,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		39E6917A22AE59A0000DA567 /* Build configuration list for PBXNativeTarget "Thumbnails" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				39E6917722AE59A0000DA567 /* Debug */,
-				39E6917822AE59A0000DA567 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		39EBDFB31ED36D45005D8AB1 /* Build configuration list for PBXProject "DetoxInstruments" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
