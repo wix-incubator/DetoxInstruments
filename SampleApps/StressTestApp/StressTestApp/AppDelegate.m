@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import <DTXProfiler/DTXProfiler.h>
-@import Logging;
 
 @interface AppDelegate ()
 {
@@ -20,17 +19,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-	NSError* error;
-	OSLogStore* store = [OSLogStore localStoreAndReturnError:&error];
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		for(id x in [store entriesEnumeratorAndReturnError:NULL])
-		{
-			NSLog(@"%@", x);
-		}
-	});
-
-	
+{	
 	NSArray<NSString*>* exampleLogOutputs = @[ @"[CLIoHidInterface] Refreshing service refs",
 											   @"Fetching effective device orientation with temporary manager: faceUp (5)",
 											   @"Updating device orientation from CoreMotion to: faceUp (5)",
