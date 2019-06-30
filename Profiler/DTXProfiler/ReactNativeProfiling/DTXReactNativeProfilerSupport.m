@@ -355,7 +355,7 @@ static void __dtxinst_RCTBridge_setUp(id self, SEL _cmd)
 		
 		if(oldActiveBridge != nil)
 		{
-			for (id view in [oldActiveBridge valueForKey:@"viewRegistry"]) {
+			for (id view in [[oldActiveBridge uiManager] valueForKey:@"viewRegistry"]) {
 				__dtx_RCTProfileUnhookInstance([[oldActiveBridge uiManager] viewForReactTag:view]);
 			}
 		}
