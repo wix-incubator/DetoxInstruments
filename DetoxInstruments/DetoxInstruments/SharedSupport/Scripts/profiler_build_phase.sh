@@ -12,7 +12,8 @@ SHIM_FRAMEWORK_NAME="DTXProfilerShim.framework"
 SHIM_FRAMEWORK_PATH="${INSTRUMENTS_SCRIPTS_DIR}/../${SHIM_LIB_DIR}/${SHIM_FRAMEWORK_NAME}"
 
 CONFIGURATION=$1
-ALLOWED_CONFIGURATIONS=(${2//,/ })
+# Clean any leading or trailing whitespace from list of allowed configurations
+ALLOWED_CONFIGURATIONS=@(echo $2 | perl -e "s/\s*\,\s*/\ /g" -p)
 
 if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 	mkdir -p "${CODESIGNING_FOLDER_PATH}"/Frameworks
