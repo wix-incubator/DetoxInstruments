@@ -338,7 +338,7 @@ static void __dtx_RCTProfileUnhookInstance(id instance)
 static id __activeBridge;
 static BOOL __bridgeShouldProfile;
 static NSUInteger __activeListeningProfilers;
-static dispatch_queue_t __activeListeningProfilersQueue;
+static pthread_mutex_t __activeListeningProfilersMutex;
 
 BOOL (*__RCTProfileIsProfiling)(void);
 static void (*__RCTProfileInit)(id);
@@ -349,30 +349,31 @@ static void __dtxinst_RCTBridge_setUp(id self, SEL _cmd)
 {
 	__orig_RCTBridge_setUp(self, _cmd);
 	//Can also call +[RCTBridge currentBridge], if batchedBridge is ever removed.
-	dispatch_sync(__activeListeningProfilersQueue, ^{
-		id oldActiveBridge = __activeBridge;
-		__activeBridge = [self valueForKey:@"batchedBridge"];
-		
-		if(oldActiveBridge != nil)
-		{
-			for (id view in [[oldActiveBridge uiManager] valueForKey:@"viewRegistry"]) {
-				__dtx_RCTProfileUnhookInstance([[oldActiveBridge uiManager] viewForReactTag:view]);
-			}
+	
+	pthread_mutex_lock(&__activeListeningProfilersMutex);
+	id oldActiveBridge = __activeBridge;
+	__activeBridge = [self valueForKey:@"batchedBridge"];
+	
+	if(oldActiveBridge != nil)
+	{
+		for (id view in [[oldActiveBridge uiManager] valueForKey:@"viewRegistry"]) {
+			__dtx_RCTProfileUnhookInstance([[oldActiveBridge uiManager] viewForReactTag:view]);
 		}
-		
-		if(__activeListeningProfilers > 0)
-		{
-			__RCTProfileInit(__activeBridge);
-		}
-	});
+	}
+	
+	if(__activeListeningProfilers > 0)
+	{
+		__RCTProfileInit(__activeBridge);
+	}
+	pthread_mutex_unlock(&__activeListeningProfilersMutex);
 }
 
 static id (*__orig_RCTDevSettings_initWithDataSource)(id self, SEL _cmd, id<RCTDevSettingsDataSource> dataSource);
 static id __dtxinst_RCTDevSettings_initWithDataSource(id self, SEL _cmd, id<RCTDevSettingsDataSource> dataSource)
 {
-	dispatch_sync(__activeListeningProfilersQueue, ^{
-		[dataSource updateSettingWithValue:@(__bridgeShouldProfile) forKey:__RCTProfilingEnabled];
-	});
+	pthread_mutex_lock(&__activeListeningProfilersMutex);
+	[dataSource updateSettingWithValue:@(__bridgeShouldProfile) forKey:__RCTProfilingEnabled];
+	pthread_mutex_unlock(&__activeListeningProfilersMutex);
 	return __orig_RCTDevSettings_initWithDataSource(self, _cmd, dataSource);
 }
 
@@ -381,16 +382,16 @@ static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, 
 	DTXProfiler* profiler = NS(object);
 	if(profiler.profilingConfiguration.recordInternalReactNativeEvents == YES)
 	{
-		dispatch_sync(__activeListeningProfilersQueue, ^{
-			__activeListeningProfilers += 1;
-			__bridgeShouldProfile = YES;
-			if(__activeListeningProfilers == 1 && __activeBridge != nil)
-			{
-				dispatch_async(dispatch_get_main_queue(), ^{
-					__RCTProfileInit(__activeBridge);
-				});
-			}
-		});
+		pthread_mutex_lock(&__activeListeningProfilersMutex);
+		__activeListeningProfilers += 1;
+		__bridgeShouldProfile = YES;
+		if(__activeListeningProfilers == 1 && __activeBridge != nil)
+		{
+			dispatch_async(dispatch_get_main_queue(), ^{
+				__RCTProfileInit(__activeBridge);
+			});
+		}
+		pthread_mutex_unlock(&__activeListeningProfilersMutex);
 	}
 }
 
@@ -399,22 +400,22 @@ static void __DTXDidRemoveProfiler(CFNotificationCenterRef center, void *observe
 	DTXProfiler* profiler = NS(object);
 	if(profiler.profilingConfiguration.recordInternalReactNativeEvents == YES)
 	{
-		dispatch_sync(__activeListeningProfilersQueue, ^{
-			__activeListeningProfilers -= 1;
-			if(__activeListeningProfilers == 0)
+		pthread_mutex_lock(&__activeListeningProfilersMutex);
+		__activeListeningProfilers -= 1;
+		if(__activeListeningProfilers == 0)
+		{
+			__bridgeShouldProfile = NO;
+			
+			if(__activeBridge != nil)
 			{
-				__bridgeShouldProfile = NO;
-				
-				if(__activeBridge != nil)
-				{
-					dispatch_async(dispatch_get_main_queue(), ^{
-						__RCTProfileEnd(__activeBridge, ^ (NSString* string) {} );
-						id devSettings = [__activeBridge valueForKey:@"devSettings"];
-						[devSettings setValue:@NO forKey:__RCTProfilingEnabled];
-					});
-				}
+				dispatch_async(dispatch_get_main_queue(), ^{
+					__RCTProfileEnd(__activeBridge, ^ (NSString* string) {} );
+					id devSettings = [__activeBridge valueForKey:@"devSettings"];
+					[devSettings setValue:@NO forKey:__RCTProfilingEnabled];
+				});
 			}
-		});
+		}
+		pthread_mutex_unlock(&__activeListeningProfilersMutex);
 	}
 }
 
@@ -486,7 +487,7 @@ void DTXRegisterRNProfilerCallbacks()
 		__orig_RCTDevSettings_initWithDataSource = (void*)method_getImplementation(m);
 		method_setImplementation(m, (IMP)__dtxinst_RCTDevSettings_initWithDataSource);
 		
-		__activeListeningProfilersQueue = dispatch_queue_create("com.wix.activeProfilersQueue", NULL);
+		pthread_mutex_init(&__activeListeningProfilersMutex, NULL);
 		__activeBridge = nil;
 		
 		CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidAddProfiler, CF(__DTXDidAddActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
