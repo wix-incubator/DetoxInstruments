@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14810.11" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14810.11"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14835.7"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -30,39 +30,8 @@
                                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3X3-h1-1gZ">
                                                 <rect key="frame" x="89" y="0.0" width="241" height="72"/>
                                                 <subviews>
-                                                    <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uXB-oa-rjK">
-                                                        <rect key="frame" x="0.0" y="0.0" width="67" height="72"/>
-                                                        <subviews>
-                                                            <button toolTip="Use the system appearance for the application." translatesAutoresizingMaskIntoConstraints="NO" id="sB4-v0-9K4">
-                                                                <rect key="frame" x="0.0" y="24" width="67" height="48"/>
-                                                                <buttonCell key="cell" type="inline" bezelStyle="inline" image="pref_appearance_auto" imagePosition="only" alignment="center" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="YT4-9l-oGR">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="smallSystemBold"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <action selector="changeAppearance:" target="iBR-l8-6jQ" id="gLQ-jc-CMm"/>
-                                                                </connections>
-                                                            </button>
-                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fms-tW-zcH">
-                                                                <rect key="frame" x="17" y="0.0" width="33" height="16"/>
-                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Auto" id="hLd-HY-5jt">
-                                                                    <font key="font" metaFont="system"/>
-                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                </textFieldCell>
-                                                            </textField>
-                                                        </subviews>
-                                                        <visibilityPriorities>
-                                                            <integer value="1000"/>
-                                                            <integer value="1000"/>
-                                                        </visibilityPriorities>
-                                                        <customSpacing>
-                                                            <real value="3.4028234663852886e+38"/>
-                                                            <real value="3.4028234663852886e+38"/>
-                                                        </customSpacing>
-                                                    </stackView>
                                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isb-qf-u9N">
-                                                        <rect key="frame" x="87" y="0.0" width="67" height="72"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="67" height="72"/>
                                                         <subviews>
                                                             <button toolTip="Always use a light appearance for the application." tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="va4-pD-T1d">
                                                                 <rect key="frame" x="0.0" y="24" width="67" height="48"/>
@@ -93,7 +62,7 @@
                                                         </customSpacing>
                                                     </stackView>
                                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6A-4t-D0O">
-                                                        <rect key="frame" x="174" y="0.0" width="67" height="72"/>
+                                                        <rect key="frame" x="87" y="0.0" width="67" height="72"/>
                                                         <subviews>
                                                             <button toolTip="Always use a dark appearance for the application." tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="7mA-tR-f4A">
                                                                 <rect key="frame" x="0.0" y="24" width="67" height="48"/>
@@ -108,6 +77,37 @@
                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="geG-VR-TYO">
                                                                 <rect key="frame" x="17" y="0.0" width="33" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Dark" id="gbN-iV-Lff">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uXB-oa-rjK">
+                                                        <rect key="frame" x="174" y="0.0" width="67" height="72"/>
+                                                        <subviews>
+                                                            <button toolTip="Use the system appearance for the application." translatesAutoresizingMaskIntoConstraints="NO" id="sB4-v0-9K4">
+                                                                <rect key="frame" x="0.0" y="24" width="67" height="48"/>
+                                                                <buttonCell key="cell" type="inline" bezelStyle="inline" image="pref_appearance_auto" imagePosition="only" alignment="center" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="YT4-9l-oGR">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="smallSystemBold"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="changeAppearance:" target="iBR-l8-6jQ" id="gLQ-jc-CMm"/>
+                                                                </connections>
+                                                            </button>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fms-tW-zcH">
+                                                                <rect key="frame" x="17" y="0.0" width="33" height="16"/>
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Auto" id="hLd-HY-5jt">
                                                                     <font key="font" metaFont="system"/>
                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
