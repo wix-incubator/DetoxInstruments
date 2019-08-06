@@ -30,6 +30,6 @@ event.endInterval(Event.EventStatus.completed, "End message");
 #### Single Points in Time
 
 ```javascript
-Event.event("Category", "Name", Event.EventStatus.category3, "Message");
+Event.event("Category", "Name", Event.EventStatus.completed, "Message");
 ```
 
