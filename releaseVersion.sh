@@ -10,9 +10,6 @@
 
 XCODEVERSION=$(xcodebuild -version | grep -oEi "([0-9]*\.[0-9]*)")
 XCODENEWESTSUPPORTED="10.3"
-echo ${XCODEVERSION}
-echo ${XCODENEWESTSUPPORTED}
-echo -e "${XCODEVERSION}\n${XCODENEWESTSUPPORTED}" | sort --version-sort | head -n1
 if [ ${XCODEVERSION} != ${XCODENEWESTSUPPORTED} ] && [ "${XCODEVERSION}" = "`echo -e "${XCODEVERSION}\n${XCODENEWESTSUPPORTED}" | sort --version-sort -r | head -n1`" ]; then
   printf >&2 "\033[1;31mUnsupported Xcode, aborting\033[0m\n"
   exit 1;
@@ -43,13 +40,13 @@ fi
 #   git status --short
 #   exit -1
 # fi
-#
-# if [[ -n $(git log --branches --not --remotes) ]]; then
-#   echo -e "\033[1;34mPushing pending commits to git\033[0m"
-#   if [ -z "$DRY_RUN" ]; then
-#     git push
-#   fi
-# fi
+
+if [[ -n $(git log --branches --not --remotes) ]]; then
+  echo -e "\033[1;34mPushing pending commits to git\033[0m"
+  if [ -z "$DRY_RUN" ]; then
+    git push
+  fi
+fi
 
 echo -e "\033[1;34mCreating release notes\033[0m"
 
