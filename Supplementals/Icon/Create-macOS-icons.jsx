@@ -45,8 +45,8 @@ function main() {
 */
 	var destFolder = (new File($.fileName)).parent;
 
-	var backgroundsSet = doc.layerSets["backgrounds"];
-	backgroundsSet.remove();
+  // var backgroundsSet = doc.layerSets["backgrounds"];
+  //   backgroundsSet.remove();
 
 	//	save icons in PNG-24 using Save for Web
 	var saveForWeb = new ExportOptionsSaveForWeb();
