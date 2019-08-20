@@ -27,7 +27,8 @@ do
 done ;
 popd > /dev/null
 
-cp DetoxInstruments/DetoxInstruments/Assets.xcassets/AppIcon.appiconset/1024.png "${HTMLDIR}"/Documentation/Resources/icon_512x512@2x.png
+cp DetoxInstruments/DetoxInstruments/Assets.xcassets/AppIcon.appiconset/Icon-512@2x.png "${HTMLDIR}"/Documentation/Resources/icon_512x512@2x.png
+cp DetoxInstruments/DetoxInstruments/Assets.xcassets/AppIcon.appiconset/Icon-512@2x.png "${HTMLDIR}"/../shrd/icon.png
 
 function render_markdown {
   SOURCE_FILE="$1"
@@ -38,8 +39,22 @@ function render_markdown {
   echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">' >> "${TARGET_FILE}"
   echo '<head>' >> "${TARGET_FILE}"
   cat "$METADATA_DIR"/$(basename "$SOURCE_FILE").metadata >> "${TARGET_FILE}"
+  echo '<meta name="viewport" content="width=device-width, initial-scale=1" />' >> "${TARGET_FILE}"
+  echo '<meta name="supported-color-schemes" content="light">' >> "${TARGET_FILE}"
   echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">' >> "${TARGET_FILE}"
-  # curl -s 'https://raw.githubusercontent.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css' >> "${TARGET_FILE}"
+  echo 'html {' >> "${TARGET_FILE}"
+  echo 'overflow: auto;' >> "${TARGET_FILE}"
+  echo '}' >> "${TARGET_FILE}"
+  echo 'body {' >> "${TARGET_FILE}"
+  echo 'position: absolute;' >> "${TARGET_FILE}"
+  echo 'left: 0px;' >> "${TARGET_FILE}"
+  echo 'right: 0px;' >> "${TARGET_FILE}"
+  echo 'top: 0px;' >> "${TARGET_FILE}"
+  echo 'bottom: 0px;' >> "${TARGET_FILE}"
+  echo 'overflow-y: scroll;' >> "${TARGET_FILE}"
+  echo 'overflow-x: hidden;' >> "${TARGET_FILE}"
+  echo 'margin: 0px;' >> "${TARGET_FILE}"
+  echo '}' >> "${TARGET_FILE}"
   echo '</style>' >> "${TARGET_FILE}"
   echo '<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }'  >> "${TARGET_FILE}"
   echo 'h1 { text-align: center; margin-left: -16px; margin-right: -16px; padding-bottom: 20px; background: linear-gradient(to bottom, #ffffff 0%,#f3f2f3 100%); }' >> "${TARGET_FILE}"
