@@ -17,10 +17,10 @@
                                 <rect key="frame" x="102" y="71" width="395" height="263"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfF-3P-5CW">
-                                        <rect key="frame" x="0.0" y="191" width="330" height="72"/>
+                                        <rect key="frame" x="0.0" y="191" width="357" height="72"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="CCr-V4-NpS">
-                                                <rect key="frame" x="-2" y="24" width="81" height="16"/>
+                                                <rect key="frame" x="-2" y="24" width="108" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Appearance:" id="7pd-m7-vqW">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -28,7 +28,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3X3-h1-1gZ">
-                                                <rect key="frame" x="89" y="0.0" width="241" height="72"/>
+                                                <rect key="frame" x="116" y="0.0" width="241" height="72"/>
                                                 <subviews>
                                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isb-qf-u9N">
                                                         <rect key="frame" x="0.0" y="0.0" width="67" height="72"/>
@@ -317,6 +317,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="qO2-vi-a0t" firstAttribute="width" secondItem="5NM-qz-Lrx" secondAttribute="width" id="RUt-7j-Ghz"/>
+                                    <constraint firstItem="CCr-V4-NpS" firstAttribute="width" secondItem="5NM-qz-Lrx" secondAttribute="width" id="dl3-Bk-Bzv"/>
                                     <constraint firstItem="oI8-i3-Op3" firstAttribute="width" secondItem="5NM-qz-Lrx" secondAttribute="width" id="f1c-Ee-mvY"/>
                                 </constraints>
                                 <visibilityPriorities>
@@ -1253,7 +1254,7 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                             <tableColumns>
                                                 <tableColumn width="415" minWidth="40" maxWidth="1000" id="kqP-Eh-iwO">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -1380,6 +1381,67 @@ Gw
                 </arrayController>
             </objects>
             <point key="canvasLocation" x="738" y="-1681"/>
+        </scene>
+        <!--Preferences View Controller-->
+        <scene sceneID="FHN-XP-EKD">
+            <objects>
+                <viewController storyboardIdentifier="CLIPreferences" id="zQ3-7n-xGO" customClass="DTXCLIPreferencesViewController" sceneMemberID="viewController">
+                    <view key="view" id="jM9-O2-BqY">
+                        <rect key="frame" x="0.0" y="0.0" width="584" height="206"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" preferredMaxLayoutWidth="244" translatesAutoresizingMaskIntoConstraints="NO" id="UbL-Hd-VO7">
+                                <rect key="frame" x="265" y="115" width="237" height="42"/>
+                                <textFieldCell key="cell" title="The Detox Instruments command-line utility allows querying recording data from the command-line." id="Veg-V0-hoo">
+                                    <font key="font" metaFont="menu" size="11"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="0Ot-dF-aMZ">
+                                <rect key="frame" x="261" y="158" width="76" height="32"/>
+                                <buttonCell key="cell" type="push" title="Install" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Pz2-YE-G08">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="qZP-Lb-3p1">
+                                <rect key="frame" x="337" y="168" width="176" height="14"/>
+                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Installed at: /usr/local/bin/dtxinst" id="FMO-Gd-Bug">
+                                    <font key="font" metaFont="menu" size="11"/>
+                                    <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="1qR-6y-o0e">
+                                <rect key="frame" x="125" y="168" width="136" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Command-line Utility:" id="iPI-S0-exQ">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="UbL-Hd-VO7" firstAttribute="leading" secondItem="0Ot-dF-aMZ" secondAttribute="leading" id="3Mz-Mr-Sml"/>
+                            <constraint firstItem="qZP-Lb-3p1" firstAttribute="firstBaseline" secondItem="0Ot-dF-aMZ" secondAttribute="firstBaseline" id="3aq-du-oBM"/>
+                            <constraint firstItem="0Ot-dF-aMZ" firstAttribute="top" secondItem="jM9-O2-BqY" secondAttribute="top" constant="20" id="5Ag-un-T2H"/>
+                            <constraint firstItem="qZP-Lb-3p1" firstAttribute="leading" secondItem="0Ot-dF-aMZ" secondAttribute="trailing" constant="8" id="SX7-ia-z0Z"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UbL-Hd-VO7" secondAttribute="trailing" constant="20" id="YWS-gz-jcK"/>
+                            <constraint firstItem="UbL-Hd-VO7" firstAttribute="top" secondItem="0Ot-dF-aMZ" secondAttribute="bottom" constant="8" id="fjY-jc-hD7"/>
+                            <constraint firstItem="0Ot-dF-aMZ" firstAttribute="leading" secondItem="jM9-O2-BqY" secondAttribute="centerX" constant="-25" id="hEd-4F-C6b"/>
+                            <constraint firstItem="0Ot-dF-aMZ" firstAttribute="leading" secondItem="1qR-6y-o0e" secondAttribute="trailing" constant="8" id="vn1-MO-yLN"/>
+                            <constraint firstItem="1qR-6y-o0e" firstAttribute="firstBaseline" secondItem="0Ot-dF-aMZ" secondAttribute="firstBaseline" id="yAW-Ca-gkp"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_installButton" destination="0Ot-dF-aMZ" id="Lzc-3E-PhD"/>
+                        <outlet property="_installedAtLabel" destination="qZP-Lb-3p1" id="h3n-TL-Rur"/>
+                    </connections>
+                </viewController>
+                <customObject id="rTl-tV-Ywj" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1355" y="-1824"/>
         </scene>
     </scenes>
     <resources>

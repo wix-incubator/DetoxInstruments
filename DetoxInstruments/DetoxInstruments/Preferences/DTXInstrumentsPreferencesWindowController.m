@@ -8,6 +8,7 @@
 
 #import "DTXInstrumentsPreferencesWindowController.h"
 #import "DTXDisplayPreferencesViewController.h"
+#import "DTXCLIPreferencesViewController.h"
 
 @interface DTXInstrumentsPreferencesWindowController ()
 
@@ -31,7 +32,7 @@
 	
 	NSStoryboard* sb = [NSStoryboard storyboardWithName:@"Preferences" bundle:nil];
 	
-	[self setPreferencesViewControllers:@[[sb instantiateControllerWithIdentifier:@"DisplayPreferences"], [sb instantiateControllerWithIdentifier:@"RecordingPreferences"]]];
+	[self setPreferencesViewControllers:@[[sb instantiateControllerWithIdentifier:@"DisplayPreferences"], [sb instantiateControllerWithIdentifier:@"RecordingPreferences"], [sb instantiateControllerWithIdentifier:@"CLIPreferences"]]];
 	self.centerToolbarItems = NO;
 	
 	[super showPreferencesWindow];

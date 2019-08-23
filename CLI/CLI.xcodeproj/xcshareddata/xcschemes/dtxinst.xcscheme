@@ -27,8 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-      </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
@@ -38,8 +36,8 @@
             ReferencedContainer = "container:CLI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
+      <Testables>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -63,12 +61,12 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--document &quot;/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Example Recording/example.dtxrec&quot;"
+            argument = "--document &quot;/Users/lnatan/Downloads/lev_crash.dtxrec&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--appPath &quot;/Users/lnatan/Library/Developer/Xcode/DerivedData/DetoxInstruments-drgnjngszdwcaqhkbinirepmktmi/Build/Products/Debug/Detox Instruments.app&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--document &quot;/Users/lnatan/Downloads/WixOneAppDev Dec 20, 2018 at 4_05_43 PM.5.dtxprof&quot;"
@@ -79,12 +77,16 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-e &quot;Recording&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--printEntities"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;PerformanceSample&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;Recording&quot;"
@@ -96,7 +98,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--printKeys"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--printKeyFunctions"
@@ -108,7 +110,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--keys &quot;timestamp, cpuUsage, max(cpuUsage), fps, min(memoryUsage), memoryUsage,max(memoryUsage)&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--predicate &quot;cpuUsage &gt; 3.0&quot;"
@@ -116,11 +118,11 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--predicate &quot;(timestamp &gt;= 15 &amp;&amp; 30 &gt;= timestamp)&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--fetch"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--limit 1"
@@ -144,7 +146,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--help"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--help2"
@@ -159,8 +161,6 @@
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

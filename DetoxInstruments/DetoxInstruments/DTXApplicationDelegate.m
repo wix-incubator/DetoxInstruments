@@ -21,6 +21,8 @@ DTX_CREATE_LOG(ApplicationDelegate)
 @import Carbon;
 @import Sparkle;
 
+NSString* const DTXCLIToolsInstallStatusChanged = @"DTXCLIToolsInstallStatusChanged";
+
 OSStatus DTXGoToHelpPage(NSString* pagePath)
 {
 	if(pagePath)
@@ -567,6 +569,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	{
 		[NSApp presentError:error];
 	}
+	
+	[NSNotificationCenter.defaultCenter postNotificationName:DTXCLIToolsInstallStatusChanged object:nil];
 }
 
 - (void)_installCLIIntegration
@@ -578,6 +582,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	{
 		[NSApp presentError:error];
 	}
+	
+	[NSNotificationCenter.defaultCenter postNotificationName:DTXCLIToolsInstallStatusChanged object:nil];
 }
 
 - (void)_uninstallCLIIntegration

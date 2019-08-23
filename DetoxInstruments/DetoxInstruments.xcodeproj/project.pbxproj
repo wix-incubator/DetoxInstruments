@@ -173,6 +173,7 @@
 		398D6EA51EE0596500AA9C11 /* DTXPlotHostingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA41EE0596500AA9C11 /* DTXPlotHostingTableCellView.m */; };
 		398D6EA91EE061FE00AA9C11 /* DTXPlotAreaContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA81EE061FE00AA9C11 /* DTXPlotAreaContentController.m */; };
 		398D6EAC1EE0626400AA9C11 /* DTXSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */; };
+		398FD7FB2310399800B33B71 /* DTXCLIPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398FD7FA2310399800B33B71 /* DTXCLIPreferencesViewController.m */; };
 		3993BE87221C906800C1C196 /* DTXSettingsPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3993BE86221C906800C1C196 /* DTXSettingsPopUpButton.m */; };
 		3997A8BA1EE980700057418B /* DTXDetailDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997A8B91EE980700057418B /* DTXDetailDataProvider.m */; };
 		399B3FBC1F248C3C00335109 /* DTXRemoteTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 399B3FBB1F248C3C00335109 /* DTXRemoteTarget.m */; };
@@ -681,6 +682,9 @@
 		398D6EA81EE061FE00AA9C11 /* DTXPlotAreaContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXPlotAreaContentController.m; sourceTree = "<group>"; };
 		398D6EAA1EE0626400AA9C11 /* DTXSamplePlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSamplePlotController.h; sourceTree = "<group>"; };
 		398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSamplePlotController.m; sourceTree = "<group>"; };
+		398FD7F92310399800B33B71 /* DTXCLIPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCLIPreferencesViewController.h; sourceTree = "<group>"; };
+		398FD7FA2310399800B33B71 /* DTXCLIPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCLIPreferencesViewController.m; sourceTree = "<group>"; };
+		398FD7FC23103C9700B33B71 /* DTXApplicationDelegate-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXApplicationDelegate-Private.h"; sourceTree = "<group>"; };
 		3993BE85221C906800C1C196 /* DTXSettingsPopUpButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSettingsPopUpButton.h; sourceTree = "<group>"; };
 		3993BE86221C906800C1C196 /* DTXSettingsPopUpButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSettingsPopUpButton.m; sourceTree = "<group>"; };
 		3997A8B81EE980700057418B /* DTXDetailDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDetailDataProvider.h; sourceTree = "<group>"; };
@@ -1148,6 +1152,8 @@
 				39B1CB081F34F679002C5239 /* _DTXProfilingConfigurationViewController.m */,
 				3939246F21AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.h */,
 				3939247021AD75690015A15F /* _DTXProfilingConfigurationIgnoredEventsCategoriesViewController.m */,
+				398FD7F92310399800B33B71 /* DTXCLIPreferencesViewController.h */,
+				398FD7FA2310399800B33B71 /* DTXCLIPreferencesViewController.m */,
 				394B736922AFC98300E104F3 /* DTXInstrumentsPreferencesWindowController.h */,
 				394B736A22AFC98300E104F3 /* DTXInstrumentsPreferencesWindowController.m */,
 			);
@@ -1754,6 +1760,7 @@
 				399B4DC61ED574410098D2AC /* DTXWindowController.h */,
 				399B4DC71ED574410098D2AC /* DTXWindowController.m */,
 				39EBDFBB1ED36D45005D8AB1 /* DTXApplicationDelegate.h */,
+				398FD7FC23103C9700B33B71 /* DTXApplicationDelegate-Private.h */,
 				39EBDFBC1ED36D45005D8AB1 /* DTXApplicationDelegate.m */,
 				3904E1531EFABE7600FF2707 /* DTXInstrumentsApplication.h */,
 				3904E1541EFABE7600FF2707 /* DTXInstrumentsApplication.m */,
@@ -2056,6 +2063,7 @@
 				3903F37A208F38E500B73E5D /* DTXLogDetailController.m in Sources */,
 				396CCDAE210DC8F200152C34 /* DTXRNStackTraceParser.m in Sources */,
 				390442442067036100A29048 /* DTXAboutWindowController.m in Sources */,
+				398FD7FB2310399800B33B71 /* DTXCLIPreferencesViewController.m in Sources */,
 				3906B0B02235616F00E81B9A /* DTXRPNodeSnippetExporter.m in Sources */,
 				39C6A8E51EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m in Sources */,
 				3988D70120EA4F4000F11F8C /* DTXSignpostNameProxy.m in Sources */,
