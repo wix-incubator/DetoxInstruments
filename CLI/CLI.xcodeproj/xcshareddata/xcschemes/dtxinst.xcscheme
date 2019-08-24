@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -61,7 +61,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--document &quot;/Users/lnatan/Downloads/lev_crash.dtxrec&quot;"
+            argument = "-d &quot;/Users/lnatan/Downloads/lev_crash.dtxrec&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -78,7 +78,11 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-e &quot;Recording&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-pe"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--printEntities"
@@ -98,7 +102,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--printKeys"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--printKeyFunctions"

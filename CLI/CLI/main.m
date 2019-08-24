@@ -12,6 +12,9 @@
 #import "DTXInstrumentsModel.h"
 #import "DTXInstrumentsModelUIExtensions.h"
 
+#include <stdio.h>
+#include <unistd.h>
+
 #define DTXAssert(condition, desc, ...) \
 do { \
 __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \
@@ -20,6 +23,24 @@ if (__builtin_expect(!(condition), 0)) { \
 } \
 __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS \
 } while(0)
+
+static int origStdOut;
+static int origStdErr;
+static void redirectOutputToDevNull(void)
+{
+	origStdOut = dup(STDOUT_FILENO);
+	origStdErr = dup(STDERR_FILENO);
+	
+	int devNull = open("/dev/null", O_WRONLY);
+	dup2(devNull, STDOUT_FILENO);
+	dup2(devNull, STDERR_FILENO);
+}
+
+static void retoreOutput(void)
+{
+	dup2(origStdOut, STDOUT_FILENO);
+	dup2(origStdErr, STDERR_FILENO);
+}
 
 static NSString* _DTXStringFromArray(NSArray* arr)
 {
@@ -242,12 +263,12 @@ int main(int argc, const char* argv[])
 	
 	GBSettings* settings = LNUsageParseArguments(argc, argv);
 	
-	//	LNUsagePrintArguments(LNLogLevelStdOut);
-	//	BOOL inMemory = NO;
-	//	if([settings objectForKey:@"inMemory"])
-	//	{
-	//		inMemory = [[settings objectForKey:@"inMemory"] boolValue];
-	//	}
+//	LNUsagePrintArguments(LNLogLevelStdOut);
+//	BOOL inMemory = NO;
+//	if([settings objectForKey:@"inMemory"])
+//	{
+//		inMemory = [[settings objectForKey:@"inMemory"] boolValue];
+//	}
 	
 	if(DTXApp == nil)
 	{
@@ -269,12 +290,14 @@ int main(int argc, const char* argv[])
 	
 	if([settings objectForKey:@"document"] == nil)
 	{
-		LNUsagePrintMessage(@"No document argument specified", LNLogLevelError);
+		LNUsagePrintMessage(@"No document argument specified.", LNLogLevelError);
 		
 		return -1;
 	}
 	
 	auto inputURL = [NSURL fileURLWithPath:[settings objectForKey:@"document"]];
+	
+	redirectOutputToDevNull();
 	
 	NSError* error;
 	DTXRecordingDocument* document = [[DTXRecordingDocument alloc] initWithContentsOfURL:inputURL ofType:@"dtxrec" error:&error];
@@ -285,17 +308,39 @@ int main(int argc, const char* argv[])
 		return -1;
 	}
 	
+	retoreOutput();
+	
 	NSManagedObjectModel* model = document.firstRecording.entity.managedObjectModel;
+	
+	NSDictionary* entityLookup = @{@"SignpostSample": @"EventSample"};
+	NSDictionary* entityLookupRev = @{@"EventSample": @"SignpostSample"};
 	
 	if([settings boolForKey:@"printEntities"])
 	{
-		LNLog(LNLogLevelStdOut, @"Available entities:\n%@", _DTXStringFromArray([[model.entities filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isAbstract == NO"]] valueForKey:@"name"]));
+		NSMutableArray* translated = [NSMutableArray new];
+		[[[model.entities filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isAbstract == NO"]] valueForKey:@"name"] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			id translatedEntity = entityLookup[obj];
+			if(translatedEntity != nil)
+			{
+				obj = translatedEntity;
+			}
+			
+			[translated addObject:obj];
+		}];
+		[translated sortUsingSelector:@selector(compare:)];
+		
+		LNLog(LNLogLevelStdOut, @"Available entities:\n%@", _DTXStringFromArray(translated));
 		return 0;
 	}
 	
 	NSString* entityName = [settings objectForKey:@"entity"];
 	if(entityName)
 	{
+		NSString* translated = entityLookupRev[entityName];
+		if(translated != nil)
+		{
+			entityName = translated;
+		}
 		NSEntityDescription* entity = model.entitiesByName[entityName];
 		
 		if(entity == nil)
@@ -453,7 +498,7 @@ int main(int argc, const char* argv[])
 				return 0;
 			}
 			
-			LNUsagePrintMessage(@"No action specified", LNLogLevelError);
+			LNUsagePrintMessage(@"No action specified.", LNLogLevelError);
 			return -1;
 		}
 		@catch(NSException* exception)
@@ -463,6 +508,6 @@ int main(int argc, const char* argv[])
 		}
 	}
 	
-	LNUsagePrintMessage(@"No entity specified", LNLogLevelError);
+	LNUsagePrintMessage(@"No entity specified.", LNLogLevelError);
 	return -1;
 }
