@@ -163,7 +163,7 @@ static NSData* __DTXSHADataOfString(NSString* string)
 	_snapshotImageView.hidden = NO;
 	
 	NSImage* displayImage = [deviceScreenSnapshot copy];
-	CGRect rect = AVMakeRectWithAspectRatioInsideRect(_currentDeviceScreenResolution, CGRectMake(0, 0, 70 * _currentDeviceScreenResolution.width / _deviceImageView.image.size.width, 70 * _currentDeviceScreenResolution.height / _deviceImageView.image.size.height));
+	CGRect rect = AVMakeRectWithAspectRatioInsideRect(_currentDeviceScreenResolution, CGRectMake(0, 0, ceil(70 * _currentDeviceScreenResolution.width / _deviceImageView.image.size.width), ceil(70 * _currentDeviceScreenResolution.height / _deviceImageView.image.size.height)));
 	displayImage.size = rect.size;
 	
 	_snapshotImageView.image = displayImage;
