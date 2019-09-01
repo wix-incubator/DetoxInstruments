@@ -250,7 +250,7 @@ int main(int argc, const char* argv[])
 	
 	LNUsageSetHiddenOptions(@[
 							  [LNUsageOption optionWithName:@"appPath" valueRequirement:GBValueRequired description:@"The “Detox Instruments.app” to use"],
-							  [LNUsageOption optionWithName:@"force" shortcut:@"f" valueRequirement:GBValueNone description:@"Force opening an incompatible recording (WARNING: may cause data damage)"],
+							  [LNUsageOption optionWithName:@"force" valueRequirement:GBValueNone description:@"Force opening an incompatible recording (WARNING: may cause data damage)"],
 							  [LNUsageOption optionWithName:@"printAppPath" valueRequirement:GBValueNone description:@"Prints the “Detox Instruments.app” in use"],
 //							  [LNUsageOption optionWithName:@"inMemory" valueRequirement:GBValueRequired description:@"Run the predicate in memory"],
 							  ]);
@@ -302,13 +302,13 @@ int main(int argc, const char* argv[])
 	NSError* error;
 	DTXRecordingDocument* document = [[DTXRecordingDocument alloc] initWithContentsOfURL:inputURL ofType:@"dtxrec" error:&error];
 	
+	retoreOutput();
+	
 	if(error != nil)
 	{
 		LNLog(LNLogLevelError, @"Error opening document: %@", error.localizedFailureReason);
 		return -1;
 	}
-	
-	retoreOutput();
 	
 	NSManagedObjectModel* model = document.firstRecording.entity.managedObjectModel;
 	
