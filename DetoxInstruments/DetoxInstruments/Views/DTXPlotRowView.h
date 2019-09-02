@@ -10,4 +10,6 @@
 
 @interface DTXPlotRowView : DTXTableRowView
 
+@property (nonatomic, weak) NSTableView* tableView;
+
 @end

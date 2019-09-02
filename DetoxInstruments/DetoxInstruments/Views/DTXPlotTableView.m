@@ -7,7 +7,9 @@
 //
 
 #import "DTXPlotTableView.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXGraphHostingView.h"
+#endif
 
 @interface _DTXEventWrapper : NSObject @end
 @implementation _DTXEventWrapper
@@ -89,10 +91,12 @@
 
 -(void)mouseDown:(nonnull NSEvent *)event
 {
+#if ! PROFILER_PREVIEW_EXTENSION
 	if([[self hitTest:[self convertPoint:[event locationInWindow] fromView:nil]] isKindOfClass:[DTXGraphHostingView class]])
 	{
 		return;
 	}
+#endif
 	
 	[super mouseDown:event];
 }

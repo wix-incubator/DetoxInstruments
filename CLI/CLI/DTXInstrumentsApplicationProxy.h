@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@interface DTXInstrumentsUtils : NSObject
+
++ (NSString*)applicationVersion;
++ (NSArray<NSBundle*>*)bundlesForObjectModel;
+
+@end
+
 @interface DTXInstrumentsApplicationProxy : NSObject
 
 + (instancetype)new NS_UNAVAILABLE;

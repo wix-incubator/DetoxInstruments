@@ -7,14 +7,19 @@
 //
 
 #import "DTXRNCPUUsagePlotController.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXRNCPUDataProvider.h"
+#endif
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXRNCPUUsagePlotController
 
+#if ! PROFILER_PREVIEW_EXTENSION
 + (Class)UIDataProviderClass
 {
 	return [DTXRNCPUDataProvider class];
 }
+#endif
 
 + (Class)classForPerformanceSamples
 {

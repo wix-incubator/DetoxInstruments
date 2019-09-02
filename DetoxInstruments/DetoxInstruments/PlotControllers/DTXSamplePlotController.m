@@ -7,7 +7,9 @@
 //
 
 #import "DTXSamplePlotController-Private.h"
+#if __has_include(<CorePlot/CorePlot.h>)
 #import "DTXGraphHostingView.h"
+#endif
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
 #import <LNInterpolation/LNInterpolation.h>
@@ -19,8 +21,10 @@
 
 NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlotControllerRequiredHeightDidChangeNotification";
 
-@interface DTXSamplePlotController () <CPTScatterPlotDelegate>
-
+@interface DTXSamplePlotController ()
+#if __has_include(<CorePlot/CorePlot.h>)
+<CPTScatterPlotDelegate>
+#endif
 @end
 
 @implementation DTXSamplePlotController
@@ -29,7 +33,9 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	DTXPlotRange* _pendingPlotRange;
 	DTXPlotRange* _pendingDataLimitRange;
 	
+#if ! PROFILER_PREVIEW_EXTENSION
 	NSStoryboard* _scene;
+#endif
 	
 	NSOrderedSet<DTXPlotViewTextAnnotation*>* _hoverAnnotations;
 	
@@ -49,11 +55,6 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 @synthesize parentPlotController = _parentPlotController;
 @dynamic helpTopicName;
 
-+ (Class)graphHostingViewClass
-{
-	return [DTXGraphHostingView class];
-}
-
 + (Class)UIDataProviderClass
 {
 	return nil;
@@ -66,7 +67,9 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	if(self)
 	{
 		_document = document;
+#if ! PROFILER_PREVIEW_EXTENSION
 		_scene = [NSStoryboard storyboardWithName:@"Profiler" bundle:nil];
+#endif
 		
 		_fadesIntervals = [NSUserDefaults.standardUserDefaults boolForKey:DTXPlotSettingsIntervalFadeOut];
 		[NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:DTXPlotSettingsIntervalFadeOut options:NSKeyValueObservingOptionNew context:NULL];
@@ -119,6 +122,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
+#if ! PROFILER_PREVIEW_EXTENSION
 - (NSArray<DTXDetailController*>*)dataProviderControllers
 {
 	DTXDetailController* detailController = [_scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
@@ -126,6 +130,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	
 	return @[detailController];
 }
+#endif
 
 - (void)mouseEntered:(NSEvent *)event
 {
@@ -312,12 +317,15 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 }
 
 - (void)setGlobalPlotRange:(DTXPlotRange*)globalPlotRange
-{	
+{
+#if __has_include(<CorePlot/CorePlot.h>)
 	if(self.graph != nil)
 	{
 		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setGlobalXRange:globalPlotRange.cptPlotRange];
 	}
-	else if(self.plotStackView.arrangedSubviews.count > 0)
+	else
+#endif
+		if(self.plotStackView.arrangedSubviews.count > 0)
 	{
 		for (DTXPlotView* plotView in self.plotViews) {
 			plotView.globalPlotRange = globalPlotRange;
@@ -331,11 +339,14 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 
 - (void)setPlotRange:(DTXPlotRange *)plotRange
 {
+#if __has_include(<CorePlot/CorePlot.h>)
 	if(self.graph != nil)
 	{
 		[(CPTXYPlotSpace *)self.graph.defaultPlotSpace setXRange:plotRange.cptPlotRange];
 	}
-	else if(self.plotStackView.arrangedSubviews.count > 0)
+	else
+#endif
+		if(self.plotStackView.arrangedSubviews.count > 0)
 	{
 		for (DTXPlotView* plotView in self.plotViews) {
 			plotView.plotRange = plotRange;
@@ -754,11 +765,6 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 }
 
 - (NSArray<NSString *>*)plotTitles
-{
-	return @[];
-}
-
-- (NSArray<CPTPlotSpaceAnnotation*>*)graphAnnotationsForGraph:(CPTGraph*)graph
 {
 	return @[];
 }

@@ -8,14 +8,19 @@
 
 #import "DTXDiskReadWritesPlotController.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "NSColor+UIAdditions.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXDiskDataProvider.h"
+#endif
 
 @implementation DTXDiskReadWritesPlotController
 
+#if ! PROFILER_PREVIEW_EXTENSION
 + (Class)UIDataProviderClass
 {
 	return [DTXDiskDataProvider class];
 }
+#endif
 
 - (NSString *)displayName
 {

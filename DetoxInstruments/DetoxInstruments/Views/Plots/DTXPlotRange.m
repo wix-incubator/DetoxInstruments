@@ -73,6 +73,7 @@
 
 @end
 
+#if __has_include(<CorePlot/CPTMutablePlotRange.h>)
 @implementation DTXPlotRange (CPTPlotRangeSupport)
 
 + (instancetype)plotRangeWithCPTPlotRange:(CPTPlotRange*)cptPlotRange
@@ -86,3 +87,4 @@
 }
 
 @end
+#endif

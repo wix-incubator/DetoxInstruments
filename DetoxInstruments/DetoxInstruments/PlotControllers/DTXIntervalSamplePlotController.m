@@ -11,7 +11,9 @@
 #import "DTXRangePlotView.h"
 #import "DTXFilteredDataProvider.h"
 #import "DTXSamplePlotController-Private.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXSampleContainerProxy.h"
+#endif
 #import "DTXMeasurements.h"
 #import "DTXIntervalSectionSamplePlotController.h"
 #import "DTXRecording+UIExtensions.h"
@@ -60,7 +62,7 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 	{
 		_plotViews = [NSMutableArray new];
 		_sectionControllers = [NSMutableArray new];
-	
+		
 		if(configurator)
 		{
 			configurator();
@@ -156,10 +158,12 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 {
 	[super highlightSample:sample];
 	
+#if ! PROFILER_PREVIEW_EXTENSION
 	if([sample isKindOfClass:DTXSampleContainerProxy.class])
 	{
 		return;
 	}
+#endif
 	
 	[_sectionControllers[[_frc indexPathForObject:sample].section] highlightSample:sample];
 }

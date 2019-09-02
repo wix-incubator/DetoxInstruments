@@ -7,14 +7,19 @@
 //
 
 #import "DTXFPSPlotController.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXFPSDataProvider.h"
+#endif
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXFPSPlotController
 
+#if ! PROFILER_PREVIEW_EXTENSION
 + (Class)UIDataProviderClass
 {
 	return [DTXFPSDataProvider class];
 }
+#endif
 
 - (NSString *)displayName
 {

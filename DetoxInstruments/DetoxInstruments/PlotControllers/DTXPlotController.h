@@ -50,7 +50,9 @@ extern NSString* const DTXPlotControllerRequiredHeightDidChangeNotification;
 
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;
 
+#if ! PROFILER_PREVIEW_EXTENSION
 @property (nonatomic, copy, readonly) NSArray<DTXDetailController*>* dataProviderControllers;
+#endif
 
 - (instancetype)initWithDocument:(DTXRecordingDocument*)document isForTouchBar:(BOOL)isForTouchBar;
 - (instancetype)init NS_UNAVAILABLE;

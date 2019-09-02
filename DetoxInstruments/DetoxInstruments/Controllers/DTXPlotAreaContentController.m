@@ -9,7 +9,9 @@
 #import "DTXPlotAreaContentController.h"
 #import "DTXPlotTableView.h"
 #import "DTXManagedPlotControllerGroup.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXAxisHeaderPlotController.h"
+#endif
 #import "DTXCPUUsagePlotController.h"
 #import "DTXThreadCPUUsagePlotController.h"
 #import "DTXMemoryUsagePlotController.h"
@@ -23,13 +25,21 @@
 #import "DTXRecording+UIExtensions.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXNetworkSample+UIExtensions.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXPlotControllerPickerController.h"
 #import "DTXClassSelectionButton.h"
+#endif
 #import "DTXScrollView.h"
-
 #import "DTXLayerView.h"
+#if PROFILER_PREVIEW_EXTENSION
+#import <Quartz/Quartz.h>
+#endif
 
-@interface DTXPlotAreaContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate, NSTouchBarDelegate>
+@interface DTXPlotAreaContentController () <DTXManagedPlotControllerGroupDelegate, NSFetchedResultsControllerDelegate, NSTouchBarDelegate
+#if PROFILER_PREVIEW_EXTENSION
+, QLPreviewingController
+#endif
+>
 {
 	IBOutlet DTXPlotTableView* _tableView;
 	DTXManagedPlotControllerGroup* _plotGroup;
@@ -53,7 +63,7 @@
 	[super viewDidLoad];
 	
 	_tableView.enclosingScrollView.contentInsets = NSEdgeInsetsMake(0, 0, 20, 0);
-	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, 210.5, -20, 0);
+	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, _tableView.tableColumns.firstObject.width + 0.5, -20, 0);
 	
 	_tableView.enclosingScrollView.autohidesScrollers = NO;
 	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.target = self;
@@ -73,10 +83,11 @@
 - (void)viewWillAppear
 {
 	[super viewWillAppear];
-	
+#if ! PROFILER_PREVIEW_EXTENSION
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		[self.document readyForRecordingIfNeeded];
 	});
+#endif
 	
 	[_tableView.window makeFirstResponder:_tableView];
 }
@@ -144,16 +155,19 @@
 	
 	_tableView.intercellSpacing = NSMakeSize(1, 0);
 	
+#if ! PROFILER_PREVIEW_EXTENSION
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document isForTouchBar:NO];
-	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, 210, 0, 0)];
+	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, _tableView.tableColumns.firstObject.width, 0, 0)];
 
 	[_plotGroup setHeaderPlotController:headerPlotController];
+#endif
 
 	if(self.document.firstRecording.dtx_profilingConfiguration.recordPerformance)
 	{
 		_cpuPlotController = [[DTXCPUUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO];
 		[_plotGroup addPlotController:_cpuPlotController];
 		
+#if ! PROFILER_PREVIEW_EXTENSION
 		NSFetchRequest* fr = [DTXThreadInfo fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"recording.startTimestamp" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES]];
 		
@@ -168,6 +182,7 @@
 				[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj isForTouchBar:NO] toPlotController:_cpuPlotController];
 			}];
 		}
+#endif
 		
 		[_plotGroup addPlotController:[[DTXMemoryUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 		[_plotGroup addPlotController:[[DTXFPSPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
@@ -245,6 +260,7 @@
 	}
 }
 
+#if ! PROFILER_PREVIEW_EXTENSION
 - (void)presentPlotControllerPickerFromView:(NSView*)view
 {
 	DTXPlotControllerPickerController* plotControllerPicker = [self.storyboard instantiateControllerWithIdentifier:@"DTXPlotControllerPickerController"];
@@ -257,6 +273,7 @@
 	}
 	[self presentViewController:plotControllerPicker asPopoverRelativeToRect:view.bounds ofView:view preferredEdge:NSRectEdgeMaxY behavior:NSPopoverBehaviorSemitransient];
 }
+#endif
 
 #pragma mark DTXManagedPlotControllerGroupDelegate
 
@@ -318,6 +335,8 @@
 		[_plotGroup addChildPlotController:[[DTXThreadCPUUsagePlotController alloc] initWithDocument:self.document threadInfo:obj isForTouchBar:NO] toPlotController:_cpuPlotController];
 	}];
 }
+
+#if ! PROFILER_PREVIEW_EXTENSION
 
 #pragma mark NSTouchBarDelegate
 
@@ -426,6 +445,35 @@
 	
 	return nil;
 }
+
+#endif
+
+#if PROFILER_PREVIEW_EXTENSION
+
+- (NSNibName)nibName
+{
+	return @"PreviewViewController";
+}
+
+#pragma mark QLPreviewingController
+
+- (void)preparePreviewOfFileAtURL:(NSURL *)url completionHandler:(void (^)(NSError * _Nullable))handler
+{
+	NSError* error;
+	DTXRecordingDocument* document = [[DTXRecordingDocument alloc] initWithContentsOfURL:url ofType:@"com.wix.dtxinst.recording" error:&error];
+	
+	if(document == nil)
+	{
+		handler(error);
+		return;
+	}
+    
+	[self setDocument:document];
+	
+	handler(nil);
+}
+
+#endif
 
 @end
 

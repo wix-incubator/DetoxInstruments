@@ -128,6 +128,82 @@
 		396A6B5C1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */; };
 		396A6B5F1F4F107700768536 /* DTXHighlightingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5E1F4F107700768536 /* DTXHighlightingTableCellView.m */; };
 		396CCDAE210DC8F200152C34 /* DTXRNStackTraceParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 396CCDAD210DC8F200152C34 /* DTXRNStackTraceParser.m */; };
+		396DAAA8231C505E00FFBDDB /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 393E17DA207EEE88002E6136 /* Quartz.framework */; };
+		396DAAAF231C505E00FFBDDB /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 396DAAAD231C505E00FFBDDB /* PreviewViewController.xib */; };
+		396DAAB4231C505E00FFBDDB /* PreviewExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 396DAAA7231C505E00FFBDDB /* PreviewExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		396DAAB8231C508400FFBDDB /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 391176D821EF803900C92A9F /* DTXInstruments.xcdatamodeld */; };
+		396DAAB9231C508800FFBDDB /* DTXMappingModel9808To9954.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3906B076223505F800E81B9A /* DTXMappingModel9808To9954.xcmappingmodel */; };
+		396DAABA231C508B00FFBDDB /* DTXMappingModel9747To9808.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 394C9B3D220883730015A085 /* DTXMappingModel9747To9808.xcmappingmodel */; };
+		396DAABB231C509500FFBDDB /* DTXSignpostSample9620To9747MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 390E68F92201931C006F0FF7 /* DTXSignpostSample9620To9747MigrationPolicy.m */; };
+		396DAABC231C509900FFBDDB /* DTXMappingModel9554To9620.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 393C5F4F21ECDEB800138B4D /* DTXMappingModel9554To9620.xcmappingmodel */; };
+		396DAABD231C509900FFBDDB /* DTXMappingModel8751To9554.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 393C5F5721ECE17100138B4D /* DTXMappingModel8751To9554.xcmappingmodel */; };
+		396DAABE231C509900FFBDDB /* DTXMappingModel8246To8751.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 393C5F5521ECE13100138B4D /* DTXMappingModel8246To8751.xcmappingmodel */; };
+		396DAABF231C509900FFBDDB /* DTXMappingModel7742To8246.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 393C5F5321ECE0AD00138B4D /* DTXMappingModel7742To8246.xcmappingmodel */; };
+		396DAAC0231C509900FFBDDB /* DTXMappingModelOldTo7742.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 393C5F5121ECE01900138B4D /* DTXMappingModelOldTo7742.xcmappingmodel */; };
+		396DAAC1231C50B100FFBDDB /* DTXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39165019213292D50016A468 /* DTXDocument.m */; };
+		396DAAC2231C50B100FFBDDB /* DTXRecordingDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDFC51ED36D45005D8AB1 /* DTXRecordingDocument.m */; };
+		396DAAC3231C50C900FFBDDB /* DTXPlotHostConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E73572091D1B0006EAD6E /* DTXPlotHostConstructor.m */; };
+		396DAAC5231C50C900FFBDDB /* DTXSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */; };
+		396DAAC6231C50C900FFBDDB /* DTXPerformanceSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A9111EE3A2BC000E2EE1 /* DTXPerformanceSamplePlotController.m */; };
+		396DAAC7231C50C900FFBDDB /* DTXCPUUsagePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A90E1EE3A155000E2EE1 /* DTXCPUUsagePlotController.m */; };
+		396DAAC8231C50C900FFBDDB /* DTXThreadCPUUsagePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905F4B81EF7FE12003E08C1 /* DTXThreadCPUUsagePlotController.m */; };
+		396DAAC9231C50C900FFBDDB /* DTXMemoryUsagePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A9141EE3A313000E2EE1 /* DTXMemoryUsagePlotController.m */; };
+		396DAACA231C50C900FFBDDB /* DTXFPSPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A9171EE3ADDC000E2EE1 /* DTXFPSPlotController.m */; };
+		396DAACB231C50C900FFBDDB /* DTXDiskReadWritesPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A91F1EE3B8EB000E2EE1 /* DTXDiskReadWritesPlotController.m */; };
+		396DAACC231C50C900FFBDDB /* DTXIntervalSectionSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF8ABB220AE5FA00595274 /* DTXIntervalSectionSamplePlotController.m */; };
+		396DAACD231C50C900FFBDDB /* DTXIntervalSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */; };
+		396DAACE231C50C900FFBDDB /* DTXCompactNetworkRequestsPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A876A91EED3D2E00AE62F8 /* DTXCompactNetworkRequestsPlotController.m */; };
+		396DAACF231C50C900FFBDDB /* DTXEventsPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DABB9921BC549F002653EE /* DTXEventsPlotController.m */; };
+		396DAAD0231C50C900FFBDDB /* DTXManagedPlotControllerGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A8E41EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m */; };
+		396DAAD1231C50CE00FFBDDB /* DTXRNCPUUsagePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3932A06E1F054022001AC360 /* DTXRNCPUUsagePlotController.m */; };
+		396DAAD2231C50CE00FFBDDB /* DTXRNBridgeCountersPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA40A71F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m */; };
+		396DAAD3231C50CE00FFBDDB /* DTXRNBridgeDataTransferPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA40B71F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m */; };
+		396DAAD4231C510000FFBDDB /* DTXPlotAreaContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA81EE061FE00AA9C11 /* DTXPlotAreaContentController.m */; };
+		396DAAD5231C511900FFBDDB /* DTXPlotRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 399FE06022A7B4D800E8DA05 /* DTXPlotRange.m */; };
+		396DAAD6231C511900FFBDDB /* DTXPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978A58E21D09C3B00B739E2 /* DTXPlotView.m */; };
+		396DAAD7231C511900FFBDDB /* DTXRangePlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978A59121D09C7600B739E2 /* DTXRangePlotView.m */; };
+		396DAAD8231C511900FFBDDB /* DTXScatterPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E88CA421D9132100339954 /* DTXScatterPlotView.m */; };
+		396DAAD9231C511900FFBDDB /* DTXPlotStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 390350D221DA1EC0001AA3E6 /* DTXPlotStackView.m */; };
+		396DAADB231C558C00FFBDDB /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 39031E9F22B294300049ACFE /* PreferenceKeys.m */; };
+		396DAADE231C568300FFBDDB /* DTXInstrumentsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 396DAADD231C568300FFBDDB /* DTXInstrumentsUtils.m */; };
+		396DAADF231C568300FFBDDB /* DTXInstrumentsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 396DAADD231C568300FFBDDB /* DTXInstrumentsUtils.m */; };
+		396DAAE0231CFFD700FFBDDB /* NSColor+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA841EEEF46F0009AD88 /* NSColor+UIAdditions.m */; };
+		396DAAE1231CFFEA00FFBDDB /* NSFormatter+PlotFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */; };
+		396DAAE2231D00FD00FFBDDB /* DTXLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E73502091BF5E006EAD6E /* DTXLayerView.m */; };
+		396DAAE3231D01D700FFBDDB /* DTXPlotRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E733320919A52006EAD6E /* DTXPlotRowView.m */; };
+		396DAAE4231D01E600FFBDDB /* DTXProfilingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6C51F0E3D2400C7F411 /* DTXProfilingConfiguration.m */; };
+		396DAAE5231D01EA00FFBDDB /* DTXProfilingConfiguration+RemoteProfilingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA8CD11F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m */; };
+		396DAAE6231D024F00FFBDDB /* DTXSeparatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF8AD1220C540C00595274 /* DTXSeparatorView.m */; };
+		396DAAE7231D025900FFBDDB /* DTXTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */; };
+		396DAAE8231D026800FFBDDB /* DTXTimelineIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F01C51EE81DA200695236 /* DTXTimelineIndicatorView.m */; };
+		396DAAE9231D079500FFBDDB /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6C91F0E3D5200C7F411 /* AutoCoding.m */; };
+		396DAAEA231D088F00FFBDDB /* DTXScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A876B91EED61B800AE62F8 /* DTXScrollView.m */; };
+		396DAAEB231D089D00FFBDDB /* DTXPlotTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A8F41EE1E757000E2EE1 /* DTXPlotTableView.m */; };
+		396DAAEC231D08AC00FFBDDB /* DTXPlotTypeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905F4A81EF7F679003E08C1 /* DTXPlotTypeCellView.m */; };
+		396DAAED231D08B900FFBDDB /* DTXHighlightingAttributedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A6B5B1F4F0C4200768536 /* DTXHighlightingAttributedTextField.m */; };
+		396DAAEE231D08C600FFBDDB /* DTXSettingsPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3993BE86221C906800C1C196 /* DTXSettingsPopUpButton.m */; };
+		396DAAEF231D08D400FFBDDB /* DTXPlotHostingTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 398D6EA41EE0596500AA9C11 /* DTXPlotHostingTableCellView.m */; };
+		396DAAF0231D092600FFBDDB /* DTXHighlightingCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C6A9331EE3BCCD000E2EE1 /* DTXHighlightingCellView.m */; };
+		396DAAF2231D27A700FFBDDB /* DTXRecording+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */; };
+		396DAAF3231D27CF00FFBDDB /* DTXRecording+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782CD81FC590DA0034D70A /* DTXRecording+Additions.m */; };
+		396DAAF4231D27D200FFBDDB /* DTXSample+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782CD51FC590D90034D70A /* DTXSample+Additions.m */; };
+		396DAAF5231D27D400FFBDDB /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782CD41FC590D90034D70A /* NSManagedObject+Additions.m */; };
+		396DAAF6231D27D900FFBDDB /* DTXSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973D91EDC1C590064D4C8 /* DTXSample+UIExtensions.m */; };
+		396DAAF7231D27DC00FFBDDB /* DTXNetworkSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393973F21EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m */; };
+		396DAAF8231D27DF00FFBDDB /* DTXThreadInfo+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C51E0B208ED729007AA717 /* DTXThreadInfo+UIExtensions.m */; };
+		396DAAF9231D27E100FFBDDB /* DTXSignpostSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA56C020DFCE9400600BA7 /* DTXSignpostSample+UIExtensions.m */; };
+		396DAAFA231D27E500FFBDDB /* DTXPerformanceSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D87C21B42733005FCAEF /* DTXPerformanceSample+UIExtensions.m */; };
+		396DAAFB231D282600FFBDDB /* NSDictionary+FakeDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 391176EF21EF80AE00C92A9F /* NSDictionary+FakeDecoder.m */; };
+		396DAAFC231D289200FFBDDB /* NSFont+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F7A85C22AF0886003B4AC0 /* NSFont+UIAdditions.m */; };
+		396DAAFD231D28CA00FFBDDB /* LNInterpolation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394516B11EEF44090093E503 /* LNInterpolation.framework */; };
+		396DAAFE231D28CA00FFBDDB /* LNInterpolation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394516B11EEF44090093E503 /* LNInterpolation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		396DAB02231D28F100FFBDDB /* NSAppearance+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EA56D420E02E4B00600BA7 /* NSAppearance+UIAdditions.m */; };
+		396DAB03231D28FE00FFBDDB /* NSImage+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 395A43E92081A2FB00DDF995 /* NSImage+UIAdditions.m */; };
+		396DAB04231D290100FFBDDB /* NSView+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947158B20A2FB0E00A7068A /* NSView+UIAdditions.m */; };
+		396DAB05231D290300FFBDDB /* NSWindow+Snapshotting.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947158E20A32EDF00A7068A /* NSWindow+Snapshotting.m */; };
+		396DAB06231D290600FFBDDB /* DTXStackTraceFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */; };
+		396DAB09231D356C00FFBDDB /* Assets-Shared.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 396DAB08231D356C00FFBDDB /* Assets-Shared.xcassets */; };
+		396DAB0A231D356C00FFBDDB /* Assets-Shared.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 396DAB08231D356C00FFBDDB /* Assets-Shared.xcassets */; };
 		396E7DB520ED331F00F6F4DD /* DTXEventInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 396E7DB420ED331F00F6F4DD /* DTXEventInspectorDataProvider.m */; };
 		39725F7D21A086B5001D6BFD /* DTXDeviceSnapshotManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39725F7C21A086B5001D6BFD /* DTXDeviceSnapshotManager.m */; };
 		39725F8E21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39725F8D21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist */; };
@@ -302,6 +378,20 @@
 			remoteGlobalIDString = 39EE692B1DA4E1B100F19FA9;
 			remoteInfo = LNInterpolation;
 		};
+		396DAAB2231C505E00FFBDDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39EBDFB01ED36D45005D8AB1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 396DAAA6231C505E00FFBDDB;
+			remoteInfo = PreviewExtension;
+		};
+		396DAB00231D28E000FFBDDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 39EE692A1DA4E1B100F19FA9;
+			remoteInfo = LNInterpolation;
+		};
 		397A01781FA6355600ABCB87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 394516AC1EEF44090093E503 /* LNInterpolation.xcodeproj */;
@@ -332,6 +422,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				396DAAB4231C505E00FFBDDB /* PreviewExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,6 +436,17 @@
 				39487CBB1F435F380063E66D /* Scripts in Copy Shared Support Items */,
 			);
 			name = "Copy Shared Support Items";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		396DAAFF231D28CA00FFBDDB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				396DAAFE231D28CA00FFBDDB /* LNInterpolation.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		398D6E771EE03E9B00AA9C11 /* Embed Frameworks */ = {
@@ -591,6 +693,12 @@
 		396CCDAB210DBE4E00152C34 /* DTXEventStatusPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventStatusPrivate.h; sourceTree = "<group>"; };
 		396CCDAC210DC8F200152C34 /* DTXRNStackTraceParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNStackTraceParser.h; sourceTree = "<group>"; };
 		396CCDAD210DC8F200152C34 /* DTXRNStackTraceParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNStackTraceParser.m; sourceTree = "<group>"; };
+		396DAAA7231C505E00FFBDDB /* PreviewExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PreviewExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		396DAAAE231C505E00FFBDDB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreviewViewController.xib; sourceTree = "<group>"; };
+		396DAAB0231C505E00FFBDDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		396DAADC231C568300FFBDDB /* DTXInstrumentsUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXInstrumentsUtils.h; sourceTree = "<group>"; };
+		396DAADD231C568300FFBDDB /* DTXInstrumentsUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXInstrumentsUtils.m; sourceTree = "<group>"; };
+		396DAB08231D356C00FFBDDB /* Assets-Shared.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-Shared.xcassets"; sourceTree = "<group>"; };
 		396E7DB220ECCFCB00F6F4DD /* DTXSignpostProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostProtocol.h; sourceTree = "<group>"; };
 		396E7DB320ED331F00F6F4DD /* DTXEventInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEventInspectorDataProvider.h; sourceTree = "<group>"; };
 		396E7DB420ED331F00F6F4DD /* DTXEventInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXEventInspectorDataProvider.m; sourceTree = "<group>"; };
@@ -682,6 +790,7 @@
 		398D6EA81EE061FE00AA9C11 /* DTXPlotAreaContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXPlotAreaContentController.m; sourceTree = "<group>"; };
 		398D6EAA1EE0626400AA9C11 /* DTXSamplePlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXSamplePlotController.h; sourceTree = "<group>"; };
 		398D6EAB1EE0626400AA9C11 /* DTXSamplePlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXSamplePlotController.m; sourceTree = "<group>"; };
+		398EE111231D3A9800E547C6 /* PreviewExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PreviewExtension.entitlements; sourceTree = "<group>"; };
 		398FD7F92310399800B33B71 /* DTXCLIPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCLIPreferencesViewController.h; sourceTree = "<group>"; };
 		398FD7FA2310399800B33B71 /* DTXCLIPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCLIPreferencesViewController.m; sourceTree = "<group>"; };
 		398FD7FC23103C9700B33B71 /* DTXApplicationDelegate-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXApplicationDelegate-Private.h"; sourceTree = "<group>"; };
@@ -807,10 +916,6 @@
 		39E578E820DA66AD0034560C /* DTXIntervalSamplePlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXIntervalSamplePlotController.h; sourceTree = "<group>"; };
 		39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXIntervalSamplePlotController.m; sourceTree = "<group>"; };
 		39E6916B22AE599F000DA567 /* QuickLookThumbnailing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLookThumbnailing.framework; path = System/Library/Frameworks/QuickLookThumbnailing.framework; sourceTree = SDKROOT; };
-		39E6916F22AE59A0000DA567 /* ThumbnailProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailProvider.h; sourceTree = "<group>"; };
-		39E6917022AE59A0000DA567 /* ThumbnailProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThumbnailProvider.m; sourceTree = "<group>"; };
-		39E6917222AE59A0000DA567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		39E6917322AE59A0000DA567 /* Thumbnails.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Thumbnails.entitlements; sourceTree = "<group>"; };
 		39E70FD621B9620900272188 /* DTXEntitySampleContainerProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEntitySampleContainerProxy.h; sourceTree = "<group>"; };
 		39E70FD721B9620900272188 /* DTXEntitySampleContainerProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXEntitySampleContainerProxy.m; sourceTree = "<group>"; };
 		39E88CA321D9132100339954 /* DTXScatterPlotView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXScatterPlotView.h; sourceTree = "<group>"; };
@@ -876,6 +981,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		396DAAA4231C505E00FFBDDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				396DAAA8231C505E00FFBDDB /* Quartz.framework in Frameworks */,
+				396DAAFD231D28CA00FFBDDB /* LNInterpolation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		39EBDFB51ED36D45005D8AB1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1362,6 +1476,16 @@
 			name = Sparkle;
 			sourceTree = "<group>";
 		};
+		396DAAA9231C505E00FFBDDB /* PreviewExtension */ = {
+			isa = PBXGroup;
+			children = (
+				398EE111231D3A9800E547C6 /* PreviewExtension.entitlements */,
+				396DAAAD231C505E00FFBDDB /* PreviewViewController.xib */,
+				396DAAB0231C505E00FFBDDB /* Info.plist */,
+			);
+			path = PreviewExtension;
+			sourceTree = "<group>";
+		};
 		39725F8C21A089EE001D6BFD /* DeviceSnapshotManagement */ = {
 			isa = PBXGroup;
 			children = (
@@ -1489,6 +1613,8 @@
 				39E2636D21AE128800A21256 /* DTXTableEditingArrayController.m */,
 				39F7A85B22AF0886003B4AC0 /* NSFont+UIAdditions.h */,
 				39F7A85C22AF0886003B4AC0 /* NSFont+UIAdditions.m */,
+				396DAADC231C568300FFBDDB /* DTXInstrumentsUtils.h */,
+				396DAADD231C568300FFBDDB /* DTXInstrumentsUtils.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1706,22 +1832,11 @@
 			path = DataExporters;
 			sourceTree = "<group>";
 		};
-		39E6916E22AE599F000DA567 /* Thumbnails */ = {
-			isa = PBXGroup;
-			children = (
-				39E6916F22AE59A0000DA567 /* ThumbnailProvider.h */,
-				39E6917022AE59A0000DA567 /* ThumbnailProvider.m */,
-				39E6917222AE59A0000DA567 /* Info.plist */,
-				39E6917322AE59A0000DA567 /* Thumbnails.entitlements */,
-			);
-			path = Thumbnails;
-			sourceTree = "<group>";
-		};
 		39EBDFAF1ED36D45005D8AB1 = {
 			isa = PBXGroup;
 			children = (
 				39EBDFBA1ED36D45005D8AB1 /* DetoxInstruments */,
-				39E6916E22AE599F000DA567 /* Thumbnails */,
+				396DAAA9231C505E00FFBDDB /* PreviewExtension */,
 				39EBDFB91ED36D45005D8AB1 /* Products */,
 				397A01741FA6348200ABCB87 /* Frameworks */,
 			);
@@ -1733,6 +1848,7 @@
 			isa = PBXGroup;
 			children = (
 				39EBDFB81ED36D45005D8AB1 /* Detox Instruments.app */,
+				396DAAA7231C505E00FFBDDB /* PreviewExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1771,6 +1887,7 @@
 				394ED6FF225A37DB001875C3 /* ContributionsGH.json */,
 				394ED763225A6F52001875C3 /* Localizable.stringsdict */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
+				396DAB08231D356C00FFBDDB /* Assets-Shared.xcassets */,
 				39487CB81F435F090063E66D /* SharedSupport */,
 				39FD87D9211A62E1007FE6A5 /* CompatLayer */,
 				391958DF20A205FD00BD9C75 /* Debug */,
@@ -1807,6 +1924,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		396DAAA6231C505E00FFBDDB /* PreviewExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 396DAAB5231C505E00FFBDDB /* Build configuration list for PBXNativeTarget "PreviewExtension" */;
+			buildPhases = (
+				396DAAA3231C505E00FFBDDB /* Sources */,
+				396DAAA4231C505E00FFBDDB /* Frameworks */,
+				396DAAA5231C505E00FFBDDB /* Resources */,
+				396DAAFF231D28CA00FFBDDB /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				396DAB01231D28E000FFBDDB /* PBXTargetDependency */,
+			);
+			name = PreviewExtension;
+			productName = PreviewExtension;
+			productReference = 396DAAA7231C505E00FFBDDB /* PreviewExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		39EBDFB71ED36D45005D8AB1 /* DetoxInstruments */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 39EBDFCF1ED36D45005D8AB1 /* Build configuration list for PBXNativeTarget "DetoxInstruments" */;
@@ -1830,6 +1966,7 @@
 				397A01791FA6355600ABCB87 /* PBXTargetDependency */,
 				392D52C31FAA008000A28938 /* PBXTargetDependency */,
 				39D76EA42086B8470033BDE2 /* PBXTargetDependency */,
+				396DAAB3231C505E00FFBDDB /* PBXTargetDependency */,
 			);
 			name = DetoxInstruments;
 			productName = "Detox Instruments";
@@ -1845,6 +1982,10 @@
 				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
+					396DAAA6231C505E00FFBDDB = {
+						CreatedOnToolsVersion = 11.0;
+						ProvisioningStyle = Manual;
+					};
 					39EBDFB71ED36D45005D8AB1 = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Manual;
@@ -1890,6 +2031,7 @@
 			projectRoot = "";
 			targets = (
 				39EBDFB71ED36D45005D8AB1 /* DetoxInstruments */,
+				396DAAA6231C505E00FFBDDB /* PreviewExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -1926,6 +2068,15 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		396DAAA5231C505E00FFBDDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				396DAB0A231D356C00FFBDDB /* Assets-Shared.xcassets in Resources */,
+				396DAAAF231C505E00FFBDDB /* PreviewViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		39EBDFB61ED36D45005D8AB1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1934,6 +2085,7 @@
 				39725F9021A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets in Resources */,
 				39538D73209B40F3003AF7D3 /* About.storyboard in Resources */,
 				39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */,
+				396DAB09231D356C00FFBDDB /* Assets-Shared.xcassets in Resources */,
 				3967739320B594B200851154 /* Main.storyboard in Resources */,
 				394ED700225A37DB001875C3 /* ContributionsGH.json in Resources */,
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
@@ -2002,7 +2154,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nshortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n";
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nshortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/PreviewExtension/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/PreviewExtension/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/PreviewExtension/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/PreviewExtension/Info.plist\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n";
 			showEnvVarsInLog = 0;
 		};
 		39A829541F43780100A5FE3D /* Embed Profiler Frameworks */ = {
@@ -2042,6 +2194,81 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		396DAAA3231C505E00FFBDDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				396DAAE6231D024F00FFBDDB /* DTXSeparatorView.m in Sources */,
+				396DAABD231C509900FFBDDB /* DTXMappingModel8751To9554.xcmappingmodel in Sources */,
+				396DAAED231D08B900FFBDDB /* DTXHighlightingAttributedTextField.m in Sources */,
+				396DAAE5231D01EA00FFBDDB /* DTXProfilingConfiguration+RemoteProfilingSupport.m in Sources */,
+				396DAB05231D290300FFBDDB /* NSWindow+Snapshotting.m in Sources */,
+				396DAAF4231D27D200FFBDDB /* DTXSample+Additions.m in Sources */,
+				396DAAF5231D27D400FFBDDB /* NSManagedObject+Additions.m in Sources */,
+				396DAAC3231C50C900FFBDDB /* DTXPlotHostConstructor.m in Sources */,
+				396DAAD7231C511900FFBDDB /* DTXRangePlotView.m in Sources */,
+				396DAAE9231D079500FFBDDB /* AutoCoding.m in Sources */,
+				396DAAC2231C50B100FFBDDB /* DTXRecordingDocument.m in Sources */,
+				396DAAD0231C50C900FFBDDB /* DTXManagedPlotControllerGroup.m in Sources */,
+				396DAAC1231C50B100FFBDDB /* DTXDocument.m in Sources */,
+				396DAAD2231C50CE00FFBDDB /* DTXRNBridgeCountersPlotController.m in Sources */,
+				396DAAE1231CFFEA00FFBDDB /* NSFormatter+PlotFormatters.m in Sources */,
+				396DAACE231C50C900FFBDDB /* DTXCompactNetworkRequestsPlotController.m in Sources */,
+				396DAAB9231C508800FFBDDB /* DTXMappingModel9808To9954.xcmappingmodel in Sources */,
+				396DAAD3231C50CE00FFBDDB /* DTXRNBridgeDataTransferPlotController.m in Sources */,
+				396DAABF231C509900FFBDDB /* DTXMappingModel7742To8246.xcmappingmodel in Sources */,
+				396DAAD4231C510000FFBDDB /* DTXPlotAreaContentController.m in Sources */,
+				396DAAE3231D01D700FFBDDB /* DTXPlotRowView.m in Sources */,
+				396DAAC6231C50C900FFBDDB /* DTXPerformanceSamplePlotController.m in Sources */,
+				396DAAEB231D089D00FFBDDB /* DTXPlotTableView.m in Sources */,
+				396DAADF231C568300FFBDDB /* DTXInstrumentsUtils.m in Sources */,
+				396DAAD8231C511900FFBDDB /* DTXScatterPlotView.m in Sources */,
+				396DAAFB231D282600FFBDDB /* NSDictionary+FakeDecoder.m in Sources */,
+				396DAADB231C558C00FFBDDB /* PreferenceKeys.m in Sources */,
+				396DAAF2231D27A700FFBDDB /* DTXRecording+UIExtensions.m in Sources */,
+				396DAACF231C50C900FFBDDB /* DTXEventsPlotController.m in Sources */,
+				396DAABA231C508B00FFBDDB /* DTXMappingModel9747To9808.xcmappingmodel in Sources */,
+				396DAAFC231D289200FFBDDB /* NSFont+UIAdditions.m in Sources */,
+				396DAAE4231D01E600FFBDDB /* DTXProfilingConfiguration.m in Sources */,
+				396DAAEA231D088F00FFBDDB /* DTXScrollView.m in Sources */,
+				396DAAF9231D27E100FFBDDB /* DTXSignpostSample+UIExtensions.m in Sources */,
+				396DAB04231D290100FFBDDB /* NSView+UIAdditions.m in Sources */,
+				396DAAC5231C50C900FFBDDB /* DTXSamplePlotController.m in Sources */,
+				396DAABB231C509500FFBDDB /* DTXSignpostSample9620To9747MigrationPolicy.m in Sources */,
+				396DAACD231C50C900FFBDDB /* DTXIntervalSamplePlotController.m in Sources */,
+				396DAAF7231D27DC00FFBDDB /* DTXNetworkSample+UIExtensions.m in Sources */,
+				396DAAD6231C511900FFBDDB /* DTXPlotView.m in Sources */,
+				396DAAC7231C50C900FFBDDB /* DTXCPUUsagePlotController.m in Sources */,
+				396DAAEE231D08C600FFBDDB /* DTXSettingsPopUpButton.m in Sources */,
+				396DAACC231C50C900FFBDDB /* DTXIntervalSectionSamplePlotController.m in Sources */,
+				396DAAF8231D27DF00FFBDDB /* DTXThreadInfo+UIExtensions.m in Sources */,
+				396DAAE0231CFFD700FFBDDB /* NSColor+UIAdditions.m in Sources */,
+				396DAAD1231C50CE00FFBDDB /* DTXRNCPUUsagePlotController.m in Sources */,
+				396DAAC0231C509900FFBDDB /* DTXMappingModelOldTo7742.xcmappingmodel in Sources */,
+				396DAB06231D290600FFBDDB /* DTXStackTraceFrame.m in Sources */,
+				396DAAE8231D026800FFBDDB /* DTXTimelineIndicatorView.m in Sources */,
+				396DAB02231D28F100FFBDDB /* NSAppearance+UIAdditions.m in Sources */,
+				396DAABC231C509900FFBDDB /* DTXMappingModel9554To9620.xcmappingmodel in Sources */,
+				396DAACB231C50C900FFBDDB /* DTXDiskReadWritesPlotController.m in Sources */,
+				396DAAF6231D27D900FFBDDB /* DTXSample+UIExtensions.m in Sources */,
+				396DAAE7231D025900FFBDDB /* DTXTableRowView.m in Sources */,
+				396DAAC8231C50C900FFBDDB /* DTXThreadCPUUsagePlotController.m in Sources */,
+				396DAAD9231C511900FFBDDB /* DTXPlotStackView.m in Sources */,
+				396DAAF3231D27CF00FFBDDB /* DTXRecording+Additions.m in Sources */,
+				396DAB03231D28FE00FFBDDB /* NSImage+UIAdditions.m in Sources */,
+				396DAAC9231C50C900FFBDDB /* DTXMemoryUsagePlotController.m in Sources */,
+				396DAAB8231C508400FFBDDB /* DTXInstruments.xcdatamodeld in Sources */,
+				396DAACA231C50C900FFBDDB /* DTXFPSPlotController.m in Sources */,
+				396DAAEC231D08AC00FFBDDB /* DTXPlotTypeCellView.m in Sources */,
+				396DAAD5231C511900FFBDDB /* DTXPlotRange.m in Sources */,
+				396DAABE231C509900FFBDDB /* DTXMappingModel8246To8751.xcmappingmodel in Sources */,
+				396DAAF0231D092600FFBDDB /* DTXHighlightingCellView.m in Sources */,
+				396DAAEF231D08D400FFBDDB /* DTXPlotHostingTableCellView.m in Sources */,
+				396DAAE2231D00FD00FFBDDB /* DTXLayerView.m in Sources */,
+				396DAAFA231D27E500FFBDDB /* DTXPerformanceSample+UIExtensions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		39EBDFB41ED36D45005D8AB1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2104,6 +2331,7 @@
 				39E2642921B0410800A21256 /* DTXDataExporter.m in Sources */,
 				39008F2A1EF2AB740013B584 /* DTXSegmentedView.m in Sources */,
 				394ED759225A57F0001875C3 /* DTXContributorsViewController.m in Sources */,
+				396DAADE231C568300FFBDDB /* DTXInstrumentsUtils.m in Sources */,
 				396828EB1F12206D0012CAFB /* DTXAutomaticallyDeselectingTableView.m in Sources */,
 				39F6F6C61F0E3D2400C7F411 /* DTXProfilingConfiguration.m in Sources */,
 				39E70FD821B9620900272188 /* DTXEntitySampleContainerProxy.m in Sources */,
@@ -2288,6 +2516,16 @@
 			name = DTXSourceMaps;
 			targetProxy = 392D52C21FAA008000A28938 /* PBXContainerItemProxy */;
 		};
+		396DAAB3231C505E00FFBDDB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 396DAAA6231C505E00FFBDDB /* PreviewExtension */;
+			targetProxy = 396DAAB2231C505E00FFBDDB /* PBXContainerItemProxy */;
+		};
+		396DAB01231D28E000FFBDDB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LNInterpolation;
+			targetProxy = 396DAB00231D28E000FFBDDB /* PBXContainerItemProxy */;
+		};
 		397A01791FA6355600ABCB87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = LNInterpolation;
@@ -2309,9 +2547,72 @@
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
+		396DAAAD231C505E00FFBDDB /* PreviewViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				396DAAAE231C505E00FFBDDB /* Base */,
+			);
+			name = PreviewViewController.xib;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		396DAAB6231C505E00FFBDDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = PreviewExtension/PreviewExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = S3GLW74Y8N;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"PROFILER_PREVIEW_EXTENSION=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				INFOPLIST_FILE = PreviewExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments.PreviewExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		396DAAB7231C505E00FFBDDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = PreviewExtension/PreviewExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = S3GLW74Y8N;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "PROFILER_PREVIEW_EXTENSION=1";
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				INFOPLIST_FILE = PreviewExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments.PreviewExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		39EBDFCD1ED36D45005D8AB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2335,7 +2636,6 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -2362,10 +2662,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBC_WARNINGS = NO;
+				IBSC_WARNINGS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = debugging;
+				STRIP_SWIFT_SYMBOLS = NO;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -2393,7 +2699,6 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -2413,9 +2718,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBC_WARNINGS = NO;
+				IBSC_WARNINGS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = debugging;
+				STRIP_SWIFT_SYMBOLS = NO;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -2454,14 +2765,10 @@
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				OTHER_CFLAGS = "-ferror-limit=0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
 				PRODUCT_NAME = "Detox Instruments";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				STRIP_INSTALLED_PRODUCT = NO;
-				STRIP_SWIFT_SYMBOLS = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 			};
@@ -2500,14 +2807,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				OTHER_CFLAGS = "-ferror-limit=0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
 				PRODUCT_NAME = "Detox Instruments";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				STRIP_INSTALLED_PRODUCT = NO;
-				STRIP_SWIFT_SYMBOLS = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 			};
@@ -2516,6 +2819,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		396DAAB5231C505E00FFBDDB /* Build configuration list for PBXNativeTarget "PreviewExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				396DAAB6231C505E00FFBDDB /* Debug */,
+				396DAAB7231C505E00FFBDDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		39EBDFB31ED36D45005D8AB1 /* Build configuration list for PBXProject "DetoxInstruments" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -98,3 +98,17 @@ DTXInstrumentsApplicationProxy* DTXApp;
 }
 
 @end
+
+@implementation DTXInstrumentsUtils
+
++ (NSString *)applicationVersion
+{
+	return DTXApp.applicationVersion;
+}
+
++ (NSArray<NSBundle*>*)bundlesForObjectModel
+{
+	return DTXApp.bundlesForObjectModel;
+}
+
+@end

@@ -7,14 +7,19 @@
 //
 
 #import "DTXRNBridgeCountersPlotController.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXRNBridgeCallsDataProvider.h"
+#endif
+#import "NSFormatter+PlotFormatters.h"
 
 @implementation DTXRNBridgeCountersPlotController
 
+#if ! PROFILER_PREVIEW_EXTENSION
 + (Class)UIDataProviderClass
 {
 	return [DTXRNBridgeCallsDataProvider class];
 }
+#endif
 
 + (Class)classForPerformanceSamples
 {

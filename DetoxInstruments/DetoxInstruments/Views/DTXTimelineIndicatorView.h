@@ -12,5 +12,6 @@
 
 @property (nonatomic) BOOL displaysIndicator;
 @property (nonatomic) CGFloat indicatorOffset;
+@property (nonatomic, weak) NSTableView* tableView;
 
 @end

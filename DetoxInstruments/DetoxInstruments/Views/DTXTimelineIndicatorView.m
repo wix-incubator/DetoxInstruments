@@ -120,7 +120,7 @@
 {
 	CGPoint pointInView = [self convertPoint:[event locationInWindow] fromView:nil];
 	
-	self.displaysIndicator = pointInView.x >= 210;
+	self.displaysIndicator = pointInView.x >= _tableView.tableColumns.firstObject.width;
 	self.indicatorOffset = pointInView.x;
 }
 

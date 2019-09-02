@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "DTXLayerView.h"
+#if __has_include(<CorePlot/CorePlot.h>)
 #import "DTXGraphHostingView.h"
+#endif
 #import "DTXPlotStackView.h"
 
 CGFloat DTXCurrentTouchBarHeight(void);
@@ -32,11 +34,14 @@ CGFloat DTXCurrentTouchBarHeight(void);
 - (void)reloadPlotViews;
 - (void)setupPlotViews;
 
+@property (nonatomic, readonly) CGFloat requiredHeight;
+
+#if __has_include(<CorePlot/CorePlot.h>)
 #pragma mark Core Plot Support
 
 @property (nonatomic, strong, readonly) __kindof DTXGraphHostingView* hostingView;
 @property (nonatomic, strong, readonly) CPTGraph* graph;
-@property (nonatomic, readonly) CGFloat requiredHeight;
 - (void)setupPlotsForGraph;
+#endif
 
 @end

@@ -440,11 +440,11 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	[informativeText appendString:NSLocalizedString(@"The profiler version of this app is incompatible with the current version of Detox Instruments.", @"")];
 	[informativeText appendFormat:@"\n\n"];
 	[informativeText appendFormat:@"%@: %@\n", NSLocalizedString(@"Profiler framework version", @""), target.deviceInfo[@"profilerVersion"]];
-	[informativeText appendFormat:@"%@: %@", NSLocalizedString(@"Detox Instruments version", @""), DTXApp.applicationVersion];
+	[informativeText appendFormat:@"%@: %@", NSLocalizedString(@"Detox Instruments version", @""), DTXInstrumentsUtils.applicationVersion];
 	
 	alert.informativeText = informativeText;
 	
-	if([DTXApp.applicationVersion compare:target.deviceInfo[@"profilerVersion"] options:NSNumericSearch] == NSOrderedAscending)
+	if([DTXInstrumentsUtils.applicationVersion compare:target.deviceInfo[@"profilerVersion"] options:NSNumericSearch] == NSOrderedAscending)
 	{
 		//Only show the button in case Instruments is older than profiler.
 		[alert addButtonWithTitle:NSLocalizedString(@"Check for Updates", nil)];

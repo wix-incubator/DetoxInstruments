@@ -289,7 +289,7 @@
 		profilerVersion = @"0";
 	}
 	
-	NSString* instrumentsVersion = DTXApp.applicationVersion;
+	NSString* instrumentsVersion = DTXInstrumentsUtils.applicationVersion;
 	BOOL higher = [instrumentsVersion compare:profilerVersion options:NSNumericSearch] != NSOrderedAscending;
 	
 	return higher && ([@"1.9" compare:profilerVersion options:NSNumericSearch] == NSOrderedAscending);

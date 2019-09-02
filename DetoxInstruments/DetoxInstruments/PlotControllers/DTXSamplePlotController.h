@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "DTXPlotHostConstructor.h"
-#import <CorePlot/CorePlot.h>
 #import "DTXRecordingDocument.h"
 #import "DTXPlotController.h"
 #import "DTXPlotView.h"

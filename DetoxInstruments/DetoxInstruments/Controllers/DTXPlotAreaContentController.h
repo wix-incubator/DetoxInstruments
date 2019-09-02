@@ -26,7 +26,9 @@
 - (void)zoomOut;
 - (void)fitAllData;
 
+#if ! PROFILER_PREVIEW_EXTENSION
 - (void)presentPlotControllerPickerFromView:(NSView*)view;
+#endif
 
 @property (nonatomic) BOOL nowModeEnabled;
 

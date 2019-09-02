@@ -9,10 +9,12 @@
 #import "DTXEventsPlotController.h"
 #import "NSColor+UIAdditions.h"
 #import "NSFormatter+PlotFormatters.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXSignpostSummaryDataProvider.h"
 #import "DTXSignpostFlatDataProvider.h"
-#import "DTXSignpostSample+UIExtensions.h"
 #import "DTXDetailController.h"
+#endif
+#import "DTXSignpostSample+UIExtensions.h"
 #import "DTXIntervalSamplePlotController-Private.h"
 
 static NSDictionary* _tagToKeyPathMapping;
@@ -38,6 +40,7 @@ static NSDictionary* _tagToKeyPathMapping;
 	return self;
 }
 
+#if ! PROFILER_PREVIEW_EXTENSION
 - (NSArray<DTXDetailController *> *)dataProviderControllers
 {
 	NSMutableArray* rv = [NSMutableArray new];
@@ -62,6 +65,7 @@ static NSDictionary* _tagToKeyPathMapping;
 {
 	return [DTXSignpostSummaryDataProvider class];
 }
+#endif
 
 + (Class)classForIntervalSamples
 {

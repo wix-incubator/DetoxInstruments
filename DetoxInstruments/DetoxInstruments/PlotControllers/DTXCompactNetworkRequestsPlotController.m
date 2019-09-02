@@ -8,15 +8,21 @@
 
 #import "DTXCompactNetworkRequestsPlotController.h"
 #import "DTXNetworkSample+CoreDataClass.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXNetworkDataProvider.h"
+#endif
 #import "DTXRecording+UIExtensions.h"
+#import "NSFormatter+PlotFormatters.h"
+#import "NSColor+UIAdditions.h"
 
 @implementation DTXCompactNetworkRequestsPlotController
 
+#if ! PROFILER_PREVIEW_EXTENSION
 + (Class)UIDataProviderClass
 {
 	return [DTXNetworkDataProvider class];
 }
+#endif
 
 + (Class)classForIntervalSamples
 {

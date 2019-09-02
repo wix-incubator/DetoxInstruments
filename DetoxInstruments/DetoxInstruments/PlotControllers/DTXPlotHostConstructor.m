@@ -104,6 +104,7 @@ CGFloat DTXCurrentTouchBarHeight(void)
 			
 			[self reloadPlotViews];
 		}
+#if __has_include(<CorePlot/CorePlot.h>)
 		else
 		{
 			_hostingView = [[DTXGraphHostingView alloc] initWithFrame:view.bounds];
@@ -138,6 +139,7 @@ CGFloat DTXCurrentTouchBarHeight(void)
 													  [_wrapperView.bottomAnchor constraintEqualToAnchor:_hostingView.bottomAnchor],
 													  ]];
 		}
+#endif
 	}
 	
 	[view addSubview:_wrapperView];
@@ -174,7 +176,9 @@ CGFloat DTXCurrentTouchBarHeight(void)
 
 - (void)dealloc
 {
+#if __has_include(<CorePlot/CorePlot.h>)
 	[_hostingView removeFromSuperview];
+#endif
 	[_wrapperView removeFromSuperview];
 }
 

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Thumbnails</string>
+	<string>PreviewExtension</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,9 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.11</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>10704</string>
+	<key>DTXBuildDate</key>
+	<date>2019-09-02T13:35:29Z</date>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSExtension</key>
@@ -29,15 +31,15 @@
 			<key>QLSupportedContentTypes</key>
 			<array>
 				<string>com.wix.dtxinst.recording</string>
-				<string>com.wix.dtxinst.request</string>
+				<string>com.wix.dtxinst.recording.legacy</string>
 			</array>
-			<key>QLThumbnailMinimumDimension</key>
-			<integer>0</integer>
+			<key>QLSupportsSearchableItems</key>
+			<false/>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.quicklook.thumbnail</string>
+		<string>com.apple.quicklook.preview</string>
 		<key>NSExtensionPrincipalClass</key>
-		<string>ThumbnailProvider</string>
+		<string>DTXPlotAreaContentController</string>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2019 Wix. All rights reserved.</string>

@@ -71,6 +71,7 @@
 //		_hostingOutlineView.usesAutomaticRowHeights = YES;
 		
 		_timelineView = [DTXTimelineIndicatorView new];
+		_timelineView.tableView = _hostingOutlineView;
 		_timelineView.translatesAutoresizingMaskIntoConstraints = NO;
 
 		[_hostingOutlineView.enclosingScrollView.superview addSubview:_timelineView positioned:NSWindowAbove relativeTo:_hostingOutlineView.superview.superview];
@@ -219,10 +220,12 @@
 
 - (void)_selectFirstPlotControllerIfNeeded
 {
+#if ! PROFILER_PREVIEW_EXTENSION
 	if(_hostingOutlineView.selectedRowIndexes.count == 0)
 	{
 		[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	}
+#endif
 }
 
 - (void)_insertPlotControllerToVisibleControllers:(id<DTXPlotController>)plotController animated:(BOOL)animated
@@ -516,7 +519,9 @@
 		return;
 	}
 	
+#if ! PROFILER_PREVIEW_EXTENSION
 	[_hostingOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_hostingOutlineView rowForItem:pc]] byExtendingSelection:NO];
+#endif
 	[_hostingOutlineView.window makeFirstResponder:_hostingOutlineView];
 }
 
@@ -623,7 +628,10 @@
 
 - (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item
 {
-	return [DTXPlotRowView new];
+	auto rv = [DTXPlotRowView new];
+	rv.tableView = outlineView;
+	
+	return rv;
 }
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
@@ -637,10 +645,15 @@
 		cell.textField.stringValue = controller.displayName;
 		cell.textField.toolTip = controller.toolTip ?: controller.displayName;
 		cell.textField.allowsDefaultTighteningForTruncation = YES;
+#if ! PROFILER_PREVIEW_EXTENSION
 		cell.imageView.image = controller.displayIcon;
+#else
+		cell.imageView.image = controller.smallDisplayIcon;
+#endif
 		cell.secondaryImageView.image = controller.secondaryIcon;
 		cell.secondaryImageView.hidden = controller.secondaryIcon == nil;
 		cell.toolTip = controller.toolTip ?: controller.displayName;
+#if ! PROFILER_PREVIEW_EXTENSION
 		if([controller respondsToSelector:@selector(supportsQuickSettings)] && controller.supportsQuickSettings == YES)
 		{
 			cell.settingsButton.hidden = NO;
@@ -650,6 +663,9 @@
 		{
 			cell.settingsButton.hidden = YES;
 		}
+#else
+		cell.settingsButton.hidden = YES;
+#endif
 		
 		if(controller.legendTitles.count > 1)
 		{
@@ -681,7 +697,11 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
+#if ! PROFILER_PREVIEW_EXTENSION
 	return [item canReceiveFocus];
+#else
+	return NO;
+#endif
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification

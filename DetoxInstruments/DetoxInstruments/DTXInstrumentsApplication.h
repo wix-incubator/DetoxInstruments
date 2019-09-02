@@ -10,9 +10,4 @@
 
 @interface DTXInstrumentsApplication : NSApplication
 
-- (NSString*)applicationVersion;
-- (NSArray<NSBundle*>*)bundlesForObjectModel;
-//🙈🙉🙊
-- (BOOL)isUnsupportedVersion;
-
 @end

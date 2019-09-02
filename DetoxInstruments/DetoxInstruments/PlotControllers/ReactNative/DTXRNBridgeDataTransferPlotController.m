@@ -7,13 +7,17 @@
 //
 
 #import "DTXRNBridgeDataTransferPlotController.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXRNBridgeDataDataProvider.h"
 #import "DTXRNBridgeDataDataDataProvider.h"
 #import "DTXDetailController.h"
+#endif
 #import "DTXRecording+Additions.h"
+#import "NSFormatter+PlotFormatters.h"
 
 @implementation DTXRNBridgeDataTransferPlotController
 
+#if ! PROFILER_PREVIEW_EXTENSION
 - (NSArray<DTXDetailController *> *)dataProviderControllers
 {
 	DTXDetailController* detailController1 = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
@@ -38,6 +42,7 @@
 {
 	return [DTXRNBridgeDataDataProvider class];
 }
+#endif
 
 + (Class)classForPerformanceSamples
 {

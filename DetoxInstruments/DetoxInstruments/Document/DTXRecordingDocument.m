@@ -9,7 +9,7 @@
 #import "DTXRecordingDocument.h"
 #import "DTXRecording+UIExtensions.h"
 #import "NSURL+UIAdditions.h"
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 #import "DTXRecordingTargetPickerViewController.h"
 #import "DTXRemoteProfilingClient.h"
 #import "NSFormatter+PlotFormatters.h"
@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, DTXRecordingDocumentMigrationState) {
 	DTXRecordingDocumentMigrationStateStarted,
 };
 
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 {
 	NSTimeInterval timeLimit = [NSUserDefaults.standardUserDefaults integerForKey:@"DTXSelectedProfilingConfiguration_timeLimit"];
@@ -46,13 +46,13 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 #endif
 
 @interface DTXRecordingDocument ()
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 <DTXRecordingTargetPickerViewControllerDelegate, DTXRemoteProfilingClientDelegate, DTXRemoteTargetDelegate>
 #endif
 {
 	NSPersistentContainer* _container;
 	NSMutableArray<DTXRecording*>* _recordings;
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 	__weak DTXRecordingTargetPickerViewController* _recordingTargetPicker;
 	DTXRemoteProfilingClient* _remoteProfilingClient;
 	dispatch_block_t _pendingCancelBlock;
@@ -71,7 +71,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 
 @synthesize recordings=_recordings;
 
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
 	if(item.action == @selector(saveDocument:))
@@ -139,7 +139,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	return self;
 }
 
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 - (void)_prepareForLiveRecording:(DTXRecording*)recording
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_recordingDefactoEndTimestampDidChange:) name:DTXRecordingDidInvalidateDefactoEndTimestamp object:recording];
@@ -228,7 +228,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	
 	progressHandler(DTXRecordingDocumentMigrationStateStarted, nil);
 	
-	NSArray* bundles = DTXApp.bundlesForObjectModel;
+	NSArray* bundles = DTXInstrumentsUtils.bundlesForObjectModel;
 	
 	NSManagedObjectModel *sourceModel = [NSManagedObjectModel mergedModelFromBundles:bundles forStoreMetadata:sourceMetadata];
 	if(sourceModel == nil)
@@ -326,7 +326,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	static NSManagedObjectModel* model;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		model = [NSManagedObjectModel mergedModelFromBundles:DTXApp.bundlesForObjectModel];
+		model = [NSManagedObjectModel mergedModelFromBundles:DTXInstrumentsUtils.bundlesForObjectModel];
 	});
 	
 	if(storeURL != nil && [self _requiresMigrationForURL:storeURL toModel:model] == YES)
@@ -465,7 +465,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 			_recordings.lastObject.endTimestamp = _recordings.lastObject.defactoEndTimestamp;
 		}
 		
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 		[self _prepareForLiveRecording:_recordings.lastObject];
 #endif
 	}];
@@ -501,7 +501,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		return NO;
 	}
 	
-	NSString* currentVersion = DTXApp.applicationVersion;
+	NSString* currentVersion = DTXInstrumentsUtils.applicationVersion;
 	
 	NSURL* versionFlagURL = [url URLByAppendingPathComponent:@"lastOpenedVersion.txt"];
 	
@@ -522,13 +522,16 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 											   userInfo:@{
 														  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"A newer version of Detox Instruments is required to open the document safely.", @""),
 														  NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:NSLocalizedString(@"The document was last opened with Detox Instruments version %@.\n\nIf you wish to open the document anyway, select “Duplicate”. Some data might not be correctly loaded or the entire operation may fail altogether.", @""), lastOpenedVersion],
+#if ! PROFILER_PREVIEW_EXTENSION
 														  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Duplicate", nil), NSLocalizedString(@"Cancel", nil)],
 														  NSRecoveryAttempterErrorKey: self,
 														  NSURLErrorKey: url,
 														  @"DTXCheckForUpdatesIndex": @0,
 														  @"DTXDuplicateIndex": @1,
+#endif
 														  }];
 				
+#if ! PROFILER_PREVIEW_EXTENSION
 				if(NSApp != nil)
 				{
 					[NSApp presentError:err];
@@ -536,10 +539,11 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 				}
 				else
 				{
+#endif
 					*outError = err;
-					
+#if ! PROFILER_PREVIEW_EXTENSION
 				}
-				
+#endif
 				return NO;
 			}
 		}
@@ -560,7 +564,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	[[NSNotificationCenter defaultCenter] postNotificationName:DTXRecordingDocumentDefactoEndTimestampDidChangeNotification object:self];
 }
 
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 - (void)readyForRecordingIfNeeded
 {
 	if(self.documentState == DTXRecordingDocumentStateNew)
@@ -707,7 +711,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
 {
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 	if(self.documentState == DTXRecordingDocumentStateLiveRecording)
 	{
 		[self stopLiveRecording];
@@ -730,7 +734,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	[super close];
 }
 
-#if ! CLI
+#if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 - (void)addTag
 {
 	[_remoteProfilingClient.target addTagWithName:[NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle]];

@@ -416,7 +416,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	
 	if(menuItem.action == @selector(_CLIIntegrationAction:) && menuItem.alternate == NO)
 	{
-		if(DTXApp.isUnsupportedVersion)
+		if(DTXInstrumentsUtils.isUnsupportedVersion)
 		{
 			menuItem.alternate = NO;
 			menuItem.hidden = YES;
@@ -460,7 +460,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	
 	if(menuItem.action == @selector(_CLIIntegrationAction:) && menuItem.alternate == YES)
 	{
-		if(DTXApp.isUnsupportedVersion)
+		if(DTXInstrumentsUtils.isUnsupportedVersion)
 		{
 			menuItem.alternate = NO;
 			menuItem.hidden = YES;
@@ -605,7 +605,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	return NO;
 #endif
 	
-	return DTXApp.isUnsupportedVersion == NO;
+	return DTXInstrumentsUtils.isUnsupportedVersion == NO;
 }
 
 #pragma mark Empty Menu Selectors

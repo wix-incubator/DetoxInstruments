@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#if __has_include(<CorePlot/CPTMutablePlotRange.h>)
 #import <CorePlot/CPTMutablePlotRange.h>
+#endif
 
 @interface DTXPlotRange : NSObject <NSCopying, NSMutableCopying>
 
@@ -26,9 +28,11 @@
 
 @end
 
+#if __has_include(<CorePlot/CPTMutablePlotRange.h>)
 @interface DTXPlotRange (CPTPlotRangeSupport)
 
 + (instancetype)plotRangeWithCPTPlotRange:(CPTPlotRange*)cptPlotRange;
 - (CPTMutablePlotRange*)cptPlotRange;
 
 @end
+#endif

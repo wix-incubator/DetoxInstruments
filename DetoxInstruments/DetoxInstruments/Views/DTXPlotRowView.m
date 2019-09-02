@@ -15,7 +15,7 @@
 	[self.selectionColor setFill];
 	
 	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
-	CGContextFillRect(ctx, CGRectMake(0, dirtyRect.origin.y, 210.5, dirtyRect.origin.y + dirtyRect.size.height));
+	CGContextFillRect(ctx, CGRectMake(0, dirtyRect.origin.y, _tableView.tableColumns.firstObject.width + 0.5, dirtyRect.origin.y + dirtyRect.size.height));
 }
 
 - (BOOL)wantsUpdateLayer
@@ -31,8 +31,8 @@
 	
 	[NSColor.gridColor set];
 	CGContextSetLineWidth(ctx, 1);
-	CGContextMoveToPoint(ctx, 210.5, dirtyRect.origin.y);
-	CGContextAddLineToPoint(ctx, 210.5, dirtyRect.origin.y + dirtyRect.size.height);
+	CGContextMoveToPoint(ctx, _tableView.tableColumns.firstObject.width + 0.5, dirtyRect.origin.y);
+	CGContextAddLineToPoint(ctx, _tableView.tableColumns.firstObject.width + 0.5, dirtyRect.origin.y + dirtyRect.size.height);
 	CGContextStrokePath(ctx);
 }
 

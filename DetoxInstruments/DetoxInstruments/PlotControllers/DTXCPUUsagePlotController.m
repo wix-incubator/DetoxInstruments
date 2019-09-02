@@ -8,7 +8,9 @@
 
 #import "DTXCPUUsagePlotController.h"
 #import "NSFormatter+PlotFormatters.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXCPUDataProvider.h"
+#endif
 #import "DTXScatterPlotView.h"
 #import "NSColor+UIAdditions.h"
 
@@ -34,10 +36,12 @@
 	}
 }
 
+#if ! PROFILER_PREVIEW_EXTENSION
 + (Class)UIDataProviderClass
 {
 	return [DTXCPUDataProvider class];
 }
+#endif
 
 - (NSString *)displayName
 {

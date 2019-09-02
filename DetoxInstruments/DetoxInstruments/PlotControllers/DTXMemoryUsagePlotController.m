@@ -8,14 +8,19 @@
 
 #import "DTXMemoryUsagePlotController.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "NSColor+UIAdditions.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXMemoryDataProvider.h"
+#endif
 
 @implementation DTXMemoryUsagePlotController
 
+#if ! PROFILER_PREVIEW_EXTENSION
 + (Class)UIDataProviderClass
 {
 	return [DTXMemoryDataProvider class];
 }
+#endif
 
 - (NSString *)displayName
 {

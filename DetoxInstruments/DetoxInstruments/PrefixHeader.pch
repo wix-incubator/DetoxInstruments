@@ -11,7 +11,9 @@
 
 #import "SharedPrefixHeader.h"
 #import "DTXInstrumentsModelUIExtensions.h"
+#if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXInstrumentsApplication.h"
+#endif
 #if __has_include("NSString+Trimming.h")
 #import "NSString+Trimming.h"
 #endif
@@ -19,6 +21,8 @@
 #import "PreferenceKeys.h"
 #endif
 
-extern DTXInstrumentsApplication* DTXApp;
+#if ! CLI
+#import "DTXInstrumentsUtils.h"
+#endif
 
 #endif /* PrefixHeader_pch */

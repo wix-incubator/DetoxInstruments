@@ -49,7 +49,7 @@
 {
 	_installButton.title = NSLocalizedString(@"Install", @"");
 	
-	if(DTXApp.isUnsupportedVersion)
+	if(DTXInstrumentsUtils.isUnsupportedVersion)
 	{
 		_installButton.enabled = NO;
 		_installedAtLabel.hidden = YES;

@@ -24,6 +24,10 @@
 	[super awakeFromNib];
 	
 	[_settingsButton sendActionOn:NSEventMaskLeftMouseDown];
+	self.textField.cell.usesSingleLineMode = NO;
+	self.textField.cell.wraps = YES;
+	self.textField.cell.lineBreakMode = NSLineBreakByWordWrapping;
+	self.textField.allowsDefaultTighteningForTruncation = YES;
 }
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
