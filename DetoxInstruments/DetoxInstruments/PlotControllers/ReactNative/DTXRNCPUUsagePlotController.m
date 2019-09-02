@@ -28,7 +28,11 @@
 
 - (NSString *)displayName
 {
+#if ! PROFILER_PREVIEW_EXTENSION
 	return NSLocalizedString(@"JavaScript Thread", @"");
+#else
+	return NSLocalizedString(@"JS Thread", @"");
+#endif
 }
 
 - (NSString *)toolTip
