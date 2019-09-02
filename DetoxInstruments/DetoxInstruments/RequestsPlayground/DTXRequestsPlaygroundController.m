@@ -349,7 +349,6 @@ static NSString* const __codeSnippetKey = @"DTXRequestsPlaygroundController.code
 	_dataTask = [_urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			_progressIndicator.doubleValue -= 1;
-			[_progressIndicator startAnimation:nil];
 			[self _updateProgressIndicator];
 			
 			if(error != nil && error.code == NSURLErrorCancelled)

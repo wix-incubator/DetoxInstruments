@@ -336,6 +336,7 @@
 		39F6F6CB1F0E3D5200C7F411 /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6C91F0E3D5200C7F411 /* AutoCoding.m */; };
 		39F6F6D11F0E407900C7F411 /* DTXRecording+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */; };
 		39F7A85D22AF0886003B4AC0 /* NSFont+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F7A85C22AF0886003B4AC0 /* NSFont+UIAdditions.m */; };
+		39FA0B76231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA0B75231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m */; };
 		39FA40A81F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA40A71F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m */; };
 		39FA40B81F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA40B71F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m */; };
 		39FF161C22394B5100C37B88 /* DTXRequestDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FF161B22394B5100C37B88 /* DTXRequestDocument.m */; };
@@ -970,6 +971,8 @@
 		39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXRecording+UIExtensions.m"; sourceTree = "<group>"; };
 		39F7A85B22AF0886003B4AC0 /* NSFont+UIAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFont+UIAdditions.h"; sourceTree = "<group>"; };
 		39F7A85C22AF0886003B4AC0 /* NSFont+UIAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFont+UIAdditions.m"; sourceTree = "<group>"; };
+		39FA0B74231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSObject+CatalinaNSFlippedViewCrashFix.h"; path = "DetoxInstruments/NSObject+CatalinaNSFlippedViewCrashFix.h"; sourceTree = SOURCE_ROOT; };
+		39FA0B75231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSObject+CatalinaNSFlippedViewCrashFix.m"; path = "DetoxInstruments/NSObject+CatalinaNSFlippedViewCrashFix.m"; sourceTree = SOURCE_ROOT; };
 		39FA40A61F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeCountersPlotController.h; sourceTree = "<group>"; };
 		39FA40A71F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNBridgeCountersPlotController.m; sourceTree = "<group>"; };
 		39FA40B61F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeDataTransferPlotController.h; sourceTree = "<group>"; };
@@ -1917,6 +1920,8 @@
 		39FD87D9211A62E1007FE6A5 /* CompatLayer */ = {
 			isa = PBXGroup;
 			children = (
+				39FA0B74231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.h */,
+				39FA0B75231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m */,
 			);
 			path = CompatLayer;
 			sourceTree = "<group>";
@@ -2438,6 +2443,7 @@
 				39EA56ED20E02E4B00600BA7 /* NSAppearance+UIAdditions.m in Sources */,
 				3993BE87221C906800C1C196 /* DTXSettingsPopUpButton.m in Sources */,
 				396421CB2243CDA80053B3FF /* DTXDraggableImageView.m in Sources */,
+				39FA0B76231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m in Sources */,
 				39EC15B31F20A243007EBE22 /* DTXRecordingDocumentController.m in Sources */,
 				393973DA1EDC1C590064D4C8 /* DTXSample+UIExtensions.m in Sources */,
 				3922AE131F2BA72C0034B1FE /* DTXSocketConnection.m in Sources */,

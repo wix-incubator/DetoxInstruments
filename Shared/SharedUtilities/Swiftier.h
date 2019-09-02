@@ -53,6 +53,8 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 #define CF(x) ((__bridge CFTypeRef)x)
 #define PTR(x) ((__bridge void*)x)
 
+#define unavailable(...) @available(__VA_ARGS__)) { } else if(YES
+
 #ifdef __cplusplus
 #import <Foundation/Foundation.h>
 #else

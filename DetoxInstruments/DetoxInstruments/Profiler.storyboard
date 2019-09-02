@@ -204,7 +204,7 @@
                                             <tableColumns>
                                                 <tableColumn identifier="DTXTitleColumnt" editable="NO" width="210" maxWidth="10000000" id="kUz-rk-XSq">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Title">
-                                                        <font key="font" metaFont="toolTip"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -300,7 +300,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="DTXGraphColumn" editable="NO" width="1044" maxWidth="10000000" id="f1Y-qT-VmW">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Graph">
-                                                        <font key="font" metaFont="toolTip"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -372,7 +372,7 @@
                                     <tableColumns>
                                         <tableColumn width="357" minWidth="40" maxWidth="1000" id="3gH-n8-hwE">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                <font key="font" metaFont="toolTip"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -596,7 +596,7 @@
                                     <tableColumns>
                                         <tableColumn width="447" minWidth="40" maxWidth="10000000000" id="rlo-56-GFp">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                <font key="font" metaFont="toolTip"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -676,7 +676,7 @@
                                     <tableColumns>
                                         <tableColumn identifier="DTXSpacingColumn" editable="NO" width="8" minWidth="16" maxWidth="8" id="eFp-9H-DG5">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right">
-                                                <font key="font" metaFont="toolTip"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -694,7 +694,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="DTXTimestampColumn" editable="NO" width="80" minWidth="80" maxWidth="100000" id="Ucy-DC-qWV">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                <font key="font" metaFont="toolTip"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -810,7 +810,7 @@
                                                         <tableColumns>
                                                             <tableColumn width="319" minWidth="40" maxWidth="1000000" id="hwJ-aq-vYX">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                    <font key="font" metaFont="toolTip"/>
+                                                                    <font key="font" metaFont="message" size="11"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
@@ -932,7 +932,7 @@
                                                                                             <tableColumns>
                                                                                                 <tableColumn width="316" minWidth="40" maxWidth="1000000000" id="ox8-FL-xLT">
                                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                                                        <font key="font" metaFont="toolTip"/>
+                                                                                                        <font key="font" metaFont="message" size="11"/>
                                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                                     </tableHeaderCell>
@@ -1047,7 +1047,7 @@
                                                                                             <tableColumns>
                                                                                                 <tableColumn width="311" minWidth="40" maxWidth="1000000000" id="bDR-fs-BIM">
                                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                                                        <font key="font" metaFont="toolTip"/>
+                                                                                                        <font key="font" metaFont="message" size="11"/>
                                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                                     </tableHeaderCell>

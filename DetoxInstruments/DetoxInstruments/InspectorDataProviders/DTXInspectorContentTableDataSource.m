@@ -238,8 +238,11 @@
 		{
 			DTXTextAttachment* ta = [DTXTextAttachment new];
 			ta.image = content.image;
-			[ta.image setValue:@YES forKey:@"flipped"];
-			
+			if(unavailable(macOS 10.15, *))
+			{
+				[ta.image setValue:@YES forKey:@"flipped"];
+			}
+
 			[mas appendAttributedString:[NSAttributedString attributedStringWithAttachment:ta]];
 		}
 		else

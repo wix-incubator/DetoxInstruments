@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.68" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="qHr-hd-QCA">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14865.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="qHr-hd-QCA">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14490.12"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.68"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14550"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14865.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
@@ -44,13 +45,13 @@
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="64" rowSizeStyle="automatic" viewBased="YES" id="63v-V9-UqH" customClass="DTXInspectorTableView">
                                             <rect key="frame" x="0.0" y="0.0" width="648" height="415"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
                                                 <tableColumn width="648" minWidth="40" maxWidth="1000000" id="25w-Of-Tjb">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -66,7 +67,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htS-4m-uLK">
-                                                                    <rect key="frame" x="-2" y="47" width="652" height="17"/>
+                                                                    <rect key="frame" x="-2" y="48" width="652" height="16"/>
                                                                     <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Title" id="nfi-W4-Edm">
                                                                         <font key="font" metaFont="systemBold"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -74,7 +75,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hC-Pm-T1H">
-                                                                    <rect key="frame" x="-2" y="22" width="652" height="18"/>
+                                                                    <rect key="frame" x="-2" y="27" width="652" height="14"/>
                                                                     <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Content" id="BLA-H2-ZW5">
                                                                         <font key="font" size="12" name="Menlo-Regular"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -82,7 +83,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z7h-D1-CfA">
-                                                                    <rect key="frame" x="324" y="0.0" width="0.0" height="14"/>
+                                                                    <rect key="frame" x="324" y="0.0" width="0.0" height="19"/>
                                                                 </stackView>
                                                             </subviews>
                                                             <constraints>
@@ -147,7 +148,7 @@
                                 <rect key="frame" x="18" y="432" width="73" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="GET" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="mY7-HG-1Vb" id="CdI-H2-a6h">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
+                                    <font key="font" metaFont="system"/>
                                     <menu key="menu" id="bSa-WP-Z9g">
                                         <items>
                                             <menuItem title="GET" state="on" id="mY7-HG-1Vb"/>
@@ -160,7 +161,7 @@
                                 </connections>
                             </popUpButton>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="POE-QJ-dFl">
-                                <rect key="frame" x="96" y="435" width="532" height="22"/>
+                                <rect key="frame" x="96" y="435" width="532" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="URL" drawsBackground="YES" id="PZ8-SF-Tsr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -315,7 +316,7 @@
                                 <rect key="frame" x="491" y="23" width="16" height="16"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="3ea-iE-azH"/>
                             </imageView>
-                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" maxValue="100" doubleValue="2" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="nOX-If-kSa">
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" maxValue="100000" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="nOX-If-kSa">
                                 <rect key="frame" x="491" y="23" width="16" height="16"/>
                             </progressIndicator>
                             <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AMa-DY-eVR">
@@ -389,7 +390,7 @@
                         <touchBarItem id="41X-Me-zhj">
                             <viewController key="viewController" id="drr-t2-7nD">
                                 <segmentedControl key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0cY-sc-BjA">
-                                    <rect key="frame" x="0.0" y="-1.5" width="304" height="3"/>
+                                    <rect key="frame" x="0.0" y="-31.5" width="447" height="33"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="5id-ba-NUq">
                                         <font key="font" metaFont="system" size="15"/>
@@ -412,7 +413,7 @@
                         <touchBarItem id="g3j-yS-NKL">
                             <viewController key="viewController" id="Hfp-1a-Xp1">
                                 <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mOz-5r-OpF">
-                                    <rect key="frame" x="0.0" y="-11" width="120" height="41"/>
+                                    <rect key="frame" x="0.0" y="-11" width="138" height="41"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="push" title="Send Request" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gcw-OM-5jE">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -547,17 +548,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="line" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jce-jg-GwJ">
-                                <rect key="frame" x="0.0" y="42" width="722" height="373"/>
+                                <rect key="frame" x="0.0" y="41" width="722" height="374"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="EsI-a3-g12">
-                                    <rect key="frame" x="1" y="1" width="720" height="371"/>
+                                    <rect key="frame" x="1" y="1" width="720" height="372"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="d2U-PR-osf">
-                                            <rect key="frame" x="0.0" y="0.0" width="720" height="371"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="720" height="372"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="720" height="371"/>
+                                            <size key="minSize" width="720" height="372"/>
                                             <size key="maxSize" width="796" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <connections>
@@ -575,12 +576,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="pIx-sA-tVM">
-                                    <rect key="frame" x="705" y="1" width="16" height="371"/>
+                                    <rect key="frame" x="705" y="1" width="16" height="372"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="7RL-KE-vn8" customClass="LNPropertyListEditor">
-                                <rect key="frame" x="0.0" y="42" width="722" height="373"/>
+                                <rect key="frame" x="0.0" y="41" width="722" height="374"/>
                             </customView>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-M5-NPh">
                                 <rect key="frame" x="0.0" y="3" width="333" height="16"/>
@@ -640,7 +641,7 @@
                                 </customSpacing>
                             </stackView>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dXc-Zp-Ulb">
-                                <rect key="frame" x="492" y="0.0" width="230" height="22"/>
+                                <rect key="frame" x="492" y="0.0" width="230" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="230" id="3KD-dc-tMa"/>
                                 </constraints>
@@ -711,7 +712,7 @@
                                 </customSpacing>
                             </stackView>
                             <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QPZ-jq-guB">
-                                <rect key="frame" x="319" y="206" width="85" height="24"/>
+                                <rect key="frame" x="319" y="206" width="85" height="23"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="No Body" id="sMO-mj-nm0">
                                     <font key="font" metaFont="systemMedium" size="20"/>
                                     <color key="textColor" name="placeholderTextColor" catalog="System" colorSpace="catalog"/>
