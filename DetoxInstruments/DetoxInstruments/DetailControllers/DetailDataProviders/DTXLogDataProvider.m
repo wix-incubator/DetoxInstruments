@@ -13,6 +13,7 @@
 #import "DTXLogLineInspectorDataProvider.h"
 #import "NSView+UIAdditions.h"
 #import "DTXFilteredDataProvider.h"
+#import "NSFont+UIAdditions.h"
 
 @interface DTXLogDataProvider() <NSTableViewDataSource, NSTableViewDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -41,13 +42,7 @@
 	
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		font = [NSFont fontWithName:@"SFMono-Regular" size:11];
-		
-		if(font == nil)
-		{
-			//There is no SFMono in the system, use Menlo instead.
-			font = [NSFont fontWithName:@"Menlo" size:11];
-		}
+		font = [NSFont dtx_monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightRegular];
 	});
 	
 	return font;

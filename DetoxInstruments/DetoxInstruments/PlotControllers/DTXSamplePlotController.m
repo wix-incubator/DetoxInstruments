@@ -721,7 +721,11 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 
 - (NSFont *)titleFont
 {
+#if ! PROFILER_PREVIEW_EXTENSION
 	return [NSFont systemFontOfSize:NSFont.systemFontSize];
+#else
+	return [NSFont systemFontOfSize:NSFont.smallSystemFontSize];
+#endif
 }
 
 - (CGFloat)requiredHeight

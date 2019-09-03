@@ -322,6 +322,9 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	}
 	
 	NSPersistentStoreDescription* description = [NSPersistentStoreDescription persistentStoreDescriptionWithURL:storeURL];
+#if PROFILER_PREVIEW_EXTENSION
+	[description setOption:@YES forKey:NSReadOnlyPersistentStoreOption];
+#endif
 	description.type = url ? NSSQLiteStoreType : NSInMemoryStoreType;
 	static NSManagedObjectModel* model;
 	static dispatch_once_t onceToken;

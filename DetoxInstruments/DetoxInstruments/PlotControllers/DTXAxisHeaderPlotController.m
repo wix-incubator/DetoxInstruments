@@ -87,8 +87,8 @@
 		
 		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
 		labelStyle.color = [CPTColor colorWithCGColor:NSColor.tertiaryLabelColor.CGColor];
-		labelStyle.fontName = @"Helvetica";//[NSFont dtx_monospacedSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
-		labelStyle.fontSize = 11;
+		labelStyle.fontName = [NSFont dtx_monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightRegular].fontName;
+		labelStyle.fontSize = NSFont.smallSystemFontSize;
 		
 		// Axes
 		

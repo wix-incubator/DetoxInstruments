@@ -24,7 +24,7 @@
 	[super awakeFromNib];
 	
 	[_settingsButton sendActionOn:NSEventMaskLeftMouseDown];
-#if ! PROFILER_PREVIEW_EXTENSION
+#if PROFILER_PREVIEW_EXTENSION
 	self.textField.cell.lineBreakMode = NSLineBreakByWordWrapping;
 	self.textField.allowsDefaultTighteningForTruncation = YES;
 #endif
@@ -38,11 +38,5 @@
 	[self.settingsButton.cell setBackgroundStyle:backgroundStyle];
 }
 
-//- (void)setFrameSize:(NSSize)newSize
-//{
-//	newSize.height = NSHeight(self.superview.frame) - 1;
-//	
-//	[super setFrameSize:newSize];
-//}
 
 @end

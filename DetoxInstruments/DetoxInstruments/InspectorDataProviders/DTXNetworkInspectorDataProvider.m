@@ -36,6 +36,18 @@
 - (BOOL)_hasText
 {
 	DTXNetworkSample* networkSample = self.sample;
+	
+	static NSRegularExpression* regex;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		regex = [[NSRegularExpression alloc] initWithPattern:@"javascript|json|html" options:NSRegularExpressionCaseInsensitive error:NULL];
+	});
+	
+	if([regex matchesInString:networkSample.responseMIMEType options:0 range:NSMakeRange(0, networkSample.responseMIMEType.length)].count > 0)
+	{
+		return YES;
+	}
+	
 	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL);
 	
 	BOOL rv = UTI != NULL ? UTTypeConformsTo(UTI, kUTTypeText) : NO;
@@ -136,7 +148,6 @@
 		
 		[contentArray addObject:response];
 		
-		BOOL hasDataContent = NO;
 		NSImage* image;
 		NSView* customView;
 		if(self._hasImage && networkSample.responseData.data)
@@ -145,22 +156,6 @@
 		}
 		else if(self._hasText && networkSample.responseData.data)
 		{
-			NSScrollView* rv = [NSScrollView new];
-			[NSLayoutConstraint activateConstraints:@[
-				[rv.heightAnchor constraintEqualToConstant:200],
-			]];
-			rv.hasVerticalScroller = YES;
-			rv.borderType = NSBezelBorder;
-			
-			NSTextView* tv = [NSTextView new];
-			tv.font = [NSFont dtx_monospacedSystemFontOfSize:NSFont.systemFontSize weight:NSFontWeightRegular];
-			tv.autoresizingMask = NSViewWidthSizable;
-			tv.verticallyResizable = YES;
-			tv.textContainer.widthTracksTextView = YES;
-			tv.layoutManager.limitsLayoutForSuspiciousContents = NO;
-			tv.usesFindBar = YES;
-			tv.editable = NO;
-			
 			NSHTTPURLResponse* response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:networkSample.url] statusCode:networkSample.responseStatusCode HTTPVersion:@"2.0" headerFields:networkSample.responseHeaders];
 			
 			NSString* string;
@@ -175,9 +170,28 @@
 				[NSString stringEncodingForData:networkSample.responseData.data encodingOptions:@{NSStringEncodingDetectionSuggestedEncodingsKey: @[@(NSUTF8StringEncoding)]} convertedString:&string usedLossyConversion:NULL];
 			}
 			
-			tv.string = string;
-			rv.documentView = tv;
-			customView = rv;
+			if(string != nil)
+			{
+				NSScrollView* rv = [NSScrollView new];
+				[NSLayoutConstraint activateConstraints:@[
+					[rv.heightAnchor constraintEqualToConstant:200],
+				]];
+				rv.hasVerticalScroller = YES;
+				rv.borderType = NSBezelBorder;
+
+				NSTextView* tv = [NSTextView new];
+				tv.font = [NSFont dtx_monospacedSystemFontOfSize:NSFont.systemFontSize weight:NSFontWeightRegular];
+				tv.autoresizingMask = NSViewWidthSizable;
+				tv.verticallyResizable = YES;
+				tv.textContainer.widthTracksTextView = YES;
+				tv.layoutManager.limitsLayoutForSuspiciousContents = NO;
+				tv.usesFindBar = YES;
+				tv.editable = NO;
+
+				tv.string = string;
+				rv.documentView = tv;
+				customView = rv;
+			}
 		}
 		
 		if(image == nil && customView == nil)

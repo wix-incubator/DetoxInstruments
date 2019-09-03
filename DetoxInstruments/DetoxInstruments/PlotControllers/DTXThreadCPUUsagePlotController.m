@@ -81,7 +81,7 @@
 
 - (NSFont *)titleFont
 {
-	return [NSFont systemFontOfSize:10];
+	return [NSFont systemFontOfSize:NSFont.labelFontSize];
 }
 
 - (CGFloat)requiredHeight
