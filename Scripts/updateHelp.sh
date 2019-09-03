@@ -9,7 +9,7 @@ do
 done ;
 popd
 
-HTMLDIR=DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj
+HTMLDIR=DetoxInstruments/Resources/DetoxInstruments.help/Contents/Resources/English.lproj
 
 rm -fr "${HTMLDIR}"/Documentation
 mkdir -p "${HTMLDIR}"/Documentation
@@ -27,8 +27,8 @@ do
 done ;
 popd > /dev/null
 
-cp DetoxInstruments/DetoxInstruments/Assets.xcassets/AppIcon.appiconset/Icon-512@2x.png "${HTMLDIR}"/Documentation/Resources/icon_512x512@2x.png
-cp DetoxInstruments/DetoxInstruments/Assets.xcassets/AppIcon.appiconset/Icon-512@2x.png "${HTMLDIR}"/../shrd/icon.png
+cp DetoxInstruments/DetoxInstruments/Resources/Assets.xcassets/AppIcon.appiconset/Icon-512@2x.png "${HTMLDIR}"/Documentation/Resources/icon_512x512@2x.png
+cp DetoxInstruments/DetoxInstruments/Resources/Assets.xcassets/AppIcon.appiconset/Icon-512@2x.png "${HTMLDIR}"/../shrd/icon.png
 
 function render_markdown {
   SOURCE_FILE="$1"
@@ -97,5 +97,5 @@ for MD_FILE in Documentation/*.md; do
 done
 
 echo -e "\033[1;34mRebuilding Apple Help index\033[0m"
-hiutil -C --anchors -g -vvv -f DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex DetoxInstruments/DetoxInstruments.help -v
-hiutil -F -A -vvv -f DetoxInstruments/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex
+hiutil -C --anchors -g -vvv -f DetoxInstruments/Resources/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex DetoxInstruments/Resources/DetoxInstruments.help -v
+hiutil -F -A -vvv -f DetoxInstruments/Resources/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex

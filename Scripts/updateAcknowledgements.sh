@@ -37,7 +37,7 @@ while read -r line; do
   printf "\n\`\`\`\n\n" >> Documentation/Acknowledgements.md
 done <<< "$SUBMODULES"
 
-TARGET_FILE=DetoxInstruments/DetoxInstruments/Acknowledgements.html
+TARGET_FILE=DetoxInstruments/DetoxInstruments/Resources/Acknowledgements.html
 
 echo '<!DOCTYPE html>' > "${TARGET_FILE}"
 echo '<html><head><meta name="AppleTitle" content="Detox Instruments Help" /><meta name="copyright" content="Copyright © 2018" /><meta charset="UTF-8">' >> "${TARGET_FILE}"

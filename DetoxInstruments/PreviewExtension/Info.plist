@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ATSApplicationFontsPath</key>
+	<string>.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -19,9 +21,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.11</string>
 	<key>CFBundleVersion</key>
-	<string>10714</string>
+	<string>10717</string>
 	<key>DTXBuildDate</key>
-	<date>2019-09-03T10:05:09Z</date>
+	<date>2019-09-03T11:23:19Z</date>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSExtension</key>

@@ -11,6 +11,7 @@
 #import "DTXInstrumentsModel.h"
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXRecording+UIExtensions.h"
+#import "NSFont+UIAdditions.h"
 
 @interface DTXAxisHeaderPlotController () <CPTPlotSpaceDelegate>
 
@@ -86,7 +87,7 @@
 		
 		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
 		labelStyle.color = [CPTColor colorWithCGColor:NSColor.tertiaryLabelColor.CGColor];
-		labelStyle.fontName = [NSFont monospacedDigitSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
+		labelStyle.fontName = @"Helvetica";//[NSFont dtx_monospacedSystemFontOfSize:11 weight:NSFontWeightRegular].fontName;
 		labelStyle.fontSize = 11;
 		
 		// Axes

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-# GIT_FILE=./DetoxInstruments/DetoxInstruments/ContributionsGit.json
-GH_FILE=./DetoxInstruments/DetoxInstruments/ContributionsGH.json
+# GIT_FILE=./DetoxInstruments/DetoxInstruments/Resources/ContributionsGit.json
+GH_FILE=./DetoxInstruments/DetoxInstruments/Resources/ContributionsGH.json
 
 # git log --pretty=format:'{%n  "commit": "%H",%n  "abbreviated_commit": "%h",%n  "tree": "%T",%n  "abbreviated_tree": "%t",%n  "parent": "%P",%n  "abbreviated_parent": "%p",%n  "refs": "%D",%n  "encoding": "%e",%n  "sanitized_subject_line": "%f",%n  "commit_notes": "%N",%n  "verification_flag": "%G?",%n  "signer": "%GS",%n  "signer_key": "%GK",%n  "author": {%n    "name": "%aN",%n    "email": "%aE",%n    "date": "%aD"%n  },%n  "commiter": {%n    "name": "%cN",%n    "email": "%cE",%n    "date": "%cD"%n  }%n},' | sed "$ s/,$//" | sed ':a;N;$!ba;s/\r\n\([^{]\)/\\n\1/g'| awk 'BEGIN { print("[") } { print($0) } END { print("]") }' | jq -r "[.[].author] | group_by(.name) | sort_by(-length) | map({ \"name\":.[0].name, \"total_contributions\":length, \"emails\":(group_by(.email) | sort_by(-length) | map({\"key\":.[0].email, \"value\":length }) | from_entries) })" > "${GIT_FILE}"
 

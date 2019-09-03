@@ -219,6 +219,30 @@
 		3978A59221D09C7600B739E2 /* DTXRangePlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978A59121D09C7600B739E2 /* DTXRangePlotView.m */; };
 		3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3978FFE21EEAD06C002BDEFB /* DTXGraphHostingView.m */; };
 		397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */; };
+		397A1316231E839000DA81A4 /* SF-Mono-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130A231E838E00DA81A4 /* SF-Mono-MediumItalic.otf */; };
+		397A1317231E839000DA81A4 /* SF-Mono-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130A231E838E00DA81A4 /* SF-Mono-MediumItalic.otf */; };
+		397A1318231E839000DA81A4 /* SF-Mono-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130B231E838E00DA81A4 /* SF-Mono-Semibold.otf */; };
+		397A1319231E839000DA81A4 /* SF-Mono-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130B231E838E00DA81A4 /* SF-Mono-Semibold.otf */; };
+		397A131A231E839000DA81A4 /* SF-Mono-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130C231E838E00DA81A4 /* SF-Mono-Light.otf */; };
+		397A131B231E839000DA81A4 /* SF-Mono-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130C231E838E00DA81A4 /* SF-Mono-Light.otf */; };
+		397A131C231E839000DA81A4 /* SF-Mono-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130D231E838E00DA81A4 /* SF-Mono-Regular.otf */; };
+		397A131D231E839000DA81A4 /* SF-Mono-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130D231E838E00DA81A4 /* SF-Mono-Regular.otf */; };
+		397A131E231E839000DA81A4 /* SF-Mono-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130E231E838E00DA81A4 /* SF-Mono-HeavyItalic.otf */; };
+		397A131F231E839000DA81A4 /* SF-Mono-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130E231E838E00DA81A4 /* SF-Mono-HeavyItalic.otf */; };
+		397A1320231E839000DA81A4 /* SF-Mono-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130F231E838F00DA81A4 /* SF-Mono-BoldItalic.otf */; };
+		397A1321231E839000DA81A4 /* SF-Mono-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A130F231E838F00DA81A4 /* SF-Mono-BoldItalic.otf */; };
+		397A1322231E839000DA81A4 /* SF-Mono-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1310231E838F00DA81A4 /* SF-Mono-Bold.otf */; };
+		397A1323231E839000DA81A4 /* SF-Mono-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1310231E838F00DA81A4 /* SF-Mono-Bold.otf */; };
+		397A1324231E839000DA81A4 /* SF-Mono-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1311231E838F00DA81A4 /* SF-Mono-SemiboldItalic.otf */; };
+		397A1325231E839000DA81A4 /* SF-Mono-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1311231E838F00DA81A4 /* SF-Mono-SemiboldItalic.otf */; };
+		397A1326231E839000DA81A4 /* SF-Mono-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1312231E838F00DA81A4 /* SF-Mono-RegularItalic.otf */; };
+		397A1327231E839000DA81A4 /* SF-Mono-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1312231E838F00DA81A4 /* SF-Mono-RegularItalic.otf */; };
+		397A1328231E839000DA81A4 /* SF-Mono-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1313231E838F00DA81A4 /* SF-Mono-Heavy.otf */; };
+		397A1329231E839000DA81A4 /* SF-Mono-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1313231E838F00DA81A4 /* SF-Mono-Heavy.otf */; };
+		397A132A231E839000DA81A4 /* SF-Mono-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1314231E838F00DA81A4 /* SF-Mono-Medium.otf */; };
+		397A132B231E839000DA81A4 /* SF-Mono-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1314231E838F00DA81A4 /* SF-Mono-Medium.otf */; };
+		397A132C231E839000DA81A4 /* SF-Mono-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1315231E839000DA81A4 /* SF-Mono-LightItalic.otf */; };
+		397A132D231E839000DA81A4 /* SF-Mono-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 397A1315231E839000DA81A4 /* SF-Mono-LightItalic.otf */; };
 		397EB6E42234F81000D60513 /* DTXRPResponseBodyEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 397EB6E32234F81000D60513 /* DTXRPResponseBodyEditor.m */; };
 		397FE8CB1EEDC8DB002200B7 /* DTXTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */; };
 		397FE8DB1EEE7ED8002200B7 /* DTXCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8DA1EEE7ED8002200B7 /* DTXCPUDataProvider.m */; };
@@ -732,13 +756,25 @@
 		397A015E1FA6346900ABCB87 /* DTXSourceMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXSourceMaps.xcodeproj; path = ../../../Shared/DTXSourceMaps/DTXSourceMaps.xcodeproj; sourceTree = "<group>"; };
 		397A017A1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXRNJSCSourceMapsSupport.h; path = ../../../Profiler/DTXProfiler/ReactNativeProfiling/DTXRNJSCSourceMapsSupport.h; sourceTree = "<group>"; };
 		397A017B1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXRNJSCSourceMapsSupport.m; path = ../../../Profiler/DTXProfiler/ReactNativeProfiling/DTXRNJSCSourceMapsSupport.m; sourceTree = "<group>"; };
+		397A130A231E838E00DA81A4 /* SF-Mono-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-MediumItalic.otf"; sourceTree = "<group>"; };
+		397A130B231E838E00DA81A4 /* SF-Mono-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Semibold.otf"; sourceTree = "<group>"; };
+		397A130C231E838E00DA81A4 /* SF-Mono-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Light.otf"; sourceTree = "<group>"; };
+		397A130D231E838E00DA81A4 /* SF-Mono-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Regular.otf"; sourceTree = "<group>"; };
+		397A130E231E838E00DA81A4 /* SF-Mono-HeavyItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-HeavyItalic.otf"; sourceTree = "<group>"; };
+		397A130F231E838F00DA81A4 /* SF-Mono-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-BoldItalic.otf"; sourceTree = "<group>"; };
+		397A1310231E838F00DA81A4 /* SF-Mono-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Bold.otf"; sourceTree = "<group>"; };
+		397A1311231E838F00DA81A4 /* SF-Mono-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-SemiboldItalic.otf"; sourceTree = "<group>"; };
+		397A1312231E838F00DA81A4 /* SF-Mono-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-RegularItalic.otf"; sourceTree = "<group>"; };
+		397A1313231E838F00DA81A4 /* SF-Mono-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Heavy.otf"; sourceTree = "<group>"; };
+		397A1314231E838F00DA81A4 /* SF-Mono-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Medium.otf"; sourceTree = "<group>"; };
+		397A1315231E839000DA81A4 /* SF-Mono-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-LightItalic.otf"; sourceTree = "<group>"; };
 		397EB6E22234F81000D60513 /* DTXRPResponseBodyEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRPResponseBodyEditor.h; sourceTree = "<group>"; };
 		397EB6E32234F81000D60513 /* DTXRPResponseBodyEditor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRPResponseBodyEditor.m; sourceTree = "<group>"; };
 		397FE8C91EEDC8DB002200B7 /* DTXTableRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXTableRowView.h; sourceTree = "<group>"; };
 		397FE8CA1EEDC8DB002200B7 /* DTXTableRowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXTableRowView.m; sourceTree = "<group>"; };
 		397FE8D91EEE7ED8002200B7 /* DTXCPUDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCPUDataProvider.h; sourceTree = "<group>"; };
 		397FE8DA1EEE7ED8002200B7 /* DTXCPUDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCPUDataProvider.m; sourceTree = "<group>"; };
-		3980C0C72086C75000789E3B /* DetoxInstruments.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DetoxInstruments.help; sourceTree = SOURCE_ROOT; };
+		3980C0C72086C75000789E3B /* DetoxInstruments.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DetoxInstruments.help; path = DetoxInstruments/Resources/DetoxInstruments.help; sourceTree = SOURCE_ROOT; };
 		398183DC20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXViewHierarchySnapshotter.h; path = ../../../Profiler/DTXProfiler/ViewHierarchy/DTXViewHierarchySnapshotter.h; sourceTree = "<group>"; };
 		398183DD20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXViewHierarchySnapshotter.m; path = ../../../Profiler/DTXProfiler/ViewHierarchy/DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
 		3982AF2821B843970023E19C /* DTXSignpostFlatDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostFlatDataProvider.h; sourceTree = "<group>"; };
@@ -937,7 +973,7 @@
 		39EBDFC41ED36D45005D8AB1 /* DTXRecordingDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocument.h; sourceTree = "<group>"; };
 		39EBDFC51ED36D45005D8AB1 /* DTXRecordingDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingDocument.m; sourceTree = "<group>"; };
 		39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		39EBDFCC1ED36D45005D8AB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39EBDFCC1ED36D45005D8AB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		39EC15B11F20A243007EBE22 /* DTXRecordingDocumentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocumentController.h; sourceTree = "<group>"; };
 		39EC15B21F20A243007EBE22 /* DTXRecordingDocumentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingDocumentController.m; sourceTree = "<group>"; };
 		39ED0C5A21C13F3C0026E306 /* DTXColorTryoutsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DTXColorTryoutsWindow.xib; sourceTree = "<group>"; };
@@ -972,8 +1008,8 @@
 		39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXRecording+UIExtensions.m"; sourceTree = "<group>"; };
 		39F7A85B22AF0886003B4AC0 /* NSFont+UIAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFont+UIAdditions.h"; sourceTree = "<group>"; };
 		39F7A85C22AF0886003B4AC0 /* NSFont+UIAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFont+UIAdditions.m"; sourceTree = "<group>"; };
-		39FA0B74231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSObject+CatalinaNSFlippedViewCrashFix.h"; path = "DetoxInstruments/NSObject+CatalinaNSFlippedViewCrashFix.h"; sourceTree = SOURCE_ROOT; };
-		39FA0B75231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSObject+CatalinaNSFlippedViewCrashFix.m"; path = "DetoxInstruments/NSObject+CatalinaNSFlippedViewCrashFix.m"; sourceTree = SOURCE_ROOT; };
+		39FA0B74231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+CatalinaNSFlippedViewCrashFix.h"; sourceTree = "<group>"; };
+		39FA0B75231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CatalinaNSFlippedViewCrashFix.m"; sourceTree = "<group>"; };
 		39FA0B78231DAA5E0058D978 /* DTXActionCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXActionCellView.h; sourceTree = "<group>"; };
 		39FA0B79231DAA5E0058D978 /* DTXActionCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXActionCellView.m; sourceTree = "<group>"; };
 		39FA40A61F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNBridgeCountersPlotController.h; sourceTree = "<group>"; };
@@ -1542,6 +1578,41 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		397A1306231E834100DA81A4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3972E67820694E6800F099DE /* Acknowledgements.html */,
+				396DAB08231D356C00FFBDDB /* Assets-Shared.xcassets */,
+				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
+				394ED6FF225A37DB001875C3 /* ContributionsGH.json */,
+				3980C0C72086C75000789E3B /* DetoxInstruments.help */,
+				397A1309231E836F00DA81A4 /* Fonts */,
+				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
+				394ED763225A6F52001875C3 /* Localizable.stringsdict */,
+				39487CB81F435F090063E66D /* SharedSupport */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		397A1309231E836F00DA81A4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				397A1310231E838F00DA81A4 /* SF-Mono-Bold.otf */,
+				397A130F231E838F00DA81A4 /* SF-Mono-BoldItalic.otf */,
+				397A1313231E838F00DA81A4 /* SF-Mono-Heavy.otf */,
+				397A130E231E838E00DA81A4 /* SF-Mono-HeavyItalic.otf */,
+				397A130C231E838E00DA81A4 /* SF-Mono-Light.otf */,
+				397A1315231E839000DA81A4 /* SF-Mono-LightItalic.otf */,
+				397A1314231E838F00DA81A4 /* SF-Mono-Medium.otf */,
+				397A130A231E838E00DA81A4 /* SF-Mono-MediumItalic.otf */,
+				397A130D231E838E00DA81A4 /* SF-Mono-Regular.otf */,
+				397A1312231E838F00DA81A4 /* SF-Mono-RegularItalic.otf */,
+				397A130B231E838E00DA81A4 /* SF-Mono-Semibold.otf */,
+				397A1311231E838F00DA81A4 /* SF-Mono-SemiboldItalic.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		398183DB20B2FE75009B8FEA /* ViewHierarchy */ = {
 			isa = PBXGroup;
 			children = (
@@ -1889,14 +1960,7 @@
 				3904E1531EFABE7600FF2707 /* DTXInstrumentsApplication.h */,
 				3904E1541EFABE7600FF2707 /* DTXInstrumentsApplication.m */,
 				393E66DA1FC594B30092EE89 /* PrefixHeader.pch */,
-				39EBDFCC1ED36D45005D8AB1 /* Info.plist */,
-				3972E67820694E6800F099DE /* Acknowledgements.html */,
-				3980C0C72086C75000789E3B /* DetoxInstruments.help */,
-				394ED6FF225A37DB001875C3 /* ContributionsGH.json */,
-				394ED763225A6F52001875C3 /* Localizable.stringsdict */,
-				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
-				396DAB08231D356C00FFBDDB /* Assets-Shared.xcassets */,
-				39487CB81F435F090063E66D /* SharedSupport */,
+				397A1306231E834100DA81A4 /* Resources */,
 				39FD87D9211A62E1007FE6A5 /* CompatLayer */,
 				391958DF20A205FD00BD9C75 /* Debug */,
 			);
@@ -2082,7 +2146,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				397A1321231E839000DA81A4 /* SF-Mono-BoldItalic.otf in Resources */,
+				397A1317231E839000DA81A4 /* SF-Mono-MediumItalic.otf in Resources */,
+				397A1325231E839000DA81A4 /* SF-Mono-SemiboldItalic.otf in Resources */,
+				397A131F231E839000DA81A4 /* SF-Mono-HeavyItalic.otf in Resources */,
 				396DAB0A231D356C00FFBDDB /* Assets-Shared.xcassets in Resources */,
+				397A132B231E839000DA81A4 /* SF-Mono-Medium.otf in Resources */,
+				397A1329231E839000DA81A4 /* SF-Mono-Heavy.otf in Resources */,
+				397A1323231E839000DA81A4 /* SF-Mono-Bold.otf in Resources */,
+				397A1327231E839000DA81A4 /* SF-Mono-RegularItalic.otf in Resources */,
+				397A1319231E839000DA81A4 /* SF-Mono-Semibold.otf in Resources */,
+				397A132D231E839000DA81A4 /* SF-Mono-LightItalic.otf in Resources */,
+				397A131B231E839000DA81A4 /* SF-Mono-Light.otf in Resources */,
+				397A131D231E839000DA81A4 /* SF-Mono-Regular.otf in Resources */,
 				396DAAAF231C505E00FFBDDB /* PreviewViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2093,10 +2169,19 @@
 			files = (
 				3980C0DF2086C75000789E3B /* DetoxInstruments.help in Resources */,
 				39725F9021A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets in Resources */,
+				397A132A231E839000DA81A4 /* SF-Mono-Medium.otf in Resources */,
+				397A132C231E839000DA81A4 /* SF-Mono-LightItalic.otf in Resources */,
 				39538D73209B40F3003AF7D3 /* About.storyboard in Resources */,
 				39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */,
+				397A1322231E839000DA81A4 /* SF-Mono-Bold.otf in Resources */,
 				396DAB09231D356C00FFBDDB /* Assets-Shared.xcassets in Resources */,
+				397A131E231E839000DA81A4 /* SF-Mono-HeavyItalic.otf in Resources */,
 				3967739320B594B200851154 /* Main.storyboard in Resources */,
+				397A1326231E839000DA81A4 /* SF-Mono-RegularItalic.otf in Resources */,
+				397A1316231E839000DA81A4 /* SF-Mono-MediumItalic.otf in Resources */,
+				397A1318231E839000DA81A4 /* SF-Mono-Semibold.otf in Resources */,
+				397A1328231E839000DA81A4 /* SF-Mono-Heavy.otf in Resources */,
+				397A131A231E839000DA81A4 /* SF-Mono-Light.otf in Resources */,
 				394ED700225A37DB001875C3 /* ContributionsGH.json in Resources */,
 				39EBDFC81ED36D45005D8AB1 /* Assets.xcassets in Resources */,
 				3972E67920694E6800F099DE /* Acknowledgements.html in Resources */,
@@ -2104,8 +2189,11 @@
 				39725F8E21A08A1C001D6BFD /* DTXDeviceSnapshotDevices.plist in Resources */,
 				399B4DCD1ED574E70098D2AC /* Profiler.storyboard in Resources */,
 				39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */,
+				397A131C231E839000DA81A4 /* SF-Mono-Regular.otf in Resources */,
 				394ED764225A6F5C001875C3 /* Localizable.stringsdict in Resources */,
+				397A1320231E839000DA81A4 /* SF-Mono-BoldItalic.otf in Resources */,
 				3989D35B222B91FD00231EE3 /* RequestsPlayground.storyboard in Resources */,
+				397A1324231E839000DA81A4 /* SF-Mono-SemiboldItalic.otf in Resources */,
 				39ED0C5B21C13F3C0026E306 /* DTXColorTryoutsWindow.xib in Resources */,
 				393C3FF022AFA2E300EBCEC6 /* Preferences.storyboard in Resources */,
 			);
