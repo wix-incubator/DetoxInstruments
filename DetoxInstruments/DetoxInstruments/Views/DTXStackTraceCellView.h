@@ -8,8 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DTXStackTraceFrame.h"
+#import "DTXActionCellView.h"
 
-@interface DTXStackTraceCellView : NSTableCellView
+@interface DTXStackTraceCellView : DTXActionCellView
 
 @property (class, nonatomic, readonly) CGFloat heightForStackFrame;
 @property (nonatomic, weak, readonly) NSTableView* stackTraceTableView;

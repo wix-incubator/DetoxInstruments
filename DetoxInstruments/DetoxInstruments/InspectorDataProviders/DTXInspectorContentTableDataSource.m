@@ -400,11 +400,14 @@
 		[content.customView removeFromSuperview];
 		
 		DTXViewCellView* viewCell = (id)cell;
+		content.customView.translatesAutoresizingMaskIntoConstraints = NO;
 		[viewCell.contentView addSubview:content.customView];
-		[NSLayoutConstraint activateConstraints:@[[viewCell.contentView.topAnchor constraintEqualToAnchor:content.customView.topAnchor],
-												  [viewCell.contentView.bottomAnchor constraintEqualToAnchor:content.customView.bottomAnchor],
-												  [viewCell.contentView.centerXAnchor constraintEqualToAnchor:content.customView.centerXAnchor],
-												  [viewCell.contentView.centerYAnchor constraintEqualToAnchor:content.customView.centerYAnchor]]];
+		[NSLayoutConstraint activateConstraints:@[
+			[viewCell.contentView.topAnchor constraintEqualToAnchor:content.customView.topAnchor],
+			[viewCell.contentView.bottomAnchor constraintEqualToAnchor:content.customView.bottomAnchor],
+			[viewCell.contentView.leadingAnchor constraintEqualToAnchor:content.customView.leadingAnchor],
+			[viewCell.contentView.trailingAnchor constraintEqualToAnchor:content.customView.trailingAnchor]
+		]];
 		
 		targetForWindowWideCopy = viewCell.contentView;
 	}

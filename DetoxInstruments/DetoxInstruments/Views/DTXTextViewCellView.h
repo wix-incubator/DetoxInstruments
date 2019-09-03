@@ -7,13 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXActionCellView.h"
 
-@interface DTXTextViewCellView : NSTableCellView
+@interface DTXTextViewCellView : DTXActionCellView
 
 @property (nonatomic, strong, readonly) NSTextField* contentTextField;
 @property (nonatomic, strong, readonly) NSLayoutConstraint* titleContentConstraint;
 @property (nonatomic, strong, readonly) NSBox* titleContainer;
-@property (nonatomic, strong, readonly) NSStackView* buttonsStackView;
-@property (nonatomic, strong, readonly) NSLayoutConstraint* buttonsStackViewConstraint;
 
 @end

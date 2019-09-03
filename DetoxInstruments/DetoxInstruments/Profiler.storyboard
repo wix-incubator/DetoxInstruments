@@ -258,7 +258,7 @@
                                                                     <rect key="frame" x="100" y="31" width="38" height="18"/>
                                                                     <popUpButtonCell key="cell" type="roundRect" bezelStyle="roundedRect" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="msL-eF-6aG" id="fwB-v5-Dpn">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="controlContent"/>
+                                                                        <font key="font" metaFont="label" size="12"/>
                                                                         <menu key="menu" id="zaF-Cm-2zO">
                                                                             <items>
                                                                                 <menuItem state="on" image="NSActionTemplate" hidden="YES" id="msL-eF-6aG"/>
@@ -837,9 +837,9 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-Wz-uMT">
-                                                                                <rect key="frame" x="13" y="16" width="293" height="13"/>
+                                                                                <rect key="frame" x="13" y="16" width="300" height="13"/>
                                                                                 <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="BME-dP-HVL">
-                                                                                    <font key="font" metaFont="system" size="10"/>
+                                                                                    <font key="font" metaFont="menu" size="10"/>
                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
@@ -856,7 +856,7 @@
                                                                             <constraint firstItem="b2f-pc-oQ1" firstAttribute="centerX" secondItem="YPm-q9-ZMZ" secondAttribute="centerX" id="EwU-jv-lyt"/>
                                                                             <constraint firstItem="DbA-Wz-uMT" firstAttribute="leading" secondItem="YPm-q9-ZMZ" secondAttribute="leading" constant="15" id="Pw0-Wv-vlG"/>
                                                                             <constraint firstItem="b2f-pc-oQ1" firstAttribute="top" secondItem="DbA-Wz-uMT" secondAttribute="bottom" constant="8" id="Q8X-I9-461"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="DbA-Wz-uMT" secondAttribute="trailing" constant="15" id="Tp9-ed-67N"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="DbA-Wz-uMT" secondAttribute="trailing" constant="8" id="Tp9-ed-67N"/>
                                                                             <constraint firstAttribute="trailing" secondItem="tkT-q6-qqx" secondAttribute="trailing" constant="3" id="Wo5-yT-HzD"/>
                                                                             <constraint firstAttribute="bottom" secondItem="b2f-pc-oQ1" secondAttribute="bottom" id="ZiD-kX-Kjb"/>
                                                                             <constraint firstItem="DbA-Wz-uMT" firstAttribute="top" secondItem="tkT-q6-qqx" secondAttribute="bottom" constant="7" id="d9L-7u-vbd"/>
@@ -873,9 +873,6 @@
                                                                         <rect key="frame" x="1" y="56" width="319" height="90"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
-                                                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Ka-XU-m0k">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="319" height="66"/>
-                                                                            </customView>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WEG-Ub-6Xg">
                                                                                 <rect key="frame" x="1" y="73" width="317" height="14"/>
                                                                                 <constraints>
@@ -887,17 +884,27 @@
                                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
+                                                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Ka-XU-m0k">
+                                                                                <rect key="frame" x="15" y="8" width="296" height="58"/>
+                                                                            </customView>
+                                                                            <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yv9-oM-WkE">
+                                                                                <rect key="frame" x="160" y="0.0" width="0.0" height="0.0"/>
+                                                                            </stackView>
                                                                         </subviews>
                                                                         <constraints>
+                                                                            <constraint firstAttribute="bottom" secondItem="yv9-oM-WkE" secondAttribute="bottom" id="EbZ-rA-AgP"/>
                                                                             <constraint firstItem="WEG-Ub-6Xg" firstAttribute="top" secondItem="VKZ-2K-nnS" secondAttribute="top" constant="3" id="FK0-Me-uHz"/>
-                                                                            <constraint firstItem="7Ka-XU-m0k" firstAttribute="leading" secondItem="VKZ-2K-nnS" secondAttribute="leading" id="I4T-b6-YcJ"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="7Ka-XU-m0k" secondAttribute="trailing" id="IFu-3b-0T4"/>
+                                                                            <constraint firstItem="7Ka-XU-m0k" firstAttribute="leading" secondItem="VKZ-2K-nnS" secondAttribute="leading" constant="15" id="I4T-b6-YcJ"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="7Ka-XU-m0k" secondAttribute="trailing" constant="8" id="IFu-3b-0T4"/>
                                                                             <constraint firstItem="7Ka-XU-m0k" firstAttribute="top" secondItem="WEG-Ub-6Xg" secondAttribute="bottom" constant="7" id="J0n-Pu-GQ0"/>
+                                                                            <constraint firstItem="yv9-oM-WkE" firstAttribute="top" secondItem="7Ka-XU-m0k" secondAttribute="bottom" constant="8" id="bld-w1-u4E"/>
+                                                                            <constraint firstItem="yv9-oM-WkE" firstAttribute="centerX" secondItem="VKZ-2K-nnS" secondAttribute="centerX" id="fWA-cm-Jyi"/>
                                                                             <constraint firstItem="WEG-Ub-6Xg" firstAttribute="leading" secondItem="VKZ-2K-nnS" secondAttribute="leading" constant="3" id="fc7-gZ-Gxw"/>
                                                                             <constraint firstAttribute="trailing" secondItem="WEG-Ub-6Xg" secondAttribute="trailing" constant="3" id="hxh-Ds-obN"/>
-                                                                            <constraint firstAttribute="bottom" secondItem="7Ka-XU-m0k" secondAttribute="bottom" id="t6a-Ev-kOE"/>
                                                                         </constraints>
                                                                         <connections>
+                                                                            <outlet property="buttonsStackView" destination="yv9-oM-WkE" id="YYp-nL-nQT"/>
+                                                                            <outlet property="buttonsStackViewConstraint" destination="EbZ-rA-AgP" id="uIL-2X-rig"/>
                                                                             <outlet property="contentView" destination="7Ka-XU-m0k" id="9K1-Oa-bu3"/>
                                                                             <outlet property="textField" destination="WEG-Ub-6Xg" id="UH0-Mh-ZyB"/>
                                                                         </connections>

@@ -14,6 +14,7 @@
 #import "NSString+FileNames.h"
 #import "NSURL+UIAdditions.h"
 #import "DTXRequestDocument.h"
+#import "NSFont+UIAdditions.h"
 
 @implementation DTXNetworkInspectorDataProvider
 
@@ -23,6 +24,21 @@
 	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL);
 	
 	BOOL rv = UTI != NULL ? UTTypeConformsTo(UTI, kUTTypeScalableVectorGraphics) == NO && UTTypeConformsTo(UTI, kUTTypeImage) : NO;
+	
+	if(UTI != NULL)
+	{
+		CFRelease(UTI);
+	}
+	
+	return rv;
+}
+
+- (BOOL)_hasText
+{
+	DTXNetworkSample* networkSample = self.sample;
+	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL);
+	
+	BOOL rv = UTI != NULL ? UTTypeConformsTo(UTI, kUTTypeText) : NO;
 	
 	if(UTI != NULL)
 	{
@@ -120,12 +136,51 @@
 		
 		[contentArray addObject:response];
 		
+		BOOL hasDataContent = NO;
 		NSImage* image;
+		NSView* customView;
 		if(self._hasImage && networkSample.responseData.data)
 		{
 			image = [[NSImage alloc] initWithData:networkSample.responseData.data];
 		}
-		else
+		else if(self._hasText && networkSample.responseData.data)
+		{
+			NSScrollView* rv = [NSScrollView new];
+			[NSLayoutConstraint activateConstraints:@[
+				[rv.heightAnchor constraintEqualToConstant:200],
+			]];
+			rv.hasVerticalScroller = YES;
+			rv.borderType = NSBezelBorder;
+			
+			NSTextView* tv = [NSTextView new];
+			tv.font = [NSFont dtx_monospacedSystemFontOfSize:NSFont.systemFontSize weight:NSFontWeightRegular];
+			tv.autoresizingMask = NSViewWidthSizable;
+			tv.verticallyResizable = YES;
+			tv.textContainer.widthTracksTextView = YES;
+			tv.layoutManager.limitsLayoutForSuspiciousContents = NO;
+			tv.usesFindBar = YES;
+			tv.editable = NO;
+			
+			NSHTTPURLResponse* response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:networkSample.url] statusCode:networkSample.responseStatusCode HTTPVersion:@"2.0" headerFields:networkSample.responseHeaders];
+			
+			NSString* string;
+			if(response.textEncodingName)
+			{
+				CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding(CF(response.textEncodingName));
+				NSStringEncoding targetEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+				string = [[NSString alloc] initWithData:networkSample.responseData.data encoding:targetEncoding];
+			}
+			else
+			{
+				[NSString stringEncodingForData:networkSample.responseData.data encodingOptions:@{NSStringEncodingDetectionSuggestedEncodingsKey: @[@(NSUTF8StringEncoding)]} convertedString:&string usedLossyConversion:NULL];
+			}
+			
+			tv.string = string;
+			rv.documentView = tv;
+			customView = rv;
+		}
+		
+		if(image == nil && customView == nil)
 		{
 			if(networkSample.responseMIMEType && networkSample.responseData.data)
 			{
@@ -135,11 +190,12 @@
 			}
 		}
 		
-		if(image)
+		if(image != nil || customView != nil)
 		{
 			DTXInspectorContent* responsePreview = [DTXInspectorContent new];
 			responsePreview.title = NSLocalizedString(@"Response Preview", @"");
 			responsePreview.image = image;
+			responsePreview.customView = customView;
 			responsePreview.setupForWindowWideCopy = YES;
 			
 			NSButton* previewButton = [NSButton new];

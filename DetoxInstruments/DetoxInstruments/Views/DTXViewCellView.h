@@ -7,8 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTXActionCellView.h"
 
-@interface DTXViewCellView : NSTableCellView
+@interface DTXViewCellView : DTXActionCellView
 
 @property (nonatomic, strong, readonly) NSView* contentView;
 

@@ -225,7 +225,7 @@
 	
 	if(self.document.firstRecording.dtx_profilingConfiguration.recordThreadInformation && sample.threadSamples.count > 0)
 	{
-		DTXPieChartView* pieChartView = [[DTXPieChartView alloc] initWithFrame:NSMakeRect(0, 0, 300, 100)];
+		DTXPieChartView* pieChartView = [DTXPieChartView new];
 		NSMutableArray<DTXPieChartEntry*>* entries = NSMutableArray.new;
 		
 		NSMutableOrderedSet* threadSamples = sample.threadSamples.mutableCopy;
@@ -249,7 +249,9 @@
 		[pieChartView setEntries:entries highlightedEntry:heaviestThreadIdx];
 		
 		pieChartView.translatesAutoresizingMaskIntoConstraints = NO;
-		[NSLayoutConstraint activateConstraints:@[[pieChartView.widthAnchor constraintEqualToConstant:300], [pieChartView.heightAnchor constraintEqualToConstant:200]]];
+		[NSLayoutConstraint activateConstraints:@[
+			[pieChartView.heightAnchor constraintEqualToConstant:200],
+		]];
 		
 		DTXInspectorContent* pieChartContent = [DTXInspectorContent new];
 		pieChartContent.title = NSLocalizedString(@"Threads Breakdown", @"");
