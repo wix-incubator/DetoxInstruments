@@ -10,4 +10,7 @@
 
 @interface DTXNetworkInspectorDataProvider : DTXInspectorDataProvider
 
++ (DTXInspectorContent*)inspctorContentForData:(NSData*)data response:(NSURLResponse*)response;
++ (NSString*)fileNameBestEffortWithResponse:(NSURLResponse*)response;
+
 @end

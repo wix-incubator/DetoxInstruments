@@ -4,7 +4,5 @@
 <dict>
 	<key>SectionTag_DTXEventsPlotController</key>
 	<integer>1</integer>
-	<key>SelectedDetailController_DTXEventsPlotController</key>
-	<string>List</string>
 </dict>
 </plist>

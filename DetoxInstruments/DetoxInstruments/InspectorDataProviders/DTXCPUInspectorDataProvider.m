@@ -278,9 +278,9 @@
 	return rv;
 }
 
-- (BOOL)canCopy
+- (BOOL)canCopyInView:(__kindof NSView *)view
 {
-	return [self.sample isKindOfClass:[DTXPerformanceSample class]];
+	return [self.sample isKindOfClass:[DTXPerformanceSample class]] && [super canCopyInView:view];
 }
 
 @end

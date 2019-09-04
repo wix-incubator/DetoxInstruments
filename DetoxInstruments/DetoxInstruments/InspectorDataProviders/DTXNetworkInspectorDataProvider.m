@@ -16,12 +16,74 @@
 #import "DTXRequestDocument.h"
 #import "NSFont+UIAdditions.h"
 
-@implementation DTXNetworkInspectorDataProvider
-
-- (BOOL)_hasImage
+static void _DTXSaveData(NSData* data, NSString* fileName, NSWindow* window)
 {
-	DTXNetworkSample* networkSample = self.sample;
-	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL);
+	NSSavePanel* panel = [NSSavePanel savePanel];
+	[panel setNameFieldStringValue:fileName];
+	panel.contentView.wantsLayer = YES;
+	panel.contentView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	
+	[panel beginSheetModalForWindow:window completionHandler:^ (NSInteger result) {
+		if (result == NSModalResponseOK)
+		{
+			NSURL* theFile = [panel URL];
+			
+			[data writeToURL:theFile atomically:YES];
+		}
+	}];
+}
+
+@interface DTXFileInspectorContent : DTXInspectorContent
+
+@property (nonatomic, copy) NSString* fileName;
+@property (nonatomic, strong) NSData* data;
+
+@end
+
+@implementation DTXFileInspectorContent
+
+- (NSURL*)_prepareTempFile
+{
+	NSURL* target = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:self.fileName];
+	
+	[self.data writeToURL:target atomically:YES];
+	
+	return target;
+}
+
+- (IBAction)saveAs:(id)sender
+{
+	[self saveAs:sender inWindow:[sender window]];
+}
+
+- (IBAction)share:(id)sender
+{
+	NSSharingServicePicker* picker = [[NSSharingServicePicker alloc] initWithItems:@[self._prepareTempFile]];
+	[picker showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSRectEdgeMaxY];
+}
+
+- (IBAction)open:(id)sender
+{
+	NSURL* target = self._prepareTempFile;
+	
+	[NSWorkspace.sharedWorkspace openURL:target];
+}
+
+- (void)saveAs:(id)sender inWindow:(NSWindow*)window
+{
+	_DTXSaveData(self.data, self.fileName, window);
+}
+
+@end
+
+@implementation DTXNetworkInspectorDataProvider
+{
+	NSURLResponse* _cachedURLResponse;
+}
+
++ (BOOL)_hasImageWithMIMEType:(NSString*)MIMEType;
+{
+	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(MIMEType), NULL);
 	
 	BOOL rv = UTI != NULL ? UTTypeConformsTo(UTI, kUTTypeScalableVectorGraphics) == NO && UTTypeConformsTo(UTI, kUTTypeImage) : NO;
 	
@@ -33,22 +95,20 @@
 	return rv;
 }
 
-- (BOOL)_hasText
++ (BOOL)_hasTextWithMIMEType:(NSString*)MIMEType;
 {
-	DTXNetworkSample* networkSample = self.sample;
-	
 	static NSRegularExpression* regex;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		regex = [[NSRegularExpression alloc] initWithPattern:@"javascript|json|html" options:NSRegularExpressionCaseInsensitive error:NULL];
+		regex = [[NSRegularExpression alloc] initWithPattern:@"javascript|json|html|text" options:NSRegularExpressionCaseInsensitive error:NULL];
 	});
 	
-	if([regex matchesInString:networkSample.responseMIMEType options:0 range:NSMakeRange(0, networkSample.responseMIMEType.length)].count > 0)
+	if([regex matchesInString:MIMEType options:0 range:NSMakeRange(0, MIMEType.length)].count > 0)
 	{
 		return YES;
 	}
 	
-	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL);
+	CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(MIMEType), NULL);
 	
 	BOOL rv = UTI != NULL ? UTTypeConformsTo(UTI, kUTTypeText) : NO;
 	
@@ -60,11 +120,140 @@
 	return rv;
 }
 
++ (DTXInspectorContent*)inspctorContentForData:(NSData*)data response:(NSURLResponse*)response
+{
+	NSImage* image;
+	NSView* customView;
+	if([DTXNetworkInspectorDataProvider _hasImageWithMIMEType:response.MIMEType] && data)
+	{
+		image = [[NSImage alloc] initWithData:data];
+	}
+	else if([DTXNetworkInspectorDataProvider _hasTextWithMIMEType:response.MIMEType] && data)
+	{
+		
+		
+		NSString* string;
+		if(response.textEncodingName)
+		{
+			CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding(CF(response.textEncodingName));
+			NSStringEncoding targetEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+			string = [[NSString alloc] initWithData:data encoding:targetEncoding];
+		}
+		else
+		{
+			[NSString stringEncodingForData:data encodingOptions:@{NSStringEncodingDetectionSuggestedEncodingsKey: @[@(NSUTF8StringEncoding)]} convertedString:&string usedLossyConversion:NULL];
+		}
+		
+		if(string != nil)
+		{
+			NSScrollView* rv = [NSScrollView new];
+			[NSLayoutConstraint activateConstraints:@[
+				[rv.heightAnchor constraintEqualToConstant:200],
+			]];
+			rv.hasVerticalScroller = YES;
+			rv.borderType = NSBezelBorder;
+
+			NSTextView* tv = [NSTextView new];
+			tv.font = [NSFont dtx_monospacedSystemFontOfSize:NSFont.systemFontSize weight:NSFontWeightRegular];
+			tv.autoresizingMask = NSViewWidthSizable;
+			tv.verticallyResizable = YES;
+			tv.textContainer.widthTracksTextView = YES;
+			tv.layoutManager.limitsLayoutForSuspiciousContents = NO;
+			tv.usesFindBar = YES;
+			tv.editable = NO;
+
+			tv.string = string;
+			rv.documentView = tv;
+			customView = rv;
+		}
+	}
+	
+	if(image == nil && customView == nil)
+	{
+		if(response.MIMEType && data)
+		{
+			NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(response.MIMEType), NULL));
+			image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];
+			image.size = NSMakeSize(128, 128);
+		}
+	}
+	
+	if(image != nil || customView != nil)
+	{
+		DTXFileInspectorContent* responsePreview = [DTXFileInspectorContent new];
+		
+		responsePreview.image = image;
+		responsePreview.customView = customView;
+		
+		responsePreview.fileName = [self fileNameBestEffortWithResponse:response];
+		responsePreview.title = responsePreview.fileName;
+		responsePreview.data = data;
+		
+		NSButton* previewButton = [NSButton new];
+		previewButton.bezelStyle = NSBezelStyleRounded;
+		previewButton.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
+		previewButton.title = NSLocalizedString(@"Open", @"");
+		previewButton.target = responsePreview;
+		previewButton.action = @selector(open:);
+		previewButton.translatesAutoresizingMaskIntoConstraints = NO;
+		
+		NSButton* saveButton = [NSButton new];
+		saveButton.bezelStyle = NSBezelStyleRounded;
+		saveButton.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
+		saveButton.title = NSLocalizedString(@"Save As…", @"");
+		saveButton.target = responsePreview;
+		saveButton.action = @selector(saveAs:);
+		saveButton.translatesAutoresizingMaskIntoConstraints = NO;
+		
+		NSButton* shareButton = [NSButton new];
+		[shareButton sendActionOn:NSEventMaskLeftMouseDown];
+		shareButton.bezelStyle = NSBezelStyleRounded;
+		shareButton.image = [NSImage imageNamed:NSImageNameShareTemplate];
+		shareButton.target = responsePreview;
+		shareButton.action = @selector(share:);
+		shareButton.translatesAutoresizingMaskIntoConstraints = NO;
+		
+		responsePreview.buttons = @[previewButton, saveButton, shareButton];
+		
+		return responsePreview;
+	}
+	
+	//TODO: invert
+	return nil;
+}
+
++ (NSString *)fileNameBestEffortWithResponse:(NSURLResponse *)response
+{
+	NSString* fileName = response.suggestedFilename;
+	
+	if(fileName.length == 0)
+	{
+		fileName = response.URL.lastPathComponent;
+		
+		if(fileName.length == 0)
+		{
+			fileName = @"file";
+		}
+		
+		NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(response.MIMEType), NULL));
+		NSString* extension = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(UTI), kUTTagClassFilenameExtension));
+		
+		if(extension && [fileName.pathExtension isEqualToString:extension] == NO)
+		{
+			fileName = [[fileName stringByDeletingPathExtension] stringByAppendingPathExtension:extension];
+		}
+		
+		fileName = fileName.stringBySanitizingForFileName;
+	}
+	
+	return fileName;
+}
+
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource
 {
 	NSMutableArray* contentArray = [NSMutableArray new];
 	
-	DTXNetworkSample* networkSample = self.sample;
+	DTXNetworkSample* networkSample = self.networkSample;
 	
 	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
 	
@@ -148,96 +337,11 @@
 		
 		[contentArray addObject:response];
 		
-		NSImage* image;
-		NSView* customView;
-		if(self._hasImage && networkSample.responseData.data)
-		{
-			image = [[NSImage alloc] initWithData:networkSample.responseData.data];
-		}
-		else if(self._hasText && networkSample.responseData.data)
-		{
-			NSHTTPURLResponse* response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:networkSample.url] statusCode:networkSample.responseStatusCode HTTPVersion:@"2.0" headerFields:networkSample.responseHeaders];
-			
-			NSString* string;
-			if(response.textEncodingName)
-			{
-				CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding(CF(response.textEncodingName));
-				NSStringEncoding targetEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-				string = [[NSString alloc] initWithData:networkSample.responseData.data encoding:targetEncoding];
-			}
-			else
-			{
-				[NSString stringEncodingForData:networkSample.responseData.data encodingOptions:@{NSStringEncodingDetectionSuggestedEncodingsKey: @[@(NSUTF8StringEncoding)]} convertedString:&string usedLossyConversion:NULL];
-			}
-			
-			if(string != nil)
-			{
-				NSScrollView* rv = [NSScrollView new];
-				[NSLayoutConstraint activateConstraints:@[
-					[rv.heightAnchor constraintEqualToConstant:200],
-				]];
-				rv.hasVerticalScroller = YES;
-				rv.borderType = NSBezelBorder;
-
-				NSTextView* tv = [NSTextView new];
-				tv.font = [NSFont dtx_monospacedSystemFontOfSize:NSFont.systemFontSize weight:NSFontWeightRegular];
-				tv.autoresizingMask = NSViewWidthSizable;
-				tv.verticallyResizable = YES;
-				tv.textContainer.widthTracksTextView = YES;
-				tv.layoutManager.limitsLayoutForSuspiciousContents = NO;
-				tv.usesFindBar = YES;
-				tv.editable = NO;
-
-				tv.string = string;
-				rv.documentView = tv;
-				customView = rv;
-			}
-		}
+		DTXInspectorContent* responsePreview = [DTXNetworkInspectorDataProvider inspctorContentForData:networkSample.responseData.data response:self._response];
 		
-		if(image == nil && customView == nil)
+		if(responsePreview)
 		{
-			if(networkSample.responseMIMEType && networkSample.responseData.data)
-			{
-				NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL));
-				image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];
-				image.size = NSMakeSize(128, 128);
-			}
-		}
-		
-		if(image != nil || customView != nil)
-		{
-			DTXInspectorContent* responsePreview = [DTXInspectorContent new];
 			responsePreview.title = NSLocalizedString(@"Response Preview", @"");
-			responsePreview.image = image;
-			responsePreview.customView = customView;
-			responsePreview.setupForWindowWideCopy = YES;
-			
-			NSButton* previewButton = [NSButton new];
-			previewButton.bezelStyle = NSBezelStyleRounded;
-			previewButton.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
-			previewButton.title = NSLocalizedString(@"Open", @"");
-			previewButton.target = self;
-			previewButton.action = @selector(open:);
-			previewButton.translatesAutoresizingMaskIntoConstraints = NO;
-			
-			NSButton* saveButton = [NSButton new];
-			saveButton.bezelStyle = NSBezelStyleRounded;
-			saveButton.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
-			saveButton.title = NSLocalizedString(@"Save As…", @"");
-			saveButton.target = self;
-			saveButton.action = @selector(saveAs:);
-			saveButton.translatesAutoresizingMaskIntoConstraints = NO;
-			
-			NSButton* shareButton = [NSButton new];
-			[shareButton sendActionOn:NSEventMaskLeftMouseDown];
-			shareButton.bezelStyle = NSBezelStyleRounded;
-			shareButton.image = [NSImage imageNamed:NSImageNameShareTemplate];
-			shareButton.target = self;
-			shareButton.action = @selector(share:);
-			shareButton.translatesAutoresizingMaskIntoConstraints = NO;
-			
-			responsePreview.buttons = @[previewButton, saveButton, shareButton];
-			
 			[contentArray addObject:responsePreview];
 		}
 		
@@ -266,9 +370,19 @@
 	return rv;
 }
 
-- (BOOL)canCopy
+-(DTXNetworkSample*)networkSample
 {
-	return self._hasImage;
+	return (id)self.sample;
+}
+
+- (NSURLResponse*)_response
+{
+	if(_cachedURLResponse == nil)
+	{
+		_cachedURLResponse = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:self.networkSample.url] statusCode:self.networkSample.responseStatusCode HTTPVersion:@"2.0" headerFields:self.networkSample.responseHeaders];
+	}
+	
+	return _cachedURLResponse;
 }
 
 - (BOOL)canSaveAs
@@ -276,101 +390,30 @@
 	return YES;
 }
 
-- (IBAction)saveAs:(id)sender
+- (void)saveAs:(id)sender inWindow:(NSWindow*)window
 {
-	[self saveAs:sender inWindow:[sender window]];
+	_DTXSaveData(self.networkSample.responseData.data, [DTXNetworkInspectorDataProvider fileNameBestEffortWithResponse:self._response], window);
 }
 
-- (IBAction)share:(id)sender
+- (BOOL)canCopyInView:(__kindof NSView *)view
 {
-	NSSharingServicePicker* picker = [[NSSharingServicePicker alloc] initWithItems:@[self._prepareTempFile]];
-	[picker showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSRectEdgeMaxY];
+	return [DTXNetworkInspectorDataProvider _hasImageWithMIMEType:self.networkSample.responseMIMEType];
 }
 
-- (void)copy:(id)sender targetView:(__kindof NSView *)targetView
+- (void)copyInView:(__kindof NSView *)view sender:(id)sender
 {
-	DTXNetworkSample* networkSample = self.sample;
-	
-	if(networkSample.responseDataLength == 0)
+	if(self.networkSample.responseDataLength == 0)
 	{
 		return;
 	}
 	
-	if(self._hasImage)
+	if([DTXNetworkInspectorDataProvider _hasImageWithMIMEType:self.networkSample.responseMIMEType])
 	{
-		NSImage* image = [[NSImage alloc] initWithData:networkSample.responseData.data];
+		NSImage* image = [[NSImage alloc] initWithData:self.networkSample.responseData.data];
 		
 		[[NSPasteboard generalPasteboard] clearContents];
 		[[NSPasteboard generalPasteboard] writeObjects:@[image]];
 	}
-}
-
-- (NSString*)_bestGuessFileName
-{
-	DTXNetworkSample* networkSample = self.sample;
-	NSString* fileName = networkSample.responseSuggestedFilename;
-	
-	if(fileName.length == 0)
-	{
-		fileName = networkSample.url.lastPathComponent;
-		
-		if(fileName.length == 0)
-		{
-			fileName = @"file";
-		}
-		
-		NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(networkSample.responseMIMEType), NULL));
-		NSString* extension = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(UTI), kUTTagClassFilenameExtension));
-		
-		if(extension && [fileName.pathExtension isEqualToString:extension] == NO)
-		{
-			fileName = [[fileName stringByDeletingPathExtension] stringByAppendingPathExtension:extension];
-		}
-		
-		fileName = fileName.stringBySanitizingForFileName;
-	}
-	
-	return fileName;
-}
-
-- (NSURL*)_prepareTempFile
-{
-	NSString* fileName = self._bestGuessFileName;
-	NSURL* target = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:fileName];
-	
-	DTXNetworkSample* networkSample = self.sample;
-	[networkSample.responseData.data writeToURL:target atomically:YES];
-	
-	return target;
-}
-
-- (IBAction)open:(id)sender
-{
-	NSURL* target = self._prepareTempFile;
-	
-	[NSWorkspace.sharedWorkspace openURL:target];
-}
-
-- (void)saveAs:(id)sender inWindow:(NSWindow*)window
-{
-	DTXNetworkSample* networkSample = self.sample;
-	
-	NSString* fileName = self._bestGuessFileName;
-	
-	NSSavePanel* panel = [NSSavePanel savePanel];
-	[panel setNameFieldStringValue:fileName];
-	panel.contentView.wantsLayer = YES;
-	panel.contentView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	
-	[panel beginSheetModalForWindow:window completionHandler:^ (NSInteger result) {
-		if (result == NSModalResponseOK)
-		{
-			NSURL* theFile = [panel URL];
-
-			[networkSample.responseData.data writeToURL:theFile atomically:YES];
-		}
-	}];
-
 }
 
 - (IBAction)openInRequestsPlayground:(id)sender

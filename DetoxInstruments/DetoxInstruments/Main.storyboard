@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14810.11" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14865.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14810.11"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14865.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,14 +21,14 @@
                                 <toolbarItem implicitItemIdentifier="77BC0ABF-B188-4E73-97F6-E4C037985C0B" label="" paletteLabel="" id="ei0-em-Ajm">
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="0.0" height="23"/>
-                                    <size key="maxSize" width="68" height="35"/>
+                                    <size key="maxSize" width="70" height="35"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="exo-S1-QJq" customClass="DTXSegmentedControl">
                                         <rect key="frame" x="0.0" y="14" width="68" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="d9v-DY-bub">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment toolTip="Show or hide the details area" image="Bottom" width="32" selected="YES"/>
+                                                <segment toolTip="Show or hide the details area" image="Bottom" width="31" selected="YES"/>
                                                 <segment toolTip="Show or hide the inspectors" image="Right" width="30" selected="YES" tag="1"/>
                                             </segments>
                                         </segmentedCell>
@@ -801,10 +801,13 @@ CA
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6TD-ro-Yv4">
-                            <rect key="frame" x="88" y="19" width="116" height="25"/>
+                            <rect key="frame" x="87" y="19" width="118" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="113" placeholder="YES" id="N0J-eG-xtC"/>
+                            </constraints>
                             <popUpButtonCell key="cell" type="push" title="Property List" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="JD6-rS-EW3" id="kgh-0l-b0F">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="menu"/>
+                                <font key="font" metaFont="system"/>
                                 <menu key="menu" autoenablesItems="NO" id="wO8-JY-bYp">
                                     <items>
                                         <menuItem title="Property List" state="on" id="JD6-rS-EW3">
@@ -818,7 +821,7 @@ CA
                             </popUpButtonCell>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
-                            <rect key="frame" x="33" y="25" width="51" height="16"/>
+                            <rect key="frame" x="32" y="25" width="51" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="7Wr-AB-JVL">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

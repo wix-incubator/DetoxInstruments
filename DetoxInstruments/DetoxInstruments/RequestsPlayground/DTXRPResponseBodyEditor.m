@@ -13,6 +13,7 @@
 #import "NSString+FileNames.h"
 #import "NSColor+UIAdditions.h"
 #import "NSFormatter+PlotFormatters.h"
+#import "DTXNetworkInspectorDataProvider.h"
 
 @interface DTXRPResponseBodyEditor ()
 {
@@ -121,132 +122,14 @@
 		[contentArray addObject:responseHeaders];
 	}
 	
-	NSImage* image;
-	if(self._hasImage && _body != nil)
+	DTXInspectorContent* responsePreview = [DTXNetworkInspectorDataProvider inspctorContentForData:_body response:_response];
+	if(responsePreview != nil)
 	{
-		image = [[NSImage alloc] initWithData:_body];
-	}
-	else
-	{
-		if(_response != nil && _response.MIMEType != nil && _body != nil)
-		{
-			NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(_response.MIMEType), NULL));
-			image = [[NSWorkspace sharedWorkspace] iconForFileType:UTI];
-			image.size = NSMakeSize(128, 128);
-		}
-	}
-	
-	if(image)
-	{
-		DTXInspectorContent* responsePreview = [DTXInspectorContent new];
-		responsePreview.attributedTitle = [[NSAttributedString alloc] initWithString:self._bestGuessFileName attributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}];
-		responsePreview.image = image;
-		
-		NSButton* previewButton = [NSButton new];
-		previewButton.bezelStyle = NSBezelStyleRounded;
-		previewButton.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
-		previewButton.title = NSLocalizedString(@"Open", @"");
-		previewButton.target = self;
-		previewButton.action = @selector(open:);
-		previewButton.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		NSButton* saveButton = [NSButton new];
-		saveButton.bezelStyle = NSBezelStyleRounded;
-		saveButton.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
-		saveButton.title = NSLocalizedString(@"Save As…", @"");
-		saveButton.target = self;
-		saveButton.action = @selector(saveAs:);
-		saveButton.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		NSButton* shareButton = [NSButton new];
-		[shareButton sendActionOn:NSEventMaskLeftMouseDown];
-		shareButton.bezelStyle = NSBezelStyleRounded;
-		shareButton.image = [NSImage imageNamed:NSImageNameShareTemplate];
-		shareButton.target = self;
-		shareButton.action = @selector(share:);
-		shareButton.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		responsePreview.buttons = @[previewButton, saveButton, shareButton];
-		
+		responsePreview.attributedTitle = [[NSAttributedString alloc] initWithString:responsePreview.title attributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}];
 		[contentArray addObject:responsePreview];
 	}
 	
 	_tableDataSource.contentArray = contentArray;
-}
-
-- (NSString*)_bestGuessFileName
-{
-	NSString* fileName = _response.suggestedFilename;
-	
-	if(fileName.length == 0)
-	{
-		fileName = _response.URL.lastPathComponent;
-		
-		if(fileName.length == 0)
-		{
-			fileName = @"file";
-		}
-		
-		NSString* UTI = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, CF(_response.MIMEType), NULL));
-		NSString* extension = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(CF(UTI), kUTTagClassFilenameExtension));
-		
-		if(extension && [fileName.pathExtension isEqualToString:extension] == NO)
-		{
-			fileName = [[fileName stringByDeletingPathExtension] stringByAppendingPathExtension:extension];
-		}
-		
-		fileName = fileName.stringBySanitizingForFileName;
-	}
-	
-	return fileName;
-}
-
-- (NSURL*)_prepareTempFile
-{
-	NSString* fileName = self._bestGuessFileName;
-	NSURL* target = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:fileName];
-	;
-	[_body writeToURL:target atomically:YES];
-	
-	return target;
-}
-
-- (IBAction)saveAs:(id)sender
-{
-	[self saveAs:sender inWindow:[sender window]];
-}
-
-- (IBAction)share:(id)sender
-{
-	NSSharingServicePicker* picker = [[NSSharingServicePicker alloc] initWithItems:@[self._prepareTempFile]];
-	[picker showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSRectEdgeMaxY];
-}
-
-- (IBAction)open:(id)sender
-{
-	NSURL* target = self._prepareTempFile;
-	
-	[NSWorkspace.sharedWorkspace openURL:target];
-}
-
-- (void)saveAs:(id)sender inWindow:(NSWindow*)window
-{
-	NSString* fileName = self._bestGuessFileName;
-	
-	NSSavePanel* panel = [NSSavePanel savePanel];
-	[panel setNameFieldStringValue:fileName];
-	panel.contentView.wantsLayer = YES;
-	panel.contentView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-	
-	[panel beginSheetModalForWindow:window completionHandler:^ (NSInteger result) {
-		if (result == NSModalResponseOK)
-		{
-			NSURL* theFile = [panel URL];
-			
-			[_body writeToURL:theFile atomically:YES];
-		}
-	}];
-	
 }
 
 - (void)setBody:(NSData *)body response:(NSURLResponse*)response error:(NSError*)error metrics:(NSURLSessionTaskMetrics*)metrics

@@ -481,6 +481,13 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	DTXInspectorDataProvider* idp = self.currentlySelectedInspectorItem;
 	[self.delegate dataProvider:self didSelectInspectorItem:idp];
 	
+	if(_managedOutlineView.numberOfSelectedRows > 1)
+	{
+		[_plotController removeHighlight];
+		
+		return;
+	}
+	
 	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
 	
 	if(item == nil)
@@ -515,6 +522,17 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (DTXInspectorDataProvider *)currentlySelectedInspectorItem
 {
+	if(_managedOutlineView.numberOfSelectedRows > 1)
+	{
+		NSMutableArray* selection = [NSMutableArray new];
+		
+		[_managedOutlineView.selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+			[selection addObject:[_managedOutlineView itemAtRow:idx]];
+		}];
+		
+		return [[DTXRangeInspectorDataProvider alloc] initWithSamples:selection sortDescriptors:self.managedOutlineView.sortDescriptors document:_document];
+	}
+	
 	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
 	
 	if(item == nil)
@@ -614,6 +632,16 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 - (BOOL)supportsSorting
 {
 	return YES;
+}
+
+- (BOOL)canCopy
+{
+	return NO;
+}
+
+- (void)copy:(id)sender
+{
+	//NOOP
 }
 
 @end

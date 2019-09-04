@@ -19,7 +19,7 @@
 
 @end
 
-@interface DTXDetailController : NSViewController <DTXDetailDataProviderDelegate, DTXWindowWideCopyHanler>
+@interface DTXDetailController : NSViewController <DTXDetailDataProviderDelegate>
 
 @property (nonatomic, class, copy, readonly) NSString* defaultDetailControllerIdentifier;
 
@@ -39,7 +39,5 @@
 @property (nonatomic, copy, readonly) NSString* identifier;
 @property (nonatomic, copy, readonly) NSString* displayName;
 @property (nonatomic, strong, readonly) NSImage* smallDisplayIcon;
-
-@property (nonatomic, strong, readonly) NSView* viewForCopy;
 
 @end

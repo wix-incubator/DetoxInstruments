@@ -13,7 +13,7 @@
 #import "NSFormatter+PlotFormatters.h"
 #import "DTXWindowController.h"
 
-@interface DTXInspectorDataProvider : NSObject <DTXWindowWideCopyHanler>
+@interface DTXInspectorDataProvider : NSObject
 
 - (instancetype)initWithSample:(__kindof DTXSample*)sample document:(DTXRecordingDocument*)document;
 - (instancetype)init NS_UNAVAILABLE;
@@ -24,12 +24,22 @@
 
 - (DTXInspectorContentTableDataSource*)inspectorTableDataSource;
 
-- (BOOL)canCopy;
-- (BOOL)canSaveAs;
+- (BOOL)canCopyInView:(__kindof NSView*)view;
+- (void)copyInView:(__kindof NSView*)view sender:(id)sender;
 
+- (BOOL)canSaveAs;
 - (void)saveAs:(id)sender inWindow:(NSWindow*)window;
 
 @end
 
 @interface DTXTagInspectorDataProvider : DTXInspectorDataProvider @end
 @interface DTXGroupInspectorDataProvider : DTXInspectorDataProvider @end
+
+@interface DTXRangeInspectorDataProvider : DTXInspectorDataProvider
+
+- (instancetype)initWithSamples:(NSArray<__kindof DTXSample*>*)samples sortDescriptors:(NSArray<NSSortDescriptor*>*)sortDescriptors document:(DTXRecordingDocument*)document;
+
+- (instancetype)initWithSample:(__kindof DTXSample*)sample document:(DTXRecordingDocument*)document NS_UNAVAILABLE;
+@property (nonatomic, strong, readonly) __kindof DTXSample* sample NS_UNAVAILABLE;
+
+@end

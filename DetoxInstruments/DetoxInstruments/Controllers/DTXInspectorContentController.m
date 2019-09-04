@@ -69,17 +69,11 @@ static NSString* const DTXInspectorTabKey = @"DTXInspectorTabKey";
 	[self _prepareRecordingDescriptionIfNeeded];
 }
 
-- (void)setMoreInfoDataProvider:(DTXInspectorDataProvider *)moreInfoDataProvider
+- (void)setInspectorDataProvider:(DTXInspectorDataProvider *)inspectorDataProvider
 {
-	_moreInfoDataProvider = moreInfoDataProvider;
+	_inspectorDataProvider = inspectorDataProvider;
 	
-	DTXWindowController* controller = self.view.window.windowController;
-	if(_moreInfoDataProvider.canCopy)
-	{
-		controller.handlerForCopy = _moreInfoDataProvider;
-	}
-	
-	_sampleDescriptionDataSource = _moreInfoDataProvider.inspectorTableDataSource;
+	_sampleDescriptionDataSource = _inspectorDataProvider.inspectorTableDataSource;
 	if([_tabSwitcher isSelectedForSegment:0])
 	{
 		_sampleDescriptionDataSource.managedTableView = _recordingInfoTableView;
@@ -229,28 +223,32 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 
 - (BOOL)validateMenuItem:(NSMenuItem*)menuItem
 {
-	if(menuItem.action == @selector(copyFromContext:))
+	if(menuItem.action == @selector(copy:) || menuItem.action == @selector(copyFromContext:))
 	{
-		return _moreInfoDataProvider.canCopy;
+		return [_inspectorDataProvider canCopyInView:(id)self.view.window.firstResponder];
 	}
 	
 	if(menuItem.action == @selector(saveAsFromContext:))
 	{
-		return _moreInfoDataProvider.canSaveAs;
+		return _inspectorDataProvider.canSaveAs;
 	}
 	
-	return NO;
+	return [super validateMenuItem:menuItem];
+}
+
+- (void)copy:(id)sender
+{
+	[_inspectorDataProvider copyInView:(id)self.view.window.firstResponder sender:sender];
 }
 
 - (IBAction)copyFromContext:(id)sender
 {
-	DTXWindowController* controller = self.view.window.windowController;
-	[_moreInfoDataProvider copy:sender targetView:controller.targetForCopy];
+	[_inspectorDataProvider copyInView:sender sender:sender];
 }
 
 - (IBAction)saveAsFromContext:(id)sender
 {
-	[_moreInfoDataProvider saveAs:sender inWindow:self.view.window];
+	[_inspectorDataProvider saveAs:sender inWindow:self.view.window];
 }
 
 @end

@@ -11,22 +11,7 @@
 #import "DTXThreadInfo+UIExtensions.h"
 @import ObjectiveC;
 
-static NSNumberFormatter* __percentFormatter;
-static NSByteCountFormatter* __byteFormatter;
-
 @implementation DTXPerformanceSample (UIExtensions)
-
-+ (void)load
-{
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		__percentFormatter = [NSNumberFormatter new];
-		__percentFormatter.numberStyle = NSNumberFormatterPercentStyle;
-		
-		__byteFormatter = [NSByteCountFormatter new];
-		__byteFormatter.countStyle = NSByteCountFormatterCountStyleMemory;
-	});
-}
 
 - (NSArray<NSString *> *)dtx_sanitizedOpenFiles
 {

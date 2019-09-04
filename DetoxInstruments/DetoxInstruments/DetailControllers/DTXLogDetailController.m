@@ -61,11 +61,6 @@
 	[(DTXLogDataProvider*)self.detailDataProvider scrollToTimestamp:timestamp];
 }
 
-- (NSView *)viewForCopy
-{
-	return _tableView;
-}
-
 - (NSString *)displayName
 {
 	return NSLocalizedString(@"Console", @"");

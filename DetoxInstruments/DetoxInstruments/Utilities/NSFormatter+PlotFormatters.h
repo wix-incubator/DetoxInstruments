@@ -26,5 +26,6 @@
 + (DTXSecondsFormatter*)dtx_secondsFormatter;
 + (NSDateComponentsFormatter*)dtx_durationFormatter;
 + (DTXMainThreadUsageFormatter*)dtx_mainThreadFormatter;
++ (NSNumberFormatter*)dtx_readibleCountFormatter;
 
 @end

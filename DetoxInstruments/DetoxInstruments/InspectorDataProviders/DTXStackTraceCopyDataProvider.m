@@ -7,8 +7,12 @@
 //
 
 #import "DTXStackTraceCopyDataProvider.h"
+#import "DTXStackTraceCellView.h"
 
 @implementation DTXStackTraceCopyDataProvider
+{
+	
+}
 
 + (NSFont*)fontForStackTraceDisplay
 {
@@ -38,31 +42,36 @@
 	return nil;
 }
 
-- (void)copy:(id)sender targetView:(__kindof NSView *)targetView
+- (BOOL)canCopyInView:(NSTableView*)view
 {
-	NSIndexSet* selectedRowIndices = [targetView selectedRowIndexes];
-	if([targetView numberOfSelectedRows] == 0)
+	return [view respondsToSelector:@selector(dataSource)] && [view.dataSource isKindOfClass:DTXStackTraceCellView.class];
+}
+
+- (void)copyInView:(__kindof NSView *)view sender:(id)sender
+{
+	NSIndexSet* selectedRowIndices = [view selectedRowIndexes];
+	if([view numberOfSelectedRows] == 0)
 	{
-		selectedRowIndices = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [targetView numberOfRows])];
+		selectedRowIndices = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [view numberOfRows])];
 	}
-	
+
 	NSMutableString* rv = [NSMutableString new];
-	
+
 	[selectedRowIndices enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
 		id obj = self.arrayForStackTrace[idx];
-		
+
 		NSString* stackTraceFrame = [self stackTraceFrameStringForObject:obj includeFullFormat:YES];
-		
+
 		if(stackTraceFrame == nil)
 		{
 			//Ignore unknown frame format.
 			return;
 		}
-		
+
 		[rv appendString:[NSString stringWithFormat:@"%-4ld%@", idx, stackTraceFrame]];
 		[rv appendString:@"\n"];
 	}];
-	
+
 	[[NSPasteboard generalPasteboard] clearContents];
 	[[NSPasteboard generalPasteboard] setString:[rv stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]] forType:NSPasteboardTypeString];
 }
@@ -102,7 +111,6 @@
 	}
 	
 	stackTrace.stackFrames = stackFrames;
-	stackTrace.setupForWindowWideCopy = YES;
 
 	return stackTrace;
 }

@@ -98,7 +98,7 @@
 	return rv;
 }
 
-- (BOOL)canCopy
+- (BOOL)canCopyInView:(__kindof NSView *)view
 {
 //	DTXReactNativePeroformanceSample* perfSample = self.sample;
 	return NO; //perfSample.recording.dtx_profilingConfiguration.collectJavaScriptStackTraces;

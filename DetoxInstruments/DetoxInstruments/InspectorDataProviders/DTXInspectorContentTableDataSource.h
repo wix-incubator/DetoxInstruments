@@ -37,8 +37,6 @@
 
 @property (nonatomic, copy) NSArray<DTXInspectorContentRow*>* content;
 
-@property (nonatomic) BOOL setupForWindowWideCopy;
-
 @property (nonatomic, strong) NSImage* image;
 @property (nonatomic, strong) NSView* customView;
 @property (nonatomic, copy) NSArray<DTXStackTraceFrame*>* stackFrames;
@@ -46,6 +44,8 @@
 @property (nonatomic, copy) NSArray<id>* objects;
 
 @property (nonatomic) BOOL selectionDisabled;
+
+@property (nonatomic, copy) void(^copyHandler)(__kindof NSView* targetView, id sender);
 
 @end
 

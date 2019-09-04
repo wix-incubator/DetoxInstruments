@@ -8,14 +8,29 @@
 
 #import "DTXInspectorDataProvider.h"
 #import "DTXSignpostProtocol.h"
+#import "NSFormatter+PlotFormatters.h"
+
+@interface DTXInspectorDataProvider ()
+
++ (BOOL)_allowsNilSample;
+
+@end
 
 @implementation DTXInspectorDataProvider
+
++ (BOOL)_allowsNilSample
+{
+	return NO;
+}
 
 - (instancetype)initWithSample:(__kindof DTXSample *)sample document:(DTXRecordingDocument *)document
 {
 	self = [super init];
 	
-	NSParameterAssert(sample != nil);
+	if(self.class._allowsNilSample == NO)
+	{
+		NSParameterAssert(sample != nil);
+	}
 	NSParameterAssert(document != nil);
 	
 	if(self)
@@ -32,7 +47,7 @@
 	return nil;
 }
 
-- (BOOL)canCopy
+- (BOOL)canCopyInView:(__kindof NSView *)view
 {
 	return NO;
 }
@@ -42,7 +57,7 @@
 	return NO;
 }
 
-- (IBAction)copy:(id)sender targetView:(__kindof NSView *)targetView
+- (IBAction)copyInView:(__kindof NSView *)view sender:(id)sender
 {
 	//NOOP
 }
@@ -102,6 +117,87 @@
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
 	
 	ti = [proxy.endTimestamp ?: self.document.lastRecording.endTimestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
+	
+	request.content = content;
+	
+	rv.contentArray = @[request];
+	
+	return rv;
+}
+
+@end
+
+@implementation DTXRangeInspectorDataProvider
+{
+	NSDate* _startTimestamp;
+	NSDate* _endTimestamp;
+	NSUInteger _totalCount;
+}
+
+@dynamic sample;
+
++ (BOOL)_allowsNilSample
+{
+	return YES;
+}
+
+- (instancetype)initWithSamples:(NSArray<__kindof DTXSample*>*)samples sortDescriptors:(NSArray<NSSortDescriptor*>*)sortDescriptors document:(DTXRecordingDocument*)document
+{
+	self = [super initWithSample:nil document:document];
+	
+	if(self)
+	{
+		if([sortDescriptors.firstObject.key isEqualToString:@"timestamp"])
+		{
+			__kindof DTXSample* first = samples.firstObject;
+			__kindof DTXSample* last = samples.lastObject;
+			
+			if(sortDescriptors.firstObject.ascending == NO)
+			{
+				swap(first, last);
+			}
+			
+			_startTimestamp = first.timestamp;
+			_endTimestamp = [last respondsToSelector:@selector(endTimestamp)] ? [last endTimestamp] : last.timestamp;
+		}
+		else
+		{
+			//Slow path
+			_startTimestamp = [samples valueForKeyPath:@"@min.timestamp"];
+			if([samples.firstObject respondsToSelector:@selector(endTimestamp)])
+			{
+				_endTimestamp = [samples valueForKeyPath:@"@max.endTimestamp"];
+			}
+			else
+			{
+				_endTimestamp = [samples valueForKeyPath:@"@max.timestamp"];
+			}
+		}
+		
+		_totalCount = samples.count;
+	}
+	
+	return self;
+}
+
+- (DTXInspectorContentTableDataSource*)inspectorTableDataSource
+{
+	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
+	
+	DTXInspectorContent* request = [DTXInspectorContent new];
+	request.title = NSLocalizedString(@"Multiple Samples", @"");
+	
+	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Selection Count", @"") description:[NSFormatter.dtx_readibleCountFormatter stringFromNumber:@(_totalCount)]]];
+	
+	NSTimeInterval ti = [_startTimestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
+	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Start", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
+	
+	ti = [_endTimestamp timeIntervalSinceReferenceDate] - [self.document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"End", @"") description:[[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)]]];
 	

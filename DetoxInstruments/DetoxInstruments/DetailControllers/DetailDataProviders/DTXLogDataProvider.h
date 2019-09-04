@@ -8,7 +8,7 @@
 
 #import "DTXDetailDataProvider.h"
 
-@interface DTXLogDataProvider : NSObject <DTXWindowWideCopyHanler, DTXDetailDataProvider>
+@interface DTXLogDataProvider : NSObject <DTXDetailDataProvider>
 
 - (instancetype)initWithDocument:(DTXRecordingDocument*)document;
 - (instancetype)init NS_UNAVAILABLE;

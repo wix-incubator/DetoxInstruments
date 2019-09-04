@@ -136,4 +136,23 @@
 	return @[@"url", @"responseStatusCodeString", @"requestHeadersFlat", @"responseHeadersFlat", @"requestHTTPMethod"];
 }
 
+- (BOOL)canCopy
+{
+	return self.managedOutlineView.numberOfSelectedRows > 0;
+}
+
+- (void)copy:(id)sender
+{
+	NSMutableString* stringToCopy = [NSMutableString new];
+	
+	[self.managedOutlineView.selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+		DTXNetworkSample* networkSample = [self.managedOutlineView itemAtRow:idx];
+		
+		[stringToCopy appendFormat:@"%@\n\n", networkSample.url];
+	}];
+
+	[[NSPasteboard generalPasteboard] clearContents];
+	[[NSPasteboard generalPasteboard] setString:[stringToCopy stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]] forType:NSPasteboardTypeString];
+}
+
 @end

@@ -115,7 +115,10 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="dh1-8y-zfS">
-                            <rect key="frame" x="88" y="19" width="116" height="25"/>
+                            <rect key="frame" x="87" y="19" width="118" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="113" placeholder="YES" id="qgA-Pn-2wm"/>
+                            </constraints>
                             <popUpButtonCell key="cell" type="push" title="Property List" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="EN1-xb-dmb" id="rm1-5d-cO2">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -135,7 +138,7 @@
                             </connections>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="3Ov-Tw-qaT">
-                            <rect key="frame" x="33" y="25" width="51" height="16"/>
+                            <rect key="frame" x="32" y="25" width="51" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="8bZ-eX-Z9S">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -191,11 +194,11 @@
                             <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="82" horizontalPageScroll="10" verticalLineScroll="82" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Dyq-gr-DLO" customClass="DTXScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="1200" height="779"/>
                                 <clipView key="contentView" wantsLayer="YES" copiesOnScroll="NO" id="3Ki-wJ-UtA">
-                                    <rect key="frame" x="0.0" y="0.0" width="1200" height="779"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1200" height="764"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="80" viewBased="YES" id="TIP-gY-a5N" customClass="DTXPlotTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="1260" height="779"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="1260" height="764"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -255,7 +258,10 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="X7U-Aq-IEC" customClass="DTXSettingsPopUpButton">
-                                                                    <rect key="frame" x="100" y="31" width="38" height="18"/>
+                                                                    <rect key="frame" x="100" y="31" width="55" height="18"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="55" placeholder="YES" id="2m7-8i-B3m"/>
+                                                                    </constraints>
                                                                     <popUpButtonCell key="cell" type="roundRect" bezelStyle="roundedRect" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="msL-eF-6aG" id="fwB-v5-Dpn">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="label" size="12"/>
@@ -323,7 +329,7 @@
                                 </clipView>
                                 <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="n3R-Di-Yrv">
-                                    <rect key="frame" x="0.0" y="763" width="1200" height="16"/>
+                                    <rect key="frame" x="0.0" y="764" width="1200" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="txo-63-aGr">
@@ -355,11 +361,11 @@
         <scene sceneID="qqs-2n-h2I">
             <objects>
                 <viewController storyboardIdentifier="DTXPlotControllerPickerController" id="WaS-Vf-Ye7" customClass="DTXPlotControllerPickerController" sceneMemberID="viewController">
-                    <scrollView key="view" misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="67" horizontalPageScroll="10" verticalLineScroll="67" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="xnN-ho-Ti6">
-                        <rect key="frame" x="0.0" y="0.0" width="360" height="65"/>
+                    <scrollView key="view" borderType="none" autohidesScrollers="YES" horizontalLineScroll="67" horizontalPageScroll="10" verticalLineScroll="67" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="xnN-ho-Ti6">
+                        <rect key="frame" x="0.0" y="0.0" width="360" height="66"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="nuB-hL-TgG">
-                            <rect key="frame" x="0.0" y="0.0" width="360" height="65"/>
+                            <rect key="frame" x="0.0" y="0.0" width="360" height="66"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="65" viewBased="YES" id="n1W-cG-2SO" customClass="DTXKeyDownIgnoringTableView">
@@ -659,15 +665,14 @@
         <scene sceneID="Jk1-tP-8WB">
             <objects>
                 <viewController storyboardIdentifier="DTXOutlineDetailController" id="Ybs-ui-apR" customClass="DTXOutlineDetailController" sceneMemberID="viewController">
-                    <scrollView key="view" wantsLayer="YES" misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" id="CdH-GL-l82">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="231"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <scrollView key="view" wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="CdH-GL-l82">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="269"/>
                         <clipView key="contentView" drawsBackground="NO" id="t1C-zD-puQ">
-                            <rect key="frame" x="0.0" y="0.0" width="450" height="231"/>
+                            <rect key="frame" x="0.0" y="0.0" width="450" height="269"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="b6M-83-qhy" viewBased="YES" indentationPerLevel="16" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG" customClass="DTXDetailOutlineView">
-                                    <rect key="frame" x="0.0" y="0.0" width="450" height="208"/>
+                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" autosaveColumns="NO" headerView="b6M-83-qhy" viewBased="YES" indentationPerLevel="16" outlineTableColumn="eFp-9H-DG5" id="Kbq-cg-BDG" customClass="DTXDetailOutlineView">
+                                    <rect key="frame" x="0.0" y="0.0" width="450" height="246"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <size key="intercellSpacing" width="2" height="3"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -758,6 +763,9 @@
                             </subviews>
                             <nil key="backgroundColor"/>
                         </clipView>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="269" placeholder="YES" id="7o1-xZ-Q9f"/>
+                        </constraints>
                         <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="cNa-Fh-d2X">
                             <rect key="frame" x="0.0" y="7" width="0.0" height="16"/>
@@ -839,7 +847,7 @@
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-Wz-uMT">
                                                                                 <rect key="frame" x="13" y="16" width="300" height="13"/>
                                                                                 <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="BME-dP-HVL">
-                                                                                    <font key="font" metaFont="system" size="10"/>
+                                                                                    <font key="font" metaFont="menu" size="10"/>
                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>

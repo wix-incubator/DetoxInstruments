@@ -201,7 +201,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 - (void)contentController:(DTXPlotAreaContentController*)cc updatePlotController:(id<DTXPlotController>)plotController
 {
 	_detailContentController.managingPlotController = plotController;
-	_inspectorContentController.moreInfoDataProvider = nil;
+	_inspectorContentController.inspectorDataProvider = nil;
 	
 	[self reloadTouchBar];
 }
@@ -247,7 +247,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 
 - (void)bottomController:(DTXDetailContentController*)bc updateWithInspectorProvider:(DTXInspectorDataProvider*)inspectorProvider
 {
-	_inspectorContentController.moreInfoDataProvider = inspectorProvider;
+	_inspectorContentController.inspectorDataProvider = inspectorProvider;
 	
 	if(inspectorProvider != nil)
 	{
@@ -299,11 +299,6 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 		return YES;
 	}
 	
-	if(menuItem.action == @selector(copy:))
-	{
-		return self.targetForCopy && self.handlerForCopy != nil && self.handlerForCopy.canCopy;
-	}
-	
 	return NO;
 }
 
@@ -342,11 +337,6 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	[NSUserDefaults.standardUserDefaults setInteger:self.window.titleVisibility forKey:__DTXWindowTitleVisibility];
 }
 
-- (IBAction)copy:(id)sender
-{
-	[self.handlerForCopy copy:sender targetView:self.targetForCopy];
-}
-
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
 	if([self.document documentState] == DTXRecordingDocumentStateNew)
@@ -355,11 +345,6 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	}
 	
 	[super encodeRestorableStateWithCoder:coder];
-}
-
-- (void)setHandlerForCopy:(id<DTXWindowWideCopyHanler>)handlerForCopy
-{
-	_handlerForCopy = handlerForCopy;
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName

@@ -281,4 +281,15 @@
 	return mainThreadFormatter;
 }
 
++ (NSNumberFormatter*)dtx_readibleCountFormatter
+{
+	static NSNumberFormatter* numberFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		numberFormatter = [NSNumberFormatter new];
+		numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+	});
+	return numberFormatter;
+}
+
 @end

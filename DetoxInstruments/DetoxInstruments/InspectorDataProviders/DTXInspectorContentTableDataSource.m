@@ -129,7 +129,6 @@
 	equal &= (self.title == object.title || [self.title isEqualToString:object.title]);
 	equal &= (self.isGroup == object.isGroup);
 	equal &= (self.content == object.content ||  [self.content isEqualToArray:object.content]);
-	equal &= (self.setupForWindowWideCopy == object.setupForWindowWideCopy);
 	equal &= (self.image == object.image || [self.image.TIFFRepresentation isEqualToData:object.image.TIFFRepresentation]);
 	equal &= (self.customView == object.customView || [self.customView isEqual:object.customView]);
 	equal &= (self.stackFrames == object.stackFrames || [self.stackFrames isEqualToArray:object.stackFrames]);
@@ -410,11 +409,6 @@
 		]];
 		
 		targetForWindowWideCopy = viewCell.contentView;
-	}
-	
-	if(content.setupForWindowWideCopy)
-	{
-		[tableView.window.windowController setTargetForCopy:targetForWindowWideCopy];
 	}
 	
 	if([cell respondsToSelector:@selector(buttonsStackViewConstraint)])

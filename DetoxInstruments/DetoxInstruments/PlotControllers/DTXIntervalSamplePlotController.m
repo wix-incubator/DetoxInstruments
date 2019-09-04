@@ -98,9 +98,6 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 	[_plotViews removeAllObjects];
 	[_sectionControllers removeAllObjects];
 	
-	NSNumberFormatter* numberFormatter = [NSNumberFormatter new];
-	numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-	
 	[_frc.sections enumerateObjectsUsingBlock:^(id<NSFetchedResultsSectionInfo>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		auto sectionController = [[DTXIntervalSectionSamplePlotController alloc] initWithIntervalSamplePlotController:self fetchedResultsController:_frc isForTouchBar:self.isForTouchBar];
 		sectionController.section = idx;

@@ -60,6 +60,9 @@
 @property (nonatomic, strong, readonly) DTXInspectorDataProvider* currentlySelectedInspectorItem;
 @property (nonatomic, weak) id<DTXDetailDataProviderDelegate> delegate;
 
+- (BOOL)canCopy;
+- (void)copy:(id)sender;
+
 @end
 
 @interface DTXDetailDataProvider : NSObject <DTXDetailDataProvider, NSOutlineViewDataSource, NSOutlineViewDelegate>

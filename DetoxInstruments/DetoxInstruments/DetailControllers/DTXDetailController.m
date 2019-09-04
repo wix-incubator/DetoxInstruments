@@ -23,16 +23,14 @@
 	return self;
 }
 
-- (void)viewDidAppear
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	[super viewDidAppear];
-	
-	if(self.canCopy)
+	if(menuItem.action == @selector(copy:))
 	{
-		DTXWindowController* controller = self.view.window.windowController;
-		controller.targetForCopy = self.viewForCopy;
-		controller.handlerForCopy = (id)self.detailDataProvider;
+		return self.detailDataProvider.canCopy;
 	}
+	
+	return [super validateMenuItem:menuItem];
 }
 
 - (BOOL)supportsDataFiltering
@@ -43,11 +41,6 @@
 - (void)updateViewWithInsets:(NSEdgeInsets)insets
 {
 	
-}
-
-- (NSView *)viewForCopy
-{
-	return self.view;
 }
 
 - (void)filterSamples:(NSString*)filter
@@ -123,12 +116,9 @@
 
 #pragma mark DTXWindowWideCopyHanler
 
-- (BOOL)canCopy
+- (void)copy:(id)sender
 {
-	return NO;
+	[self.detailDataProvider copy:sender];
 }
-
-- (void)copy:(id)sender targetView:(__kindof NSView *)targetView
-{}
 
 @end

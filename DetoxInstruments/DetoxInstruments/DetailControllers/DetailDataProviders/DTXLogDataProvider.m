@@ -230,7 +230,7 @@
 	return _managedTableView.selectedRowIndexes.count > 0;
 }
 
-- (void)copy:(id)sender targetView:(__kindof NSView*)targetView
+- (void)copy:(id)sender
 {
 	NSMutableString* stringToCopy = [NSMutableString new];
 	

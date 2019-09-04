@@ -108,6 +108,7 @@
 		394ED756225A57B0001875C3 /* SDWebImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394ED753225A57A8001875C3 /* SDWebImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		394ED759225A57F0001875C3 /* DTXContributorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394ED758225A57F0001875C3 /* DTXContributorsViewController.m */; };
 		394ED764225A6F5C001875C3 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 394ED763225A6F52001875C3 /* Localizable.stringsdict */; };
+		3950E883231FBA7F0014FC30 /* DTXScrollForwardingContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3950E882231FBA7F0014FC30 /* DTXScrollForwardingContainerView.m */; };
 		39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D57209B0F48003AF7D3 /* TargetManagement.storyboard */; };
 		39538D71209B40D7003AF7D3 /* RemoteProfiling.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */; };
 		39538D73209B40F3003AF7D3 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39538D72209B40F3003AF7D3 /* About.storyboard */; };
@@ -678,6 +679,8 @@
 		394ED757225A57F0001875C3 /* DTXContributorsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXContributorsViewController.h; sourceTree = "<group>"; };
 		394ED758225A57F0001875C3 /* DTXContributorsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXContributorsViewController.m; sourceTree = "<group>"; };
 		394ED762225A6F52001875C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		3950E881231FBA7F0014FC30 /* DTXScrollForwardingContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXScrollForwardingContainerView.h; sourceTree = "<group>"; };
+		3950E882231FBA7F0014FC30 /* DTXScrollForwardingContainerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXScrollForwardingContainerView.m; sourceTree = "<group>"; };
 		3952467621B087EC00D73BCF /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39538D57209B0F48003AF7D3 /* TargetManagement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TargetManagement.storyboard; sourceTree = "<group>"; };
 		39538D70209B40D7003AF7D3 /* RemoteProfiling.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RemoteProfiling.storyboard; sourceTree = "<group>"; };
@@ -1508,6 +1511,8 @@
 				394E30C5223F9E3E0030462C /* DTXValidatingButtonCell.m */,
 				396421C92243CDA80053B3FF /* DTXDraggableImageView.h */,
 				396421CA2243CDA80053B3FF /* DTXDraggableImageView.m */,
+				3950E881231FBA7F0014FC30 /* DTXScrollForwardingContainerView.h */,
+				3950E882231FBA7F0014FC30 /* DTXScrollForwardingContainerView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2392,6 +2397,7 @@
 				3906B0B02235616F00E81B9A /* DTXRPNodeSnippetExporter.m in Sources */,
 				39C6A8E51EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m in Sources */,
 				3988D70120EA4F4000F11F8C /* DTXSignpostNameProxy.m in Sources */,
+				3950E883231FBA7F0014FC30 /* DTXScrollForwardingContainerView.m in Sources */,
 				39042FC220711B4E00C85368 /* DTXContainerContentsViewController.m in Sources */,
 				393B2464207A61E7002371D5 /* DTXFileListOutlineView.m in Sources */,
 				399E73512091BF5E006EAD6E /* DTXLayerView.m in Sources */,

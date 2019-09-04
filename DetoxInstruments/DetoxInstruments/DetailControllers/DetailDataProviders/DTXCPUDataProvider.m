@@ -154,4 +154,26 @@
 	return YES;
 }
 
+//- (BOOL)canCopy
+//{
+//	return self.managedOutlineView.numberOfSelectedRows > 0;
+//}
+//
+//- (void)copy:(id)sender
+//{
+//	NSMutableString* stringToCopy = [NSMutableString new];
+//	
+//	NSTimeInterval docTi = [self.document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
+//	
+//	[self.managedOutlineView.selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+//		DTXPerformanceSample* sample = [self.managedOutlineView itemAtRow:idx];
+//		
+//		NSTimeInterval ti = [sample.timestamp timeIntervalSinceReferenceDate] - docTi;
+//		[stringToCopy appendFormat:@"%11s, %6s, %@,\n", [NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)].UTF8String, [NSFormatter.dtx_percentFormatter stringForObjectValue:@(sample.cpuUsage)].UTF8String, sample.heaviestThreadName];
+//	}];
+//
+//	[[NSPasteboard generalPasteboard] clearContents];
+//	[[NSPasteboard generalPasteboard] setString:[stringToCopy stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]] forType:NSPasteboardTypeString];
+//}
+
 @end

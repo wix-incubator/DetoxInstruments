@@ -47,7 +47,6 @@
 		DTXInspectorContent* objectsContent = [DTXInspectorContent new];
 		objectsContent.title = NSLocalizedString(@"Logged Objects", @"");
 		objectsContent.objects = logSample.objects;
-		objectsContent.setupForWindowWideCopy = YES;
 		
 		rv.contentArray = @[request, objectsContent, logLineInfo];
 	}
@@ -59,16 +58,16 @@
 	return rv;
 }
 
-- (BOOL)canCopy
+- (BOOL)canCopyInView:(__kindof NSView *)view
 {
 	DTXLogSample* logSample = self.sample;
 	
 	return logSample.objects.count > 0;
 }
 
-- (void)copy:(id)sender targetView:(__kindof NSView *)targetView
+- (void)copyInView:(__kindof NSView *)view sender:(id)sender
 {
-	NSOutlineView* outlineView = targetView;
+	NSOutlineView* outlineView = view;
 	NSValue* val = [outlineView itemAtRow:[outlineView selectedRow]];
 	
 	id obj = val.nonretainedObjectValue;

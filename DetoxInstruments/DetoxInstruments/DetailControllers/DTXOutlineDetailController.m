@@ -59,9 +59,4 @@
 	_outlineView.enclosingScrollView.contentInsets = insets;
 }
 
-- (NSView *)viewForCopy
-{
-	return _outlineView;
-}
-
 @end

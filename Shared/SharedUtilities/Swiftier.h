@@ -26,7 +26,9 @@
 #define thread_local _Thread_local
 #endif
 
+#if ! defined(__cplusplus) && ! defined(auto)
 #define auto __auto_type
+#endif
 #endif
 
 typedef _Atomic(void*) atomic_voidptr;
@@ -54,6 +56,10 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 #define PTR(x) ((__bridge void*)x)
 
 #define unavailable(...) @available(__VA_ARGS__)) { } else if(YES
+
+#ifndef swap
+#define swap(x, y) do { typeof(x) t = x; x = y; y = t; }while(0)
+#endif
 
 #ifdef __cplusplus
 #import <Foundation/Foundation.h>
