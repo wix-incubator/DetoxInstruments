@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:DetoxInstruments/DetoxInstruments.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Profiler/DTXProfiler.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SampleApps/StressTestApp/StressTestApp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:CLI/CLI.xcodeproj">
+   </FileRef>
+</Workspace>
