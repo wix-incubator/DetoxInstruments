@@ -57,8 +57,10 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 
 #define unavailable(...) @available(__VA_ARGS__)) { } else if(YES
 
+#if ! defined(__cplusplus)
 #ifndef swap
 #define swap(x, y) do { typeof(x) t = x; x = y; y = t; }while(0)
+#endif
 #endif
 
 #ifdef __cplusplus

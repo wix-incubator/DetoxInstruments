@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@import ObjectiveC;
 
 @interface NSStoryboard (XcodePoop) @end
 
@@ -21,5 +22,10 @@
 
 int main(int argc, const char * argv[])
 {
+	if([NSUserName() isEqualToString:@"lnatan"] || [NSUserName() isEqualToString:@"leonatan"])
+	{
+		[NSUserDefaults.standardUserDefaults registerDefaults:@{@"NSUseRemoteSavePanel": @NO}];
+	}
+	
 	return NSApplicationMain(argc, argv);
 }
