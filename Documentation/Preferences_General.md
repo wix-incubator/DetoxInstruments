@@ -2,15 +2,13 @@
 
 Use the General preferences to manage the appearance and behavior of Detox Instruments.
 
-To open the General preferences, select **Detox Instruments** ➔ **Preferences**, and select the **General** tab.
-
 ![General Preferences](Resources/Preferences_General.png "General Preferences")
 
 ### Appearance
 
 Use these preferences to control how the app looks.
 
-The **Auto** preference lets the app pick its appearance according to the current system appearance.
+The **System** preference lets the app pick its appearance according to the current system appearance.
 
 The **Light** and **Dark** appearance preferences will force the app to appear in the selected appearance, regardless of the system appearance.
 

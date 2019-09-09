@@ -4,12 +4,12 @@ pushd .
 cd Documentation/Resources
 for PNG in *.png ;
 do
-	echo -e "\033[1;34mCrushing $PNG\033[0m"
-	pngcrush -reduce -m 123 -ow "$PNG"
+  echo -e "\033[1;34mCrushing $PNG\033[0m"
+  pngcrush -reduce -m 123 -ow "$PNG"
 done ;
 popd
 
-HTMLDIR=DetoxInstruments/Resources/DetoxInstruments.help/Contents/Resources/English.lproj
+HTMLDIR=DetoxInstruments/DetoxInstruments/Resources/DetoxInstruments.help/Contents/Resources/English.lproj
 
 rm -fr "${HTMLDIR}"/Documentation
 mkdir -p "${HTMLDIR}"/Documentation
@@ -19,11 +19,11 @@ pushd . > /dev/null
 cd "${HTMLDIR}"/Documentation/Resources/
 for PNG in *.png ;
 do
-	# convert "$PNG" -flatten -alpha off -resize 50% "$PNG"
+  # convert "$PNG" -flatten -format jp2 -quality 50 "$PNG"
 	# pngcrush -reduce -m 123 -ow "$PNG"
 	echo -e "\033[1;34mConverting $PNG\033[0m"
-	convert "$PNG" -flatten -alpha off -resize 50% -quality 90 "$PNG".jpg
-	mv -f "$PNG".jpg "$PNG"
+  convert "$PNG" -flatten -alpha off -format jp2 -resize 50% -quality 85 "$PNG".jp2
+  mv -f "$PNG".jp2 "$PNG"
 done ;
 popd > /dev/null
 
@@ -97,5 +97,5 @@ for MD_FILE in Documentation/*.md; do
 done
 
 echo -e "\033[1;34mRebuilding Apple Help index\033[0m"
-hiutil -C --anchors -g -vvv -f DetoxInstruments/Resources/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex DetoxInstruments/Resources/DetoxInstruments.help -v
-hiutil -F -A -vvv -f DetoxInstruments/Resources/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex
+hiutil -C --anchors -g -vvv -f DetoxInstruments/DetoxInstruments/Resources/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex DetoxInstruments/DetoxInstruments/Resources/DetoxInstruments.help -v
+hiutil -F -A -vvv -f DetoxInstruments/DetoxInstruments/Resources/DetoxInstruments.help/Contents/Resources/English.lproj/Search.helpindex

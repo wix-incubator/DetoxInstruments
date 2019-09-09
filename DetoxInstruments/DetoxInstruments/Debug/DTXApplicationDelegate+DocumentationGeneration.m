@@ -74,7 +74,7 @@ static NSBitmapImageRep* __DTXThemeBackgroundRep(NSBitmapImageRep* rep)
 {
 	NSImage* rvImage = [[NSImage alloc] initWithSize:NSMakeSize(rep.size.width, rep.size.height)];
 	[rvImage lockFocus];
-	[(NSApp.effectiveAppearance.isDarkAppearance ? [NSColor colorWithRed:0.1171875 green:0.1171875 blue:0.1171875 alpha:1.0] : NSColor.whiteColor) setFill];
+	[(NSApp.effectiveAppearance.isDarkAppearance ? [NSColor colorWithRed:33.0/255.0 green:33.0/255.0 blue:34.0/255.0 alpha:1.0] : NSColor.whiteColor) setFill];
 	NSRect rect = (NSRect){0, 0, rvImage.size};
 	NSRectFill(rect);
 	[rep drawInRect:rect fromRect:rect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
@@ -176,7 +176,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 								   NSStringFromClass(DTXRNBridgeDataTransferPlotController.class): @{@"name": @"RNBridgeData", @"lowkeyInspector": @YES},
 								   };
 		
-		__defaultSample = @30;
+		__defaultSample = @22;
 		__defaultSampleRN = @22;
 		
 		__appleAccentColorMapping = @{
@@ -298,6 +298,13 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_InspectorPane.png"].path atomically:YES];
 	
+	img = [[NSImage imageNamed:@"expand_preview"] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_ExpandPreview.png"].path atomically:YES];
+	
 	NSDocument* newDocument = [NSDocumentController.sharedDocumentController openUntitledDocumentAndDisplay:YES error:NULL];
 	DTXWindowController* windowController = newDocument.windowControllers.firstObject;
 	
@@ -364,6 +371,9 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	rep = (NSBitmapImageRep*)[self _snapshotForGeneralFromPrefs:prefs].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Preferences_General.png"].path atomically:YES];
+	
+	rep = (NSBitmapImageRep*)[self _snapshotForCLIFromPrefs:prefs].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Preferences_CLI.png"].path atomically:YES];
 	
 	rep = (NSBitmapImageRep*)[self _snapshotForRecordingSettingsFromPrefs:prefs].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Preferences_Profiling.png"].path atomically:YES];
@@ -982,6 +992,19 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[prefs _drainLayout];
 	
 	[prefs _activateControllerAtIndex:0];
+	
+	[prefs _drainLayout];
+	[prefs _drainLayout];
+	
+	return [prefs.window snapshotForCachingDisplay];
+}
+
+- (NSImage*)_snapshotForCLIFromPrefs:(DTXInstrumentsPreferencesWindowController*)prefs
+{
+	[prefs _drainLayout];
+	[prefs _drainLayout];
+	
+	[prefs _activateControllerAtIndex:2];
 	
 	[prefs _drainLayout];
 	[prefs _drainLayout];

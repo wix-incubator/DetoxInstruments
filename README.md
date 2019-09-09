@@ -98,7 +98,7 @@ You can also save and reopen recording documents in which you’ve collected dat
 
 For detailed information on the recording document, see [The Recording Document](Documentation/RecordingDocument.md).
 
-For detailed information on the preferences, see [General Preferences](Documentation/Preferences_General.md)
+For detailed information on the application preferences, see [Preferences](Documentation/Preferences.md)
 
 ### Instruments
 

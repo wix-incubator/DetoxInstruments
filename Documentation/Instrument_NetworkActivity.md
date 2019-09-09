@@ -38,7 +38,7 @@ For each sample, the inspector pane shows request and response information, such
 
 ![Network Activity Inspector Pane](Resources/Instrument_NetworkActivity_InspectorPane.png "Network Activity Inspector Pane")
 
-Response data is previewed automatically, and you can save file by right clicking on the preview and selecting **Save As...**
+Images and text responses are previewed automatically. You can expand the preview into a new window by pressing the expand button (![Expand Button](Resources/Button_ExpandPreview.png)). You can also open, save as, or share the response file.
 
 #### Requests Playground
 
