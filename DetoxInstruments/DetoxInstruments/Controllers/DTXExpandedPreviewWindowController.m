@@ -59,6 +59,7 @@
 
 - (void)setWindowTitle:(NSString *)windowTitle
 {
+	self.window.title = windowTitle;
 	self.titleLabel.stringValue = windowTitle;
 }
 
