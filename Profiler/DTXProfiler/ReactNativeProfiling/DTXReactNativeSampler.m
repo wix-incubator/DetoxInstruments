@@ -78,8 +78,9 @@ static void installDTXNativeLoggingHook(JSContext* ctx)
 	};
 }
 
+static
 DTX_ALWAYS_INLINE
-inline static void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers, BOOL useNativeTimestamp)
+void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers, BOOL useNativeTimestamp)
 {
 	NSString* identifier = sample[@"identifier"];
 	NSUInteger type = [sample[@"type"] unsignedIntegerValue];

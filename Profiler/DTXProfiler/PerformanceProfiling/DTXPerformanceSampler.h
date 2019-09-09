@@ -30,8 +30,8 @@
 
 @end
 
-DTX_ALWAYS_INLINE
 static
+DTX_ALWAYS_INLINE
 BOOL _DTXThreadIdentifierForMachThread(mach_port_t thread, uint64_t* identifier)
 {
 	thread_info_data_t thread_info_data;
@@ -50,8 +50,8 @@ BOOL _DTXThreadIdentifierForMachThread(mach_port_t thread, uint64_t* identifier)
 	return YES;
 }
 
-DTX_ALWAYS_INLINE
 static
+DTX_ALWAYS_INLINE
 uint64_t _DTXThreadIdentifierForCurrentThread(void)
 {
 	uint64_t threadIdentifier = 0;

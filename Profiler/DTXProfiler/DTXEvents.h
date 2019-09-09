@@ -9,8 +9,6 @@
 #ifndef DTXEvents_h
 #define DTXEvents_h
 
-#import <DTXProfiler/DTXBase.h>
-
 /*!
  Event identifier
  */

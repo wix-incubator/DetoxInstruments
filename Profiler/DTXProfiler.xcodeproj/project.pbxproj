@@ -133,7 +133,6 @@
 		39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C171ED5B43F00157C04 /* DTXProfiler.m */; };
 		39D8637F210EFC9600FECB75 /* DTXProfilerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D8B31B21077714000895F7 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B31A21077643000895F7 /* DTXEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		39D8B36F21079CCA000895F7 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B3682107997C000895F7 /* DTXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D8E5331FB8764000C20E3E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3933E1341F7A319F0081F82F /* UIKit.framework */; };
 		39DBFD7F21B6203A0031B153 /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 39DBFD7E21B6203A0031B153 /* libMobileGestalt.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */; };
@@ -321,7 +320,6 @@
 		39D40C171ED5B43F00157C04 /* DTXProfiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXProfiler.m; sourceTree = "<group>"; };
 		39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilerAPI.h; sourceTree = "<group>"; };
 		39D8B31A21077643000895F7 /* DTXEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEvents.h; sourceTree = "<group>"; };
-		39D8B3682107997C000895F7 /* DTXBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXBase.h; sourceTree = "<group>"; };
 		39DBFD7E21B6203A0031B153 /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
 		39E10B69209F42E800CBB71A /* dtx_libproc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dtx_libproc.h; sourceTree = "<group>"; };
 		39E61A081EFFA4F3005CBE00 /* DTXNetworkRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNetworkRecorder.h; sourceTree = "<group>"; };
@@ -634,7 +632,6 @@
 				39D2054D1F03054000830A0D /* LogRecording */,
 				39557CD51F1F7E1300FF3187 /* RemoteProfiler */,
 				396EE2BE20ADAD32006C4C55 /* ViewHierarchy */,
-				39D8B3682107997C000895F7 /* DTXBase.h */,
 				39D8B31A21077643000895F7 /* DTXEvents.h */,
 				39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */,
 				39ED91332290669B005EDB56 /* DTXProfilerAPI-Private.h */,
@@ -712,7 +709,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3939240A21AD0A330015A15F /* ZZOldArchiveEntry.h in Headers */,
-				39D8B36F21079CCA000895F7 /* DTXBase.h in Headers */,
 				39B22BE5217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h in Headers */,
 				39D8B31B21077714000895F7 /* DTXEvents.h in Headers */,
 				39EEF37A21EFAE310028061D /* NSDictionary+FakeDecoder.h in Headers */,

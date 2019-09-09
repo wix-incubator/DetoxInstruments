@@ -7,7 +7,6 @@
 //
 
 #import "DTXMachUtilities.h"
-#import "DTXBase.h"
 #import <execinfo.h>
 
 //More info here:
