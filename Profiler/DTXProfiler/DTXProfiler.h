@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+#import <DTXProfiler/DTXBase.h>
 #import <DTXProfiler/DTXProfilingConfiguration.h>
 #import <DTXProfiler/DTXEvents.h>
 #import <DTXProfiler/DTXProfilerAPI.h>

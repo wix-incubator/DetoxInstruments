@@ -9,6 +9,8 @@
 #ifndef DTXProfilerAPI_h
 #define DTXProfilerAPI_h
 
+#import <DTXProfiler/DTXBase.h>
+
 NS_ASSUME_NONNULL_BEGIN
 __BEGIN_DECLS
 
