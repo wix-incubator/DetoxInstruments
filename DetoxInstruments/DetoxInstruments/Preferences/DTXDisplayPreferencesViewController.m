@@ -91,7 +91,11 @@
 		
 		return YES;
 	}];
-	rv.cacheMode = NSImageCacheNever;
+	
+	if(unavailable(macOS 10.15, *))
+	{
+		rv.cacheMode = NSImageCacheNever;
+	}
 	
 	return rv;
 }
