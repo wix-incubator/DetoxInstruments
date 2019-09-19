@@ -9,7 +9,7 @@
 #		brew install jq
 
 XCODEVERSION=$(xcodebuild -version | grep -oEi "([0-9]*\.[0-9]*)")
-XCODENEWESTSUPPORTED="10.3"
+XCODENEWESTSUPPORTED="11.0"
 if [ ${XCODEVERSION} != ${XCODENEWESTSUPPORTED} ] && [ "${XCODEVERSION}" = "`echo -e "${XCODEVERSION}\n${XCODENEWESTSUPPORTED}" | sort --version-sort -r | head -n1`" ]; then
   printf >&2 "\033[1;31mUnsupported Xcode, aborting\033[0m\n"
   exit 1;
