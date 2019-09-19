@@ -52,7 +52,7 @@
 		{
 			NSBezierPath* path = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(dstRect, 2, 2) xRadius:4 yRadius:4];
 			path.lineWidth = 4.0;
-			[[[NSColor.controlAccentColor colorWithSystemEffect:NSColorSystemEffectRollover] colorWithAlphaComponent:0.4] setStroke];
+			[NSColor.controlAccentColor setStroke];
 			[path stroke];
 		}
 		
