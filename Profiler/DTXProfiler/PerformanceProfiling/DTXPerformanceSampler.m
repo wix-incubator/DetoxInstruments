@@ -207,7 +207,7 @@ static uint64_t _DTXMemoryUsage(void)
 	struct task_vm_info task_vm_info;
 	mach_msg_type_number_t vmInfoCount = sizeof(task_vm_info);
 	kern_return_t result = task_info(mach_task_self(), TASK_VM_INFO, (task_info_t)&task_vm_info, &vmInfoCount);
-	return result == KERN_SUCCESS ? task_vm_info.internal + task_vm_info.compressed - task_vm_info.purgeable_volatile_pmap : 0;
+	return result == KERN_SUCCESS ? task_vm_info.phys_footprint : 0;
 }
 
 #pragma mark - Disk IO
