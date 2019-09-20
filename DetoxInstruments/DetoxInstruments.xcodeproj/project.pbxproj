@@ -252,6 +252,7 @@
 		397FE8DB1EEE7ED8002200B7 /* DTXCPUDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 397FE8DA1EEE7ED8002200B7 /* DTXCPUDataProvider.m */; };
 		3980C0DF2086C75000789E3B /* DetoxInstruments.help in Resources */ = {isa = PBXBuildFile; fileRef = 3980C0C72086C75000789E3B /* DetoxInstruments.help */; };
 		398183DE20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 398183DD20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m */; };
+		398225FA23350E7900FC733C /* NSWindow+NoModalBlocking.m in Sources */ = {isa = PBXBuildFile; fileRef = 398225F923350E7900FC733C /* NSWindow+NoModalBlocking.m */; };
 		3982AF2A21B843970023E19C /* DTXSignpostFlatDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982AF2921B843970023E19C /* DTXSignpostFlatDataProvider.m */; };
 		3982D85121B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D85021B3CEC2005FCAEF /* DTXCPUUsageDataExporter.m */; };
 		3982D86821B41D35005FCAEF /* DTXMemoryUsageDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3982D86721B41D35005FCAEF /* DTXMemoryUsageDataExporter.m */; };
@@ -791,6 +792,8 @@
 		3980C0C72086C75000789E3B /* DetoxInstruments.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DetoxInstruments.help; path = DetoxInstruments/Resources/DetoxInstruments.help; sourceTree = SOURCE_ROOT; };
 		398183DC20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXViewHierarchySnapshotter.h; path = ../../../Profiler/DTXProfiler/ViewHierarchy/DTXViewHierarchySnapshotter.h; sourceTree = "<group>"; };
 		398183DD20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXViewHierarchySnapshotter.m; path = ../../../Profiler/DTXProfiler/ViewHierarchy/DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
+		398225F823350E7900FC733C /* NSWindow+NoModalBlocking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSWindow+NoModalBlocking.h"; sourceTree = "<group>"; };
+		398225F923350E7900FC733C /* NSWindow+NoModalBlocking.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+NoModalBlocking.m"; sourceTree = "<group>"; };
 		3982AF2821B843970023E19C /* DTXSignpostFlatDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXSignpostFlatDataProvider.h; sourceTree = "<group>"; };
 		3982AF2921B843970023E19C /* DTXSignpostFlatDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXSignpostFlatDataProvider.m; sourceTree = "<group>"; };
 		3982D84F21B3CEC2005FCAEF /* DTXCPUUsageDataExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCPUUsageDataExporter.h; sourceTree = "<group>"; };
@@ -1709,6 +1712,8 @@
 				3947158B20A2FB0E00A7068A /* NSView+UIAdditions.m */,
 				3947158D20A32EDF00A7068A /* NSWindow+Snapshotting.h */,
 				3947158E20A32EDF00A7068A /* NSWindow+Snapshotting.m */,
+				398225F823350E7900FC733C /* NSWindow+NoModalBlocking.h */,
+				398225F923350E7900FC733C /* NSWindow+NoModalBlocking.m */,
 				39C1415D1F3C47F7008CF5B9 /* DTXStackTraceFrame.h */,
 				39C1415E1F3C47F7008CF5B9 /* DTXStackTraceFrame.m */,
 				39F0EB6821A98550005A7F01 /* WebView+DarkAppearanceTextView.h */,
@@ -2596,6 +2601,7 @@
 				39F0EB6A21A98550005A7F01 /* WebView+DarkAppearanceTextView.m in Sources */,
 				394C9B3E220883730015A085 /* DTXMappingModel9747To9808.xcmappingmodel in Sources */,
 				39782CDC1FC590DB0034D70A /* NSManagedObject+Additions.m in Sources */,
+				398225FA23350E7900FC733C /* NSWindow+NoModalBlocking.m in Sources */,
 				394B736F22AFCA0000E104F3 /* DTXDisplayPreferencesViewController.m in Sources */,
 				3982AF2A21B843970023E19C /* DTXSignpostFlatDataProvider.m in Sources */,
 				395F01C61EE81DA200695236 /* DTXTimelineIndicatorView.m in Sources */,
