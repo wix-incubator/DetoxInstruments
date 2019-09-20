@@ -81,13 +81,13 @@
 	
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
 		CPTMutableLineStyle* axisLineStyle = [CPTMutableLineStyle lineStyle];
-		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.gridColor.CGColor];
+		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.tertiaryLabelColor.CGColor];
 		axisLineStyle.lineWidth = 1.0;
 		axisLineStyle.lineCap   = kCGLineCapButt;
 		
 		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
-		labelStyle.color = [CPTColor colorWithCGColor:NSColor.tertiaryLabelColor.CGColor];
-		labelStyle.fontName = [NSFont dtx_monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightRegular].fontName;
+		labelStyle.color = [CPTColor colorWithCGColor:NSColor.secondaryLabelColor.CGColor];
+		labelStyle.fontName = [NSFont dtx_monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightLight].fontName;
 		labelStyle.fontSize = NSFont.smallSystemFontSize;
 		
 		// Axes
