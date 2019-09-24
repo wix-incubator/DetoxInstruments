@@ -750,7 +750,7 @@ CA
                                                 <action selector="helpIntegrationGuidePage:" target="Voe-Tx-rLC" id="jMZ-wc-S8W"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Show Profile Framework in Finder" id="QuA-wE-t51">
+                                        <menuItem title="Show Profiler Framework in Finder" id="QuA-wE-t51">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="revealProfilerFramework:" target="Voe-Tx-rLC" id="gke-lA-nt1"/>
