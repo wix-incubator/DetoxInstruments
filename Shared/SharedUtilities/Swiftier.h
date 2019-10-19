@@ -99,4 +99,12 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 
 #endif
 
+#define CLANG_IGNORE_HELPER0(x) #x
+#define CLANG_IGNORE_HELPER1(x) CLANG_IGNORE_HELPER0(clang diagnostic ignored x)
+#define CLANG_IGNORE_HELPER2(y) CLANG_IGNORE_HELPER1(#y)
+#define CLANG_POP _Pragma("clang diagnostic pop")
+#define CLANG_IGNORE(x)\
+    _Pragma("clang diagnostic push");\
+    _Pragma(CLANG_IGNORE_HELPER2(x))
+
 #endif /* Swiftier_pch */
