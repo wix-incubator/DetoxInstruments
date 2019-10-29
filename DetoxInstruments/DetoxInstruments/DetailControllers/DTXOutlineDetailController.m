@@ -21,25 +21,17 @@
 	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	_outlineView.wantsLayer = YES;
 	_outlineView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	self.detailDataProvider.managedOutlineView = _outlineView;
 }
 
 - (void)setDetailDataProvider:(DTXDetailDataProvider *)detailDataProvider
 {
+	if(super.detailDataProvider != nil)
+	{
+		super.detailDataProvider.managedOutlineView = nil;
+	}
 	super.detailDataProvider = detailDataProvider;
-}
-
-- (void)viewWillAppear
-{
-	[super viewWillAppear];
-	
-	self.detailDataProvider.managedOutlineView = _outlineView;
-}
-
-- (void)viewWillDisappear
-{
-	[super viewWillDisappear];
-	
-	self.detailDataProvider.managedOutlineView = nil;
+	super.detailDataProvider.managedOutlineView = _outlineView;
 }
 
 - (void)viewDidLayout

@@ -239,7 +239,9 @@ static NSImageView* _DTXPreviewImageView(void)
 
 - (NSRect)_frameForOpenExpandedPreview
 {
-	NSRect visibleFrame = _previewContainer.window.screen.visibleFrame;
+	NSScreen* screen = _previewContainer.window.screen ?: NSScreen.mainScreen;
+	
+	NSRect visibleFrame = screen.visibleFrame;
 	NSRect rv = NSMakeRect(0, 0, visibleFrame.size.width / 1.5, visibleFrame.size.height / 1.5);
 	rv.origin = NSMakePoint(CGRectGetMidX(visibleFrame) - rv.size.width / 2, CGRectGetMidY(visibleFrame) - rv.size.height / 2);
 	
@@ -337,9 +339,6 @@ static NSImageView* _DTXPreviewImageView(void)
 	_expandedPreviewWindowController.closeTarget = self;
 	_expandedPreviewWindowController.action = @selector(closePreview:);
 	
-	NSRect sourceRect = [self _imageViewFrameForClosedExpandedPreviewWithWindow:_expandedPreviewWindowController.window];
-	[_expandedPreviewWindowController.window setFrame:sourceRect display:NO];
-	
 	_expandedPreviewWindowController.openButton.target = self;
 	_expandedPreviewWindowController.openButton.action = @selector(open:);
 	_expandedPreviewWindowController.saveButton.target = self;
@@ -350,6 +349,17 @@ static NSImageView* _DTXPreviewImageView(void)
 	_expandedPreviewWindowController.windowTitle = self.fileName;
 	
 	NSRect targetExpandedPreviewFrame = [self _frameForOpenExpandedPreview];
+	
+	NSRect sourceRect = [self _imageViewFrameForClosedExpandedPreviewWithWindow:_expandedPreviewWindowController.window];
+	[_expandedPreviewWindowController.window setFrame:sourceRect display:NO];
+	
+	BOOL shouldAnimate = YES;
+	if(CGRectIsEmpty(sourceRect))
+	{
+		shouldAnimate = NO;
+		_expandedPreviewWindowController.window.animationBehavior = NSWindowAnimationBehaviorUtilityWindow;
+		[_expandedPreviewWindowController.window setFrame:targetExpandedPreviewFrame display:YES animate:NO];
+	}
 	
 	if([_customView isKindOfClass:NSImageView.class])
 	{
@@ -362,13 +372,14 @@ static NSImageView* _DTXPreviewImageView(void)
 	
 	[_expandedPreviewWindowController showWindow:nil];
 	
-//	NSTimeInterval animationDuration = [_expandedPreviewWindowController.window animationResizeTime:targetExpandedPreviewFrame];
-
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-		context.duration = 0.25;
+		context.duration = shouldAnimate ? 0.25 : 0.0;
 		context.allowsImplicitAnimation = YES;
 		[_expandedPreviewWindowController animateAppearance];
-		[_expandedPreviewWindowController.window setFrame:targetExpandedPreviewFrame display:YES animate:YES];
+		if(shouldAnimate)
+		{
+			[_expandedPreviewWindowController.window setFrame:targetExpandedPreviewFrame display:YES animate:YES];
+		}
 		
 		[self _setupButtonForClose];
 	} completionHandler:^{
