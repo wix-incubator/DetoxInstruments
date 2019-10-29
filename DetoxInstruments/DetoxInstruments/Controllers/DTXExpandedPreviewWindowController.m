@@ -92,13 +92,24 @@
 	self.leftConstraint.active = NO;
 }
 
-- (void)animateAppearance
+- (void)animateAppearance:(BOOL)animated
 {
-	self.toolbarView.animator.alphaValue = 1.0;
-	self.window.animator.hasShadow = YES;
-	self.topConstraint.animator.constant = -37.0;
-	
-	[[[self.window valueForKeyPath:@"themeFrame.titlebarView"] animator] setAlphaValue:1.0];
+	if(animated)
+	{
+		self.toolbarView.animator.alphaValue = 1.0;
+		self.window.animator.hasShadow = YES;
+		self.topConstraint.animator.constant = -37.0;
+		
+		[[[self.window valueForKeyPath:@"themeFrame.titlebarView"] animator] setAlphaValue:1.0];
+	}
+	else
+	{
+		self.toolbarView.alphaValue = 1.0;
+		self.window.hasShadow = YES;
+		self.topConstraint.constant = -37.0;
+		
+		[[self.window valueForKeyPath:@"themeFrame.titlebarView"] setAlphaValue:1.0];
+	}
 }
 
 - (void)animateDisappearance

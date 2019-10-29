@@ -329,6 +329,22 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	}];
 }
 
+- (BOOL)acceptsFirstResponder
+{
+	return YES;
+}
+
+- (void)keyDown:(NSEvent *)event
+{
+	if(event.keyCode == kVK_Space)
+	{
+		//To prevent the system beeping.
+		return;
+	}
+	
+	[super keyDown:event];
+}
+
 - (void)keyUp:(NSEvent *)event
 {
 	if(event.keyCode == kVK_Space)

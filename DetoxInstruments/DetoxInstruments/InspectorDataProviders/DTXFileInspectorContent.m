@@ -357,7 +357,7 @@ static NSImageView* _DTXPreviewImageView(void)
 	if(CGRectIsEmpty(sourceRect))
 	{
 		shouldAnimate = NO;
-		_expandedPreviewWindowController.window.animationBehavior = NSWindowAnimationBehaviorUtilityWindow;
+		_expandedPreviewWindowController.window.animationBehavior = NSWindowAnimationBehaviorAlertPanel;
 		[_expandedPreviewWindowController.window setFrame:targetExpandedPreviewFrame display:YES animate:NO];
 	}
 	
@@ -375,7 +375,7 @@ static NSImageView* _DTXPreviewImageView(void)
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
 		context.duration = shouldAnimate ? 0.25 : 0.0;
 		context.allowsImplicitAnimation = YES;
-		[_expandedPreviewWindowController animateAppearance];
+		[_expandedPreviewWindowController animateAppearance:shouldAnimate];
 		if(shouldAnimate)
 		{
 			[_expandedPreviewWindowController.window setFrame:targetExpandedPreviewFrame display:YES animate:YES];

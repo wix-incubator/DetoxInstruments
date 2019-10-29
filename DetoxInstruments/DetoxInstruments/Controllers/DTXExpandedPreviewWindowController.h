@@ -21,7 +21,7 @@
 @property (nonatomic, strong) id closeTarget;
 @property (nonatomic) SEL action;
 
-- (void)animateAppearance;
+- (void)animateAppearance:(BOOL)animated;
 - (void)appearanceAnimationDidEnd;
 - (void)disappearanceAnimationWillStart;
 - (void)animateDisappearance;
