@@ -15,6 +15,7 @@
 @import QuartzCore;
 #import "DTXRecordingDocumentDataExporter.h"
 #import "DTXDetailController.h"
+@import Carbon.HIToolbox.Events;
 
 static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
 static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollapsed";
@@ -326,6 +327,20 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		
 		_exportPanel = nil;
 	}];
+}
+
+- (void)keyUp:(NSEvent *)event
+{
+	if(event.keyCode == kVK_Space)
+	{
+		if([_detailInspectorSplitViewController expandPreview] == NO)
+		{
+			NSBeep();
+		}
+		return;
+	}
+	
+	[super keyUp:event];
 }
 
 @end

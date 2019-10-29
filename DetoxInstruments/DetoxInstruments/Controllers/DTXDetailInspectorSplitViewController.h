@@ -10,4 +10,6 @@
 
 @interface DTXDetailInspectorSplitViewController : DTXBaseSplitViewController
 
+- (BOOL)expandPreview;
+
 @end

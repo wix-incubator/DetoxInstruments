@@ -17,4 +17,6 @@
 - (void)selectExtendedDetail;
 - (void)selectProfilingInfo;
 
+- (BOOL)expandPreview;
+
 @end

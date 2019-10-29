@@ -9,6 +9,7 @@
 #import "DTXExpandedPreviewWindowController.h"
 #import "DTXNoVibrancyView.h"
 @import ObjectiveC;
+@import Carbon.HIToolbox.Events;
 
 @interface DTXExpandedPreviewWindowController () <NSWindowDelegate>
 
@@ -108,5 +109,29 @@
 	
 	[[[self.window valueForKeyPath:@"themeFrame.titlebarView"] animator] setAlphaValue:0.0];
 }
+
+- (void)keyDown:(NSEvent *)event
+{
+	if(event.keyCode == kVK_Space)
+	{
+		//To prevent the system beeping.
+		return;
+	}
+	
+	[super keyDown:event];
+}
+
+- (void)keyUp:(NSEvent *)event
+{
+	if(event.keyCode == kVK_Space)
+	{
+		void(*objc_msgSend_close)(id, SEL) = (void*)objc_msgSend;
+		objc_msgSend_close(self.closeTarget, self.action);
+		return;
+	}
+	
+	[super keyUp:event];
+}
+
 
 @end

@@ -19,4 +19,6 @@
 
 @property (nonatomic, strong) NSView* contentView;
 
+- (BOOL)expandPreview;
+
 @end

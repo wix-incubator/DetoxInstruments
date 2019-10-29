@@ -376,4 +376,11 @@ static NSImageView* _DTXPreviewImageView(void)
 	}];
 }
 
+- (BOOL)expandPreview
+{
+	[self expandPreview:nil];
+	
+	return YES;
+}
+
 @end

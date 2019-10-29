@@ -7,16 +7,21 @@
 //
 
 #import "DTXDetailInspectorSplitViewController.h"
+#import "DTXInspectorContentController.h"
 
 @interface DTXDetailInspectorSplitViewController ()
 
 @end
 
 @implementation DTXDetailInspectorSplitViewController
+{
+	DTXInspectorContentController* _inspectorContentController;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	_inspectorContentController = (id)self.splitViewItems.lastObject.viewController;
 	self.splitViewItems.lastObject.automaticMaximumThickness = 320;
 }
 
@@ -28,6 +33,11 @@
 - (CGFloat)lastSplitItemMinThickness
 {
 	return 320;
+}
+
+- (BOOL)expandPreview
+{
+	return [_inspectorContentController expandPreview];
 }
 
 @end

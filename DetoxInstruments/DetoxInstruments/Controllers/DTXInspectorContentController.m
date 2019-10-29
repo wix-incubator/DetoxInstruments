@@ -12,6 +12,7 @@
 #import "DTXInspectorContentTableDataSource.h"
 #import "DTXSegmentedView.h"
 #import "DTXRecording+UIExtensions.h"
+#import "DTXFileInspectorContent.h"
 
 static NSString* const DTXInspectorTabKey = @"DTXInspectorTabKey";
 
@@ -249,6 +250,23 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 - (IBAction)saveAsFromContext:(id)sender
 {
 	[_inspectorDataProvider saveAs:sender inWindow:self.view.window];
+}
+
+- (BOOL)expandPreview
+{
+	__block BOOL didExpand = NO;
+	
+	[_sampleDescriptionDataSource.contentArray enumerateObjectsUsingBlock:^(DTXInspectorContent * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if([obj isKindOfClass:DTXFileInspectorContent.class])
+		{
+			DTXFileInspectorContent* fileContent = (id)obj;
+			didExpand = [fileContent expandPreview];
+			
+			*stop = NO;
+		}
+	}];
+	
+	return didExpand;
 }
 
 @end
