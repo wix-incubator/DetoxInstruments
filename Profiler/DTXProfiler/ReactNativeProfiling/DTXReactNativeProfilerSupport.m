@@ -492,5 +492,10 @@ void DTXRegisterRNProfilerCallbacks()
 		
 		CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidAddProfiler, CF(__DTXDidAddActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
 		CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidRemoveProfiler, CF(__DTXDidRemoveActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
+		
+		//Iterate existing profilers and call the notification callback for them.
+		__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
+			__DTXDidAddProfiler(nil, nil, CF(__DTXDidAddActiveProfilerNotification), CF(profiler), nil);
+		});
 	});
 }

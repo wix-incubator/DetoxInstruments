@@ -22,10 +22,10 @@
 
 static DTXJSCWrapper __jscWrapper;
 
-static atomic_uintmax_t __bridgeNToJSDataSize = 0;
 static atomic_uintmax_t __bridgeNToJSCallCount = 0;
-static atomic_uintmax_t __bridgeJSToNDataSize = 0;
 static atomic_uintmax_t __bridgeJSToNCallCount = 0;
+static atomic_uintmax_t __bridgeNToJSDataSize = 0;
+static atomic_uintmax_t __bridgeJSToNDataSize = 0;
 
 static atomic_thread __rnThread = MACH_PORT_NULL;
 
@@ -38,14 +38,6 @@ dispatch_queue_t __eventDispatchQueue;
 
 static NSMutableDictionary<NSString*, NSString*>* __rn_valuePropertyMapping;
 static JSObjectRef __rn_pendingFunctionObject;
-
-static void resetAtomicVars()
-{
-	atomic_store(&__bridgeJSToNCallCount, 0);
-	atomic_store(&__bridgeNToJSDataSize, 0);
-	atomic_store(&__bridgeNToJSCallCount, 0);
-	atomic_store(&__bridgeJSToNDataSize, 0);
-}
 
 __unused static void DTXJSCStackTraceSignalHandler(int signr, siginfo_t *info, void *secret)
 {
@@ -234,7 +226,7 @@ static JSValueRef __dtx_JSObjectCallAsFunction(JSContextRef ctx, JSObjectRef obj
 //	if(*exception == NULL)
 //	{
 		rvStr = DTXJSValueJSONStringToNSString(ctx, rv);
-		atomic_fetch_add(&__bridgeNToJSCallCount, rvStr.length);
+		atomic_fetch_add(&__bridgeNToJSDataSize, rvStr.length);
 //	}
 //	else
 //	{
@@ -261,7 +253,6 @@ static JSObjectRef __dtx_JSObjectMakeFunctionWithCallbackWrapper(JSContextRef ct
 		
 		if(__rnCtx == nil || __rnCtx != ctx)
 		{
-			resetAtomicVars();
 			installDTXNativeLoggingHook(objcCtx);
 			installDTXSignpostHook(objcCtx);
 			DTXInstallRNJSProfilerHooks(objcCtx);
@@ -397,6 +388,8 @@ static JSClassRef __dtx_JSClassCreate(const JSClassDefinition *definition)
 static void (*__orig_JSObjectSetProperty)(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef value, JSPropertyAttributes attributes, JSValueRef* exception);
 static void __dtx_JSObjectSetProperty(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef value, JSPropertyAttributes attributes, JSValueRef* exception)
 {
+	NSString* str = (__bridge_transfer NSString*)__jscWrapper.JSStringCopyCFString(kCFAllocatorDefault, propertyName);
+	
 	if(__jscWrapper.JSContextGetGlobalObject(ctx) != object || __rn_pendingFunctionObject == NULL || __rn_pendingFunctionObject != value)
 	{
 		//Normal path
@@ -523,15 +516,15 @@ static void __DTXInitializeRNSampler()
 
 @implementation DTXReactNativeSampler
 {
-	uint64_t _initialBridgeNToJSDataSize;
-	uint64_t _initialBridgeJSToNDataSize;
 	uint64_t _initialBridgeNToJSCallCount;
 	uint64_t _initialBridgeJSToNCallCount;
+	uint64_t _initialBridgeNToJSDataSize;
+	uint64_t _initialBridgeJSToNDataSize;
 	
-	uint64_t _prevBridgeNToJSDataSize;
-	uint64_t _prevBridgeJSToNDataSize;
 	uint64_t _prevBridgeNToJSCallCount;
 	uint64_t _prevBridgeJSToNCallCount;
+	uint64_t _prevBridgeNToJSDataSize;
+	uint64_t _prevBridgeJSToNDataSize;
 	
 	BOOL _shouldSampleThread;
 	BOOL _shouldSymbolicate;
@@ -569,10 +562,10 @@ static void __DTXInitializeRNSampler()
 
 - (void)pollWithTimePassed:(NSTimeInterval)interval
 {
-	uint64_t bridgeNToJSDataSize = atomic_load(&__bridgeNToJSDataSize) - _initialBridgeNToJSDataSize;
-	uint64_t bridgeJSToNDataSize = atomic_load(&__bridgeJSToNDataSize) - _initialBridgeJSToNDataSize;
 	uint64_t bridgeNToJSCallCount = atomic_load(&__bridgeNToJSCallCount) - _initialBridgeNToJSCallCount;
 	uint64_t bridgeJSToNCallCount = atomic_load(&__bridgeJSToNCallCount) - _initialBridgeJSToNCallCount;
+	uint64_t bridgeNToJSDataSize = atomic_load(&__bridgeNToJSDataSize) - _initialBridgeNToJSDataSize;
+	uint64_t bridgeJSToNDataSize = atomic_load(&__bridgeJSToNDataSize) - _initialBridgeJSToNDataSize;
 	
 	_bridgeNToJSCallCount = bridgeNToJSCallCount;
 	_bridgeJSToNCallCount = bridgeJSToNCallCount;

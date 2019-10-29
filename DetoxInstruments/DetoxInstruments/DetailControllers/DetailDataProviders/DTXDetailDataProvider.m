@@ -407,6 +407,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (BOOL)_findSample:(DTXSample*)sample inContainerProxy:(DTXSampleContainerProxy*)containerProxy traversalChain:(NSMutableArray*)chain
 {
+	if(sample == nil || containerProxy == nil)
+	{
+		return NO;
+	}
+	
 	[chain addObject:containerProxy];
 	BOOL found = NO;
 	
