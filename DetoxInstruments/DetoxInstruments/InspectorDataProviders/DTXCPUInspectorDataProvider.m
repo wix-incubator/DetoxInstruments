@@ -88,6 +88,8 @@
 					  @"MetalKit.framework": @"DBGFrameGraphics",
 					  @"MetalPerformanceShaders": @"DBGFrameGraphics",
 					  @"QuartzCore": @"DBGFrameGraphics",
+					  @"SwiftUI": @"DBGFrameGraphics",
+					  @"AttributeGraph": @"DBGFrameGraphics",
 				  
 					  @"WebCore": @"DBGFrameWeb",
 					  @"JavaScriptCore": @"DBGFrameWeb",
