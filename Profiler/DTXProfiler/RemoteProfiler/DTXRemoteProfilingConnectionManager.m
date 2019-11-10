@@ -54,7 +54,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	if(self)
 	{
 		dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-		_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dispatch_queue_create("com.wix.DTXRemoteProfiler-Networking", qosAttribute)];
+		_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dispatch_queue_create("com.wix.DTXRemoteProfiler-Networking", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM))];
 		_connection.delegate = self;
 		
 		[_connection open];

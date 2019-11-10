@@ -388,8 +388,6 @@ static JSClassRef __dtx_JSClassCreate(const JSClassDefinition *definition)
 static void (*__orig_JSObjectSetProperty)(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef value, JSPropertyAttributes attributes, JSValueRef* exception);
 static void __dtx_JSObjectSetProperty(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef value, JSPropertyAttributes attributes, JSValueRef* exception)
 {
-	NSString* str = (__bridge_transfer NSString*)__jscWrapper.JSStringCopyCFString(kCFAllocatorDefault, propertyName);
-	
 	if(__jscWrapper.JSContextGetGlobalObject(ctx) != object || __rn_pendingFunctionObject == NULL || __rn_pendingFunctionObject != value)
 	{
 		//Normal path
@@ -511,7 +509,7 @@ static void __DTXInitializeRNSampler()
 //	sigaction(SIGCHLD, &sa, NULL);
 	
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-	__eventDispatchQueue = dispatch_queue_create("com.wix.DTXRNSampler-Events", qosAttribute);
+	__eventDispatchQueue = dispatch_queue_create("com.wix.DTXRNSampler-Events", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM));
 }
 
 @implementation DTXReactNativeSampler

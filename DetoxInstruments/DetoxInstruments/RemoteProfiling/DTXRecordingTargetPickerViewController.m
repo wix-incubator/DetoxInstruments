@@ -100,7 +100,7 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	_containerView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_DEFAULT, 0);
-	_workQueue = dispatch_queue_create("com.wix.DTXRemoteProfiler", qosAttribute);
+	_workQueue = dispatch_queue_create("com.wix.DTXRemoteProfiler", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM));
 	
 	_browser = [NSNetServiceBrowser new];
 //	_browser.includesPeerToPeer = YES;

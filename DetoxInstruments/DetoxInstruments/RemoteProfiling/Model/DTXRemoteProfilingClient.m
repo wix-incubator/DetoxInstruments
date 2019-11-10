@@ -125,7 +125,7 @@ return; }\
 	SET_ACCEPTING
 	
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-	_opportunisticQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingOpportunisticSamples", qosAttribute);
+	_opportunisticQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingOpportunisticSamples", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM));
 	
 	_threads = [NSMutableDictionary new];
 	[_target startProfilingWithConfiguration:configuration];

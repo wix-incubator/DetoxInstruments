@@ -36,7 +36,7 @@ DTX_CREATE_LOG(PollingManager);
 		_pollables = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 		
 		dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-		_measurementsTimerQueue = dispatch_queue_create("com.wix.DTXProfilerMeasurementsTimerQueue", qosAttribute);
+		_measurementsTimerQueue = dispatch_queue_create("com.wix.DTXProfilerMeasurementsTimerQueue", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM));
 		
 		_measurementsTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _measurementsTimerQueue);
 		uint64_t interval = timeInterval * NSEC_PER_SEC;
