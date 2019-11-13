@@ -31,3 +31,6 @@
 [submodule "DetoxInstruments/SDWebImage"]
 	path = DetoxInstruments/SDWebImage
 	url = https://LeoNatan@github.com/SDWebImage/SDWebImage.git
+[submodule "Profiler/DetoxSync"]
+	path = Profiler/DetoxSync
+	url = https://github.com/wix/DetoxSync.git

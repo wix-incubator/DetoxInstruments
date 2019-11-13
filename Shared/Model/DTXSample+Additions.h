@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, DTXSampleType) {
 	DTXSampleTypeNetwork				        = 50,
 	
 	DTXSampleTypeSignpost				        = 70,
+	DTXSampleTypeActivity				        = 71,
 	
 	DTXSampleTypeLog					        = 100,
 	

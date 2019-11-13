@@ -39,7 +39,7 @@
 		_info = info;
 		
 		_fetchRequest = DTXSignpostSample.fetchRequest;
-		_fetchRequest.predicate = [NSPredicate predicateWithFormat:@"categoryHash == %@ && nameHash == %@ && hidden == NO", _category.sufficientHash, _name.sufficientHash];
+		_fetchRequest.predicate = [NSPredicate predicateWithFormat:@"categoryHash == %@ && nameHash == %@ && hidden == NO && isActivity == NO", _category.sufficientHash, _name.sufficientHash];
 		_fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		
 		[self _reloadDurations];
