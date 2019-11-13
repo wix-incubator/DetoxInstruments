@@ -15,7 +15,9 @@
 {
 	const char *cStr = [self UTF8String];
 	unsigned char result[CC_MD5_DIGEST_LENGTH];
+CLANG_IGNORE(-Wdeprecated-declarations)
 	CC_MD5(cStr, (CC_LONG)strlen(cStr), result);
+CLANG_POP
 	
 	return [[NSData alloc] initWithBytes:result length:CC_MD5_DIGEST_LENGTH];
 }

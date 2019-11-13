@@ -20,6 +20,7 @@ static NSDictionary* _deviceMapping;
 	NSData* _currentHash;
 	
 	NSImageView* _deviceImageView;
+	NSImage* _currentSnapshotImage;
 	NSImageView* _snapshotImageView;
 	NSSize _currentDeviceScreenResolution;
 	
@@ -61,19 +62,10 @@ static NSData* __DTXSHADataOfString(NSString* string)
 
 - (void)_clicked
 {
-	NSImage* snapshotImage = [_snapshotImageView.image copy];
-	snapshotImage.size = _currentDeviceScreenResolution;
-	
-	NSBitmapImageRep* bmp = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL pixelsWide:_currentDeviceScreenResolution.width pixelsHigh:_currentDeviceScreenResolution.height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSDeviceRGBColorSpace bytesPerRow:_currentDeviceScreenResolution.width * 8 bitsPerPixel:32];
-	NSGraphicsContext* ctx = [NSGraphicsContext graphicsContextWithBitmapImageRep:bmp];
-	[NSGraphicsContext saveGraphicsState];
-	[NSGraphicsContext setCurrentContext:ctx];
-	[snapshotImage drawInRect:(NSRect){0, 0, _currentDeviceScreenResolution}];
-	[ctx flushGraphics];
-	[NSGraphicsContext restoreGraphicsState];
+	NSImage* snapshotImage = _currentSnapshotImage;
+	NSBitmapImageRep* bmp = (id)snapshotImage.representations.firstObject;
 	
 	NSURL *temporaryURL = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:@"Screenshot.png"];
-	
 	[[bmp representationUsingType:NSBitmapImageFileTypePNG properties:@{}] writeToURL:temporaryURL atomically:YES];
 	
 	[NSWorkspace.sharedWorkspace openURL:temporaryURL];
@@ -155,13 +147,14 @@ static NSData* __DTXSHADataOfString(NSString* string)
 	
 	_deviceImageView.image = deviceImage;
 	
-	[self setDeviceScreenSnapshot:[NSImage imageWithColor:NSColor.whiteColor size:_currentDeviceScreenResolution]];
+	[self setDeviceScreenSnapshot:[NSImage imageWithColor:NSColor.blackColor size:_currentDeviceScreenResolution]];
 }
 
 - (void)setDeviceScreenSnapshot:(NSImage*)deviceScreenSnapshot
 {
 	_snapshotImageView.hidden = NO;
 	
+	_currentSnapshotImage = deviceScreenSnapshot;
 	NSImage* displayImage = [deviceScreenSnapshot copy];
 	CGRect rect = AVMakeRectWithAspectRatioInsideRect(_currentDeviceScreenResolution, CGRectMake(0, 0, ceil(70 * _currentDeviceScreenResolution.width / _deviceImageView.image.size.width), ceil(70 * _currentDeviceScreenResolution.height / _deviceImageView.image.size.height)));
 	displayImage.size = rect.size;

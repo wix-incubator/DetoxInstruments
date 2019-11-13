@@ -131,6 +131,10 @@
 		39D40C151ED5B43700157C04 /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */; };
 		39D40C181ED5B43F00157C04 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D40C161ED5B43F00157C04 /* DTXProfiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D40C171ED5B43F00157C04 /* DTXProfiler.m */; };
+		39D5C2A3237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D5C2A1237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */; };
+		39D5C2A4237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D5C2A2237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */; };
+		39D5C2AE237C3D560033138D /* DTXWindowsSnapshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D5C2AC237C3D560033138D /* DTXWindowsSnapshotter.h */; };
+		39D5C2AF237C3D560033138D /* DTXWindowsSnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D5C2AD237C3D560033138D /* DTXWindowsSnapshotter.m */; };
 		39D8637F210EFC9600FECB75 /* DTXProfilerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D8B31B21077714000895F7 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B31A21077643000895F7 /* DTXEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39D8B36F21079CCA000895F7 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D8B3682107997C000895F7 /* DTXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -312,6 +316,10 @@
 		39D40C0D1ED5B43700157C04 /* NSManagedObject+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Additions.m"; sourceTree = "<group>"; };
 		39D40C161ED5B43F00157C04 /* DTXProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfiler.h; sourceTree = "<group>"; };
 		39D40C171ED5B43F00157C04 /* DTXProfiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXProfiler.m; sourceTree = "<group>"; };
+		39D5C2A1237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.h"; sourceTree = "<group>"; };
+		39D5C2A2237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.m"; sourceTree = "<group>"; };
+		39D5C2AC237C3D560033138D /* DTXWindowsSnapshotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXWindowsSnapshotter.h; sourceTree = "<group>"; };
+		39D5C2AD237C3D560033138D /* DTXWindowsSnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXWindowsSnapshotter.m; sourceTree = "<group>"; };
 		39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilerAPI.h; sourceTree = "<group>"; };
 		39D8B31A21077643000895F7 /* DTXEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXEvents.h; sourceTree = "<group>"; };
 		39D8B3682107997C000895F7 /* DTXBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXBase.h; sourceTree = "<group>"; };
@@ -392,6 +400,7 @@
 		39281E5E1ED70414002CE905 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				39D5C2AB237C3D390033138D /* WindowsSnapshotter */,
 				39EEF36021EFAE310028061D /* SharedUtilities */,
 				393923DA21AD0A320015A15F /* ZipZap */,
 				396677B51F1FD2B1002D5E43 /* Logging */,
@@ -662,6 +671,15 @@
 			path = ../../Shared/Model;
 			sourceTree = "<group>";
 		};
+		39D5C2AB237C3D390033138D /* WindowsSnapshotter */ = {
+			isa = PBXGroup;
+			children = (
+				39D5C2AC237C3D560033138D /* DTXWindowsSnapshotter.h */,
+				39D5C2AD237C3D560033138D /* DTXWindowsSnapshotter.m */,
+			);
+			path = WindowsSnapshotter;
+			sourceTree = "<group>";
+		};
 		39E10B68209F42D800CBB71A /* libproc */ = {
 			isa = PBXGroup;
 			children = (
@@ -678,6 +696,8 @@
 				39EEF36621EFAE310028061D /* DTXZipper.m */,
 				39EEF36921EFAE310028061D /* NSDictionary+FakeDecoder.h */,
 				39EEF37121EFAE310028061D /* NSDictionary+FakeDecoder.m */,
+				39D5C2A1237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */,
+				39D5C2A2237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */,
 				39EEF36B21EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.h */,
 				39EEF36221EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.m */,
 				39EEF36821EFAE310028061D /* NSMapTable+Subscripting.h */,
@@ -757,11 +777,13 @@
 				3985048A21A4433E00F04573 /* DTXProfilingBasics.h in Headers */,
 				394A09651F012F8D0030BDB4 /* fishhook.h in Headers */,
 				3985048E21A4434800F04573 /* DTXFileSystemItem.h in Headers */,
+				39D5C2A3237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h in Headers */,
 				3939242921AD0A330015A15F /* ZZScopeGuard.h in Headers */,
 				39EEF37C21EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.h in Headers */,
 				3939241821AD0A330015A15F /* ZZArchive.h in Headers */,
 				3939240C21AD0A330015A15F /* ZZDataProvider.h in Headers */,
 				3939241D21AD0A330015A15F /* ZZFileChannel.h in Headers */,
+				39D5C2AE237C3D560033138D /* DTXWindowsSnapshotter.h in Headers */,
 				396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */,
 				39404E2921E66237006A583E /* DTXThreadPerformanceSample+Additions.h in Headers */,
 				3939240921AD0A330015A15F /* ZZChannelOutput.h in Headers */,
@@ -889,6 +911,7 @@
 			files = (
 				3985049221A4435200F04573 /* DTXPasteboardItem.m in Sources */,
 				39EEF38221EFAE310028061D /* NSDictionary+FakeDecoder.m in Sources */,
+				39D5C2AF237C3D560033138D /* DTXWindowsSnapshotter.m in Sources */,
 				39352F751F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m in Sources */,
 				3922AE021F2B9B960034B1FE /* DTXSourceMapsParser.m in Sources */,
 				39EEF37721EFAE310028061D /* DTXZipper.m in Sources */,
@@ -920,6 +943,7 @@
 				395B26A12067B12C00FD7368 /* DTXFPSCalculator.m in Sources */,
 				3939241C21AD0A330015A15F /* ZZInflateInputStream.m in Sources */,
 				3901A8A01F5D5CA60021916B /* DTXMachUtilities.c in Sources */,
+				39D5C2A4237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */,
 				3939242721AD0A330015A15F /* ZZStoreOutputStream.m in Sources */,
 				39C713411EFFD6FF00C827EB /* DTXReactNativeSampler.m in Sources */,
 				3939242221AD0A330015A15F /* ZZArchiveEntry.m in Sources */,
@@ -1018,7 +1042,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1052,7 +1076,7 @@
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1126,7 +1150,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1181,7 +1205,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1216,7 +1240,7 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1255,7 +1279,7 @@
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

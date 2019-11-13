@@ -91,7 +91,11 @@ extern id MGCopyAnswer(NSString *inKey);
 		deviceDetails[@"deviceOSType"] = @0;
 		deviceDetails[@"devicePhysicalMemory"] = @(processInfo.physicalMemory);
 		deviceDetails[@"deviceProcessorCount"] = @(processInfo.activeProcessorCount);
+#if ! TARGET_OS_MACCATALYST
 		deviceDetails[@"deviceType"] = currentDevice.model;
+#else
+		deviceDetails[@"deviceType"] = @"macOS";
+#endif
 		deviceDetails[@"deviceMarketingName"] = MGCopyAnswer(@"marketing-name");
 		deviceDetails[@"deviceResolution"] = NSStringFromCGSize(UIScreen.mainScreen.currentMode.size);
 		deviceDetails[@"processIdentifier"] = @(processInfo.processIdentifier);
@@ -107,7 +111,7 @@ extern id MGCopyAnswer(NSString *inKey);
 #else
 		deviceDetails[@"deviceColor"] = @"1";
 		deviceDetails[@"deviceEnclosureColor"] = @"1";
-		NSString* deviceTypeSim = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
+		NSString* deviceTypeSim = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
 		deviceDetails[@"machineName"] = deviceTypeSim;
 #endif
 		deviceDetails[@"kernelName"] = uname[@"sysname"];

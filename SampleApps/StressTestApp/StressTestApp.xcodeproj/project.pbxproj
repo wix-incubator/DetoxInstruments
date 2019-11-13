@@ -66,6 +66,7 @@
 		39725F9621A0B6B2001D6BFD /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		3978000B1EEB0038002BDEFB /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		3978000C1EEB0038002BDEFB /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		39D5C2A0237C1EAA0033138D /* StressTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StressTestApp.entitlements; sourceTree = "<group>"; };
 		39D7F3611F307D2C00A35D05 /* DTXProfiler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXProfiler.xcodeproj; path = ../../Profiler/DTXProfiler.xcodeproj; sourceTree = "<group>"; };
 		39EBDF141ED2DEA2005D8AB1 /* StressTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39EBDF181ED2DEA2005D8AB1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -128,6 +129,7 @@
 		39EBDF161ED2DEA2005D8AB1 /* StressTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				39D5C2A0237C1EAA0033138D /* StressTestApp.entitlements */,
 				39432AE61F55B7AC00468DB7 /* AppURLDemo */,
 				39EBDF1A1ED2DEA2005D8AB1 /* AppDelegate.h */,
 				39EBDF1B1ED2DEA2005D8AB1 /* AppDelegate.m */,
@@ -397,8 +399,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = S9QFG2VH2E;
+				CODE_SIGN_ENTITLEMENTS = StressTestApp/StressTestApp.entitlements;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
+				DEVELOPMENT_TEAM = XPHGA2FMQQ;
 				ENABLE_BITCODE = NO;
+				IBSC_ERRORS = NO;
 				IBSC_WARNINGS = NO;
 				INFOPLIST_FILE = StressTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -406,8 +411,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.StressTestApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.StressTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "StressTestApp/StressTestApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -419,8 +425,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = S9QFG2VH2E;
+				CODE_SIGN_ENTITLEMENTS = StressTestApp/StressTestApp.entitlements;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
+				DEVELOPMENT_TEAM = XPHGA2FMQQ;
 				ENABLE_BITCODE = NO;
+				IBSC_ERRORS = NO;
 				IBSC_WARNINGS = NO;
 				INFOPLIST_FILE = StressTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -428,8 +437,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LeoNatan.StressTestApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wix.StressTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "StressTestApp/StressTestApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};

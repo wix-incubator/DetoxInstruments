@@ -16,14 +16,9 @@
 #import "DTXZipper.h"
 #import "DTXUIPasteboardParser.h"
 #import "DTXViewHierarchySnapshotter.h"
+#import "DTXWindowsSnapshotter.h"
 
 DTX_CREATE_LOG(RemoteProfilingConnectionManager);
-
-@interface UIWindow ()
-
-+ (id)allWindowsIncludingInternalWindows:(_Bool)arg1 onlyVisibleWindows:(_Bool)arg2 forScreen:(id)arg3;
-
-@end
 
 @interface DTXRemoteProfilingConnectionManager () <DTXSocketConnectionDelegate, DTXRemoteProfilerDelegate>
 
@@ -201,8 +196,6 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 				
 				[self _changeUserDefaultsItemWithKey:key changeType:type value:value previousKey:previousKey];
 			}	break;
-				
-				
 			case DTXRemoteProfilingCommandTypeGetCookies:
 			{
 				[self _sendCookies];
@@ -218,7 +211,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 			}	break;
 			case DTXRemoteProfilingCommandTypeSetPasteboard:
 			{
-				NSArray<DTXPasteboardItem*>* pasteboard = [NSKeyedUnarchiver unarchiveObjectWithData:cmd[@"pasteboardContents"]];
+				NSArray<DTXPasteboardItem*>* pasteboard = [NSKeyedUnarchiver dtx_unarchiveObjectWithData:cmd[@"pasteboardContents"] requiringSecureCoding:NO error:NULL];
 				[self _setPasteboard:pasteboard];
 				
 			}	break;
@@ -247,42 +240,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 - (void)_sendScreenSnapshot
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		//		UIView* snapshotView = [UIScreen.mainScreen snapshotViewAfterScreenUpdates:NO];
-		
-		UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-		CGSize imageSize = UIScreen.mainScreen.fixedCoordinateSpace.bounds.size;
-		
-		UIGraphicsBeginImageContextWithOptions(imageSize, NO, UIScreen.mainScreen.scale);
-		CGContextRef context = UIGraphicsGetCurrentContext();
-		
-		NSArray* windows = [UIWindow allWindowsIncludingInternalWindows:YES onlyVisibleWindows:YES forScreen:UIScreen.mainScreen];
-		for (UIWindow *window in windows)
-		{
-			CGContextSaveGState(context);
-			CGContextTranslateCTM(context, window.center.x, window.center.y);
-			CGContextConcatCTM(context, window.transform);
-			CGContextTranslateCTM(context, -window.bounds.size.width * window.layer.anchorPoint.x, -window.bounds.size.height * window.layer.anchorPoint.y);
-			if (orientation == UIInterfaceOrientationLandscapeLeft)
-			{
-				CGContextRotateCTM(context, M_PI_2);
-				CGContextTranslateCTM(context, 0, -imageSize.width);
-			} else if (orientation == UIInterfaceOrientationLandscapeRight)
-			{
-				CGContextRotateCTM(context, -M_PI_2);
-				CGContextTranslateCTM(context, -imageSize.height, 0);
-			} else if (orientation == UIInterfaceOrientationPortraitUpsideDown)
-			{
-				CGContextRotateCTM(context, M_PI);
-				CGContextTranslateCTM(context, -imageSize.width, -imageSize.height);
-			}
-			[window drawViewHierarchyInRect:window.bounds afterScreenUpdates:NO];
-			CGContextRestoreGState(context);
-		}
-		
-		UIImage * snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
-		UIGraphicsEndImageContext();
-		
-		NSData* png = UIImagePNGRepresentation(snapshotImage);
+		NSData* png = [DTXWindowsSnapshotter snapshotDataForApp];
 		
 		NSMutableDictionary* cmd = [NSMutableDictionary new];
 		cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeLoadScreenSnapshot);
@@ -296,12 +254,16 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 
 - (void)_sendContainerContents
 {
+#if ! TARGET_OS_MACCATALYST
 	NSURL* baseDataURL = [[[[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@".."] URLByStandardizingPath];
 	DTXFileSystemItem* rootItem = [[DTXFileSystemItem alloc] initWithFileURL:baseDataURL];
+#else
+	DTXFileSystemItem* rootItem = [[DTXFileSystemItem alloc] initWithFileURL:NSBundle.mainBundle.bundleURL];
+#endif
 	
 	NSMutableDictionary* cmd = [NSMutableDictionary new];
 	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetContainerContents);
-	cmd[@"containerContents"] = [NSKeyedArchiver archivedDataWithRootObject:rootItem];
+	cmd[@"containerContents"] = [NSKeyedArchiver archivedDataWithRootObject:rootItem requiringSecureCoding:NO error:NULL];
 	
 	[self _writeCommand:cmd completionHandler:nil];
 }
@@ -409,7 +371,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	NSMutableDictionary* cmd = [NSMutableDictionary new];
 	cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetPasteboard);
 	
-	cmd[@"pasteboardContents"] = [NSKeyedArchiver archivedDataWithRootObject:[DTXUIPasteboardParser pasteboardItemsFromGeneralPasteboard]];
+	cmd[@"pasteboardContents"] = [NSKeyedArchiver archivedDataWithRootObject:[DTXUIPasteboardParser pasteboardItemsFromGeneralPasteboard] requiringSecureCoding:NO error:NULL];
 	
 	[self _writeCommand:cmd completionHandler:nil];
 }
@@ -424,7 +386,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 - (void)_sendViewHierarchy
 {
 	[DTXViewHierarchySnapshotter captureViewHierarchySnapshotWithCompletionHandler:^(DTXAppSnapshot *snapshot) {
-		[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeCaptureViewHierarchy), @"appSnapshot": [NSKeyedArchiver archivedDataWithRootObject:snapshot]} completionHandler:nil];
+		[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeCaptureViewHierarchy), @"appSnapshot": [NSKeyedArchiver archivedDataWithRootObject:snapshot requiringSecureCoding:NO error:NULL]} completionHandler:nil];
 	}];
 }
 

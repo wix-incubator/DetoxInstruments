@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include(<Appkit/Appkit.h>)
+#if ! TARGET_OS_MACCATALYST && __has_include(<Appkit/Appkit.h>)
 #import <Appkit/Appkit.h>
 extern NSPasteboardType const DTXColorPasteboardType;
 #else

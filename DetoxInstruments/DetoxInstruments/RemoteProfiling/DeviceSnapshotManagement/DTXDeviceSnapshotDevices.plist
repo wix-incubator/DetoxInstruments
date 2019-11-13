@@ -4,6 +4,13 @@
 <dict>
 	<key>mappings</key>
 	<dict>
+		<key>x86_64</key>
+		<dict>
+			<key>model</key>
+			<string>generic</string>
+			<key>family</key>
+			<string>mac</string>
+		</dict>
 		<key>iPad</key>
 		<dict>
 			<key>model</key>
@@ -40,6 +47,13 @@
 			<key>family</key>
 			<string>iphone</string>
 		</dict>
+		<key>iPhone12,1</key>
+		<dict>
+			<key>model</key>
+			<string>11</string>
+			<key>family</key>
+			<string>iphone</string>
+		</dict>
 		<key>iPhone11,6</key>
 		<dict>
 			<key>model</key>
@@ -54,10 +68,24 @@
 			<key>family</key>
 			<string>iphone</string>
 		</dict>
+		<key>iPhone12,5</key>
+		<dict>
+			<key>model</key>
+			<string>11_pro_max</string>
+			<key>family</key>
+			<string>iphone</string>
+		</dict>
 		<key>iPhone11,2</key>
 		<dict>
 			<key>model</key>
 			<string>xs</string>
+			<key>family</key>
+			<string>iphone</string>
+		</dict>
+		<key>iPhone12,3</key>
+		<dict>
+			<key>model</key>
+			<string>11_pro</string>
 			<key>family</key>
 			<string>iphone</string>
 		</dict>
@@ -141,6 +169,25 @@
 	</dict>
 	<key>families</key>
 	<dict>
+		<key>mac</key>
+		<dict>
+			<key>models</key>
+			<dict>
+				<key>generic</key>
+				<dict>
+					<key>colorSuffixes</key>
+					<dict/>
+					<key>imageNameSuffix</key>
+					<string></string>
+					<key>resolution</key>
+					<string>{1440,900}</string>
+				</dict>
+			</dict>
+			<key>baseName</key>
+			<string>Mac</string>
+			<key>baseImageName</key>
+			<string>device_mac</string>
+		</dict>
 		<key>iphone</key>
 		<dict>
 			<key>models</key>
@@ -172,6 +219,24 @@
 						<string>_3</string>
 					</dict>
 				</dict>
+				<key>11_pro_max</key>
+				<dict>
+					<key>imageNameSuffix</key>
+					<string>xs_max</string>
+					<key>resolution</key>
+					<string>{1242,2688}</string>
+					<key>nameSuffix</key>
+					<string>11 Pro Max</string>
+					<key>colorSuffixes</key>
+					<dict>
+						<key>1</key>
+						<string></string>
+						<key>2</key>
+						<string>_2</string>
+						<key>3</key>
+						<string>_3</string>
+					</dict>
+				</dict>
 				<key>xr</key>
 				<dict>
 					<key>imageNameSuffix</key>
@@ -183,12 +248,41 @@
 					<key>colorSuffixes</key>
 					<dict/>
 				</dict>
+				<key>11</key>
+				<dict>
+					<key>imageNameSuffix</key>
+					<string>xr</string>
+					<key>resolution</key>
+					<string>{828,1792}</string>
+					<key>nameSuffix</key>
+					<string>11</string>
+					<key>colorSuffixes</key>
+					<dict/>
+				</dict>
 				<key>xs</key>
 				<dict>
 					<key>imageNameSuffix</key>
 					<string>xs</string>
 					<key>nameSuffix</key>
 					<string>XS</string>
+					<key>resolution</key>
+					<string>{1125,2436}</string>
+					<key>colorSuffixes</key>
+					<dict>
+						<key>1</key>
+						<string></string>
+						<key>2</key>
+						<string>_2</string>
+						<key>3</key>
+						<string>_3</string>
+					</dict>
+				</dict>
+				<key>11_pro</key>
+				<dict>
+					<key>imageNameSuffix</key>
+					<string>xs</string>
+					<key>nameSuffix</key>
+					<string>11 Pro</string>
 					<key>resolution</key>
 					<string>{1125,2436}</string>
 					<key>colorSuffixes</key>

@@ -8,6 +8,10 @@
 
 // iphoneOS SDK does not include libproc.h and internal includes, but the symbols exist.
 
+#if TARGET_OS_MACCATALYST
+#import <libproc.h>
+#else
+
 #ifndef dtx_libproc_h
 #define dtx_libproc_h
 
@@ -77,3 +81,5 @@ int proc_pidfdinfo(pid_t pid, int fd, int flavor, void * buffer, int buffersize)
 
 
 #endif /* dtx_libproc_h */
+
+#endif

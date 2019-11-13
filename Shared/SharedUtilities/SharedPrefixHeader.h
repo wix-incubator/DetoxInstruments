@@ -10,4 +10,5 @@
 #ifdef __OBJC__
 #import "NSMapTable+Subscripting.h"
 #import "DTXQuickNSExpressions.h"
+#import "NSKeyedUnarchiver+QuickDecodingSecureCoding.h"
 #endif
