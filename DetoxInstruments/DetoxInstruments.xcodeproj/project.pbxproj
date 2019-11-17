@@ -111,6 +111,8 @@
 		395F01C31EE7E7AD00695236 /* DTXHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F01C21EE7E7AD00695236 /* DTXHeaderView.m */; };
 		395F01C61EE81DA200695236 /* DTXTimelineIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F01C51EE81DA200695236 /* DTXTimelineIndicatorView.m */; };
 		39622DC220A8832900B50E40 /* DTXPasteForwardingFieldEditorTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39622DC120A8832900B50E40 /* DTXPasteForwardingFieldEditorTextFieldCell.m */; };
+		3962C4BF2381E8F3008618EB /* DTXMappingModel9954To10891.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3962C4BE2381E8F3008618EB /* DTXMappingModel9954To10891.xcmappingmodel */; };
+		3962C4E123820EC6008618EB /* DTXMappingModel9954To10891.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3962C4BE2381E8F3008618EB /* DTXMappingModel9954To10891.xcmappingmodel */; };
 		396421CB2243CDA80053B3FF /* DTXDraggableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396421CA2243CDA80053B3FF /* DTXDraggableImageView.m */; };
 		3966AAD723213856004C6D15 /* DTXExpandedPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3966AAD623213856004C6D15 /* DTXExpandedPreviewWindowController.m */; };
 		396755DA20844CC00023D562 /* DTXTwoLabelsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 396755D920844CC00023D562 /* DTXTwoLabelsCellView.m */; };
@@ -674,6 +676,7 @@
 		395F01C51EE81DA200695236 /* DTXTimelineIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXTimelineIndicatorView.m; sourceTree = "<group>"; };
 		39622DC020A8832900B50E40 /* DTXPasteForwardingFieldEditorTextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPasteForwardingFieldEditorTextFieldCell.h; sourceTree = "<group>"; };
 		39622DC120A8832900B50E40 /* DTXPasteForwardingFieldEditorTextFieldCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPasteForwardingFieldEditorTextFieldCell.m; sourceTree = "<group>"; };
+		3962C4BE2381E8F3008618EB /* DTXMappingModel9954To10891.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9954To10891.xcmappingmodel; sourceTree = "<group>"; };
 		396421C92243CDA80053B3FF /* DTXDraggableImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDraggableImageView.h; sourceTree = "<group>"; };
 		396421CA2243CDA80053B3FF /* DTXDraggableImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDraggableImageView.m; sourceTree = "<group>"; };
 		3966AAD523213856004C6D15 /* DTXExpandedPreviewWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXExpandedPreviewWindowController.h; sourceTree = "<group>"; };
@@ -1176,6 +1179,7 @@
 			isa = PBXGroup;
 			children = (
 				39790ABF237C17D2009B1B57 /* DTXInstruments.xcdatamodeld */,
+				3962C4BE2381E8F3008618EB /* DTXMappingModel9954To10891.xcmappingmodel */,
 				396CCDAB210DBE4E00152C34 /* DTXEventStatusPrivate.h */,
 				39782CDA1FC590DA0034D70A /* DTXInstrumentsModel.h */,
 				39782CD91FC590DA0034D70A /* DTXRecording+Additions.h */,
@@ -2260,7 +2264,7 @@
 		};
 		39EEF3A621F6275A0028061D /* Embed CLI Tool */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -2272,7 +2276,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = "/bin/bash -e";
 			shellScript = "cd \"${SRCROOT}\"/../CLI\nexport CODE_SIGNING_REQUIRED=NO && xcodebuild -project CLI.xcodeproj -configuration \"${CONFIGURATION}\" build BUILD_DIR=build\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\n\nif [ -n \"$IDENTITY\" ]; then\necho codesign --verbose --force -o runtime --sign \"$IDENTITY\" build/\"${CONFIGURATION}\"/dtxinst\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" build/\"${CONFIGURATION}\"/dtxinst\nfi\n\ncp -f build/\"${CONFIGURATION}\"/dtxinst \"${CONFIGURATION_BUILD_DIR}/${EXECUTABLE_FOLDER_PATH}/\"\n";
 			showEnvVarsInLog = 0;
@@ -2292,6 +2296,7 @@
 				396DAAF5231D27D400FFBDDB /* NSManagedObject+Additions.m in Sources */,
 				396DAAC3231C50C900FFBDDB /* DTXPlotHostConstructor.m in Sources */,
 				396DAAD7231C511900FFBDDB /* DTXRangePlotView.m in Sources */,
+				3962C4E123820EC6008618EB /* DTXMappingModel9954To10891.xcmappingmodel in Sources */,
 				396DAAE9231D079500FFBDDB /* AutoCoding.m in Sources */,
 				396DAAC2231C50B100FFBDDB /* DTXRecordingDocument.m in Sources */,
 				396DAAD0231C50C900FFBDDB /* DTXManagedPlotControllerGroup.m in Sources */,
@@ -2437,6 +2442,7 @@
 				3940940D20AB130000667765 /* DTXWindowController+DocumentationGeneration.m in Sources */,
 				394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */,
 				39A6A2E21F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m in Sources */,
+				3962C4BF2381E8F3008618EB /* DTXMappingModel9954To10891.xcmappingmodel in Sources */,
 				39356AC72201A71500FD23C4 /* NSString+Hashing.m in Sources */,
 				39EFF5DB20E8FE5300B5AE75 /* DTXSampleContainerProxy.m in Sources */,
 				393CD9231F4337B900FB01FE /* DTXDetailOutlineView.m in Sources */,

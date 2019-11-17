@@ -8,6 +8,7 @@
 
 #import "DTXProfilingConfiguration.h"
 #import "AutoCoding.h"
+#import "NSString+FileNames.h"
 
 @interface DTXProfilingConfiguration ()
 
@@ -162,11 +163,6 @@
 	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-+ (NSString *)_sanitizeFileNameString:(NSString *)fileName {
-	NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
-	return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@"_"];
-}
-
 + (NSString*)_fileNameForNewRecording
 {
 	static NSDateFormatter* dateFileFormatter;
@@ -179,7 +175,7 @@
 	});
 	
 	NSString* dateString = [dateFileFormatter stringFromDate:[NSDate date]];
-	return [NSString stringWithFormat:@"%@ %@.dtxrec", [NSProcessInfo processInfo].processName, [self _sanitizeFileNameString:dateString]];
+	return [NSString stringWithFormat:@"%@ %@.dtxrec", [NSProcessInfo processInfo].processName, dateString.stringBySanitizingForFileName];
 }
 
 + (NSURL*)_urlForNewRecording

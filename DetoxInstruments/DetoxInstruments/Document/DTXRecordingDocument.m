@@ -9,6 +9,7 @@
 #import "DTXRecordingDocument.h"
 #import "DTXRecording+UIExtensions.h"
 #import "NSURL+UIAdditions.h"
+#import "NSString+FileNames.h"
 #if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 #import "DTXRecordingTargetPickerViewController.h"
 #import "DTXRemoteProfilingClient.h"
@@ -369,17 +370,17 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		
 		//Copy document to a temporary folder and try to migrate the temporary document.
 		NSURL* tempURL = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:url.lastPathComponent];
+		NSURL* backupURL = [[[url URLByDeletingLastPathComponent] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.backup", url.URLByDeletingPathExtension.lastPathComponent]] URLByAppendingPathExtension:url.pathExtension];
 		[[NSFileManager defaultManager] removeItemAtURL:tempURL error:NULL];
 		if([[NSFileManager defaultManager] copyItemAtURL:url toURL:tempURL error:outError] == NO)
 		{
 			return NO;
 		}
-		
-		NSURL* tempStoreURL = [self _URLByAppendingStoreCompoenentToURL:tempURL];
-		
 		dtx_defer {
 			[[NSFileManager defaultManager] removeItemAtURL:tempURL error:NULL];
 		};
+		
+		NSURL* tempStoreURL = [self _URLByAppendingStoreCompoenentToURL:tempURL];
 		
 #if ! CLI
 		NSWindowController* modalWindowController = [[NSStoryboard storyboardWithName:@"Profiler" bundle:[NSBundle bundleForClass:self.class]] instantiateControllerWithIdentifier:@"migrationIndicator"];
@@ -419,6 +420,9 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		
 		if(didMigrate == YES)
 		{
+			[[NSFileManager defaultManager] removeItemAtURL:backupURL error:NULL];
+			[[NSFileManager defaultManager] copyItemAtURL:url toURL:backupURL error:NULL];
+			
 			//Replace current document with the migrated copy.
 			if([[NSFileManager defaultManager] removeItemAtURL:url error:outError] == NO || [[NSFileManager defaultManager] copyItemAtURL:tempURL toURL:url error:outError] == NO)
 			{

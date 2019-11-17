@@ -31,6 +31,7 @@
 		39401D1C21E5099500504FD8 /* DTXSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39401D0F21E5099500504FD8 /* DTXSample+UIExtensions.m */; };
 		39401D1D21E5099500504FD8 /* DTXPerformanceSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39401D1021E5099500504FD8 /* DTXPerformanceSample+UIExtensions.m */; };
 		39401D1F21E5099500504FD8 /* DTXSignpostSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39401D1221E5099500504FD8 /* DTXSignpostSample+UIExtensions.m */; };
+		3962C4CC238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3962C4CB238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel */; };
 		3964876E1FC325C400006341 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3964876D1FC325C400006341 /* main.m */; };
 		396487991FC32E2800006341 /* DTXProfilingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 396487981FC32E2800006341 /* DTXProfilingConfiguration.m */; };
 		3964879F1FC32E8600006341 /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 3964879E1FC32E8600006341 /* AutoCoding.m */; };
@@ -108,6 +109,7 @@
 		39401D1621E5099500504FD8 /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39401D1721E5099500504FD8 /* DTXSample+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXSample+UIExtensions.h"; sourceTree = "<group>"; };
 		39401D1821E5099500504FD8 /* DTXPerformanceSample+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXPerformanceSample+UIExtensions.h"; sourceTree = "<group>"; };
+		3962C4CB238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9954To10891.xcmappingmodel; sourceTree = "<group>"; };
 		3964876A1FC325C400006341 /* dtxinst */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dtxinst; sourceTree = BUILT_PRODUCTS_DIR; };
 		3964876D1FC325C400006341 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		396487971FC32E2800006341 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXProfilingConfiguration.h; path = ../../Profiler/DTXProfiler/DTXProfilingConfiguration.h; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				39790AC8237C182D009B1B57 /* DTXInstruments.xcdatamodeld */,
+				3962C4CB238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel */,
 				39401CFA21E5098100504FD8 /* DTXInstrumentsModel.h */,
 				39401CF921E5098100504FD8 /* DTXRecording+Additions.h */,
 				39401CFD21E5098100504FD8 /* DTXRecording+Additions.m */,
@@ -384,6 +387,7 @@
 				3911770D21EF81FB00C92A9F /* NSMapTable+Subscripting.m in Sources */,
 				3935105A1FCB9BF9001FB466 /* GBOptionsHelper.m in Sources */,
 				39401D1A21E5099500504FD8 /* DTXRecording+UIExtensions.m in Sources */,
+				3962C4CC238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel in Sources */,
 				39401CF621E5025100504FD8 /* DTXInstrumentsApplicationProxy.m in Sources */,
 				3935104F1FCB9BE2001FB466 /* LNOptionsParser.m in Sources */,
 			);
