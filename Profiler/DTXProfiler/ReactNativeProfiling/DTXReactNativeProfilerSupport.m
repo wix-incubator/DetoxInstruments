@@ -176,7 +176,7 @@ static void __DTXProfileBeginSectionInner(__unused uint64_t tag, NSString* name,
 	
 	__DTXPreprocessRNName(name, tag, arguments, isFromJS, &eventCategory, &eventName, &eventMessage);
 	
-	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, NO, YES, nil);
+	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, NO, YES, NO, nil);
 	NSMutableArray* sections = thread.threadDictionary[@"DTXSections"];
 	if(sections == nil)
 	{
@@ -228,7 +228,7 @@ static void __DTXProfileBeginAsyncSectionInner(uint64_t tag, NSString* name, int
 	
 	__DTXPreprocessRNName(name, tag, arguments, isFromJS, &eventCategory, &eventName, &eventMessage);
 	
-	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, NO, YES, nil);
+	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, NO, YES, NO, nil);
 	[asyncSections setObject:eventIdentifier forKey:@(cookie)];
 }
 

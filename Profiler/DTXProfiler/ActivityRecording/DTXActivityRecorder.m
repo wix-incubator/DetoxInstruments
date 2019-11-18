@@ -62,12 +62,12 @@ static void __DTXDidRemoveProfiler(CFNotificationCenterRef center, void *observe
 
 + (void)syncSystemDidStartTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description
 {
-	
+	__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, NSDate.date, @"Activity", description, nil, NO, NO, YES, nil);
 }
 
 + (void)syncSystemDidEndTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description
 {
-	
+	__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, DTXEventStatusCompleted, nil);
 }
 
 @end

@@ -93,7 +93,7 @@ void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers
 			{
 				additionalInfo = nil;
 			}
-			__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], additionalInfo, [params[@"3"] boolValue], NO,  [params[@"4"] componentsSeparatedByString:@"\n"]);
+			__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], additionalInfo, [params[@"3"] boolValue], NO, NO, [params[@"4"] componentsSeparatedByString:@"\n"]);
 		}	break;
 		case 1:
 		{

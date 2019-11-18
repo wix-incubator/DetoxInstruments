@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,7 +20,7 @@
                                         <rect key="frame" x="0.0" y="191" width="357" height="72"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="CCr-V4-NpS">
-                                                <rect key="frame" x="-2" y="24" width="108" height="16"/>
+                                                <rect key="frame" x="-2" y="28" width="108" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Appearance:" id="7pd-m7-vqW">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -371,20 +371,20 @@
             <objects>
                 <viewController storyboardIdentifier="RecordingPreferences" id="OpI-ll-TgO" customClass="_DTXProfilingConfigurationViewController" sceneMemberID="viewController">
                     <view key="view" id="DJP-gy-DtW">
-                        <rect key="frame" x="0.0" y="0.0" width="598" height="575"/>
+                        <rect key="frame" x="0.0" y="0.0" width="598" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="FB8-hs-zf7">
-                                <rect key="frame" x="96" y="60" width="407" height="495"/>
+                                <rect key="frame" x="99" y="72" width="400" height="531"/>
                                 <subviews>
                                     <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yI3-6e-MaY">
-                                        <rect key="frame" x="0.0" y="0.0" width="407" height="495"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="531"/>
                                         <subviews>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zvP-Hz-LmE" userLabel="Sampling Frequency Stack View">
-                                                <rect key="frame" x="0.0" y="474" width="407" height="21"/>
+                                                <rect key="frame" x="0.0" y="510" width="400" height="21"/>
                                                 <subviews>
-                                                    <textField horizontalHuggingPriority="999" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="XzW-iA-Skh">
-                                                        <rect key="frame" x="-2" y="3" width="136" height="16"/>
+                                                    <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="XzW-iA-Skh">
+                                                        <rect key="frame" x="-2" y="3" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Sampling frequency:" id="B2H-SR-Zbz">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -392,7 +392,7 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uy3-xO-dSJ">
-                                                        <rect key="frame" x="140" y="0.0" width="267" height="21"/>
+                                                        <rect key="frame" x="133" y="0.0" width="267" height="21"/>
                                                         <subviews>
                                                             <popUpButton verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="gNl-oo-giS">
                                                                 <rect key="frame" x="-2" y="-3" width="271" height="25"/>
@@ -441,10 +441,10 @@
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kKa-rT-pJr" userLabel="Performance Stack View">
-                                                <rect key="frame" x="0.0" y="438" width="407" height="16"/>
+                                                <rect key="frame" x="0.0" y="474" width="400" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="l40-Fo-Y6V">
-                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
+                                                        <rect key="frame" x="-2" y="0.0" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Performance:" id="K2a-VT-4Ay">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -452,7 +452,7 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gxG-eP-R5y">
-                                                        <rect key="frame" x="140" y="1" width="267" height="14"/>
+                                                        <rect key="frame" x="133" y="1" width="267" height="14"/>
                                                         <subviews>
                                                             <button toolTip="Record performance information during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="o6T-tP-cWG">
                                                                 <rect key="frame" x="-2" y="-2" width="147" height="18"/>
@@ -461,11 +461,6 @@
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="uB0-9V-RFt">
-                                                                        <dictionary key="options">
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
                                                                     <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" id="Dbl-uE-4si"/>
                                                                 </connections>
                                                             </button>
@@ -488,10 +483,10 @@
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i8R-ML-Kiq" userLabel="Threads Stack View">
-                                                <rect key="frame" x="0.0" y="359" width="407" height="59"/>
+                                                <rect key="frame" x="0.0" y="395" width="400" height="59"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="afx-j5-wgm">
-                                                        <rect key="frame" x="-2" y="43" width="136" height="16"/>
+                                                        <rect key="frame" x="-2" y="43" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Threads:" id="xA9-Dg-rUF">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -499,7 +494,7 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v14-k9-NLt">
-                                                        <rect key="frame" x="140" y="0.0" width="267" height="58"/>
+                                                        <rect key="frame" x="133" y="0.0" width="267" height="58"/>
                                                         <subviews>
                                                             <button toolTip="Record thread information during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="F26-30-YaI">
                                                                 <rect key="frame" x="-2" y="42" width="181" height="18"/>
@@ -508,13 +503,7 @@
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="IdN-2W-qz0">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="IdN-2W-qz0" id="lo9-ry-3nA">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" id="vL2-0B-8dL">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -535,14 +524,7 @@ Collecting stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="K0i-KN-ivM">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="Yo6-gC-6JP"/>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="8jW-9a-7s5" id="ffP-yp-wNy">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="S7G-G5-tXT" id="oI8-1f-iF3">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -550,7 +532,7 @@ Collecting stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNullPlaceholder" value="-1"/>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="K0i-KN-ivM" id="8jW-9a-7s5">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" id="S7G-G5-tXT">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -558,6 +540,7 @@ Collecting stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNullPlaceholder" value="0"/>
                                                                         </dictionary>
                                                                     </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="Yo6-gC-6JP"/>
                                                                 </connections>
                                                             </button>
                                                             <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="svv-ID-yR1">
@@ -570,13 +553,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Zaw-ev-e0N">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" previousBinding="Zaw-ev-e0N" id="KOS-Xt-qpX">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="Hau-gH-gEF" id="WBm-Ue-dZG">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -584,7 +561,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNullPlaceholder" value="0"/>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled4" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="BkF-Az-gir" id="RX6-So-tNQ">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="WBm-Ue-dZG" id="UyV-1C-hbp">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -592,7 +569,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNullPlaceholder" value="-1"/>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled3" keyPath="values.DTXSelectedProfilingConfiguration_recordThreadInformation" previousBinding="KOS-Xt-qpX" id="BkF-Az-gir">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_collectStackTraces" id="Hau-gH-gEF">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -626,10 +603,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Akq-8f-KTC" userLabel="Disk Usage Stack View">
-                                                <rect key="frame" x="0.0" y="323" width="407" height="16"/>
+                                                <rect key="frame" x="0.0" y="359" width="400" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="bKK-92-CPC">
-                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
+                                                        <rect key="frame" x="-2" y="0.0" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Disk Usage:" id="QHP-Np-Zyq">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -637,7 +614,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sLF-vh-sP2">
-                                                        <rect key="frame" x="140" y="1" width="267" height="14"/>
+                                                        <rect key="frame" x="133" y="1" width="267" height="14"/>
                                                         <subviews>
                                                             <button toolTip="Collect names of files open in the app at the time of sampling." verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="xPd-U1-DAt">
                                                                 <rect key="frame" x="-2" y="-2" width="164" height="18"/>
@@ -646,14 +623,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Ff1-0g-moZ">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectOpenFileNames" id="DMQ-F9-O1K"/>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" previousBinding="Ff1-0g-moZ" id="ZWR-bL-DHf">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordPerformance" id="Gaw-Hd-wdU">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -661,6 +631,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNullPlaceholder" value="-1"/>
                                                                         </dictionary>
                                                                     </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_collectOpenFileNames" id="DMQ-F9-O1K"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -682,10 +653,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7wV-gW-uwo" userLabel="Network Stack View">
-                                                <rect key="frame" x="0.0" y="244" width="407" height="59"/>
+                                                <rect key="frame" x="0.0" y="280" width="400" height="59"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8xK-CT-02C">
-                                                        <rect key="frame" x="-2" y="43" width="136" height="16"/>
+                                                        <rect key="frame" x="-2" y="43" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Network:" id="JRU-8m-g7Z">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -693,7 +664,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jwz-Nl-uP9">
-                                                        <rect key="frame" x="140" y="0.0" width="267" height="58"/>
+                                                        <rect key="frame" x="133" y="0.0" width="267" height="58"/>
                                                         <subviews>
                                                             <button toolTip="Record network requests during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="JAM-51-dQ2">
                                                                 <rect key="frame" x="-2" y="42" width="118" height="18"/>
@@ -702,12 +673,6 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="eqQ-f6-yru">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
                                                                     <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" id="DQQ-1G-NKD"/>
                                                                 </connections>
                                                             </button>
@@ -718,14 +683,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Y92-Rd-s1l">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLocalhostNetwork" id="9Ab-7a-UWr"/>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" previousBinding="Y92-Rd-s1l" id="8lZ-jl-Z7x">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" id="Jl2-b7-cd6">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -733,6 +691,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNullPlaceholder" value="0"/>
                                                                         </dictionary>
                                                                     </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLocalhostNetwork" id="9Ab-7a-UWr"/>
                                                                 </connections>
                                                             </button>
                                                             <button toolTip="Disables cache for network requests." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="vod-jy-C5Y">
@@ -742,14 +701,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="cTa-r6-8xb">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_disableNetworkCache" id="1hY-69-58K"/>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" previousBinding="cTa-r6-8xb" id="S0o-2e-y2b">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordNetwork" id="kg1-O9-Nd6">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -757,6 +709,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                             <integer key="NSNullPlaceholder" value="0"/>
                                                                         </dictionary>
                                                                     </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_disableNetworkCache" id="1hY-69-58K"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -782,10 +735,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqq-v5-n1K" userLabel="Events Stack View">
-                                                <rect key="frame" x="0.0" y="179" width="407" height="45"/>
+                                                <rect key="frame" x="0.0" y="215" width="400" height="45"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="z6W-cp-Vt6">
-                                                        <rect key="frame" x="-2" y="29" width="136" height="16"/>
+                                                        <rect key="frame" x="-2" y="29" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Events:" id="0ci-1t-pkd">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -793,7 +746,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dmq-2o-PMa">
-                                                        <rect key="frame" x="140" y="0.0" width="267" height="44"/>
+                                                        <rect key="frame" x="133" y="0.0" width="267" height="44"/>
                                                         <subviews>
                                                             <button toolTip="Record events during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Qdt-VA-kIa">
                                                                 <rect key="frame" x="-2" y="28" width="109" height="18"/>
@@ -802,21 +755,6 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="36I-8x-tAl">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" previousBinding="36I-8x-tAl" id="I0q-Xt-U8t">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
                                                                     <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordEvents" id="CsI-aN-f2q"/>
                                                                 </connections>
                                                             </button>
@@ -833,12 +771,7 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
                                                                         <connections>
-                                                                            <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="Cpd-pl-yje">
-                                                                                <dictionary key="options">
-                                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                                </dictionary>
-                                                                            </binding>
-                                                                            <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_recordEvents" previousBinding="Cpd-pl-yje" id="weh-Pw-NrO">
+                                                                            <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordEvents" id="lbE-3C-f4f">
                                                                                 <dictionary key="options">
                                                                                     <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                                     <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -876,11 +809,53 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                     <real value="3.4028234663852886e+38"/>
                                                 </customSpacing>
                                             </stackView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rJ2-3a-my7" userLabel="Events Stack View">
+                                                <rect key="frame" x="0.0" y="179" width="400" height="16"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Z8G-nl-aI4">
+                                                        <rect key="frame" x="-2" y="0.0" width="129" height="16"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Activity:" id="JdV-aC-SzA">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xWC-ZQ-JVB">
+                                                        <rect key="frame" x="133" y="1" width="267" height="14"/>
+                                                        <subviews>
+                                                            <button toolTip="Record app activity during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="MKO-za-RrZ">
+                                                                <rect key="frame" x="-2" y="-2" width="139" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Record app activity" bezelStyle="regularSquare" imagePosition="left" inset="2" id="lhg-gL-bRv">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordActivity" id="ZFx-Fe-FsL"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <visibilityPriorities>
+                                                            <integer value="1000"/>
+                                                        </visibilityPriorities>
+                                                        <customSpacing>
+                                                            <real value="3.4028234663852886e+38"/>
+                                                        </customSpacing>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cRB-di-s5O" userLabel="Log Stack View">
-                                                <rect key="frame" x="0.0" y="143" width="407" height="16"/>
+                                                <rect key="frame" x="0.0" y="143" width="400" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="kxx-bo-FHN">
-                                                        <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
+                                                        <rect key="frame" x="-2" y="0.0" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Log:" id="pUl-0p-6Tm">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -888,7 +863,7 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GLI-40-lSF">
-                                                        <rect key="frame" x="140" y="1" width="267" height="14"/>
+                                                        <rect key="frame" x="133" y="1" width="267" height="14"/>
                                                         <subviews>
                                                             <button toolTip="Record log output during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="w6Q-EN-wGe">
                                                                 <rect key="frame" x="-2" y="-2" width="131" height="18"/>
@@ -897,12 +872,6 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="ZnZ-Xa-tDq">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
                                                                     <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordLogOutput" id="mJ2-Bs-APL"/>
                                                                 </connections>
                                                             </button>
@@ -925,10 +894,10 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y8h-d7-mBG" userLabel="React Native Stack View">
-                                                <rect key="frame" x="0.0" y="42" width="407" height="81"/>
+                                                <rect key="frame" x="0.0" y="42" width="400" height="81"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lEl-y6-uLC">
-                                                        <rect key="frame" x="-2" y="65" width="136" height="16"/>
+                                                        <rect key="frame" x="-2" y="65" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="React Native:" id="44V-23-JWq">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -936,7 +905,7 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHh-zC-CeP">
-                                                        <rect key="frame" x="140" y="0.0" width="267" height="80"/>
+                                                        <rect key="frame" x="133" y="0.0" width="267" height="80"/>
                                                         <subviews>
                                                             <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="34Z-pu-E1Y">
                                                                 <rect key="frame" x="-2" y="64" width="219" height="18"/>
@@ -948,12 +917,6 @@ Currently, only one active React Native bridge is supported.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="uTB-Hq-QIR">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
                                                                     <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="TKx-I7-bbV"/>
                                                                 </connections>
                                                             </button>
@@ -964,13 +927,7 @@ Currently, only one active React Native bridge is supported.</string>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="XMP-oD-Pxr">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="XMP-oD-Pxr" id="fZo-QZ-Ew7">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="HrQ-te-Tgw">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -991,18 +948,17 @@ Timers will appear as interval events in the Events instrument. This option requ
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="bnE-8a-zKY">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="bnE-8a-zKY" id="i4a-lv-auE">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="T74-r8-ND1" id="fKM-V4-bzO">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
                                                                             <integer key="NSNotApplicablePlaceholder" value="-1"/>
                                                                             <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordEvents" id="T74-r8-ND1">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                     <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeTimersAsEvents" id="d0f-Yj-1fI"/>
@@ -1018,18 +974,17 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXProfilingConfigurationUseDefaultConfiguration" id="dvk-Fb-56i">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="dvk-Fb-56i" id="zRb-Wu-W4v">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="bas-hF-rii" id="SSA-lb-SaY">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
                                                                             <integer key="NSNotApplicablePlaceholder" value="-1"/>
                                                                             <integer key="NSNullPlaceholder" value="0"/>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordEvents" id="bas-hF-rii">
+                                                                        <dictionary key="options">
+                                                                            <integer key="NSNullPlaceholder" value="1"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                     <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordInternalReactNativeEvents" id="dPc-hT-Rdt"/>
@@ -1060,10 +1015,10 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BnW-Ht-cKY" userLabel="Time Limit Stack View">
-                                                <rect key="frame" x="0.0" y="0.0" width="407" height="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="400" height="22"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="M2a-3h-pYo">
-                                                        <rect key="frame" x="-2" y="3" width="136" height="16"/>
+                                                        <rect key="frame" x="-2" y="3" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Recording Time Limit:" id="Sj0-aR-lrA">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1071,7 +1026,7 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                         </textFieldCell>
                                                     </textField>
                                                     <customView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="p5K-rZ-AxN">
-                                                        <rect key="frame" x="140" y="0.0" width="267" height="22"/>
+                                                        <rect key="frame" x="133" y="0.0" width="267" height="22"/>
                                                         <subviews>
                                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t8S-TB-Yky">
                                                                 <rect key="frame" x="0.0" y="1" width="123" height="21"/>
@@ -1155,6 +1110,7 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                             <constraint firstItem="l40-Fo-Y6V" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="Rer-cn-Zjt"/>
                                             <constraint firstItem="z6W-cp-Vt6" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="W8k-Jo-ywN"/>
                                             <constraint firstItem="bKK-92-CPC" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="vKJ-PF-7Ph"/>
+                                            <constraint firstItem="Z8G-nl-aI4" firstAttribute="width" secondItem="XzW-iA-Skh" secondAttribute="width" id="wJQ-8T-BRE"/>
                                         </constraints>
                                         <visibilityPriorities>
                                             <integer value="1000"/>
@@ -1166,8 +1122,10 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
+                                            <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
@@ -1229,7 +1187,7 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                 <customObject id="niG-fH-XKz" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="rBM-gZ-tlD"/>
             </objects>
-            <point key="canvasLocation" x="-33" y="-1699.5"/>
+            <point key="canvasLocation" x="-33" y="-1675.5"/>
         </scene>
         <!--Ignored Event Categories-->
         <scene sceneID="p61-99-AOW">

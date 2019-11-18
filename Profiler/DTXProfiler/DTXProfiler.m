@@ -380,16 +380,21 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer isRNNativeEvent:(BOOL)isRNNativeEvent stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer isRNNativeEvent:(BOOL)isRNNativeEvent isActivity:(BOOL)isActivity stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
-	if(self->_currentProfilingConfiguration.recordEvents == NO)
+	if(isActivity == NO && self->_currentProfilingConfiguration.recordEvents == NO)
 	{
 		return;
 	}
 	
-	if(self->_currentProfilingConfiguration.recordInternalReactNativeEvents == NO && isRNNativeEvent)
+	if(isActivity == YES && self->_currentProfilingConfiguration.recordActivity == NO)
+	{
+		return;
+	}
+	
+	if(isRNNativeEvent && self->_currentProfilingConfiguration.recordInternalReactNativeEvents == NO)
 	{
 		return;
 	}
@@ -397,12 +402,22 @@ DTX_CREATE_LOG(Profiler);
 	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		if([self->_currentProfilingConfiguration.ignoredEventCategories containsObject:category])
+		if(isActivity == NO && [self->_currentProfilingConfiguration.ignoredEventCategories containsObject:category])
 		{
 			return;
 		}
 		
-		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
+		Class signpostSampleClass;
+		if(isActivity)
+		{
+			signpostSampleClass = DTXActivitySample.class;
+		}
+		else
+		{
+			signpostSampleClass = DTXSignpostSample.class;
+		}
+		
+		DTXSignpostSample* signpostSample = [[signpostSampleClass alloc] initWithContext:self->_backgroundContext];
 		signpostSample.timestamp = timestamp;
 		signpostSample.uniqueIdentifier = identifier;
 		signpostSample.category = category;

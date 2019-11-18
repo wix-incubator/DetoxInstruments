@@ -390,39 +390,44 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[tag.managedObjectContext save:NULL];
 }
 
-- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer isRNNativeEvent:(BOOL)isRNNativeEvent stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer isRNNativeEvent:(BOOL)isRNNativeEvent isActivity:(BOOL)isActivity stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
-	if(self.profilingConfiguration.recordEvents == NO)
+	if(isActivity == NO && self.profilingConfiguration.recordEvents == NO)
 	{
 		return;
 	}
 	
-	if(self.profilingConfiguration.recordInternalReactNativeEvents == NO && isRNNativeEvent)
+	if(isActivity == YES && self.profilingConfiguration.recordActivity == NO)
+	{
+		return;
+	}
+	
+	if(isRNNativeEvent && self.profilingConfiguration.recordInternalReactNativeEvents == NO)
 	{
 		return;
 	}
 	
 	[_ctx performBlock:^{
-		if([self.profilingConfiguration.ignoredEventCategories containsObject:category])
+		if(isActivity == NO && [self.profilingConfiguration.ignoredEventCategories containsObject:category])
 		{
 			return;
 		}
 		
 		NSMutableDictionary* preserialized = @{
-										@"__dtx_className": @"DTXSignpostSample",
-										@"__dtx_entityName": @"SignpostSample",
-										@"category": category ?: @"",
-										@"categoryHash": (category ?: @"").sufficientHash,
-										@"duration": @0,
-										@"eventStatus": @0,
-										@"name": name ?: @"",
-										@"nameHash": (name ?: @"").sufficientHash,
-										@"sampleIdentifier": identifier,
-										@"sampleType": @70,
-										@"timestamp": timestamp,
-										@"uniqueIdentifier": NSUUID.UUID.UUIDString,
-										@"startThreadNumber": @([self _threadForThreadIdentifier:threadIdentifier].number),
-										}.mutableCopy;
+			@"__dtx_className": isActivity ? @"DTXActivitySample" : @"DTXSignpostSample",
+			@"__dtx_entityName": isActivity ? @"ActivitySample" : @"SignpostSample",
+			@"category": category ?: @"",
+			@"categoryHash": (category ?: @"").sufficientHash,
+			@"duration": @0,
+			@"eventStatus": @0,
+			@"name": name ?: @"",
+			@"nameHash": (name ?: @"").sufficientHash,
+			@"sampleIdentifier": identifier,
+			@"sampleType": @70,
+			@"timestamp": timestamp,
+			@"uniqueIdentifier": NSUUID.UUID.UUIDString,
+			@"startThreadNumber": @([self _threadForThreadIdentifier:threadIdentifier].number),
+		}.mutableCopy;
 		
 		if(additionalInfo.length > 0)
 		{

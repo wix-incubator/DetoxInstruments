@@ -31,6 +31,7 @@
 @property (nonatomic, copy, null_resettable, readwrite) NSURL* recordingFileURL;
 @property (nonatomic, readwrite) BOOL recordInternalReactNativeEvents;
 @property (nonatomic, readwrite) NSArray<NSString*>* _ignoredEventCategoriesArray;
+@property (nonatomic, readwrite) BOOL recordActivity;
 
 @end
 
@@ -73,6 +74,7 @@
 	rv->_profileReactNative = YES;
 	rv->_nonkvc_recordingFileURL = [DTXProfilingConfiguration _urlForNewRecording];
 	rv->_recordEvents = YES;
+	rv->_recordActivity = NO;
 	rv->_nonkvc_ignoredEventCategories = NSSet.set;
 	
 	return rv;
@@ -212,6 +214,7 @@
 @dynamic recordReactNativeTimersAsEvents;
 @dynamic recordingFileURL;
 @dynamic recordInternalReactNativeEvents;
+@dynamic recordActivity;
 
 - (void)setRecordingFileURL:(NSURL *)recordingFileURL
 {

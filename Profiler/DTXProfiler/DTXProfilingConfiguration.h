@@ -138,6 +138,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, null_resettable, readonly) NSSet<NSString*>* ignoredEventCategories;
 
 /**
+ *  Record app activity during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readonly) BOOL recordActivity;
+
+/**
  *  Record log output during profiling.
  *
  *  The default value is @c true.
@@ -326,6 +333,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  The default value is @c true.
  */
 @property (nonatomic, readwrite) BOOL recordLogOutput;
+
+/**
+ *  Record app activity during profiling.
+ *
+ *  The default value is @c true.
+ */
+@property (nonatomic, readwrite) BOOL recordActivity;
 
 /**
  *  Profile React Native application.
