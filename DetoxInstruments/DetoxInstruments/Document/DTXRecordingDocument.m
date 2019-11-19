@@ -341,7 +341,25 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 			return NO;
 		}
 		
-		if([values[NSURLIsSystemImmutableKey] boolValue] == YES || [values[NSURLIsUserImmutableKey] boolValue] == YES)
+		BOOL isLocked = [values[NSURLIsSystemImmutableKey] boolValue] == YES || [values[NSURLIsUserImmutableKey] boolValue] == YES;
+		//Check that any of the internal files isns't also locked.
+		if(isLocked == NO)
+		{
+			NSDirectoryEnumerator* enumerator = [NSFileManager.defaultManager enumeratorAtURL:url includingPropertiesForKeys:nil options:0 errorHandler:nil];
+			
+			for(NSURL* fileURL in enumerator)
+			{
+				values = [fileURL resourceValuesForKeys:@[NSURLIsSystemImmutableKey, NSURLIsUserImmutableKey] error:outError];
+				if(*outError != nil)
+				{
+					return NO;
+				}
+				
+				isLocked |= [values[NSURLIsSystemImmutableKey] boolValue] == YES || [values[NSURLIsUserImmutableKey] boolValue] == YES;
+			}
+		}
+		
+		if(isLocked)
 		{
 			NSError* err = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
 											   code:-9
@@ -368,10 +386,21 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 			return NO;
 		}
 		
+		static NSDateFormatter* df;
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			df = [NSDateFormatter new];
+			df.dateStyle = NSDateFormatterShortStyle;
+			df.timeStyle = NSDateFormatterShortStyle;
+			df.dateFormat = @"yyyy-MM-dd HH_mm_ss";
+		});
+		
 		//Copy document to a temporary folder and try to migrate the temporary document.
 		NSURL* tempURL = [NSURL.temporaryDirectoryURL URLByAppendingPathComponent:url.lastPathComponent];
-		NSURL* backupURL = [[[url URLByDeletingLastPathComponent] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.backup", url.URLByDeletingPathExtension.lastPathComponent]] URLByAppendingPathExtension:url.pathExtension];
 		[[NSFileManager defaultManager] removeItemAtURL:tempURL error:NULL];
+		
+		NSURL* documentsDirURL = [[NSFileManager.defaultManager URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:NULL] URLByAppendingPathComponent:@"Detox Instruments" isDirectory:YES];
+		NSURL* backupURL = [[documentsDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ (Before Migration %@)", url.URLByDeletingPathExtension.lastPathComponent, [df stringFromDate:NSDate.date].stringBySanitizingForFileName]] URLByAppendingPathExtension:url.pathExtension];
 		if([[NSFileManager defaultManager] copyItemAtURL:url toURL:tempURL error:outError] == NO)
 		{
 			return NO;
@@ -420,8 +449,15 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		
 		if(didMigrate == YES)
 		{
-			[[NSFileManager defaultManager] removeItemAtURL:backupURL error:NULL];
-			[[NSFileManager defaultManager] copyItemAtURL:url toURL:backupURL error:NULL];
+			NSURL* autosavedInformationURL = [NSFileManager.defaultManager URLForDirectory:NSAutosavedInformationDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:NULL];
+			
+			//Only create a backup if not under the autosave information folder (duplicated document during migration).
+			if([backupURL.path hasPrefix:autosavedInformationURL.path] == NO)
+			{
+				[NSFileManager.defaultManager createDirectoryAtURL:documentsDirURL withIntermediateDirectories:YES attributes:nil error:NULL];
+				[[NSFileManager defaultManager] removeItemAtURL:backupURL error:NULL];
+				[[NSFileManager defaultManager] copyItemAtURL:url toURL:backupURL error:NULL];
+			}
 			
 			//Replace current document with the migrated copy.
 			if([[NSFileManager defaultManager] removeItemAtURL:url error:outError] == NO || [[NSFileManager defaultManager] copyItemAtURL:tempURL toURL:url error:outError] == NO)
@@ -608,7 +644,18 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		{
 			if([url setResourceValue:@NO forKey:NSURLIsUserImmutableKey error:outError] == NO)
 			{
-				return YES;
+				return NO;
+			}
+			
+			NSDirectoryEnumerator* enumerator = [NSFileManager.defaultManager enumeratorAtURL:url includingPropertiesForKeys:nil options:0 errorHandler:nil];
+			
+			//When duplicating, make sure internal files are not locked.
+			for(NSURL* fileURL in enumerator)
+			{
+				if([fileURL setResourceValue:@NO forKey:NSURLIsUserImmutableKey error:outError] == NO)
+				{
+					return NO;
+				}
 			}
 			
 			[self.class clearLastOpenedVersionAtURL:url];
