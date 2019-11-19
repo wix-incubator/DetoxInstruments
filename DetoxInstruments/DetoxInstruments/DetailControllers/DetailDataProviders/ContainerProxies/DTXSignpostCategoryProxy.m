@@ -61,7 +61,7 @@
 
 - (NSPredicate *)predicateForAggregator
 {
-	return [NSPredicate predicateWithFormat:@"categoryHash == %@ && hidden == NO && isActivity == NO", _category.sufficientHash];
+	return [NSPredicate predicateWithFormat:@"categoryHash == %@ && hidden == NO", _category.sufficientHash];
 }
 
 - (void)prepareData
@@ -72,7 +72,7 @@
 - (void)_reloadDurations
 {
 	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
-	fr.predicate = self.predicateForAggregator;
+	fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[[NSPredicate predicateWithFormat:@"endTimestamp != nil"], self.predicateForAggregator]];
 	fr.resultType = NSDictionaryResultType;
 	
 	NSExpressionDescription* min = [NSExpressionDescription new];
@@ -100,17 +100,12 @@
 	maxTimestamp.expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForKeyPath:@"endTimestamp"]]];
 	maxTimestamp.expressionResultType = NSDateAttributeType;
 	
-	NSExpressionDescription* countAll = [NSExpressionDescription new];
-	countAll.name = @"countAll";
-	countAll.expression = [NSExpression expressionForFunction:@"count:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
-	countAll.expressionResultType = NSInteger64AttributeType;
-	
 	NSExpressionDescription* countIsEvent = [NSExpressionDescription new];
 	countIsEvent.name = @"countIsEvent";
 	countIsEvent.expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForKeyPath:@"isEvent"]]];
 	countIsEvent.expressionResultType = NSInteger64AttributeType;
 	
-	fr.propertiesToFetch = @[min, avg, max, minTimestamp, maxTimestamp, countAll, countIsEvent];
+	fr.propertiesToFetch = @[min, avg, max, minTimestamp, maxTimestamp, countIsEvent];
 	NSDictionary<NSString*, id>* results = [self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject;
 	
 	_minDuration = [results[@"min"] doubleValue];
@@ -120,21 +115,19 @@
 	_endTimestamp = results[@"endTimestamp"];
 	_duration = [_endTimestamp timeIntervalSinceDate:_timestamp];
 	
-	NSUInteger count = [results[@"countAll"] unsignedIntegerValue];
-	NSUInteger countSome = [results[@"countIsEvent"] unsignedIntegerValue];
-
-	_isEvent = count == countSome;
-	
 	fr.propertiesToGroupBy = @[@"nameHash"];
 	fr.propertiesToFetch = @[@"nameHash"];
 	
 	_count = [self.managedObjectContext executeFetchRequest:fr error:NULL].count;
+	NSUInteger countSome = [results[@"countIsEvent"] unsignedIntegerValue];
+
+	_isEvent = _count == countSome;
 }
 
 - (void)_reloadNameProxyInfo
 {
 	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
-	fr.predicate = self.predicateForAggregator;
+	fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[[NSPredicate predicateWithFormat:@"endTimestamp != nil"], self.predicateForAggregator]];
 	fr.resultType = NSDictionaryResultType;
 	fr.propertiesToGroupBy = @[@"name"];
 	

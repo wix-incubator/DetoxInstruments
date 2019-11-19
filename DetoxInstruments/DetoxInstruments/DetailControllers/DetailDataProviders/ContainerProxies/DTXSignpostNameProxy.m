@@ -39,7 +39,7 @@
 		_info = info;
 		
 		_fetchRequest = DTXSignpostSample.fetchRequest;
-		_fetchRequest.predicate = [NSPredicate predicateWithFormat:@"categoryHash == %@ && nameHash == %@ && hidden == NO && isActivity == NO", _category.sufficientHash, _name.sufficientHash];
+		_fetchRequest.predicate = [NSPredicate predicateWithFormat:@"categoryHash == %@ && nameHash == %@ && hidden == NO", _category.sufficientHash, _name.sufficientHash];
 		_fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 		
 		[self _reloadDurations];
@@ -97,18 +97,17 @@
 		maxTimestamp.expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForKeyPath:@"endTimestamp"]]];
 		maxTimestamp.expressionResultType = NSDateAttributeType;
 		
-		NSExpressionDescription* countAll = [NSExpressionDescription new];
-		countAll.name = @"countAll";
-		countAll.expression = [NSExpression expressionForFunction:@"count:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
-		countAll.expressionResultType = NSInteger64AttributeType;
-		
 		NSExpressionDescription* countIsEvent = [NSExpressionDescription new];
 		countIsEvent.name = @"countIsEvent";
 		countIsEvent.expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForKeyPath:@"isEvent"]]];
 		countIsEvent.expressionResultType = NSInteger64AttributeType;
 		
-		fr.propertiesToFetch = @[min, avg, max, minTimestamp, maxTimestamp, countAll, countIsEvent];
-		results = [self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject;
+		fr.propertiesToFetch = @[min, avg, max, minTimestamp, maxTimestamp, countIsEvent];
+		NSMutableDictionary* rr = [NSMutableDictionary dictionaryWithDictionary:[self.managedObjectContext executeFetchRequest:fr error:NULL].firstObject];
+		
+		rr[@"countAll"] = @([self.managedObjectContext countForFetchRequest:_fetchRequest error:NULL]);
+		
+		results = rr;
 	}
 	
 	_minDuration = [results[@"min"] doubleValue];

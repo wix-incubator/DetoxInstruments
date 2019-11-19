@@ -87,16 +87,14 @@ return; }\
 
 - (void)_resetOpportunisticSamplesTimerIfNeeded
 {
-	pthread_mutex_lock(&_opportunisticSourceMutex);
+	pthread_mutex_lock_deferred_unlock(&_opportunisticSourceMutex);
 	if(_opportunisticQueue == nil)
 	{
-		pthread_mutex_unlock(&_opportunisticSourceMutex);
 		return;
 	}
 	
 	if(_opportunisticSource != nil)
 	{
-		pthread_mutex_unlock(&_opportunisticSourceMutex);
 		return;
 	}
 	
@@ -116,7 +114,6 @@ return; }\
 	});
 	
 	dispatch_resume(_opportunisticSource);
-	pthread_mutex_unlock(&_opportunisticSourceMutex);
 }
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration

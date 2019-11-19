@@ -107,4 +107,10 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
     _Pragma("clang diagnostic push");\
     _Pragma(CLANG_IGNORE_HELPER2(x))
 
+#define pthread_mutex_lock_deferred_unlock(mutex) \
+pthread_mutex_lock(mutex);\
+dtx_defer {\
+	pthread_mutex_unlock(mutex);\
+};
+
 #endif /* Swiftier_pch */
