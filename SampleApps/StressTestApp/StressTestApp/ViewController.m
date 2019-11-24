@@ -284,8 +284,9 @@ os_log_t __log_general;
 	conf.collectOpenFileNames = YES;
 	conf.recordNetwork = YES;
 	conf.disableNetworkCache = YES;
+	conf.recordActivity = YES;
 #if TARGET_OS_SIMULATOR
-	conf.recordingFileURL = [[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSRCROOT"]] URLByAppendingPathComponent:@"../../Documentation/Example Recording/example.dtxprof"].URLByStandardizingPath;
+	conf.recordingFileURL = [[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSRCROOT"]] URLByAppendingPathComponent:@"../../Documentation/Example Recording/example.dtxrec"].URLByStandardizingPath;
 #endif
 	
 	[__profiler startProfilingWithConfiguration:conf];
@@ -448,13 +449,56 @@ os_log_t __log_general;
 				NSLog(@"%@", conf.recordingFileURL);
 #if TARGET_OS_SIMULATOR
 				NSError* err;
-				[NSFileManager.defaultManager removeItemAtURL:[[conf.recordingFileURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"example.dtxprof.zip"] error:&err];
+				[NSFileManager.defaultManager removeItemAtURL:[[conf.recordingFileURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"example.dtxrec.zip"] error:&err];
 #endif
 				
 				__profiler = nil;
 			}];
 		});
 	} after:1.0];
+}
+
+- (void)_startRecordnigWithTimeInterval:(NSTimeInterval)ti sender:(UIButton*)sender
+{
+	[sender setEnabled:NO];
+	
+	__block DTXProfiler* __profiler = [DTXProfiler new];
+	DTXMutableProfilingConfiguration* conf = DTXMutableProfilingConfiguration.defaultProfilingConfiguration;
+//	conf.recordPerformance = NO;
+	conf.samplingInterval = 0.25;
+	conf.recordThreadInformation = YES;
+	conf.collectStackTraces = YES;
+	conf.symbolicateStackTraces = YES;
+	conf.recordLogOutput = YES;
+	conf.collectOpenFileNames = YES;
+	conf.recordNetwork = YES;
+	conf.disableNetworkCache = YES;
+	conf.recordActivity = YES;
+#if TARGET_OS_SIMULATOR
+	conf.recordingFileURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"/Users/lnatan/Desktop/%@seconds.dtxrec", @(ti)]].URLByStandardizingPath;
+#endif
+	
+	[__profiler startProfilingWithConfiguration:conf];
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ti * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[__profiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
+			NSLog(@"%@", conf.recordingFileURL);
+		}];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[sender setEnabled:YES];
+		});
+	});
+}
+
+- (IBAction)start10SecRecording:(UIButton*)sender
+{
+	[self _startRecordnigWithTimeInterval:10 sender:sender];
+}
+
+- (IBAction)start30SecRecording:(UIButton*)sender
+{
+	[self _startRecordnigWithTimeInterval:30 sender:sender];
 }
 
 @end

@@ -128,7 +128,7 @@ DTX_CREATE_LOG(Profiler);
 	
 	_currentProfilingConfiguration = [configuration copy];
 	
-	if(_currentProfilingConfiguration.recordPerformance == NO && _currentProfilingConfiguration.recordNetwork == NO && _currentProfilingConfiguration.recordEvents == NO && _currentProfilingConfiguration.profileReactNative == NO)
+	if(_currentProfilingConfiguration.recordPerformance == NO && _currentProfilingConfiguration.recordNetwork == NO && _currentProfilingConfiguration.recordEvents == NO && _currentProfilingConfiguration.profileReactNative == NO && _currentProfilingConfiguration.recordActivity == NO)
 	{
 		[_currentProfilingConfiguration setValue:@YES forKey:@"recordPerformance"];
 		[_currentProfilingConfiguration setValue:@YES forKey:@"recordNetwork"];

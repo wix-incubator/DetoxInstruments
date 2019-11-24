@@ -151,7 +151,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	[self _preparePersistenceContainerFromURL:nil allowCreation:YES error:NULL];
 	NSManagedObjectContext* bgCtx = [_container newBackgroundContext];
 	bgCtx.name = @"com.wix.RemoteProfiling-ManagedObjectContext";
-
+	
 	_remoteProfilingClient = [[DTXRemoteProfilingClient alloc] initWithProfilingTarget:target managedObjectContext:bgCtx];
 	_remoteProfilingClient.delegate = self;
 	[_remoteProfilingClient startProfilingWithConfiguration:configuration];
@@ -189,9 +189,9 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	return [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
 							   code:-9
 						   userInfo:@{
-									  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This document is not supported by the current version of Detox Instruments.", @""),
-									  NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try opening the document in an older version of Detox Instruments", @""),
-									  }];
+							   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This document is not supported by the current version of Detox Instruments.", @""),
+							   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try opening the document in an older version of Detox Instruments", @""),
+						   }];
 }
 
 - (BOOL)_requiresMigrationForURL:(NSURL*)sourceStoreURL toModel:(NSManagedObjectModel *)finalModel
@@ -300,7 +300,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	{
 		return NO;
 	}
-
+	
 	NSURL* walURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@-wal", sourceStoreURL.path]];
 	NSURL* shmURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@-shm", sourceStoreURL.path]];
 	
@@ -364,13 +364,13 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 			NSError* err = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
 											   code:-9
 										   userInfo:@{
-													  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The document requires data migration but is locked.", @""),
-													  NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Duplicate the document to migrate it safely.", @""),
-													  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Duplicate", nil), NSLocalizedString(@"Cancel", nil)],
-													  NSRecoveryAttempterErrorKey: self,
-													  NSURLErrorKey: url,
-													  @"DTXDuplicateIndex": @0,
-													  }];
+											   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The document requires data migration but is locked.", @""),
+											   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Duplicate the document to migrate it safely.", @""),
+											   NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Duplicate", nil), NSLocalizedString(@"Cancel", nil)],
+											   NSRecoveryAttempterErrorKey: self,
+											   NSURLErrorKey: url,
+											   @"DTXDuplicateIndex": @0,
+										   }];
 			
 			if(NSApp != nil)
 			{
@@ -415,28 +415,27 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		NSWindowController* modalWindowController = [[NSStoryboard storyboardWithName:@"Profiler" bundle:[NSBundle bundleForClass:self.class]] instantiateControllerWithIdentifier:@"migrationIndicator"];
 		__block NSModalSession modalSession = NULL;
 #endif
-		BOOL didMigrate = [self _progressivelyMigrateURL:tempStoreURL toModel:model error:outError progressHandler:^(DTXRecordingDocumentMigrationState migrationState, NSDictionary *userInfo)
-						   {
+		BOOL didMigrate = [self _progressivelyMigrateURL:tempStoreURL toModel:model error:outError progressHandler:^(DTXRecordingDocumentMigrationState migrationState, NSDictionary *userInfo) {
 #if ! CLI
-							   if(migrationState == DTXRecordingDocumentMigrationStateEnded)
-							   {
-								   if(modalSession != NULL)
-								   {
-									   [NSApp endModalSession:modalSession];
-									   [modalWindowController.window close];
-								   }
-								   modalSession = NULL;
-							   }
-							   else if(migrationState == DTXRecordingDocumentMigrationStateStarted)
-							   {
-								   if(modalSession == NULL)
-								   {
-									   modalSession = [NSApp beginModalSessionForWindow:modalWindowController.window];
-									   [NSApp runModalSession:modalSession];
-								   }
-							   }
+			if(migrationState == DTXRecordingDocumentMigrationStateEnded)
+			{
+				if(modalSession != NULL)
+				{
+					[NSApp endModalSession:modalSession];
+					[modalWindowController.window close];
+				}
+				modalSession = NULL;
+			}
+			else if(migrationState == DTXRecordingDocumentMigrationStateStarted)
+			{
+				if(modalSession == NULL)
+				{
+					modalSession = [NSApp beginModalSessionForWindow:modalWindowController.window];
+					[NSApp runModalSession:modalSession];
+				}
+			}
 #endif
-						   }];
+		}];
 		
 #if ! CLI
 		if(modalSession != NULL)
@@ -563,16 +562,16 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 				NSError* err = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain"
 												   code:-9
 											   userInfo:@{
-														  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"A newer version of Detox Instruments is required to open the document safely.", @""),
-														  NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:NSLocalizedString(@"The document was last opened with Detox Instruments version %@.\n\nIf you wish to open the document anyway, select “Duplicate”. Some data might not be correctly loaded or the entire operation may fail altogether.", @""), lastOpenedVersion],
+												   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"A newer version of Detox Instruments is required to open the document safely.", @""),
+												   NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:NSLocalizedString(@"The document was last opened with Detox Instruments version %@.\n\nIf you wish to open the document anyway, select “Duplicate”. Some data might not be correctly loaded or the entire operation may fail altogether.", @""), lastOpenedVersion],
 #if ! PROFILER_PREVIEW_EXTENSION
-														  NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Duplicate", nil), NSLocalizedString(@"Cancel", nil)],
-														  NSRecoveryAttempterErrorKey: self,
-														  NSURLErrorKey: url,
-														  @"DTXCheckForUpdatesIndex": @0,
-														  @"DTXDuplicateIndex": @1,
+												   NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"Check for Updates", nil), NSLocalizedString(@"Duplicate", nil), NSLocalizedString(@"Cancel", nil)],
+												   NSRecoveryAttempterErrorKey: self,
+												   NSURLErrorKey: url,
+												   @"DTXCheckForUpdatesIndex": @0,
+												   @"DTXDuplicateIndex": @1,
 #endif
-														  }];
+											   }];
 				
 #if ! PROFILER_PREVIEW_EXTENSION
 				if(NSApp != nil)
@@ -591,7 +590,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 			}
 		}
 	}
-
+	
 	BOOL rv = [self _preparePersistenceContainerFromURL:url allowCreation:NO error:outError];
 	
 	if(rv)
@@ -951,7 +950,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 			[NSApp presentError:dupError];
 		}
 	}
-
+	
 	return NO;
 }
 
