@@ -8,12 +8,11 @@
 
 #import "DTXActivityRecorder.h"
 #import "DTXProfilerAPI-Private.h"
-#import <DetoxSync/DTXSyncManager.h>
 
 static NSUInteger __activeListeningProfilers;
 static pthread_mutex_t __activeListeningProfilersMutex;
 
-@interface DTXActivityRecorder () <DTXSyncManagerDelegate>
+@interface DTXActivityRecorder () /* <DTXSyncManagerDelegate> */
 
 @end
 
@@ -49,7 +48,8 @@ static void __DTXDidRemoveProfiler(CFNotificationCenterRef center, void *observe
 			return;
 		}
 	}
-	[NSClassFromString(@"DTXSyncManager") setDelegate:(id)self];
+	
+	[NSClassFromString(@"DTXSyncManager") performSelector:@selector(setDelegate:) withObject:self];
 	
 	CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidAddProfiler, CF(__DTXDidAddActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidRemoveProfiler, CF(__DTXDidRemoveActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
