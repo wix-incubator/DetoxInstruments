@@ -27,6 +27,7 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 		rm -fr "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/Frameworks/"${PROFILER_SHIM_FRAMEWORK_NAME}"
 		## 🤦‍♂️ rdar://45972646 "Notarization service fails for an app with an iOS framework embedded in it"
 		openssl enc -aes-256-cbc -d -K 0 -iv 0 -nosalt -in "${PROFILER_FRAMEWORK_PATH}"/DTXProfiler -out "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
+		openssl enc -aes-256-cbc -d -K 0 -iv 0 -nosalt -in "${PROFILER_FRAMEWORK_PATH}"/Frameworks/DetoxSync.framework/DetoxSync -out "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/Frameworks/DetoxSync.framework/DetoxSync
 		echo "Profiler framework has been integrated in ${CODESIGNING_FOLDER_PATH}."
 	else
 		cp -Rf "${SHIM_FRAMEWORK_PATH}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/

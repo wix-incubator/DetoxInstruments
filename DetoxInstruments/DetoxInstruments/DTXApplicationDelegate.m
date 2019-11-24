@@ -290,6 +290,14 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	[task launchAndReturnError:NULL];
 	[task waitUntilExit];
 	
+	// 🤦‍♂️ rdar://45972646 "Notarization service fails for an app with an iOS framework embedded in it"
+	task = [NSTask new];
+	task.executableURL = [NSURL fileURLWithPath:@"/usr/bin/openSSL"];
+	task.arguments = @[@"enc", @"-aes-256-cbc", @"-d", @"-K", @"0", @"-iv", @"0", @"-nosalt", @"-in", [actualFrameworkURL URLByAppendingPathComponent:@"Frameworks/DetoxSync.framework/DetoxSync" isDirectory:NO].path, @"-out", [tempFrameworkURL URLByAppendingPathComponent:@"Frameworks/DetoxSync.framework/DetoxSync" isDirectory:NO].path];
+	task.qualityOfService = NSQualityOfServiceUserInteractive;
+	[task launchAndReturnError:NULL];
+	[task waitUntilExit];
+	
 	[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[tempFrameworkURL]];
 }
 
