@@ -422,7 +422,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 			@"eventStatus": @0,
 			@"name": name ?: @"",
 			@"nameHash": (name ?: @"").sufficientHash,
-			@"sampleIdentifier": identifier,
+			@"sampleIdentifier": [NSString stringWithFormat:@"%@_%@", identifier, NSUUID.UUID.UUIDString],
 			@"sampleType": @70,
 			@"timestamp": timestamp,
 			@"uniqueIdentifier": NSUUID.UUID.UUIDString,
@@ -451,14 +451,14 @@ DTX_CREATE_LOG(RemoteProfiler);
 		}
 		
 		NSMutableDictionary* preserialized = @{
-										@"__dtx_className": @"DTXSignpostSample",
-										@"__dtx_entityName": @"SignpostSample",
-										@"eventStatus": @(eventStatus),
-										@"endTimestamp": timestamp,
-										@"sampleIdentifier": identifier,
-										@"duration": @([timestamp timeIntervalSinceDate:event[@"timestamp"]]),
-										@"endThreadNumber": @([self _threadForThreadIdentifier:threadIdentifier].number),
-										}.mutableCopy;
+			@"__dtx_className": event[@"__dtx_className"],
+			@"__dtx_entityName": event[@"__dtx_entityName"],
+			@"eventStatus": @(eventStatus),
+			@"endTimestamp": timestamp,
+			@"sampleIdentifier": event[@"sampleIdentifier"],
+			@"duration": @([timestamp timeIntervalSinceDate:event[@"timestamp"]]),
+			@"endThreadNumber": @([self _threadForThreadIdentifier:threadIdentifier].number),
+		}.mutableCopy;
 		
 		if(additionalInfo.length > 0)
 		{
