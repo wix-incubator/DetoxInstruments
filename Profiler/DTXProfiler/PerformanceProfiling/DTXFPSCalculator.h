@@ -14,4 +14,6 @@
 
 @property (nonatomic, assign, readonly) CGFloat fps;
 
+- (void)stop;
+
 @end

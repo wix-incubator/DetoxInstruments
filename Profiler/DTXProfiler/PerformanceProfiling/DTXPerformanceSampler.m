@@ -111,6 +111,11 @@ static void* __symbols[DTXMaxFrames];
 	}
 }
 
+- (void)dealloc
+{
+	[_fpsCalculator stop];
+}
+
 #pragma mark - CPUs
 
 DTX_ALWAYS_INLINE

@@ -49,7 +49,7 @@ static const CGFloat DBFPSCalculatorTargetFramerate = 60.0;
 	return self;
 }
 
-- (void)dealloc
+- (void)stop
 {
 	[self.displayLink setPaused:YES];
 	[self.displayLink removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
