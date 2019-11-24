@@ -62,14 +62,22 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-d &quot;/Users/lnatan/Downloads/lev_crash.dtxrec&quot;"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--appPath &quot;/Users/lnatan/Library/Developer/Xcode/DerivedData/DetoxInstruments-drgnjngszdwcaqhkbinirepmktmi/Build/Products/Debug/Detox Instruments.app&quot;"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--appPath &quot;/Users/lnatan/Library/Developer/Xcode/DerivedData/DetoxInstruments-drgnjngszdwcaqhkbinirepmktmi/Build/Products/Debug/Detox Instruments.app&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--document &quot;/Users/lnatan/Downloads/WixOneAppDev Dec 20, 2018 at 4_05_43 PM.5.dtxprof&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--document &quot;/Users/lnatan/Desktop/Code/DetoxInstruments/Documentation/Example Recording/example.dtxrec&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--entity &quot;ThreadPerformanceSample&quot; -k &quot;cpuUsage, timestamp&quot; --predicate &apos;threadInfo in {20, 8}&apos; --fetch"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -90,7 +98,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;PerformanceSample&quot;"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;Recording&quot;"
@@ -117,8 +125,12 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--keys &quot;timestamp, cpuUsage, threadSamples&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--predicate &quot;cpuUsage &gt; 3.0&quot;"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--predicate &quot;(timestamp &gt;= 15 &amp;&amp; 30 &gt;= timestamp)&quot;"
@@ -126,7 +138,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--fetch"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--limit 1"

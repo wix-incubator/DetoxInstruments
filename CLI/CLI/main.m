@@ -448,9 +448,6 @@ int main(int argc, const char* argv[])
 					return -1;
 				}
 				
-				NSMutableArray<NSDictionary*>* rvs = [NSMutableArray new];
-				
-				NSString* conversionType = DTXNSManagedObjectDictionaryRepresentationJSONCallingKey;
 				id (^transformer)(NSPropertyDescription* obj, id val) = DTXNSManagedObjectDictionaryRepresentationJSONTransformer;
 				NSData* (^converter)(NSArray<NSDictionary*>* objects, NSError** error) = ^ (NSArray<NSDictionary*>* objects, NSError** error) {
 					return [NSJSONSerialization dataWithJSONObject:objects options:NSJSONWritingPrettyPrinted error:error];
@@ -458,7 +455,6 @@ int main(int argc, const char* argv[])
 				
 				if([settings boolForKey:@"plist"])
 				{
-					conversionType = DTXNSManagedObjectDictionaryRepresentationProperyListCallingKey;
 					transformer = DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer;
 					converter = ^ (NSArray<NSDictionary*>* objects, NSError** error) {
 						return [NSPropertyListSerialization dataWithPropertyList:objects format:NSPropertyListXMLFormat_v1_0 options:0 error:error];
@@ -481,10 +477,7 @@ int main(int argc, const char* argv[])
 					};
 				}
 				
-				[objs enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-					NSDictionary* rvObj = DTXNSManagedObjectDictionaryRepresentation(obj, entity, propertiesToFetch, transformer, conversionType, NO, YES);
-					[rvs addObject:rvObj];
-				}];
+				NSMutableArray* rvs = DTXArrayOfNSManagedObjectDictionaryRepresentations(objs, propertiesToFetch, transformer, NO, YES);
 				
 				NSData* convertedData = converter(rvs, &error);
 				if(error != nil)

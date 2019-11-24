@@ -80,9 +80,6 @@ static NSDateFormatter* __iso8601DateFormatter;
 	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:@"dictionaryRepresentationForPropertyList" onlyInKeys:[[self changedValuesForCurrentEvent] allKeys] includeMetadata:YES cleanIfNeeded:NO];
 }
 
-NSString* const DTXNSManagedObjectDictionaryRepresentationJSONCallingKey = @"cleanDictionaryRepresentationForJSON";
-NSString* const DTXNSManagedObjectDictionaryRepresentationProperyListCallingKey = @"cleanDictionaryRepresentationForPropertyList";
-
 id(^DTXNSManagedObjectDictionaryRepresentationJSONTransformer)(NSPropertyDescription* obj, id val);
 id(^DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer)(NSPropertyDescription* obj, id val);
 
@@ -109,7 +106,54 @@ static void __DTXCleanIfNeeded(id self, NSMutableDictionary* rv)
 	}
 }
 
-NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntityDescription* entity, NSArray* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), NSString* callingKey, BOOL includeMetadata, BOOL cleanIfNeeded)
+static id _DTXNSManagedObjectDictionaryRepresentationObjectOrCollection(NSPropertyDescription* obj, id val, NSArray* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), BOOL includeMetadata, BOOL cleanIfNeeded)
+{
+	id rv = nil;
+	
+	if([val isKindOfClass:NSOrderedSet.class])
+	{
+		rv = [val array];
+	}
+	else if([val isKindOfClass:NSSet.class])
+	{
+		rv = [val allObjects];
+	}
+	else
+	{
+		rv = val;
+	}
+	
+	if([rv isKindOfClass:NSArray.class])
+	{
+		NSMutableArray* transformedObjs = [NSMutableArray new];
+		[rv enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			NSEntityDescription* entity = [obj respondsToSelector:@selector(entity)] ? [obj entity] : nil;
+			id transformedObj = DTXNSManagedObjectDictionaryRepresentation(obj, entity, filteredKeys, transformer, includeMetadata, cleanIfNeeded);
+			[transformedObjs addObject:transformedObj];
+		}];
+		
+		if(obj.userInfo[@"sortArrayByKeyPath"])
+		{
+			[transformedObjs sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:obj.userInfo[@"sortArrayByKeyPath"] ascending:YES]]];
+		}
+		
+		rv = transformedObjs;
+	}
+	else
+	{
+		NSEntityDescription* entity = [rv respondsToSelector:@selector(entity)] ? [rv entity] : nil;
+		rv = DTXNSManagedObjectDictionaryRepresentation(rv, entity, filteredKeys, transformer, includeMetadata, cleanIfNeeded);
+	}
+	
+	return rv;
+}
+
+NSMutableArray* DTXArrayOfNSManagedObjectDictionaryRepresentations(NSArray* objects, NSArray* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), BOOL includeMetadata, BOOL cleanIfNeeded)
+{
+	return _DTXNSManagedObjectDictionaryRepresentationObjectOrCollection(nil, objects, filteredKeys, transformer, includeMetadata, cleanIfNeeded);
+}
+
+NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntityDescription* entity, NSArray* filteredKeys, id(^transformer)(NSPropertyDescription* obj, id val), BOOL includeMetadata, BOOL cleanIfNeeded)
 {
 	if(transformer == nil)
 	{
@@ -139,23 +183,7 @@ NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntit
 			{
 				if([obj.userInfo[@"includeInDictionaryRepresentation"] boolValue])
 				{
-					id val = [[self valueForKey:key] valueForKey:callingKey];
-					
-					if([val isKindOfClass:[NSOrderedSet class]])
-					{
-						val = [val array];
-					}
-					else if([val isKindOfClass:[NSSet class]])
-					{
-						val = [val allObjects];
-					}
-					
-					if(obj.userInfo[@"sortArrayByKeyPath"] && [val isKindOfClass:[NSArray class]])
-					{
-						val = [val sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:obj.userInfo[@"sortArrayByKeyPath"] ascending:YES]]];
-					}
-					
-					rv[outputKey] = val;
+					rv[outputKey] = _DTXNSManagedObjectDictionaryRepresentationObjectOrCollection(obj, [self valueForKey:key], nil, transformer, includeMetadata, cleanIfNeeded);
 				}
 				else if(obj.userInfo[@"includeKeyPathInDictionaryRepresentation"] != nil)
 				{
@@ -176,7 +204,9 @@ NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntit
 					fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:obj.userInfo[@"sortArrayByKeyPath"] ascending:YES]];
 				}
 				
-				rv[outputKey] = [[((NSManagedObject*)self).managedObjectContext executeFetchRequest:fr error:NULL] valueForKey:callingKey];
+				id val = [((NSManagedObject*)self).managedObjectContext executeFetchRequest:fr error:NULL];
+				
+				rv[outputKey] = val;
 			}
 			else if([obj isKindOfClass:NSAttributeDescription.class])
 			{
@@ -223,7 +253,7 @@ NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntit
 
 - (NSMutableDictionary*)_dictionaryRepresentationWithAttributeTransformer:(id(^)(NSPropertyDescription* obj, id val))transformer callingKey:(NSString*)callingKey onlyInKeys:(NSArray<NSString*>*)filteredKeys includeMetadata:(BOOL)includeMetadata cleanIfNeeded:(BOOL)cleanIfNeeded
 {
-	return DTXNSManagedObjectDictionaryRepresentation(self, self.entity, filteredKeys, transformer, callingKey, includeMetadata, cleanIfNeeded);
+	return DTXNSManagedObjectDictionaryRepresentation(self, self.entity, filteredKeys, transformer, includeMetadata, cleanIfNeeded);
 }
 
 - (void)updateWithPropertyListDictionaryRepresentation:(NSDictionary *)propertyListDictionaryRepresentation
