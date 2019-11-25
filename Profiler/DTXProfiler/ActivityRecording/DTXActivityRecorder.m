@@ -60,12 +60,13 @@ static void __DTXDidRemoveProfiler(CFNotificationCenterRef center, void *observe
 	});
 }
 
-+ (void)syncSystemDidStartTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description
++ (void)syncSystemDidStartTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description objectDescription:(NSString*)objectDescription additionalDescription:(nullable NSString*)additionalDescription
 {
-	__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, NSDate.date, @"Activity", description, nil, NO, NO, YES, nil);
+//	NSLog(@"🤦‍♂️ %@ %@ %@ %@", identifier, description, objectDescription, additionalDescription);
+	__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, NSDate.date, description, objectDescription, nil/*additionalDescription*/, NO, NO, YES, nil);
 }
 
-+ (void)syncSystemDidEndTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description
++ (void)syncSystemDidEndTrackingEventWithIdentifier:(NSString*)identifier
 {
 	__DTXProfilerMarkEventIntervalEnd(NSDate.date, identifier, DTXEventStatusCompleted, nil);
 }
