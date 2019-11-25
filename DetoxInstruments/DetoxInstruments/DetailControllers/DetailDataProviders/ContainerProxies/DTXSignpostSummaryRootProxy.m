@@ -23,6 +23,11 @@
 	return self;
 }
 
+- (NSPredicate *)predicateForAggregator
+{
+	return [NSPredicate predicateWithFormat:@"sampleType == %@", @(DTXSampleTypeSignpost)];
+}
+
 - (Class)sampleClass
 {
 	return DTXSignpostSample.class;

@@ -61,9 +61,18 @@
 	}
 	
 	fr.predicate = self.predicateForAggregator;
-	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+	fr.sortDescriptors = self.sortDescriptorsForAggregator;
+	if(fr.sortDescriptors == nil)
+	{
+		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+	}
 	
 	return fr;
+}
+
+- (NSArray<NSSortDescriptor *> *)sortDescriptorsForAggregator
+{
+	return nil;
 }
 
 - (void)handleSampleInserts:(NSArray *)inserts updates:(NSArray *)updates shouldReloadProxy:(BOOL *)reloadProxy

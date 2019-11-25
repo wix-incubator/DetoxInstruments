@@ -13,7 +13,10 @@
 - (NSDate*)endTimestampForSample:(__kindof DTXSample*)sample;
 - (NSColor*)colorForSample:(__kindof DTXSample*)sample;
 - (NSString*)titleForSample:(__kindof DTXSample*)sample;
+
 + (Class)classForIntervalSamples;
+- (NSPredicate*)predicateForPerformanceSamples;
+
 - (NSArray<NSSortDescriptor*>*)sortDescriptors;
 - (NSString*)sectionKeyPath;
 - (void)invalidateSections;

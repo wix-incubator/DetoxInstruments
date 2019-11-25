@@ -19,6 +19,7 @@
 + (BOOL)hasSignpostSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext
 {
 	NSFetchRequest* fr = [self fetchRequest];
+	fr.predicate = [NSPredicate predicateWithFormat:@"sampleType == %@", @(DTXSampleTypeSignpost)];
 	return [managedObjectContext countForFetchRequest:fr error:NULL] > 0;
 }
 

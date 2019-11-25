@@ -13,6 +13,7 @@
 #import "DTXEventInspectorDataProvider.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXSignpostDataExporter.h"
+#import "DTXSignpostEntitySampleContainerProxy.h"
 
 @implementation DTXSignpostFlatDataProvider
 
@@ -188,7 +189,7 @@
 
 - (DTXSampleContainerProxy *)rootSampleContainerProxy
 {
-	return [super rootSampleContainerProxy];
+	return [[DTXSignpostEntitySampleContainerProxy alloc] initWithOutlineView:self.managedOutlineView managedObjectContext:self.document.firstRecording.managedObjectContext sampleClass:self.sampleClass];
 }
 
 @end

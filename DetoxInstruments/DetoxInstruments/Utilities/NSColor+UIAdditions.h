@@ -24,6 +24,7 @@
 @property (class, nonatomic, strong, readonly) NSColor* diskWritePlotControllerColor;
 @property (class, nonatomic, strong, readonly) NSColor* networkRequestsPlotControllerColor;
 @property (class, nonatomic, strong, readonly) NSColor* signpostPlotControllerColor;
+@property (class, nonatomic, strong, readonly) NSColor* activityPlotControllerColor;
 
 @property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeColorColor;
 @property (class, nonatomic, strong, readonly) NSColor* pasteboardTypeImageColor;

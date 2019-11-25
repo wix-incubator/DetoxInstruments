@@ -44,6 +44,11 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 	return nil;
 }
 
+- (NSPredicate*)predicateForPerformanceSamples
+{
+	return nil;
+}
+
 - (BOOL)includeSeparatorsInStackView
 {
 	return YES;
@@ -81,6 +86,7 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 	NSFetchRequest* fr = [self.class.classForIntervalSamples fetchRequest];
 	fr.propertiesToFetch = self.propertiesToFetch;
 	fr.relationshipKeyPathsForPrefetching = self.relationshipsToFetch;
+	fr.predicate = self.predicateForPerformanceSamples;
 	
 	NSMutableArray* sortDescriptors = (self.sortDescriptors ?: @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]).mutableCopy;
 	if(self.isForTouchBar == NO && self.sectionKeyPath != nil)

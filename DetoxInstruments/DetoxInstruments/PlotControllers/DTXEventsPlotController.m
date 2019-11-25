@@ -72,6 +72,11 @@ static NSDictionary* _tagToKeyPathMapping;
 	return [DTXSignpostSample class];
 }
 
+- (NSPredicate *)predicateForPerformanceSamples
+{
+	return [NSPredicate predicateWithFormat:@"sampleType == %@", @(DTXSampleTypeSignpost)];
+}
+
 //- (NSArray<NSSortDescriptor *> *)sortDescriptors
 //{
 //	return @[[NSSortDescriptor sortDescriptorWithKey:@"isEvent" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
@@ -99,12 +104,7 @@ static NSDictionary* _tagToKeyPathMapping;
 
 - (NSArray<NSString*>*)plotTitles
 {
-	return @[NSLocalizedString(@"URL", @"")];
-}
-
-- (NSArray<NSString*>*)sampleKeys
-{
-	return @[@"totalDataLength"];
+	return @[NSLocalizedString(@"Event", @"")];
 }
 
 - (NSArray<NSString*>*)propertiesToFetch;

@@ -22,6 +22,7 @@
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
 #import "DTXEventsPlotController.h"
+#import "DTXActivityPlotController.h"
 #import "DTXRecording+UIExtensions.h"
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXNetworkSample+UIExtensions.h"
@@ -197,6 +198,11 @@
 	if(self.document.firstRecording.dtx_profilingConfiguration.recordEvents)
 	{
 		[_plotGroup addPlotController:[[DTXEventsPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+	}
+	
+	if(self.document.firstRecording.dtx_profilingConfiguration.recordActivity)
+	{
+		[_plotGroup addPlotController:[[DTXActivityPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	}
 	
 	if(self.document.firstRecording.hasReactNative && self.document.firstRecording.dtx_profilingConfiguration.profileReactNative)

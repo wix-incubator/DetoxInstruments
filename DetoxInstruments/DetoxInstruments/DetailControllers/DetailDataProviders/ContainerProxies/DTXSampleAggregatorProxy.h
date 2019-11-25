@@ -15,6 +15,7 @@
 @property (nonatomic, strong, readonly) NSString* keyPath;
 @property (nonatomic, strong, readonly) Class sampleClass;
 @property (nonatomic, strong, readonly) NSPredicate* predicateForAggregator;
+@property (nonatomic, strong, readonly) NSArray<NSSortDescriptor*>* sortDescriptorsForAggregator;
 
 - (instancetype)initWithKeyPath:(NSString*)keyPath outlineView:(NSOutlineView*)outlineView managedObjectContext:(NSManagedObjectContext*)managedObjectContext isRoot:(BOOL)root;
 
