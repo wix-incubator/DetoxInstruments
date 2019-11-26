@@ -146,6 +146,8 @@
 //		return @"—";
 //	}
 	
+	BOOL isLeaf = [signpostSample isKindOfClass:DTXSignpostSample.class] || [signpostSample isKindOfClass:DTXSignpostAdditionalInfoEndProxy.class];
+	
 	switch (column)
 	{
 		case 0:
@@ -161,6 +163,10 @@
 			
 			return realSignpostSample.additionalInfoStart.length > 0 ? realSignpostSample.additionalInfoStart : realSignpostSample.name;
 		case 1:
+			if(isLeaf)
+			{
+				return @" ";
+			}
 			return [NSFormatter.dtx_stringFormatter stringForObjectValue:@(signpostSample.count)];
 		case 2:
 		{
@@ -174,27 +180,27 @@
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.duration];
 		case 4:
-			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
+			if(isLeaf == YES || realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
 			{
-				return @"—";
+				return @" ";
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.minDuration];
 		case 5:
-			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
+			if(isLeaf == YES || realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
 			{
-				return @"—";
+				return @" ";
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.avgDuration];
 		case 6:
-			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
+			if(isLeaf == YES || realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
 			{
-				return @"—";
+				return @" ";
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.maxDuration];
 		case 7:
 			if(realSignpostSample.isExpandable)
 			{
-				return @"—";
+				return @" ";
 			}
 			return realSignpostSample.eventStatusString;
 		default:

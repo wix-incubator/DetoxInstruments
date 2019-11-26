@@ -118,7 +118,7 @@
 		case 1:
 			if(signpostSample.isEvent || signpostSample.endTimestamp == nil)
 			{
-				return @"—";
+				return @" ";
 			}
 			return [[NSFormatter dtx_durationFormatter] stringFromTimeInterval:signpostSample.duration];
 		case 2:

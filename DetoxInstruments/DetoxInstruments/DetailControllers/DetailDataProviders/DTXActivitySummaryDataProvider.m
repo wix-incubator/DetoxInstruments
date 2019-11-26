@@ -142,6 +142,8 @@
 //		return @"—";
 //	}
 	
+	BOOL isLeaf = [signpostSample isKindOfClass:DTXActivitySample.class] || [signpostSample isKindOfClass:DTXSignpostAdditionalInfoEndProxy.class];
+	
 	switch (column)
 	{
 		case 0:
@@ -157,6 +159,11 @@
 			
 			return realSignpostSample.additionalInfoStart.length > 0 ? realSignpostSample.additionalInfoStart : realSignpostSample.name;
 		case 1:
+			if(isLeaf)
+			{
+				return @" ";
+			}
+			
 			return [NSFormatter.dtx_stringFormatter stringForObjectValue:@(signpostSample.count)];
 		case 2:
 		{
@@ -170,21 +177,21 @@
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.duration];
 		case 4:
-			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
+			if(isLeaf == YES || realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
 			{
-				return @"—";
+				return @" ";
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.minDuration];
 		case 5:
-			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
+			if(isLeaf == YES || realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
 			{
-				return @"—";
+				return @" ";
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.avgDuration];
 		case 6:
-			if(realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
+			if(isLeaf == YES || realSignpostSample.isEvent || realSignpostSample.endTimestamp == nil)
 			{
-				return @"—";
+				return @" ";
 			}
 			return [NSFormatter.dtx_durationFormatter stringFromTimeInterval:signpostSample.maxDuration];
 		default:
@@ -195,35 +202,7 @@
 - (NSColor *)backgroundRowColorForItem:(id)item
 {
 	DTXActivitySample* sample = item;
-	
-	if(sample.eventStatus == DTXEventStatusPrivateError)
-	{
-		return NSColor.warning3Color;
-	}
-	
-	if(sample.isExpandable == NO && sample.endTimestamp == nil)
-	{
-		return NSColor.warningColor;
-	}
-	
 	return sample.plotControllerColor;
-}
-
-- (NSString*)statusTooltipforItem:(id)item
-{
-	DTXActivitySample* sample = item;
-	
-	if(sample.eventStatus == DTXEventStatusPrivateError)
-	{
-		return NSLocalizedString(@"Event error", @"");
-	}
-	
-	if(sample.isExpandable == NO && sample.endTimestamp == nil)
-	{
-		return NSLocalizedString(@"Incomplete event", @"");
-	}
-	
-	return nil;
 }
 
 - (BOOL)supportsDataFiltering

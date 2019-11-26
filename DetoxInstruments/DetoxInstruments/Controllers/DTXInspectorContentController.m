@@ -151,23 +151,28 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 		
 		content = [NSMutableArray new];
 		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Performance", @"") description:__DTXStringFromBoolean(configuration.recordPerformance)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Sampling Interval", @"") description:[NSFormatter.dtx_durationFormatter stringFromTimeInterval:configuration.samplingInterval]]];
-		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Thread Information", @"") description:__DTXStringFromBoolean(configuration.recordThreadInformation)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Stack Traces", @"") description:__DTXStringFromBoolean(configuration.collectStackTraces)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Symbolicate Stack Traces", @"") description:__DTXStringFromBoolean(configuration.symbolicateStackTraces)]];
-		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Collect Open File Names", @"") description:__DTXStringFromBoolean(configuration.collectOpenFileNames)]];
 		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Network", @"") description:__DTXStringFromBoolean(configuration.recordNetwork)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Localhost", @"") description:__DTXStringFromBoolean(configuration.recordLocalhostNetwork)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Disable Network Cache", @"") description:__DTXStringFromBoolean(configuration.disableNetworkCache)]];
 		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Events", @"") description:__DTXStringFromBoolean(configuration.recordEvents)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Ignored Event Categories", @"") description:[configuration.ignoredEventCategories.allObjects componentsJoinedByString:@", "]]];
+		
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Activity", @"") description:__DTXStringFromBoolean(configuration.recordActivity)]];
+		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Log Output", @"") description:__DTXStringFromBoolean(configuration.recordLogOutput)]];
 		
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Profile React Native", @"") description:__DTXStringFromBoolean(configuration.profileReactNative)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Bridge Data", @"") description:__DTXStringFromBoolean(configuration.recordReactNativeBridgeData)]];
 		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Timers as Events", @"") description:__DTXStringFromBoolean(configuration.recordReactNativeTimersAsEvents)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Internal React Native Events", @"") description:__DTXStringFromBoolean(configuration.recordInternalReactNativeEvents)]];
 		
 //		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
 		

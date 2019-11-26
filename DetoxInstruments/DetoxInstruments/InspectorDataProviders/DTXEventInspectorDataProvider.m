@@ -48,16 +48,33 @@
 	DTXInspectorContent* general = [DTXInspectorContent new];
 	general.title = NSLocalizedString(@"Info", @"");
 	
+	BOOL isSignpost = eventSample.sampleType == DTXSampleTypeSignpost;
+	
 	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
 	
 	NSTimeInterval ti = eventSample.timestamp.timeIntervalSinceReferenceDate - self.document.firstRecording.startTimestamp.timeIntervalSinceReferenceDate;
 	
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Type", @"") description:eventSample.eventTypeString]];
+	NSString* categoryTitle;
+	NSString* nameTitle;
+	if(isSignpost)
+	{
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Type", @"") description:eventSample.eventTypeString]];
+		categoryTitle = NSLocalizedString(@"Category", @"");
+		nameTitle = NSLocalizedString(@"Name", @"");
+	}
+	else
+	{
+		categoryTitle = NSLocalizedString(@"Activity Type", @"");
+		nameTitle = NSLocalizedString(@"Object", @"");
+	}
 	
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Category", @"") description:eventSample.category]];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Name", @"") description:eventSample.name]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:categoryTitle description:eventSample.category]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:nameTitle description:eventSample.name]];
 	
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description:eventSample.eventStatusString]];
+	if(isSignpost)
+	{
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Status", @"") description:eventSample.eventStatusString]];
+	}
 	
 	general.content = content;
 	NSMutableArray* contentArray = @[general].mutableCopy;
