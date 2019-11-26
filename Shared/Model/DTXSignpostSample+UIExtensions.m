@@ -8,6 +8,7 @@
 
 #import "DTXSignpostSample+UIExtensions.h"
 #import "DTXEventStatusPrivate.h"
+#import "DTXSample+Additions.h"
 #if ! CLI
 #import "NSColor+UIAdditions.h"
 #endif

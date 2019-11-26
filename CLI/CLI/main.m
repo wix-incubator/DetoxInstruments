@@ -417,6 +417,19 @@ int main(int argc, const char* argv[])
 				predicate = _DTXFixupPredicateTimestamps(predicate, document);
 			}
 			
+			if([entity.name isEqualToString:@"SignpostSample"])
+			{
+				NSPredicate* signpost = [NSPredicate predicateWithFormat:@"sampleType == %@", @(DTXSampleTypeSignpost)];
+				if(predicate == nil)
+				{
+					predicate = signpost;
+				}
+				else
+				{
+					predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, signpost]];
+				}
+			}
+			
 			if([settings boolForKey:@"fetch"])
 			{
 				NSFetchRequest* fr = [NSFetchRequest new];
