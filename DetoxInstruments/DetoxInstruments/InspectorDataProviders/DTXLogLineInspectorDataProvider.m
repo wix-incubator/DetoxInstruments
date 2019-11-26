@@ -30,7 +30,7 @@
 	request.content = content;
 	
 	DTXInspectorContent* logLineInfo = [DTXInspectorContent new];
-	logLineInfo.title = NSLocalizedString(@"Log", @"");
+	logLineInfo.title = NSLocalizedString(@"Log Line", @"");
 	
 	content = [NSMutableArray new];
 	
@@ -38,7 +38,7 @@
 	par.hyphenationFactor = 1.0;
 	par.tighteningFactorForTruncation = 0.0;
 	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:logSample.line attributes:@{NSFontAttributeName: [DTXStackTraceCopyDataProvider fontForStackTraceDisplay], NSForegroundColorAttributeName: NSColor.labelColor, NSParagraphStyleAttributeName: par}];
-	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Line", @"") attributedDescription:attr]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:nil attributedDescription:attr]];
 	
 	logLineInfo.content = content;
 	
