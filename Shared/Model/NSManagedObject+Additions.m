@@ -206,7 +206,7 @@ NSMutableDictionary* DTXNSManagedObjectDictionaryRepresentation(id self, NSEntit
 				
 				id val = [((NSManagedObject*)self).managedObjectContext executeFetchRequest:fr error:NULL];
 				
-				rv[outputKey] = val;
+				rv[outputKey] = _DTXNSManagedObjectDictionaryRepresentationObjectOrCollection(obj, val, nil, transformer, includeMetadata, cleanIfNeeded);
 			}
 			else if([obj isKindOfClass:NSAttributeDescription.class])
 			{

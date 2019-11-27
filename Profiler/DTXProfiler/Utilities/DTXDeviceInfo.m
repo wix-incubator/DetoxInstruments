@@ -88,7 +88,11 @@ extern id MGCopyAnswer(NSString *inKey);
 		}
 #endif
 		deviceDetails[@"deviceOS"] = processInfo.operatingSystemVersionString;
+#if ! TARGET_OS_MACCATALYST
 		deviceDetails[@"deviceOSType"] = @0;
+#else
+		deviceDetails[@"deviceOSType"] = @1;
+#endif
 		deviceDetails[@"devicePhysicalMemory"] = @(processInfo.physicalMemory);
 		deviceDetails[@"deviceProcessorCount"] = @(processInfo.activeProcessorCount);
 #if ! TARGET_OS_MACCATALYST
