@@ -22,7 +22,7 @@ static NSDateFormatter* __iso8601DateFormatter;
 		__iso8601DateFormatter = [NSDateFormatter new];
 		__iso8601DateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSZZZZZ";
 		
-		DTXNSManagedObjectDictionaryRepresentationJSONTransformer = ^ id(__kindof NSPropertyDescription* obj, id val) {
+		DTXNSManagedObjectToJSONDictionaryRepresentationTransformer = ^ id(__kindof NSPropertyDescription* obj, id val) {
 			if([obj isKindOfClass:NSAttributeDescription.class])
 			{
 				NSAttributeDescription* attrObj = obj;
@@ -47,13 +47,13 @@ static NSDateFormatter* __iso8601DateFormatter;
 			return val;
 		};
 		
-		DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer = ^ id(__kindof NSPropertyDescription* obj, id val) { return val; };
+		DTXNSManagedObjectToPropertyListDictionaryRepresentationTransformer = ^ id(__kindof NSPropertyDescription* obj, id val) { return val; };
 	});
 }
 
 - (NSDictionary*)cleanDictionaryRepresentationForJSON
 {
-	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectDictionaryRepresentationJSONTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO cleanIfNeeded:YES];
+	NSMutableDictionary* rv = [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectToJSONDictionaryRepresentationTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:NO cleanIfNeeded:YES];
 	
 	return rv;
 }
@@ -67,7 +67,7 @@ static NSDateFormatter* __iso8601DateFormatter;
 
 - (NSDictionary*)dictionaryRepresentationForJSON
 {
-	return [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectDictionaryRepresentationJSONTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES cleanIfNeeded:YES];
+	return [self _dictionaryRepresentationWithAttributeTransformer:DTXNSManagedObjectToJSONDictionaryRepresentationTransformer callingKey:NSStringFromSelector(_cmd) onlyInKeys:nil includeMetadata:YES cleanIfNeeded:YES];
 }
 
 - (NSDictionary*)dictionaryRepresentationForPropertyList
@@ -80,8 +80,8 @@ static NSDateFormatter* __iso8601DateFormatter;
 	return [self _dictionaryRepresentationWithAttributeTransformer:nil callingKey:@"dictionaryRepresentationForPropertyList" onlyInKeys:[[self changedValuesForCurrentEvent] allKeys] includeMetadata:YES cleanIfNeeded:NO];
 }
 
-id(^DTXNSManagedObjectDictionaryRepresentationJSONTransformer)(NSPropertyDescription* obj, id val);
-id(^DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer)(NSPropertyDescription* obj, id val);
+id(^DTXNSManagedObjectToJSONDictionaryRepresentationTransformer)(NSPropertyDescription* obj, id val);
+id(^DTXNSManagedObjectToPropertyListDictionaryRepresentationTransformer)(NSPropertyDescription* obj, id val);
 
 static void __DTXCleanIfNeeded(id self, NSMutableDictionary* rv)
 {

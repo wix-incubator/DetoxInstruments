@@ -102,7 +102,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;PerformanceSample&quot;"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;Recording&quot;"
@@ -114,7 +114,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;EventSample&quot;"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--entity &quot;ActivitySample&quot;"
@@ -139,6 +139,10 @@
          <CommandLineArgument
             argument = "--keys &quot;timestamp, cpuUsage, threadSamples&quot;"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--keys &quot;min(memoryUsage), max(memoryUsage)&quot;"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--predicate &quot;cpuUsage &gt; 3.0&quot;"

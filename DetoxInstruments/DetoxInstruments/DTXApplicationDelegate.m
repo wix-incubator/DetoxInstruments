@@ -100,6 +100,18 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	}];
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+	[NSHelpManager.sharedHelpManager registerBooksInBundle:NSBundle.mainBundle];
+	
+	[NSTask launchedTaskWithExecutableURL:[NSURL fileURLWithPath:@"/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister"] arguments:@[@"-f", NSBundle.mainBundle.bundlePath, @"-R", @"-lint"] error:NULL terminationHandler:^(NSTask * _Nonnull task) {
+		if(task.terminationStatus != 0)
+		{
+			dtx_log_error(@"lsregister opration failed");
+		}
+	}];
+}
+
 - (void)_updateApril1BadgeIfNeeded
 {
 	NSDateComponents* dc = [NSDateComponents new];
@@ -203,18 +215,6 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	}
 	
 	[_preferencesWindowController showPreferencesWindow];
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-	[NSHelpManager.sharedHelpManager registerBooksInBundle:NSBundle.mainBundle];
-	
-	[NSTask launchedTaskWithExecutableURL:[NSURL fileURLWithPath:@"/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister"] arguments:@[@"-f", NSBundle.mainBundle.bundlePath, @"-R", @"-lint"] error:NULL terminationHandler:^(NSTask * _Nonnull task) {
-		if(task.terminationStatus != 0)
-		{
-			dtx_log_error(@"lsregister opration failed");
-		}
-	}];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification

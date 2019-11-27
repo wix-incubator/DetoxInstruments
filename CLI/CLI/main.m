@@ -461,14 +461,14 @@ int main(int argc, const char* argv[])
 					return -1;
 				}
 				
-				id (^transformer)(NSPropertyDescription* obj, id val) = DTXNSManagedObjectDictionaryRepresentationJSONTransformer;
+				id (^transformer)(NSPropertyDescription* obj, id val) = DTXNSManagedObjectToJSONDictionaryRepresentationTransformer;
 				NSData* (^converter)(NSArray<NSDictionary*>* objects, NSError** error) = ^ (NSArray<NSDictionary*>* objects, NSError** error) {
 					return [NSJSONSerialization dataWithJSONObject:objects options:NSJSONWritingPrettyPrinted error:error];
 				};
 				
 				if([settings boolForKey:@"plist"])
 				{
-					transformer = DTXNSManagedObjectDictionaryRepresentationPropertyListTransformer;
+					transformer = DTXNSManagedObjectToPropertyListDictionaryRepresentationTransformer;
 					converter = ^ (NSArray<NSDictionary*>* objects, NSError** error) {
 						return [NSPropertyListSerialization dataWithPropertyList:objects format:NSPropertyListXMLFormat_v1_0 options:0 error:error];
 					};
