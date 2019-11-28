@@ -14,6 +14,7 @@
 #import "DTXRNJSCSourceMapsSupport.h"
 #import "NSManagedObjectContext+PerformQOSBlock.h"
 #import "NSString+Hashing.h"
+#import "DTXSample+Additions.h"
 
 DTX_CREATE_LOG(RemoteProfiler);
 
@@ -413,9 +414,11 @@ DTX_CREATE_LOG(RemoteProfiler);
 			return;
 		}
 		
+		NSString* entityName = isActivity ? @"ActivitySample" : @"SignpostSample";
+		
 		NSMutableDictionary* preserialized = @{
 			@"__dtx_className": isActivity ? @"DTXActivitySample" : @"DTXSignpostSample",
-			@"__dtx_entityName": isActivity ? @"ActivitySample" : @"SignpostSample",
+			@"__dtx_entityName": entityName,
 			@"category": category ?: @"",
 			@"categoryHash": (category ?: @"").sufficientHash,
 			@"duration": @0,
@@ -423,7 +426,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 			@"name": name ?: @"",
 			@"nameHash": (name ?: @"").sufficientHash,
 			@"sampleIdentifier": [NSString stringWithFormat:@"%@_%@", identifier, NSUUID.UUID.UUIDString],
-			@"sampleType": @70,
+			@"sampleType": isActivity ? @(DTXSampleTypeActivity) : @(DTXSampleTypeSignpost),
 			@"timestamp": timestamp,
 			@"uniqueIdentifier": NSUUID.UUID.UUIDString,
 			@"startThreadNumber": @([self _threadForThreadIdentifier:threadIdentifier].number),
@@ -436,7 +439,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 		
 		self->_pendingEvents[identifier] = preserialized;
 		
-		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEventIntervalBegin:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEventIntervalBegin:") entityName:entityName dict:preserialized additionalParams:nil];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
@@ -450,9 +453,11 @@ DTX_CREATE_LOG(RemoteProfiler);
 			return;
 		}
 		
+		NSString* entityName = event[@"__dtx_entityName"];
+		
 		NSMutableDictionary* preserialized = @{
 			@"__dtx_className": event[@"__dtx_className"],
-			@"__dtx_entityName": event[@"__dtx_entityName"],
+			@"__dtx_entityName": entityName,
 			@"eventStatus": @(eventStatus),
 			@"endTimestamp": timestamp,
 			@"sampleIdentifier": event[@"sampleIdentifier"],
@@ -466,7 +471,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 		}
 		
 		
-		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEventIntervalEnd:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEventIntervalEnd:") entityName:entityName dict:preserialized additionalParams:nil];
 		
 		[self->_pendingEvents removeObjectForKey:identifier];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
@@ -487,9 +492,11 @@ DTX_CREATE_LOG(RemoteProfiler);
 		
 		NSNumber* threadIdentifierObj = @([self _threadForThreadIdentifier:threadIdentifier].number);
 		
+		NSString* entityName = /*isActivity ? @"ActivitySample" :*/ @"SignpostSample";
+		
 		NSMutableDictionary* preserialized = @{
 										@"__dtx_className": @"DTXSignpostSample",
-										@"__dtx_entityName": @"SignpostSample",
+										@"__dtx_entityName": entityName,
 										@"category": category ?: @"",
 										@"categoryHash": (category ?: @"").sufficientHash,
 										@"duration": @0,
@@ -511,7 +518,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 			preserialized[@"additionalInfoStart"] = additionalInfo;
 		}
 		
-		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEvent:") entityName:@"SignpostSample" dict:preserialized additionalParams:nil];
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"markEvent:") entityName:entityName dict:preserialized additionalParams:nil];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 

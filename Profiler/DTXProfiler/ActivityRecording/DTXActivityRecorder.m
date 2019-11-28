@@ -16,21 +16,7 @@ static pthread_mutex_t __activeListeningProfilersMutex;
 
 @end
 
-@implementation DTXActivityRecorder 
-
-static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, CFNotificationName name, const void *object, CFDictionaryRef userInfo)
-{
-//	DTXProfiler* profiler = NS(object);
-//	if(profiler.profilingConfiguration.recordInternalReactNativeEvents == YES)
-	
-}
-
-static void __DTXDidRemoveProfiler(CFNotificationCenterRef center, void *observer, CFNotificationName name, const void *object, CFDictionaryRef userInfo)
-{
-//	DTXProfiler* profiler = NS(object);
-//	if(profiler.profilingConfiguration.recordInternalReactNativeEvents == YES)
-	
-}
+@implementation DTXActivityRecorder
 
 + (void)load
 {
@@ -50,20 +36,12 @@ static void __DTXDidRemoveProfiler(CFNotificationCenterRef center, void *observe
 	}
 	
 	[NSClassFromString(@"DTXSyncManager") performSelector:@selector(setDelegate:) withObject:self];
-	
-	CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidAddProfiler, CF(__DTXDidAddActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
-	CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidRemoveProfiler, CF(__DTXDidRemoveActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
-	
-	//Iterate existing profilers and call the notification callback for them.
-	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
-		__DTXDidAddProfiler(nil, nil, CF(__DTXDidAddActiveProfilerNotification), CF(profiler), nil);
-	});
 }
 
 + (void)syncSystemDidStartTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description objectDescription:(NSString*)objectDescription additionalDescription:(nullable NSString*)additionalDescription
 {
 //	NSLog(@"🤦‍♂️ %@ %@ %@ %@", identifier, description, objectDescription, additionalDescription);
-	__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, NSDate.date, description, objectDescription, nil/*additionalDescription*/, NO, NO, YES, nil);
+	__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, NSDate.date, description, objectDescription, additionalDescription, NO, NO, /*activity:*/YES, nil);
 }
 
 + (void)syncSystemDidEndTrackingEventWithIdentifier:(NSString*)identifier

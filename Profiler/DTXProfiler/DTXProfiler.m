@@ -300,9 +300,9 @@ DTX_CREATE_LOG(Profiler);
 	[_pollingManager suspend];
 	_pollingManager = nil;
 	
+	__DTXProfilerRemoveActiveProfiler(self);
+	
 	[self _flushPendingSamplesWithInternalCompletionHandler:^{
-		__DTXProfilerRemoveActiveProfiler(self);
-		
 		self->_currentRecording.endTimestamp = [NSDate date];
 		
 		[self->_profilerStoryListener updateRecording:self->_currentRecording stopRecording:YES];

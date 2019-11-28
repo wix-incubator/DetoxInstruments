@@ -10,6 +10,7 @@
 #import "NSColor+UIAdditions.h"
 #import "NSFormatter+PlotFormatters.h"
 #if ! PROFILER_PREVIEW_EXTENSION
+#import "DTXActivityFlatDataProvider.h"
 #import "DTXActivitySummaryDataProvider.h"
 #import "DTXDetailController.h"
 #endif
@@ -29,11 +30,19 @@
 - (NSArray<DTXDetailController *> *)dataProviderControllers
 {
 	NSMutableArray* rv = [NSMutableArray new];
+
+	DTXDetailController* flatController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+	flatController.detailDataProvider = [[DTXActivityFlatDataProvider alloc] initWithDocument:self.document plotController:self];
 	
-	DTXDetailController* detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
-	detailController.detailDataProvider = [[DTXActivitySummaryDataProvider alloc] initWithDocument:self.document plotController:self];
+	[rv addObject:flatController];
 	
-	[rv insertObject:detailController atIndex:0];
+	if(self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
+	{
+		DTXDetailController* detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+		detailController.detailDataProvider = [[DTXActivitySummaryDataProvider alloc] initWithDocument:self.document plotController:self];
+		
+		[rv insertObject:detailController atIndex:0];
+	}
 	
 	return rv;
 }
