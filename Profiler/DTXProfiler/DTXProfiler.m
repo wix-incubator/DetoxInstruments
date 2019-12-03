@@ -113,6 +113,15 @@ DTX_CREATE_LOG(Profiler);
 	[self _startProfilingWithConfiguration:configuration deleteExisting:YES];
 }
 
+- (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration duration:(NSTimeInterval)duration completionHandler:(void(^ __nullable)(NSError* __nullable error))completionHandler
+{
+	[self startProfilingWithConfiguration:configuration];
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dtx_dispatch_queue_create_autoreleasing("com.wix.DTXJustForLater", NULL), ^{
+		[self stopProfilingWithCompletionHandler:completionHandler];
+	});
+}
+
 - (void)continueProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
 {
 	[self _startProfilingWithConfiguration:configuration deleteExisting:NO];

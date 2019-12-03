@@ -43,7 +43,7 @@ static pthread_mutex_t __recordingProfilersMutex;
 	close(__pipe[1]);
 	
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-	__log_queue = dispatch_queue_create("com.wix.DTXProfilerLogIOQueue", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM));
+	__log_queue = dtx_dispatch_queue_create_autoreleasing("com.wix.DTXProfilerLogIOQueue", qosAttribute);
 	__log_io = dispatch_io_create(DISPATCH_IO_STREAM, __pipe[0], __log_queue, ^(__unused int error) {});
 	
 	dispatch_io_set_low_water(__log_io, 1);

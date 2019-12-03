@@ -20,20 +20,20 @@
 	
 	if(val > 2.0)
 	{
-		return @200;
+		return @20000;
 	}
 	
-	if(val < 0.25)
+	if(val < 0.0625)
 	{
-		return @25;
+		return @625;
 	}
 	
-	return @(val * 100.0);
+	return @(val * 10000.0);
 }
 
 - (nullable id)reverseTransformedValue:(nullable id)value
 {
-	return @([value doubleValue] / 100.0);
+	return @([value doubleValue] / 10000.0);
 }
 
 @end
@@ -88,6 +88,28 @@
 	[NSUserDefaults.standardUserDefaults setObject:timeLimit forKey:@"DTXSelectedProfilingConfiguration_timeLimit"];
 }
 
+- (id)launchProfilingDuration
+{
+	NSNumber* rv = [NSUserDefaults.standardUserDefaults objectForKey:DTXPreferencesLaunchProfilingDuration];
+	
+	if(rv == nil)
+	{
+		rv = @15.0;
+	}
+	
+	return rv;
+}
+
+- (void)setLaunchProfilingDuration:(id)launchProfilingDuration
+{
+	if(launchProfilingDuration == nil || [launchProfilingDuration isKindOfClass:NSNumber.class] == NO)
+	{
+		return;
+	}
+	
+	[NSUserDefaults.standardUserDefaults setObject:launchProfilingDuration forKey:DTXPreferencesLaunchProfilingDuration];
+}
+
 - (BOOL)validateValue:(inout id  _Nullable __autoreleasing *)ioValue forKey:(NSString *)inKey error:(out NSError * _Nullable __autoreleasing *)outError
 {
 	NSScanner* scanner = [NSScanner scannerWithString:*ioValue];
@@ -120,11 +142,16 @@
 - (IBAction)_useDefaultConfiguration:(NSButton *)sender
 {
 	[DTXProfilingConfiguration resetRemoteProfilingDefaults];
-}
-
-- (NSArray<NSButton *> *)actionButtons
-{
-	return @[_helpButton];
+	
+	[self willChangeValueForKey:@"timeLimit"];
+	[self willChangeValueForKey:@"launchProfilingDuration"];
+	
+	[NSUserDefaults.standardUserDefaults removeObjectForKey:@"DTXSelectedProfilingConfiguration_timeLimit"];
+	[NSUserDefaults.standardUserDefaults removeObjectForKey:@"DTXSelectedProfilingConfiguration_timeLimitType"];
+	[NSUserDefaults.standardUserDefaults removeObjectForKey:DTXPreferencesLaunchProfilingDuration];
+	
+	[self didChangeValueForKey:@"timeLimit"];
+	[self didChangeValueForKey:@"launchProfilingDuration"];
 }
 
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item

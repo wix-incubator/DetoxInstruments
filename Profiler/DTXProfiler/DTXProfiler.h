@@ -44,6 +44,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
 
 /**
+*  Starts a profiling recording with the provided configuration for the given duration.
+*
+*  @param configuration The configuration to use for profiling.
+*  @param duration The duration for which to record.
+*  @param completionHandler Completion handler called after the recording is saved to disk.
+*/
+- (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration duration:(NSTimeInterval)duration completionHandler:(void(^ __nullable)(NSError* __nullable error))completionHandler;
+
+/**
  *  Continues an existing profiling recording with the provided configuration, or if one does not exist, starts a new profiling recording.
  *  If a recording is continued, the previous configuration is used.
  *

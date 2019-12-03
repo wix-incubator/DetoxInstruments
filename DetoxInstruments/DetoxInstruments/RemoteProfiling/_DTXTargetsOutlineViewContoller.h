@@ -12,7 +12,7 @@
 @interface _DTXTargetsOutlineViewContoller : NSViewController <_DTXActionButtonProvider>
 
 @property (nonatomic, strong, readonly) NSOutlineView* outlineView;
-@property (nonatomic, strong, readonly) NSButton* selectButton;
+@property (nonatomic, strong, readonly) NSButton* profileButton;
 @property (nonatomic, strong, readonly) NSButton* localOnlyButton;
 
 @end

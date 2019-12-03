@@ -509,7 +509,7 @@ static void __DTXInitializeRNSampler()
 //	sigaction(SIGCHLD, &sa, NULL);
 	
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-	__eventDispatchQueue = dispatch_queue_create("com.wix.DTXRNSampler-Events", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM));
+	__eventDispatchQueue = dtx_dispatch_queue_create_autoreleasing("com.wix.DTXRNSampler-Events", qosAttribute);
 }
 
 @implementation DTXReactNativeSampler

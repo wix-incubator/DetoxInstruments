@@ -94,7 +94,6 @@
 + (UIImage*)_appkitSnapshot
 {
 	CFMutableArrayRef windowIDs = CFArrayCreateMutable(CFAllocatorGetDefault(), 0, NULL);
-	//Obtain all windows for the app and 
 	NSArray<NSNumber*>* windowNumbers = [NSClassFromString(@"NSWindow") windowNumbersWithOptions:(1 << 0)];
 	
 	[windowNumbers enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

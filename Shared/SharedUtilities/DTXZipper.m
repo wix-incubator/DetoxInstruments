@@ -118,3 +118,28 @@ BOOL DTXExtractZipToURL(NSURL* zipURL, NSURL* targetURL)
 	
 	return YES;
 }
+
+BOOL DTXExtractDataZipToURL(NSData* zipData, NSURL* targetURL)
+{
+	[NSFileManager.defaultManager createDirectoryAtURL:targetURL withIntermediateDirectories:YES attributes:nil error:NULL];
+	
+	ZZArchive* archive = [ZZArchive archiveWithData:zipData error:NULL];
+	
+	[archive.entries enumerateObjectsUsingBlock:^(ZZArchiveEntry * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
+	{
+		NSURL* fullExtractURL = [targetURL URLByAppendingPathComponent:obj.fileName];
+		
+		BOOL isDirectory = (obj.fileMode & S_IFDIR) != 0;
+	
+		if(isDirectory)
+		{
+			[NSFileManager.defaultManager createDirectoryAtURL:fullExtractURL withIntermediateDirectories:YES attributes:nil error:NULL];
+		}
+		else
+		{
+			[[obj newDataWithError:NULL] writeToURL:fullExtractURL atomically:YES];
+		}
+	}];
+	
+	return YES;
+}

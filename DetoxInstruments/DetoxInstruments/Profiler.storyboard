@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="f3X-2z-0cS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="f3X-2z-0cS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -104,6 +104,10 @@
                     <connections>
                         <outlet property="_exportPanelOptions" destination="IqY-CF-395" id="98N-ga-Syz"/>
                         <outlet property="_formatPopupButton" destination="dh1-8y-zfS" id="ptd-RQ-WFt"/>
+                        <outlet property="_progressIndicator" destination="18J-pf-xZw" id="sNz-Lw-skY"/>
+                        <outlet property="_progressIndicatorContainer" destination="z2j-cH-quJ" id="Ilw-9L-4j7"/>
+                        <outlet property="_progressIndicatorSubtitleTextField" destination="UGv-MZ-l5b" id="Nuw-zl-4tG"/>
+                        <outlet property="_progressIndicatorTextField" destination="TDa-qh-hoE" id="sZI-wC-qpA"/>
                         <outlet property="splitView" destination="twL-on-nQz" id="ReQ-YH-eOC"/>
                         <segue destination="8bb-Hj-q9Z" kind="relationship" relationship="splitItems" id="kJh-g5-iTg"/>
                         <segue destination="GJ1-Mo-aZo" kind="relationship" relationship="splitItems" id="ygv-nN-MSb"/>
@@ -155,6 +159,43 @@
                         <constraint firstItem="dh1-8y-zfS" firstAttribute="leading" secondItem="3Ov-Tw-qaT" secondAttribute="trailing" constant="8" id="oNn-Q9-vRz"/>
                     </constraints>
                 </customView>
+                <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z2j-cH-quJ">
+                    <rect key="frame" x="0.0" y="0.0" width="360" height="92"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="TDa-qh-hoE">
+                            <rect key="frame" x="-2" y="50" width="364" height="23"/>
+                            <textFieldCell key="cell" alignment="center" title="Hello" id="4YE-7s-DCL">
+                                <font key="font" metaFont="system" size="20"/>
+                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <progressIndicator wantsLayer="YES" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="18J-pf-xZw">
+                            <rect key="frame" x="0.0" y="23" width="360" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="360" id="Qpb-Li-n3J"/>
+                            </constraints>
+                        </progressIndicator>
+                        <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="UGv-MZ-l5b">
+                            <rect key="frame" x="-2" y="0.0" width="364" height="16"/>
+                            <textFieldCell key="cell" alignment="center" title="Hello" id="Wxt-aY-vgj">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
             </objects>
             <point key="canvasLocation" x="704" y="-962"/>
         </scene>
@@ -244,7 +285,7 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vw4-Oy-RIZ" customClass="DTXHighlightingAttributedTextField">
                                                                     <rect key="frame" x="186" y="66" width="21" height="11"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Top" id="5XA-Ru-7xX">
-                                                                        <font key="font" metaFont="label" size="9"/>
+                                                                        <font key="font" metaFont="menu" size="9"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -252,7 +293,7 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pgd-UG-waa" customClass="DTXHighlightingAttributedTextField">
                                                                     <rect key="frame" x="171" y="3" width="36" height="11"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bottom" allowsEditingTextAttributes="YES" id="Psj-P4-YZT">
-                                                                        <font key="font" metaFont="label" size="9"/>
+                                                                        <font key="font" metaFont="menu" size="9"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>

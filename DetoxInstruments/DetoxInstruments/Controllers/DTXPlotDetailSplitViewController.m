@@ -36,6 +36,11 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	IBOutlet NSPopUpButton* _formatPopupButton;
 	
 	BOOL _startedDisabledAndNotToggledYet;
+	
+	IBOutlet NSProgressIndicator* _progressIndicator;
+	IBOutlet NSTextField* _progressIndicatorTextField;
+	IBOutlet NSTextField* _progressIndicatorSubtitleTextField;
+	IBOutlet NSStackView* _progressIndicatorContainer;
 }
 
 @end
@@ -128,6 +133,19 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	{
 		_startedDisabledAndNotToggledYet = YES;
 	}
+	
+	_progressIndicator.usesThreadedAnimation = YES;
+	
+	_progressIndicatorContainer.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.view addSubview:_progressIndicatorContainer];
+	
+	[NSLayoutConstraint activateConstraints:@[
+		[self.view.centerXAnchor constraintEqualToAnchor:_progressIndicatorContainer.centerXAnchor],
+		[self.view.centerYAnchor constraintEqualToAnchor:_progressIndicatorContainer.centerYAnchor],
+	]];
+	
+	[self setProgressIndicatorTitle:nil subtitle:nil displaysProgress:NO];
+	
 }
 
 - (void)viewWillAppear
@@ -357,6 +375,34 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	}
 	
 	[super keyUp:event];
+}
+
+- (BOOL)splitViewHidden
+{
+	return self.splitView.alphaValue == 0.0;
+}
+
+- (void)setSplitViewHidden:(BOOL)splitViewHidden
+{
+	self.splitView.alphaValue = splitViewHidden ? 0.0 : 1.0;
+}
+
+- (void)setProgressIndicatorTitle:(nullable NSString*)progressIndicatorTitle subtitle:(nullable NSString*)subtitle displaysProgress:(BOOL)displaysProgress
+{
+	_progressIndicatorContainer.hidden = progressIndicatorTitle == nil;
+	_progressIndicatorTextField.stringValue = progressIndicatorTitle ?: @"";
+	_progressIndicatorSubtitleTextField.hidden = subtitle == nil;
+	_progressIndicatorSubtitleTextField.stringValue = subtitle ?: @"";
+	_progressIndicator.indeterminate = displaysProgress;
+	if(_progressIndicator.indeterminate)
+	{
+		[_progressIndicator startAnimation:nil];
+	}
+	else
+	{
+		[_progressIndicator stopAnimation:nil];
+	}
+	[_progressIndicatorContainer invalidateIntrinsicContentSize];
 }
 
 @end

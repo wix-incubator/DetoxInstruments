@@ -13,4 +13,7 @@
 
 @property (nullable, assign) DTXRecordingDocument* document;
 
+@property (nonatomic) BOOL splitViewHidden;
+- (void)setProgressIndicatorTitle:(nullable NSString*)progressIndicatorTitle subtitle:(nullable NSString*)subtitle displaysProgress:(BOOL)displaysProgress;
+
 @end

@@ -11,7 +11,7 @@
 @interface _DTXTargetsOutlineViewContoller ()
 {
 	IBOutlet NSLayoutConstraint* _constraint;
-	IBOutlet NSButton* _selectButton;
+	IBOutlet NSButton* _profileButton;
 	IBOutlet NSButton* _localOnlyButton;
 	
 	IBOutlet NSButton* _helpButton;
@@ -25,7 +25,7 @@
 
 - (NSArray<NSButton *> *)actionButtons
 {
-	return @[_selectButton, _localOnlyButton];
+	return @[_profileButton, _localOnlyButton];
 }
 
 - (NSArray<NSButton *> *)moreButtons

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,19 +12,19 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Colors Playground" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="fAY-UR-Vur" customClass="DTXColorTryoutsWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" utility="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="167" y="107" width="320" height="454"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-            <view key="contentView" id="ap5-5v-YOR">
-                <rect key="frame" x="0.0" y="0.0" width="282" height="389"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <view key="contentView" misplaced="YES" id="ap5-5v-YOR">
+                <rect key="frame" x="0.0" y="0.0" width="282" height="376"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="x49-RJ-Ba1">
-                        <rect key="frame" x="20" y="20" width="242" height="22"/>
+                        <rect key="frame" x="20" y="20" width="242" height="21"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Seed" drawsBackground="YES" id="O9V-07-Pnx">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -39,16 +39,16 @@
                         </connections>
                     </textField>
                     <tabView initialItem="mmD-ho-AfC" translatesAutoresizingMaskIntoConstraints="NO" id="31U-6u-xtY">
-                        <rect key="frame" x="13" y="52" width="256" height="323"/>
+                        <rect key="frame" x="13" y="51" width="256" height="282"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="UI Color" identifier="" id="mmD-ho-AfC">
                                 <view key="view" id="lXh-yK-M8c">
-                                    <rect key="frame" x="10" y="33" width="236" height="277"/>
+                                    <rect key="frame" x="10" y="33" width="236" height="265"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QJq-85-nwm">
-                                            <rect key="frame" x="8" y="49" width="220" height="220"/>
+                                            <rect key="frame" x="8" y="37" width="220" height="220"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="220" id="4nF-HL-gLH"/>
                                                 <constraint firstAttribute="width" secondItem="QJq-85-nwm" secondAttribute="height" multiplier="1:1" id="Xuh-A8-LLR"/>
@@ -62,7 +62,7 @@
                                             <rect key="frame" x="69" y="5" width="99" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="Normal" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="crT-v8-yKn" id="LV9-wZ-k8b">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
+                                                <font key="font" metaFont="system"/>
                                                 <menu key="menu" id="T3m-ly-3vI">
                                                     <items>
                                                         <menuItem title="Normal" state="on" keyEquivalent="1" id="crT-v8-yKn">
@@ -90,7 +90,7 @@
                                         <constraint firstAttribute="trailing" secondItem="QJq-85-nwm" secondAttribute="trailing" constant="8" id="Gsv-kG-ZJ5"/>
                                         <constraint firstItem="QJq-85-nwm" firstAttribute="centerX" secondItem="lXh-yK-M8c" secondAttribute="centerX" id="Oml-A3-JjF"/>
                                         <constraint firstAttribute="bottom" secondItem="x5o-6r-4ZX" secondAttribute="bottom" constant="8" id="dLH-Oe-5xs"/>
-                                        <constraint firstItem="x5o-6r-4ZX" firstAttribute="top" secondItem="QJq-85-nwm" secondAttribute="bottom" constant="20" id="jfI-4j-JIB"/>
+                                        <constraint firstItem="x5o-6r-4ZX" firstAttribute="top" secondItem="QJq-85-nwm" secondAttribute="bottom" constant="8" id="jfI-4j-JIB"/>
                                         <constraint firstItem="x5o-6r-4ZX" firstAttribute="centerX" secondItem="QJq-85-nwm" secondAttribute="centerX" id="nYj-Qi-NrM"/>
                                         <constraint firstItem="QJq-85-nwm" firstAttribute="leading" secondItem="lXh-yK-M8c" secondAttribute="leading" constant="8" id="yOB-mK-UAO"/>
                                     </constraints>

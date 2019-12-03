@@ -20,6 +20,7 @@
 extern NSString* const DTXRecordingDocumentDidLoadNotification;
 extern NSString* const DTXRecordingDocumentDefactoEndTimestampDidChangeNotification;
 extern NSString* const DTXRecordingDocumentStateDidChangeNotification;
+extern NSString* const DTXRecordingAppLaunchProfilingStateDidChangeNotification;
 
 typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 	DTXRecordingDocumentStateNew,
@@ -28,9 +29,18 @@ typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 	DTXRecordingDocumentStateSavedToDisk,
 };
 
+typedef NS_ENUM(NSUInteger, DTXRecordingAppLaunchProfilingState) {
+	DTXRecordingAppLaunchProfilingStateUnknown,
+	DTXRecordingAppLaunchProfilingStateWaitingForAppLaunch,
+	DTXRecordingAppLaunchProfilingStateWaitingForAppData,
+};
+
 @interface DTXRecordingDocument : DTXDocument
 
-@property (nonatomic) DTXRecordingDocumentState documentState;
+@property (nonatomic, readonly) DTXRecordingDocumentState documentState;
+
+@property (nonatomic, readonly) DTXRecordingAppLaunchProfilingState appLaunchProfilingState;
+@property (nonatomic, strong, readonly) NSString* appLaunchPendingAppName;
 
 //@property (nonatomic, strong, readonly) DTXRecording* recording;
 @property (nonatomic, strong, readonly) NSArray<DTXRecording*>* recordings;

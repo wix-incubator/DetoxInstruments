@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -29,7 +29,7 @@
                                             <tableColumns>
                                                 <tableColumn width="496" minWidth="40" maxWidth="100000000" id="c7g-oF-BMF">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="message" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -78,7 +78,7 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gXk-g3-2wI">
                                                                     <rect key="frame" x="79" y="19" width="176" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="iPhone XS Max, iOS 12.1 (16B93)" usesSingleLineMode="YES" id="HXx-sM-JoD">
-                                                                        <font key="font" metaFont="message" size="11"/>
+                                                                        <font key="font" metaFont="label" size="11"/>
                                                                         <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -210,7 +210,7 @@
                         <outlet property="_constraint" destination="eTf-bY-xJ8" id="Ykg-64-Y9l"/>
                         <outlet property="_helpButton" destination="qVd-pj-fbZ" id="Y35-9j-etc"/>
                         <outlet property="_localOnlyButton" destination="iPM-4T-FHh" id="ZBt-FS-CLe"/>
-                        <outlet property="_selectButton" destination="ZNA-iM-FHP" id="AR6-BE-YvR"/>
+                        <outlet property="_profileButton" destination="ZNA-iM-FHP" id="fKS-ca-gxw"/>
                         <outlet property="outlineView" destination="65u-RA-Spb" id="jXS-wo-eOw"/>
                     </connections>
                 </viewController>
@@ -223,9 +223,9 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
-                <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ZNA-iM-FHP">
+                <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ZNA-iM-FHP" customClass="DTXChevronButton">
                     <rect key="frame" x="0.0" y="0.0" width="102" height="32"/>
-                    <buttonCell key="cell" type="push" title="Profile" bezelStyle="rounded" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hHH-AU-6OG">
+                    <buttonCell key="cell" type="push" title="Profile" bezelStyle="rounded" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hHH-AU-6OG" customClass="DTXChevronButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent" base64-UTF8="YES">
@@ -234,6 +234,7 @@ DQ
                     </buttonCell>
                     <connections>
                         <action selector="selectProfilingTarget:" target="Jrb-X6-yjY" id="LQI-yy-bGy"/>
+                        <outlet property="menu" destination="gUJ-7g-Zt6" id="opz-6y-MaU"/>
                     </connections>
                 </button>
                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="qVd-pj-fbZ">
@@ -247,6 +248,22 @@ DQ
                         </connections>
                     </buttonCell>
                 </button>
+                <menu id="gUJ-7g-Zt6">
+                    <items>
+                        <menuItem title="Profile" id="Jeu-8n-arX">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="selectProfilingTarget:" target="Jrb-X6-yjY" id="7Xd-OS-Jsz"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="App Launch" id="Cwq-uj-8mx">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="selectProfilingTargetForAppLaunchProfiling:" target="Jrb-X6-yjY" id="iCc-Ux-pt5"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
             <point key="canvasLocation" x="1038" y="-1465"/>
         </scene>

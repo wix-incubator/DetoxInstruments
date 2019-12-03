@@ -100,7 +100,7 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	_containerView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_DEFAULT, 0);
-	_workQueue = dispatch_queue_create("com.wix.DTXRemoteProfiler", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM));
+	_workQueue = dtx_dispatch_queue_create_autoreleasing("com.wix.DTXRemoteProfiler", qosAttribute);
 	
 	_browser = [NSNetServiceBrowser new];
 //	_browser.includesPeerToPeer = YES;
@@ -147,9 +147,27 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	}
 	
 	DTXProfilingConfiguration* config = [DTXProfilingConfiguration profilingConfigurationForRemoteProfilingFromDefaults];
-	
 	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTarget:target profilingConfiguration:config];
 }
+
+- (IBAction)selectProfilingTargetForAppLaunchProfiling:(id)sender
+{
+	if(_outlineView.selectedRow == -1)
+	{
+		return;
+	}
+	
+	DTXRemoteTarget* target = [_outlineView itemAtRow:_outlineView.selectedRow];
+	
+	if(target.state != DTXRemoteTargetStateDeviceInfoLoaded)
+	{
+		return;
+	}
+	
+	DTXProfilingConfiguration* config = [DTXProfilingConfiguration profilingConfigurationForRemoteProfilingFromDefaults];
+	[self.delegate recordingTargetPicker:self didSelectRemoteProfilingTargetForLaunchProfiling:target profilingConfiguration:config];
+}
+
 
 - (IBAction)cancel:(id)sender
 {
@@ -594,7 +612,7 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 		hasCompatibleVersion = target.isCompatibleWithInstruments;
 	}
 	
-	_outlineController.selectButton.enabled = hasSelection && hasLoaded && hasCompatibleVersion;
+	_outlineController.profileButton.enabled = hasSelection && hasLoaded && hasCompatibleVersion;
 }
 
 #pragma mark NSNetServiceBrowserDelegate

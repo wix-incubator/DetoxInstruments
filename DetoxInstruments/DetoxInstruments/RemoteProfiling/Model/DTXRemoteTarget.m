@@ -194,6 +194,9 @@
 			case DTXRemoteProfilingCommandTypeCaptureViewHierarchy:
 				[weakSelf _handleViewHierarchy:cmd];
 				break;
+			case DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration:
+				[weakSelf _handleRemoteLaunchProfilingDidFinish:cmd];
+				break;
 			case DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration:
 			case DTXRemoteProfilingCommandTypeAddTag:
 			case DTXRemoteProfilingCommandTypeDeleteContainerIten:
@@ -212,6 +215,11 @@
 		
 		[weakSelf _readNextCommand];
 	}];
+}
+
+- (void)dealloc
+{
+	
 }
 
 #pragma mark Device Info
@@ -462,6 +470,19 @@
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration), @"configuration": configuration.dictionaryRepresentation} completionHandler:nil];
 }
 
+- (void)requestLaunchProfilingWithSessionID:(NSString*)launchProfilingSession configuration:(DTXProfilingConfiguration*)configuration duration:(NSTimeInterval)duration
+{
+	if(self.state >= DTXRemoteTargetStateRecording)
+	{
+		return;
+	}
+	
+	NSParameterAssert(launchProfilingSession != nil);
+	NSParameterAssert(configuration != nil);
+	
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration), @"launchProfilingSession": launchProfilingSession, @"configuration": configuration.dictionaryRepresentation, @"profilingDuration": @(duration)} completionHandler:nil];
+}
+
 - (void)addTagWithName:(NSString*)name
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeAddTag), @"name": name} completionHandler:nil];
@@ -528,6 +549,11 @@
 - (void)_handleRecordingDidStop:(NSDictionary*)storyEvent
 {
 	
+}
+
+- (void)_handleRemoteLaunchProfilingDidFinish:(NSDictionary*)remoteLaunchProfilingDidFinish
+{
+	[self.delegate profilingTarget:self didFinishLaunchProfilingWithZippedData:remoteLaunchProfilingDidFinish[@"recordingZipData"]];
 }
 
 #pragma mark DTXSocketConnectionDelegate

@@ -80,12 +80,16 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 {
 	if(self.document != nil)
 	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
+		[NSNotificationCenter.defaultCenter removeObserver:self name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
 	}
 	
 	[super setDocument:document];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
+	if(self.document != nil)
+	{
+		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
+		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_appLaunchProfilingStateDidChangeNotification:) name:DTXRecordingAppLaunchProfilingStateDidChangeNotification object:self.document];
+	}
 	
 	[self _fixUpRecordingButtons];
 	
@@ -128,6 +132,28 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	self.window.restorable = [(DTXRecordingDocument*)self.document documentState] >= DTXRecordingDocumentStateLiveRecordingFinished;
 }
 
+- (void)_appLaunchProfilingStateDidChangeNotification:(NSNotification*)note
+{
+	DTXRecordingDocument* document = self.document;
+	
+	switch (document.appLaunchProfilingState) {
+		case DTXRecordingAppLaunchProfilingStateUnknown:
+			[_plotDetailsSplitViewController setSplitViewHidden:NO];
+			[_plotDetailsSplitViewController setProgressIndicatorTitle:nil subtitle:nil displaysProgress:NO];
+			break;
+		case DTXRecordingAppLaunchProfilingStateWaitingForAppLaunch:
+			[_plotDetailsSplitViewController setSplitViewHidden:YES];
+			[_plotDetailsSplitViewController setProgressIndicatorTitle:NSLocalizedString(@"Waiting for App", @"") subtitle:NSLocalizedString(@"Launch Your App to Start Profiling", @"") displaysProgress:NO];
+			break;
+		case DTXRecordingAppLaunchProfilingStateWaitingForAppData:
+			[_plotDetailsSplitViewController setSplitViewHidden:YES];
+			[_plotDetailsSplitViewController setProgressIndicatorTitle:NSLocalizedString(@"Recording...", @"") subtitle:nil displaysProgress:YES];
+			break;
+	}
+	
+	[self _fixUpTitle];
+}
+
 - (void)_fixUpTitle
 {
 	if(self.document != nil)
@@ -144,6 +170,10 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 		else if(document.documentState == DTXRecordingDocumentStateLiveRecording)
 		{
 			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.firstRecording.appName, NSLocalizedString(@"Recording…", @"")];
+		}
+		else if(document.appLaunchProfilingState > DTXRecordingAppLaunchProfilingStateUnknown)
+		{
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.appLaunchPendingAppName, NSLocalizedString(@"App Launch Profiling", @"")];
 		}
 		else
 		{

@@ -49,7 +49,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	if(self)
 	{
 		dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-		_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dispatch_queue_create("com.wix.DTXRemoteProfiler-Networking", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM))];
+		_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dtx_dispatch_queue_create_autoreleasing("com.wix.DTXRemoteProfiler-Networking", qosAttribute)];
 		_connection.delegate = self;
 		
 		[_connection open];
@@ -135,17 +135,50 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 				[self->_remoteProfiler startProfilingWithConfiguration:config];
 				[self.delegate remoteProfilingConnectionManagerDidStartProfiling:self];
 			}	break;
+			case DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration:
+			{
+				NSDictionary* configDict = cmd[@"configuration"];
+				NSString* remoteSession = cmd[@"launchProfilingSession"];
+				NSNumber* duration = cmd[@"profilingDuration"];
+				[NSUserDefaults.standardUserDefaults setObject:@{@"session": remoteSession, @"config": configDict, @"duration": duration} forKey:@"_dtxprofiler_pendingLaunchProfiling"];
+				[NSUserDefaults.standardUserDefaults synchronize];
+				
+				dispatch_async(dispatch_get_main_queue(), ^{
+					UIViewController* targetViewController = nil;
+					
+					if(@available(iOS 13, *))
+					{
+						targetViewController = [UIWindowScene valueForKeyPath:@"keyWindowScene.keyWindow.rootViewController"];
+					}
+					else
+					{
+						targetViewController = [UIWindow valueForKeyPath:@"keyWindow.rootViewController"];
+					}
+					
+					//Terminate on background.
+					[NSNotificationCenter.defaultCenter addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+						[UIApplication.sharedApplication valueForKey:@"terminateWithSuccess"];
+					}];
+					
+					//Terminate on user alert.
+					UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"App Launch Profiling", @"") message:NSLocalizedString(@"Tap the Terminate button to terminate the app. Launch it again to begin app launch profiling.", @"") preferredStyle:UIAlertControllerStyleAlert];
+					[alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Terminate", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+						[UIApplication.sharedApplication valueForKey:@"terminateWithSuccess"];
+					}]];
+					
+					[targetViewController presentViewController:alert animated:YES completion:nil];
+				});
+			}	break;
 			case DTXRemoteProfilingCommandTypeAddTag:
 			{
 				NSString* name = cmd[@"name"];
 				[self->_remoteProfiler _addTag:name timestamp:NSDate.date];
 			}	break;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+CLANG_IGNORE(-Wdeprecated-declarations)
 			case DTXRemoteProfilingCommandTypePushGroup:
 			case DTXRemoteProfilingCommandTypePopGroup:
 				break;
-#pragma clang diagnostic pop
+CLANG_POP
 			case DTXRemoteProfilingCommandTypeStopProfiling:
 			{
 				[self->_remoteProfiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
@@ -395,6 +428,14 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 - (void)_sendRecordingDidStop
 {
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStopProfiling)} completionHandler:nil];
+}
+
+- (void)sendFinishedLaunchProfilingRecordingWithURL:(NSURL*)URL
+{
+	DTXFileSystemItem* recording = [[DTXFileSystemItem alloc] initWithFileURL:URL];
+	NSData* data = recording.zipContents;
+	
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration), @"recordingZipData": data} completionHandler:nil];
 }
 
 #pragma mark DTXRemoteProfilerDelegate

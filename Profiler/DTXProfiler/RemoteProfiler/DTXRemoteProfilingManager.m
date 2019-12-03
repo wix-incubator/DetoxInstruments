@@ -11,10 +11,13 @@
 
 #import "DTXRemoteProfilingManager.h"
 #import "DTXRemoteProfilingConnectionManager.h"
+#import "DTXProfiler-Private.h"
+#import "DTXProfilingConfiguration-Private.h"
 
 DTX_CREATE_LOG(RemoteProfilingManager);
 
 static DTXRemoteProfilingManager* __sharedManager;
+static DTXRemoteProfilingManager* __privateLaunchProfilingManager;
 
 @interface DTXRemoteProfilingManager () <NSNetServiceDelegate, DTXRemoteProfilingConnectionManagerDelegate>
 
@@ -27,15 +30,55 @@ static DTXRemoteProfilingManager* __sharedManager;
 	
 	pthread_mutex_t _connectionsMutex;
 	NSMutableArray<DTXRemoteProfilingConnectionManager*>* _connections;
+	
+	NSURL* _pendingAppLaunchProfilingRecording;
 }
 
 + (void)load
 {
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
+	@autoreleasepool
+	{
 		//Start a remote profiling manager.
 		__sharedManager = [DTXRemoteProfilingManager new];
-	});
+		
+		NSDictionary* pendingLaunchProfile = [NSUserDefaults.standardUserDefaults objectForKey:@"_dtxprofiler_pendingLaunchProfiling"];
+		[NSUserDefaults.standardUserDefaults removeObjectForKey:@"_dtxprofiler_pendingLaunchProfiling"];
+		[NSUserDefaults.standardUserDefaults synchronize];
+		if(pendingLaunchProfile)
+		{
+			NSString* session = pendingLaunchProfile[@"session"];
+			NSTimeInterval duration = [pendingLaunchProfile[@"duration"] doubleValue];
+			NSDictionary* configDict = pendingLaunchProfile[@"config"];
+			
+			__privateLaunchProfilingManager = [[DTXRemoteProfilingManager alloc] initWithServiceType:@"_detoxprofiling_launchprofiling._tcp" name:session];
+			
+			if(duration == 0)
+			{
+				duration = 15.0;
+			}
+			
+			DTXMutableProfilingConfiguration* config = configDict == nil ? [DTXMutableProfilingConfiguration defaultProfilingConfiguration] : [[DTXMutableProfilingConfiguration alloc] initWithCoder:(id)configDict];
+			config.recordingFileURL = [DTXProfilingConfiguration _urlForLaunchRecordingWithSessionID:session];
+			
+			DTXProfiler* launchProfiler = [DTXProfiler new];
+			[launchProfiler startProfilingWithConfiguration:config duration:duration completionHandler:^(NSError * _Nullable error) {
+				dtx_defer {
+					[__privateLaunchProfilingManager _stopPublishing];
+					__privateLaunchProfilingManager = nil;
+				};
+				
+				DTXRemoteProfilingConnectionManager* connection = __privateLaunchProfilingManager._firstConnection;
+				if(connection == nil)
+				{
+					__privateLaunchProfilingManager->_pendingAppLaunchProfilingRecording = config.recordingFileURL;
+					return;
+				}
+				
+				[connection sendFinishedLaunchProfilingRecordingWithURL:config.recordingFileURL];
+				[NSFileManager.defaultManager removeItemAtURL:config.recordingFileURL error:NULL];
+			}];
+		}
+	}
 }
 
 - (void)_applicationInBackground
@@ -60,6 +103,11 @@ static DTXRemoteProfilingManager* __sharedManager;
 
 - (instancetype)init
 {
+	return [self initWithServiceType:@"_detoxprofiling._tcp" name:@""];
+}
+
+- (instancetype)initWithServiceType:(NSString*)serviceType name:(NSString*)serviceName
+{
 	self = [super init];
 	
 	if(self)
@@ -73,7 +121,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 		pthread_mutex_init(&_connectionsMutex, &attr);
 		_connections = [NSMutableArray new];
 		
-		_publishingService = [[NSNetService alloc] initWithDomain:@"local" type:@"_detoxprofiling._tcp" name:@"" port:0];
+		_publishingService = [[NSNetService alloc] initWithDomain:@"local" type:serviceType name:serviceName port:0];
 		_publishingService.delegate = self;
 		[self _resumePublishing];
 	}
@@ -89,7 +137,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 			return;
 		}
 		
-		dtx_log_info(@"Attempting to publish “%@” service", self->_publishingService.type);
+		dtx_log_info(@"Attempting to publish service of type “%@”", self->_publishingService.type);
 		[self->_publishingService publishWithOptions:NSNetServiceListenForConnections];
 		self->_currentlyPublished = YES;
 	};
@@ -119,11 +167,17 @@ static DTXRemoteProfilingManager* __sharedManager;
 	dispatch_async(dispatch_get_main_queue(), stopPublish);
 }
 
+- (DTXRemoteProfilingConnectionManager*)_firstConnection
+{
+	pthread_mutex_lock_deferred_unlock(&_connectionsMutex);
+	return _connections.firstObject;
+}
+
 #pragma mark NSNetServiceDelegate
 
 - (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary<NSString *, NSNumber *> *)errorDict
 {
-	dtx_log_error(@"Error publishing service: %@", errorDict);
+	dtx_log_error(@"Error publishing service of type “%@”: %@", _publishingService.type, errorDict);
 	[sender stop];
 	
 	//Retry in 10 seconds.
@@ -134,23 +188,30 @@ static DTXRemoteProfilingManager* __sharedManager;
 
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
-	dtx_log_info(@"Accepted connection");
+	dtx_log_info(@"Accepted connection for service of type “%@”", sender.type);
 	auto connectionManager = [[DTXRemoteProfilingConnectionManager alloc] initWithInputStream:inputStream outputStream:outputStream];
 	connectionManager.delegate = self;
 	
-	pthread_mutex_lock(&_connectionsMutex);
+	pthread_mutex_lock_deferred_unlock(&_connectionsMutex);
 	[_connections addObject:connectionManager];
-	pthread_mutex_unlock(&_connectionsMutex);
+	
+	if(_pendingAppLaunchProfilingRecording)
+	{
+		//If by any chance we have an already finished app launch recording, send it to Detox Instruments.
+		[connectionManager sendFinishedLaunchProfilingRecordingWithURL:_pendingAppLaunchProfilingRecording];
+		[NSFileManager.defaultManager removeItemAtURL:_pendingAppLaunchProfilingRecording error:NULL];
+		_pendingAppLaunchProfilingRecording = nil;
+	}
 }
 
 - (void)netServiceDidPublish:(NSNetService *)sender
 {
-	dtx_log_info(@"Net service published");
+	dtx_log_info(@"Net service of type “%@” published", sender.type);
 }
 
 - (void)netServiceDidStop:(NSNetService *)sender
 {
-	dtx_log_info(@"Net service stopped");
+	dtx_log_info(@"Net service of type “%@” stopped", sender.type);
 }
 
 #pragma DTXRemoteProfilingConnectionManagerDelegate
@@ -159,9 +220,8 @@ static DTXRemoteProfilingManager* __sharedManager;
 {
 	[manager abortConnectionAndProfiling];
 	
-	pthread_mutex_lock(&_connectionsMutex);
+	pthread_mutex_lock_deferred_unlock(&_connectionsMutex);
 	[_connections removeObject:manager];
-	pthread_mutex_unlock(&_connectionsMutex);
 	
 	[self _resumePublishing];
 }
@@ -170,7 +230,7 @@ static DTXRemoteProfilingManager* __sharedManager;
 {
 	[self _stopPublishing];
 	
-	pthread_mutex_lock(&_connectionsMutex);
+	pthread_mutex_lock_deferred_unlock(&_connectionsMutex);
 	for(DTXRemoteProfilingConnectionManager* connection in _connections)
 	{
 		if(connection == manager)
@@ -181,7 +241,6 @@ static DTXRemoteProfilingManager* __sharedManager;
 		[connection abortConnectionAndProfiling];
 	}
 	_connections = @[manager].mutableCopy;
-	pthread_mutex_unlock(&_connectionsMutex);
 }
 
 @end

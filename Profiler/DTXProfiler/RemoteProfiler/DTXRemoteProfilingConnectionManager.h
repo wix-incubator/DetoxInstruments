@@ -26,4 +26,6 @@
 
 - (void)abortConnectionAndProfiling;
 
+- (void)sendFinishedLaunchProfilingRecordingWithURL:(NSURL*)URL;
+
 @end

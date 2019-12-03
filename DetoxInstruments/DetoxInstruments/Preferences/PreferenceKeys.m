@@ -16,6 +16,7 @@ NSString* const DTXPlotSettingsIntervalFadeOut = @"DTXPlotSettingsIntervalFadeOu
 NSString* const DTXPlotSettingsDisplayHoverTextAnnotations = @"DTXPlotSettingsDisplayHoverTextAnnotations";
 NSString* const DTXPlotSettingsDisplaySelectionTextAnnotations = @"DTXPlotSettingsDisplaySelectionTextAnnotations";
 NSString* const DTXPlotSettingsDisplayLabels = @"DTXPlotSettingsDisplayLabels";
+NSString* const DTXPreferencesLaunchProfilingDuration = @"DTXPreferencesLaunchProfilingDuration";
 
 __attribute__((constructor))
 static void initPreferences(void)
@@ -26,7 +27,7 @@ static void initPreferences(void)
 	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_recordPerformance": @YES}];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_recordEvents": @YES}];
 	
-	[NSUserDefaults.standardUserDefaults registerDefaults:@{DTXPlotSettingsCPUDisplayMTOverlay: @YES, DTXPlotSettingsCPUThreadColorize: @NO, DTXPreferencesAppearanceKey: @0, DTXPlotSettingsIntervalFadeOut:@YES, DTXPlotSettingsDisplayHoverTextAnnotations: @YES, DTXPlotSettingsDisplaySelectionTextAnnotations: @YES, DTXPlotSettingsDisplayLabels: @YES}];
+	[NSUserDefaults.standardUserDefaults registerDefaults:@{DTXPlotSettingsCPUDisplayMTOverlay: @YES, DTXPlotSettingsCPUThreadColorize: @NO, DTXPreferencesAppearanceKey: @0, DTXPlotSettingsIntervalFadeOut:@YES, DTXPlotSettingsDisplayHoverTextAnnotations: @YES, DTXPlotSettingsDisplaySelectionTextAnnotations: @YES, DTXPlotSettingsDisplayLabels: @YES, DTXPreferencesLaunchProfilingDuration: @15.0}];
 	
 	[NSUserDefaults.standardUserDefaults setObject:[NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"] forKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
 	[NSUserDefaults.standardUserDefaults setObject:nil forKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"];

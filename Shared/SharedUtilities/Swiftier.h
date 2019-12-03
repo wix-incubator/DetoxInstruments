@@ -113,4 +113,6 @@ dtx_defer {\
 	pthread_mutex_unlock(mutex);\
 };
 
+#define dtx_dispatch_queue_create_autoreleasing(name, attr) dispatch_queue_create(name, dispatch_queue_attr_make_with_autorelease_frequency(attr, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM))
+
 #endif /* Swiftier_pch */

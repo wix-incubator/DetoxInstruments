@@ -41,6 +41,8 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 
 - (void)profilingTarget:(DTXRemoteTarget*)target didLoadPasteboardContents:(NSArray<DTXPasteboardItem*>*)pasteboardContents;
 
+- (void)profilingTarget:(DTXRemoteTarget*)target didFinishLaunchProfilingWithZippedData:(NSData*)zippedData;
+
 @end
 
 @interface DTXRemoteTarget : NSObject
@@ -66,6 +68,7 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
 - (void)addTagWithName:(NSString*)name;
 - (void)stopProfiling;
+- (void)requestLaunchProfilingWithSessionID:(NSString*)launchProfilingSession configuration:(DTXProfilingConfiguration*)configuration duration:(NSTimeInterval)duration;
 
 @property (nonatomic, strong, readonly) DTXFileSystemItem* containerContents;
 - (void)loadContainerContents;

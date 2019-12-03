@@ -13,32 +13,33 @@
 #endif
 
 typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
-	DTXRemoteProfilingCommandTypePing,
-	DTXRemoteProfilingCommandTypeGetDeviceInfo,
-	DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration,
-	DTXRemoteProfilingCommandTypeAddTag,
-	DTXRemoteProfilingCommandTypePushGroup __deprecated,
-	DTXRemoteProfilingCommandTypePopGroup __deprecated,
-	DTXRemoteProfilingCommandTypeProfilingStoryEvent,
-	DTXRemoteProfilingCommandTypeStopProfiling,
+	DTXRemoteProfilingCommandTypePing = 0,
+	DTXRemoteProfilingCommandTypeGetDeviceInfo = 1,
+	DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration = 2,
+	DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration = 20,
+	DTXRemoteProfilingCommandTypeAddTag = 3,
+	DTXRemoteProfilingCommandTypePushGroup __deprecated = 4,
+	DTXRemoteProfilingCommandTypePopGroup __deprecated = 5,
+	DTXRemoteProfilingCommandTypeProfilingStoryEvent = 6,
+	DTXRemoteProfilingCommandTypeStopProfiling = 7,
 	
-	DTXRemoteProfilingCommandTypeGetContainerContents,
-	DTXRemoteProfilingCommandTypeDownloadContainer,
-	DTXRemoteProfilingCommandTypeDeleteContainerIten,
-	DTXRemoteProfilingCommandTypePutContainerItem,
+	DTXRemoteProfilingCommandTypeGetContainerContents = 8,
+	DTXRemoteProfilingCommandTypeDownloadContainer = 9,
+	DTXRemoteProfilingCommandTypeDeleteContainerIten = 10,
+	DTXRemoteProfilingCommandTypePutContainerItem = 11,
 	
-	DTXRemoteProfilingCommandTypeGetUserDefaults,
-	DTXRemoteProfilingCommandTypeChangeUserDefaultsItem,
+	DTXRemoteProfilingCommandTypeGetUserDefaults = 12,
+	DTXRemoteProfilingCommandTypeChangeUserDefaultsItem = 13,
 	
-	DTXRemoteProfilingCommandTypeGetCookies,
-	DTXRemoteProfilingCommandTypeSetCookies,
+	DTXRemoteProfilingCommandTypeGetCookies = 14,
+	DTXRemoteProfilingCommandTypeSetCookies = 15,
 	
-	DTXRemoteProfilingCommandTypeGetPasteboard,
-	DTXRemoteProfilingCommandTypeSetPasteboard,
+	DTXRemoteProfilingCommandTypeGetPasteboard = 16,
+	DTXRemoteProfilingCommandTypeSetPasteboard = 17,
 	
-	DTXRemoteProfilingCommandTypeCaptureViewHierarchy,
+	DTXRemoteProfilingCommandTypeCaptureViewHierarchy = 18,
 	
-	DTXRemoteProfilingCommandTypeLoadScreenSnapshot
+	DTXRemoteProfilingCommandTypeLoadScreenSnapshot = 19,
 };
 
 typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {

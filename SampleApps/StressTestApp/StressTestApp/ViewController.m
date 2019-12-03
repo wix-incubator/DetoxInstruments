@@ -478,17 +478,13 @@ os_log_t __log_general;
 	conf.recordingFileURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"/Users/lnatan/Desktop/%@seconds.dtxrec", @(ti)]].URLByStandardizingPath;
 #endif
 	
-	[__profiler startProfilingWithConfiguration:conf];
-	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ti * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		[__profiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
-			NSLog(@"%@", conf.recordingFileURL);
-		}];
+	[__profiler startProfilingWithConfiguration:conf duration:ti completionHandler:^(NSError * _Nullable error) {
+		NSLog(@"%@", conf.recordingFileURL);
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[sender setEnabled:YES];
 		});
-	});
+	}];
 }
 
 - (IBAction)start10SecRecording:(UIButton*)sender

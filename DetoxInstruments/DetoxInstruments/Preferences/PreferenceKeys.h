@@ -13,3 +13,4 @@ extern NSString* const DTXPlotSettingsIntervalFadeOut;
 extern NSString* const DTXPlotSettingsDisplayHoverTextAnnotations;
 extern NSString* const DTXPlotSettingsDisplaySelectionTextAnnotations;
 extern NSString* const DTXPlotSettingsDisplayLabels;
+extern NSString* const DTXPreferencesLaunchProfilingDuration;

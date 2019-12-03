@@ -165,7 +165,8 @@
 	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-+ (NSString*)_fileNameForNewRecording
+DTX_ALWAYS_INLINE
+static NSDateFormatter* _DTXDateFormatterForFileName(void)
 {
 	static NSDateFormatter* dateFileFormatter;
 	static dispatch_once_t onceToken;
@@ -175,14 +176,38 @@
 		dateFileFormatter.timeStyle = NSDateFormatterMediumStyle;
 		dateFileFormatter.dateFormat = [dateFileFormatter.dateFormat stringByReplacingOccurrencesOfString:@":" withString:@"\\"];
 	});
+	return dateFileFormatter;
+}
+
++ (NSString*)_fileNameForNewRecordingWithAppName:(NSString*)appName date:(NSDate*)date
+{
+	if(date == nil)
+	{
+		date = [NSDate date];
+	}
 	
-	NSString* dateString = [dateFileFormatter stringFromDate:[NSDate date]];
-	return [NSString stringWithFormat:@"%@ %@.dtxrec", [NSProcessInfo processInfo].processName, dateString.stringBySanitizingForFileName];
+	NSString* dateString = [_DTXDateFormatterForFileName() stringFromDate:date];
+	return [NSString stringWithFormat:@"%@ %@.dtxrec", appName, dateString.stringBySanitizingForFileName];
+}
+
++ (NSURL*)_urlForNewRecordingWithAppName:(NSString*)appName date:(NSDate*)date
+{
+	return [[self _documentsDirectory] URLByAppendingPathComponent:[self _fileNameForNewRecordingWithAppName:appName date:date] isDirectory:YES];
 }
 
 + (NSURL*)_urlForNewRecording
 {
-	return [[self _documentsDirectory] URLByAppendingPathComponent:[self _fileNameForNewRecording] isDirectory:YES];
+	return [self _urlForNewRecordingWithAppName:NSProcessInfo.processInfo.processName date:nil];
+}
+
++ (NSURL*)_urlForLaunchRecordingWithAppName:(NSString*)appName date:(NSDate*)date
+{
+	return [[self _documentsDirectory] URLByAppendingPathComponent:[NSString stringWithFormat:@"AppLaunchProfiling %@", [self _fileNameForNewRecordingWithAppName:appName date:date]] isDirectory:YES];
+}
+
++ (NSURL*)_urlForLaunchRecordingWithSessionID:(NSString*)session
+{
+	return [self _urlForLaunchRecordingWithAppName:NSProcessInfo.processInfo.processName date:nil];
 }
 
 - (NSURL *)recordingFileURL
@@ -229,7 +254,7 @@
 	
 	if(isDirectory.boolValue && [recordingFileURL.lastPathComponent hasSuffix:@"dtxrec"] == NO)
 	{
-		recordingFileURL = [recordingFileURL URLByAppendingPathComponent:[DTXProfilingConfiguration _fileNameForNewRecording] isDirectory:YES];
+		recordingFileURL = [recordingFileURL URLByAppendingPathComponent:[DTXProfilingConfiguration _fileNameForNewRecordingWithAppName:NSProcessInfo.processInfo.processName date:nil] isDirectory:YES];
 	}
 	else
 	{

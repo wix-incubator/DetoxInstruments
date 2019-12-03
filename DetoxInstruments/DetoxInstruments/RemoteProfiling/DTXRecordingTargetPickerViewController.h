@@ -16,7 +16,7 @@
 
 - (void)recordingTargetPickerDidCancel:(DTXRecordingTargetPickerViewController*)picker;
 - (void)recordingTargetPicker:(DTXRecordingTargetPickerViewController*)picker didSelectRemoteProfilingTarget:(DTXRemoteTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration;
-
+- (void)recordingTargetPicker:(DTXRecordingTargetPickerViewController*)picker didSelectRemoteProfilingTargetForLaunchProfiling:(DTXRemoteTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration;
 
 @end
 

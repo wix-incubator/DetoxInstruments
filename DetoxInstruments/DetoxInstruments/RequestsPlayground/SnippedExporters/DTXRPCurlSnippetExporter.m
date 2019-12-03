@@ -35,7 +35,14 @@
 		[rv appendString:@"-d @- "];
 	}
 	
-	[rv appendString:request.URL.absoluteString];
+	if(request.URL != nil)
+	{
+		[rv appendString:request.URL.absoluteString];
+	}
+	else
+	{
+		[rv appendString:@"<url>"];
+	}
 	
 	return rv;
 }
