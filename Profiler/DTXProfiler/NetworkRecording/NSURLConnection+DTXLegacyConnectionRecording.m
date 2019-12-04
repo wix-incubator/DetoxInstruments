@@ -33,8 +33,6 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 
 @implementation __DTX_DelegateProxy
 
-- (void)__dtx_net_canaryInTheCoalMine {}
-
 - (nullable NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(nullable NSURLResponse *)response
 {
 	if([[self dtx_attachedObjectForKey:__DTXConnectionDidStart] boolValue] == NO)
@@ -148,67 +146,22 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 
 @end
 
-static void __copyMethods(Class orig, Class target)
-{
-	//Copy class methods
-	Class targetMetaclass = object_getClass(target);
-	
-	unsigned int methodCount = 0;
-	Method *methods = class_copyMethodList(object_getClass(orig), &methodCount);
-	
-	for (unsigned int i = 0; i < methodCount; i++)
-	{
-		Method method = methods[i];
-		if(strcmp(sel_getName(method_getName(method)), "load") == 0 || strcmp(sel_getName(method_getName(method)), "initialize") == 0)
-		{
-			continue;
-		}
-		class_addMethod(targetMetaclass, method_getName(method), method_getImplementation(method), method_getTypeEncoding(method));
-	}
-	
-	free(methods);
-	
-	//Copy instance methods
-	methods = class_copyMethodList(orig, &methodCount);
-	
-	for (unsigned int i = 0; i < methodCount; i++)
-	{
-		Method method = methods[i];
-		class_addMethod(target, method_getName(method), method_getImplementation(method), method_getTypeEncoding(method));
-	}
-	
-	free(methods);
-}
-
-
 @implementation NSURLConnection (DTXLegacyConnectionRecording)
 
 + (void)load
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		Method m1 = class_getInstanceMethod(self.class, @selector(_initWithRequest:delegate:usesCache:maxContentLength:startImmediately:connectionProperties:));
-		Method m2 = class_getInstanceMethod(self.class, @selector(_initWithRequest___dtx:delegate:usesCache:maxContentLength:startImmediately:connectionProperties:));
-		
-		method_exchangeImplementations(m1, m2);
+		NSError* error;
+		DTXSwizzleMethod(self, @selector(_initWithRequest:delegate:usesCache:maxContentLength:startImmediately:connectionProperties:), @selector(_initWithRequest___dtx:delegate:usesCache:maxContentLength:startImmediately:connectionProperties:), &error);
 	});
 }
 
 - (id)_initWithRequest___dtx:(NSURLRequest*)arg1 delegate:(id<NSURLConnectionDelegate>)origDelegate usesCache:(BOOL)arg3 maxContentLength:(long long)arg4 startImmediately:(BOOL)arg5 connectionProperties:(id)arg6
 {
-	if(origDelegate != nil && [origDelegate respondsToSelector:@selector(__dtx_net_canaryInTheCoalMine)] == NO)
+	if(origDelegate != nil)
 	{
-		NSString* clsName = [NSString stringWithFormat:@"%@(%@)", NSStringFromClass([origDelegate class]), NSStringFromClass(__DTX_DelegateProxy.class)];
-		Class cls = objc_getClass(clsName.UTF8String);
-		
-		if(cls == nil)
-		{
-			cls = objc_allocateClassPair(origDelegate.class, clsName.UTF8String, 0);
-			__copyMethods([__DTX_DelegateProxy class], cls);
-			objc_registerClassPair(cls);
-		}
-		
-		object_setClass(origDelegate, cls);
+		DTXDynamicallySubclass(origDelegate, __DTX_DelegateProxy.class);
 	}
 	
 	if(origDelegate == nil)

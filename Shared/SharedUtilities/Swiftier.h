@@ -40,6 +40,13 @@ typedef _Atomic(double) atomic_double;
 typedef _Atomic(thread_t) atomic_thread;
 #endif
 
+#ifdef __OBJC__
+#if __has_include(<Foundation/Foundation.h>)
+#import <Foundation/Foundation.h>
+typedef _Atomic(CFRunLoopRef) atomic_cfrunloop;
+#endif
+#endif
+
 #define dtx_defer_block_name_with_prefix(prefix, suffix) prefix ## suffix
 #define dtx_defer_block_name(suffix) dtx_defer_block_name_with_prefix(defer_, suffix)
 #define dtx_defer __strong void(^dtx_defer_block_name(__LINE__))(void) __attribute__((cleanup(defer_cleanup_block), unused)) = ^
