@@ -29,6 +29,7 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 - (void)connection:(id)arg1 didReceiveData:(id)arg2 completion:(id)arg3;
 - (void)connection:(id)arg1 didFinishCollectingMetrics:(id)arg2 completion:(id)arg3;
 - (id)initWithOriginalRequest:(id)arg1 updatedRequest:(id)arg2 ident:(NSUInteger)arg3 session:(id)arg4;
+- (id)initWithOriginalRequest:(id)arg1 ident:(unsigned long)arg2 taskGroup:(id)arg3;
 
 - (void)_onqueue_didFinishCollectingMetrics:(id)arg1 completion:(id)arg2;
 
@@ -73,38 +74,35 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	dispatch_once(&onceToken, ^{
 		Class cls = NSClassFromString(@"__NSCFLocalDataTask");
 		
-		Method m1 = class_getInstanceMethod(NSClassFromString(@"__NSCFLocalDataTask"), NSSelectorFromString(@"greyswizzled_resume"));
-		if(m1 == NULL)
+		NSError* error;
+		if(NO == DTXSwizzleMethod(cls, NSSelectorFromString(@"greyswizzled_resume"), @selector(__dtx_resume), &error))
 		{
-			m1 = class_getInstanceMethod(cls, @selector(resume));
+			DTXSwizzleMethod(cls, @selector(resume), @selector(__dtx_resume), &error);
 		}
-		Method m2 = class_getInstanceMethod(self.class, @selector(__dtx_resume));
-		method_exchangeImplementations(m1, m2);
 		
-		m1 = class_getInstanceMethod(cls, @selector(connection:didReceiveResponse:completion:));
-		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didReceiveResponse:completion:));
-		method_exchangeImplementations(m1, m2);
-		
-		m1 = class_getInstanceMethod(cls, @selector(connection:didFinishLoadingWithError:));
-		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didFinishLoadingWithError:));
-		method_exchangeImplementations(m1, m2);
-		
-		m1 = class_getInstanceMethod(cls, @selector(connection:didReceiveData:completion:));
-		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didReceiveData:completion:));
-		method_exchangeImplementations(m1, m2);
-		
-		m1 = class_getInstanceMethod(cls, @selector(connection:didFinishCollectingMetrics:completion:));
-		m2 = class_getInstanceMethod(self.class, @selector(__dtx_connection:didFinishCollectingMetrics:completion:));
-		method_exchangeImplementations(m1, m2);
-		
-		m1 = class_getInstanceMethod(cls, @selector(initWithOriginalRequest:updatedRequest:ident:session:));
-		m2 = class_getInstanceMethod(self.class, @selector(initWithOriginalRequest__dtx:updatedRequest:ident:session:));
-		method_exchangeImplementations(m1, m2);
-		
-		m1 = class_getInstanceMethod(cls, @selector(_onqueue_didFinishCollectingMetrics:completion:));
-		m2 = class_getInstanceMethod(self.class, @selector(__dtx_onqueue_didFinishCollectingMetrics:completion:));
-		method_exchangeImplementations(m1, m2);
+		DTXSwizzleMethod(cls, @selector(connection:didReceiveResponse:completion:), @selector(__dtx_connection:didReceiveResponse:completion:), &error);
+		DTXSwizzleMethod(cls, @selector(connection:didFinishLoadingWithError:), @selector(__dtx_connection:didFinishLoadingWithError:), &error);
+		DTXSwizzleMethod(cls, @selector(connection:didReceiveData:completion:), @selector(__dtx_connection:didReceiveData:completion:), &error);
+		DTXSwizzleMethod(cls, @selector(connection:didFinishCollectingMetrics:completion:), @selector(__dtx_connection:didFinishCollectingMetrics:completion:), &error);
+		if(NO == DTXSwizzleMethod(cls, @selector(initWithOriginalRequest:ident:taskGroup:), @selector(initWithOriginalRequest__dtx:ident:taskGroup:), &error))
+		{
+			DTXSwizzleMethod(cls, @selector(initWithOriginalRequest:updatedRequest:ident:session:), @selector(initWithOriginalRequest__dtx:updatedRequest:ident:session:), &error);
+		}
+		DTXSwizzleMethod(cls, @selector(_onqueue_didFinishCollectingMetrics:completion:), @selector(_onqueue_didFinishCollectingMetrics:completion:), &error);
 	});
+}
+
+- (instancetype)initWithOriginalRequest__dtx:(NSURLRequest*)arg1 ident:(NSUInteger)arg2 taskGroup:(id)arg3
+{
+	NSMutableURLRequest* arg1_ = [arg1 mutableCopy];
+	
+	DTXProfilingConfiguration* config = __DTXProfilerGetActiveConfiguration();
+	if(config != nil && config.disableNetworkCache == YES)
+	{
+		arg1_.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+	}
+		
+	return [self initWithOriginalRequest__dtx:arg1_ ident:arg2 taskGroup:arg3];
 }
 
 - (instancetype)initWithOriginalRequest__dtx:(NSURLRequest*)arg1 updatedRequest:(NSURLRequest*)arg2 ident:(NSUInteger)arg3 session:(id)arg4;

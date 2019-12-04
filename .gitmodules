@@ -34,3 +34,6 @@
 [submodule "Profiler/DetoxSync"]
 	path = Profiler/DetoxSync
 	url = https://github.com/wix/DetoxSync.git
+[submodule "Shared/DTXSwizzlingHelper"]
+	path = Shared/DTXSwizzlingHelper
+	url = https://github.com/wix/DTXSwizzlingHelper.git

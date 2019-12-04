@@ -55,8 +55,6 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 #define CF(x) ((__bridge CFTypeRef)x)
 #define PTR(x) ((__bridge void*)x)
 
-#define unavailable(...) @available(__VA_ARGS__)) { } else if(YES
-
 #if ! defined(__cplusplus)
 #ifndef swap
 #define swap(x, y) do { typeof(x) t = x; x = y; y = t; }while(0)
@@ -114,5 +112,7 @@ dtx_defer {\
 };
 
 #define dtx_dispatch_queue_create_autoreleasing(name, attr) dispatch_queue_create(name, dispatch_queue_attr_make_with_autorelease_frequency(attr, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM))
+
+#import "DTXSwizzlingHelper.h"
 
 #endif /* Swiftier_pch */
