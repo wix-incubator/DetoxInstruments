@@ -121,6 +121,7 @@
 		39B22BE6217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B22BE4217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.m */; };
 		39BBF66D2202FD1A00077E38 /* NSString+Hashing.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BBF66B2202FD1900077E38 /* NSString+Hashing.h */; };
 		39BBF66E2202FD1A00077E38 /* NSString+Hashing.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BBF66C2202FD1900077E38 /* NSString+Hashing.m */; };
+		39BC7B4C2397B93A00DAF671 /* DTXSwizzlingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */; };
 		39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C44C3220F3A24900279955 /* DTXProfilerAPI.m */; };
 		39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713381EFFCB4000C827EB /* AutoCoding.m */; };
 		39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713391EFFCB4000C827EB /* AutoCoding.h */; };
@@ -330,6 +331,7 @@
 		39B22BE4217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLSessionTask+DTXNetworkRecording.m"; sourceTree = "<group>"; };
 		39BBF66B2202FD1900077E38 /* NSString+Hashing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Hashing.h"; sourceTree = "<group>"; };
 		39BBF66C2202FD1900077E38 /* NSString+Hashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hashing.m"; sourceTree = "<group>"; };
+		39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXSwizzlingHelper.h; path = ../DTXSwizzlingHelper/DTXSwizzlingHelper.h; sourceTree = "<group>"; };
 		39C44C3220F3A24900279955 /* DTXProfilerAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXProfilerAPI.m; sourceTree = "<group>"; };
 		39C713381EFFCB4000C827EB /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoCoding.m; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.m; sourceTree = "<group>"; };
 		39C713391EFFCB4000C827EB /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoCoding.h; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.h; sourceTree = "<group>"; };
@@ -765,6 +767,7 @@
 			isa = PBXGroup;
 			children = (
 				39EEF36321EFAE310028061D /* DTXQuickNSExpressions.h */,
+				39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */,
 				39EEF36E21EFAE310028061D /* DTXZipper.h */,
 				39EEF36621EFAE310028061D /* DTXZipper.m */,
 				39EEF36921EFAE310028061D /* NSDictionary+FakeDecoder.h */,
@@ -856,6 +859,7 @@
 				39EEF37C21EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.h in Headers */,
 				3939241821AD0A330015A15F /* ZZArchive.h in Headers */,
 				3939240C21AD0A330015A15F /* ZZDataProvider.h in Headers */,
+				39BC7B4C2397B93A00DAF671 /* DTXSwizzlingHelper.h in Headers */,
 				3939241D21AD0A330015A15F /* ZZFileChannel.h in Headers */,
 				39D5C2AE237C3D560033138D /* DTXWindowsSnapshotter.h in Headers */,
 				396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */,
