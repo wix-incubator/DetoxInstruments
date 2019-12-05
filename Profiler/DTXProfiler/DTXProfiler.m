@@ -332,6 +332,22 @@ DTX_CREATE_LOG(Profiler);
 		
 		NSError* err;
 		
+#if DEBUG
+		if(self._cleanForDemo)
+		{
+			NSFetchRequest* fr = DTXNetworkSample.fetchRequest;
+			fr.predicate = [NSPredicate predicateWithFormat:@"responseTimestamp == nil"];
+			NSBatchDeleteRequest* bd = [[NSBatchDeleteRequest alloc] initWithFetchRequest:fr];
+			NSError* error;
+			[self->_backgroundContext executeRequest:bd error:&error];
+			
+			fr = DTXActivitySample.fetchRequest;
+			fr.predicate = [NSPredicate predicateWithFormat:@"endTimestamp == nil"];
+			bd = [[NSBatchDeleteRequest alloc] initWithFetchRequest:fr];
+			[self->_backgroundContext executeRequest:bd error:&error];
+		}
+#endif
+		
 		[self->_backgroundContext save:&err];
 		
 		[self _closeContainerInternal];

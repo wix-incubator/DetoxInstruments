@@ -17,6 +17,8 @@
 
 @property (nonatomic, weak, getter=_profilerStoryListener, setter=_setInternalDelegate:) id<DTXProfilerStoryListener> _profilerStoryListener;
 
+@property (nonatomic) BOOL _cleanForDemo;
+
 - (void)_symbolicatePerformanceSample:(DTXPerformanceSample*)sample;
 - (void)_symbolicateRNPerformanceSample:(DTXReactNativePeroformanceSample*)sample;
 

@@ -13,11 +13,15 @@
 
 #import <DTXProfiler/DTXProfiler.h>
 
+@import Darwin;
+
 #define DTX_DEBUG_EVENTS_CREATE_RECORDING 0
 
 os_log_t __log_disk;
 os_log_t __log_network;
 os_log_t __log_general;
+
+void (*untracked_for_demo_dispatch_after)(dispatch_time_t when, dispatch_queue_t queue, dispatch_block_t block);
 
 @interface ViewController () <NSURLSessionDataDelegate>
 
@@ -36,6 +40,12 @@ os_log_t __log_general;
 	__log_disk = os_log_create("com.LeoNatan.StressTestApp", "Disk");
 	__log_network = os_log_create("com.LeoNatan.StressTestApp", "Network");
 	__log_general = os_log_create("com.LeoNatan.StressTestApp", "Stress Test App");
+	
+	untracked_for_demo_dispatch_after = dlsym(RTLD_DEFAULT, "untracked_dispatch_after");
+	if(untracked_for_demo_dispatch_after == NULL)
+	{
+		untracked_for_demo_dispatch_after = dispatch_after;
+	}
 }
 
 - (void)viewDidLoad
@@ -210,7 +220,7 @@ os_log_t __log_general;
 	else
 	{
 		[self.startDemoButton setTitle:[NSString stringWithFormat:@"%@", @(localAfter)] forState:UIControlStateNormal];
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			localAfter -= 1;
 			[self _peform:block after:localAfter];
 		});
@@ -235,7 +245,7 @@ os_log_t __log_general;
 	__block DTXProfiler* profiler = [DTXProfiler new];
 	[profiler startProfilingWithConfiguration:config];
 	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+	untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 #endif
 		DTXProfilerMarkEvent(@"Bombardment", @"JustAnEvent", DTXEventStatusCancelled, @"Info");
 		
@@ -247,12 +257,12 @@ os_log_t __log_general;
 			[events addObject:event];
 		}
 
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[events enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 				DTXProfilerMarkEventIntervalEnd(obj, DTXEventStatusCompleted, nil);
 			}];
 #if DTX_DEBUG_EVENTS_CREATE_RECORDING
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 				[profiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
 					profiler = nil;
 					
@@ -275,6 +285,9 @@ os_log_t __log_general;
 	[[NSURLCache sharedURLCache] setMemoryCapacity:0];
 	
 	__block DTXProfiler* __profiler = [DTXProfiler new];
+#if DEBUG
+	[__profiler setValue:@YES forKey:@"_cleanForDemo"];
+#endif
 	DTXMutableProfilingConfiguration* conf = DTXMutableProfilingConfiguration.defaultProfilingConfiguration;
 	conf.samplingInterval = 0.25;
 	conf.recordThreadInformation = YES;
@@ -300,7 +313,7 @@ os_log_t __log_general;
 		
 		NSTimeInterval timeline = 0;
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[self _slowMyBackgroundTapped:nil];
 			[self _slowMyBackgroundTapped:nil];
 			[self _slowMyBackgroundTapped:nil];
@@ -310,134 +323,130 @@ os_log_t __log_general;
 			[self _slowMyBackgroundTapped:nil];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 4) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 4) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[self _slowMyDeviceTapped:nil];
 		});
 			
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 9.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 9.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[self performSegueWithIdentifier:@"LNOpenWebView" sender:nil];
 		});
 		
 #if ! TARGET_OS_MACCATALYST
 		AppDelegate* ad = (id)UIApplication.sharedApplication.delegate;
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.google.com/search?tbm=isch&source=hp&biw=1445&bih=966&q=labrador+puppy&oq=doberman+puppy&gs_l=img.12...0.0.1.179.0.0.0.0.0.0.0.0..0.0....0...1..64.img..0.0.0.kg6uB2QOnS0"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0]];
 		});
 		
-		const NSTimeInterval scrollDelta = 1.0;
+		const NSTimeInterval scrollDelta = 1.303;
 		CGFloat scrollModifier = 3.0;
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 1.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			[ad.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://nytimes.com"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0]];
-		});
-		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += scrollDelta) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[ad.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollBy(0, %@)", @(scrollModifier * UIScreen.mainScreen.bounds.size.height)]];
 		});
 #endif
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[[(UINavigationController*)self.presentedViewController topViewController] performSegueWithIdentifier:@"LNUnwindToMain" sender:nil];
 		});
 						
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[self _writeToDisk:nil];
 			[self _writeToDisk:nil];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[self _writeToDisk:nil];
 			[self _writeToDisk:nil];
 		});
 								
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			
 			[self _writeToDisk:nil];
 			[self _writeToDisk:nil];
 			[self _writeToDisk:nil];
 		});
 									
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 0.25) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[self _writeToDisk:nil];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			
 			[self startNetworkRequestsTapped:nil];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 5.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[self _slowMyDeviceTapped:nil];
 		});
 		
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 10.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		untracked_for_demo_dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeline += 10.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			
 			[self.startDemoButton setTitle:@"Start Demo" forState:UIControlStateNormal];
 			[self.startDemoButton setEnabled:YES];
