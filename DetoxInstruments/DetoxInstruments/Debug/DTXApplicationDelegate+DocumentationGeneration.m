@@ -26,6 +26,7 @@
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
 #import "DTXEventsPlotController.h"
+#import "DTXActivityPlotController.h"
 #import "NSAppearance+UIAdditions.h"
 
 #import "DTXManagedPlotControllerGroup.h"
@@ -125,6 +126,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 {
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AppleAccentColor"];
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AppleHighlightColor"];
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"DetoxInstrumentsDocGeneration"];
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		//		NSMenu* helpMenu = NSApp.mainMenu.itemArray.lastObject.submenu;
@@ -161,13 +163,12 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		
 		__classToNameMapping = @{
 								 NSStringFromClass(DTXCPUUsagePlotController.class): @{@"name": @"CPUUsage", @"inspectorSample": @166, @"includeInRecordingDocumentInspectorPane": @0},
-								 NSStringFromClass(DTXDiskReadWritesPlotController.class): @{@"name": @"DiskActivity", @"displaySample": @199, @"lowkeyInspector": @YES},
-								 NSStringFromClass(DTXFPSPlotController.class): @{@"name": @"FPS", @"lowkeyInspector": @YES},
-								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @175, @"lowkeyInspector": @YES},
-								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"inspectorSample": @24, @"displaySample": @175, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1},
-								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
-								 NSStringFromClass(DTXEventsPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@1, @0, @3], @"lowkeyInspector": @YES},
-								 @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
+								 NSStringFromClass(DTXDiskReadWritesPlotController.class): @{@"name": @"DiskActivity", @"displaySample": @218, @"lowkeyInspector": @YES},
+								 NSStringFromClass(DTXFPSPlotController.class): @{@"name": @"FPS", @"displaySample": @62, @"lowkeyInspector": @YES},
+								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @113, @"lowkeyInspector": @YES},
+								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"inspectorSample": @111, @"displaySample": @359, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1}, @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
+								 NSStringFromClass(DTXEventsPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@1, @0, @3], @"lowkeyInspector": @YES}, @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
+								 NSStringFromClass(DTXActivityPlotController.class): @{@"name": @"Activity", @"displaySample": NSNull.null, @"outlineBreadcrumbs": @[@2, @0], @"lowkeyInspector": @YES}, @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2, @"zoom": @4},
 								 };
 		
 		__classToNameRNMapping = @{
@@ -220,6 +221,8 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 
 - (void)__generateMiddleman:(NSMenuItem*)sender
 {
+	[NSUserDefaults.standardUserDefaults setBool:YES forKey:@"DetoxInstrumentsDocGeneration"];
+	
 	NSUInteger menuAppearance = sender.parentItem.tag;
 	NSUInteger menuAccent = sender.tag;
 
@@ -316,6 +319,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[self _createConsoleMenuScreenshotWithWindowController:windowController];
 	[self _createBridgeDataMenuScreenshotWithWindowController:windowController];
 	[self _createEventsDetailMenuScreenshotWithWindowController:windowController];
+	[self _createAppLaunchProfileMenuScreenshotWithWindowController:windowController];
 	
 	rep = (NSBitmapImageRep*)[windowController _snapshotForTargetSelection].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Discovered.png"].path atomically:YES];
@@ -363,6 +367,25 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[managementWindowController _drainLayout];
 	[windowController _drainLayout];
 	
+	[windowController _dismissTargetSelection];
+	[windowController _drainLayout];
+	[windowController _drainLayout];
+	[windowController _drainLayout];
+	
+	[windowController.window makeKeyWindow];
+	
+	[newDocument setValue:@"Example App" forKey:@"appLaunchPendingAppName"];
+	
+	[newDocument setValue:@(DTXRecordingAppLaunchProfilingStateWaitingForAppLaunch) forKey:@"appLaunchProfilingState"];
+	[windowController _drainLayout];
+	rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"AppLaunch_Waiting.png"].path atomically:YES];
+	
+	[newDocument setValue:@(DTXRecordingAppLaunchProfilingStateWaitingForAppData) forKey:@"appLaunchProfilingState"];
+	[windowController _drainLayout];
+	rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"AppLaunch_Recording.png"].path atomically:YES];
+	
 	[newDocument close];
 	
 	NSObject* delegate = NSApp.delegate;
@@ -408,7 +431,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[windowController _drainLayout];
 	
 	BOOL oldVal = [NSUserDefaults.standardUserDefaults boolForKey:@"DTXPlotSettingsDisplayLabels"];
-	[NSUserDefaults.standardUserDefaults setBool:NO forKey:@"DTXPlotSettingsDisplayLabels"];
+	[NSUserDefaults.standardUserDefaults setBool:YES forKey:@"DTXPlotSettingsDisplayLabels"];
 	
 	[NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Example Recording/example.dtxrec"] display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
 		
@@ -472,13 +495,14 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		
 		[windowController fitAllData:nil];
 		
-		[NSUserDefaults.standardUserDefaults setBool:NO forKey:@"DTXPlotSettingsDisplayLabels"];
+		[NSUserDefaults.standardUserDefaults setBool:YES forKey:@"DTXPlotSettingsDisplayLabels"];
 		
 		[__classToNameMapping enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 			[self _createInstrumentScreenshotForPlotControllerClass:NSClassFromString(key) windowController:windowController inspectorPaneOverviewImage:inspectorPaneOverviewImage mapping:__classToNameMapping];
 		}];
 		
 		[self _createEventsListScreenshotsForWindowController:windowController];
+		[self _createActivityListScreenshotsForWindowController:windowController];
 		
 		[inspectorPaneOverviewImage lockFocus];
 		rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, inspectorPaneOverviewImage.size}];
@@ -560,13 +584,27 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	{
 		NSString* name = info[@"name"];
 		NSArray* outlineBreadcrumbs = info[@"outlineBreadcrumbs"];
-		NSInteger displaySample = [info[@"displaySample"] ?: __defaultSample integerValue];
-		NSInteger inspectorSample = [info[@"inspectorSample"] ?: __defaultSample integerValue];
+		NSInteger displaySample = 0;
+		BOOL noSample = [info[@"displaySample"] isKindOfClass:NSNull.class];
+		if(noSample == NO)
+		{
+			displaySample = [info[@"displaySample"] ?: __defaultSample integerValue];
+		}
+		NSInteger inspectorSample = [info[@"inspectorSample"] ?: (noSample == NO && info[@"displaySample"]) ? info[@"displaySample"] : __defaultSample integerValue];
 		CGFloat scrollPercentage = [info[@"scrollPercentage"] ?: @0.5 doubleValue];
 		BOOL lowkeyInspector = [info[@"lowkeyInspector"] boolValue];
+		NSUInteger zoom = [info[@"zoom"] unsignedIntegerValue];
 		
 		[windowController _deselectAnyPlotControllers];
-		[windowController _selectSampleAtIndex:displaySample forPlotControllerClass:cls];
+		if(noSample == NO)
+		{
+			[windowController _selectSampleAtIndex:displaySample forPlotControllerClass:cls];
+		}
+		
+		for(NSUInteger idx = 0; idx < zoom; idx++)
+		{
+			[windowController zoomIn:nil];
+		}
 		
 		rep = (NSBitmapImageRep*)[windowController _snapshotForPlotControllerOfClass:cls].representations.firstObject;
 		
@@ -662,6 +700,30 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	Class cls = DTXEventsPlotController.class;
 	NSString* name = @"Events";
+	
+	[windowController _deselectAnyPlotControllers];
+	[windowController _selectSampleAtIndex:[__defaultSample integerValue] forPlotControllerClass:cls];
+	
+	[windowController _selectPlotControllerOfClass:cls];
+	
+	[windowController _deselectAnyDetail];
+	
+	[windowController _setBottomSplitAtPercentage:0.5];
+	[windowController _scrollBottomPaneToPercentage:0.5];
+	
+	[windowController _selectDetailPaneIndex:1];
+	
+	rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
+	
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_DetailPane_List.png", name]].path atomically:YES];
+}
+
+- (void)_createActivityListScreenshotsForWindowController:(DTXWindowController*)windowController
+{
+	NSBitmapImageRep* rep;
+	
+	Class cls = DTXActivityPlotController.class;
+	NSString* name = @"Activity";
 	
 	[windowController _deselectAnyPlotControllers];
 	[windowController _selectSampleAtIndex:[__defaultSample integerValue] forPlotControllerClass:cls];
@@ -984,6 +1046,63 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[consoleMenuImage unlockFocus];
 	
 	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Instrument_Events_Menu.png"].path atomically:YES];
+}
+
+- (void)_createAppLaunchProfileMenuScreenshotWithWindowController:(DTXWindowController*)windowController
+{
+	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
+	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuNoIconsGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
+	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.visualEffectView.layer.borderColor = [NSColor.windowFrameColor colorWithAlphaComponent:0.25].CGColor;
+		menu.visualEffectView.layer.borderWidth = 1;
+	}
+	menu.visualEffectView.layer.masksToBounds = YES;
+	
+	menu.view.wantsLayer = YES;
+	menu.view.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.view.layer.borderColor = [NSColor.blackColor colorWithAlphaComponent:0.85].CGColor;
+	}
+	else
+	{
+		menu.view.layer.borderColor = NSColor.lightGrayColor.CGColor;
+	}
+	menu.view.layer.borderWidth = 0.5;
+	menu.view.layer.masksToBounds = YES;
+	
+	menu.firstImageTextField.stringValue = @"Profile";
+	menu.secondImageTextField.stringValue = @"App Launch";
+	
+	[windowController.window.contentView addSubview:menu.view];
+	[windowController _drainLayout];
+	
+	[menu.view setFrame:(NSRect){0, 0, 109, 50}];
+	
+	NSBitmapImageRep* consoleMenuRep = (id)[menu.view snapshotForCachingDisplay].representations.firstObject;
+	
+	[menu.view removeFromSuperview];
+	
+	NSImage* consoleMenuImage = [[NSImage alloc] initWithSize:NSMakeSize(858, 82)];
+	[consoleMenuImage lockFocus];
+	
+	NSShadow* shadow = [NSShadow new];
+	shadow.shadowOffset = NSMakeSize(0, -4);
+	shadow.shadowBlurRadius = 16.0;
+	shadow.shadowColor = [NSColor.blackColor colorWithAlphaComponent:0.25];
+	[shadow set];
+	
+	NSRect centered = (NSRect){93, 20, consoleMenuRep.size};
+	[consoleMenuRep drawInRect:centered fromRect:(NSRect){0, 0, centered.size} operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	consoleMenuRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, consoleMenuImage.size}];
+	
+	[consoleMenuImage unlockFocus];
+	
+	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"AppLaunch_AppLaunchProfilingMenu.png"].path atomically:YES];
 }
 
 - (NSImage*)_snapshotForGeneralFromPrefs:(DTXInstrumentsPreferencesWindowController*)prefs

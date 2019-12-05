@@ -11,13 +11,19 @@ Launching Detox Instruments and starting a new recording, you will be presented 
 
 ![App Discovered](Resources/Readme_Discovered.png "App Discovered")
 
-This dialog displays a list of applications which can be profiled by Detox Instruments. The list will populate and update automatically over time, as apps are discovered. Apps running on the same Mac as Detox Instruments will be sorted first, followed by other apps discovered. Enable the **Local Apps Only** option to display only local apps.
+This dialog displays a list of applications which can be profiled by Detox Instruments. The list will populate and update automatically over time, as apps are discovered. Apps running on the same Mac as Detox Instruments will be sorted first, followed by other apps discovered. Enable the **Local only** option to display only local apps.
+
+Select **App Launch** in the pop up menu to profile your app's app launch.
+
+![App Launch Profiling](Resources/AppLaunch_AppLaunchProfilingMenu.png "App Launch Profiling")
+
+For more information on app launch profiling, see [App Launch Profiling](AppLaunchProfiling.md).
 
 ### Troubleshooting
 
 If your app does not appear in the app selection dialog, the following tips will help you troubleshoot.
 
-- Make sure you have integrated your app with the Profiler framework. See [Profiler Framework Integration Guide](/Documentation/XcodeIntegrationGuide.md) for more information
+- Make sure you have integrated your app with the Profiler framework. See [Profiler Framework Integration Guide](XcodeIntegrationGuide.md) for more information
 
 - Devices should be connected on the same network (Wi-Fi, LAN for macOS & Simulators or Lightning cable for direct connection)
 

@@ -72,7 +72,7 @@ Once you've installed Detox Instruments and integrated the Profiler framework wi
 
 ### The App Selection Dialog
 
-After launching Detox Instruments or selecting **File** ➔ **New Recording...**, you will be presented with an app selection dialog, displaying a list of available apps to profile. Launch your app on your mobile device or simulator and your app will appear in the list.
+After launching Detox Instruments or selecting **File** ➔ **New Recording...**, you will be presented with an app selection dialog, displaying a list of available apps to profile. Launch your app on your mobile device or simulator and your app will appear in the list. You can choose to start a live profiling, or app launch profiling. For more information, see [App Launch Profiling](Documentation/AppLaunchProfiling.md).
 
 See [App Discovery](Documentation/AppDiscovery.md) for more information and troubleshooting.
 

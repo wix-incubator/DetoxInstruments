@@ -33,6 +33,8 @@
 
 - (NSImage*)_snapshotForTargetSelection;
 
+- (void)_dismissTargetSelection;
+
 - (NSImage*)_snapshotForInstrumentsCustomization;
 
 - (void)_triggerDetailMenu;

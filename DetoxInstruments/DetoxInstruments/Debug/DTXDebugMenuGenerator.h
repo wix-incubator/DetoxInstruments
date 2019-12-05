@@ -6,6 +6,8 @@
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
+#if DEBUG
+
 @import AppKit;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,3 +28,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

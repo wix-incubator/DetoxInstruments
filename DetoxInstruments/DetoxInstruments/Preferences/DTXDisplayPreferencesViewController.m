@@ -92,7 +92,7 @@
 		return YES;
 	}];
 	
-	if(unavailable(macOS 10.15, *))
+	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion < 15)
 	{
 		rv.cacheMode = NSImageCacheNever;
 	}

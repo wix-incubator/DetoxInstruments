@@ -267,6 +267,11 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	return [window snapshotForCachingDisplay];
 }
 
+- (void)_dismissTargetSelection
+{
+	[self.window.contentViewController dismissViewController:self.window.contentViewController.presentedViewControllers.firstObject];
+}
+
 - (NSImage*)_snapshotForInstrumentsCustomization;
 {
 	[self _drainLayout];

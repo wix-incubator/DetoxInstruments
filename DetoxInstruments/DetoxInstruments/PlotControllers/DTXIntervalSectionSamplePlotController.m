@@ -124,6 +124,10 @@
 		return;
 	}
 	
+#if DEBUG
+	BOOL isDocGeneration = [NSUserDefaults.standardUserDefaults boolForKey:@"DetoxInstrumentsDocGeneration"];
+#endif
+	
 	for(DTXSample* currentSample in _frc.sections[_section].objects)
 	{
 		NSDate* timestamp = currentSample.timestamp;
@@ -143,6 +147,13 @@
 			
 			insertionGroupIndex += 1;
 		}
+		
+#if DEBUG
+		if(isDocGeneration == YES && insertionGroupIndex >= 60)
+		{
+			continue;
+		}
+#endif
 		
 		if(_insertionGroup == nil)
 		{

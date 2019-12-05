@@ -20,6 +20,11 @@
 #import "DTXRecording+UIExtensions.h"
 #import "DTXSignpostProtocol.h"
 
+#if DEBUG
+#import "DTXLogging.h"
+DTX_CREATE_LOG(DetailDataProvider)
+#endif
+
 const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 @implementation DTXColumnInformation
@@ -294,10 +299,10 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(nullable id)item
 {
-	id<DTXSampleGroupProxy> currentGroup = _rootGroupProxy;
-	if(item != nil)
+	id<DTXSampleGroupProxy> currentGroup = item;
+	if(item == nil)
 	{
-		currentGroup = item;
+		currentGroup = _rootGroupProxy;
 	}
 	
 	id child = [currentGroup sampleAtIndex:index];
@@ -494,6 +499,10 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	}
 	
 	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
+	
+#if DEBUG
+	dtx_log_debug(@"Selection in item view: %@", @([_managedOutlineView childIndexForItem:item]));
+#endif
 	
 	if(item == nil)
 	{

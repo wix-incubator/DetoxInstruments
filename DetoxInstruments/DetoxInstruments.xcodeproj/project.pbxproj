@@ -298,6 +298,7 @@
 		39B356DF238C0CF400E44721 /* DTXActivitySummaryDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B356DD238C0CF400E44721 /* DTXActivitySummaryDataProvider.m */; };
 		39B3B3B221EE163200D5C1BE /* DTXBorderlessKeyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B3B3B121EE163200D5C1BE /* DTXBorderlessKeyWindow.m */; };
 		39B706A31F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */; };
+		39BC7B582399495300DAF671 /* DTXDebugMenuNoIconsGenerator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39BC7B562399495300DAF671 /* DTXDebugMenuNoIconsGenerator.xib */; };
 		39BDC8BC21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDC8BB21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.m */; };
 		39BEA8F122B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEA8F022B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.m */; };
 		39BEA8F522B6D4A500B2F24E /* CCNPreferencesWindowController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BEA8F422B6D4A500B2F24E /* CCNPreferencesWindowController+DocumentationGeneration.m */; };
@@ -893,6 +894,7 @@
 		39B3B3B121EE163200D5C1BE /* DTXBorderlessKeyWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXBorderlessKeyWindow.m; sourceTree = "<group>"; };
 		39B706A11F20AFB500B1060D /* DTXRecordingTargetPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRecordingTargetPickerViewController.h; sourceTree = "<group>"; };
 		39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingTargetPickerViewController.m; sourceTree = "<group>"; };
+		39BC7B562399495300DAF671 /* DTXDebugMenuNoIconsGenerator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DTXDebugMenuNoIconsGenerator.xib; sourceTree = "<group>"; };
 		39BDC8BA21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAutomaticallyAnimatingProgressIndicator.h; sourceTree = "<group>"; };
 		39BDC8BB21EE0EB000F8CF5B /* DTXAutomaticallyAnimatingProgressIndicator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAutomaticallyAnimatingProgressIndicator.m; sourceTree = "<group>"; };
 		39BEA8EF22B6D42000B2F24E /* DTXInstrumentsPreferencesWindowController+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXInstrumentsPreferencesWindowController+DocumentationGeneration.h"; sourceTree = "<group>"; };
@@ -1194,6 +1196,7 @@
 				39ED0C6F21C1402B0026E306 /* DTXColorTryoutsWindow.h */,
 				39ED0C7021C1402B0026E306 /* DTXColorTryoutsWindow.m */,
 				390688C02117781900D15C86 /* DTXDebugMenuGenerator.xib */,
+				39BC7B562399495300DAF671 /* DTXDebugMenuNoIconsGenerator.xib */,
 				390688D921177D5000D15C86 /* DTXDebugMenuGenerator.h */,
 				390688DA21177D5000D15C86 /* DTXDebugMenuGenerator.m */,
 				391958DC20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.h */,
@@ -2247,6 +2250,7 @@
 				397A1320231E839000DA81A4 /* SF-Mono-BoldItalic.otf in Resources */,
 				3989D35B222B91FD00231EE3 /* RequestsPlayground.storyboard in Resources */,
 				397A1324231E839000DA81A4 /* SF-Mono-SemiboldItalic.otf in Resources */,
+				39BC7B582399495300DAF671 /* DTXDebugMenuNoIconsGenerator.xib in Resources */,
 				39ED0C5B21C13F3C0026E306 /* DTXColorTryoutsWindow.xib in Resources */,
 				393C3FF022AFA2E300EBCEC6 /* Preferences.storyboard in Resources */,
 			);

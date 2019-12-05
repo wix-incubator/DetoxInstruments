@@ -70,7 +70,7 @@
 
 - (NSString *)toolTip
 {
-	return NSLocalizedString(@"The Activity instrument captures app activity during app runtime.", @"");
+	return NSLocalizedString(@"The Activity instrument captures system activity during the app's run time.", @"");
 }
 
 - (NSImage*)displayIcon

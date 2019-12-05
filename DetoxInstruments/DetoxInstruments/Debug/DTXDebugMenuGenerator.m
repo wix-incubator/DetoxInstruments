@@ -6,8 +6,12 @@
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
+#if DEBUG
+
 #import "DTXDebugMenuGenerator.h"
 
 @implementation DTXDebugMenuGenerator
 
 @end
+
+#endif

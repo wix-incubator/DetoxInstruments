@@ -237,7 +237,7 @@
 		{
 			DTXTextAttachment* ta = [DTXTextAttachment new];
 			ta.image = content.image;
-			if(unavailable(macOS 10.15, *))
+			if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion < 15)
 			{
 				[ta.image setValue:@YES forKey:@"flipped"];
 			}

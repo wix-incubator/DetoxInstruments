@@ -46,6 +46,12 @@ The **Ignored Categories** button presents the **Ignored Events Categories** she
 
 In this screen, you can add Events categories that will be ignored when recording. Use this to save performance and lower clutter. For an in-depth look at the Events instrument, see [Events Instrument](Instrument_Events.md).
 
+### Activity
+
+The **Record app activity** preference controls whether activity events are recorded during profiling.
+
+For an in-depth look at the Events instrument, see [Activity Instrument](Instrument_Activity.md).
+
 ### Log
 
 The **Collect log output** preference enables the recording of your app's log output. This can be very useful for cross-referencing your debug log output with profiling samples of your app. This is an inexpensive operation, but depending on the log output amount, may have a slight performance cost.
@@ -63,6 +69,10 @@ The **Record internal React Native events** preference controls whether internal
 ### Time Limit
 
 The **Time limit** preference sets a hard time limit on recording duration. You can set the value in seconds, minutes or hours. The default is 2 minutes.
+
+### App Launch Profiling
+
+The **App launch profiling** preference sets the duration, in seconds, to profile app launches. The default is 15 seconds.
 
 ### Restoring Defaults
 

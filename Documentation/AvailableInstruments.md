@@ -50,6 +50,14 @@ The Events instrument lets you add lightweight instrumentation to your code for 
 
 For an in-depth look at the Events instrument, see [Events Instrument](Instrument_Events.md).
 
+### Activity
+
+The Activity instrument captures app activity from the system.
+
+![Activity](Resources/Instrument_Activity.png "Activity")
+
+For an in-depth look at the Activity instrument, see [Activity Instrument](Instrument_Activity.md).
+
 ### JavaScript Thread
 
 The JavaScript Thread instrument captures information about the CPU load of your app's JavaScript thread.
