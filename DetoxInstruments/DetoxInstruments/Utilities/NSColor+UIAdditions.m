@@ -21,6 +21,9 @@
 	return 	rv;\
 }
 
+static NSCache* _randomColorCache;
+static NSCache* _uiColorCache;
+
 @implementation NSColor (NamedColors)
 
 DTX_NAMED_COLOR_IMPL(cpuUsagePlotControllerColor)
@@ -63,6 +66,15 @@ DTX_NAMED_COLOR_IMPL(graphitePlotColor)
 
 @implementation NSColor (UIAdditions)
 
++ (void)load
+{
+	@autoreleasepool
+	{
+		_randomColorCache = [NSCache new];
+		_uiColorCache = [NSCache new];
+	}
+}
+
 - (NSColor*)deeperColorWithAppearance:(NSAppearance*)appearance modifier:(CGFloat)modifier
 {
 	NSColor* modifierColor = appearance.isDarkAppearance ? NSColor.whiteColor : NSColor.blackColor;
@@ -89,6 +101,12 @@ DTX_NAMED_COLOR_IMPL(graphitePlotColor)
 
 + (NSColor*)randomColorWithSeed:(NSString*)seed;
 {
+	NSColor* rv = [_randomColorCache objectForKey:seed];
+	if(rv != nil)
+	{
+		return rv;
+	}
+	
 	srand48(seed.hash * 200);
 	double r = 1.0 - drand48();
 
@@ -98,11 +116,20 @@ DTX_NAMED_COLOR_IMPL(graphitePlotColor)
 	srand48(seed.hash / 200);
 	double b = 1.0 - drand48();
 
-	return [NSColor colorWithRed:r green:g blue:b alpha:1.0];
+	rv = [NSColor colorWithRed:r green:g blue:b alpha:1.0];
+	[_randomColorCache setObject:rv forKey:seed];
+	
+	return rv;
 }
 
 + (NSColor*)uiColorWithSeed:(NSString*)seed effect:(DTXColorEffect)effect;
 {
+	NSColor* rv = [_uiColorCache objectForKey:seed];
+	if(rv != nil)
+	{
+		return rv;
+	}
+	
 	CGFloat saturationRange = 0.0;
 	CGFloat saturationFloor = 0.65;
 	
@@ -139,7 +166,10 @@ DTX_NAMED_COLOR_IMPL(graphitePlotColor)
 	CGFloat b = l + t;
 	s = l > 0 ? 2 * t / b : 0;
 	
-	return [NSColor colorWithHue:h saturation:s brightness:b alpha:1.0];
+	rv = [NSColor colorWithHue:h saturation:s brightness:b alpha:1.0];
+	[_uiColorCache setObject:rv forKey:seed];
+	
+	return rv;
 }
 
 - (NSColor *)invertedColor
