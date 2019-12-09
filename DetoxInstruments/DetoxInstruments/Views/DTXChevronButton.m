@@ -10,13 +10,62 @@
 @import QuartzCore;
 #import "NSAppearance+UIAdditions.h"
 
-@interface NSControl () @end
+@class _DTXChevronButtonPopUpButton;
 
-@interface _DTXChevronButtonPopUpButton : NSPopUpButton @end
+@interface NSControl () @end
+@interface NSButtonCell ()
+
+- (BOOL)_shouldDrawAsDefaultButtonInView:(id)arg1;
+- (NSDictionary*)_coreUIBezelDrawOptionsWithFrame:(struct CGRect)arg1 inView:(id)arg2;
+
+@end
+
+@interface DTXChevronButton ()
+
+@property (nonatomic, strong) _DTXChevronButtonPopUpButton* popupButton;
+
+@end
+
+@interface _DTXChevronButtonPopUpButton : NSPopUpButton
+
+@property (nonatomic) BOOL allowsEnabled;
+@property (nonatomic) BOOL userEnabled;
+
+@end
+
+@interface _DTXChevronButtonPopUpButtonCell : NSPopUpButtonCell @end
+
+@implementation _DTXChevronButtonPopUpButtonCell
+
+- (NSDictionary*)_coreUIBezelDrawOptionsWithFrame:(struct CGRect)arg1 inView:(id)arg2
+{
+	NSMutableDictionary* rv = [[super _coreUIBezelDrawOptionsWithFrame:arg1 inView:arg2] mutableCopy];
+	
+	return rv;
+}
+
+@end
 
 @implementation _DTXChevronButtonPopUpButton
 {
 	CGPoint _mouseDownOrigin;
+}
+
++ (Class)cellClass
+{
+	return _DTXChevronButtonPopUpButtonCell.class;
+}
+
+- (instancetype)initWithFrame:(NSRect)frameRect
+{
+	self = [super initWithFrame:frameRect];
+	
+	if(self)
+	{
+		_allowsEnabled = YES;
+	}
+	
+	return self;
 }
 
 - (void)mouseDown:(NSEvent *)event
@@ -45,25 +94,66 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	if(self.window.isKeyWindow == NO || self.enabled == NO)
-	{
-		self.alphaValue = 0.2;
-	}
-	else
-	{
-		self.alphaValue = 1.0;
-	}
+	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
+	
+	CGContextSaveGState(ctx);
+	CGContextSetAlpha(ctx, self.userEnabled ? 1.0 : 0.35);
+	
+	CGMutablePathRef path = CGPathCreateMutable();
+	CGPathAddRect(path, NULL, CGRectMake(self.bounds.size.width - 20, 2, 15, self.bounds.size.height - 6));
+	CGPathAddRect(path, NULL, CGRectMake(self.bounds.size.width - 20, 2.5, 15.5, self.bounds.size.height - 7));
+	CGPathAddRect(path, NULL, CGRectMake(self.bounds.size.width - 20, 3, 16, self.bounds.size.height - 8));
+	CGContextAddPath(ctx, path);
+	CGContextClip(ctx);
 	
 	[super drawRect:dirtyRect];
 	
+	CGContextRestoreGState(ctx);
+	
 	[[NSColor.blackColor colorWithAlphaComponent:0.1] set];
 
-	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
 	CGContextSetLineWidth(ctx, 1.0);
 	CGContextSetAllowsAntialiasing(ctx, NO);
-	CGContextMoveToPoint(ctx, self.bounds.size.width - 20, 1);
-	CGContextAddLineToPoint(ctx, self.bounds.size.width - 20, self.bounds.size.height - 3);
+	
+	CGPoint start = CGPointMake(self.bounds.size.width - 20, 2);
+	CGPoint end = CGPointMake(self.bounds.size.width - 20, self.bounds.size.height - 4);
+	if(self.window.backingScaleFactor > 1.0)
+	{
+		start.x += 0.5;
+		end.x += 0.5;
+	}
+	
+	CGContextMoveToPoint(ctx, start.x, start.y);
+	CGContextAddLineToPoint(ctx, end.x, end.y);
 	CGContextStrokePath(ctx);
+	
+	CGPathRelease(path);
+}
+
+- (void)setEnabled:(BOOL)enabled
+{
+	_userEnabled = enabled;
+	
+	[self _resetEnabled];
+	
+	[self setNeedsDisplay:YES];
+}
+
+- (void)setAllowsEnabled:(BOOL)allowsEnabled
+{
+	_allowsEnabled = allowsEnabled;
+	
+	[self _resetEnabled];
+}
+
+- (void)_resetEnabled
+{
+	[super setEnabled:_userEnabled && _allowsEnabled];
+}
+
+- (void)layout
+{
+	[super layout];
 }
 
 @end
@@ -78,13 +168,17 @@
 	return [super drawTitle:title withFrame:frame inView:controlView];
 }
 
+- (BOOL)_shouldDrawAsDefaultButtonInView:(DTXChevronButton*)arg1
+{
+	BOOL rv = [super _shouldDrawAsDefaultButtonInView:arg1];
+	//This mechanism is used to draw the pop up button differently when the enclosing button is not drawn as "default".
+	arg1.popupButton.allowsEnabled = rv;
+	return rv;
+}
+
 @end
 
 @implementation DTXChevronButton
-{
-	NSImageView* _dropDownImageView;
-	NSPopUpButton* _popupButton;
-}
 
 - (void)awakeFromNib
 {
@@ -108,18 +202,6 @@
 		[self.centerYAnchor constraintEqualToAnchor:_popupButton.centerYAnchor],
 		[self.widthAnchor constraintEqualToAnchor:_popupButton.widthAnchor multiplier:1.0],
 	]];
-}
-
-- (void)layout
-{
-	[super layout];
-	
-	CAShapeLayer* mask = CAShapeLayer.layer;
-	CGPathRef path = CGPathCreateWithRect(CGRectMake(_popupButton.bounds.size.width - 20, 0, 20, _popupButton.bounds.size.height), NULL);
-	mask.path = path;
-	CGPathRelease(path);
-	
-	_popupButton.layer.mask = mask;
 }
 
 - (void)setEnabled:(BOOL)enabled

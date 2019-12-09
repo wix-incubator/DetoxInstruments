@@ -105,7 +105,6 @@
 		3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */; };
 		396EE2C120ADB223006C4C55 /* DTXViewHierarchySnapshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = 396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */; };
 		396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */; };
-		39790AC7237C1802009B1B57 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39790AC4237C1802009B1B57 /* DTXInstruments.xcdatamodeld */; };
 		3985048A21A4433E00F04573 /* DTXProfilingBasics.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048921A4433E00F04573 /* DTXProfilingBasics.h */; };
 		3985048D21A4434800F04573 /* DTXFileSystemItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3985048B21A4434800F04573 /* DTXFileSystemItem.m */; };
 		3985048E21A4434800F04573 /* DTXFileSystemItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048C21A4434800F04573 /* DTXFileSystemItem.h */; };
@@ -122,6 +121,7 @@
 		39BBF66D2202FD1A00077E38 /* NSString+Hashing.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BBF66B2202FD1900077E38 /* NSString+Hashing.h */; };
 		39BBF66E2202FD1A00077E38 /* NSString+Hashing.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BBF66C2202FD1900077E38 /* NSString+Hashing.m */; };
 		39BC7B4C2397B93A00DAF671 /* DTXSwizzlingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */; };
+		39BC7B86239E647B00DAF671 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B83239E647B00DAF671 /* DTXInstruments.xcdatamodeld */; };
 		39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C44C3220F3A24900279955 /* DTXProfilerAPI.m */; };
 		39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713381EFFCB4000C827EB /* AutoCoding.m */; };
 		39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713391EFFCB4000C827EB /* AutoCoding.h */; };
@@ -313,8 +313,6 @@
 		396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXViewHierarchySnapshotter.h; sourceTree = "<group>"; };
 		396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
 		39787EEE222F8CCB00AC24B4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		39790AC5237C1802009B1B57 /* DTXInstruments-10891.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-10891.xcdatamodel"; sourceTree = "<group>"; };
-		39790AC6237C1802009B1B57 /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		3985048921A4433E00F04573 /* DTXProfilingBasics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfilingBasics.h; sourceTree = "<group>"; };
 		3985048B21A4434800F04573 /* DTXFileSystemItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXFileSystemItem.m; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.m; sourceTree = "<group>"; };
 		3985048C21A4434800F04573 /* DTXFileSystemItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXFileSystemItem.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.h; sourceTree = "<group>"; };
@@ -332,6 +330,8 @@
 		39BBF66B2202FD1900077E38 /* NSString+Hashing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Hashing.h"; sourceTree = "<group>"; };
 		39BBF66C2202FD1900077E38 /* NSString+Hashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hashing.m"; sourceTree = "<group>"; };
 		39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXSwizzlingHelper.h; path = ../DTXSwizzlingHelper/DTXSwizzlingHelper.h; sourceTree = "<group>"; };
+		39BC7B84239E647B00DAF671 /* DTXInstruments-11469.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-11469.xcdatamodel"; sourceTree = "<group>"; };
+		39BC7B85239E647B00DAF671 /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		39C44C3220F3A24900279955 /* DTXProfilerAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXProfilerAPI.m; sourceTree = "<group>"; };
 		39C713381EFFCB4000C827EB /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoCoding.m; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.m; sourceTree = "<group>"; };
 		39C713391EFFCB4000C827EB /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoCoding.h; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.h; sourceTree = "<group>"; };
@@ -730,7 +730,7 @@
 		39D40C041ED5AC0000157C04 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				39790AC4237C1802009B1B57 /* DTXInstruments.xcdatamodeld */,
+				39BC7B83239E647B00DAF671 /* DTXInstruments.xcdatamodeld */,
 				39D40C071ED5B43700157C04 /* DTXInstrumentsModel.h */,
 				39D40C081ED5B43700157C04 /* DTXRecording+Additions.h */,
 				39D40C091ED5B43700157C04 /* DTXRecording+Additions.m */,
@@ -1020,7 +1020,6 @@
 				396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */,
 				39B22BE2217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m in Sources */,
 				3939241B21AD0A330015A15F /* ZZFileChannelOutput.m in Sources */,
-				39790AC7237C1802009B1B57 /* DTXInstruments.xcdatamodeld in Sources */,
 				3939242421AD0A330015A15F /* ZZOldArchiveEntryWriter.mm in Sources */,
 				39F6F6B31F0E3BE100C7F411 /* DTXProfilingConfiguration.m in Sources */,
 				39F6421C1FDD5DBF00468FED /* DTXLogging.m in Sources */,
@@ -1028,6 +1027,7 @@
 				39D205511F03057200830A0D /* DTXLoggingRecorder.m in Sources */,
 				3985048D21A4434800F04573 /* DTXFileSystemItem.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
+				39BC7B86239E647B00DAF671 /* DTXInstruments.xcdatamodeld in Sources */,
 				39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
 				396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */,
@@ -1440,13 +1440,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		39790AC4237C1802009B1B57 /* DTXInstruments.xcdatamodeld */ = {
+		39BC7B83239E647B00DAF671 /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				39790AC5237C1802009B1B57 /* DTXInstruments-10891.xcdatamodel */,
-				39790AC6237C1802009B1B57 /* DTXInstruments-9954.xcdatamodel */,
+				39BC7B84239E647B00DAF671 /* DTXInstruments-11469.xcdatamodel */,
+				39BC7B85239E647B00DAF671 /* DTXInstruments-9954.xcdatamodel */,
 			);
-			currentVersion = 39790AC5237C1802009B1B57 /* DTXInstruments-10891.xcdatamodel */;
+			currentVersion = 39BC7B84239E647B00DAF671 /* DTXInstruments-11469.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
