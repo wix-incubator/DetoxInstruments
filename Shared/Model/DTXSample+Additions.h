@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger, DTXSampleType) {
 	DTXSampleTypeReactNativeBridgeDataType      = 10001,
 	
 	DTXSampleTypeUser					        = 20000,
+	
+	DTXSampleTypeDetoxLifecycle					= 30000,
 };
 
 @interface DTXSample (Additions)

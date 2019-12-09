@@ -28,6 +28,7 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 							   NSStringFromClass([DTXSignpostSample class]): @(DTXSampleTypeSignpost),
 							   NSStringFromClass([DTXReactNativeDataSample class]): @(DTXSampleTypeReactNativeBridgeDataType),
 							   NSStringFromClass([DTXActivitySample class]): @(DTXSampleTypeActivity),
+							   NSStringFromClass([DTXDetoxLifecycleSample class]): @(DTXSampleTypeDetoxLifecycle),
 							   };
 		__typeClassMapping = @{@(DTXSampleTypePerformance): ([DTXPerformanceSample class]),
 							   @(DTXSampleTypeThreadPerformance): ([DTXThreadPerformanceSample class]),
@@ -38,6 +39,7 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 							   @(DTXSampleTypeSignpost): ([DTXSignpostSample class]),
 							   @(DTXSampleTypeReactNativeBridgeDataType): ([DTXReactNativeDataSample class]),
 							   @(DTXSampleTypeActivity): ([DTXActivitySample class]),
+							   @(DTXSampleTypeDetoxLifecycle): ([DTXDetoxLifecycleSample class]),
 							   };
 	});
 }

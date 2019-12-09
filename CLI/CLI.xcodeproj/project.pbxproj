@@ -31,14 +31,14 @@
 		39401D1C21E5099500504FD8 /* DTXSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39401D0F21E5099500504FD8 /* DTXSample+UIExtensions.m */; };
 		39401D1D21E5099500504FD8 /* DTXPerformanceSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39401D1021E5099500504FD8 /* DTXPerformanceSample+UIExtensions.m */; };
 		39401D1F21E5099500504FD8 /* DTXSignpostSample+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39401D1221E5099500504FD8 /* DTXSignpostSample+UIExtensions.m */; };
-		3962C4CC238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3962C4CB238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel */; };
 		3964876E1FC325C400006341 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3964876D1FC325C400006341 /* main.m */; };
 		396487991FC32E2800006341 /* DTXProfilingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 396487981FC32E2800006341 /* DTXProfilingConfiguration.m */; };
 		3964879F1FC32E8600006341 /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 3964879E1FC32E8600006341 /* AutoCoding.m */; };
-		39790ACB237C182D009B1B57 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39790AC8237C182D009B1B57 /* DTXInstruments.xcdatamodeld */; };
 		398828532137DBBB006F283B /* DTXRecordingDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3988284D2137DBBB006F283B /* DTXRecordingDocument.m */; };
 		398828542137DBBB006F283B /* DTXRecordingDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3988284F2137DBBB006F283B /* DTXRecordingDocumentController.m */; };
 		398828552137DBBB006F283B /* DTXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 398828512137DBBB006F283B /* DTXDocument.m */; };
+		39BC7B80239E5DC800DAF671 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B7D239E5DC700DAF671 /* DTXInstruments.xcdatamodeld */; };
+		39BC7B82239E5DCE00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -109,21 +109,21 @@
 		39401D1621E5099500504FD8 /* DTXThreadInfo+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXThreadInfo+UIExtensions.h"; sourceTree = "<group>"; };
 		39401D1721E5099500504FD8 /* DTXSample+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXSample+UIExtensions.h"; sourceTree = "<group>"; };
 		39401D1821E5099500504FD8 /* DTXPerformanceSample+UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTXPerformanceSample+UIExtensions.h"; sourceTree = "<group>"; };
-		3962C4CB238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9954To10891.xcmappingmodel; sourceTree = "<group>"; };
 		3964876A1FC325C400006341 /* dtxinst */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dtxinst; sourceTree = BUILT_PRODUCTS_DIR; };
 		3964876D1FC325C400006341 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		396487971FC32E2800006341 /* DTXProfilingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXProfilingConfiguration.h; path = ../../Profiler/DTXProfiler/DTXProfilingConfiguration.h; sourceTree = "<group>"; };
 		396487981FC32E2800006341 /* DTXProfilingConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXProfilingConfiguration.m; path = ../../Profiler/DTXProfiler/DTXProfilingConfiguration.m; sourceTree = "<group>"; };
 		3964879D1FC32E8600006341 /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoCoding.h; sourceTree = "<group>"; };
 		3964879E1FC32E8600006341 /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoCoding.m; sourceTree = "<group>"; };
-		39790AC9237C182D009B1B57 /* DTXInstruments-10891.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-10891.xcdatamodel"; sourceTree = "<group>"; };
-		39790ACA237C182D009B1B57 /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		3988284D2137DBBB006F283B /* DTXRecordingDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingDocument.m; sourceTree = "<group>"; };
 		3988284E2137DBBB006F283B /* DTXRecordingDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocumentController.h; sourceTree = "<group>"; };
 		3988284F2137DBBB006F283B /* DTXRecordingDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXRecordingDocumentController.m; sourceTree = "<group>"; };
 		398828502137DBBB006F283B /* DTXRecordingDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocument.h; sourceTree = "<group>"; };
 		398828512137DBBB006F283B /* DTXDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXDocument.m; sourceTree = "<group>"; };
 		398828522137DBBB006F283B /* DTXDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXDocument.h; sourceTree = "<group>"; };
+		39BC7B7E239E5DC800DAF671 /* DTXInstruments-11469.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-11469.xcdatamodel"; sourceTree = "<group>"; };
+		39BC7B7F239E5DC800DAF671 /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
+		39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9954To11469.xcmappingmodel; sourceTree = "<group>"; };
 		39EEF34221EFADA80028061D /* SharedPrefixHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPrefixHeader.h; sourceTree = "<group>"; };
 		39EEF34321EFADB10028061D /* DTXQuickNSExpressions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXQuickNSExpressions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -195,8 +195,8 @@
 		39401CF821E5098100504FD8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				39790AC8237C182D009B1B57 /* DTXInstruments.xcdatamodeld */,
-				3962C4CB238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel */,
+				39BC7B7D239E5DC700DAF671 /* DTXInstruments.xcdatamodeld */,
+				39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */,
 				39401CFA21E5098100504FD8 /* DTXInstrumentsModel.h */,
 				39401CF921E5098100504FD8 /* DTXRecording+Additions.h */,
 				39401CFD21E5098100504FD8 /* DTXRecording+Additions.m */,
@@ -369,6 +369,7 @@
 				396487991FC32E2800006341 /* DTXProfilingConfiguration.m in Sources */,
 				398828532137DBBB006F283B /* DTXRecordingDocument.m in Sources */,
 				3911770E21EF81FB00C92A9F /* NSDictionary+FakeDecoder.m in Sources */,
+				39BC7B80239E5DC800DAF671 /* DTXInstruments.xcdatamodeld in Sources */,
 				398828542137DBBB006F283B /* DTXRecordingDocumentController.m in Sources */,
 				3935105C1FCB9BF9001FB466 /* GBPrint.m in Sources */,
 				3911770821EF81FB00C92A9F /* NSObject+AttachedObjects.m in Sources */,
@@ -380,16 +381,15 @@
 				398828552137DBBB006F283B /* DTXDocument.m in Sources */,
 				39401D1D21E5099500504FD8 /* DTXPerformanceSample+UIExtensions.m in Sources */,
 				39401D1B21E5099500504FD8 /* DTXThreadInfo+UIExtensions.m in Sources */,
-				39790ACB237C182D009B1B57 /* DTXInstruments.xcdatamodeld in Sources */,
 				3964879F1FC32E8600006341 /* AutoCoding.m in Sources */,
 				39401D1921E5099500504FD8 /* DTXNetworkSample+UIExtensions.m in Sources */,
 				39401D1F21E5099500504FD8 /* DTXSignpostSample+UIExtensions.m in Sources */,
 				3911770D21EF81FB00C92A9F /* NSMapTable+Subscripting.m in Sources */,
 				3935105A1FCB9BF9001FB466 /* GBOptionsHelper.m in Sources */,
 				39401D1A21E5099500504FD8 /* DTXRecording+UIExtensions.m in Sources */,
-				3962C4CC238205F1008618EB /* DTXMappingModel9954To10891.xcmappingmodel in Sources */,
 				39401CF621E5025100504FD8 /* DTXInstrumentsApplicationProxy.m in Sources */,
 				3935104F1FCB9BE2001FB466 /* LNOptionsParser.m in Sources */,
+				39BC7B82239E5DCE00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,13 +567,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		39790AC8237C182D009B1B57 /* DTXInstruments.xcdatamodeld */ = {
+		39BC7B7D239E5DC700DAF671 /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				39790AC9237C182D009B1B57 /* DTXInstruments-10891.xcdatamodel */,
-				39790ACA237C182D009B1B57 /* DTXInstruments-9954.xcdatamodel */,
+				39BC7B7E239E5DC800DAF671 /* DTXInstruments-11469.xcdatamodel */,
+				39BC7B7F239E5DC800DAF671 /* DTXInstruments-9954.xcdatamodel */,
 			);
-			currentVersion = 39790AC9237C182D009B1B57 /* DTXInstruments-10891.xcdatamodel */;
+			currentVersion = 39BC7B7E239E5DC800DAF671 /* DTXInstruments-11469.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

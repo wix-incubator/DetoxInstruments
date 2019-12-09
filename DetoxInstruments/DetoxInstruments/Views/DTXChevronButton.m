@@ -10,27 +10,14 @@
 @import QuartzCore;
 #import "NSAppearance+UIAdditions.h"
 
-@interface NSControl ()
+@interface NSControl () @end
 
-//- (BOOL)_shouldTrackMouseWithEvent:(NSEvent *)event;
-
-@end
-
-@interface _DTXChevronButtonPopUpButton : NSPopUpButton
-
-//@property (nonatomic) BOOL acceptsMouseEvents;
-
-@end
+@interface _DTXChevronButtonPopUpButton : NSPopUpButton @end
 
 @implementation _DTXChevronButtonPopUpButton
 {
 	CGPoint _mouseDownOrigin;
 }
-
-//- (BOOL)_shouldTrackMouseWithEvent:(NSEvent *)event
-//{
-//	return self.acceptsMouseEvents && [super _shouldTrackMouseWithEvent:event];
-//}
 
 - (void)mouseDown:(NSEvent *)event
 {
@@ -104,16 +91,6 @@
 	[super awakeFromNib];
 	self.wantsLayer = YES;
 	
-//	_dropDownImageView = [NSImageView new];
-//	_dropDownImageView.image = [NSImage imageNamed:@"NSDropDownIndicatorTemplate"];
-//	_dropDownImageView.translatesAutoresizingMaskIntoConstraints = NO;
-//	[self addSubview:_dropDownImageView];
-//
-//	[NSLayoutConstraint activateConstraints:@[
-//		[self.trailingAnchor constraintEqualToAnchor:_dropDownImageView.trailingAnchor constant:6],
-//		[self.centerYAnchor constraintEqualToAnchor:_dropDownImageView.centerYAnchor],
-//	]];
-	
 	_popupButton = [_DTXChevronButtonPopUpButton new];
 	
 	NSMenu* menu = [self.menu copy];
@@ -144,17 +121,6 @@
 	
 	_popupButton.layer.mask = mask;
 }
-
-//- (void)drawRect:(NSRect)dirtyRect
-//{
-//	BOOL isActive = self.window.isKeyWindow;
-//	BOOL isDark = self.effectiveAppearance.isDarkAppearance;
-//	BOOL isEnabled = self.isEnabled;
-//
-//	_dropDownImageView.contentTintColor = isEnabled == NO ? NSColor.disabledControlTextColor : isDark || isActive ? NSColor.whiteColor : NSColor.blackColor;
-//
-//	[super drawRect:dirtyRect];
-//}
 
 - (void)setEnabled:(BOOL)enabled
 {

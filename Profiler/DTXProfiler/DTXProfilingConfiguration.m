@@ -6,7 +6,7 @@
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
-#import "DTXProfilingConfiguration.h"
+#import "DTXProfilingConfiguration-Private.h"
 #import "AutoCoding.h"
 #import "NSString+FileNames.h"
 
