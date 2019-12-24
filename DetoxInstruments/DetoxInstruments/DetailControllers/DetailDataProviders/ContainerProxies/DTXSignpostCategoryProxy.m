@@ -72,7 +72,7 @@
 - (void)_reloadDurations
 {
 	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
-	fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[[NSPredicate predicateWithFormat:@"endTimestamp != nil"], self.predicateForAggregator]];
+	fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[[NSPredicate predicateWithFormat:@"endTimestamp != nil && isEvent == NO"], self.predicateForAggregator]];
 	fr.resultType = NSDictionaryResultType;
 	
 	NSExpressionDescription* min = [NSExpressionDescription new];
@@ -115,10 +115,10 @@
 	_endTimestamp = results[@"endTimestamp"];
 	_duration = [_endTimestamp timeIntervalSinceDate:_timestamp];
 	
-	fr.propertiesToGroupBy = @[@"nameHash"];
+	fr.predicate = self.predicateForAggregator;
 	fr.propertiesToFetch = @[@"nameHash"];
 	
-	_count = [self.managedObjectContext executeFetchRequest:fr error:NULL].count;
+	_count = [self.managedObjectContext countForFetchRequest:fr error:NULL];
 	NSUInteger countSome = [results[@"countIsEvent"] unsignedIntegerValue];
 
 	_isEvent = _count == countSome;
@@ -127,7 +127,7 @@
 - (void)_reloadNameProxyInfo
 {
 	NSFetchRequest* fr = DTXSignpostSample.fetchRequest;
-	fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[[NSPredicate predicateWithFormat:@"endTimestamp != nil"], self.predicateForAggregator]];
+	fr.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[[NSPredicate predicateWithFormat:@"endTimestamp != nil && isEvent == NO"], self.predicateForAggregator]];
 	fr.resultType = NSDictionaryResultType;
 	fr.propertiesToGroupBy = @[@"name"];
 	
@@ -156,11 +156,6 @@
 	maxTimestamp.expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForKeyPath:@"endTimestamp"]]];
 	maxTimestamp.expressionResultType = NSDateAttributeType;
 	
-	NSExpressionDescription* countAll = [NSExpressionDescription new];
-	countAll.name = @"countAll";
-	countAll.expression = [NSExpression expressionForFunction:@"count:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
-	countAll.expressionResultType = NSInteger64AttributeType;
-	
 	NSExpressionDescription* countIsEvent = [NSExpressionDescription new];
 	countIsEvent.name = @"countIsEvent";
 	countIsEvent.expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForKeyPath:@"isEvent"]]];
@@ -172,14 +167,26 @@
 	nameDescription.name = @"name";
 	nameDescription.expressionResultType = NSStringAttributeType;
 	
-	fr.propertiesToFetch = @[min, avg, max, minTimestamp, maxTimestamp, countAll, countIsEvent, nameDescription];
+	fr.propertiesToFetch = @[min, avg, max, minTimestamp, maxTimestamp, countIsEvent, nameDescription];
 	
 	NSMutableDictionary* nameProxyInfo = [NSMutableDictionary new];
 	
 	NSArray<NSDictionary*>* results = [self.managedObjectContext executeFetchRequest:fr error:NULL];
 	
+	NSExpressionDescription* countAll = [NSExpressionDescription new];
+	countAll.name = @"countAll";
+	countAll.expression = [NSExpression expressionForFunction:@"count:" arguments:@[[NSExpression expressionForKeyPath:@"timestamp"]]];
+	countAll.expressionResultType = NSInteger64AttributeType;
+	
+	fr.predicate = self.predicateForAggregator;
+	fr.propertiesToFetch = @[countAll];
+	
+	NSArray<NSDictionary*>* countAllResults = [self.managedObjectContext executeFetchRequest:fr error:NULL];
+	
 	[results enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		nameProxyInfo[obj[@"name"]] = obj;
+		NSMutableDictionary* _obj = [[NSMutableDictionary alloc] initWithDictionary:obj];
+		_obj[@"countAll"] = countAllResults[idx][@"countAll"];
+		nameProxyInfo[obj[@"name"]] = _obj;
 	}];
 	
 	_nameProxyInfo = nameProxyInfo;

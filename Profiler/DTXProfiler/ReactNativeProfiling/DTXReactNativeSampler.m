@@ -72,7 +72,7 @@ static void installDTXNativeLoggingHook(JSContext* ctx)
 
 static
 DTX_ALWAYS_INLINE
-void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers, BOOL useNativeTimestamp)
+void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers, BOOL useNativeTimestamp, uint64_t threadIdentifier)
 {
 	NSString* identifier = sample[@"identifier"];
 	NSUInteger type = [sample[@"type"] unsignedIntegerValue];
@@ -93,7 +93,7 @@ void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers
 			{
 				additionalInfo = nil;
 			}
-			__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], additionalInfo, [params[@"3"] boolValue] ? _DTXEventTypeJSTimer : _DTXEventTypeSignpost, [params[@"4"] componentsSeparatedByString:@"\n"]);
+			__DTXProfilerMarkEventIntervalBeginIdentifierThreadIdentifier(identifier, threadIdentifier, timestamp, params[@"0"], params[@"1"], additionalInfo, [params[@"3"] boolValue] ? _DTXEventTypeJSTimer : _DTXEventTypeSignpost, [params[@"4"] componentsSeparatedByString:@"\n"]);
 		}	break;
 		case 1:
 		{
@@ -102,7 +102,7 @@ void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers
 			{
 				additionalInfo = nil;
 			}
-			__DTXProfilerMarkEventIntervalEnd(timestamp, identifier, [params[@"0"] intValue], additionalInfo);
+			__DTXProfilerMarkEventIntervalEndThreadIdentifier(threadIdentifier, timestamp, identifier, [params[@"0"] intValue], additionalInfo);
 		}	break;
 		case 10:
 		{
@@ -111,7 +111,7 @@ void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers
 			{
 				additionalInfo = nil;
 			}
-			__DTXProfilerMarkEventIdentifier(identifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] intValue], additionalInfo, _DTXEventTypeSignpost);
+			__DTXProfilerMarkEventIdentifierThreadIdentifier(identifier, threadIdentifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] intValue], additionalInfo, _DTXEventTypeSignpost);
 		}	break;
 		default:
 			break;
@@ -126,24 +126,26 @@ static void installDTXSignpostHook(JSContext* ctx)
 	
 	ctx[@"__dtx_markEventBatch_v1"] = ^ (NSArray<NSDictionary<NSString*, id>*>* samples)
 	{
+		uint64_t threadIdentifier = _DTXThreadIdentifierForCurrentThread();
 		dispatch_async(__eventDispatchQueue, ^{
 			DTXProfilingConfiguration* config = __DTXProfilerGetActiveConfiguration();
 			BOOL allowJSTimers = config.recordReactNativeTimersAsActivity;
 			
 			for(NSDictionary<NSString*, id>* sample in samples)
 			{
-				__insertEventFromJS(sample, allowJSTimers, NO);
+				__insertEventFromJS(sample, allowJSTimers, NO, threadIdentifier);
 			}
 		});
 	};
 	
 	ctx[@"__dtx_markEvent_v2"] = ^ (NSDictionary<NSString*, id>* sample)
 	{
+		uint64_t threadIdentifier = _DTXThreadIdentifierForCurrentThread();
 		dispatch_async(__eventDispatchQueue, ^{
 			DTXProfilingConfiguration* config = __DTXProfilerGetActiveConfiguration();
 			BOOL allowJSTimers = config.recordReactNativeTimersAsActivity;
 			
-			__insertEventFromJS(sample, allowJSTimers, YES);
+			__insertEventFromJS(sample, allowJSTimers, YES, threadIdentifier);
 		});
 	};
 }

@@ -500,9 +500,9 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	
 	id item = [_managedOutlineView itemAtRow:_managedOutlineView.selectedRow];
 	
-#if DEBUG
-	dtx_log_debug(@"Selection in item view: %@", @([_managedOutlineView childIndexForItem:item]));
-#endif
+//#if DEBUG
+//	dtx_log_debug(@"Selection in item view: %@", @([_managedOutlineView childIndexForItem:item]));
+//#endif
 	
 	if(item == nil)
 	{

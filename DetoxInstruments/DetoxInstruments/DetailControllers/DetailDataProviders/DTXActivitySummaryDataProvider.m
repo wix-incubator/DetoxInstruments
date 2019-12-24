@@ -147,17 +147,7 @@
 	switch (column)
 	{
 		case 0:
-			if(realSignpostSample.isExpandable)
-			{
-				return signpostSample.name;
-			}
-			
-			if([signpostSample isKindOfClass:DTXSignpostAdditionalInfoEndProxy.class])
-			{
-				return realSignpostSample.additionalInfoEnd;
-			}
-			
-			return realSignpostSample.additionalInfoStart.length > 0 ? realSignpostSample.additionalInfoStart : realSignpostSample.name;
+			return signpostSample.name;
 		case 1:
 			if(isLeaf)
 			{

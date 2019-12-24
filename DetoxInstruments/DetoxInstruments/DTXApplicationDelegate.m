@@ -414,7 +414,8 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		menuItem.submenu = windowController.currentPlotController.groupingSettingsMenu;
 		if(menuItem.submenu == nil)
 		{
-			dtx_log_info(@"Disabling “%@” menu item", menuItem.title);
+			dtx_log_info(@"Hiding “%@” menu item", menuItem.title);
+			menuItem.hidden = YES;
 			
 			return NO;
 		}
