@@ -67,7 +67,7 @@ static NSCharacterSet* _disallowedinCSV;
 
 - (NSData*)_dataForCSVWithError:(NSError**)error
 {
-	NSArray<DTXSample*>* samples = [self.document.firstRecording.managedObjectContext executeFetchRequest:self.fetchRequest error:error];
+	NSArray<DTXSample*>* samples = [self.document.viewContext executeFetchRequest:self.fetchRequest error:error];
 	if(samples == nil)
 	{
 		return nil;

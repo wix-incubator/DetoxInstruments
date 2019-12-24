@@ -93,7 +93,7 @@ void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers
 			{
 				additionalInfo = nil;
 			}
-			__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], additionalInfo, [params[@"3"] boolValue], NO, NO, [params[@"4"] componentsSeparatedByString:@"\n"]);
+			__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, timestamp, params[@"0"], params[@"1"], additionalInfo, [params[@"3"] boolValue] ? _DTXEventTypeJSTimer : _DTXEventTypeSignpost, [params[@"4"] componentsSeparatedByString:@"\n"]);
 		}	break;
 		case 1:
 		{
@@ -111,7 +111,7 @@ void __insertEventFromJS(NSDictionary<NSString*, id>* sample, BOOL allowJSTimers
 			{
 				additionalInfo = nil;
 			}
-			__DTXProfilerMarkEventIdentifier(identifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] intValue], additionalInfo);
+			__DTXProfilerMarkEventIdentifier(identifier, timestamp, params[@"0"], params[@"1"], [params[@"2"] intValue], additionalInfo, _DTXEventTypeSignpost);
 		}	break;
 		default:
 			break;
@@ -128,7 +128,7 @@ static void installDTXSignpostHook(JSContext* ctx)
 	{
 		dispatch_async(__eventDispatchQueue, ^{
 			DTXProfilingConfiguration* config = __DTXProfilerGetActiveConfiguration();
-			BOOL allowJSTimers = config.recordReactNativeTimersAsEvents;
+			BOOL allowJSTimers = config.recordReactNativeTimersAsActivity;
 			
 			for(NSDictionary<NSString*, id>* sample in samples)
 			{
@@ -141,7 +141,7 @@ static void installDTXSignpostHook(JSContext* ctx)
 	{
 		dispatch_async(__eventDispatchQueue, ^{
 			DTXProfilingConfiguration* config = __DTXProfilerGetActiveConfiguration();
-			BOOL allowJSTimers = config.recordReactNativeTimersAsEvents;
+			BOOL allowJSTimers = config.recordReactNativeTimersAsActivity;
 			
 			__insertEventFromJS(sample, allowJSTimers, YES);
 		});

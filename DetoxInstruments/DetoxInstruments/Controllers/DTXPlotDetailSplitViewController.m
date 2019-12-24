@@ -114,8 +114,8 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	
 	self.splitViewItems.lastObject.automaticMaximumThickness = 320;
 	
-	_bottomCollapsed = [[NSUserDefaults standardUserDefaults] boolForKey:__DTXBottomPaneCollapsed];
-	_rightCollapsed = [[NSUserDefaults standardUserDefaults] boolForKey:__DTXRightInspectorCollapsed];
+	_bottomCollapsed = [NSUserDefaults.standardUserDefaults boolForKey:__DTXBottomPaneCollapsed];
+	_rightCollapsed = [NSUserDefaults.standardUserDefaults boolForKey:__DTXRightInspectorCollapsed];
 	
 	_detailInspectorSplitViewController = (id)self.childViewControllers.lastObject;
 	
@@ -175,8 +175,8 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 		[self _fixUpSegments];
 		[self _fixUpSplitViewsAnimated:NO];
 		
-		[[NSUserDefaults standardUserDefaults] setBool:_bottomCollapsed forKey:__DTXBottomPaneCollapsed];
-		[[NSUserDefaults standardUserDefaults] setBool:_rightCollapsed forKey:__DTXRightInspectorCollapsed];
+		[NSUserDefaults.standardUserDefaults setBool:_bottomCollapsed forKey:__DTXBottomPaneCollapsed];
+		[NSUserDefaults.standardUserDefaults setBool:_rightCollapsed forKey:__DTXRightInspectorCollapsed];
 		
 		return;
 	}

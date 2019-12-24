@@ -144,7 +144,7 @@
 
 - (DTXSampleContainerProxy *)rootSampleContainerProxy
 {
-	return [[DTXEntitySampleContainerProxy alloc] initWithOutlineView:self.managedOutlineView managedObjectContext:self.document.firstRecording.managedObjectContext sampleClass:self.sampleClass];
+	return [[DTXEntitySampleContainerProxy alloc] initWithOutlineView:self.managedOutlineView managedObjectContext:self.document.viewContext sampleClass:self.sampleClass];
 }
 
 @end

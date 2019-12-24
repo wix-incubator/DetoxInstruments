@@ -65,7 +65,7 @@
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 	fr.predicate = self.predicateForPerformanceSamples;
 	
-	NSFetchedResultsController* frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+	NSFetchedResultsController* frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.viewContext sectionNameKeyPath:nil cacheName:nil];
 	frc.delegate = self;
 	_frc = frc;
 	

@@ -37,9 +37,9 @@ static NSString* const DTXInspectorTabKey = @"DTXInspectorTabKey";
 	self.view.wantsLayer = YES;
 	self.view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
-	_tabSwitcher.selectedSegment = [[NSUserDefaults standardUserDefaults] integerForKey:DTXInspectorTabKey];
+	_tabSwitcher.selectedSegment = [NSUserDefaults.standardUserDefaults integerForKey:DTXInspectorTabKey];
 	
-	[self segmentedView:_tabSwitcher didSelectSegmentAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:DTXInspectorTabKey]];
+	[self segmentedView:_tabSwitcher didSelectSegmentAtIndex:[NSUserDefaults.standardUserDefaults integerForKey:DTXInspectorTabKey]];
 	
 	_tabSwitcher.delegate = self;
 }
@@ -184,8 +184,8 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 		{
 			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Profile React Native", @"") description:__DTXStringFromBoolean(configuration.profileReactNative)]];
 			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Bridge Data", @"") description:__DTXStringFromBoolean(configuration.recordReactNativeBridgeData)]];
-			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Timers as Events", @"") description:__DTXStringFromBoolean(configuration.recordReactNativeTimersAsEvents)]];
-			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Internal React Native Events", @"") description:__DTXStringFromBoolean(configuration.recordInternalReactNativeEvents)]];
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Timers as Activity", @"") description:__DTXStringFromBoolean(configuration.recordReactNativeTimersAsActivity)]];
+			[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Internal React Native Activity", @"") description:__DTXStringFromBoolean(configuration.recordInternalReactNativeActivity)]];
 		}
 		
 //		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
@@ -210,7 +210,7 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 - (void)selectExtendedDetail
 {
 	_tabSwitcher.selectedSegment = 0;
-	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:DTXInspectorTabKey];
+	[NSUserDefaults.standardUserDefaults setInteger:0 forKey:DTXInspectorTabKey];
 	
 	_recordingDescriptionDataSource.managedTableView = nil;
 	_sampleDescriptionDataSource.managedTableView = _recordingInfoTableView;
@@ -221,7 +221,7 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 - (void)selectProfilingInfo
 {
 	_tabSwitcher.selectedSegment = 1;
-	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:DTXInspectorTabKey];
+	[NSUserDefaults.standardUserDefaults setInteger:1 forKey:DTXInspectorTabKey];
 	
 	_sampleDescriptionDataSource.managedTableView = nil;
 	_recordingDescriptionDataSource.managedTableView = _recordingInfoTableView;

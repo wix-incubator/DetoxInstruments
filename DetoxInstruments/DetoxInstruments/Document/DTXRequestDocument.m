@@ -31,7 +31,7 @@
 	fr.resultType = NSManagedObjectIDResultType;
 	fr.predicate = [NSPredicate predicateWithFormat:@"hidden == NO"];
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-	NSArray* networks = [document.firstRecording.managedObjectContext executeFetchRequest:fr error:NULL];
+	NSArray* networks = [document.viewContext executeFetchRequest:fr error:NULL];
 	NSUInteger idx = [networks indexOfObject:networkSample.objectID];
 	
 	NSMutableString* docName = [document.displayName stringByDeletingPathExtension].mutableCopy;

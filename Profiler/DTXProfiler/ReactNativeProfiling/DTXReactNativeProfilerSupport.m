@@ -176,7 +176,7 @@ static void __DTXProfileBeginSectionInner(__unused uint64_t tag, NSString* name,
 	
 	__DTXPreprocessRNName(name, tag, arguments, isFromJS, &eventCategory, &eventName, &eventMessage);
 	
-	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, NO, YES, NO, nil);
+	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, _DTXEventTypeInternalRN, nil);
 	NSMutableArray* sections = thread.threadDictionary[@"DTXSections"];
 	if(sections == nil)
 	{
@@ -228,7 +228,7 @@ static void __DTXProfileBeginAsyncSectionInner(uint64_t tag, NSString* name, int
 	
 	__DTXPreprocessRNName(name, tag, arguments, isFromJS, &eventCategory, &eventName, &eventMessage);
 	
-	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, NO, YES, NO, nil);
+	DTXEventIdentifier eventIdentifier = __DTXProfilerMarkEventIntervalBegin(date, eventCategory, eventName, eventMessage, _DTXEventTypeInternalRN, nil);
 	[asyncSections setObject:eventIdentifier forKey:@(cookie)];
 }
 
@@ -380,7 +380,7 @@ static id __dtxinst_RCTDevSettings_initWithDataSource(id self, SEL _cmd, id<RCTD
 static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, CFNotificationName name, const void *object, CFDictionaryRef userInfo)
 {
 	DTXProfiler* profiler = NS(object);
-	if(profiler.profilingConfiguration.recordInternalReactNativeEvents == YES)
+	if(profiler.profilingConfiguration.recordInternalReactNativeActivity == YES)
 	{
 		pthread_mutex_lock(&__activeListeningProfilersMutex);
 		__activeListeningProfilers += 1;
@@ -398,7 +398,7 @@ static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, 
 static void __DTXDidRemoveProfiler(CFNotificationCenterRef center, void *observer, CFNotificationName name, const void *object, CFDictionaryRef userInfo)
 {
 	DTXProfiler* profiler = NS(object);
-	if(profiler.profilingConfiguration.recordInternalReactNativeEvents == YES)
+	if(profiler.profilingConfiguration.recordInternalReactNativeActivity == YES)
 	{
 		pthread_mutex_lock(&__activeListeningProfilersMutex);
 		__activeListeningProfilers -= 1;

@@ -11,6 +11,7 @@
 @interface DTXInstrumentsUtils : NSObject
 
 + (NSString*)applicationVersion;
++ (NSString*)minimumProfilerFrameworkSupported;
 + (NSArray<NSBundle*>*)bundlesForObjectModel;
 //🙈🙉🙊
 + (BOOL)isUnsupportedVersion;

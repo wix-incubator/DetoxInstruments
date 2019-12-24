@@ -222,7 +222,7 @@
 
 - (DTXSampleContainerProxy *)rootSampleContainerProxy
 {
-	return [[DTXActivitySummaryRootProxy alloc] initWithManagedObjectContext:self.document.firstRecording.managedObjectContext outlineView:self.managedOutlineView];
+	return [[DTXActivitySummaryRootProxy alloc] initWithManagedObjectContext:self.document.viewContext outlineView:self.managedOutlineView];
 }
 
 - (BOOL)showsTimestampColumn

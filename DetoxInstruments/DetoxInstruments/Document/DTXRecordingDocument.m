@@ -549,6 +549,21 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	return _recordings.lastObject;
 }
 
+- (NSManagedObjectContext *)viewContext
+{
+	return _container.viewContext;
+}
+
+- (NSManagedObjectContext *)newBackgroundContext
+{
+	return [_container newBackgroundContext];
+}
+
+- (void)performBackgroundTask:(void (^)(NSManagedObjectContext *))block
+{
+	[_container performBackgroundTask:block];
+}
+
 + (void)clearLastOpenedVersionAtURL:(NSURL*)URL
 {
 	NSURL* versionFlagURL = [URL URLByAppendingPathComponent:@"lastOpenedVersion.txt"];

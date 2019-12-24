@@ -32,4 +32,24 @@
 	return nil;
 }
 
++ (BOOL)supportsAsynchronousExport
+{
+	return NO;
+}
+
+- (void)exportDataWithType:(DTXDataExportType)exportType completionHandler:(void(^)(NSData* data, NSError* error))completionHandler
+{
+	dispatch_queue_t queue = self.class.supportsAsynchronousExport ? dispatch_get_global_queue(QOS_CLASS_UTILITY, 0) : dispatch_get_main_queue();
+	
+	dispatch_async(queue, ^{
+		@autoreleasepool
+		{
+			NSError* error;
+			NSData* data = [self exportDataWithType:exportType error:&error];
+			
+			completionHandler(data, error);
+		}
+	});
+}
+
 @end

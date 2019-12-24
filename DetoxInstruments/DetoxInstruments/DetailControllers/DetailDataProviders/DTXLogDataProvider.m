@@ -100,7 +100,7 @@
 	NSFetchRequest* fr = [DTXLogSample fetchRequest];
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 	
-	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.viewContext sectionNameKeyPath:nil cacheName:nil];
 	_frc.delegate = self;
 	[_frc performFetch:NULL];
 	
@@ -149,7 +149,7 @@
 	fr.fetchLimit = 1;
 	fr.predicate = [NSPredicate predicateWithFormat:@"timestamp < %@", timestamp];
 	
-	DTXLogSample* foundSample = [_document.firstRecording.managedObjectContext executeFetchRequest:fr error:NULL].firstObject;
+	DTXLogSample* foundSample = [_document.viewContext executeFetchRequest:fr error:NULL].firstObject;
 	
 	if(foundSample == nil)
 	{

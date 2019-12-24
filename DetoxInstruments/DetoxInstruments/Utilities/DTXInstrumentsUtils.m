@@ -21,6 +21,11 @@
 	return rv;
 }
 
++ (NSString*)minimumProfilerFrameworkSupported
+{
+	return @"1.12";
+}
+
 + (NSArray<NSBundle*>*)bundlesForObjectModel
 {
 	static NSArray* rv;

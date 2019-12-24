@@ -27,9 +27,9 @@
 @property (nonatomic, readwrite) BOOL recordLogOutput;
 @property (nonatomic, readwrite) BOOL profileReactNative;
 @property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
-@property (nonatomic, readwrite) BOOL recordReactNativeTimersAsEvents;
+@property (nonatomic, readwrite) BOOL recordReactNativeTimersAsActivity;
 @property (nonatomic, copy, null_resettable, readwrite) NSURL* recordingFileURL;
-@property (nonatomic, readwrite) BOOL recordInternalReactNativeEvents;
+@property (nonatomic, readwrite) BOOL recordInternalReactNativeActivity;
 @property (nonatomic, readwrite) NSArray<NSString*>* _ignoredEventCategoriesArray;
 @property (nonatomic, readwrite) BOOL recordActivity;
 
@@ -103,6 +103,16 @@
 	if(categoriesArray != nil)
 	{
 		_nonkvc_ignoredEventCategories = [NSSet setWithArray:categoriesArray];
+	}
+	
+	//Support legacy configurations
+	if([aDecoder containsValueForKey:@"recordInternalReactNativeEvents"])
+	{
+		self.recordInternalReactNativeActivity = [aDecoder decodeBoolForKey:@"recordInternalReactNativeEvents"];
+	}
+	if([aDecoder containsValueForKey:@"recordReactNativeTimersAsEvents"])
+	{
+		self.recordReactNativeTimersAsActivity = [aDecoder decodeBoolForKey:@"recordReactNativeTimersAsEvents"];
 	}
 	
 	return self;
@@ -217,6 +227,20 @@ static NSDateFormatter* _DTXDateFormatterForFileName(void)
 
 @end
 
+@implementation DTXProfilingConfiguration (Deprecated)
+
+- (BOOL)recordInternalReactNativeEvents
+{
+	return self.recordInternalReactNativeActivity;
+}
+
+- (BOOL)recordReactNativeTimersAsEvents
+{
+	return self.recordReactNativeTimersAsActivity;
+}
+
+@end
+
 @implementation DTXMutableProfilingConfiguration
 
 @dynamic defaultProfilingConfiguration, defaultProfilingConfigurationForRemoteProfiling;
@@ -236,9 +260,9 @@ static NSDateFormatter* _DTXDateFormatterForFileName(void)
 @dynamic recordLogOutput;
 @dynamic profileReactNative;
 @dynamic recordReactNativeBridgeData;
-@dynamic recordReactNativeTimersAsEvents;
+@dynamic recordReactNativeTimersAsActivity;
+@dynamic recordInternalReactNativeActivity;
 @dynamic recordingFileURL;
-@dynamic recordInternalReactNativeEvents;
 @dynamic recordActivity;
 
 - (void)setRecordingFileURL:(NSURL *)recordingFileURL
@@ -265,6 +289,30 @@ static NSDateFormatter* _DTXDateFormatterForFileName(void)
 	}
 	
 	[super setRecordingFileURL:recordingFileURL];
+}
+
+@end
+
+@implementation DTXMutableProfilingConfiguration (Deprecated)
+
+- (BOOL)recordReactNativeTimersAsEvents
+{
+	return self.recordReactNativeTimersAsActivity;
+}
+
+- (void)setRecordReactNativeTimersAsEvents:(BOOL)recordReactNativeTimersAsEvents
+{
+	self.recordReactNativeTimersAsActivity = recordReactNativeTimersAsEvents;
+}
+
+- (BOOL)recordInternalReactNativeEvents
+{
+	return self.recordInternalReactNativeActivity;
+}
+
+- (void)setRecordInternalReactNativeEvents:(BOOL)recordInternalReactNativeEvents
+{
+	self.recordInternalReactNativeActivity = recordInternalReactNativeEvents;
 }
 
 @end

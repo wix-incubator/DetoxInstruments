@@ -391,33 +391,19 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[tag.managedObjectContext save:NULL];
 }
 
-- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer isRNNativeEvent:(BOOL)isRNNativeEvent isActivity:(BOOL)isActivity stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo eventType:(_DTXEventType)eventType stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
-	if(isActivity == NO && self.profilingConfiguration.recordEvents == NO)
-	{
-		return;
-	}
-	
-	if(isActivity == YES && self.profilingConfiguration.recordActivity == NO)
-	{
-		return;
-	}
-	
-	if(isRNNativeEvent && self.profilingConfiguration.recordInternalReactNativeEvents == NO)
+	if(_DTXShouldIgnoreEvent(eventType, category, self.profilingConfiguration) == YES)
 	{
 		return;
 	}
 	
 	[_ctx performBlock:^{
-		if(isActivity == NO && [self.profilingConfiguration.ignoredEventCategories containsObject:category])
-		{
-			return;
-		}
-		
-		NSString* entityName = isActivity ? @"ActivitySample" : @"SignpostSample";
+		Class targetClass = _DTXClassForEventType(eventType);
+		NSString* entityName = [targetClass entity].name;
 		
 		NSMutableDictionary* preserialized = @{
-			@"__dtx_className": isActivity ? @"DTXActivitySample" : @"DTXSignpostSample",
+			@"__dtx_className": NSStringFromClass(targetClass),
 			@"__dtx_entityName": entityName,
 			@"category": category ?: @"",
 			@"categoryHash": (category ?: @"").sufficientHash,
@@ -426,7 +412,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 			@"name": name ?: @"",
 			@"nameHash": (name ?: @"").sufficientHash,
 			@"sampleIdentifier": [NSString stringWithFormat:@"%@_%@", identifier, NSUUID.UUID.UUIDString],
-			@"sampleType": isActivity ? @(DTXSampleTypeActivity) : @(DTXSampleTypeSignpost),
+			@"sampleType": @([DTXSample sampleTypeFromClass:targetClass]),
 			@"timestamp": timestamp,
 			@"uniqueIdentifier": NSUUID.UUID.UUIDString,
 			@"startThreadNumber": @([self _threadForThreadIdentifier:threadIdentifier].number),
@@ -477,25 +463,21 @@ DTX_CREATE_LOG(RemoteProfiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
+- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo eventType:(_DTXEventType)eventType threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;
 {
-	if(self.profilingConfiguration.recordEvents == NO)
+	if(_DTXShouldIgnoreEvent(eventType, category, self.profilingConfiguration) == YES)
 	{
 		return;
 	}
 	
 	[_ctx performBlock:^{
-		if([self.profilingConfiguration.ignoredEventCategories containsObject:category])
-		{
-			return;
-		}
-		
 		NSNumber* threadIdentifierObj = @([self _threadForThreadIdentifier:threadIdentifier].number);
 		
-		NSString* entityName = /*isActivity ? @"ActivitySample" :*/ @"SignpostSample";
+		Class targetClass = _DTXClassForEventType(eventType);
+		NSString* entityName = [targetClass entity].name;
 		
 		NSMutableDictionary* preserialized = @{
-										@"__dtx_className": @"DTXSignpostSample",
+										@"__dtx_className": NSStringFromClass(targetClass),
 										@"__dtx_entityName": entityName,
 										@"category": category ?: @"",
 										@"categoryHash": (category ?: @"").sufficientHash,
@@ -505,7 +487,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 										@"name": name ?: @"",
 										@"nameHash": (name ?: @"").sufficientHash,
 										@"sampleIdentifier": NSUUID.UUID.UUIDString,
-										@"sampleType": @70,
+										@"sampleType": @([DTXSample sampleTypeFromClass:targetClass]),
 										@"timestamp": timestamp,
 										@"endTimestamp": timestamp,
 										@"uniqueIdentifier": NSUUID.UUID.UUIDString,

@@ -15,4 +15,14 @@
 	return self[key];
 }
 
+- (BOOL)containsValueForKey:(NSString *)key
+{
+	return [self objectForKey:key] != nil;
+}
+
+- (BOOL)decodeBoolForKey:(NSString *)key
+{
+	return [self[key] boolValue];
+}
+
 @end

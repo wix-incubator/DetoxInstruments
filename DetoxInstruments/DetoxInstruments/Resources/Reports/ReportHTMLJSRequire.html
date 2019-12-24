@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+		<style>
+			html, body {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+
+			#mynetwork {
+				width: 100%;
+				height: 100%;
+				font-family: -apple-system-headline
+			}
+		</style>
+	</head>
+	<body>
+		<div id="mynetwork"></div>
+		<script type="text/javascript">
+			// create an array with nodes
+		
+			//*edges_nodes*//
+		
+			window.addEventListener("load", () => {
+				// create a network
+				var container = document.getElementById("mynetwork");
+
+				var data      = {
+					nodes: nodes,
+					edges: edges
+				};
+				var options   = {
+					autoResize: true,
+					interaction: { dragNodes: true },
+					layout: {
+						randomSeed: 2,
+						improvedLayout: false,
+						hierarchical: {
+							direction: DU
+						}
+					},
+					physics: {
+						enabled: true,
+						stabilizations: false,
+					},
+					edges: {
+						smooth: {
+							type: "continuous"
+						}
+					},
+					nodes: {
+						shapeProperties: {
+							interpolation: false    // 'true' for intensive zooming
+						}
+					}
+				};
+			
+				var network = new vis.Network(container, data, options);
+				window.addEventListener("resize", () => {
+					network.setOptions({
+						width: window.innerWidth + "px",
+						height: window.innerHeight + "px",
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

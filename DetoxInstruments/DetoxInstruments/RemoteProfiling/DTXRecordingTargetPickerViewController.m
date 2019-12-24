@@ -400,7 +400,9 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 
 - (void)_updateTarget:(DTXRemoteTarget*)target
 {
-	[_outlineView reloadItem:target];
+//	[_outlineView reloadItem:target];
+	DTXRemoteTargetCellView* cellView = [_outlineView viewAtColumn:0 row:[_outlineView rowForItem:target] makeIfNecessary:NO];
+	[cellView updateWithTarget:target];
 	
 	[self _validateSelectButton];
 }
@@ -455,14 +457,24 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	alert.messageText = NSLocalizedString(@"Incompatible Profiler Framework", @"");
 	
 	auto informativeText = [NSMutableString new];
-	[informativeText appendString:NSLocalizedString(@"The profiler version of this app is incompatible with the current version of Detox Instruments.", @"")];
+	[informativeText appendString:NSLocalizedString(@"The Profiler framework embedded in the app is incompatible with this version of Detox Instruments.", @"")];
 	[informativeText appendFormat:@"\n\n"];
 	[informativeText appendFormat:@"%@: %@\n", NSLocalizedString(@"Profiler framework version", @""), target.deviceInfo[@"profilerVersion"]];
-	[informativeText appendFormat:@"%@: %@", NSLocalizedString(@"Detox Instruments version", @""), DTXInstrumentsUtils.applicationVersion];
+	
+	BOOL isTooNew = [DTXInstrumentsUtils.applicationVersion compare:target.deviceInfo[@"profilerVersion"] options:NSNumericSearch] == NSOrderedAscending;
+	
+	if(isTooNew)
+	{
+		[informativeText appendFormat:@"%@: %@", NSLocalizedString(@"Detox Instruments version", @""), DTXInstrumentsUtils.applicationVersion];
+	}
+	else
+	{
+		[informativeText appendFormat:@"%@: %@", NSLocalizedString(@"Minimum version required", @""), DTXInstrumentsUtils.minimumProfilerFrameworkSupported];
+	}
 	
 	alert.informativeText = informativeText;
 	
-	if([DTXInstrumentsUtils.applicationVersion compare:target.deviceInfo[@"profilerVersion"] options:NSNumericSearch] == NSOrderedAscending)
+	if(isTooNew)
 	{
 		//Only show the button in case Instruments is older than profiler.
 		[alert addButtonWithTitle:NSLocalizedString(@"Check for Updates", nil)];
@@ -482,7 +494,7 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	
 	_warningPopover = [NSPopover new];
 	_warningPopover.contentViewController = controller;
-	_warningPopover.behavior = NSPopoverBehaviorTransient;
+	_warningPopover.behavior = NSPopoverBehaviorSemitransient;
 	_warningPopover.delegate = self;
 	
 	// Open the alert within the popover and mark it as the currently shown one.

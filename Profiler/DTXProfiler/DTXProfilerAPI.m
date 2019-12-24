@@ -59,7 +59,7 @@ void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable object
 
 DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable startMessage)
 {
-	return __DTXProfilerMarkEventIntervalBegin(NSDate.date, category, name, startMessage, NO, NO, NO, nil);
+	return __DTXProfilerMarkEventIntervalBegin(NSDate.date, category, name, startMessage, _DTXEventTypeSignpost, nil);
 }
 
 void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventStatus, NSString* __nullable endMessage)
@@ -69,5 +69,27 @@ void DTXProfilerMarkEventIntervalEnd(NSString* identifier, DTXEventStatus eventS
 
 void DTXProfilerMarkEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable message)
 {
-	__DTXProfilerMarkEvent(NSDate.date, category, name, eventStatus, message);
+	__DTXProfilerMarkEvent(NSDate.date, category, name, eventStatus, message, _DTXEventTypeSignpost);
+}
+
+//Not exposed in headers but public SPI.
+
+//DTXEventIdentifier DTXProfilerMarkActivityIntervalBegin(NSString* category, NSString* name, NSString* __nullable startMessage)
+//{
+//	return __DTXProfilerMarkEventIntervalBegin(NSDate.date, category, name, startMessage, _DTXEventTypeDetoxLifecycle, nil);
+//}
+
+//void DTXProfilerMarkActivityEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable message)
+//{
+//	__DTXProfilerMarkEvent(NSDate.date, category, name, eventStatus, message, _DTXEventTypeActivity);
+//}
+
+DTXEventIdentifier DTXProfilerMarkDetoxLifecycleIntervalBegin(NSString* category, NSString* name, NSString* __nullable startMessage)
+{
+	return __DTXProfilerMarkEventIntervalBegin(NSDate.date, category, name, startMessage, _DTXEventTypeDetoxLifecycle, nil);
+}
+
+void DTXProfilerMarkDetoxLifecycleEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable message)
+{
+	__DTXProfilerMarkEvent(NSDate.date, category, name, eventStatus, message, _DTXEventTypeDetoxLifecycle);
 }

@@ -172,7 +172,7 @@
 		NSFetchRequest* fr = [DTXThreadInfo fetchRequest];
 		fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"recording.startTimestamp" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES]];
 		
-		_threadsObserver = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+		_threadsObserver = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.viewContext sectionNameKeyPath:nil cacheName:nil];
 		_threadsObserver.delegate = self;
 		[_threadsObserver performFetch:nil];
 		

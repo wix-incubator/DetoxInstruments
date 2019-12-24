@@ -14,6 +14,7 @@ typedef enum : NSUInteger
 	DTXDataExportTypePropertyList,
 	DTXDataExportTypeJSON,
 	DTXDataExportTypeCSV,
+	DTXDataExportTypeHTML,
 }
 DTXDataExportType;
 
@@ -21,8 +22,11 @@ DTXDataExportType;
 
 - (instancetype)initWithDocument:(DTXRecordingDocument*)document;
 
-@property (nonatomic, strong) DTXRecordingDocument* document;
+@property (nonatomic, strong, readonly) DTXRecordingDocument* document;
 
 - (NSData*)exportDataWithType:(DTXDataExportType)exportType error:(NSError**)error;
+
+@property (class, nonatomic, readonly) BOOL supportsAsynchronousExport;
+- (void)exportDataWithType:(DTXDataExportType)exportType completionHandler:(void(^)(NSData* data, NSError* error))completionHandler;
 
 @end

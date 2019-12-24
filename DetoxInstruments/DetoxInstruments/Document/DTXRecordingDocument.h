@@ -42,10 +42,13 @@ typedef NS_ENUM(NSUInteger, DTXRecordingAppLaunchProfilingState) {
 @property (nonatomic, readonly) DTXRecordingAppLaunchProfilingState appLaunchProfilingState;
 @property (nonatomic, strong, readonly) NSString* appLaunchPendingAppName;
 
-//@property (nonatomic, strong, readonly) DTXRecording* recording;
 @property (nonatomic, strong, readonly) NSArray<DTXRecording*>* recordings;
 @property (nonatomic, strong, readonly) DTXRecording* firstRecording;
 @property (nonatomic, strong, readonly) DTXRecording* lastRecording;
+
+@property (strong, readonly) NSManagedObjectContext *viewContext;
+- (NSManagedObjectContext *)newBackgroundContext NS_RETURNS_RETAINED;
+- (void)performBackgroundTask:(void (^)(NSManagedObjectContext *))block;
 
 #if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 @property (nonatomic, strong, readonly) DTXSourceMapsParser* sourceMapsParser;

@@ -169,20 +169,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL recordReactNativeBridgeData;
 
 /**
- *  Record React Native timers (created using @c setTimeout() in JavaScript) as events.
+ *  Record React Native timers (created using @c setTimeout() in JavaScript) as activity.
+ *  Timers will appear as intervals in the Activity instrument.
  *
  *  The default value is @c false.
  */
-@property (nonatomic, readonly) BOOL recordReactNativeTimersAsEvents;
+@property (nonatomic, readonly) BOOL recordReactNativeTimersAsActivity;
 
 /**
- *  Record internal React Native events.
+ *  Record internal React Native activity.
  *
- *  Taps into the internal profiling mechanisms to collect internal React Native profiling events.
+ *  Taps into the internal profiling mechanisms to collect internal React Native profiling activity.
  *
  *  The default value is @c false.
  */
-@property(nonatomic, readonly) BOOL recordInternalReactNativeEvents;
+@property(nonatomic, readonly) BOOL recordInternalReactNativeActivity;
 
 /* Output Configuration */
 
@@ -200,6 +201,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  The default value is a file name with the date and time of the recording, in the documents folder of the profiled app.
  */
 @property (nonatomic, copy, null_resettable, readonly) NSURL* recordingFileURL;
+
+@end
+
+@interface DTXProfilingConfiguration (Deprecated)
+
+@property (nonatomic, readonly) BOOL recordReactNativeTimersAsEvents __attribute__((deprecated("Use recordReactNativeTimersAsActivity instead.")));
+@property(nonatomic, readonly) BOOL recordInternalReactNativeEvents __attribute__((deprecated("Use recordInternalReactNativeActivity instead.")));
 
 @end
 
@@ -359,21 +367,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
 
 /**
- *  Record React Native timers (created using @c setTimeout() in JavaScript) as events.
- *  Timers will appear as interval events in the Events instrument.
+ *  Record React Native timers (created using @c setTimeout() in JavaScript) as activity.
+ *  Timers will appear as intervals in the Activity instrument.
  *
  *  The default value is @c false.
  */
-@property (nonatomic, readwrite) BOOL recordReactNativeTimersAsEvents;
+@property (nonatomic, readwrite) BOOL recordReactNativeTimersAsActivity;
 
 /**
- *  Record internal React Native events.
+ *  Record internal React Native activity.
  *
- *  Taps into the internal profiling mechanisms to collect internal React Native profiling events.
+ *  Taps into the internal profiling mechanisms to collect internal React Native profiling activity.
  *
  *  The default value is @c false.
  */
-@property(nonatomic, readwrite) BOOL recordInternalReactNativeEvents;
+@property(nonatomic, readwrite) BOOL recordInternalReactNativeActivity;
 
 /* Output Configuration */
 
@@ -393,5 +401,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, null_resettable, readwrite) NSURL* recordingFileURL;
 
 @end
+
+@interface DTXMutableProfilingConfiguration (Deprecated)
+
+@property (nonatomic, readonly) BOOL recordReactNativeTimersAsEvents __attribute__((deprecated("Use recordReactNativeTimersAsActivity instead.")));
+@property(nonatomic, readwrite) BOOL recordInternalReactNativeEvents __attribute__((deprecated("Use recordInternalReactNativeActivity instead.")));
+
+@end
+
 
 NS_ASSUME_NONNULL_END

@@ -104,21 +104,21 @@ void __DTXProfilerAddLogLineWithObjects(NSDate* timestamp, NSString* line, NSArr
 
 static
 DTX_ALWAYS_INLINE
-void __DTXProfilerMarkEventIntervalBeginIdentifier(NSString* identifier, NSDate* timestamp, NSString* category, NSString* name, NSString* additionalInfo, BOOL isTimer, BOOL isRNNativeEvent, BOOL isActivity, NSArray* stackTrace)
+void __DTXProfilerMarkEventIntervalBeginIdentifier(NSString* identifier, NSDate* timestamp, NSString* category, NSString* name, NSString* additionalInfo, _DTXEventType eventType, NSArray* stackTrace)
 {
 	uint64_t threadIdentifier = _DTXThreadIdentifierForCurrentThread();
 	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
-		[profiler _markEventIntervalBeginWithIdentifier:identifier category:category name:name additionalInfo:additionalInfo isTimer:isTimer isRNNativeEvent:isRNNativeEvent isActivity:isActivity stackTrace:stackTrace threadIdentifier:threadIdentifier timestamp:timestamp];
+		[profiler _markEventIntervalBeginWithIdentifier:identifier category:category name:name additionalInfo:additionalInfo eventType:eventType stackTrace:stackTrace threadIdentifier:threadIdentifier timestamp:timestamp];
 	});
 }
 
 static
 DTX_ALWAYS_INLINE
-NSString* __DTXProfilerMarkEventIntervalBegin(NSDate* timestamp, NSString* category, NSString* name, NSString* additionalInfo, BOOL isTimer, BOOL isRNNativeEvent, BOOL isActivity, NSArray* stackTrace)
+NSString* __DTXProfilerMarkEventIntervalBegin(NSDate* timestamp, NSString* category, NSString* name, NSString* additionalInfo, _DTXEventType eventType, NSArray* stackTrace)
 {
 	NSString* rv = NSUUID.UUID.UUIDString;
 	
-	__DTXProfilerMarkEventIntervalBeginIdentifier(rv, timestamp, category, name, additionalInfo, isTimer, isRNNativeEvent, isActivity, stackTrace);
+	__DTXProfilerMarkEventIntervalBeginIdentifier(rv, timestamp, category, name, additionalInfo, eventType, stackTrace);
 	
 	return rv;
 }
@@ -136,23 +136,23 @@ void __DTXProfilerMarkEventIntervalEnd(NSDate* timestamp, NSString* identifier, 
 
 static
 DTX_ALWAYS_INLINE
-void __DTXProfilerMarkEventIdentifier(NSString* identifier, NSDate* timestamp, NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* additionInfo)
+void __DTXProfilerMarkEventIdentifier(NSString* identifier, NSDate* timestamp, NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* additionInfo, _DTXEventType eventType)
 {
 	uint64_t threadIdentifier = _DTXThreadIdentifierForCurrentThread();
 	
 	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
-		[profiler _markEventWithIdentifier:identifier category:category name:name eventStatus:eventStatus additionalInfo:additionInfo threadIdentifier:threadIdentifier timestamp:timestamp];
+		[profiler _markEventWithIdentifier:identifier category:category name:name eventStatus:eventStatus additionalInfo:additionInfo eventType:eventType threadIdentifier:threadIdentifier timestamp:timestamp];
 	});
 }
 
 
 static
 DTX_ALWAYS_INLINE
-void __DTXProfilerMarkEvent(NSDate* timestamp, NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* additionInfo)
+void __DTXProfilerMarkEvent(NSDate* timestamp, NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* additionInfo, _DTXEventType eventType)
 {
 	NSString* rv = NSUUID.UUID.UUIDString;
 	
-	__DTXProfilerMarkEventIdentifier(rv, timestamp, category, name, eventStatus, additionInfo);
+	__DTXProfilerMarkEventIdentifier(rv, timestamp, category, name, eventStatus, additionInfo, eventType);
 }
 
 static

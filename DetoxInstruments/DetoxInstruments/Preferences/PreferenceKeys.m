@@ -21,11 +21,29 @@ NSString* const DTXPreferencesLaunchProfilingDuration = @"DTXPreferencesLaunchPr
 __attribute__((constructor))
 static void initPreferences(void)
 {
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_timeLimit": @2}];
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_timeLimitType": @1}];
+	[NSUserDefaults.standardUserDefaults registerDefaults:@{@"DTXSelectedProfilingConfiguration_timeLimit": @2}];
+	[NSUserDefaults.standardUserDefaults registerDefaults:@{@"DTXSelectedProfilingConfiguration_timeLimitType": @1}];
 	
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_recordPerformance": @YES}];
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DTXSelectedProfilingConfiguration_recordEvents": @YES}];
+	[NSUserDefaults.standardUserDefaults registerDefaults:@{@"DTXSelectedProfilingConfiguration_recordPerformance": @YES}];
+	[NSUserDefaults.standardUserDefaults registerDefaults:@{@"DTXSelectedProfilingConfiguration_recordEvents": @YES}];
+	
+	if([NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_recordInternalReactNativeEvents"] != nil)
+	{
+		[NSUserDefaults.standardUserDefaults setBool:[NSUserDefaults.standardUserDefaults boolForKey:@"DTXSelectedProfilingConfiguration_recordInternalReactNativeEvents"] forKey:@"DTXSelectedProfilingConfiguration_recordInternalReactNativeActivity"];
+		[NSUserDefaults.standardUserDefaults removeObjectForKey:@"DTXSelectedProfilingConfiguration_recordInternalReactNativeEvents"];
+	}
+	
+	if([NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_recordReactNativeTimersAsEvents"] != nil)
+	{
+		[NSUserDefaults.standardUserDefaults setBool:[NSUserDefaults.standardUserDefaults boolForKey:@"DTXSelectedProfilingConfiguration_recordReactNativeTimersAsEvents"] forKey:@"DTXSelectedProfilingConfiguration_recordReactNativeTimersAsActivity"];
+		[NSUserDefaults.standardUserDefaults removeObjectForKey:@"DTXSelectedProfilingConfiguration_recordReactNativeTimersAsEvents"];
+	}
+	
+	if([NSUserDefaults.standardUserDefaults boolForKey:@"DTXSelectedProfilingConfiguration_recordInternalReactNativeEvents"] == YES)
+	{
+		[NSUserDefaults.standardUserDefaults setBool:YES forKey:@"DTXSelectedProfilingConfiguration_recordInternalReactNativeActivity"];
+		[NSUserDefaults.standardUserDefaults removeObjectForKey:@"DTXSelectedProfilingConfiguration_recordInternalReactNativeEvents"];
+	}
 	
 	[NSUserDefaults.standardUserDefaults registerDefaults:@{DTXPlotSettingsCPUDisplayMTOverlay: @YES, DTXPlotSettingsCPUThreadColorize: @NO, DTXPreferencesAppearanceKey: @0, DTXPlotSettingsIntervalFadeOut:@YES, DTXPlotSettingsDisplayHoverTextAnnotations: @YES, DTXPlotSettingsDisplaySelectionTextAnnotations: @YES, DTXPlotSettingsDisplayLabels: @YES, DTXPreferencesLaunchProfilingDuration: @15.0}];
 	

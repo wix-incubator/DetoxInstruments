@@ -45,6 +45,8 @@
 		3917C9F42394024100164654 /* DTXRemoteLaunchProfilingClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3917C9F32394024100164654 /* DTXRemoteLaunchProfilingClient.m */; };
 		39186C1B2321D48B009B2542 /* DTXPreviewContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39186C1A2321D48B009B2542 /* DTXPreviewContainerView.m */; };
 		39186C1F232270B2009B2542 /* DTXNoVibrancyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39186C1E232270B2009B2542 /* DTXNoVibrancyView.m */; };
+		391DB570239FC634007A4A89 /* DTXRNRequireReportExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 391DB56F239FC634007A4A89 /* DTXRNRequireReportExporter.m */; };
+		391DB574239FDFD1007A4A89 /* ReportHTMLJSRequire.html in Resources */ = {isa = PBXBuildFile; fileRef = 391DB573239FDFD1007A4A89 /* ReportHTMLJSRequire.html */; };
 		3922AE131F2BA72C0034B1FE /* DTXSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C72E071F28843D00FD470E /* DTXSocketConnection.m */; };
 		3925A2631F1142EC008343ED /* DTXStackTraceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925A2621F1142EC008343ED /* DTXStackTraceCellView.m */; };
 		39281E861ED7175C002CE905 /* DTXDetailContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39281E851ED7175C002CE905 /* DTXDetailContentController.m */; };
@@ -581,6 +583,9 @@
 		391958DC20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXApplicationDelegate+DocumentationGeneration.h"; sourceTree = "<group>"; };
 		391958DD20A1E1B200BD9C75 /* DTXApplicationDelegate+DocumentationGeneration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXApplicationDelegate+DocumentationGeneration.m"; sourceTree = "<group>"; };
 		391BA52A22146E6200C7AE92 /* DTXIntervalSamplePlotController-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXIntervalSamplePlotController-Private.h"; sourceTree = "<group>"; };
+		391DB56E239FC634007A4A89 /* DTXRNRequireReportExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXRNRequireReportExporter.h; sourceTree = "<group>"; };
+		391DB56F239FC634007A4A89 /* DTXRNRequireReportExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNRequireReportExporter.m; sourceTree = "<group>"; };
+		391DB573239FDFD1007A4A89 /* ReportHTMLJSRequire.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = ReportHTMLJSRequire.html; sourceTree = "<group>"; };
 		3925A2611F1142EC008343ED /* DTXStackTraceCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStackTraceCellView.h; sourceTree = "<group>"; };
 		3925A2621F1142EC008343ED /* DTXStackTraceCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStackTraceCellView.m; sourceTree = "<group>"; };
 		39281E841ED7175C002CE905 /* DTXDetailContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXDetailContentController.h; sourceTree = "<group>"; };
@@ -1226,6 +1231,14 @@
 			name = SourceMaps;
 			sourceTree = "<group>";
 		};
+		391DB572239FDF9F007A4A89 /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				391DB573239FDFD1007A4A89 /* ReportHTMLJSRequire.html */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
 		39281E491ED6D15A002CE905 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1623,6 +1636,7 @@
 		397A1306231E834100DA81A4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				391DB572239FDF9F007A4A89 /* Reports */,
 				395A07102322AF6700D37B41 /* Detox Instruments.entitlements */,
 				3972E67820694E6800F099DE /* Acknowledgements.html */,
 				396DAB08231D356C00FFBDDB /* Assets-Shared.xcassets */,
@@ -1676,6 +1690,8 @@
 				3982D88621B42AC4005FCAEF /* DTXRNBridgeCountersDataExporter.m */,
 				3982D88821B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.h */,
 				3982D88921B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.m */,
+				391DB56E239FC634007A4A89 /* DTXRNRequireReportExporter.h */,
+				391DB56F239FC634007A4A89 /* DTXRNRequireReportExporter.m */,
 			);
 			path = ReactNative;
 			sourceTree = "<group>";
@@ -2249,6 +2265,7 @@
 				394ED764225A6F5C001875C3 /* Localizable.stringsdict in Resources */,
 				397A1320231E839000DA81A4 /* SF-Mono-BoldItalic.otf in Resources */,
 				3989D35B222B91FD00231EE3 /* RequestsPlayground.storyboard in Resources */,
+				391DB574239FDFD1007A4A89 /* ReportHTMLJSRequire.html in Resources */,
 				397A1324231E839000DA81A4 /* SF-Mono-SemiboldItalic.otf in Resources */,
 				39BC7B582399495300DAF671 /* DTXDebugMenuNoIconsGenerator.xib in Resources */,
 				39ED0C5B21C13F3C0026E306 /* DTXColorTryoutsWindow.xib in Resources */,
@@ -2454,6 +2471,7 @@
 				393055FA238EC65F00C123B9 /* DTXChevronButton.m in Sources */,
 				39FA40B81F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m in Sources */,
 				3902CB092114976300C49D04 /* DTXBox.m in Sources */,
+				391DB570239FC634007A4A89 /* DTXRNRequireReportExporter.m in Sources */,
 				3982D88A21B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.m in Sources */,
 				3932A06F1F054022001AC360 /* DTXRNCPUUsagePlotController.m in Sources */,
 				3978A59221D09C7600B739E2 /* DTXRangePlotView.m in Sources */,

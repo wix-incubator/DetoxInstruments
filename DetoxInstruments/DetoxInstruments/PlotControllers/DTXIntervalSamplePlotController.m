@@ -96,7 +96,7 @@ DTX_CREATE_LOG(IntervalSamplePlotController)
 	
 	fr.sortDescriptors = sortDescriptors;
 	
-	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.firstRecording.managedObjectContext sectionNameKeyPath:self.isForTouchBar ? nil : self.sectionKeyPath cacheName:nil];
+	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:self.document.viewContext sectionNameKeyPath:self.isForTouchBar ? nil : self.sectionKeyPath cacheName:nil];
 	_frc.delegate = self;
 	NSError* error;
 	[_frc performFetch:&error];

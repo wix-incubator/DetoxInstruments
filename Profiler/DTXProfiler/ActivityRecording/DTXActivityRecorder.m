@@ -36,12 +36,19 @@ static pthread_mutex_t __activeListeningProfilersMutex;
 	}
 	
 	[NSClassFromString(@"DTXSyncManager") performSelector:@selector(setDelegate:) withObject:self];
+	
+//	[NSNotificationCenter.defaultCenter addObserverForName:nil object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+//		if([note.name hasPrefix:@"UI"] || [note.name hasPrefix:@"_UI"] || [note.name hasPrefix:@"RCT"])
+//		{
+//			//Future use.
+//		}
+//	}];
 }
 
 + (void)syncSystemDidStartTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description objectDescription:(NSString*)objectDescription additionalDescription:(nullable NSString*)additionalDescription
 {
 //	NSLog(@"🤦‍♂️ %@ %@ %@ %@", identifier, description, objectDescription, additionalDescription);
-	__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, NSDate.date, description, objectDescription, additionalDescription, NO, NO, /*activity:*/YES, nil);
+	__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, NSDate.date, description, objectDescription, additionalDescription, _DTXEventTypeActivity, nil);
 }
 
 + (void)syncSystemDidEndTrackingEventWithIdentifier:(NSString*)identifier

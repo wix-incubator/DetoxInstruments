@@ -9,7 +9,6 @@
 #import "DTXProfiler-Private.h"
 #import "DTXProfilerAPI-Private.h"
 #import "AutoCoding.h"
-#import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
 #import "DTXPerformanceSampler.h"
 #import "DTXZipper.h"
@@ -21,7 +20,6 @@
 #import "DTXRNJSCSourceMapsSupport.h"
 #import "DTXAddressInfo.h"
 #import "DTXDeviceInfo.h"
-#import "DTXSignpostSample+CoreDataClass.h"
 #import "DTXRecording+Additions.h"
 #import "NSString+Hashing.h"
 #import <Foundation/Foundation.h>
@@ -405,42 +403,18 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo isTimer:(BOOL)isTimer isRNNativeEvent:(BOOL)isRNNativeEvent isActivity:(BOOL)isActivity stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
+- (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo eventType:(_DTXEventType)eventType stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
-	if(isActivity == NO && self->_currentProfilingConfiguration.recordEvents == NO)
-	{
-		return;
-	}
-	
-	if(isActivity == YES && self->_currentProfilingConfiguration.recordActivity == NO)
-	{
-		return;
-	}
-	
-	if(isRNNativeEvent && self->_currentProfilingConfiguration.recordInternalReactNativeEvents == NO)
+	if(_DTXShouldIgnoreEvent(eventType, category, self.profilingConfiguration) == YES)
 	{
 		return;
 	}
 	
 	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
-		
-		if(isActivity == NO && [self->_currentProfilingConfiguration.ignoredEventCategories containsObject:category])
-		{
-			return;
-		}
-		
-		Class signpostSampleClass;
-		if(isActivity)
-		{
-			signpostSampleClass = DTXActivitySample.class;
-		}
-		else
-		{
-			signpostSampleClass = DTXSignpostSample.class;
-		}
+		Class signpostSampleClass = _DTXClassForEventType(eventType);
 		
 		DTXSignpostSample* signpostSample = [[signpostSampleClass alloc] initWithContext:self->_backgroundContext];
 		signpostSample.timestamp = timestamp;
@@ -450,7 +424,7 @@ DTX_CREATE_LOG(Profiler);
 		signpostSample.name = name;
 		signpostSample.nameHash = name.sufficientHash;
 		signpostSample.additionalInfoStart = additionalInfo;
-		signpostSample.isTimer = isTimer;
+		signpostSample.isTimer = eventType == _DTXEventTypeJSTimer;
 		signpostSample.stackTrace = stackTrace;
 		signpostSample.stackTraceIsSymbolicated = NO;
 		signpostSample.startThreadNumber = [self _threadForThreadIdentifier:threadIdentifier].number;
@@ -485,9 +459,9 @@ DTX_CREATE_LOG(Profiler);
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
+- (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo eventType:(_DTXEventType)eventType threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp
 {
-	if(self->_currentProfilingConfiguration.recordEvents == NO)
+	if(_DTXShouldIgnoreEvent(eventType, category, self.profilingConfiguration) == YES)
 	{
 		return;
 	}
@@ -496,12 +470,9 @@ DTX_CREATE_LOG(Profiler);
 	[self->_backgroundContext performBlock:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		if([self->_currentProfilingConfiguration.ignoredEventCategories containsObject:category])
-		{
-			return;
-		}
+		Class signpostSampleClass = _DTXClassForEventType(eventType);
 		
-		DTXSignpostSample* signpostSample = [[DTXSignpostSample alloc] initWithContext:self->_backgroundContext];
+		DTXSignpostSample* signpostSample = [[signpostSampleClass alloc] initWithContext:self->_backgroundContext];
 		signpostSample.timestamp = timestamp;
 		signpostSample.uniqueIdentifier = identifier;
 		signpostSample.category = category;

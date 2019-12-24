@@ -124,9 +124,9 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 
 + (void)load
 {
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AppleAccentColor"];
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AppleHighlightColor"];
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"DetoxInstrumentsDocGeneration"];
+	[NSUserDefaults.standardUserDefaults removeObjectForKey:@"AppleAccentColor"];
+	[NSUserDefaults.standardUserDefaults removeObjectForKey:@"AppleHighlightColor"];
+	[NSUserDefaults.standardUserDefaults removeObjectForKey:@"DetoxInstrumentsDocGeneration"];
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		//		NSMenu* helpMenu = NSApp.mainMenu.itemArray.lastObject.submenu;

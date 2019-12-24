@@ -59,7 +59,7 @@
 		
 		fr.sortDescriptors = sortDescriptors;
 		
-		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.firstRecording.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+		_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.viewContext sectionNameKeyPath:nil cacheName:nil];
 		_frc.delegate = self;
 	}
 
@@ -68,7 +68,7 @@
 	NSFetchRequest* fr = [_frc.fetchRequest copy];
 	fr.sortDescriptors = nil;
 	fr.resultType = NSManagedObjectIDResultType;
-	NSArray* objectIDs = [_document.firstRecording.managedObjectContext executeFetchRequest:fr error:NULL];
+	NSArray* objectIDs = [_document.viewContext executeFetchRequest:fr error:NULL];
 	_filteredObjectIDs = [NSMutableSet setWithArray:objectIDs];
 	
 	[self _notifyDelegateOfFilterAfterDelay];
