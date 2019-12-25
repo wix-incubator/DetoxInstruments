@@ -13,11 +13,29 @@
 #import "DTXActivityFlatDataProvider.h"
 #import "DTXActivitySummaryDataProvider.h"
 #import "DTXDetailController.h"
+#import "DTXStringPickerViewController.h"
 #endif
 #import "DTXActivitySample+UIExtensions.h"
 #import "DTXIntervalSamplePlotController-Private.h"
 
+NSString* const DTXActivityPlotEnabledCategoriesDidChange = @"DTXActivityPlotEnabledCategoriesDidChange";
+
+#if ! PROFILER_PREVIEW_EXTENSION
+@interface DTXActivityPlotController () <DTXStringPickerViewControllerDelegate> @end
+#endif
+
 @implementation DTXActivityPlotController
+{
+#if ! PROFILER_PREVIEW_EXTENSION
+	DTXDetailController* _flatDetailController;
+	DTXActivityFlatDataProvider* _flatDataProvider;
+	
+	DTXDetailController* _summaryDetailController;
+	DTXActivitySummaryDataProvider* _summaryDataProvider;
+	
+	NSTimer* _delayedTimer;
+#endif
+}
 
 - (instancetype)initWithDocument:(DTXRecordingDocument *)document isForTouchBar:(BOOL)isForTouchBar
 {
@@ -31,18 +49,30 @@
 {
 	NSMutableArray* rv = [NSMutableArray new];
 
-	DTXDetailController* flatController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
-	flatController.detailDataProvider = [[DTXActivityFlatDataProvider alloc] initWithDocument:self.document plotController:self];
+	if(_flatDetailController == nil)
+	{
+		_flatDetailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+		_flatDataProvider = [[DTXActivityFlatDataProvider alloc] initWithDocument:self.document plotController:self];
+		_flatDetailController.detailDataProvider = _flatDataProvider;
+	}
 	
-	[rv addObject:flatController];
+	[rv addObject:_flatDetailController];
 	
 	if(self.document.documentState >= DTXRecordingDocumentStateLiveRecordingFinished)
 	{
-		DTXDetailController* detailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
-		detailController.detailDataProvider = [[DTXActivitySummaryDataProvider alloc] initWithDocument:self.document plotController:self];
+		if(_summaryDetailController == nil)
+		{
+			_summaryDetailController = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+			_summaryDataProvider = [[DTXActivitySummaryDataProvider alloc] initWithDocument:self.document plotController:self];
+			_summaryDetailController.detailDataProvider = _summaryDataProvider;
+		}
 		
-		[rv insertObject:detailController atIndex:0];
+		[rv insertObject:_summaryDetailController atIndex:0];
 	}
+	
+	NSSet* cats = self.enabledCategories;
+	_flatDataProvider.enabledCategories = cats;
+	_summaryDataProvider.enabledCategories = cats;
 	
 	return rv;
 }
@@ -58,10 +88,21 @@
 	return [DTXActivitySample class];
 }
 
-//- (NSArray<NSSortDescriptor *> *)sortDescriptors
-//{
-//	return @[[NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-//}
+#if ! PROFILER_PREVIEW_EXTENSION
+- (NSPredicate *)predicateForPerformanceSamples
+{
+	NSSet* enabled = self.enabledCategories;
+	
+	if(enabled != nil)
+	{
+		return [NSPredicate predicateWithFormat:@"category IN %@", enabled];
+	}
+	else
+	{
+		return [super predicateForPerformanceSamples];
+	}
+}
+#endif
 
 - (NSString *)displayName
 {
@@ -121,15 +162,73 @@
 - (NSString*)titleForSample:(DTXActivitySample*)sample
 {
 	return sample.category;
-	
-//	NSMutableString* rv = sample.name.mutableCopy;
-//
-//	if(sample.additionalInfoStart.length > 0)
-//	{
-//		[rv appendFormat:@" (%@)", sample.additionalInfoStart];
-//	}
-//
-//	return rv;
+//	return [NSString stringWithFormat:@"%@ (%@)", sample.category, sample.name];
 }
+
+- (NSMenu *)quickSettingsMenu
+{
+	return nil;
+}
+
+- (void)showQuickSettings:(NSButton*)sender
+{
+#if ! PROFILER_PREVIEW_EXTENSION
+	DTXStringPickerViewController* picker = [[NSStoryboard storyboardWithName:@"Profiler" bundle:[NSBundle bundleForClass:self.class]] instantiateControllerWithIdentifier:@"DTXStringPickerViewController"];
+	picker.delegate = self;
+	
+	NSFetchRequest* fr = [DTXActivitySample fetchRequest];
+	fr.resultType = NSDictionaryResultType;
+	fr.propertiesToFetch = @[@"category"];
+	fr.propertiesToGroupBy = @[@"category"];
+	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES]];
+	
+	NSArray* categories = [[self.document.viewContext executeFetchRequest:fr error:NULL] valueForKey:@"category"];
+	
+	NSSet* enabled = self.enabledCategories ?: [NSSet setWithArray:categories];
+	
+	picker.strings = [NSOrderedSet orderedSetWithArray:categories];
+	picker.enabledStrings = enabled;
+	
+	NSPopover* popover = [NSPopover new];
+	popover.behavior = NSPopoverBehaviorTransient;
+	popover.contentViewController = picker;
+	
+	[popover showRelativeToRect:sender.bounds ofView:sender preferredEdge:NSRectEdgeMaxX];
+#endif
+}
+
+- (BOOL)supportsQuickSettings
+{
+	return YES;
+}
+
+#pragma mark DTXStringPickerViewControllerDelegate
+
+#if ! PROFILER_PREVIEW_EXTENSION
+
+- (NSSet<NSString*>*)enabledCategories
+{
+	return [self.document objectForPreferenceKey:@"ActivityEnabledCategories"];
+}
+
+- (void)stringPickerDidChangeEnabledStrings:(DTXStringPickerViewController*)pvc
+{
+	NSSet* categories = pvc.enabledStrings.copy;
+	if([self.enabledCategories isEqualToSet:categories])
+	{
+		return;
+	}
+	
+	[_delayedTimer invalidate];
+	_delayedTimer = [NSTimer scheduledTimerWithTimeInterval:0.8 repeats:NO block:^(NSTimer * _Nonnull timer) {
+		[self.document setObject:categories forPreferenceKey:@"ActivityEnabledCategories"];
+		[self invalidateSections];
+		
+		_flatDataProvider.enabledCategories = categories;
+		_summaryDataProvider.enabledCategories = categories;
+	}];
+}
+
+#endif
 
 @end

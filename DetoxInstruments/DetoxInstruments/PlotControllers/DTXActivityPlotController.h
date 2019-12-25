@@ -8,6 +8,12 @@
 
 #import "DTXIntervalSamplePlotController.h"
 
+extern NSString* const DTXActivityPlotEnabledCategoriesDidChange;
+
 @interface DTXActivityPlotController : DTXIntervalSamplePlotController
+
+#if ! PROFILER_PREVIEW_EXTENSION
+- (NSSet<NSString*>*)enabledCategories;
+#endif
 
 @end

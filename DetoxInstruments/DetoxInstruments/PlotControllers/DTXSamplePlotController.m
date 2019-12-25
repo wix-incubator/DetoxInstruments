@@ -808,7 +808,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	return self._cachedPlotColors;
 }
 
-- (NSMenu *)groupingSettingsMenu
+- (NSMenu *)quickSettingsMenu
 {
 	return nil;
 }

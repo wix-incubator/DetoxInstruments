@@ -10,10 +10,11 @@
 #import "DTXSignpostSummaryRootProxy.h"
 #import "DTXSignpostProtocol.h"
 #import "DTXDetailOutlineView.h"
-#import "DTXEventInspectorDataProvider.h"
+#import "DTXActivitySampleContainerProxy.h"
 #import "DTXActivitySample+UIExtensions.h"
 #import "DTXSignpostDataExporter.h"
 #import "DTXSignpostEntitySampleContainerProxy.h"
+#import "DTXEventInspectorDataProvider.h"
 
 @implementation DTXActivityFlatDataProvider
 
@@ -144,7 +145,7 @@
 
 - (DTXSampleContainerProxy *)rootSampleContainerProxy
 {
-	return [[DTXEntitySampleContainerProxy alloc] initWithOutlineView:self.managedOutlineView managedObjectContext:self.document.viewContext sampleClass:self.sampleClass];
+	return [[DTXActivitySampleContainerProxy alloc] initWithOutlineView:self.managedOutlineView managedObjectContext:self.document.viewContext sampleClass:self.sampleClass enabledCategories:self.enabledCategories];
 }
 
 @end

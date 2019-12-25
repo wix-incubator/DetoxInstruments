@@ -11,13 +11,17 @@
 #import "DTXActivityCategoryProxy.h"
 
 @implementation DTXActivitySummaryRootProxy
+{
+	NSSet<NSString*>* _enabledCategories;
+}
 
-- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView enabledCategories:(NSSet<NSString*>*)enabledCategories
 {
 	self = [super initWithKeyPath:@"category" outlineView:outlineView managedObjectContext:managedObjectContext isRoot:YES];
 	
 	if(self)
 	{
+		_enabledCategories = enabledCategories;
 	}
 	
 	return self;
@@ -36,6 +40,16 @@
 - (NSArray<NSSortDescriptor *> *)sortDescriptorsForAggregator
 {
 	return @[[NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES]];
+}
+
+- (NSPredicate *)predicateForAggregator
+{
+	if(_enabledCategories)
+	{
+		return [NSPredicate predicateWithFormat:@"category IN %@", _enabledCategories];
+	}
+	
+	return [super predicateForAggregator];
 }
 
 @end

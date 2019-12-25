@@ -159,8 +159,8 @@
                         <constraint firstItem="dh1-8y-zfS" firstAttribute="leading" secondItem="3Ov-Tw-qaT" secondAttribute="trailing" constant="8" id="oNn-Q9-vRz"/>
                     </constraints>
                 </customView>
-                <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z2j-cH-quJ">
-                    <rect key="frame" x="0.0" y="0.0" width="360" height="92"/>
+                <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z2j-cH-quJ">
+                    <rect key="frame" x="0.0" y="0.0" width="360" height="73"/>
                     <subviews>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="TDa-qh-hoE">
                             <rect key="frame" x="-2" y="50" width="364" height="23"/>
@@ -285,7 +285,7 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vw4-Oy-RIZ" customClass="DTXHighlightingAttributedTextField">
                                                                     <rect key="frame" x="186" y="66" width="21" height="11"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Top" id="5XA-Ru-7xX">
-                                                                        <font key="font" metaFont="menu" size="9"/>
+                                                                        <font key="font" metaFont="label" size="9"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -293,19 +293,19 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pgd-UG-waa" customClass="DTXHighlightingAttributedTextField">
                                                                     <rect key="frame" x="171" y="3" width="36" height="11"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bottom" allowsEditingTextAttributes="YES" id="Psj-P4-YZT">
-                                                                        <font key="font" metaFont="menu" size="9"/>
+                                                                        <font key="font" metaFont="label" size="9"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="X7U-Aq-IEC" customClass="DTXSettingsPopUpButton">
-                                                                    <rect key="frame" x="100" y="31" width="55" height="18"/>
+                                                                    <rect key="frame" x="96" y="31" width="40" height="18"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="55" placeholder="YES" id="2m7-8i-B3m"/>
+                                                                        <constraint firstAttribute="width" constant="40" placeholder="YES" id="2m7-8i-B3m"/>
                                                                     </constraints>
-                                                                    <popUpButtonCell key="cell" type="roundRect" bezelStyle="roundedRect" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="msL-eF-6aG" id="fwB-v5-Dpn">
+                                                                    <popUpButtonCell key="cell" type="bevel" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" inset="2" pullsDown="YES" selectedItem="msL-eF-6aG" id="fwB-v5-Dpn">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="label" size="12"/>
+                                                                        <font key="font" metaFont="system"/>
                                                                         <menu key="menu" id="zaF-Cm-2zO">
                                                                             <items>
                                                                                 <menuItem state="on" image="NSActionTemplate" hidden="YES" id="msL-eF-6aG"/>
@@ -315,12 +315,21 @@
                                                                         </menu>
                                                                     </popUpButtonCell>
                                                                 </popUpButton>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eIs-JQ-x2C">
+                                                                    <rect key="frame" x="89" y="22" width="50" height="32"/>
+                                                                    <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSActionTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" transparent="YES" inset="2" id="mN0-7P-JS4">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                </button>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="9qF-V8-eJh"/>
-                                                                <constraint firstItem="X7U-Aq-IEC" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" id="B8E-mk-4cM"/>
+                                                                <constraint firstItem="X7U-Aq-IEC" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="-4" id="B8E-mk-4cM"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" secondItem="jlv-58-SlH" secondAttribute="trailing" constant="8" id="DOG-LZ-mEz"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="width" secondItem="jlv-58-SlH" secondAttribute="width" multiplier="0.45" id="EE5-uS-VKi"/>
+                                                                <constraint firstItem="eIs-JQ-x2C" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="-5" id="EHw-gj-4RH"/>
+                                                                <constraint firstItem="eIs-JQ-x2C" firstAttribute="centerY" secondItem="nwg-qe-WuA" secondAttribute="centerY" constant="1" id="HLu-JC-Xou"/>
                                                                 <constraint firstAttribute="trailing" secondItem="Vw4-Oy-RIZ" secondAttribute="trailing" constant="5" id="Pa5-39-bxS"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="RAI-V4-dkq"/>
                                                                 <constraint firstAttribute="trailing" secondItem="pgd-UG-waa" secondAttribute="trailing" constant="5" id="TAa-BF-dIz"/>
@@ -338,7 +347,8 @@
                                                                 <outlet property="bottomLegendTextField" destination="pgd-UG-waa" id="hzC-Vs-09v"/>
                                                                 <outlet property="imageView" destination="jlv-58-SlH" id="wR8-Fi-zVT"/>
                                                                 <outlet property="secondaryImageView" destination="ZTR-yl-9L0" id="YoC-Zy-ckD"/>
-                                                                <outlet property="settingsButton" destination="X7U-Aq-IEC" id="Bij-e4-k5Z"/>
+                                                                <outlet property="settingsButton" destination="eIs-JQ-x2C" id="r3m-dA-0eS"/>
+                                                                <outlet property="settingsMenuButton" destination="X7U-Aq-IEC" id="Bij-e4-k5Z"/>
                                                                 <outlet property="textField" destination="nwg-qe-WuA" id="Tfg-EC-ViL"/>
                                                                 <outlet property="topLegendTextField" destination="Vw4-Oy-RIZ" id="BA6-13-1Eq"/>
                                                             </connections>
@@ -492,6 +502,37 @@
                 <customObject id="3Tv-au-eQN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2896" y="-1224.5"/>
+        </scene>
+        <!--String Picker View Controller-->
+        <scene sceneID="vHs-n8-wLm">
+            <objects>
+                <viewController storyboardIdentifier="DTXStringPickerViewController" id="s7H-xc-rst" customClass="DTXStringPickerViewController" sceneMemberID="viewController">
+                    <view key="view" id="Lle-ex-Jov">
+                        <rect key="frame" x="0.0" y="0.0" width="66" height="66"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <stackView distribution="fillEqually" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gkD-KJ-E3v">
+                                <rect key="frame" x="8" y="8" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="7t5-ue-UHY"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="mat-iH-dQr"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="gkD-KJ-E3v" firstAttribute="top" secondItem="Lle-ex-Jov" secondAttribute="top" constant="8" id="5Pk-v0-BZ3"/>
+                            <constraint firstAttribute="bottom" secondItem="gkD-KJ-E3v" secondAttribute="bottom" constant="8" id="U0t-kn-kaa"/>
+                            <constraint firstAttribute="trailing" secondItem="gkD-KJ-E3v" secondAttribute="trailing" constant="8" id="WKJ-R7-Awn"/>
+                            <constraint firstItem="gkD-KJ-E3v" firstAttribute="leading" secondItem="Lle-ex-Jov" secondAttribute="leading" constant="8" id="WOx-sw-dFk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="_stackView" destination="gkD-KJ-E3v" id="YeB-0l-YBR"/>
+                    </connections>
+                </viewController>
+                <customObject id="DHo-bs-6kw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2863" y="-1051"/>
         </scene>
         <!--Detail Content Controller-->
         <scene sceneID="GNr-8R-oRe">
@@ -890,7 +931,7 @@
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-Wz-uMT">
                                                                                 <rect key="frame" x="13" y="16" width="300" height="13"/>
                                                                                 <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="BME-dP-HVL">
-                                                                                    <font key="font" metaFont="system" size="10"/>
+                                                                                    <font key="font" metaFont="menu" size="10"/>
                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
@@ -1213,7 +1254,7 @@
                                 <rect key="frame" x="0.0" y="771" width="320" height="29"/>
                                 <subviews>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCX-wo-mYx" customClass="DTXSegmentedView">
-                                        <rect key="frame" x="126" y="3" width="69" height="23"/>
+                                        <rect key="frame" x="125.5" y="3" width="69" height="23"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>

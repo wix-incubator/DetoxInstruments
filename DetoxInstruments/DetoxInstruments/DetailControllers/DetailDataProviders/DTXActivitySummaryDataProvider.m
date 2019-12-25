@@ -14,6 +14,7 @@
 #import "DTXActivitySample+UIExtensions.h"
 #import "DTXSignpostDataExporter.h"
 #import "DTXSignpostAdditionalInfoEndProxy.h"
+#import "DTXActivityPlotController.h"
 
 @implementation DTXActivitySummaryDataProvider
 
@@ -212,7 +213,7 @@
 
 - (DTXSampleContainerProxy *)rootSampleContainerProxy
 {
-	return [[DTXActivitySummaryRootProxy alloc] initWithManagedObjectContext:self.document.viewContext outlineView:self.managedOutlineView];
+	return [[DTXActivitySummaryRootProxy alloc] initWithManagedObjectContext:self.document.viewContext outlineView:self.managedOutlineView enabledCategories:self.enabledCategories];
 }
 
 - (BOOL)showsTimestampColumn

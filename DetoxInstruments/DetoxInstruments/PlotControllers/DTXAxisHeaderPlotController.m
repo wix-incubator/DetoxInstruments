@@ -216,7 +216,7 @@
 	return @[];
 }
 
-- (NSMenu *)groupingSettingsMenu
+- (NSMenu *)quickSettingsMenu
 {
 	return nil;
 }

@@ -98,4 +98,6 @@
 
 - (void)selectSample:(DTXSample*)sample;
 
+- (void)setupContainerProxiesReloadOutline:(BOOL)reloadOutline;
+
 @end

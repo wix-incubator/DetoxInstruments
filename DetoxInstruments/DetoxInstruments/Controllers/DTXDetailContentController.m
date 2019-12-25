@@ -25,6 +25,8 @@
 	DTXLogDetailController* _logDetailController;
 	
 	NSArray<DTXDetailController*>* _cachedDetailControllers;
+	
+	NSTimer* _delayedTimer;
 }
 
 @end
@@ -302,7 +304,20 @@ static NSString* __DTXDetailControllerCacheKeyForObject(id<NSObject> object)
 
 - (void)filterFieldTextDidChange:(DTXFilterField *)filterField
 {
-	[_activeDetailController filterSamples:filterField.stringValue];
+	NSString* filter = filterField.stringValue;
+	[_delayedTimer invalidate];
+	
+	if(filter.length == 0)
+	{
+		[_activeDetailController filterSamples:filter];
+	}
+	else
+	{
+		_delayedTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 repeats:NO block:^(NSTimer * _Nonnull timer) {
+			NSLog(@"%@", filter);
+			[_activeDetailController filterSamples:filter];
+		}];
+	}
 }
 
 #pragma mark DTXPlotControllerSampleClickHandlingDelegate

@@ -411,7 +411,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 		
 		DTXWindowController* windowController = NSApp.mainWindow.windowController;
 		
-		menuItem.submenu = windowController.currentPlotController.groupingSettingsMenu;
+		menuItem.submenu = windowController.currentPlotController.quickSettingsMenu;
 		if(menuItem.submenu == nil)
 		{
 			dtx_log_info(@"Hiding “%@” menu item", menuItem.title);

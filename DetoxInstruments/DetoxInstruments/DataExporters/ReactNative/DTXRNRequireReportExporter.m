@@ -82,7 +82,7 @@ static NSString* __cleanedUpString(NSString* str, BOOL leafOnly)
 	
 	NSMutableArray<NSDictionary*>* objects = [NSMutableArray new];
 	
-	NSDate* startTime = self.document.firstRecording.startTimestamp;
+//	NSDate* startTime = self.document.firstRecording.startTimestamp;
 	
 	NSMutableArray<NSMutableDictionary*>* parentQueue = [NSMutableArray new];
 	[samples enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

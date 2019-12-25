@@ -13,7 +13,8 @@
 @property (nonatomic, strong, readwrite) IBOutlet NSImageView* secondaryImageView;
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* topLegendTextField;
 @property (nonatomic, strong, readwrite) IBOutlet NSTextField* bottomLegendTextField;
-@property (nonatomic, strong, readwrite) IBOutlet NSPopUpButton* settingsButton;
+@property (nonatomic, strong, readwrite) IBOutlet NSButton* settingsButton;
+@property (nonatomic, strong, readwrite) IBOutlet NSPopUpButton* settingsMenuButton;
 
 @end
 
@@ -23,7 +24,7 @@
 {
 	[super awakeFromNib];
 	
-	[_settingsButton sendActionOn:NSEventMaskLeftMouseDown];
+	[_settingsMenuButton sendActionOn:NSEventMaskLeftMouseDown];
 #if PROFILER_PREVIEW_EXTENSION
 	self.textField.cell.lineBreakMode = NSLineBreakByWordWrapping;
 	self.textField.allowsDefaultTighteningForTruncation = YES;
@@ -34,8 +35,9 @@
 {
 	[super setBackgroundStyle:backgroundStyle];
 	
-	self.settingsButton.highlighted = self.bottomLegendTextField.highlighted = self.topLegendTextField.highlighted = backgroundStyle == NSBackgroundStyleDark;
+	self.settingsButton.highlighted = self.settingsMenuButton.highlighted = self.bottomLegendTextField.highlighted = self.topLegendTextField.highlighted = backgroundStyle == NSBackgroundStyleDark;
 	[self.settingsButton.cell setBackgroundStyle:backgroundStyle];
+	[self.settingsMenuButton.cell setBackgroundStyle:backgroundStyle];
 }
 
 

@@ -154,7 +154,7 @@ static NSDictionary* _tagToKeyPathMapping;
 	return _sectionKeyPath;
 }
 
-- (NSMenu *)groupingSettingsMenu
+- (NSMenu *)quickSettingsMenu
 {
 	NSMenu* menu = [NSMenu new];
 	

@@ -210,6 +210,11 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 		return;
 	}
 	
+	if(_managedOutlineView == nil)
+	{
+		return;
+	}
+	
 	_rootGroupProxy = self.rootSampleContainerProxy;
 	[_rootGroupProxy reloadData];
 	
@@ -217,6 +222,7 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	{
 		_managedOutlineView.delegate = self;
 		_managedOutlineView.dataSource = self;
+		[_managedOutlineView reloadData];
 	}
 }
 

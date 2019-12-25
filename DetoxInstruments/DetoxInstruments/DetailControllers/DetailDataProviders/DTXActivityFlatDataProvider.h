@@ -6,8 +6,8 @@
 //  Copyright © 2017-2019 Wix. All rights reserved.
 //
 
-#import "DTXDetailDataProvider.h"
+#import "DTXActivityBaseDataProvider.h"
 
-@interface DTXActivityFlatDataProvider : DTXDetailDataProvider
+@interface DTXActivityFlatDataProvider : DTXActivityBaseDataProvider
 
 @end

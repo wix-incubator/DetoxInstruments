@@ -10,6 +10,6 @@
 
 @interface DTXActivitySummaryRootProxy : DTXSampleAggregatorProxy
 
-- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext outlineView:(NSOutlineView*)outlineView enabledCategories:(NSSet<NSString*>*)enabledCategories;
 
 @end

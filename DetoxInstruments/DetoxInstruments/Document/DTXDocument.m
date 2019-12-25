@@ -26,7 +26,7 @@
 		return;
 	}
 	
-	_cachedPreferences = [[NSMutableDictionary alloc] initWithContentsOfURL:self._preferencesURL];
+	_cachedPreferences = [self _safelyReadCachedPreferencesFromURL:self._preferencesURL];
 	
 	if(_cachedPreferences == nil)
 	{
@@ -43,7 +43,46 @@
 		return;
 	}
 	
-	[_cachedPreferences writeToURL:urlToPersist error:NULL];
+	[self _safelyPersistCachedPreferencesToURL:urlToPersist];
+}
+
+- (void)_safelyPersistCachedPreferencesToURL:(NSURL*)urlToPersist
+{
+	NSMutableDictionary* safe = [NSMutableDictionary new];
+	[_cachedPreferences enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+		if([NSPropertyListSerialization propertyList:obj isValidForFormat:NSPropertyListXMLFormat_v1_0])
+		{
+			safe[key] = obj;
+		}
+		else
+		{
+			safe[key] = @{
+				@"_isArchived": @YES,
+				@"data": [NSKeyedArchiver archivedDataWithRootObject:obj requiringSecureCoding:NO error:NULL]
+			};
+		}
+	}];
+	
+	[safe writeToURL:urlToPersist error:NULL];
+}
+
+- (NSMutableDictionary*)_safelyReadCachedPreferencesFromURL:(NSURL*)urlToPersist
+{
+	NSDictionary* safe = [[NSDictionary alloc] initWithContentsOfURL:urlToPersist];
+	NSMutableDictionary* rv = [NSMutableDictionary new];
+	
+	[safe enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+		if([obj isKindOfClass:NSDictionary.class] && [[obj objectForKey:@"_isArchived"] boolValue])
+		{
+			rv[key] = [NSKeyedUnarchiver dtx_unarchiveObjectWithData:[obj objectForKey:@"data"] requiringSecureCoding:NO error:NULL];
+		}
+		else
+		{
+			rv[key] = obj;
+		}
+	}];
+	
+	return rv;
 }
 
 - (id)objectForPreferenceKey:(NSString *)key

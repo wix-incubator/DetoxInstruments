@@ -46,8 +46,6 @@ extern NSString* const DTXPlotControllerRequiredHeightDidChangeNotification;
 @property (nonatomic, strong, readonly) NSArray<NSColor*>* legendColors;
 @property (nonatomic, strong, readonly) NSString* helpTopicName;
 
-@property (nonatomic, strong, readonly) NSMenu* groupingSettingsMenu;
-
 @property (nonatomic, assign, readonly) CGFloat requiredHeight;
 
 #if ! PROFILER_PREVIEW_EXTENSION
@@ -82,6 +80,7 @@ extern NSString* const DTXPlotControllerRequiredHeightDidChangeNotification;
 @property (nonatomic, weak) DTXFilteredDataProvider* filteredDataProvider;
 
 - (BOOL)supportsQuickSettings;
+@property (nonatomic, strong, readonly) NSMenu* quickSettingsMenu;
 - (IBAction)showQuickSettings:(id)sender;
 
 @end

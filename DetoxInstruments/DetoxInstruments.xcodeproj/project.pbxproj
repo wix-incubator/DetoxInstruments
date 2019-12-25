@@ -281,6 +281,10 @@
 		399E733420919A52006EAD6E /* DTXPlotRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E733320919A52006EAD6E /* DTXPlotRowView.m */; };
 		399E73512091BF5E006EAD6E /* DTXLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E73502091BF5E006EAD6E /* DTXLayerView.m */; };
 		399E73582091D1B0006EAD6E /* DTXPlotHostConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E73572091D1B0006EAD6E /* DTXPlotHostConstructor.m */; };
+		399ED3F723B2C8F800617050 /* DTXStringPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 399ED3F623B2C8F800617050 /* DTXStringPickerViewController.m */; };
+		399ED3FA23B2E47E00617050 /* DTXActivitySampleContainerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 399ED3F923B2E47E00617050 /* DTXActivitySampleContainerProxy.m */; };
+		399ED42B23B2EDDC00617050 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 399ED42A23B2EDDC00617050 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */; };
+		399ED44523B3E58300617050 /* DTXActivityBaseDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 399ED44423B3E58300617050 /* DTXActivityBaseDataProvider.m */; };
 		399FE06122A7B4D800E8DA05 /* DTXPlotRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 399FE06022A7B4D800E8DA05 /* DTXPlotRange.m */; };
 		39A6A2E21F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A6A2E11F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m */; };
 		39A876B71EED3DEE00AE62F8 /* DTXCompactNetworkRequestsPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A876A91EED3D2E00AE62F8 /* DTXCompactNetworkRequestsPlotController.m */; };
@@ -870,6 +874,14 @@
 		399E73502091BF5E006EAD6E /* DTXLayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLayerView.m; sourceTree = "<group>"; };
 		399E73562091D1B0006EAD6E /* DTXPlotHostConstructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotHostConstructor.h; sourceTree = "<group>"; };
 		399E73572091D1B0006EAD6E /* DTXPlotHostConstructor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotHostConstructor.m; sourceTree = "<group>"; };
+		399ED3F523B2C8F800617050 /* DTXStringPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXStringPickerViewController.h; sourceTree = "<group>"; };
+		399ED3F623B2C8F800617050 /* DTXStringPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXStringPickerViewController.m; sourceTree = "<group>"; };
+		399ED3F823B2E47E00617050 /* DTXActivitySampleContainerProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXActivitySampleContainerProxy.h; sourceTree = "<group>"; };
+		399ED3F923B2E47E00617050 /* DTXActivitySampleContainerProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXActivitySampleContainerProxy.m; sourceTree = "<group>"; };
+		399ED42823B2EDDC00617050 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.h"; sourceTree = "<group>"; };
+		399ED42A23B2EDDC00617050 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.m"; sourceTree = "<group>"; };
+		399ED44323B3E58300617050 /* DTXActivityBaseDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXActivityBaseDataProvider.h; sourceTree = "<group>"; };
+		399ED44423B3E58300617050 /* DTXActivityBaseDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXActivityBaseDataProvider.m; sourceTree = "<group>"; };
 		399FE05F22A7B4D800E8DA05 /* DTXPlotRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotRange.h; sourceTree = "<group>"; };
 		399FE06022A7B4D800E8DA05 /* DTXPlotRange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotRange.m; sourceTree = "<group>"; };
 		39A6A2E01F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLogLineInspectorDataProvider.h; sourceTree = "<group>"; };
@@ -1130,6 +1142,8 @@
 				39EA56C320DFEA1800600BA7 /* DTXSignpostSummaryDataProvider.m */,
 				3982AF2821B843970023E19C /* DTXSignpostFlatDataProvider.h */,
 				3982AF2921B843970023E19C /* DTXSignpostFlatDataProvider.m */,
+				399ED44323B3E58300617050 /* DTXActivityBaseDataProvider.h */,
+				399ED44423B3E58300617050 /* DTXActivityBaseDataProvider.m */,
 				39B356DE238C0CF400E44721 /* DTXActivitySummaryDataProvider.h */,
 				39B356DD238C0CF400E44721 /* DTXActivitySummaryDataProvider.m */,
 				393055FD238FB88100C123B9 /* DTXActivityFlatDataProvider.h */,
@@ -1162,6 +1176,8 @@
 				391176E421EF80AE00C92A9F /* DTXZipper.m */,
 				391176E721EF80AE00C92A9F /* NSDictionary+FakeDecoder.h */,
 				391176EF21EF80AE00C92A9F /* NSDictionary+FakeDecoder.m */,
+				399ED42823B2EDDC00617050 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */,
+				399ED42A23B2EDDC00617050 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */,
 				391176E921EF80AE00C92A9F /* NSManagedObjectContext+PerformQOSBlock.h */,
 				391176E221EF80AE00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */,
 				391176E621EF80AE00C92A9F /* NSMapTable+Subscripting.h */,
@@ -1872,6 +1888,8 @@
 				394ED758225A57F0001875C3 /* DTXContributorsViewController.m */,
 				3966AAD523213856004C6D15 /* DTXExpandedPreviewWindowController.h */,
 				3966AAD623213856004C6D15 /* DTXExpandedPreviewWindowController.m */,
+				399ED3F523B2C8F800617050 /* DTXStringPickerViewController.h */,
+				399ED3F623B2C8F800617050 /* DTXStringPickerViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1942,6 +1960,8 @@
 				39B356DB238C0B9E00E44721 /* DTXActivityCategoryProxy.m */,
 				39B356D6238C06A400E44721 /* DTXActivitySummaryRootProxy.h */,
 				39B356D7238C06A400E44721 /* DTXActivitySummaryRootProxy.m */,
+				399ED3F823B2E47E00617050 /* DTXActivitySampleContainerProxy.h */,
+				399ED3F923B2E47E00617050 /* DTXActivitySampleContainerProxy.m */,
 			);
 			path = ContainerProxies;
 			sourceTree = "<group>";
@@ -2472,6 +2492,7 @@
 				39FA40B81F2F4604004CA1B0 /* DTXRNBridgeDataTransferPlotController.m in Sources */,
 				3902CB092114976300C49D04 /* DTXBox.m in Sources */,
 				391DB570239FC634007A4A89 /* DTXRNRequireReportExporter.m in Sources */,
+				399ED3FA23B2E47E00617050 /* DTXActivitySampleContainerProxy.m in Sources */,
 				3982D88A21B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.m in Sources */,
 				3932A06F1F054022001AC360 /* DTXRNCPUUsagePlotController.m in Sources */,
 				3978A59221D09C7600B739E2 /* DTXRangePlotView.m in Sources */,
@@ -2499,6 +2520,7 @@
 				39EBDFC01ED36D45005D8AB1 /* main.m in Sources */,
 				3978FFE31EEAD06C002BDEFB /* DTXGraphHostingView.m in Sources */,
 				397EB6E42234F81000D60513 /* DTXRPResponseBodyEditor.m in Sources */,
+				399ED3F723B2C8F800617050 /* DTXStringPickerViewController.m in Sources */,
 				394B736B22AFC98300E104F3 /* DTXInstrumentsPreferencesWindowController.m in Sources */,
 				395A43EA2081A2FB00DDF995 /* NSImage+UIAdditions.m in Sources */,
 				397A017C1FA639BC00ABCB87 /* DTXRNJSCSourceMapsSupport.m in Sources */,
@@ -2543,6 +2565,7 @@
 				393EF4A0222CD858001DCE5B /* DTXRequestHeadersEditor.m in Sources */,
 				394093F520AB12FD00667765 /* DTXApplicationDelegate+DocumentationGeneration.m in Sources */,
 				39622DC220A8832900B50E40 /* DTXPasteForwardingFieldEditorTextFieldCell.m in Sources */,
+				399ED42B23B2EDDC00617050 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */,
 				393055FF238FB88100C123B9 /* DTXActivityFlatDataProvider.m in Sources */,
 				39DABB9A21BC549F002653EE /* DTXEventsPlotController.m in Sources */,
 				393973F31EDC49250064D4C8 /* DTXNetworkSample+UIExtensions.m in Sources */,
@@ -2652,6 +2675,7 @@
 				391176F521EF80AE00C92A9F /* NSMapTable+Subscripting.m in Sources */,
 				399E73582091D1B0006EAD6E /* DTXPlotHostConstructor.m in Sources */,
 				39DF54B120A71431007A30B0 /* DTXNSPasteboardParser.m in Sources */,
+				399ED44523B3E58300617050 /* DTXActivityBaseDataProvider.m in Sources */,
 				3902F3461EF4F2BF000CB397 /* DTXLogDataProvider.m in Sources */,
 				3940940F20AB130600667765 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.m in Sources */,
 				3988D71E20EA551700F11F8C /* DTXSampleAggregatorProxy.m in Sources */,

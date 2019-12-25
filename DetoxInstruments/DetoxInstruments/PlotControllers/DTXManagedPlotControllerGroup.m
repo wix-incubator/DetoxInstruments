@@ -656,15 +656,29 @@
 #if ! PROFILER_PREVIEW_EXTENSION
 		if([controller respondsToSelector:@selector(supportsQuickSettings)] && controller.supportsQuickSettings == YES)
 		{
-			cell.settingsButton.hidden = NO;
-			cell.settingsButton.menu = controller.groupingSettingsMenu;
+			NSMenu* menu = controller.quickSettingsMenu;
+			
+			if(menu != nil)
+			{
+				cell.settingsButton.hidden = YES;
+				cell.settingsMenuButton.hidden = NO;
+				cell.settingsMenuButton.menu = menu;
+			}
+			else
+			{
+				cell.settingsMenuButton.hidden = YES;
+				cell.settingsButton.hidden = NO;
+				cell.settingsButton.target = controller;
+				cell.settingsButton.action = @selector(showQuickSettings:);
+			}
 		}
 		else
 		{
 			cell.settingsButton.hidden = YES;
+			cell.settingsMenuButton.hidden = YES;
 		}
 #else
-		cell.settingsButton.hidden = YES;
+		cell.settingsMenuButton.hidden = YES;
 #endif
 		
 		if(controller.legendTitles.count > 1)
