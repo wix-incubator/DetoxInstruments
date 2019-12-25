@@ -10,7 +10,7 @@ Use the information captured by this instrument to inspect system activity in yo
 
 Each activity type is displayed with its own unique color on the timeline. Each activity sample includes an object information, which helps you better figure out which object initiated the system activity.
 
-The Activity instrument is not enabled by default as it records a large amount of samples from many sources. Enabling it might introduce a small performance overhead and recording documents will see a significant size increase.
+The Activity instrument is disabled by default as it records a large amount of data from numerous sources. Enabling it will introduce some performance penalty and recording documents can see a significant size increase.
 
 You can filter which activities are displayed by clicking on the **Options** button (![Gear Button](Resources/Button_TimelineOptions.png)).
 

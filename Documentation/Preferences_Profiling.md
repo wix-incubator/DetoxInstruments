@@ -48,7 +48,7 @@ In this screen, you can add Events categories that will be ignored when recordin
 
 ### Activity
 
-The **Record app activity** preference controls whether activity events are recorded during profiling.
+The **Record app activity** preference controls whether activity events are recorded during profiling. 
 
 For an in-depth look at the Events instrument, see [Activity Instrument](Instrument_Activity.md).
 
@@ -62,9 +62,9 @@ The **Profile React Native (if available)** preference controls the React Native
 
 The **Record bridge data** preference controls whether React Native bridge data is recorded during profiling. Depending on your app's activity, this can take a small-to-moderate toll on performance. If bridge data recording is not necessary, you can turn this preference off to save performance.
 
-The **Record timers as events** preference controls whether React Native timers, created in JavaScript using `setTimeout()`, should be recorded as events and displayed in the Events instrument. This preference requires that the **`detox-instruments-react-native-utils`** package be installed in your React Native app. For more information, see [Events API Reference for React Native / JavaScript](DeveloperAPIReferenceEventsJS.md).
+The **Record timers as activity** preference controls whether React Native timers, created in JavaScript using `setTimeout()`, should be recorded as activity and displayed in the Activity instrument. This preference requires that the **`detox-instruments-react-native-utils`** package be installed in your React Native app. For information on installing the package, see [Events API Reference for React Native / JavaScript](DeveloperAPIReferenceEventsJS.md).
 
-The **Record internal React Native events** preference controls whether internal React Native events are enabled and recorded. Use these events when you want to have insight on the internal working and performance of React Native.
+The **Record internal React Native activity** preference controls whether internal React Native activity is recorded. Record this information when you want to have insight on the internal working and performance of React Native.
 
 ### Time Limit
 

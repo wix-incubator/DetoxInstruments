@@ -1,6 +1,6 @@
 # App Launch Profiling
 
-Detox Instruments allows profiling your app's launch by starting a recording very early on for a set amount of time. This gives you an opportunity to inspect your app's behavior during launch, something that is not easily possible using normal profiling.
+Detox Instruments allows profiling your app's launch by starting a recording very early on for a set amount of time. This gives you the opportunity to inspect your app's behavior during launch, something that is not easily possible using normal profiling.
 
 You can configure the duration of app launch profiling in the profiling preferences. For more information, see [Profiling Preferences](Preferences_Profiling.md).
 
