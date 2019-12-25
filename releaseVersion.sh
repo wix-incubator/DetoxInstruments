@@ -8,7 +8,7 @@
 #	jq for json parsing and querying.
 #		brew install jq
 
-XCODEVERSION=$(xcodebuild -version | grep -oEi "([0-9]*\.[0-9]*)")
+XCODEVERSION=$(xcodebuild -version | grep -oEi "([0-9]*(\.[0-9]*)+)")
 XCODENEWESTSUPPORTED="11.2.1"
 if [ ${XCODEVERSION} != ${XCODENEWESTSUPPORTED} ] && [ "${XCODEVERSION}" = "`echo -e "${XCODEVERSION}\n${XCODENEWESTSUPPORTED}" | sort --version-sort -r | head -n1`" ]; then
   printf >&2 "\033[1;31mUnsupported Xcode, aborting\033[0m\n"
