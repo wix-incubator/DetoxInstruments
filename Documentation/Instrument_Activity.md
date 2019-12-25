@@ -12,6 +12,8 @@ Each activity type is displayed with its own unique color on the timeline. Each 
 
 The Activity instrument is not enabled by default as it records a large amount of samples from many sources. Enabling it might introduce a small performance overhead and recording documents will see a significant size increase.
 
+You can filter which activities are displayed by clicking on the **Options** button (![Gear Button](Resources/Button_TimelineOptions.png)).
+
 ### Detail Pane
 
 The detail pane displays all activity types.
