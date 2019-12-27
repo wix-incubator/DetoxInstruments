@@ -300,6 +300,8 @@
 		39B356DF238C0CF400E44721 /* DTXActivitySummaryDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B356DD238C0CF400E44721 /* DTXActivitySummaryDataProvider.m */; };
 		39B3B3B221EE163200D5C1BE /* DTXBorderlessKeyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B3B3B121EE163200D5C1BE /* DTXBorderlessKeyWindow.m */; };
 		39B706A31F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */; };
+		39BC294C23B5B56F00C7CB02 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 399ED42A23B2EDDC00617050 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */; };
+		39BC294E23B5B5E700C7CB02 /* NSString+FileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 391176ED21EF80AE00C92A9F /* NSString+FileNames.m */; };
 		39BC7B582399495300DAF671 /* DTXDebugMenuNoIconsGenerator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39BC7B562399495300DAF671 /* DTXDebugMenuNoIconsGenerator.xib */; };
 		39BC7B6B239E40B100DAF671 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B68239E40B100DAF671 /* DTXInstruments.xcdatamodeld */; };
 		39BC7B6C239E40B100DAF671 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B68239E40B100DAF671 /* DTXInstruments.xcdatamodeld */; };
@@ -2440,8 +2442,10 @@
 				396DAACB231C50C900FFBDDB /* DTXDiskReadWritesPlotController.m in Sources */,
 				396DAAF6231D27D900FFBDDB /* DTXSample+UIExtensions.m in Sources */,
 				396DAAE7231D025900FFBDDB /* DTXTableRowView.m in Sources */,
+				39BC294C23B5B56F00C7CB02 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */,
 				396DAAC8231C50C900FFBDDB /* DTXThreadCPUUsagePlotController.m in Sources */,
 				396DAAD9231C511900FFBDDB /* DTXPlotStackView.m in Sources */,
+				39BC294E23B5B5E700C7CB02 /* NSString+FileNames.m in Sources */,
 				396DAAF3231D27CF00FFBDDB /* DTXRecording+Additions.m in Sources */,
 				396DAB03231D28FE00FFBDDB /* NSImage+UIAdditions.m in Sources */,
 				396DAAC9231C50C900FFBDDB /* DTXMemoryUsagePlotController.m in Sources */,

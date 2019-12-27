@@ -50,5 +50,7 @@ static void initPreferences(void)
 	[NSUserDefaults.standardUserDefaults setObject:[NSUserDefaults.standardUserDefaults objectForKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"] forKey:@"DTXSelectedProfilingConfiguration__ignoredEventCategoriesArray"];
 	[NSUserDefaults.standardUserDefaults setObject:nil forKey:@"DTXSelectedProfilingConfiguration_ignoredCategoriesArray"];
 	
+#if ! PROFILER_PREVIEW_EXTENSION
 	[DTXProfilingConfiguration registerRemoteProfilingDefaults];
+#endif
 }
