@@ -374,12 +374,6 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	}
 	
 	NSUInteger index = [self _indexOfTarget:target];
-	if(index == NSNotFound)
-	{
-		[_outlineView reloadData];
-		
-		return;
-	}
 	
 	[[_targetManagementControllers objectForKey:target] dismissPreferencesWindow];
 	[_targetManagementControllers removeObjectForKey:target];
@@ -392,7 +386,10 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	
 	if(announce == YES)
 	{
-		[_outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:nil withAnimation:NSTableViewAnimationEffectFade];
+		if(index != NSNotFound)
+		{
+			[_outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:nil withAnimation:NSTableViewAnimationEffectFade];
+		}
 		
 		[self _validateSelectButton];
 	}
@@ -401,8 +398,12 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 - (void)_updateTarget:(DTXRemoteTarget*)target
 {
 //	[_outlineView reloadItem:target];
-	DTXRemoteTargetCellView* cellView = [_outlineView viewAtColumn:0 row:[_outlineView rowForItem:target] makeIfNecessary:NO];
-	[cellView updateWithTarget:target];
+	NSInteger row = [_outlineView rowForItem:target];
+	if(row != -1)
+	{
+		DTXRemoteTargetCellView* cellView = [_outlineView viewAtColumn:0 row:row makeIfNecessary:NO];
+		[cellView updateWithTarget:target];
+	}
 	
 	[self _validateSelectButton];
 }

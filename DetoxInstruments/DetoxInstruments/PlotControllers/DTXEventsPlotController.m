@@ -129,7 +129,7 @@ static NSDictionary* _tagToKeyPathMapping;
 
 - (NSDate*)endTimestampForSample:(DTXSignpostSample*)sample
 {
-	return sample.defactoEndTimestamp;
+	return sample.endTimestamp ?: NSDate.distantFuture;;
 }
 
 - (NSColor*)colorForSample:(DTXSignpostSample*)sample
