@@ -122,4 +122,20 @@
 	[self _persistCachedPreferences];
 }
 
+- (BOOL)presentError:(NSError *)error
+{
+	NSAlert* errorAlert = [NSAlert alertWithError:error];
+	[errorAlert beginSheetModalForWindow:self.windowControllers.firstObject.window completionHandler:^(NSModalResponse returnCode) {
+		[NSApp stopModalWithCode:returnCode];
+	}];
+	NSModalResponse r = [NSApp runModalForWindow:errorAlert.window];
+	
+	if(error.localizedRecoveryOptions.count > 0)
+	{
+		return [error.recoveryAttempter attemptRecoveryFromError:error optionIndex:r - NSAlertFirstButtonReturn];
+	}
+	
+	return NO;
+}
+
 @end
