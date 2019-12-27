@@ -37,6 +37,7 @@
 		398828532137DBBB006F283B /* DTXRecordingDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3988284D2137DBBB006F283B /* DTXRecordingDocument.m */; };
 		398828542137DBBB006F283B /* DTXRecordingDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3988284F2137DBBB006F283B /* DTXRecordingDocumentController.m */; };
 		398828552137DBBB006F283B /* DTXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 398828512137DBBB006F283B /* DTXDocument.m */; };
+		3990FCA423B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 3990FCA223B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */; };
 		39BC7B80239E5DC800DAF671 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B7D239E5DC700DAF671 /* DTXInstruments.xcdatamodeld */; };
 		39BC7B82239E5DCE00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */; };
 /* End PBXBuildFile section */
@@ -121,6 +122,8 @@
 		398828502137DBBB006F283B /* DTXRecordingDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXRecordingDocument.h; sourceTree = "<group>"; };
 		398828512137DBBB006F283B /* DTXDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXDocument.m; sourceTree = "<group>"; };
 		398828522137DBBB006F283B /* DTXDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXDocument.h; sourceTree = "<group>"; };
+		3990FCA223B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.m"; sourceTree = "<group>"; };
+		3990FCA323B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.h"; sourceTree = "<group>"; };
 		39BC7B7E239E5DC800DAF671 /* DTXInstruments-11469.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-11469.xcdatamodel"; sourceTree = "<group>"; };
 		39BC7B7F239E5DC800DAF671 /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9954To11469.xcmappingmodel; sourceTree = "<group>"; };
@@ -145,6 +148,8 @@
 				39EEF34321EFADB10028061D /* DTXQuickNSExpressions.h */,
 				391176FF21EF81FB00C92A9F /* NSDictionary+FakeDecoder.h */,
 				3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */,
+				3990FCA323B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */,
+				3990FCA223B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */,
 				3911770121EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.h */,
 				391176FA21EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */,
 				391176FE21EF81FB00C92A9F /* NSMapTable+Subscripting.h */,
@@ -363,6 +368,7 @@
 				3911770921EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
 				39401D0421E5098100504FD8 /* DTXRecording+Additions.m in Sources */,
 				3911770C21EF81FB00C92A9F /* NSString+FileNames.m in Sources */,
+				3990FCA423B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */,
 				3964876E1FC325C400006341 /* main.m in Sources */,
 				39356ACA2201A92200FD23C4 /* NSString+Hashing.m in Sources */,
 				39401D1C21E5099500504FD8 /* DTXSample+UIExtensions.m in Sources */,
