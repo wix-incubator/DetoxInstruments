@@ -314,7 +314,6 @@ static NSString* __DTXDetailControllerCacheKeyForObject(id<NSObject> object)
 	else
 	{
 		_delayedTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 repeats:NO block:^(NSTimer * _Nonnull timer) {
-			NSLog(@"%@", filter);
 			[_activeDetailController filterSamples:filter];
 		}];
 	}

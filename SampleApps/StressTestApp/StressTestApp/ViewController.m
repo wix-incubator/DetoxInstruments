@@ -136,11 +136,8 @@ void (*untracked_for_demo_dispatch_after)(dispatch_time_t when, dispatch_queue_t
 	
 	os_signpost_id_t nwIndex = os_signpost_id_generate(__log_network);
 	os_signpost_interval_begin(__log_network, nwIndex, "Requesting Index");
-	DTXEventIdentifier indexEvent = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Index", nil);
 	
 	[[session dataTaskWithURL:[NSURL URLWithString:@"https://jsonplaceholder.typicode.com/photos"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-		
-		DTXProfilerMarkEventIntervalEnd(indexEvent, error ? DTXEventStatusError : DTXEventStatusCompleted, error.localizedDescription);
 		os_signpost_interval_end(__log_network, nwIndex, "Requesting Index");
 		
 		if(error)
@@ -160,11 +157,7 @@ void (*untracked_for_demo_dispatch_after)(dispatch_time_t when, dispatch_queue_t
 			
 			os_signpost_id_t nwItem = os_signpost_id_generate(__log_network);
 			os_signpost_interval_begin(__log_network, nwItem, "Requesting Item");
-			DTXEventIdentifier itemRequest = DTXProfilerMarkEventIntervalBegin(@"Network", @"Requesting Item", obj[@"thumbnailUrl"]);
-			
 			[[session dataTaskWithURL:[NSURL URLWithString:obj[@"thumbnailUrl"]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-				
-				DTXProfilerMarkEventIntervalEnd(itemRequest, error ? DTXEventStatusError : DTXEventStatusCompleted, error.localizedDescription);
 				os_signpost_interval_end(__log_network, nwItem, "Requesting Item");
 				
 				if(error)
