@@ -91,8 +91,8 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	fakeTarget = [__FAKE_DTXRemoteTarget new];
 	fakeTarget.appName = @"Example App";
 	fakeTarget.deviceName = @"Leo Natan's iPhone";
-	fakeTarget.devicePresentable = @"iPhone XS Max, iOS 12.1 (Build 16A405)";
-	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.4", @"machineName": @"iPhone11,6"};
+	fakeTarget.devicePresentable = @"iPhone 11 Pro Max, iOS 13.3.1 (Build 17D5026c)";
+	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.12", @"machineName": @"iPhone11,6"};
 	fakeTarget.screenSnapshot = __DTXiPhoneXSMaxScreenshot();
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	

@@ -39,6 +39,8 @@ return; }\
 
 @interface DTXRemoteProfilingClient () <DTXRemoteTargetDelegate>
 {
+	BOOL _isLocal;
+	
 	pthread_mutex_t _isRecordingMutex;
 	BOOL _isRecording;
 	
@@ -58,6 +60,23 @@ return; }\
 @end
 
 @implementation DTXRemoteProfilingClient
+
+- (instancetype)initWithProfilingTargetForLocalRecording:(DTXRemoteTarget*)target
+{
+	NSParameterAssert(target != nil);
+	
+	self = [super init];
+	
+	if(self)
+	{
+		_target = target;
+		_target.delegate = self;
+		
+		_isLocal = YES;
+	}
+	
+	return self;
+}
 
 - (instancetype)initWithProfilingTarget:(DTXRemoteTarget*)target managedObjectContext:(NSManagedObjectContext*)ctx
 {
@@ -121,32 +140,27 @@ return; }\
 	SET_RECORDING
 	SET_ACCEPTING
 	
-	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-	_opportunisticQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingOpportunisticSamples", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM));
+	if(_isLocal == NO)
+	{
+		dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
+		_opportunisticQueue = dispatch_queue_create("com.wix.DTXRemoteProfilingOpportunisticSamples", dispatch_queue_attr_make_with_autorelease_frequency(qosAttribute, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM));
+	}
 	
 	_threads = [NSMutableDictionary new];
-	[_target startProfilingWithConfiguration:configuration];
+	[_target startProfilingWithConfiguration:configuration local:_isLocal];
 }
 
 - (void)stopProfiling
 {
 	SET_NOT_ACCEPTING
-	
-	pthread_mutex_lock(&_opportunisticSourceMutex);
-	if(_opportunisticSource != nil)
-	{
-		dispatch_cancel(_opportunisticSource);
-		
-		[self _flushPendingOpportunisticSamplesAndUpdatesNow];
-	}
-	_opportunisticQueue = nil;
-	pthread_mutex_unlock(&_opportunisticSourceMutex);
-	
 	SET_NOT_RECORDING
 	
 	[_target stopProfiling];
 	
-	[self.delegate remoteProfilingClientDidStopRecording:self];
+//	if(_isLocal == NO)
+//	{
+//		[self.delegate remoteProfilingClient:self didStopRecordingWithZippedRecordingData:nil];
+//	}
 }
 
 - (void)_addOpportunisticSample:(NSDictionary*)sampleDict entityDescription:(NSEntityDescription *)entityDescription
@@ -284,7 +298,27 @@ return; }\
 {
 	_target = nil;
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[self.delegate remoteProfilingClientDidStopRecording:self];
+		[self.delegate remoteProfilingClient:self didStopRecordingWithZippedRecordingData:nil];
+	});
+}
+
+- (void)profilingTarget:(DTXRemoteTarget*)target didFinishLaunchProfilingWithZippedData:(NSData*)zippedData
+{
+	if(_isLocal == NO)
+	{
+		pthread_mutex_lock(&_opportunisticSourceMutex);
+		if(_opportunisticSource != nil)
+		{
+			dispatch_cancel(_opportunisticSource);
+			
+			[self _flushPendingOpportunisticSamplesAndUpdatesNow];
+		}
+		_opportunisticQueue = nil;
+		pthread_mutex_unlock(&_opportunisticSourceMutex);
+	}
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.delegate remoteProfilingClient:self didStopRecordingWithZippedRecordingData:zippedData];
 	});
 }
 
@@ -364,8 +398,6 @@ return; }\
 	{
 		//We already notified the delegate, just perform last save.
 		[self _saveContext];
-		
-		_target = nil;
 	}
 }
 

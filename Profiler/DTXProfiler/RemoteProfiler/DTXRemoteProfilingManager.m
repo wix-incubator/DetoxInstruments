@@ -75,6 +75,7 @@ static DTXRemoteProfilingManager* __privateLaunchProfilingManager;
 				}
 				
 				[connection sendFinishedLaunchProfilingRecordingWithURL:config.recordingFileURL];
+
 				[NSFileManager.defaultManager removeItemAtURL:config.recordingFileURL error:NULL];
 			}];
 		}

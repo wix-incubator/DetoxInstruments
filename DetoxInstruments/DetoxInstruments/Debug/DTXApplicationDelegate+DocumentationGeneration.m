@@ -376,12 +376,12 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	[newDocument setValue:@"Example App" forKey:@"appLaunchPendingAppName"];
 	
-	[newDocument setValue:@(DTXRecordingAppLaunchProfilingStateWaitingForAppLaunch) forKey:@"appLaunchProfilingState"];
+	[newDocument setValue:@(DTXRecordingLocalRecordingProfilingStateWaitingForAppLaunch) forKey:@"appLaunchProfilingState"];
 	[windowController _drainLayout];
 	rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"AppLaunch_Waiting.png"].path atomically:YES];
 	
-	[newDocument setValue:@(DTXRecordingAppLaunchProfilingStateWaitingForAppData) forKey:@"appLaunchProfilingState"];
+	[newDocument setValue:@(DTXRecordingLocalRecordingProfilingStateWaitingForAppData) forKey:@"appLaunchProfilingState"];
 	[windowController _drainLayout];
 	rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"AppLaunch_Recording.png"].path atomically:YES];

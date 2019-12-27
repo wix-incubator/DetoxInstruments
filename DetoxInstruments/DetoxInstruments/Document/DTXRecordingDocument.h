@@ -20,7 +20,7 @@
 extern NSString* const DTXRecordingDocumentDidLoadNotification;
 extern NSString* const DTXRecordingDocumentDefactoEndTimestampDidChangeNotification;
 extern NSString* const DTXRecordingDocumentStateDidChangeNotification;
-extern NSString* const DTXRecordingAppLaunchProfilingStateDidChangeNotification;
+extern NSString* const DTXRecordingLocalRecordingProfilingStateDidChangeNotification;
 
 typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 	DTXRecordingDocumentStateNew,
@@ -29,18 +29,18 @@ typedef NS_ENUM(NSUInteger, DTXRecordingDocumentState) {
 	DTXRecordingDocumentStateSavedToDisk,
 };
 
-typedef NS_ENUM(NSUInteger, DTXRecordingAppLaunchProfilingState) {
-	DTXRecordingAppLaunchProfilingStateUnknown,
-	DTXRecordingAppLaunchProfilingStateWaitingForAppLaunch,
-	DTXRecordingAppLaunchProfilingStateWaitingForAppData,
+typedef NS_ENUM(NSUInteger, DTXRecordingLocalRecordingProfilingState) {
+	DTXRecordingLocalRecordingProfilingStateUnknown,
+	DTXRecordingLocalRecordingProfilingStateWaitingForAppLaunch,
+	DTXRecordingLocalRecordingProfilingStateWaitingForAppData,
 };
 
 @interface DTXRecordingDocument : DTXDocument
 
 @property (nonatomic, readonly) DTXRecordingDocumentState documentState;
 
-@property (nonatomic, readonly) DTXRecordingAppLaunchProfilingState appLaunchProfilingState;
-@property (nonatomic, strong, readonly) NSString* appLaunchPendingAppName;
+@property (nonatomic, readonly) DTXRecordingLocalRecordingProfilingState localRecordingProfilingState;
+@property (nonatomic, strong, readonly) NSString* localRecordingPendingAppName;
 
 @property (nonatomic, strong, readonly) NSArray<DTXRecording*>* recordings;
 @property (nonatomic, strong, readonly) DTXRecording* firstRecording;

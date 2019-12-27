@@ -376,11 +376,6 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)updateRecording:(DTXRecording *)recording stopRecording:(BOOL)stopRecording
 {
 	[self _serializeCommandWithSelector:_cmd entityName:recording.entity.name dict:recording.dictionaryRepresentationOfChangedValuesForPropertyList additionalParams:@[@(stopRecording)]];
-	
-	if(stopRecording)
-	{
-		[_socketConnection closeWrite];
-	}
 }
 
 - (void)addTagSample:(DTXTag*)tag

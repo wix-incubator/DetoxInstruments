@@ -30,6 +30,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	
 	DTXSocketConnection* _connection;
 	DTXRemoteProfiler* _remoteProfiler;
+	DTXProfiler* _localProfiler;
 }
 
 + (NSData*)_dataForNetworkCommand:(NSDictionary*)cmd
@@ -93,7 +94,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 
 - (BOOL)isProfiling
 {
-	return _remoteProfiler != nil;
+	return _remoteProfiler != nil || _localProfiler != nil;
 }
 
 - (void)abortConnectionAndProfiling
@@ -104,6 +105,9 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	[self->_connection closeWrite];
 	
 	self->_connection = nil;
+	
+	[_localProfiler stopProfilingWithCompletionHandler:nil];
+	_localProfiler = nil;
 	
 	[_remoteProfiler stopProfilingWithCompletionHandler:nil];
 	_remoteProfiler = nil;
@@ -133,6 +137,14 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 				DTXProfilingConfiguration* config = configDict == nil ? [DTXProfilingConfiguration defaultProfilingConfiguration] : [[DTXProfilingConfiguration alloc] initWithCoder:(id)configDict];
 				self->_remoteProfiler = [[DTXRemoteProfiler alloc] initWithOpenedSocketConnection:self->_connection remoteProfilerDelegate:self];
 				[self->_remoteProfiler startProfilingWithConfiguration:config];
+				[self.delegate remoteProfilingConnectionManagerDidStartProfiling:self];
+			}	break;
+			case DTXRemoteProfilingCommandTypeStartLocalProfilingWithConfiguration:
+			{
+				NSDictionary* configDict = cmd[@"configuration"];
+				DTXProfilingConfiguration* config = configDict == nil ? [DTXProfilingConfiguration defaultProfilingConfiguration] : [[DTXProfilingConfiguration alloc] initWithCoder:(id)configDict];
+				self->_localProfiler = [DTXProfiler new];
+				[self->_localProfiler startProfilingWithConfiguration:config];
 				[self.delegate remoteProfilingConnectionManagerDidStartProfiling:self];
 			}	break;
 			case DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration:
@@ -181,10 +193,23 @@ CLANG_IGNORE(-Wdeprecated-declarations)
 CLANG_POP
 			case DTXRemoteProfilingCommandTypeStopProfiling:
 			{
-				[self->_remoteProfiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
-					[self _sendRecordingDidStop];
+				DTXProfiler* __strong * profilerToStop = nil;
+				BOOL collectData = NO;
+				if(_localProfiler != nil)
+				{
+					collectData = YES;
+					profilerToStop = &_localProfiler;
+				}
+				else
+				{
+					profilerToStop = &_remoteProfiler;
+				}
+				
+				[*profilerToStop stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
+					[self sendFinishedRecordingWithURL:collectData ? (*profilerToStop).profilingConfiguration.recordingFileURL : nil];
+					
+					*profilerToStop = nil;
 				}];
-				self->_remoteProfiler = nil;
 			}	break;
 			case DTXRemoteProfilingCommandTypeProfilingStoryEvent:
 			{
@@ -425,17 +450,29 @@ CLANG_POP
 
 #pragma mark Remote Profiling
 
-- (void)_sendRecordingDidStop
-{
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStopProfiling)} completionHandler:nil];
-}
-
 - (void)sendFinishedLaunchProfilingRecordingWithURL:(NSURL*)URL
 {
-	DTXFileSystemItem* recording = [[DTXFileSystemItem alloc] initWithFileURL:URL];
-	NSData* data = recording.zipContents;
+	[self _sendRecordingStopWithCommandType:DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration recordingWithURL:URL];
+}
+
+- (void)sendFinishedRecordingWithURL:(NSURL*)URL
+{
+	[self _sendRecordingStopWithCommandType:DTXRemoteProfilingCommandTypeStopProfiling recordingWithURL:URL];
+}
+
+- (void)_sendRecordingStopWithCommandType:(DTXRemoteProfilingCommandType)commandType recordingWithURL:(NSURL*)URL
+{
+	if(URL)
+	{
+		DTXFileSystemItem* recording = [[DTXFileSystemItem alloc] initWithFileURL:URL];
+		NSData* data = recording.zipContents;
+		
+		[self _writeCommand:@{@"cmdType": @(commandType), @"recordingZipData": data} completionHandler:nil];
+		
+		return;
+	}
 	
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration), @"recordingZipData": data} completionHandler:nil];
+	[self _writeCommand:@{@"cmdType": @(commandType)} completionHandler:nil];
 }
 
 #pragma mark DTXRemoteProfilerDelegate

@@ -20,7 +20,7 @@
 - (void)remoteProfilingClient:(DTXRemoteProfilingClient*)client didCreateRecording:(DTXRecording*)recording;
 - (void)remoteProfilingClient:(DTXRemoteProfilingClient*)client didReceiveSourceMapsData:(NSData*)sourceMapsData;
 - (void)remoteProfilingClientDidChangeDatabase:(DTXRemoteProfilingClient*)client;
-- (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient*)client;
+- (void)remoteProfilingClient:(DTXRemoteProfilingClient*)client didStopRecordingWithZippedRecordingData:(NSData*)zipData;
 
 @end
 
@@ -32,6 +32,7 @@
 @property (nonatomic, weak) id<DTXRemoteProfilingClientDelegate> delegate;
 
 - (instancetype)initWithProfilingTarget:(DTXRemoteTarget*)target managedObjectContext:(NSManagedObjectContext*)ctx;
+- (instancetype)initWithProfilingTargetForLocalRecording:(DTXRemoteTarget*)target;
 
 - (void)startProfilingWithConfiguration:(DTXProfilingConfiguration*)configuration;
 - (void)stopProfiling;

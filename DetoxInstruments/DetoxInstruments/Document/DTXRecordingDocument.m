@@ -29,7 +29,7 @@ DTX_CREATE_LOG(RecordingDocument)
 NSString* const DTXRecordingDocumentDidLoadNotification = @"DTXRecordingDocumentDidLoadNotification";
 NSString* const DTXRecordingDocumentDefactoEndTimestampDidChangeNotification = @"DTXRecordingDocumentDefactoEndTimestampDidChangeNotification";
 NSString* const DTXRecordingDocumentStateDidChangeNotification = @"DTXRecordingDocumentStateDidChangeNotification";
-NSString* const DTXRecordingAppLaunchProfilingStateDidChangeNotification = @"DTXRecordingAppLaunchProfilingStateDidChangeNotification";
+NSString* const DTXRecordingLocalRecordingProfilingStateDidChangeNotification = @"DTXRecordingLocalRecordingProfilingStateDidChangeNotification";
 
 static void const * DTXOriginalURLKey = &DTXOriginalURLKey;
 
@@ -64,6 +64,10 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	dispatch_block_t _pendingCancelBlock;
 	
 	id _liveRecordingActivity;
+	
+	id _pendingCloseDelegate;
+	SEL _pendingCloseSelector;
+	id _pendingCloseContext;
 #endif
 	
 	BOOL _duplicatingBecauseOfVersionMismatch;
@@ -162,6 +166,17 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	[_remoteProfilingClient startProfilingWithConfiguration:configuration];
 }
 
+- (void)_prepareForRemoteLocalProfilingRecordingWithTarget:(DTXRemoteTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration
+{
+	_localRecordingPendingAppName = target.appName;
+	self.localRecordingProfilingState = DTXRecordingLocalRecordingProfilingStateWaitingForAppData;
+	self.documentState = DTXRecordingDocumentStateLiveRecording;
+	
+	_remoteProfilingClient = [[DTXRemoteProfilingClient alloc] initWithProfilingTargetForLocalRecording:target];
+	_remoteProfilingClient.delegate = self;
+	[_remoteProfilingClient startProfilingWithConfiguration:configuration];
+}
+
 - (void)makeWindowControllers
 {
 	NSWindowController* wc = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"InstrumentsWindowController"];
@@ -177,16 +192,16 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	return [url URLByAppendingPathComponent:@"_dtx_recording.sqlite"];
 }
 
-- (void)setAppLaunchProfilingState:(DTXRecordingAppLaunchProfilingState)appLaunchProfilingState
+- (void)setLocalRecordingProfilingState:(DTXRecordingLocalRecordingProfilingState)localRecordingProfilingState
 {
-	if(_appLaunchProfilingState == appLaunchProfilingState)
+	if(_localRecordingProfilingState == localRecordingProfilingState)
 	{
 		return;
 	}
 	
-	_appLaunchProfilingState = appLaunchProfilingState;
+	_localRecordingProfilingState = localRecordingProfilingState;
 	
-	[NSNotificationCenter.defaultCenter postNotificationName:DTXRecordingAppLaunchProfilingStateDidChangeNotification object:self];
+	[NSNotificationCenter.defaultCenter postNotificationName:DTXRecordingLocalRecordingProfilingStateDidChangeNotification object:self];
 }
 
 - (void)setDocumentState:(DTXRecordingDocumentState)documentState
@@ -807,6 +822,11 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	if(self.documentState == DTXRecordingDocumentStateLiveRecording)
 	{
 		[self stopLiveRecording];
+		_pendingCloseDelegate = delegate;
+		_pendingCloseSelector = shouldCloseSelector;
+		_pendingCloseContext = NS(contextInfo);
+		
+		return;
 	}
 #endif
 	
@@ -852,6 +872,40 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 {
 	[_remoteProfilingClient stopProfiling];
 	[_remoteLaunchProfilingClient stop];
+}
+
+- (void)_loadZippedData:(NSData*)zippedData completionHandler:(dispatch_block_t)completionHandler
+{
+	[self autosaveWithImplicitCancellability:YES completionHandler:^(NSError * _Nullable errorOrNil) {
+		dtx_defer {
+			self.localRecordingProfilingState = DTXRecordingLocalRecordingProfilingStateUnknown;
+		};
+		
+		if(errorOrNil)
+		{
+			[self presentError:errorOrNil];
+			
+			[self close];
+			
+			return;
+		}
+		
+		DTXExtractDataZipToURL(zippedData, self.contentsURL);
+		
+		if(NO == [self _preparePersistenceContainerFromURL:self.contentsURL allowCreation:NO error:&errorOrNil])
+		{
+			[self presentError:errorOrNil];
+			
+			[self close];
+			
+			return;
+		}
+		
+		if(completionHandler)
+		{
+			completionHandler();
+		}
+	}];
 }
 
 #pragma mark DTXRemoteProfilingClientDelegate
@@ -903,7 +957,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	_sourceMapsParser = [DTXSourceMapsParser sourceMapsParserForSourceMaps:sourceMaps];
 }
 
-- (void)remoteProfilingClientDidStopRecording:(DTXRemoteProfilingClient *)client
+- (void)remoteProfilingClient:(DTXRemoteProfilingClient*)client didStopRecordingWithZippedRecordingData:(NSData*)zippedData
 {
 	[self updateChangeCount:NSChangeDone];
 	if(_liveRecordingActivity)
@@ -912,24 +966,58 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		_liveRecordingActivity = nil;
 	}
 	
-	[_container.viewContext performBlock:^{
-		if(self.lastRecording == nil)
-		{
-			[self close];
-			return;
-		}
-		
-		if(self.lastRecording.endTimestamp == nil)
-		{
-			self.lastRecording.endTimestamp = [NSDate date];
-		}
-		
-		//Autosave here so that the Core Data container moves to SQL type and only then update document state.
-		[self autosaveWithImplicitCancellability:self.autosavingIsImplicitlyCancellable completionHandler:^(NSError * _Nullable errorOrNil) {
-			self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
+	if(zippedData)
+	{
+		[self _loadZippedData:zippedData completionHandler: ^ {
+			self.displayName = [DTXProfilingConfiguration _urlForNewRecordingWithAppName:self.recordings.firstObject.appName date:self.recordings.firstObject.startTimestamp].lastPathComponent.stringByDeletingPathExtension;
+			[self.windowControllers.firstObject synchronizeWindowTitleWithDocumentName];
+			
+			if(_pendingCloseDelegate)
+			{
+				[super canCloseDocumentWithDelegate:_pendingCloseDelegate shouldCloseSelector:_pendingCloseSelector contextInfo:PTR(_pendingCloseContext)];
+				_pendingCloseDelegate = nil;
+				_pendingCloseContext = nil;
+			}
 		}];
-	}];
+	}
+	else
+	{
+		NSError* err = [NSError errorWithDomain:@"DTXRecordingDocumentErrorDomain" code:-9 userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Unable to display recording document.", @""), NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The profiled app disconnected without providing the recorded data.\n\nThe recording document may still be available in the Documents folder in your app's container.", @"") }];
+		
+		if(self.localRecordingProfilingState != DTXRecordingLocalRecordingProfilingStateUnknown)
+		{			
+			[self.windowControllers.firstObject presentError:err];
+			[self close];
+		}
+		
+		[_container.viewContext performBlock:^{
+			if(self.lastRecording == nil)
+			{
+				[self.windowControllers.firstObject presentError:err];
+				[self close];
+				return;
+			}
+			
+			if(self.lastRecording.endTimestamp == nil)
+			{
+				self.lastRecording.endTimestamp = [NSDate date];
+			}
+			
+			//Autosave here so that the Core Data container moves to SQL type and only then update document state.
+			[self autosaveWithImplicitCancellability:self.autosavingIsImplicitlyCancellable completionHandler:^(NSError * _Nullable errorOrNil) {
+				self.documentState = DTXRecordingDocumentStateLiveRecordingFinished;
+				
+				if(_pendingCloseDelegate)
+				{
+					[super canCloseDocumentWithDelegate:_pendingCloseDelegate shouldCloseSelector:_pendingCloseSelector contextInfo:PTR(_pendingCloseContext)];
+					_pendingCloseDelegate = nil;
+					_pendingCloseContext = nil;
+				}
+			}];
+		}];
+	}
 	
+	_remoteProfilingClient.delegate = nil;
 	_remoteProfilingClient = nil;
 }
 
@@ -944,7 +1032,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 
 - (void)remoteLaunchProfilingClientDidConnect:(DTXRemoteLaunchProfilingClient*)client
 {
-	self.appLaunchProfilingState = DTXRecordingAppLaunchProfilingStateWaitingForAppData;
+	self.localRecordingProfilingState = DTXRecordingLocalRecordingProfilingStateWaitingForAppData;
 }
 
 - (void)remoteLaunchProfilingClient:(DTXRemoteLaunchProfilingClient*)client didFinishLaunchProfilingWithZippedData:(NSData*)zippedData
@@ -955,31 +1043,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		_remoteLaunchProfilingClient = nil;
 		
 		[self updateChangeCount:NSChangeDone];
-		[self autosaveWithImplicitCancellability:YES completionHandler:^(NSError * _Nullable errorOrNil) {
-			dtx_defer {
-				self.appLaunchProfilingState = DTXRecordingAppLaunchProfilingStateUnknown;
-			};
-			
-			if(errorOrNil)
-			{
-				[NSApp presentError:errorOrNil];
-				
-				[self close];
-				
-				return;
-			}
-			
-			DTXExtractDataZipToURL(zippedData, self.contentsURL);
-			
-			if(NO == [self _preparePersistenceContainerFromURL:self.contentsURL allowCreation:NO error:&errorOrNil])
-			{
-				[NSApp presentError:errorOrNil];
-				
-				[self close];
-				
-				return;
-			}
-			
+		[self _loadZippedData:zippedData completionHandler:^ {
 			self.displayName = [DTXProfilingConfiguration _urlForLaunchRecordingWithAppName:self.recordings.firstObject.appName date:self.recordings.firstObject.startTimestamp].lastPathComponent.stringByDeletingPathExtension;
 			[self.windowControllers.firstObject synchronizeWindowTitleWithDocumentName];
 		}];
@@ -1001,14 +1065,21 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 {
 	[self.windowControllers.firstObject.window.contentViewController dismissViewController:picker];
 	
-	[self _prepareForRemoteProfilingRecordingWithTarget:target profilingConfiguration:configuration];
+	if(configuration.recordActivity == NO)
+	{
+		[self _prepareForRemoteProfilingRecordingWithTarget:target profilingConfiguration:configuration];
+	}
+	else
+	{
+		[self _prepareForRemoteLocalProfilingRecordingWithTarget:target profilingConfiguration:configuration];
+	}
 }
 
 - (void)recordingTargetPicker:(DTXRecordingTargetPickerViewController*)picker didSelectRemoteProfilingTargetForLaunchProfiling:(DTXRemoteTarget*)target profilingConfiguration:(DTXProfilingConfiguration*)configuration
 {
 	[self.windowControllers.firstObject.window.contentViewController dismissViewController:picker];
 	
-	_appLaunchPendingAppName = target.appName;
+	_localRecordingPendingAppName = target.appName;
 	
 	NSTimeInterval duration = [NSUserDefaults.standardUserDefaults doubleForKey:@"DTXPreferencesLaunchProfilingDuration"];
 	NSString* session = NSUUID.UUID.UUIDString;
@@ -1019,7 +1090,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	_remoteLaunchProfilingClient.delegate = self;
 	[_remoteLaunchProfilingClient startConnecting];
 	
-	self.appLaunchProfilingState = DTXRecordingAppLaunchProfilingStateWaitingForAppLaunch;
+	self.localRecordingProfilingState = DTXRecordingLocalRecordingProfilingStateWaitingForAppLaunch;
 }
 
 #endif

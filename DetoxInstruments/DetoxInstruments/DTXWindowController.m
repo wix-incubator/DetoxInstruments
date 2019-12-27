@@ -88,7 +88,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	if(self.document != nil)
 	{
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_documentStateDidChangeNotification:) name:DTXRecordingDocumentStateDidChangeNotification object:self.document];
-		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_appLaunchProfilingStateDidChangeNotification:) name:DTXRecordingAppLaunchProfilingStateDidChangeNotification object:self.document];
+		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_appLaunchProfilingStateDidChangeNotification:) name:DTXRecordingLocalRecordingProfilingStateDidChangeNotification object:self.document];
 	}
 	
 	[self _fixUpRecordingButtons];
@@ -136,16 +136,16 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 {
 	DTXRecordingDocument* document = self.document;
 	
-	switch (document.appLaunchProfilingState) {
-		case DTXRecordingAppLaunchProfilingStateUnknown:
+	switch (document.localRecordingProfilingState) {
+		case DTXRecordingLocalRecordingProfilingStateUnknown:
 			[_plotDetailsSplitViewController setSplitViewHidden:NO];
 			[_plotDetailsSplitViewController setProgressIndicatorTitle:nil subtitle:nil displaysProgress:NO];
 			break;
-		case DTXRecordingAppLaunchProfilingStateWaitingForAppLaunch:
+		case DTXRecordingLocalRecordingProfilingStateWaitingForAppLaunch:
 			[_plotDetailsSplitViewController setSplitViewHidden:YES];
 			[_plotDetailsSplitViewController setProgressIndicatorTitle:NSLocalizedString(@"Waiting for App", @"") subtitle:NSLocalizedString(@"Launch Your App to Start Profiling", @"") displaysProgress:NO];
 			break;
-		case DTXRecordingAppLaunchProfilingStateWaitingForAppData:
+		case DTXRecordingLocalRecordingProfilingStateWaitingForAppData:
 			[_plotDetailsSplitViewController setSplitViewHidden:YES];
 			[_plotDetailsSplitViewController setProgressIndicatorTitle:NSLocalizedString(@"Recording...", @"") subtitle:nil displaysProgress:YES];
 			break;
@@ -169,11 +169,11 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 		}
 		else if(document.documentState == DTXRecordingDocumentStateLiveRecording)
 		{
-			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.firstRecording.appName, NSLocalizedString(@"Recording…", @"")];
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.localRecordingProfilingState == DTXRecordingLocalRecordingProfilingStateWaitingForAppData ? document.localRecordingPendingAppName : document.firstRecording.appName, NSLocalizedString(@"Recording…", @"")];
 		}
-		else if(document.appLaunchProfilingState > DTXRecordingAppLaunchProfilingStateUnknown)
+		else if(document.localRecordingProfilingState > DTXRecordingLocalRecordingProfilingStateUnknown)
 		{
-			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.appLaunchPendingAppName, NSLocalizedString(@"App Launch Profiling", @"")];
+			_titleTextField.stringValue = [NSString stringWithFormat:@"%@ | %@", document.localRecordingPendingAppName, NSLocalizedString(@"App Launch Profiling", @"")];
 		}
 		else
 		{
@@ -188,14 +188,12 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 
 - (void)_fixUpRecordingButtons
 {
-	_stopRecordingButton.enabled = [(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
+	DTXRecordingDocument* document = self.document;
+	_stopRecordingButton.enabled = document.documentState == DTXRecordingDocumentStateLiveRecording;
 	_stopRecordingButton.hidden = !_stopRecordingButton.enabled;
-	
-	_flagButton.enabled = [(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
-	_flagButton.hidden = !_flagButton.enabled;
-	
-	_nowButton.enabled = [(DTXRecordingDocument*)self.document documentState] == DTXRecordingDocumentStateLiveRecording;
+	_flagButton.enabled = _nowButton.enabled = document.documentState == DTXRecordingDocumentStateLiveRecording && document.localRecordingProfilingState == DTXRecordingLocalRecordingProfilingStateUnknown;
 	_nowButton.hidden = !_nowButton.enabled;
+	_flagButton.hidden = !_flagButton.enabled;
 }
 
 - (IBAction)_stopRecording:(id)sender

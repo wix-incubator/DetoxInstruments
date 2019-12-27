@@ -161,7 +161,7 @@
 	__weak __auto_type weakSelf = self;
 	
 	[self _readCommandWithCompletionHandler:^(NSDictionary *cmd)
-	{
+	{		
 		switch ((DTXRemoteProfilingCommandType)[cmd[@"cmdType"] unsignedIntegerValue]) {
 			case DTXRemoteProfilingCommandTypeDownloadContainer:
 				[weakSelf _handleDeviceContainerContentsZip:cmd];
@@ -183,6 +183,7 @@
 				break;
 			case DTXRemoteProfilingCommandTypeStopProfiling:
 				[weakSelf _handleRecordingDidStop:cmd];
+				break;
 			case DTXRemoteProfilingCommandTypePing:
 				break;
 			case DTXRemoteProfilingCommandTypeGetCookies:
@@ -198,6 +199,7 @@
 				[weakSelf _handleRemoteLaunchProfilingDidFinish:cmd];
 				break;
 			case DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration:
+			case DTXRemoteProfilingCommandTypeStartLocalProfilingWithConfiguration:
 			case DTXRemoteProfilingCommandTypeAddTag:
 			case DTXRemoteProfilingCommandTypeDeleteContainerIten:
 			case DTXRemoteProfilingCommandTypePutContainerItem:
@@ -456,7 +458,7 @@
 
 #pragma mark Remote Profiling
 
-- (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration
+- (void)startProfilingWithConfiguration:(DTXProfilingConfiguration *)configuration local:(BOOL)local
 {
 	if(self.state >= DTXRemoteTargetStateRecording)
 	{
@@ -467,7 +469,9 @@
 	_uiUpdateTimer = nil;
 	_state = DTXRemoteTargetStateRecording;
 	
-	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration), @"configuration": configuration.dictionaryRepresentation} completionHandler:nil];
+	DTXRemoteProfilingCommandType startType = local ? DTXRemoteProfilingCommandTypeStartLocalProfilingWithConfiguration : DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration;
+	
+	[self _writeCommand:@{@"cmdType": @(startType), @"configuration": configuration.dictionaryRepresentation} completionHandler:nil];
 }
 
 - (void)requestLaunchProfilingWithSessionID:(NSString*)launchProfilingSession configuration:(DTXProfilingConfiguration*)configuration duration:(NSTimeInterval)duration
@@ -546,9 +550,9 @@
 	}];
 }
 
-- (void)_handleRecordingDidStop:(NSDictionary*)storyEvent
+- (void)_handleRecordingDidStop:(NSDictionary*)recordingDidStop
 {
-	
+	[self.delegate profilingTarget:self didFinishLaunchProfilingWithZippedData:recordingDidStop[@"recordingZipData"]];
 }
 
 - (void)_handleRemoteLaunchProfilingDidFinish:(NSDictionary*)remoteLaunchProfilingDidFinish
