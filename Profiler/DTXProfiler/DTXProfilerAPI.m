@@ -11,7 +11,10 @@ void __DTXProfilerActiveProfilersInit(void)
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		pthread_mutex_init(&__active_profilers_mutex, NULL);
+		pthread_mutexattr_t attr;
+		pthread_mutexattr_init(&attr);
+		pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+		pthread_mutex_init(&__active_profilers_mutex, &attr);
 		__activeProfilers = [NSMutableSet new];
 	});
 }
@@ -92,4 +95,20 @@ DTXEventIdentifier DTXProfilerMarkDetoxLifecycleIntervalBegin(NSString* category
 void DTXProfilerMarkDetoxLifecycleEvent(NSString* category, NSString* name, DTXEventStatus eventStatus, NSString* __nullable message)
 {
 	__DTXProfilerMarkEvent(NSDate.date, category, name, eventStatus, message, _DTXEventTypeDetoxLifecycle);
+}
+
+__attribute__((destructor))
+static void _bestEffortStopActiveProfilers()
+{
+	dispatch_group_t wait_group = dispatch_group_create();
+	
+	//Copy here to prevent mutation during iteration. This is only needed here.
+	[__activeProfilers.copy enumerateObjectsUsingBlock:^(DTXProfiler * _Nonnull profiler, BOOL * _Nonnull stop) {
+		dispatch_group_enter(wait_group);
+		[profiler stopProfilingWithCompletionHandler:^(NSError * _Nullable error) {
+			dispatch_group_leave(wait_group);
+		}];
+	}];
+	
+	dispatch_group_wait(wait_group, DISPATCH_TIME_FOREVER);
 }
