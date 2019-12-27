@@ -24,14 +24,14 @@ DTXProfiler* profiler = [[DTXProfiler alloc] init];
 import DTXProfiler
 
 let configuration = DTXMutableProfilingConfiguration.default()
-		configuration.recordingFileURL = //Set the recording document URL here
+configuration.recordingFileURL = //Set the recording document URL here
 
 let profiler = DTXProfiler()
-		profiler.startProfiling(with: configuration)
+profiler.startProfiling(with: configuration)
 //...
 profiler.stopProfiling { error in
-			print("Finished profiling with \(error?.localizedDescription ?? "no error").")
-		}
+	print("Finished profiling with \(error?.localizedDescription ?? "no error").")
+}
 ```
 
 ## Classes
