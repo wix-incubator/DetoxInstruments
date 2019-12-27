@@ -67,6 +67,12 @@ DTX_CREATE_LOG(Profiler);
 
 @synthesize _profilerStoryListener = _profilerStoryListener;
 
+static uint64_t main_thread_identifier;
++ (void)load
+{
+	main_thread_identifier = _DTXThreadIdentifierForCurrentThread();
+}
+
 + (NSString *)version
 {
 	return [NSString stringWithFormat:@"%@.%@", [[NSBundle bundleForClass:self] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle bundleForClass:self] objectForInfoDictionaryKey:@"CFBundleVersion"]];
@@ -153,6 +159,7 @@ DTX_CREATE_LOG(Profiler);
 	
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
 		self->_backgroundContext = self->_container.newBackgroundContext;
+		[self _threadForThreadIdentifier:main_thread_identifier];
 		
 		[self->_backgroundContext performBlockAndWait:^{
 			if(deleteExisting == NO)
