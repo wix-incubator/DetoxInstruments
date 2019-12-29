@@ -159,7 +159,6 @@ static uint64_t main_thread_identifier;
 	
 	[_container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull description, NSError * _Nullable error) {
 		self->_backgroundContext = self->_container.newBackgroundContext;
-		[self _threadForThreadIdentifier:main_thread_identifier];
 		
 		[self->_backgroundContext performBlockAndWait:^{
 			if(deleteExisting == NO)
@@ -190,6 +189,7 @@ static uint64_t main_thread_identifier;
 			
 			self->_currentRecording = [[DTXRecording alloc] initWithContext:self->_backgroundContext];
 			self->_currentRecording.profilingConfiguration = self->_currentProfilingConfiguration.dictionaryRepresentation;
+			[self _threadForThreadIdentifier:main_thread_identifier];
 			
 			NSDictionary* deviceInfo = [DTXDeviceInfo deviceInfo];
 			[deviceInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
