@@ -187,19 +187,21 @@ static uint64_t main_thread_identifier;
 				}
 			}
 			
-			self->_currentRecording = [[DTXRecording alloc] initWithContext:self->_backgroundContext];
-			self->_currentRecording.profilingConfiguration = self->_currentProfilingConfiguration.dictionaryRepresentation;
-			[self _threadForThreadIdentifier:main_thread_identifier];
-			
-			NSDictionary* deviceInfo = [DTXDeviceInfo deviceInfo];
-			[deviceInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-				if([self->_currentRecording respondsToSelector:NSSelectorFromString(key)])
-				{
-					[self->_currentRecording setValue:obj forKey:key];
-				}
+			[self->_backgroundContext performBlockAndWait:^{
+				self->_currentRecording = [[DTXRecording alloc] initWithContext:self->_backgroundContext];
+				self->_currentRecording.profilingConfiguration = self->_currentProfilingConfiguration.dictionaryRepresentation;
+				[self _threadForThreadIdentifier:main_thread_identifier];
+				
+				NSDictionary* deviceInfo = [DTXDeviceInfo deviceInfo];
+				[deviceInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+					if([self->_currentRecording respondsToSelector:NSSelectorFromString(key)])
+					{
+						[self->_currentRecording setValue:obj forKey:key];
+					}
+				}];
+				
+				[self->_profilerStoryListener createRecording:self->_currentRecording];
 			}];
-			
-			[self->_profilerStoryListener createRecording:self->_currentRecording];
 			
 			__weak __typeof(self) weakSelf = self;
 			
