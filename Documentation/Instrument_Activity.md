@@ -24,7 +24,7 @@ From the navigation bar, you can display activity samples in summary or list.
 
 #### Summary
 
-Events will be grouped by categories and their names. For groups, you can see the number of events, the total duration of all events in the group as well as min/avg/max duration.
+Activity samples will be grouped by their types and objects.
 
 ![Activity Detail Pane](Resources/Instrument_Activity_DetailPane.png "Activity Detail Pane")
 
