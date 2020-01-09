@@ -3,7 +3,7 @@
 //  DetoxInstruments
 //
 //  Created by Artal Druk on 28/08/2017.
-//  Copyright © 2017-2019 Wix. All rights reserved.
+//  Copyright © 2017-2020 Wix. All rights reserved.
 //
 
 #import "DTXFilterField.h"
