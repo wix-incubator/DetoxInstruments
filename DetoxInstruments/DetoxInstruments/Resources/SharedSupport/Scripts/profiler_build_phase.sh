@@ -13,7 +13,7 @@ SHIM_FRAMEWORK_PATH="${INSTRUMENTS_SCRIPTS_DIR}/../${SHIM_LIB_DIR}/${SHIM_FRAMEW
 
 CONFIGURATION=$1
 # Clean any leading or trailing whitespace from list of allowed configurations
-ALLOWED_CONFIGURATIONS=`echo $2 | perl -e "s/\s*\,\s*/\ /g" -p`
+ALLOWED_CONFIGURATIONS=`echo "$2" | perl -e "s/\s*\,\s*/\ /g" -p`
 
 if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 	mkdir -p "${CODESIGNING_FOLDER_PATH}"/Frameworks
@@ -22,9 +22,9 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 		rm -fr "${CODESIGNING_FOLDER_PATH}"/Frameworks/DTXProfiler.framework
 	fi
 
+	rm -f "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"
 	if [[ " ${ALLOWED_CONFIGURATIONS[@]} " =~ " ${CONFIGURATION} " ]]; then
 		cp -Rf "${PROFILER_FRAMEWORK_PATH}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/
-		rm -fr "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/Frameworks/"${PROFILER_SHIM_FRAMEWORK_NAME}"
 		## 🤦‍♂️ rdar://45972646 "Notarization service fails for an app with an iOS framework embedded in it"
 		openssl enc -aes-256-cbc -d -K 0 -iv 0 -nosalt -in "${PROFILER_FRAMEWORK_PATH}"/DTXProfiler -out "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
 		openssl enc -aes-256-cbc -d -K 0 -iv 0 -nosalt -in "${PROFILER_FRAMEWORK_PATH}"/Frameworks/DetoxSync.framework/DetoxSync -out "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/Frameworks/DetoxSync.framework/DetoxSync

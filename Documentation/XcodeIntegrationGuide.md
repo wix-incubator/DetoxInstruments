@@ -42,7 +42,7 @@ You'll need to perform the following steps for each target that you wish to inte
   if [ "${INSTRUMENTS_APP_PATH}" -a -e "${PROFILER_BUILD_SCRIPT_PATH}" ]; then
       echo Found integration script at "${PROFILER_BUILD_SCRIPT_PATH}"
       # Run the Profiler framework integration script
-      "${PROFILER_BUILD_SCRIPT_PATH}" ${CONFIGURATION} ${ALLOWED_CONFIGURATIONS}
+      "${PROFILER_BUILD_SCRIPT_PATH}" "${CONFIGURATION}" "${ALLOWED_CONFIGURATIONS}"
   else
       echo "Profiler not included: Cannot find an installed Detox Instruments app."
   fi
