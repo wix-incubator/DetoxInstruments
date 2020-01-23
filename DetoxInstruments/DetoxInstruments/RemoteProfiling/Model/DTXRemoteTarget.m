@@ -195,6 +195,9 @@
 			case DTXRemoteProfilingCommandTypeCaptureViewHierarchy:
 				[weakSelf _handleViewHierarchy:cmd];
 				break;
+			case DTXRemoteProfilingCommandTypeGetAsyncStorage:
+				[weakSelf _handleAsyncStorage:cmd];
+				break;
 			case DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration:
 				[weakSelf _handleRemoteLaunchProfilingDidFinish:cmd];
 				break;
@@ -206,6 +209,7 @@
 			case DTXRemoteProfilingCommandTypeChangeUserDefaultsItem:
 			case DTXRemoteProfilingCommandTypeSetCookies:
 			case DTXRemoteProfilingCommandTypeSetPasteboard:
+			case DTXRemoteProfilingCommandTypeChangeAsyncStorageItem:
 				break;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -240,6 +244,7 @@
 {
 	self.deviceName = deviceInfo[@"deviceName"];
 	self.appName = deviceInfo[@"appName"];
+	self.hasReactNative = [deviceInfo[@"hasReactNative"] boolValue];
 	NSString* marketingName = deviceInfo[@"deviceMarketingName"];
 	if(marketingName)
 	{
@@ -365,7 +370,7 @@
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetUserDefaults)} completionHandler:nil];
 }
 
-- (void)changeUserDefaultsItemWithKey:(NSString*)key changeType:(DTXUserDefaultsChangeType)changeType value:(id)value previousKey:(NSString*)previousKey
+- (void)changeUserDefaultsItemWithKey:(NSString*)key changeType:(DTXRemoteProfilingChangeType)changeType value:(id)value previousKey:(NSString*)previousKey
 {
 	NSMutableDictionary* cmd = @{@"cmdType": @(DTXRemoteProfilingCommandTypeChangeUserDefaultsItem)}.mutableCopy;
 	cmd[@"type"] = @(changeType);
@@ -441,6 +446,48 @@
 {
 	_pasteboardContents = [pasteboardContents copy];
 	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeSetPasteboard), @"pasteboardContents": [NSKeyedArchiver archivedDataWithRootObject:pasteboardContents requiringSecureCoding:YES error:NULL]} completionHandler:nil];
+}
+
+#pragma mark Async Storage
+
+- (void)loadAsyncStorage
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeGetAsyncStorage)} completionHandler:nil];
+}
+
+- (void)changeAsyncStorageItemWithKey:(NSString*)key changeType:(DTXRemoteProfilingChangeType)changeType value:(id)value previousKey:(NSString*)previousKey
+{
+	NSMutableDictionary* cmd = @{@"cmdType": @(DTXRemoteProfilingCommandTypeChangeAsyncStorageItem)}.mutableCopy;
+	cmd[@"type"] = @(changeType);
+	if(key)
+	{
+		cmd[@"key"] = key;
+	}
+	if(value)
+	{
+		cmd[@"value"] = value;
+	}
+	if(previousKey)
+	{
+		cmd[@"previousKey"] = previousKey;
+	}
+	
+	[self _writeCommand:cmd completionHandler:nil];
+}
+
+- (void)clearAsyncStorage
+{
+	[self changeAsyncStorageItemWithKey:nil changeType:DTXRemoteProfilingChangeTypeClear value:nil previousKey:nil];
+}
+
+- (void)_handleAsyncStorage:(NSDictionary*)userDefaults
+{
+	_asyncStorage = userDefaults[@"asyncStorage"];
+	
+	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadAsyncStorage:)])
+	{
+		[self.delegate profilingTarget:self didLoadAsyncStorage:self.asyncStorage];
+	}
 }
 
 #pragma mark View Hierarchy

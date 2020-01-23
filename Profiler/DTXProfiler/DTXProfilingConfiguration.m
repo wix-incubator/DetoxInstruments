@@ -27,6 +27,7 @@
 @property (nonatomic, readwrite) BOOL recordLogOutput;
 @property (nonatomic, readwrite) BOOL profileReactNative;
 @property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
+@property (nonatomic, readwrite) BOOL recordReactNativeAsyncStorageData;
 @property (nonatomic, readwrite) BOOL recordReactNativeTimersAsActivity;
 @property (nonatomic, copy, null_resettable, readwrite) NSURL* recordingFileURL;
 @property (nonatomic, readwrite) BOOL recordInternalReactNativeActivity;
@@ -260,6 +261,7 @@ static NSDateFormatter* _DTXDateFormatterForFileName(void)
 @dynamic recordLogOutput;
 @dynamic profileReactNative;
 @dynamic recordReactNativeBridgeData;
+@dynamic recordReactNativeAsyncStorageData;
 @dynamic recordReactNativeTimersAsActivity;
 @dynamic recordInternalReactNativeActivity;
 @dynamic recordingFileURL;

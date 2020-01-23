@@ -24,9 +24,11 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 							   NSStringFromClass([DTXNetworkSample class]): @(DTXSampleTypeNetwork),
 							   NSStringFromClass([DTXTag class]): @(DTXSampleTypeTag),
 							   NSStringFromClass([DTXLogSample class]): @(DTXSampleTypeLog),
-                               NSStringFromClass([DTXReactNativePeroformanceSample class]): @(DTXSampleTypeReactNativePerformanceType),
+                               NSStringFromClass([DTXReactNativePerformanceSample class]): @(DTXSampleTypeReactNativePerformanceType),
 							   NSStringFromClass([DTXSignpostSample class]): @(DTXSampleTypeSignpost),
 							   NSStringFromClass([DTXReactNativeDataSample class]): @(DTXSampleTypeReactNativeBridgeDataType),
+							   NSStringFromClass(DTXReactNativeAsyncStorageSample.class):
+								   @(DTXSampleTypeReactNativeAsyncStorageType),
 							   NSStringFromClass([DTXActivitySample class]): @(DTXSampleTypeActivity),
 							   NSStringFromClass([DTXDetoxLifecycleSample class]): @(DTXSampleTypeDetoxLifecycle),
 							   };
@@ -35,9 +37,11 @@ static NSDictionary<NSNumber*, Class>* __typeClassMapping;
 							   @(DTXSampleTypeNetwork): ([DTXNetworkSample class]),
 							   @(DTXSampleTypeTag): ([DTXTag class]),
 							   @(DTXSampleTypeLog): ([DTXLogSample class]),
-							   @(DTXSampleTypeReactNativePerformanceType): ([DTXReactNativePeroformanceSample class]),
+							   @(DTXSampleTypeReactNativePerformanceType): ([DTXReactNativePerformanceSample class]),
 							   @(DTXSampleTypeSignpost): ([DTXSignpostSample class]),
 							   @(DTXSampleTypeReactNativeBridgeDataType): ([DTXReactNativeDataSample class]),
+							   @(DTXSampleTypeReactNativeAsyncStorageType):
+								   DTXReactNativeAsyncStorageSample.class,
 							   @(DTXSampleTypeActivity): ([DTXActivitySample class]),
 							   @(DTXSampleTypeDetoxLifecycle): ([DTXDetoxLifecycleSample class]),
 							   };

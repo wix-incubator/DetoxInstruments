@@ -33,6 +33,7 @@
 + (NSFormatter*)formatterForDataPresentation;
 + (NSFormatter*)additionalFormatterForDataPresentation;
 - (id)transformedValueForFormatter:(id)value;
+- (NSString*)annotationStringValueForTransformedValue:(id)value;
 
 - (void)updateLayerHandler;
 

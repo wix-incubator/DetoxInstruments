@@ -142,6 +142,11 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 	[self _updateTextAnnotations:nil];
 }
 
+- (NSString*)annotationStringValueForTransformedValue:(id)value
+{
+	return [self.class.formatterForDataPresentation stringForObjectValue:value];
+}
+
 - (void)mouseMoved:(NSEvent *)event
 {
 	NSPoint pointInView = [self.wrapperView convertPoint:[event locationInWindow] fromView:nil];
@@ -163,12 +168,24 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 			}
 			
 			double value = [scatterPlotView valueOfPointIndex:pointIdx];
+			NSString* annotationValue = [self annotationStringValueForTransformedValue:[self transformedValueForFormatter:@(value)]];
 
-			NSMutableDictionary* dataPoint = @{@"position": @(position), @"value": [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(value)]]}.mutableCopy;
+			NSMutableDictionary* dataPoint = @{@"position": @(position)}.mutableCopy;
+			
+			if(annotationValue)
+			{
+				dataPoint[@"value"] = annotationValue;
+			}
+			
 			if(scatterPlotView.hasAdditionalPoints)
 			{
 				double additionalValue = [scatterPlotView additionalValueOfPointIndex:pointIdx];
-				dataPoint[@"additionalValue"] = [self.class.additionalFormatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(additionalValue)]];
+				NSString* additionalAnnotationValue = [self annotationStringValueForTransformedValue:[self transformedValueForFormatter:@(additionalValue)]];
+				
+				if(additionalAnnotationValue)
+				{
+					dataPoint[@"additionalValue"] = additionalAnnotationValue;
+				}
 			}
 			
 			[dataPoints addObject:dataPoint];
@@ -184,10 +201,12 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 
 	[dataPoints enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull presentable, NSUInteger idx, BOOL * _Nonnull stop) {
 		DTXPlotViewTextAnnotation* textAnnotation = [DTXPlotViewTextAnnotation new];
-		textAnnotation.showsValue = textAnnotation.showsAdditionalText = textAnnotation.showsText = _showsHoverAnnotationsText;
 		textAnnotation.position = [presentable[@"position"] doubleValue];
 		textAnnotation.text = presentable[@"value"];
 		textAnnotation.additionalText = presentable[@"additionalValue"];
+		textAnnotation.showsText = _showsHoverAnnotationsText && textAnnotation.text.length > 0;
+		textAnnotation.showsAdditionalText = _showsHoverAnnotationsText && textAnnotation.additionalText.length > 0;
+		textAnnotation.showsValue = _showsHoverAnnotationsText && (textAnnotation.showsText || textAnnotation.showsAdditionalText);
 		textAnnotation.priority = 1000;
 
 		[self _updateAnnotationColors:@[textAnnotation] forPlotIndex:idx];
@@ -501,10 +520,8 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 					}
 					
 					DTXPlotViewTextAnnotation* text = [DTXPlotViewTextAnnotation new];
-					text.showsValue = YES;
-					text.showsText = _showsHighlightAnnotationsText;
-					text.showsAdditionalText = _showsHighlightAnnotationsText;
-					text.text = [self.class.formatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(textValue)]];
+					text.text = [self annotationStringValueForTransformedValue:[self transformedValueForFormatter:@(textValue)]];
+					text.showsText = _showsHighlightAnnotationsText && text.text.length > 0;
 					
 					if(scatterPlotView.hasAdditionalPoints)
 					{
@@ -527,6 +544,9 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 						
 						text.additionalText = [self.class.additionalFormatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(additionalTextValue)]];
 					}
+					
+					text.showsAdditionalText = _showsHighlightAnnotationsText && text.additionalText.length > 0;
+					text.showsValue = text.showsText || text.showsAdditionalText;
 					
 					text.position = annotation1.position;
 					[annotations addObject:text];

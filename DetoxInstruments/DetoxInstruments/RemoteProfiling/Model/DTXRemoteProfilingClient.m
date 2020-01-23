@@ -246,9 +246,9 @@ return; }\
 	Class cls = NSClassFromString(entityDescription.managedObjectClassName);
 	__kindof DTXSample* sample = [[cls alloc] initWithPropertyListDictionaryRepresentation:sampleDict context:_managedObjectContext];
 	
-	if([sample isKindOfClass:[DTXReactNativePeroformanceSample class]] && _delegate.sourceMapsParser)
+	if([sample isKindOfClass:[DTXReactNativePerformanceSample class]] && _delegate.sourceMapsParser)
 	{
-		DTXReactNativePeroformanceSample* rnSample = (id)sample;
+		DTXReactNativePerformanceSample* rnSample = (id)sample;
 		
 		if(rnSample.stackTraceIsSymbolicated == NO && NO/*_recording.dtx_profilingConfiguration.symbolicateJavaScriptStackTraces*/)
 		{
@@ -383,6 +383,11 @@ return; }\
 - (void)addRNBridgeDataSample:(NSDictionary*)rbBridgeDataSample entityDescription:(NSEntityDescription*)entityDescription
 {
 	[self _addSample:rbBridgeDataSample entityDescription:entityDescription saveContext:YES];
+}
+
+- (void)addRNAsyncStorageSample:(NSDictionary *)rnAsyncStorageSample entityDescription:(NSEntityDescription *)entityDescription
+{
+	[self _addSample:rnAsyncStorageSample entityDescription:entityDescription saveContext:YES];
 }
 
 - (void)startRequestWithNetworkSample:(NSDictionary *)networkSample entityDescription:(NSEntityDescription *)entityDescription

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39048B9023D8018F004142BB /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39048B8C23D8018F004142BB /* DTXInstruments.xcdatamodeld */; };
 		3911767821EE6B0800C92A9F /* NSExpression+SafeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911767721EE6B0800C92A9F /* NSExpression+SafeProperties.m */; };
 		3911770821EF81FB00C92A9F /* NSObject+AttachedObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 391176F921EF81FB00C92A9F /* NSObject+AttachedObjects.m */; };
 		3911770921EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 391176FA21EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */; };
@@ -38,7 +39,6 @@
 		398828542137DBBB006F283B /* DTXRecordingDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3988284F2137DBBB006F283B /* DTXRecordingDocumentController.m */; };
 		398828552137DBBB006F283B /* DTXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 398828512137DBBB006F283B /* DTXDocument.m */; };
 		3990FCA423B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 3990FCA223B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */; };
-		39BC7B80239E5DC800DAF671 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B7D239E5DC700DAF671 /* DTXInstruments.xcdatamodeld */; };
 		39BC7B82239E5DCE00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +55,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		39048B8D23D8018F004142BB /* DTXInstruments-11743.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-11743.xcdatamodel"; sourceTree = "<group>"; };
+		39048B8E23D8018F004142BB /* DTXInstruments-11469.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-11469.xcdatamodel"; sourceTree = "<group>"; };
+		39048B8F23D8018F004142BB /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		3911767621EE6B0800C92A9F /* NSExpression+SafeProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSExpression+SafeProperties.h"; sourceTree = "<group>"; };
 		3911767721EE6B0800C92A9F /* NSExpression+SafeProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSExpression+SafeProperties.m"; sourceTree = "<group>"; };
 		391176F921EF81FB00C92A9F /* NSObject+AttachedObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AttachedObjects.m"; sourceTree = "<group>"; };
@@ -124,8 +127,6 @@
 		398828522137DBBB006F283B /* DTXDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXDocument.h; sourceTree = "<group>"; };
 		3990FCA223B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.m"; sourceTree = "<group>"; };
 		3990FCA323B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.h"; sourceTree = "<group>"; };
-		39BC7B7E239E5DC800DAF671 /* DTXInstruments-11469.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-11469.xcdatamodel"; sourceTree = "<group>"; };
-		39BC7B7F239E5DC800DAF671 /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9954To11469.xcmappingmodel; sourceTree = "<group>"; };
 		39EEF34221EFADA80028061D /* SharedPrefixHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPrefixHeader.h; sourceTree = "<group>"; };
 		39EEF34321EFADB10028061D /* DTXQuickNSExpressions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXQuickNSExpressions.h; sourceTree = "<group>"; };
@@ -200,7 +201,7 @@
 		39401CF821E5098100504FD8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				39BC7B7D239E5DC700DAF671 /* DTXInstruments.xcdatamodeld */,
+				39048B8C23D8018F004142BB /* DTXInstruments.xcdatamodeld */,
 				39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */,
 				39401CFA21E5098100504FD8 /* DTXInstrumentsModel.h */,
 				39401CF921E5098100504FD8 /* DTXRecording+Additions.h */,
@@ -375,13 +376,13 @@
 				396487991FC32E2800006341 /* DTXProfilingConfiguration.m in Sources */,
 				398828532137DBBB006F283B /* DTXRecordingDocument.m in Sources */,
 				3911770E21EF81FB00C92A9F /* NSDictionary+FakeDecoder.m in Sources */,
-				39BC7B80239E5DC800DAF671 /* DTXInstruments.xcdatamodeld in Sources */,
 				398828542137DBBB006F283B /* DTXRecordingDocumentController.m in Sources */,
 				3935105C1FCB9BF9001FB466 /* GBPrint.m in Sources */,
 				3911770821EF81FB00C92A9F /* NSObject+AttachedObjects.m in Sources */,
 				3935104E1FCB9BE2001FB466 /* LNLog.m in Sources */,
 				3911767821EE6B0800C92A9F /* NSExpression+SafeProperties.m in Sources */,
 				39401D0321E5098100504FD8 /* DTXSample+Additions.m in Sources */,
+				39048B9023D8018F004142BB /* DTXInstruments.xcdatamodeld in Sources */,
 				3911770B21EF81FB00C92A9F /* NSURL+UIAdditions.m in Sources */,
 				39401D0621E5098100504FD8 /* NSManagedObject+Additions.m in Sources */,
 				398828552137DBBB006F283B /* DTXDocument.m in Sources */,
@@ -573,13 +574,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		39BC7B7D239E5DC700DAF671 /* DTXInstruments.xcdatamodeld */ = {
+		39048B8C23D8018F004142BB /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				39BC7B7E239E5DC800DAF671 /* DTXInstruments-11469.xcdatamodel */,
-				39BC7B7F239E5DC800DAF671 /* DTXInstruments-9954.xcdatamodel */,
+				39048B8D23D8018F004142BB /* DTXInstruments-11743.xcdatamodel */,
+				39048B8E23D8018F004142BB /* DTXInstruments-11469.xcdatamodel */,
+				39048B8F23D8018F004142BB /* DTXInstruments-9954.xcdatamodel */,
 			);
-			currentVersion = 39BC7B7E239E5DC800DAF671 /* DTXInstruments-11469.xcdatamodel */;
+			currentVersion = 39048B8D23D8018F004142BB /* DTXInstruments-11743.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

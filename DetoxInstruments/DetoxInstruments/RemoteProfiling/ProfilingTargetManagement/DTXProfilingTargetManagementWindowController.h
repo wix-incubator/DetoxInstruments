@@ -17,6 +17,7 @@
 - (void)noteProfilingTargetDidLoadUserDefaults;
 - (void)noteProfilingTargetDidLoadCookies;
 - (void)noteProfilingTargetDidLoadPasteboardContents;
+- (void)noteProfilingTargetDidLoadAsyncStorage;
 
 - (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped;
 

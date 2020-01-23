@@ -93,7 +93,7 @@
 {
 	LNPropertyListNode* childOfParent = [editor.rootPropertyListNode childNodeContainingDescendantNode:node];
 	
-	[self.profilingTarget changeUserDefaultsItemWithKey:childOfParent.key changeType:childOfParent == node ? (DTXUserDefaultsChangeType)changeType : DTXUserDefaultsChangeTypeUpdate value:childOfParent.propertyList previousKey:childOfParent == node ? previousKey : nil];
+	[self.profilingTarget changeUserDefaultsItemWithKey:childOfParent.key changeType:childOfParent == node ? (DTXRemoteProfilingChangeType)changeType : DTXRemoteProfilingChangeTypeUpdate value:childOfParent.propertyList previousKey:childOfParent == node ? previousKey : nil];
 }
 
 @end

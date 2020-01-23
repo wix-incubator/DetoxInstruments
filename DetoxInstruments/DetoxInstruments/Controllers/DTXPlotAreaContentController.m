@@ -21,6 +21,8 @@
 #import "DTXRNCPUUsagePlotController.h"
 #import "DTXRNBridgeCountersPlotController.h"
 #import "DTXRNBridgeDataTransferPlotController.h"
+#import "DTXRNAsyncStoragePlotController.h"
+#import "DTXReactNativeAsyncStorageSample+UIExtensions.h"
 #import "DTXEventsPlotController.h"
 #import "DTXActivityPlotController.h"
 #import "DTXRecording+UIExtensions.h"
@@ -210,6 +212,12 @@
 		[_plotGroup addPlotController:[[DTXRNCPUUsagePlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 		[_plotGroup addPlotController:[[DTXRNBridgeCountersPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 		[_plotGroup addPlotController:[[DTXRNBridgeDataTransferPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+		
+//		if(self.document.documentState == DTXRecordingDocumentStateLiveRecording ||
+//		   [DTXReactNativeAsyncStorageSample hasAsyncStorageSamplesInManagedObjectContext:self.document.viewContext])
+		{
+			[_plotGroup addPlotController:[[DTXRNAsyncStoragePlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
+		}
 	}
 	
 	if(_plotGroup.visiblePlotControllers.count == 0)

@@ -24,7 +24,7 @@
 
 - (Class)sampleClass
 {
-	return DTXReactNativePeroformanceSample.class;
+	return DTXReactNativePerformanceSample.class;
 }
 
 - (NSArray<DTXColumnInformation *> *)columns
@@ -57,13 +57,13 @@
 	switch(column)
 	{
 		case 0:
-			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeNToJSCallCountDelta])];
+			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePerformanceSample*)item bridgeNToJSCallCountDelta])];
 		case 1:
-			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeJSToNCallCountDelta])];
+			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePerformanceSample*)item bridgeJSToNCallCountDelta])];
 		case 2:
-			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeNToJSCallCount])];
+			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePerformanceSample*)item bridgeNToJSCallCount])];
 		case 3:
-			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeJSToNCallCount])];
+			return [[NSFormatter dtx_stringFormatter] stringForObjectValue:@([(DTXReactNativePerformanceSample*)item bridgeJSToNCallCount])];
 		default:
 			return @"";
 	}

@@ -122,6 +122,11 @@
 	return [self stringFromTimeInterval:endDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate];
 }
 
+- (NSString *)stringForObjectValue:(id)obj
+{
+	return [self stringFromTimeInterval:[obj doubleValue]];
+}
+
 @end
 
 @implementation DTXMainThreadUsageFormatter

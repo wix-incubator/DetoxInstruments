@@ -10,4 +10,6 @@
 
 @interface DTXPlotStackView : NSStackView
 
+@property (nonatomic) BOOL shouldSynchronizePlotHeights;
+
 @end

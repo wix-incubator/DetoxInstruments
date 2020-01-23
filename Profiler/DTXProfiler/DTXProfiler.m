@@ -268,16 +268,16 @@ static uint64_t main_thread_identifier;
 - (void)_symbolicateRemainingJavaScriptStackTracesInternal
 {
 	NSPredicate* unsymbolicated = [NSPredicate predicateWithFormat:@"stackTraceIsSymbolicated == NO"];
-	NSFetchRequest* fr = [DTXReactNativePeroformanceSample fetchRequest];
+	NSFetchRequest* fr = [DTXReactNativePerformanceSample fetchRequest];
 	fr.predicate = unsymbolicated;
 	
-	NSArray<DTXReactNativePeroformanceSample*>* unsymbolicatedSamples = [_backgroundContext executeFetchRequest:fr error:NULL];
-	[unsymbolicatedSamples enumerateObjectsUsingBlock:^(DTXReactNativePeroformanceSample * _Nonnull unsymbolicatedSample, NSUInteger idx, BOOL * _Nonnull stop) {
+	NSArray<DTXReactNativePerformanceSample*>* unsymbolicatedSamples = [_backgroundContext executeFetchRequest:fr error:NULL];
+	[unsymbolicatedSamples enumerateObjectsUsingBlock:^(DTXReactNativePerformanceSample * _Nonnull unsymbolicatedSample, NSUInteger idx, BOOL * _Nonnull stop) {
 		[self _symbolicateRNPerformanceSample:unsymbolicatedSample];
 	}];
 }
 
-- (void)_symbolicateRNPerformanceSample:(DTXReactNativePeroformanceSample *)unsymbolicatedSample
+- (void)_symbolicateRNPerformanceSample:(DTXReactNativePerformanceSample *)unsymbolicatedSample
 {
 	BOOL wasSymbolicated = NO;
 	
@@ -650,7 +650,7 @@ static uint64_t main_thread_identifier;
 	[_backgroundContext performBlockAndWait:^{
 		DTX_IGNORE_NOT_RECORDING
 		
-		DTXReactNativePeroformanceSample* rnPerfSample = [[DTXReactNativePeroformanceSample alloc] initWithContext:self->_backgroundContext];
+		DTXReactNativePerformanceSample* rnPerfSample = [[DTXReactNativePerformanceSample alloc] initWithContext:self->_backgroundContext];
 		rnPerfSample.timestamp = timestamp;
 		rnPerfSample.cpuUsage = cpu;
 		rnPerfSample.bridgeNToJSCallCount = bridgeNToJSCallCount;
@@ -817,6 +817,42 @@ static uint64_t main_thread_identifier;
 		[self->_profilerStoryListener addRNBridgeDataSample:rnDataSample];
 		
 		[self _addPendingSampleInternal:rnDataSample];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)_addRNAsyncStorageOperation:(NSString*)operation fetchCount:(int64_t)fetchCount fetchDuration:(double)fetchDuration saveCount:(int64_t)saveCount saveDuration:(double)saveDuration isDataKeysOnly:(BOOL)isDataKeysOnly data:(NSArray*)_data errors:(NSArray*)errors timestamp:(NSDate*)timestamp
+{
+	DTX_IGNORE_NOT_RECORDING
+	
+	if(_currentProfilingConfiguration.recordReactNativeBridgeData == NO)
+	{
+		return;
+	}
+	
+	[_backgroundContext performBlock:^{
+		DTX_IGNORE_NOT_RECORDING
+		
+		DTXReactNativeAsyncStorageData* data = nil;
+		if(_currentProfilingConfiguration.recordReactNativeAsyncStorageData)
+		{
+			data = [[DTXReactNativeAsyncStorageData alloc] initWithContext:self->_backgroundContext];
+			data.isKeysOnly = isDataKeysOnly;
+			data.data = _data;
+			data.errors = errors;
+		}
+		
+		DTXReactNativeAsyncStorageSample* sample = [[DTXReactNativeAsyncStorageSample alloc] initWithContext:self->_backgroundContext];
+		sample.timestamp = timestamp;
+		sample.operation = operation;
+		sample.fetchCount = fetchCount;
+		sample.fetchDuration = fetchDuration;
+		sample.saveCount = saveCount;
+		sample.saveDuration = saveDuration;
+		sample.data = data;
+		
+		[self->_profilerStoryListener addRNAsyncStorageSample:sample];
+
+		[self _addPendingSampleInternal:sample];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 

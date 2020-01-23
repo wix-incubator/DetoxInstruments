@@ -214,8 +214,19 @@ void __DTXProfilerAddRNBridgeDataCapture(NSString* functionName, NSArray<NSStrin
 		return;
 	}
 	
+	NSDate* timestamp = NSDate.date;
+	
 	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
-		[profiler _addRNDataFromFunction:functionName arguments:arguments returnValue:returnValue exception:exception isFromNative:isFromNative timestamp:NSDate.date];
+		[profiler _addRNDataFromFunction:functionName arguments:arguments returnValue:returnValue exception:exception isFromNative:isFromNative timestamp:timestamp];
+	});
+}
+
+static
+DTX_ALWAYS_INLINE
+void __DTXProfilerAddRNAsyncStorageOperation(NSDate* timestamp, int64_t fetchCount, double fetchDuration, int64_t saveCount, double saveDuration, NSString* operation, BOOL isDataKeysOnly, NSArray* data, NSArray* errors)
+{
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
+		[profiler _addRNAsyncStorageOperation:operation fetchCount:fetchCount fetchDuration:fetchDuration saveCount:saveCount saveDuration:saveDuration isDataKeysOnly:isDataKeysOnly data:data errors:errors timestamp:timestamp];
 	});
 }
 

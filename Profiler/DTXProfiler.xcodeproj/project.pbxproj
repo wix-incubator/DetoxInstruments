@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		3901A89F1F5D5CA60021916B /* DTXMachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */; };
 		3901A8A01F5D5CA60021916B /* DTXMachUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */; };
+		39048B8B23D80163004142BB /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39048B8723D80163004142BB /* DTXInstruments.xcdatamodeld */; };
 		3922AE021F2B9B960034B1FE /* DTXSourceMapsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3922ADF71F2B9B3A0034B1FE /* DTXSourceMapsParser.m */; };
 		3922AE031F2B9B9B0034B1FE /* _DTXBase64VLQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 3922ADFE1F2B9B620034B1FE /* _DTXBase64VLQ.m */; };
 		3922AE041F2B9B9B0034B1FE /* _DTXBasicSourceMapsConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3922ADFC1F2B9B620034B1FE /* _DTXBasicSourceMapsConsumer.m */; };
@@ -105,6 +106,8 @@
 		3966E1351F1017F900EE76A2 /* DTXAddressInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */; };
 		396EE2C120ADB223006C4C55 /* DTXViewHierarchySnapshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = 396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */; };
 		396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */; };
+		396F5B7A23CB635800415843 /* DTXReactNativeAsyncStorageSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 396F5B7823CB635800415843 /* DTXReactNativeAsyncStorageSupport.h */; };
+		396F5B7B23CB635800415843 /* DTXReactNativeAsyncStorageSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 396F5B7923CB635800415843 /* DTXReactNativeAsyncStorageSupport.m */; };
 		3985048A21A4433E00F04573 /* DTXProfilingBasics.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048921A4433E00F04573 /* DTXProfilingBasics.h */; };
 		3985048D21A4434800F04573 /* DTXFileSystemItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3985048B21A4434800F04573 /* DTXFileSystemItem.m */; };
 		3985048E21A4434800F04573 /* DTXFileSystemItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048C21A4434800F04573 /* DTXFileSystemItem.h */; };
@@ -121,7 +124,6 @@
 		39BBF66D2202FD1A00077E38 /* NSString+Hashing.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BBF66B2202FD1900077E38 /* NSString+Hashing.h */; };
 		39BBF66E2202FD1A00077E38 /* NSString+Hashing.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BBF66C2202FD1900077E38 /* NSString+Hashing.m */; };
 		39BC7B4C2397B93A00DAF671 /* DTXSwizzlingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */; };
-		39BC7B86239E647B00DAF671 /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B83239E647B00DAF671 /* DTXInstruments.xcdatamodeld */; };
 		39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C44C3220F3A24900279955 /* DTXProfilerAPI.m */; };
 		39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C713381EFFCB4000C827EB /* AutoCoding.m */; };
 		39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 39C713391EFFCB4000C827EB /* AutoCoding.h */; };
@@ -220,6 +222,9 @@
 /* Begin PBXFileReference section */
 		3901A89D1F5D5CA60021916B /* DTXMachUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXMachUtilities.h; sourceTree = "<group>"; };
 		3901A89E1F5D5CA60021916B /* DTXMachUtilities.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DTXMachUtilities.c; sourceTree = "<group>"; };
+		39048B8823D80163004142BB /* DTXInstruments-11743.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-11743.xcdatamodel"; sourceTree = "<group>"; };
+		39048B8923D80163004142BB /* DTXInstruments-11469.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-11469.xcdatamodel"; sourceTree = "<group>"; };
+		39048B8A23D80163004142BB /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		3922ADF71F2B9B3A0034B1FE /* DTXSourceMapsParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DTXSourceMapsParser.m; path = ../../../Shared/DTXSourceMaps/DTXSourceMaps/DTXSourceMapsParser.m; sourceTree = "<group>"; };
 		3922ADF81F2B9B3A0034B1FE /* DTXSourceMapsParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DTXSourceMapsParser.h; path = ../../../Shared/DTXSourceMaps/DTXSourceMaps/DTXSourceMapsParser.h; sourceTree = "<group>"; };
 		3922ADFB1F2B9B620034B1FE /* _DTXBase64VLQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = _DTXBase64VLQ.h; path = ../../../../Shared/DTXSourceMaps/DTXSourceMaps/Private/_DTXBase64VLQ.h; sourceTree = "<group>"; };
@@ -312,6 +317,8 @@
 		3966E1331F1017F900EE76A2 /* DTXAddressInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DTXAddressInfo.mm; sourceTree = "<group>"; };
 		396EE2BF20ADB223006C4C55 /* DTXViewHierarchySnapshotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXViewHierarchySnapshotter.h; sourceTree = "<group>"; };
 		396EE2C020ADB223006C4C55 /* DTXViewHierarchySnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXViewHierarchySnapshotter.m; sourceTree = "<group>"; };
+		396F5B7823CB635800415843 /* DTXReactNativeAsyncStorageSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXReactNativeAsyncStorageSupport.h; sourceTree = "<group>"; };
+		396F5B7923CB635800415843 /* DTXReactNativeAsyncStorageSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXReactNativeAsyncStorageSupport.m; sourceTree = "<group>"; };
 		39787EEE222F8CCB00AC24B4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3985048921A4433E00F04573 /* DTXProfilingBasics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfilingBasics.h; sourceTree = "<group>"; };
 		3985048B21A4434800F04573 /* DTXFileSystemItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXFileSystemItem.m; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.m; sourceTree = "<group>"; };
@@ -330,8 +337,6 @@
 		39BBF66B2202FD1900077E38 /* NSString+Hashing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Hashing.h"; sourceTree = "<group>"; };
 		39BBF66C2202FD1900077E38 /* NSString+Hashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hashing.m"; sourceTree = "<group>"; };
 		39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXSwizzlingHelper.h; path = ../DTXSwizzlingHelper/DTXSwizzlingHelper.h; sourceTree = "<group>"; };
-		39BC7B84239E647B00DAF671 /* DTXInstruments-11469.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-11469.xcdatamodel"; sourceTree = "<group>"; };
-		39BC7B85239E647B00DAF671 /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		39C44C3220F3A24900279955 /* DTXProfilerAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXProfilerAPI.m; sourceTree = "<group>"; };
 		39C713381EFFCB4000C827EB /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoCoding.m; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.m; sourceTree = "<group>"; };
 		39C713391EFFCB4000C827EB /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoCoding.h; path = ../../Shared/AutoCoding/AutoCoding/AutoCoding.h; sourceTree = "<group>"; };
@@ -655,6 +660,8 @@
 				431CACEC224253600040A56D /* DTXReactNativeProfilerSupport.m */,
 				39C7133E1EFFD6FF00C827EB /* DTXReactNativeSampler.h */,
 				39C7133F1EFFD6FF00C827EB /* DTXReactNativeSampler.m */,
+				396F5B7823CB635800415843 /* DTXReactNativeAsyncStorageSupport.h */,
+				396F5B7923CB635800415843 /* DTXReactNativeAsyncStorageSupport.m */,
 			);
 			path = ReactNativeProfiling;
 			sourceTree = "<group>";
@@ -730,7 +737,7 @@
 		39D40C041ED5AC0000157C04 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				39BC7B83239E647B00DAF671 /* DTXInstruments.xcdatamodeld */,
+				39048B8723D80163004142BB /* DTXInstruments.xcdatamodeld */,
 				39D40C071ED5B43700157C04 /* DTXInstrumentsModel.h */,
 				39D40C081ED5B43700157C04 /* DTXRecording+Additions.h */,
 				39D40C091ED5B43700157C04 /* DTXRecording+Additions.m */,
@@ -839,6 +846,7 @@
 				431CACED224253610040A56D /* DTXReactNativeProfilerSupport.h in Headers */,
 				3939239121AB42220015A15F /* DTXRemoteProfilingConnectionManager.h in Headers */,
 				3939240F21AD0A330015A15F /* ZZArchiveEntryWriter.h in Headers */,
+				396F5B7A23CB635800415843 /* DTXReactNativeAsyncStorageSupport.h in Headers */,
 				39EEF37621EFAE310028061D /* NSString+FileNames.h in Headers */,
 				39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */,
 				39EEF37D21EFAE310028061D /* NSObject+AttachedObjects.h in Headers */,
@@ -1004,6 +1012,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				396F5B7B23CB635800415843 /* DTXReactNativeAsyncStorageSupport.m in Sources */,
 				3985049221A4435200F04573 /* DTXPasteboardItem.m in Sources */,
 				39EEF38221EFAE310028061D /* NSDictionary+FakeDecoder.m in Sources */,
 				39D5C2AF237C3D560033138D /* DTXWindowsSnapshotter.m in Sources */,
@@ -1027,7 +1036,6 @@
 				39D205511F03057200830A0D /* DTXLoggingRecorder.m in Sources */,
 				3985048D21A4434800F04573 /* DTXFileSystemItem.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
-				39BC7B86239E647B00DAF671 /* DTXInstruments.xcdatamodeld in Sources */,
 				39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
 				396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */,
@@ -1059,6 +1067,7 @@
 				3939242621AD0A330015A15F /* ZZDataChannel.m in Sources */,
 				39EEF37321EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
 				3922AE051F2B9B9B0034B1FE /* _DTXIndexedSourceMapsConsumer.m in Sources */,
+				39048B8B23D80163004142BB /* DTXInstruments.xcdatamodeld in Sources */,
 				3939240B21AD0A330015A15F /* ZZNewArchiveEntry.mm in Sources */,
 				394A09661F012F8D0030BDB4 /* fishhook.c in Sources */,
 				39557CDB1F1F7E8D00FF3187 /* DTXRemoteProfiler.m in Sources */,
@@ -1440,13 +1449,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		39BC7B83239E647B00DAF671 /* DTXInstruments.xcdatamodeld */ = {
+		39048B8723D80163004142BB /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				39BC7B84239E647B00DAF671 /* DTXInstruments-11469.xcdatamodel */,
-				39BC7B85239E647B00DAF671 /* DTXInstruments-9954.xcdatamodel */,
+				39048B8823D80163004142BB /* DTXInstruments-11743.xcdatamodel */,
+				39048B8923D80163004142BB /* DTXInstruments-11469.xcdatamodel */,
+				39048B8A23D80163004142BB /* DTXInstruments-9954.xcdatamodel */,
 			);
-			currentVersion = 39BC7B84239E647B00DAF671 /* DTXInstruments-11469.xcdatamodel */;
+			currentVersion = 39048B8823D80163004142BB /* DTXInstruments-11743.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

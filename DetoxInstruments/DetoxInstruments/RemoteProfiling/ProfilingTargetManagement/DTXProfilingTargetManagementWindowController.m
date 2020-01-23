@@ -11,6 +11,7 @@
 #import "DTXUserDefaultsViewController.h"
 #import "DTXCookiesViewController.h"
 #import "DTXPasteboardViewController.h"
+#import "DTXAsyncStorageViewController.h"
 
 @interface CCNPreferencesWindowController ()
 
@@ -30,6 +31,7 @@
 	DTXUserDefaultsViewController* _userDefaultsViewController;
 	DTXCookiesViewController* _cookiesViewController;
 	DTXPasteboardViewController* _pasteboardViewController;
+	DTXAsyncStorageViewController* _asyncStorageViewController;
 	
 	NSArray<id<DTXProfilingTargetManagement>>* _controllers;
 }
@@ -87,6 +89,11 @@
 	[_pasteboardViewController noteProfilingTargetDidLoadServiceData];
 }
 
+- (void)noteProfilingTargetDidLoadAsyncStorage
+{
+	[_asyncStorageViewController noteProfilingTargetDidLoadServiceData];
+}
+
 - (void)showSaveDialogForSavingData:(NSData*)data dataWasZipped:(BOOL)wasZipped
 {
 	if(self.window.isVisible == NO)
@@ -124,7 +131,17 @@
 	_pasteboardViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXPasteboardViewController"];
 	[_pasteboardViewController view];
 	
-	_controllers = @[_containerContentsOutlineViewController, _pasteboardViewController, _userDefaultsViewController, _cookiesViewController];
+	NSMutableArray* controllers = [@[_containerContentsOutlineViewController, _pasteboardViewController, _userDefaultsViewController, _cookiesViewController] mutableCopy];
+	
+	if(self.profilingTarget.hasReactNative)
+	{
+		_asyncStorageViewController = [_storyboard instantiateControllerWithIdentifier:@"DTXAsyncStorageViewController"];
+		[_asyncStorageViewController view];
+		
+		[controllers addObject:_asyncStorageViewController];
+	}
+	
+	_controllers = controllers;
 	
 	[_controllers enumerateObjectsUsingBlock:^(id<DTXProfilingTargetManagement>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		[obj setProfilingTarget:self.profilingTarget];

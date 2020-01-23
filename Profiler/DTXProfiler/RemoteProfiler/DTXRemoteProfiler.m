@@ -174,7 +174,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 	[performanceSample.managedObjectContext save:NULL];
 }
 
-- (void)addRNPerformanceSample:(DTXReactNativePeroformanceSample *)rnPerformanceSample
+- (void)addRNPerformanceSample:(DTXReactNativePerformanceSample *)rnPerformanceSample
 {
 	//Instead of symbolicating here, send source maps data to Detox Instruments for remote symbolication.
 	
@@ -339,6 +339,11 @@ DTX_CREATE_LOG(RemoteProfiler);
 
 - (void)_addRNDataFromFunction:(NSString*)function arguments:(NSArray<NSString*>*)arguments returnValue:(NSString*)rv exception:(NSString*)exception isFromNative:(BOOL)isFromNative timestamp:(NSDate*)timestamp;
 {
+	if(self.profilingConfiguration.profileReactNative == NO)
+	{
+		return;
+	}
+	
 	NSMutableDictionary* preserializedData = @{
 										@"__dtx_className": @"DTXReactNativeBridgeData",
 										@"__dtx_entityName": @"ReactNativeBridgeData",
@@ -371,6 +376,78 @@ DTX_CREATE_LOG(RemoteProfiler);
 	}
 	
 	[self _serializeCommandWithSelector:NSSelectorFromString(@"addRNBridgeDataSample:") entityName:@"ReactNativeDataSample" dict:preserialized additionalParams:nil];
+}
+
+- (void)_addRNAsyncStorageOperation:(NSString*)operation fetchCount:(int64_t)fetchCount fetchDuration:(double)fetchDuration saveCount:(int64_t)saveCount saveDuration:(double)saveDuration isDataKeysOnly:(BOOL)isDataKeysOnly data:(NSArray*)_data errors:(NSArray*)errors timestamp:(NSDate*)timestamp
+{
+	if(self.profilingConfiguration.profileReactNative == NO)
+	{
+		return;
+	}
+	
+	/*
+	 DTXReactNativeAsyncStorageData* data = nil;
+	 if(_currentProfilingConfiguration.recordReactNativeAsyncStorageData)
+	 {
+		 data = [[DTXReactNativeAsyncStorageData alloc] initWithContext:self->_backgroundContext];
+		 data.isKeysOnly = isDataKeysOnly;
+		 data.data = _data;
+		 data.errors = errors;
+	 }
+	 
+	 DTXReactNativeAsyncStorageSample* sample = [[DTXReactNativeAsyncStorageSample alloc] initWithContext:self->_backgroundContext];
+	 sample.timestamp = timestamp;
+	 sample.operation = operation;
+	 sample.fetchCount = fetchCount;
+	 sample.fetchDuration = fetchDuration;
+	 sample.saveCount = saveCount;
+	 sample.saveDuration = saveDuration;
+	 sample.data = data;
+	 
+	 [self->_profilerStoryListener addRNAsyncStorageSample:sample];
+
+	 [self _addPendingSampleInternal:sample];
+	 */
+	
+	NSMutableDictionary* data = nil;
+	if(self.profilingConfiguration.recordReactNativeAsyncStorageData)
+	{
+		data = @{
+			@"__dtx_className": @"DTXReactNativeAsyncStorageData",
+			@"__dtx_entityName": @"ReactNativeAsyncStorageData",
+			@"isKeysOnly": @(isDataKeysOnly)
+		}.mutableCopy;
+		
+		if(_data != nil)
+		{
+			data[@"data"] = _data;
+		}
+		
+		if(errors != nil)
+		{
+			data[@"errors"] = errors;
+		}
+	}
+	
+	NSMutableDictionary* sample = @{
+		@"__dtx_className": @"DTXReactNativeAsyncStorageSample",
+		@"__dtx_entityName": @"ReactNativeAsyncStorageSample",
+		@"sampleIdentifier": NSUUID.UUID.UUIDString,
+		@"sampleType": @(DTXSampleTypeReactNativeAsyncStorageType),
+		@"timestamp": timestamp,
+		@"operation": operation,
+		@"fetchCount": @(fetchCount),
+		@"fetchDuration": @(fetchDuration),
+		@"saveCount": @(saveCount),
+		@"saveDuration": @(saveDuration),
+	}.mutableCopy;
+	
+	if(data != nil)
+	{
+		sample[@"data"] = data;
+	}
+	
+	[self _serializeCommandWithSelector:NSSelectorFromString(@"addRNAsyncStorageSample:") entityName:@"ReactNativeAsyncStorageSample" dict:sample additionalParams:nil];
 }
 
 - (void)updateRecording:(DTXRecording *)recording stopRecording:(BOOL)stopRecording
@@ -506,6 +583,7 @@ DTX_CREATE_LOG(RemoteProfiler);
 - (void)startRequestWithNetworkSample:(DTXNetworkSample *)networkSample {}
 - (void)finishWithResponseForNetworkSample:(DTXNetworkSample *)networkSample {}
 - (void)addRNBridgeDataSample:(DTXReactNativeDataSample*)rbBridgeDataSample {}
+- (void)addRNAsyncStorageSample:(DTXReactNativeAsyncStorageSample *)rnAsyncStorageSample {}
 
 @end
 

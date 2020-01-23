@@ -24,7 +24,7 @@
 
 - (Class)sampleClass
 {
-	return DTXReactNativePeroformanceSample.class;
+	return DTXReactNativePerformanceSample.class;
 }
 
 - (NSString*)titleOfCPUHeader
@@ -39,14 +39,14 @@
 
 - (NSColor*)backgroundRowColorForItem:(id)item
 {
-	DTXReactNativePeroformanceSample* sample = item;
+	DTXReactNativePerformanceSample* sample = item;
 	
 	return sample.cpuUsage >= 0.9 ? NSColor.warning3Color : sample.cpuUsage >= 0.8 ? NSColor.warning2Color : sample.cpuUsage >= 0.7 ? NSColor.warningColor : NSColor.controlBackgroundColor;
 }
 
 - (NSString*)statusTooltipforItem:(id)item
 {
-	DTXReactNativePeroformanceSample* sample = item;
+	DTXReactNativePerformanceSample* sample = item;
 	
 	return sample.cpuUsage >= 0.9 ? NSLocalizedString(@"JavaScript thread usage above 90%", @"") : sample.cpuUsage >= 0.8 ? NSLocalizedString(@"JavaScript thread usage above 80%", @"") : sample.cpuUsage >= 0.7 ? NSLocalizedString(@"JavaScript thread usage above 70%", @"") : nil;
 }

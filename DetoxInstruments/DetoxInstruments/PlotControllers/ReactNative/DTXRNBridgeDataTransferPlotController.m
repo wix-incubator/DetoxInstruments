@@ -46,7 +46,7 @@
 
 + (Class)classForPerformanceSamples
 {
-	return [DTXReactNativePeroformanceSample class];
+	return [DTXReactNativePerformanceSample class];
 }
 
 - (NSString *)displayName

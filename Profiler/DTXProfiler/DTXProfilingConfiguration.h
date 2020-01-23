@@ -169,6 +169,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL recordReactNativeBridgeData;
 
 /**
+ *  Record React Native async storage data during profiling.
+ *
+ *  The default value is @c false.
+*/
+@property (nonatomic, readonly) BOOL recordReactNativeAsyncStorageData;
+
+/**
  *  Record React Native timers (created using @c setTimeout() in JavaScript) as activity.
  *  Timers will appear as intervals in the Activity instrument.
  *
@@ -183,7 +190,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  The default value is @c false.
  */
-@property(nonatomic, readonly) BOOL recordInternalReactNativeActivity;
+@property (nonatomic, readonly) BOOL recordInternalReactNativeActivity;
 
 /* Output Configuration */
 
@@ -367,6 +374,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) BOOL recordReactNativeBridgeData;
 
 /**
+ *  Record React Native async storage data during profiling.
+ *
+ *  The default value is @c false.
+*/
+@property (nonatomic, readwrite) BOOL recordReactNativeAsyncStorageData;
+
+/**
  *  Record React Native timers (created using @c setTimeout() in JavaScript) as activity.
  *  Timers will appear as intervals in the Activity instrument.
  *
@@ -381,7 +395,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  The default value is @c false.
  */
-@property(nonatomic, readwrite) BOOL recordInternalReactNativeActivity;
+@property (nonatomic, readwrite) BOOL recordInternalReactNativeActivity;
 
 /* Output Configuration */
 

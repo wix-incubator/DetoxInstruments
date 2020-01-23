@@ -193,6 +193,11 @@
 
 #pragma mark Internal Plots
 
++ (Class)classForPlotViews
+{
+	return DTXScatterPlotView.class;
+}
+
 - (NSArray<__kindof DTXPlotView*>*)plotViews
 {
 	if(_plotViews)
@@ -202,7 +207,7 @@
 	
 	NSMutableArray* rv = [NSMutableArray new];
 	[self.sampleKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		DTXScatterPlotView* scatterPlotView = [[DTXScatterPlotView alloc] initWithFrame:CGRectZero];
+		DTXScatterPlotView* scatterPlotView = [[self.class.classForPlotViews alloc] initWithFrame:CGRectZero];
 		scatterPlotView.plotIndex = idx;
 		scatterPlotView.delegate = self;
 		

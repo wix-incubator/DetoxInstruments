@@ -14,7 +14,7 @@
 {
 	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
 	
-	DTXReactNativePeroformanceSample* perfSample = self.sample;
+	DTXReactNativePerformanceSample* perfSample = self.sample;
 	
 	DTXInspectorContent* request = [DTXInspectorContent new];
 	request.title = NSLocalizedString(@"Info", @"");

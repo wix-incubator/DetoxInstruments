@@ -460,7 +460,7 @@
 
 - (NSImage *)preferenceIcon
 {
-	NSImage* image = [NSImage imageNamed:NSImageNameFolder];
+	NSImage* image = [NSImage imageNamed:NSImageNameMultipleDocuments];
 	image.size = NSMakeSize(32, 32);
 	
 	return image;

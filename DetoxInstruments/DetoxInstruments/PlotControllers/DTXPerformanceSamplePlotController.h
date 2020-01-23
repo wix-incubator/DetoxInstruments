@@ -13,6 +13,8 @@
 + (Class)classForPerformanceSamples;
 - (NSPredicate*)predicateForPerformanceSamples;
 
++ (Class)classForPlotViews;
+
 - (CGFloat)plotHeightMultiplier;
 - (CGFloat)minimumValueForPlotHeight;
 

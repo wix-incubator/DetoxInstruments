@@ -38,21 +38,26 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypeGetPasteboard = 16,
 	DTXRemoteProfilingCommandTypeSetPasteboard = 17,
 	
+	DTXRemoteProfilingCommandTypeGetAsyncStorage = 22,
+	DTXRemoteProfilingCommandTypeChangeAsyncStorageItem = 23,
+	
 	DTXRemoteProfilingCommandTypeCaptureViewHierarchy = 18,
 	
 	DTXRemoteProfilingCommandTypeLoadScreenSnapshot = 19,
 };
 
-typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
-	DTXUserDefaultsChangeTypeInsert,
-	DTXUserDefaultsChangeTypeDelete,
-	DTXUserDefaultsChangeTypeMove,
-	DTXUserDefaultsChangeTypeUpdate
+typedef NS_ENUM(NSUInteger, DTXRemoteProfilingChangeType) {
+	DTXRemoteProfilingChangeTypeInsert,
+	DTXRemoteProfilingChangeTypeDelete,
+	DTXRemoteProfilingChangeTypeMove,
+	DTXRemoteProfilingChangeTypeUpdate,
+	
+	DTXRemoteProfilingChangeTypeClear
 };
 
 @class DTXRecording, DTXPerformanceSample;
-@class DTXThreadInfo, DTXReactNativePeroformanceSample, DTXNetworkSample, DTXLogSample, DTXTag;
-@class DTXSignpostSample, DTXReactNativeDataSample;
+@class DTXThreadInfo, DTXReactNativePerformanceSample, DTXNetworkSample, DTXLogSample, DTXTag;
+@class DTXSignpostSample, DTXReactNativeDataSample, DTXReactNativeAsyncStorageSample;
 
 @protocol DTXProfilerStoryListener <NSObject>
 
@@ -60,10 +65,11 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 - (void)updateRecording:(DTXRecording*)recording stopRecording:(BOOL)stopRecording;
 - (void)createdOrUpdatedThreadInfo:(DTXThreadInfo*)threadInfo;
 - (void)addPerformanceSample:(__kindof DTXPerformanceSample*)perfrmanceSample;
-- (void)addRNPerformanceSample:(DTXReactNativePeroformanceSample *)rnPerfrmanceSample;
+- (void)addRNPerformanceSample:(DTXReactNativePerformanceSample *)rnPerfrmanceSample;
 - (void)startRequestWithNetworkSample:(DTXNetworkSample*)networkSample;
 - (void)finishWithResponseForNetworkSample:(DTXNetworkSample*)networkSample;
-- (void)addRNBridgeDataSample:(DTXReactNativeDataSample*)rbBridgeDataSample;
+- (void)addRNBridgeDataSample:(DTXReactNativeDataSample*)rnBridgeDataSample;
+- (void)addRNAsyncStorageSample:(DTXReactNativeAsyncStorageSample*)rnAsyncStorageSample;
 - (void)addLogSample:(DTXLogSample*)logSample;
 - (void)addTagSample:(DTXTag*)tag;
 - (void)markEventIntervalBegin:(DTXSignpostSample*)signpostSample;
@@ -89,7 +95,8 @@ typedef NS_ENUM(NSUInteger, DTXUserDefaultsChangeType) {
 - (void)addRNPerformanceSample:(NSDictionary *)rnPerfrmanceSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)startRequestWithNetworkSample:(NSDictionary*)networkSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)finishWithResponseForNetworkSample:(NSDictionary*)networkSample entityDescription:(NSEntityDescription*)entityDescription;
-- (void)addRNBridgeDataSample:(NSDictionary*)rbBridgeDataSample entityDescription:(NSEntityDescription*)entityDescription;
+- (void)addRNBridgeDataSample:(NSDictionary*)rnBridgeDataSample entityDescription:(NSEntityDescription*)entityDescription;
+- (void)addRNAsyncStorageSample:(NSDictionary*)rnAsyncStorageSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)addLogSample:(NSDictionary*)logSample entityDescription:(NSEntityDescription*)entityDescription;
 - (void)addTagSample:(NSDictionary*)tag entityDescription:(NSEntityDescription*)entityDescription;
 - (void)markEventIntervalBegin:(NSDictionary*)signpostSample entityDescription:(NSEntityDescription*)entityDescription;

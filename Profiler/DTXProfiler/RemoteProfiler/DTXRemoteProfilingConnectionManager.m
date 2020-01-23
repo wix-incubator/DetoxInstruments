@@ -17,6 +17,7 @@
 #import "DTXUIPasteboardParser.h"
 #import "DTXViewHierarchySnapshotter.h"
 #import "DTXWindowsSnapshotter.h"
+#import "DTXReactNativeAsyncStorageSupport.h"
 
 DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 
@@ -250,7 +251,7 @@ CLANG_POP
 				NSString* key = cmd[@"key"];
 				NSString* previousKey = cmd[@"previousKey"];
 				id value = cmd[@"value"];
-				DTXUserDefaultsChangeType type = [cmd[@"type"] unsignedIntegerValue];
+				DTXRemoteProfilingChangeType type = [cmd[@"type"] unsignedIntegerValue];
 				
 				[self _changeUserDefaultsItemWithKey:key changeType:type value:value previousKey:previousKey];
 			}	break;
@@ -273,10 +274,25 @@ CLANG_POP
 				[self _setPasteboard:pasteboard];
 				
 			}	break;
+			case DTXRemoteProfilingCommandTypeGetAsyncStorage:
+			{
+				[self _sendAsyncStorage];
+				
+			}	break;
+			case DTXRemoteProfilingCommandTypeChangeAsyncStorageItem:
+			{
+				NSString* key = cmd[@"key"];
+				NSString* previousKey = cmd[@"previousKey"];
+				id value = cmd[@"value"];
+				DTXRemoteProfilingChangeType type = [cmd[@"type"] unsignedIntegerValue];
+				
+				[self _changeAsyncStorageItemWithKey:key changeType:type value:value previousKey:previousKey];
+			}	break;
 			case DTXRemoteProfilingCommandTypeCaptureViewHierarchy:
 			{
 				[self _sendViewHierarchy];
-			}	break;
+			}
+				break;
 			default:
 				break;
 		}
@@ -379,14 +395,14 @@ CLANG_POP
 	[self _writeCommand:cmd completionHandler:nil];
 }
 
-- (void)_changeUserDefaultsItemWithKey:(NSString*)key changeType:(DTXUserDefaultsChangeType)changeType value:(id)value previousKey:(NSString*)previousKey
+- (void)_changeUserDefaultsItemWithKey:(NSString*)key changeType:(DTXRemoteProfilingChangeType)changeType value:(id)value previousKey:(NSString*)previousKey
 {
 	if(previousKey != nil && [previousKey isEqualToString:key] == NO)
 	{
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:previousKey];
 	}
 	
-	if(changeType == DTXUserDefaultsChangeTypeDelete)
+	if(changeType == DTXRemoteProfilingChangeTypeDelete)
 	{
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
 	}
@@ -437,6 +453,24 @@ CLANG_POP
 - (void)_setPasteboard:(NSArray<DTXPasteboardItem*>*)pasteboard
 {
 	[DTXUIPasteboardParser setGeneralPasteboardItems:pasteboard];
+}
+
+#pragma mark RN Async Storage
+
+- (void)_sendAsyncStorage
+{
+	[DTXReactNativeAsyncStorageSupport readAsyncStorageKeysWithCompletionHandler:^(NSDictionary *asyncStorage) {
+		NSMutableDictionary* cmd = [NSMutableDictionary new];
+		cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeGetAsyncStorage);
+		cmd[@"asyncStorage"] = asyncStorage;
+		
+		[self _writeCommand:cmd completionHandler:nil];
+	}];
+}
+
+- (void)_changeAsyncStorageItemWithKey:(NSString*)key changeType:(DTXRemoteProfilingChangeType)changeType value:(id)value previousKey:(NSString*)previousKey
+{
+	[DTXReactNativeAsyncStorageSupport changeAsyncStorageItemWithKey:key changeType:changeType value:value previousKey:previousKey completionHandler:nil];
 }
 
 #pragma mark View Hierarchy

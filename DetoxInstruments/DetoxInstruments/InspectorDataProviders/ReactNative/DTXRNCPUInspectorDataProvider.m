@@ -14,7 +14,7 @@
 
 - (NSArray *)arrayForStackTrace
 {
-	return [(DTXReactNativePeroformanceSample*)self.sample stackTrace];
+	return [(DTXReactNativePerformanceSample*)self.sample stackTrace];
 }
 
 - (NSString*)stackTraceFrameStringForObject:(id)obj includeFullFormat:(BOOL)fullFormat
@@ -69,7 +69,7 @@
 {
 	DTXInspectorContentTableDataSource* rv = [DTXInspectorContentTableDataSource new];
 	
-	DTXReactNativePeroformanceSample* perfSample = self.sample;
+	DTXReactNativePerformanceSample* perfSample = self.sample;
 	
 	DTXInspectorContent* request = [DTXInspectorContent new];
 	request.title = NSLocalizedString(@"Info", @"");
@@ -100,7 +100,7 @@
 
 - (BOOL)canCopyInView:(__kindof NSView *)view
 {
-//	DTXReactNativePeroformanceSample* perfSample = self.sample;
+//	DTXReactNativePerformanceSample* perfSample = self.sample;
 	return NO; //perfSample.recording.dtx_profilingConfiguration.collectJavaScriptStackTraces;
 }
 

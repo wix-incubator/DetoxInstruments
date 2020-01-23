@@ -8,12 +8,7 @@
 
 #import "DTXPlotView-Private.h"
 #import "DTXScatterPlotView.h"
-
-@protocol DTXPlotHeightSynchronization <NSObject>
-
-@property (nonatomic) double maximumPlotHeight;
-
-@end
+#import "DTXPlotHeightSynchronization.h"
 
 @interface DTXScatterPlotView ()
 

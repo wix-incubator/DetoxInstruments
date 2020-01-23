@@ -80,7 +80,7 @@ static BOOL _DTXShouldIgnoreEvent(_DTXEventType eventType, NSString* category, D
 @property (nonatomic) BOOL _cleanForDemo;
 
 - (void)_symbolicatePerformanceSample:(DTXPerformanceSample*)sample;
-- (void)_symbolicateRNPerformanceSample:(DTXReactNativePeroformanceSample*)sample;
+- (void)_symbolicateRNPerformanceSample:(DTXReactNativePerformanceSample*)sample;
 
 - (DTXThreadInfo*)_threadForThreadIdentifier:(uint64_t)identifier;
 
@@ -95,5 +95,6 @@ static BOOL _DTXShouldIgnoreEvent(_DTXEventType eventType, NSString* category, D
 - (void)_networkRecorderDidStartRequest:(NSURLRequest*)request cookieHeaders:(NSDictionary<NSString*, NSString*>*)cookieHeaders userAgent:(NSString*)userAgent uniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
 - (void)_networkRecorderDidFinishWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error forRequestWithUniqueIdentifier:(NSString*)uniqueIdentifier timestamp:(NSDate*)timestamp;
 - (void)_addRNDataFromFunction:(NSString*)function arguments:(NSArray<NSString*>*)arguments returnValue:(NSString*)rv exception:(NSString*)exception isFromNative:(BOOL)isFromNative timestamp:(NSDate*)timestamp;
+- (void)_addRNAsyncStorageOperation:(NSString*)operation fetchCount:(int64_t)fetchCount fetchDuration:(double)fetchDuration saveCount:(int64_t)saveCount saveDuration:(double)saveDuration isDataKeysOnly:(BOOL)isDataKeysOnly data:(NSArray*)data errors:(NSArray*)errors timestamp:(NSDate*)timestamp;
 
 @end

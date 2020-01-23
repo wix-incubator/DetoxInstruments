@@ -24,7 +24,7 @@
 
 - (Class)sampleClass
 {
-	return DTXReactNativePeroformanceSample.class;
+	return DTXReactNativePerformanceSample.class;
 }
 
 - (NSArray<DTXColumnInformation *> *)columns
@@ -57,13 +57,13 @@
 	switch(column)
 	{
 		case 0:
-			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeNToJSDataSizeDelta])];
+			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXReactNativePerformanceSample*)item bridgeNToJSDataSizeDelta])];
 		case 1:
-			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeJSToNDataSizeDelta])];
+			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXReactNativePerformanceSample*)item bridgeJSToNDataSizeDelta])];
 		case 2:
-			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeNToJSDataSize])];
+			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXReactNativePerformanceSample*)item bridgeNToJSDataSize])];
 		case 3:
-			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXReactNativePeroformanceSample*)item bridgeJSToNDataSize])];
+			return [[NSFormatter dtx_memoryFormatter] stringForObjectValue:@([(DTXReactNativePerformanceSample*)item bridgeJSToNDataSize])];
 		default:
 			return @"";
 	}

@@ -767,6 +767,13 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	});
 }
 
+- (void)profilingTarget:(DTXRemoteTarget *)target didLoadAsyncStorage:(NSDictionary *)asyncStorage
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[_targetManagementControllers objectForKey:target] noteProfilingTargetDidLoadAsyncStorage];
+	});
+}
+
 #pragma mark NSPopoverDelegate
 
 - (void)popoverWillClose:(NSNotification *)notification
