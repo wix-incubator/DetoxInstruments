@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict/>
+<dict>
+	<key>SelectedDetailController_DTXActivityPlotController</key>
+	<string>List</string>
+	<key>SelectedDetailController_DTXEventsPlotController</key>
+	<string>List</string>
+</dict>
 </plist>

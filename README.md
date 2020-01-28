@@ -10,38 +10,41 @@ Incorporating Detox Instruments into the development workflow from the beginning
 
 Detox Instruments supports profiling the following metrics:
 
-* Performance Profiling
-  * CPU Load
-  	* Per Thread Breakdown of CPU Load
-  	* Heaviest Stack Trace Sampling
-  	* Automatic Runtime Symbolication of Stack Traces
-  * Memory Usage
-  * User Interface FPS (Frames per Second)
-  * Disk Activity (Reads and Writes, Open File Names)
-* Network Activity
-  * Full Request and Response Header and Data Collection and Inspection
-* Developer Events
-* Log Output Recording
-* React Native Profiling
-  * JavaScript Thread CPU Load
-  * Bridge Call Counters
-  * Bridge Data Counters
-  * Bridge Data Collection
+* Performance profiling
+  * CPU load
+  	* Per-thread breakdown of CPU load
+  	* Heaviest stack trace sampling
+  	* Automatic runtime symbolication of stack traces
+  * Memory usage
+  * User interface FPS (frames per second)
+  * Disk activity (reads and writes, open file names)
+* Network activity
+  * Full request & response header and data collection and inspection
+* Developer events
+* React Native profiling
+  * JavaScript thread CPU load
+  * Bridge call counters
+  * Bridge data counters
+  * Bridge data collection
+  * Async storage metrics & data
+* Log output recording
 
 For a list of available instruments and their description, see [Available Instruments](Documentation/AvailableInstruments.md).
 
 Detox Instruments includes the following app management utilities:
 
-- Container Files
+- Container files
   - Download and upload files and folders to your app's container
 - Pasteboard
   - Copy and paste items between your Mac and your device
-- User Defaults
+- User defaults
   - Modify user defaults in real time
 - Cookies
   - Create and modify the app's HTTP cookies
+- Async storage (React Native only)
+  - Modify the async storage store in real time
 
-For a list of available app management utilities and their description, see [App Management](Documentation/AppManagement.md).
+For a detailed overview, see [App Management](Documentation/AppManagement.md).
 
 ## Installation
 
@@ -64,7 +67,7 @@ In order to begin profiling your app, you need to integrate the Profiler framewo
 
 By integrating Detox Instruments in your app, many of the included instruments can automatically collect data. Some instruments require you to explicitly call the provided APIs so that specific data can be collected.
 
-See the [Developer API Reference](Documentation/DeveloperAPIReferenceIntro.md) for more information.
+For an in-depth look at app management, see [App Management](Documentation/AppManagement.md).
 
 ## Profiling an App
 

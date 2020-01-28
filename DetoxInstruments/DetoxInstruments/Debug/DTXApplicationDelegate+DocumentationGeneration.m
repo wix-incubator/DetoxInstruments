@@ -27,6 +27,7 @@
 #import "DTXRNBridgeDataTransferPlotController.h"
 #import "DTXEventsPlotController.h"
 #import "DTXActivityPlotController.h"
+#import "DTXRNAsyncStoragePlotController.h"
 #import "NSAppearance+UIAdditions.h"
 
 #import "DTXManagedPlotControllerGroup.h"
@@ -175,6 +176,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 								   NSStringFromClass(DTXRNCPUUsagePlotController.class): @{@"name": @"RNJSThread", @"lowkeyInspector": @YES},
 								   NSStringFromClass(DTXRNBridgeCountersPlotController.class): @{@"name": @"RNBridgeCounters", @"lowkeyInspector": @YES},
 								   NSStringFromClass(DTXRNBridgeDataTransferPlotController.class): @{@"name": @"RNBridgeData", @"lowkeyInspector": @YES},
+								   NSStringFromClass(DTXRNAsyncStoragePlotController.class): @{@"name": @"RNAsyncStorage", @"lowkeyInspector": @YES},
 								   };
 		
 		__defaultSample = @22;
@@ -318,6 +320,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	[self _createConsoleMenuScreenshotWithWindowController:windowController];
 	[self _createBridgeDataMenuScreenshotWithWindowController:windowController];
+	[self _createAsyncStorageMenuScreenshotWithWindowController:windowController];
 	[self _createEventsDetailMenuScreenshotWithWindowController:windowController];
 	[self _createAppLaunchProfileMenuScreenshotWithWindowController:windowController];
 	
@@ -350,6 +353,11 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	NSBitmapImageRep* defaultsRep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
 	[[defaultsRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_UserDefaults.png"].path atomically:YES];
 	
+	[managementWindowController _activateControllerAtIndex:4];
+	[managementWindowController _drainLayout];
+	NSBitmapImageRep* asyncStorageRep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
+	[[asyncStorageRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_AsyncStorage.png"].path atomically:YES];
+	
 	[managementWindowController _activateControllerAtIndex:3];
 	[managementWindowController _expandCookies];
 	[managementWindowController _drainLayout];
@@ -360,7 +368,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	NSBitmapImageRep* cookiesRep = (NSBitmapImageRep*)[managementWindowController.window snapshotForCachingDisplay].representations.firstObject;
 	[[cookiesRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_Cookies.png"].path atomically:YES];
 	
-	[[(NSBitmapImageRep*)[self _combineManagementImages:containerRep :cookiesRep :defaultsRep :pasteboardRep].representations.firstObject representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_All.png"].path atomically:YES];
+	[[(NSBitmapImageRep*)[self _combineManagementImages:containerRep :cookiesRep :defaultsRep :pasteboardRep :asyncStorageRep].representations.firstObject representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Management_All.png"].path atomically:YES];
 	
 	[managementWindowController.window close];
 	
@@ -374,14 +382,14 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	[windowController.window makeKeyWindow];
 	
-	[newDocument setValue:@"Example App" forKey:@"appLaunchPendingAppName"];
+	[newDocument setValue:@"Example App" forKey:@"localRecordingPendingAppName"];
 	
-	[newDocument setValue:@(DTXRecordingLocalRecordingProfilingStateWaitingForAppLaunch) forKey:@"appLaunchProfilingState"];
+	[newDocument setValue:@(DTXRecordingLocalRecordingProfilingStateWaitingForAppLaunch) forKey:@"localRecordingProfilingState"];
 	[windowController _drainLayout];
 	rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"AppLaunch_Waiting.png"].path atomically:YES];
 	
-	[newDocument setValue:@(DTXRecordingLocalRecordingProfilingStateWaitingForAppData) forKey:@"appLaunchProfilingState"];
+	[newDocument setValue:@(DTXRecordingLocalRecordingProfilingStateWaitingForAppData) forKey:@"localRecordingProfilingState"];
 	[windowController _drainLayout];
 	rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"AppLaunch_Recording.png"].path atomically:YES];
@@ -560,6 +568,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 			}];
 			
 			[self _createRNBridgeDataBridgeDataScreenshotsForWindowController:windowController];
+			[self _createRNAsyncStorageScreenshotsForWindowController:windowController];
 			
 			[windowController _drainLayout];
 			[windowController close];
@@ -692,6 +701,30 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	rep = (NSBitmapImageRep*)[windowController _snapshotForInspectorPane].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_InspectorPane_BridgeData.png", name]].path atomically:YES];
+}
+
+- (void)_createRNAsyncStorageScreenshotsForWindowController:(DTXWindowController*)windowController
+{
+	NSBitmapImageRep* rep;
+	
+	Class cls = DTXRNAsyncStoragePlotController.class;
+	NSString* name = @"RNAsyncStorage";
+	
+	[windowController _deselectAnyPlotControllers];
+	[windowController _selectSampleAtIndex:[__defaultSample integerValue] forPlotControllerClass:cls];
+	
+	[windowController _selectPlotControllerOfClass:cls];
+	
+	[windowController _deselectAnyDetail];
+	
+	[windowController _setBottomSplitAtPercentage:0.5];
+	[windowController _scrollBottomPaneToPercentage:0.5];
+	
+	[windowController _selectDetailPaneIndex:1];
+	
+	rep = (NSBitmapImageRep*)[windowController _snapshotForDetailPane].representations.firstObject;
+	
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Instrument_%@_DetailPane_Saves.png", name]].path atomically:YES];
 }
 
 - (void)_createEventsListScreenshotsForWindowController:(DTXWindowController*)windowController
@@ -834,10 +867,10 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	return introImage;
 }
 
-- (NSImage*)_combineManagementImages:(NSBitmapImageRep*)first :(NSBitmapImageRep*)second :(NSBitmapImageRep*)third :(NSBitmapImageRep*)fourth
+- (NSImage*)_combineManagementImages:(NSBitmapImageRep*)first :(NSBitmapImageRep*)second :(NSBitmapImageRep*)third :(NSBitmapImageRep*)fourth :(NSBitmapImageRep*)fifth
 {
 	CGFloat mergedWidth = MAX(first.size.width + second.size.width, third.size.width + fourth.size.width);
-	CGFloat mergedHeight = MAX(first.size.height, second.size.height) + MAX(third.size.height, fourth.size.height);
+	CGFloat mergedHeight = MAX(first.size.height, second.size.height) + MAX(third.size.height, fourth.size.height) + fifth.size.height;
 	
 	NSImage* mergedImage = [[NSImage alloc] initWithSize:NSMakeSize(mergedWidth, mergedHeight)];
 	[mergedImage lockFocus];
@@ -847,6 +880,10 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	[third drawAtPoint:NSMakePoint(0, mergedHeight - MAX(first.size.height, second.size.height) - third.size.height)];
 	[fourth drawAtPoint:NSMakePoint(third.size.width, mergedHeight - MAX(first.size.height, second.size.height) - fourth.size.height)];
+	
+	[fifth drawAtPoint:NSMakePoint((mergedWidth / 2) - (fifth.size.width / 2), 0)];
+	
+//	[fifth drawInRect:(NSRect){(mergedWidth / 2) - (fifth.size.width / 2), (mergedHeight / 2) - (fifth.size.height / 2), fifth.size} fromRect:(NSRect){0,0,fifth.size} operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	first = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, mergedImage.size}];
 	[mergedImage unlockFocus];
@@ -978,6 +1015,74 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[consoleMenuImage unlockFocus];
 	
 	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Instrument_RNBridgeData_Menu.png"].path atomically:YES];
+}
+
+- (void)_createAsyncStorageMenuScreenshotWithWindowController:(DTXWindowController*)windowController
+{
+	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
+	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
+	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.visualEffectView.layer.borderColor = [NSColor.windowFrameColor colorWithAlphaComponent:0.25].CGColor;
+		menu.visualEffectView.layer.borderWidth = 1;
+	}
+	menu.visualEffectView.layer.masksToBounds = YES;
+	
+	menu.view.wantsLayer = YES;
+	menu.view.layer.cornerRadius = 5.0;
+	if(NSApp.effectiveAppearance.isDarkAppearance)
+	{
+		menu.view.layer.borderColor = [NSColor.blackColor colorWithAlphaComponent:0.85].CGColor;
+	}
+	else
+	{
+		menu.view.layer.borderColor = NSColor.lightGrayColor.CGColor;
+	}
+	menu.view.layer.borderWidth = 0.5;
+	menu.view.layer.masksToBounds = YES;
+	
+	menu.firstImageTextField.stringValue = @"Fetches";
+	menu.firstImageView.image = [NSImage imageNamed:@"RNAsyncStorageFetches"];
+	menu.firstImageView.image.size = NSMakeSize(16, 16);
+	menu.secondImageTextField.stringValue = @"Saves";
+	menu.secondImageView.image = [NSImage imageNamed:@"RNAsyncStorageSaves"];
+	menu.secondImageView.image.size = NSMakeSize(16, 16);
+	
+	if(NSApp.effectiveAppearance.isDarkAppearance == NO)
+	{
+		if (@available(macOS 10.14, *)) {
+			menu.secondImageView.contentTintColor = NSColor.whiteColor;
+		}
+	}
+	
+	menu.chevronImageView.hidden = YES;
+	
+	[windowController.window.contentView addSubview:menu.view];
+	[windowController _drainLayout];
+	
+	NSBitmapImageRep* consoleMenuRep = (id)[menu.view snapshotForCachingDisplay].representations.firstObject;
+	
+	[menu.view removeFromSuperview];
+	
+	NSImage* consoleMenuImage = [[NSImage alloc] initWithSize:NSMakeSize(858, 82)];
+	[consoleMenuImage lockFocus];
+	
+	NSShadow* shadow = [NSShadow new];
+	shadow.shadowOffset = NSMakeSize(0, -4);
+	shadow.shadowBlurRadius = 16.0;
+	shadow.shadowColor = [NSColor.blackColor colorWithAlphaComponent:0.25];
+	[shadow set];
+	
+	NSRect centered = (NSRect){93, 20, consoleMenuRep.size};
+	[consoleMenuRep drawInRect:centered fromRect:(NSRect){0, 0, centered.size} operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	consoleMenuRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, consoleMenuImage.size}];
+	
+	[consoleMenuImage unlockFocus];
+	
+	[[consoleMenuRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Instrument_RNAsyncStorage_Menu.png"].path atomically:YES];
 }
 
 - (void)_createEventsDetailMenuScreenshotWithWindowController:(DTXWindowController*)windowController

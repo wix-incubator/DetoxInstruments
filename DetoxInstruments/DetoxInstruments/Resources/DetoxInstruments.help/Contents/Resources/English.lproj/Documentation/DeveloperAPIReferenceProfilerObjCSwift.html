@@ -48,14 +48,14 @@ DTXProfiler* profiler = [[DTXProfiler <span class="pl-c1">alloc</span>] <span cl
 <div class="highlight highlight-source-swift"><pre><span class="pl-k">import</span> <span class="pl-en">DTXProfiler</span>
 
 <span class="pl-k">let</span> configuration <span class="pl-k">=</span> DTXMutableProfilingConfiguration.<span class="pl-c1">default</span>()
-		configuration.<span class="pl-smi">recordingFileURL</span> <span class="pl-k">=</span> <span class="pl-c"><span class="pl-c">//</span>Set the recording document URL here</span>
+configuration.<span class="pl-smi">recordingFileURL</span> <span class="pl-k">=</span> <span class="pl-c"><span class="pl-c">//</span>Set the recording document URL here</span>
 <span class="pl-c"></span>
 <span class="pl-k">let</span> profiler <span class="pl-k">=</span> <span class="pl-c1">DTXProfiler</span>()
-		profiler.<span class="pl-c1">startProfiling</span>(<span class="pl-c1">with</span>: configuration)
+profiler.<span class="pl-c1">startProfiling</span>(<span class="pl-c1">with</span>: configuration)
 <span class="pl-c"><span class="pl-c">//</span>...</span>
 <span class="pl-c"></span>profiler.<span class="pl-smi">stopProfiling</span> { error <span class="pl-k">in</span>
-			<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Finished profiling with <span class="pl-pse">\(</span><span class="pl-s1">error<span class="pl-k">?</span>.<span class="pl-smi">localizedDescription</span> <span class="pl-k">??</span> <span class="pl-s"><span class="pl-pds">"</span>no error<span class="pl-pds">"</span></span></span><span class="pl-pse"><span class="pl-s1">)</span></span>.<span class="pl-pds">"</span></span>)
-		}</pre></div>
+	<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Finished profiling with <span class="pl-pse">\(</span><span class="pl-s1">error<span class="pl-k">?</span>.<span class="pl-smi">localizedDescription</span> <span class="pl-k">??</span> <span class="pl-s"><span class="pl-pds">"</span>no error<span class="pl-pds">"</span></span></span><span class="pl-pse"><span class="pl-s1">)</span></span>.<span class="pl-pds">"</span></span>)
+}</pre></div>
 <h2>
 <a name="user-content-classes" class="anchor" href="#classes"><span class="octicon octicon-link"></span></a>Classes</h2>
 <p><a href="DeveloperAPIReferenceDTXProfilerConfigurationObjCSwift.html"><code>DTXProfilingConfiguration</code> &amp; <code>DTXMutableProfilingConfiguration</code></a></p>

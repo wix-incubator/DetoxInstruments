@@ -27,7 +27,7 @@
 	self = [super initWithDocument:document isForTouchBar:isForTouchBar];
 	if(self)
 	{
-//		self.plotStackView.shouldSynchronizePlotHeights = NO;
+		self.plotStackView.shouldSynchronizePlotHeights = NO;
 	}
 	return self;
 }

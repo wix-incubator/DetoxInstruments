@@ -81,3 +81,11 @@ The Bridge Data instrument captures information about React Native bridge data p
 ![Bridge Data](Resources/Instrument_RNBridgeData.png "Bridge Data")
 
 For an in-depth look at the Bridge Data instrument, see [Bridge Data Instrument](Instrument_BridgeData.md).
+
+### Async Storage
+
+The Async Storage instrument captures information about React Native async storage fetches and saves in the profiled app.
+
+![Async Storage](Resources/Instrument_RNAsyncStorage.png "Async Storage")
+
+For an in-depth look at the Async Storage instrument, see [Async Storage Instrument](Instrument_AsyncStorage.md).

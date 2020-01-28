@@ -74,7 +74,7 @@ PROFILER_BUILD_SCRIPT_PATH=<span class="pl-s"><span class="pl-pds">"</span><span
 <span class="pl-k">if</span> [ <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${INSTRUMENTS_APP_PATH}</span><span class="pl-pds">"</span></span> <span class="pl-k">-a</span> <span class="pl-k">-e</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span> ]<span class="pl-k">;</span> <span class="pl-k">then</span>
     <span class="pl-c1">echo</span> Found integration script at <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span>
     <span class="pl-c"><span class="pl-c">#</span> Run the Profiler framework integration script</span>
-    <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span> <span class="pl-smi">${CONFIGURATION}</span> <span class="pl-smi">${ALLOWED_CONFIGURATIONS}</span>
+    <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${CONFIGURATION}</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${ALLOWED_CONFIGURATIONS}</span><span class="pl-pds">"</span></span>
 <span class="pl-k">else</span>
     <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Profiler not included: Cannot find an installed Detox Instruments app.<span class="pl-pds">"</span></span>
 <span class="pl-k">fi</span></pre></div>

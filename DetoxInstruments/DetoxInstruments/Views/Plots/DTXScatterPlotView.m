@@ -332,7 +332,7 @@ static DTX_ALWAYS_INLINE void __DTXDrawPoints(DTXScatterPlotView* self, NSArray<
 		_additionalPoints[idx] = actualAdditionalPoint;
 	}
 	
-	_maxHeight = MAX(0.01, MAX(_heightSynchronizer.maximumPlotHeight, MAX(_maxHeight, MAX(_minimumValueForPlotHeight, point.y))));
+	_maxHeight = MAX(0.0, MAX(_heightSynchronizer.maximumPlotHeight, MAX(_maxHeight, MAX(_minimumValueForPlotHeight, point.y))));
 	_heightSynchronizer.maximumPlotHeight = _maxHeight;
 }
 

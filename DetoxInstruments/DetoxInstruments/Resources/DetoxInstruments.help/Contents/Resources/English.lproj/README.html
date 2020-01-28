@@ -37,40 +37,41 @@ ul { padding-left: 1.3em; }
 <p>Incorporating Detox Instruments into the development workflow from the beginning of the app development process can save time later by helping find issues early in the development cycle. Detox Instruments has first–class support for React Native, allowing seamless analysis of the entire app lifecycle in one place.</p>
 <p>Detox Instruments supports profiling the following metrics:</p>
 <ul>
-<li>Performance Profiling
+<li>Performance profiling
 <ul>
-<li>CPU Load
+<li>CPU load
 <ul>
-<li>Per Thread Breakdown of CPU Load</li>
-<li>Heaviest Stack Trace Sampling</li>
-<li>Automatic Runtime Symbolication of Stack Traces</li>
+<li>Per-thread breakdown of CPU load</li>
+<li>Heaviest stack trace sampling</li>
+<li>Automatic runtime symbolication of stack traces</li>
 </ul>
 </li>
-<li>Memory Usage</li>
-<li>User Interface FPS (Frames per Second)</li>
-<li>Disk Activity (Reads and Writes, Open File Names)</li>
+<li>Memory usage</li>
+<li>User interface FPS (frames per second)</li>
+<li>Disk activity (reads and writes, open file names)</li>
 </ul>
 </li>
-<li>Network Activity
+<li>Network activity
 <ul>
-<li>Full Request and Response Header and Data Collection and Inspection</li>
+<li>Full request &amp; response header and data collection and inspection</li>
 </ul>
 </li>
-<li>Developer Events</li>
-<li>Log Output Recording</li>
-<li>React Native Profiling
+<li>Developer events</li>
+<li>React Native profiling
 <ul>
-<li>JavaScript Thread CPU Load</li>
-<li>Bridge Call Counters</li>
-<li>Bridge Data Counters</li>
-<li>Bridge Data Collection</li>
+<li>JavaScript thread CPU load</li>
+<li>Bridge call counters</li>
+<li>Bridge data counters</li>
+<li>Bridge data collection</li>
+<li>Async storage metrics &amp; data</li>
 </ul>
 </li>
+<li>Log output recording</li>
 </ul>
 <p>For a list of available instruments and their description, see <a href="Documentation/AvailableInstruments.html">Available Instruments</a>.</p>
 <p>Detox Instruments includes the following app management utilities:</p>
 <ul>
-<li>Container Files
+<li>Container files
 <ul>
 <li>Download and upload files and folders to your app's container</li>
 </ul>
@@ -80,7 +81,7 @@ ul { padding-left: 1.3em; }
 <li>Copy and paste items between your Mac and your device</li>
 </ul>
 </li>
-<li>User Defaults
+<li>User defaults
 <ul>
 <li>Modify user defaults in real time</li>
 </ul>
@@ -90,8 +91,13 @@ ul { padding-left: 1.3em; }
 <li>Create and modify the app's HTTP cookies</li>
 </ul>
 </li>
+<li>Async storage (React Native only)
+<ul>
+<li>Modify the async storage store in real time</li>
 </ul>
-<p>For a list of available app management utilities and their description, see <a href="Documentation/AppManagement.html">App Management</a>.</p>
+</li>
+</ul>
+<p>For a detailed overview, see <a href="Documentation/AppManagement.html">App Management</a>.</p>
 <h2>
 <a name="user-content-installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 <p>The Detox Instruments application requires macOS 10.14 (Mojave) and higher. The Profiler framework supports iOS 10 and higher.</p>
@@ -105,7 +111,7 @@ brew cask install detox-instruments</pre></div>
 <h3>
 <a name="user-content-developer-api-reference" class="anchor" href="#developer-api-reference"><span class="octicon octicon-link"></span></a>Developer API Reference</h3>
 <p>By integrating Detox Instruments in your app, many of the included instruments can automatically collect data. Some instruments require you to explicitly call the provided APIs so that specific data can be collected.</p>
-<p>See the <a href="Documentation/DeveloperAPIReferenceIntro.html">Developer API Reference</a> for more information.</p>
+<p>For an in-depth look at app management, see <a href="Documentation/AppManagement.html">App Management</a>.</p>
 <h2>
 <a name="user-content-profiling-an-app" class="anchor" href="#profiling-an-app"><span class="octicon octicon-link"></span></a>Profiling an App</h2>
 <p>Once you've installed Detox Instruments and integrated the Profiler framework with your app's project, you can start profiling your app.</p>
