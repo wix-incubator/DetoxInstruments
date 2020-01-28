@@ -15,7 +15,7 @@
 
 - (instancetype)initWithOutlineView:(NSOutlineView *)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext sampleClass:(Class)sampleClass enabledCategories:(NSSet<NSString*>*)enabledCategories
 {
-	self = [super initWithOutlineView:outlineView managedObjectContext:managedObjectContext sampleClass:sampleClass];
+	self = [super initWithOutlineView:outlineView managedObjectContext:managedObjectContext sampleClass:sampleClass predicate:nil];
 	
 	if(self)
 	{

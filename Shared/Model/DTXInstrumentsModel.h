@@ -21,3 +21,4 @@
 #import "DTXReactNativeBridgeData+CoreDataClass.h"
 #import "DTXReactNativeDataSample+CoreDataClass.h"
 #import "DTXReactNativeAsyncStorageSample+CoreDataClass.h"
+#import "DTXReactNativeAsyncStorageData+CoreDataClass.h"

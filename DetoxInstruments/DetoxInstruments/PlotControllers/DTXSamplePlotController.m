@@ -149,6 +149,11 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 
 - (void)mouseMoved:(NSEvent *)event
 {
+	if(_showsHoverAnnotationsText == NO)
+	{
+		return;
+	}
+	
 	NSPoint pointInView = [self.wrapperView convertPoint:[event locationInWindow] fromView:nil];
 
 	NSMutableArray<NSDictionary*>* dataPoints = [NSMutableArray new];

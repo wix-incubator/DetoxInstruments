@@ -228,7 +228,12 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 
 - (DTXSampleContainerProxy*)rootSampleContainerProxy
 {
-	return [[DTXEntitySampleContainerProxy alloc] initWithOutlineView:_managedOutlineView managedObjectContext:_document.viewContext sampleClass:self.sampleClass];
+	return [[DTXEntitySampleContainerProxy alloc] initWithOutlineView:_managedOutlineView managedObjectContext:_document.viewContext sampleClass:self.sampleClass predicate:self.predicateForSamples];
+}
+
+- (NSPredicate*)predicateForSamples
+{
+	return nil;
 }
 
 - (BOOL)showsHeaderView

@@ -33,11 +33,13 @@ NSDate* __beginTimestamp = NSDate.date
 
 #define DTXEndFetchAsyncStorageOperation(operation) \
 NSDate* __endTimestamp = NSDate.date; \
-__DTXProfilerAddRNAsyncStorageOperation(__beginTimestamp, keys.count, [__endTimestamp timeIntervalSinceDate:__beginTimestamp], 0, 0, operation, NO, response.lastObject, response.firstObject)
+id __error = response.firstObject; \
+__DTXProfilerAddRNAsyncStorageOperation(__beginTimestamp, keys.count, [__endTimestamp timeIntervalSinceDate:__beginTimestamp], 0, 0, operation, NO, response.lastObject, [__error isKindOfClass:NSNull.class] ? nil : __error)
 
 #define DTXEndSaveAsyncStorageOperation(count, operation, isDataKeysOnly, data) \
 NSDate* __endTimestamp = NSDate.date; \
-__DTXProfilerAddRNAsyncStorageOperation(__beginTimestamp, 0, 0, count, [__endTimestamp timeIntervalSinceDate:__beginTimestamp], operation, isDataKeysOnly, data, response.firstObject)
+id __error = response.firstObject; \
+__DTXProfilerAddRNAsyncStorageOperation(__beginTimestamp, 0, 0, count, [__endTimestamp timeIntervalSinceDate:__beginTimestamp], operation, isDataKeysOnly, data, [__error isKindOfClass:NSNull.class] ? nil : __error)
 
 static void (*__orig_DTXMultiGet)(id self, SEL _cmd, NSArray<NSString *> *keys, void (^callback)(NSArray* response));
 static void __dtxinst_multiGet(id self, SEL _cmd, NSArray<NSString *> *keys, void (^callback)(NSArray* response))

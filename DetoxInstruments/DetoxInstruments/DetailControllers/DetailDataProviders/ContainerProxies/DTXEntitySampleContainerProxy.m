@@ -12,7 +12,7 @@
 
 @synthesize fetchRequest=_fetchRequest;
 
-- (instancetype)initWithOutlineView:(NSOutlineView *)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext sampleClass:(Class)sampleClass
+- (instancetype)initWithOutlineView:(NSOutlineView *)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext sampleClass:(Class)sampleClass predicate:(NSPredicate*)predicate
 {
 	self = [super initWithOutlineView:outlineView managedObjectContext:managedObjectContext isRoot:YES];
 	
@@ -22,7 +22,17 @@
 		
 		_sampleClass = sampleClass;
 		_fetchRequest = [_sampleClass fetchRequest];
-		_fetchRequest.predicate = [NSPredicate predicateWithFormat:@"hidden == NO"];
+		
+		NSPredicate* notHidden = [NSPredicate predicateWithFormat:@"hidden == NO"];
+		
+		if(predicate)
+		{
+			_fetchRequest.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, notHidden]];
+		}
+		else
+		{
+			_fetchRequest.predicate = notHidden;
+		}
 		
 		NSArray* sortDescriptors = outlineView.sortDescriptors;
 		if(sortDescriptors.count == 0)

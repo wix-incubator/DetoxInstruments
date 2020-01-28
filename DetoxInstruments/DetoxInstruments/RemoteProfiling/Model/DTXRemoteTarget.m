@@ -484,6 +484,8 @@
 {
 	_asyncStorage = userDefaults[@"asyncStorage"];
 	
+//	[[NSKeyedArchiver archivedDataWithRootObject:_asyncStorage requiringSecureCoding:NO error:NULL] writeToFile:[[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"] stringByAppendingPathComponent:@"../Documentation/Example Recording/Example Management Data/AsyncStorage.dat"] atomically:YES];
+	
 	if([self.delegate respondsToSelector:@selector(profilingTarget:didLoadAsyncStorage:)])
 	{
 		[self.delegate profilingTarget:self didLoadAsyncStorage:self.asyncStorage];

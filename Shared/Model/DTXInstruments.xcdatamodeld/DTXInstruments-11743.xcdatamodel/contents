@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19D49f" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D75a" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="ActivitySample" representedClassName="DTXActivitySample" parentEntity="SignpostSample" syncable="YES" codeGenerationType="class"/>
     <entity name="DetoxLifecycle" representedClassName="DTXDetoxLifecycleSample" parentEntity="SignpostSample" syncable="YES" codeGenerationType="class"/>
     <entity name="LogSample" representedClassName="DTXLogSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
@@ -92,7 +92,7 @@
     </entity>
     <entity name="ReactNativeAsyncStorageData" representedClassName="DTXReactNativeAsyncStorageData" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSArray"/>
-        <attribute name="errors" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSArray"/>
+        <attribute name="error" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName=" NSDictionary"/>
         <attribute name="isKeysOnly" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="dataSample" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReactNativeAsyncStorageSample" inverseName="data" inverseEntity="ReactNativeAsyncStorageSample"/>
     </entity>
@@ -260,6 +260,7 @@
         <element name="NetworkData" positionX="-18" positionY="126" width="128" height="90"/>
         <element name="NetworkSample" positionX="9" positionY="153" width="128" height="343"/>
         <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="238"/>
+        <element name="ReactNativeAsyncStorageData" positionX="-27" positionY="135" width="128" height="103"/>
         <element name="ReactNativeAsyncStorageSample" positionX="-27" positionY="135" width="128" height="133"/>
         <element name="ReactNativeBridgeData" positionX="-27" positionY="135" width="128" height="103"/>
         <element name="ReactNativeDataSample" positionX="-18" positionY="144" width="128" height="88"/>
@@ -270,6 +271,5 @@
         <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
         <element name="ThreadInfo" positionX="-27" positionY="135" width="128" height="105"/>
         <element name="ThreadPerformanceSample" positionX="-27" positionY="108" width="128" height="120"/>
-        <element name="ReactNativeAsyncStorageData" positionX="-27" positionY="135" width="128" height="103"/>
     </elements>
 </model>

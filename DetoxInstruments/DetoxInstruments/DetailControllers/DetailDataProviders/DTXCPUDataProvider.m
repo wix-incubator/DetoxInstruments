@@ -69,11 +69,6 @@
 	return advPerf.heaviestThreadName ?: @"<?>";
 }
 
-- (NSColor*)textColorForItem:(id)item
-{
-	return NSColor.labelColor;
-}
-
 - (NSColor*)backgroundRowColorForItem:(id)item
 {
 	double cpu = [(DTXPerformanceSample*)item cpuUsage];

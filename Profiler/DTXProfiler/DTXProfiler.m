@@ -820,7 +820,7 @@ static uint64_t main_thread_identifier;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_addRNAsyncStorageOperation:(NSString*)operation fetchCount:(int64_t)fetchCount fetchDuration:(double)fetchDuration saveCount:(int64_t)saveCount saveDuration:(double)saveDuration isDataKeysOnly:(BOOL)isDataKeysOnly data:(NSArray*)_data errors:(NSArray*)errors timestamp:(NSDate*)timestamp
+- (void)_addRNAsyncStorageOperation:(NSString*)operation fetchCount:(int64_t)fetchCount fetchDuration:(double)fetchDuration saveCount:(int64_t)saveCount saveDuration:(double)saveDuration isDataKeysOnly:(BOOL)isDataKeysOnly data:(NSArray*)_data error:(NSDictionary*)error timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
 	
@@ -838,7 +838,7 @@ static uint64_t main_thread_identifier;
 			data = [[DTXReactNativeAsyncStorageData alloc] initWithContext:self->_backgroundContext];
 			data.isKeysOnly = isDataKeysOnly;
 			data.data = _data;
-			data.errors = errors;
+			data.error = error;
 		}
 		
 		DTXReactNativeAsyncStorageSample* sample = [[DTXReactNativeAsyncStorageSample alloc] initWithContext:self->_backgroundContext];

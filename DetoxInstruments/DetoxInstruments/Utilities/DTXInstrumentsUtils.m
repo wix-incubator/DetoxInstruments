@@ -23,7 +23,13 @@
 
 + (NSString*)minimumProfilerFrameworkSupported
 {
-	return @"1.12";
+	static NSString* rv;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		rv = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	});
+	
+	return rv;
 }
 
 + (NSArray<NSBundle*>*)bundlesForObjectModel

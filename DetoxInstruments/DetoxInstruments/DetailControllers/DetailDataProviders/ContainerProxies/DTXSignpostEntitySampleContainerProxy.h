@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DTXSignpostEntitySampleContainerProxy : DTXEntitySampleContainerProxy
 
+- (instancetype)initWithOutlineView:(NSOutlineView *)outlineView managedObjectContext:(NSManagedObjectContext *)managedObjectContext sampleClass:(Class)sampleClass;
+
 @end
 
 NS_ASSUME_NONNULL_END

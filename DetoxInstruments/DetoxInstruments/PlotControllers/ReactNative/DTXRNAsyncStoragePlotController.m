@@ -8,8 +8,8 @@
 
 #import "DTXRNAsyncStoragePlotController.h"
 #if ! PROFILER_PREVIEW_EXTENSION
-#import "DTXRNBridgeDataDataProvider.h"
-#import "DTXRNBridgeDataDataDataProvider.h"
+#import "DTXRNAsyncStorageFetchesDataProvider.h"
+#import "DTXRNAsyncStorageSavesDataProvider.h"
 #import "DTXDetailController.h"
 #endif
 #import "DTXSamplePlotController-Private.h"
@@ -36,27 +36,20 @@
 - (NSArray<DTXDetailController *> *)dataProviderControllers
 {
 	DTXDetailController* detailController1 = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
-	detailController1.detailDataProvider = [[self.class.UIDataProviderClass alloc] initWithDocument:self.document plotController:self];
+	detailController1.detailDataProvider = [[DTXRNAsyncStorageFetchesDataProvider alloc] initWithDocument:self.document plotController:self];
 	
 	NSMutableArray* rv = [NSMutableArray new];
 	
 	[rv addObject:detailController1];
 	
-	if(self.document.firstRecording.dtx_profilingConfiguration.recordReactNativeBridgeData)
-	{
-		DTXDetailController* detailController2 = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
-		detailController2.detailDataProvider = [[DTXRNBridgeDataDataDataProvider alloc] initWithDocument:self.document plotController:self];
-		
-		[rv addObject:detailController2];
-	}
+	DTXDetailController* detailController2 = [self.scene instantiateControllerWithIdentifier:@"DTXOutlineDetailController"];
+	detailController2.detailDataProvider = [[DTXRNAsyncStorageSavesDataProvider alloc] initWithDocument:self.document plotController:self];
+	
+	[rv addObject:detailController2];
 	
 	return rv;
 }
 
-+ (Class)UIDataProviderClass
-{
-	return [DTXRNBridgeDataDataProvider class];
-}
 #endif
 
 + (Class)classForPlotViews

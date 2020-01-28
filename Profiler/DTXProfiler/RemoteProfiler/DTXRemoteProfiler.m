@@ -100,6 +100,36 @@ DTX_CREATE_LOG(RemoteProfiler);
 	
 }
 
+static id _NSNullCleanup(id obj)
+{
+	if([obj isKindOfClass:NSNull.class])
+	{
+		return @"<null>";
+	}
+	else if([obj isKindOfClass:NSArray.class])
+	{
+		NSArray* arr = obj;
+		NSMutableArray* rv = [[NSMutableArray alloc] initWithCapacity:arr.count];
+		for (id elem in arr)
+		{
+			[rv addObject:_NSNullCleanup(elem)];
+		}
+		return rv;
+	}
+	else if([obj isKindOfClass:NSDictionary.class])
+	{
+		NSDictionary* dict = obj;
+		NSMutableDictionary* rv = [[NSMutableDictionary alloc] initWithCapacity:dict.count];
+		for (id key in dict.keyEnumerator)
+		{
+			[rv setObject:_NSNullCleanup(dict[key]) forKey:key];
+		}
+		return rv;
+	}
+	
+	return obj;
+}
+
 - (void)_serializeCommandWithSelector:(SEL)selector managedObject:(NSManagedObject*)obj additionalParams:(NSArray*)additionalParams
 {
 	[self _serializeCommandWithSelector:selector entityName:obj.entity.name dict:obj.dictionaryRepresentationForPropertyList additionalParams:additionalParams];
@@ -112,6 +142,13 @@ DTX_CREATE_LOG(RemoteProfiler);
 	
 	NSError* err;
 	NSData* plistData = [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:&err];
+	if(plistData == nil)
+	{
+		//🤦‍♂️
+		//Need to find a better solution—perhaps after replacing the serialization tech.
+		cmd = _NSNullCleanup(cmd);
+		plistData = [NSPropertyListSerialization dataWithPropertyList:cmd format:NSPropertyListBinaryFormat_v1_0 options:0 error:&err];
+	}
 	
 	NSAssert(plistData != nil, @"Unable to encode data to property list: %@", err.localizedDescription);
 	
@@ -344,110 +381,90 @@ DTX_CREATE_LOG(RemoteProfiler);
 		return;
 	}
 	
-	NSMutableDictionary* preserializedData = @{
-										@"__dtx_className": @"DTXReactNativeBridgeData",
-										@"__dtx_entityName": @"ReactNativeBridgeData",
-										@"returnValue": rv ?: @"null"
-										}.mutableCopy;
-	
-	if(exception.length > 0)
-	{
-		preserializedData[@"exception"] = exception;
-	}
-	
-	if(arguments.count > 0)
-	{
-		preserializedData[@"arguments"] = arguments;
-	}
-	
-	NSMutableDictionary* preserialized = @{
-									@"__dtx_className": @"DTXReactNativeDataSample",
-									@"__dtx_entityName": @"ReactNativeDataSample",
-									@"sampleIdentifier": NSUUID.UUID.UUIDString,
-									@"sampleType": @10001,
-									@"timestamp": timestamp,
-									@"isFromNative": @(isFromNative),
-									@"data": preserializedData
-									}.mutableCopy;
-	
-	if(function.length > 0)
-	{
-		preserialized[@"function"] = function;
-	}
-	
-	[self _serializeCommandWithSelector:NSSelectorFromString(@"addRNBridgeDataSample:") entityName:@"ReactNativeDataSample" dict:preserialized additionalParams:nil];
+	[_ctx performBlock:^{
+		NSMutableDictionary* preserializedData = @{
+			@"__dtx_className": @"DTXReactNativeBridgeData",
+			@"__dtx_entityName": @"ReactNativeBridgeData",
+			@"returnValue": rv ?: @"null"
+		}.mutableCopy;
+		
+		if(exception.length > 0)
+		{
+			preserializedData[@"exception"] = exception;
+		}
+		
+		if(arguments.count > 0)
+		{
+			preserializedData[@"arguments"] = arguments;
+		}
+		
+		NSMutableDictionary* preserialized = @{
+			@"__dtx_className": @"DTXReactNativeDataSample",
+			@"__dtx_entityName": @"ReactNativeDataSample",
+			@"sampleIdentifier": NSUUID.UUID.UUIDString,
+			@"sampleType": @10001,
+			@"timestamp": timestamp,
+			@"isFromNative": @(isFromNative),
+			@"data": preserializedData
+		}.mutableCopy;
+		
+		if(function.length > 0)
+		{
+			preserialized[@"function"] = function;
+		}
+		
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"addRNBridgeDataSample:") entityName:@"ReactNativeDataSample" dict:preserialized additionalParams:nil];
+	}];
 }
 
-- (void)_addRNAsyncStorageOperation:(NSString*)operation fetchCount:(int64_t)fetchCount fetchDuration:(double)fetchDuration saveCount:(int64_t)saveCount saveDuration:(double)saveDuration isDataKeysOnly:(BOOL)isDataKeysOnly data:(NSArray*)_data errors:(NSArray*)errors timestamp:(NSDate*)timestamp
+- (void)_addRNAsyncStorageOperation:(NSString*)operation fetchCount:(int64_t)fetchCount fetchDuration:(double)fetchDuration saveCount:(int64_t)saveCount saveDuration:(double)saveDuration isDataKeysOnly:(BOOL)isDataKeysOnly data:(NSArray*)_data error:(NSDictionary*)error timestamp:(NSDate*)timestamp
 {
 	if(self.profilingConfiguration.profileReactNative == NO)
 	{
 		return;
 	}
 	
-	/*
-	 DTXReactNativeAsyncStorageData* data = nil;
-	 if(_currentProfilingConfiguration.recordReactNativeAsyncStorageData)
-	 {
-		 data = [[DTXReactNativeAsyncStorageData alloc] initWithContext:self->_backgroundContext];
-		 data.isKeysOnly = isDataKeysOnly;
-		 data.data = _data;
-		 data.errors = errors;
-	 }
-	 
-	 DTXReactNativeAsyncStorageSample* sample = [[DTXReactNativeAsyncStorageSample alloc] initWithContext:self->_backgroundContext];
-	 sample.timestamp = timestamp;
-	 sample.operation = operation;
-	 sample.fetchCount = fetchCount;
-	 sample.fetchDuration = fetchDuration;
-	 sample.saveCount = saveCount;
-	 sample.saveDuration = saveDuration;
-	 sample.data = data;
-	 
-	 [self->_profilerStoryListener addRNAsyncStorageSample:sample];
-
-	 [self _addPendingSampleInternal:sample];
-	 */
-	
-	NSMutableDictionary* data = nil;
-	if(self.profilingConfiguration.recordReactNativeAsyncStorageData)
-	{
-		data = @{
-			@"__dtx_className": @"DTXReactNativeAsyncStorageData",
-			@"__dtx_entityName": @"ReactNativeAsyncStorageData",
-			@"isKeysOnly": @(isDataKeysOnly)
+	[_ctx performBlock:^{
+		NSMutableDictionary* data = nil;
+		if(self.profilingConfiguration.recordReactNativeAsyncStorageData)
+		{
+			data = @{
+				@"__dtx_className": @"DTXReactNativeAsyncStorageData",
+				@"__dtx_entityName": @"ReactNativeAsyncStorageData",
+				@"isKeysOnly": @(isDataKeysOnly)
+			}.mutableCopy;
+			
+			if(_data != nil)
+			{
+				data[@"data"] = _data;
+			}
+			
+			if(error != nil)
+			{
+				data[@"error"] = error;
+			}
+		}
+		
+		NSMutableDictionary* sample = @{
+			@"__dtx_className": @"DTXReactNativeAsyncStorageSample",
+			@"__dtx_entityName": @"ReactNativeAsyncStorageSample",
+			@"sampleIdentifier": NSUUID.UUID.UUIDString,
+			@"sampleType": @(DTXSampleTypeReactNativeAsyncStorageType),
+			@"timestamp": timestamp,
+			@"operation": operation,
+			@"fetchCount": @(fetchCount),
+			@"fetchDuration": @(fetchDuration),
+			@"saveCount": @(saveCount),
+			@"saveDuration": @(saveDuration),
 		}.mutableCopy;
 		
-		if(_data != nil)
+		if(data != nil)
 		{
-			data[@"data"] = _data;
+			sample[@"data"] = data;
 		}
 		
-		if(errors != nil)
-		{
-			data[@"errors"] = errors;
-		}
-	}
-	
-	NSMutableDictionary* sample = @{
-		@"__dtx_className": @"DTXReactNativeAsyncStorageSample",
-		@"__dtx_entityName": @"ReactNativeAsyncStorageSample",
-		@"sampleIdentifier": NSUUID.UUID.UUIDString,
-		@"sampleType": @(DTXSampleTypeReactNativeAsyncStorageType),
-		@"timestamp": timestamp,
-		@"operation": operation,
-		@"fetchCount": @(fetchCount),
-		@"fetchDuration": @(fetchDuration),
-		@"saveCount": @(saveCount),
-		@"saveDuration": @(saveDuration),
-	}.mutableCopy;
-	
-	if(data != nil)
-	{
-		sample[@"data"] = data;
-	}
-	
-	[self _serializeCommandWithSelector:NSSelectorFromString(@"addRNAsyncStorageSample:") entityName:@"ReactNativeAsyncStorageSample" dict:sample additionalParams:nil];
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"addRNAsyncStorageSample:") entityName:@"ReactNativeAsyncStorageSample" dict:sample additionalParams:nil];
+	}];
 }
 
 - (void)updateRecording:(DTXRecording *)recording stopRecording:(BOOL)stopRecording

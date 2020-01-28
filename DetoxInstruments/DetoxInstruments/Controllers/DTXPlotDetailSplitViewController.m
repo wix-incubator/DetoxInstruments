@@ -12,9 +12,10 @@
 #import "DTXDetailContentController.h"
 #import "DTXInspectorContentController.h"
 #import "DTXWindowController.h"
-@import QuartzCore;
 #import "DTXRecordingDocumentDataExporter.h"
 #import "DTXDetailController.h"
+#import "NSString+FileNames.h"
+@import QuartzCore;
 @import Carbon.HIToolbox.Events;
 
 static NSString* const __DTXBottomPaneCollapsed = @"DTXBottomPaneCollapsed";
@@ -327,7 +328,7 @@ static NSString* const __DTXRightInspectorCollapsed = @"DTXRightInspectorCollaps
 	_exportPanel.canCreateDirectories = YES;
 	_exportPanel.treatsFilePackagesAsDirectories = NO;
 	_exportPanel.nameFieldLabel = NSLocalizedString(@"Export Data", @"");
-	_exportPanel.nameFieldStringValue = [self.document displayName].lastPathComponent.stringByDeletingPathExtension;
+	_exportPanel.nameFieldStringValue = [NSString stringWithFormat:@"%@ (%@)", [self.document displayName].lastPathComponent.stringByDeletingPathExtension, _detailContentController.managingPlotController.displayName].stringBySanitizingForFileName;
 	
 	[_exportPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
 		[_exportPanel orderOut:nil];

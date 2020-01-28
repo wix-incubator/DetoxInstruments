@@ -21,11 +21,13 @@
 @property (nonatomic, copy) NSString* devicePresentable;
 @property (nonatomic, copy) NSImage* screenSnapshot;
 @property (nonatomic, copy) NSDictionary* deviceInfo;
+@property (nonatomic) BOOL hasReactNative;
 
 @property (nonatomic, strong) DTXFileSystemItem* containerContents;
 @property (nonatomic, strong) id userDefaults;
 @property (nonatomic, strong) NSArray<NSDictionary<NSString*, id>*>* cookies;
 @property (nonatomic, copy) NSArray<DTXPasteboardItem*>* pasteboardContents;
+@property (nonatomic, strong) id asyncStorage;
 
 @property (nonatomic, weak) id<DTXRemoteTargetDelegate> delegate;
 
@@ -67,6 +69,14 @@
 	});
 }
 
+- (void)loadAsyncStorage;
+{
+	self.asyncStorage = [NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"] stringByAppendingPathComponent:@"../Documentation/Example Recording/Example Management Data/AsyncStorage.dat"]];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.delegate profilingTarget:(id)self didLoadAsyncStorage:self.asyncStorage];
+	});
+}
+
 - (BOOL)isCompatibleWithInstruments
 {
 	return YES;
@@ -93,6 +103,7 @@ static __FAKE_DTXRemoteTarget* fakeTarget;
 	fakeTarget.deviceName = @"Leo Natan's iPhone";
 	fakeTarget.devicePresentable = @"iPhone 11 Pro Max, iOS 13.3.1 (Build 17D5026c)";
 	fakeTarget.deviceInfo = @{@"profilerVersion": @"1.12", @"machineName": @"iPhone11,6"};
+	fakeTarget.hasReactNative = YES;
 	fakeTarget.screenSnapshot = __DTXiPhoneXSMaxScreenshot();
 	fakeTarget.state = DTXRemoteTargetStateDeviceInfoLoaded;
 	

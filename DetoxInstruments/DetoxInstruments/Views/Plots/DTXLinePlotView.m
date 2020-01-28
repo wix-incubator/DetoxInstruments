@@ -182,7 +182,7 @@ static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, N
 		DTXScatterPlotViewPoint* testPoint = [DTXScatterPlotViewPoint new];
 		testPoint.x = plotClickPosition;
 
-		idx = [_points indexOfObject:testPoint inSortedRange:NSMakeRange(0, _points.count) options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(DTXScatterPlotViewPoint*  _Nonnull obj1, DTXScatterPlotViewPoint*  _Nonnull obj2) {
+		idx = [_points indexOfObject:testPoint inSortedRange:NSMakeRange(0, _points.count) options:NSBinarySearchingInsertionIndex | NSBinarySearchingLastEqual usingComparator:^NSComparisonResult(DTXScatterPlotViewPoint*  _Nonnull obj1, DTXScatterPlotViewPoint*  _Nonnull obj2) {
 			if(obj1.x == obj2.x)
 			{
 				return NSOrderedSame;
@@ -211,22 +211,17 @@ static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, N
 			idx = self.previousIndexOf;
 			if(plotClickPosition < _points[self.previousIndexOf].x)
 			{
-				while(_points[idx].x > plotClickPosition && idx >= 0)
+				while(_points[idx - 1].x > plotClickPosition && idx > 0)
 				{
 					idx--;
 				}
 			}
 			else
 			{
-				while(_points[idx + 1].x < plotClickPosition && idx < _points.count)
+				while(_points[idx].x <= plotClickPosition && idx <= _points.count)
 				{
 					idx++;
 				}
-			}
-			
-			if(idx < _points.count)
-			{
-				idx += 1;
 			}
 		}
 	}
@@ -256,14 +251,6 @@ static DTX_ALWAYS_INLINE double __DTXValueAtPosition(DTXScatterPlotView* self, N
 	}
 	else
 	{
-		DTXScatterPlotViewPoint* point1 = _points[idx - 1];
-		DTXScatterPlotViewPoint* point2 = _points[idx];
-		
-		if(fabs(point1.x - plotClickPosition) < fabs(point2.x - plotClickPosition))
-		{
-			idx = idx - 1;
-		}
-		
 		*delegateClickPosition = _points[idx].x;
 		*delegateValue = _points[idx].y;
 	}
