@@ -210,6 +210,8 @@
 		39725F9021A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39725F8F21A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets */; };
 		3972E67920694E6800F099DE /* Acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 3972E67820694E6800F099DE /* Acknowledgements.html */; };
 		3972E67C2069544900F099DE /* DTXAcknowledgementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */; };
+		3974151623E1AF9F00986042 /* dtxicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3974151423E1AF9F00986042 /* dtxicon.icns */; };
+		3974151723E1AF9F00986042 /* dtxreqicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3974151523E1AF9F00986042 /* dtxreqicon.icns */; };
 		39775F241EE826F2001F69CC /* DTXValueIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */; };
 		39775F5C1EE83729001F69CC /* NSFormatter+PlotFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 39775F5B1EE83729001F69CC /* NSFormatter+PlotFormatters.m */; };
 		39782CDC1FC590DB0034D70A /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782CD41FC590D90034D70A /* NSManagedObject+Additions.m */; };
@@ -775,6 +777,8 @@
 		3972E67820694E6800F099DE /* Acknowledgements.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = Acknowledgements.html; sourceTree = "<group>"; };
 		3972E67A2069544900F099DE /* DTXAcknowledgementsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXAcknowledgementsViewController.h; sourceTree = "<group>"; };
 		3972E67B2069544900F099DE /* DTXAcknowledgementsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXAcknowledgementsViewController.m; sourceTree = "<group>"; };
+		3974151423E1AF9F00986042 /* dtxicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = dtxicon.icns; sourceTree = "<group>"; };
+		3974151523E1AF9F00986042 /* dtxreqicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = dtxreqicon.icns; sourceTree = "<group>"; };
 		39775F221EE826F2001F69CC /* DTXValueIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXValueIndicatorView.h; sourceTree = "<group>"; };
 		39775F231EE826F2001F69CC /* DTXValueIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXValueIndicatorView.m; sourceTree = "<group>"; };
 		39775F5A1EE83729001F69CC /* NSFormatter+PlotFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFormatter+PlotFormatters.h"; sourceTree = "<group>"; };
@@ -1710,6 +1714,8 @@
 				3972E67820694E6800F099DE /* Acknowledgements.html */,
 				396DAB08231D356C00FFBDDB /* Assets-Shared.xcassets */,
 				39EBDFC71ED36D45005D8AB1 /* Assets.xcassets */,
+				3974151423E1AF9F00986042 /* dtxicon.icns */,
+				3974151523E1AF9F00986042 /* dtxreqicon.icns */,
 				394ED6FF225A37DB001875C3 /* ContributionsGH.json */,
 				3980C0C72086C75000789E3B /* DetoxInstruments.help */,
 				397A1309231E836F00DA81A4 /* Fonts */,
@@ -2316,6 +2322,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3974151723E1AF9F00986042 /* dtxreqicon.icns in Resources */,
+				3974151623E1AF9F00986042 /* dtxicon.icns in Resources */,
 				3980C0DF2086C75000789E3B /* DetoxInstruments.help in Resources */,
 				39725F9021A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets in Resources */,
 				397A132A231E839000DA81A4 /* SF-Mono-Medium.otf in Resources */,
