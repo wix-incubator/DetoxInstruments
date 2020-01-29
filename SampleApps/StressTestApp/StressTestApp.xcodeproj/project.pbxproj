@@ -18,6 +18,7 @@
 		39EBDF1F1ED2DEA2005D8AB1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EBDF1E1ED2DEA2005D8AB1 /* ViewController.m */; };
 		39EBDF221ED2DEA2005D8AB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39EBDF201ED2DEA2005D8AB1 /* Main.storyboard */; };
 		39EBDF241ED2DEA2005D8AB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39EBDF231ED2DEA2005D8AB1 /* Assets.xcassets */; };
+		39F0290123E0A568009924D4 /* WKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F0290023E0A568009924D4 /* WKViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,8 @@
 		39EBDF211ED2DEA2005D8AB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		39EBDF231ED2DEA2005D8AB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		39EBDF281ED2DEA2005D8AB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39F028FF23E0A568009924D4 /* WKViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKViewController.h; sourceTree = "<group>"; };
+		39F0290023E0A568009924D4 /* WKViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +141,8 @@
 				39EBDF1E1ED2DEA2005D8AB1 /* ViewController.m */,
 				3978000B1EEB0038002BDEFB /* WebViewController.h */,
 				3978000C1EEB0038002BDEFB /* WebViewController.m */,
+				39F028FF23E0A568009924D4 /* WKViewController.h */,
+				39F0290023E0A568009924D4 /* WKViewController.m */,
 				39EBDF201ED2DEA2005D8AB1 /* Main.storyboard */,
 				39725F9621A0B6B2001D6BFD /* Launch Screen.storyboard */,
 				39EBDF231ED2DEA2005D8AB1 /* Assets.xcassets */,
@@ -253,6 +258,7 @@
 				393DED9821C9B5AB006EB765 /* SwiftSlower.swift in Sources */,
 				3978000F1EEB00C1002BDEFB /* WebViewController.m in Sources */,
 				39432AE31F55B78800468DB7 /* AppURLProtocol.m in Sources */,
+				39F0290123E0A568009924D4 /* WKViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
