@@ -15,6 +15,7 @@
 #import "DTXRecordingDocument.h"
 #import <CoreServices/CoreServices.h>
 #import "DTXRecording+UIExtensions.h"
+#import "DTXLoadingWindowController.h"
 
 @import QuartzCore;
 
@@ -22,7 +23,7 @@ extern OSStatus DTXGoToHelpPage(NSString* pagePath);
 
 static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility";
 
-@interface DTXWindowController () <DTXPlotAreaContentControllerDelegate, DTXDetailContentControllerDelegate>
+@interface DTXWindowController () <DTXPlotAreaContentControllerDelegate, DTXDetailContentControllerDelegate, NSWindowDelegate>
 {
 	__weak IBOutlet NSSegmentedControl* _layoutSegmentControl;
 	
@@ -39,6 +40,9 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	DTXPlotAreaContentController* _plotContentController;
 	DTXDetailContentController* _detailContentController;
 	DTXInspectorContentController* _inspectorContentController;
+	
+	DTXLoadingWindowController* _loadingModalWindow;
+	NSModalSession _loadingModalSession;
 }
 
 @end
@@ -50,6 +54,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
     [super windowDidLoad];
 	
 	self.window.titleVisibility = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowTitleVisibility];
+	self.window.delegate = self;
 }
 
 - (void)setContentViewController:(NSViewController *)contentViewController
@@ -91,6 +96,19 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_appLaunchProfilingStateDidChangeNotification:) name:DTXRecordingLocalRecordingProfilingStateDidChangeNotification object:self.document];
 	}
 	
+	if(document == nil)
+	{
+		return;
+	}
+	
+	if(document.documentState == DTXRecordingDocumentStateSavedToDisk)
+	{
+		_loadingModalWindow = [[NSStoryboard storyboardWithName:@"Profiler" bundle:[NSBundle bundleForClass:self.class]] instantiateControllerWithIdentifier:@"migrationIndicator"];
+		[_loadingModalWindow setLoadingTitle:[NSString stringWithFormat:@"Loading %@…", document.fileURL.lastPathComponent]];
+		_loadingModalSession = [NSApp beginModalSessionForWindow:_loadingModalWindow.window];
+		[NSApp runModalSession:_loadingModalSession];
+	}
+	
 	[self _fixUpRecordingButtons];
 	
 	_plotDetailsSplitViewController.document = self.document;
@@ -122,6 +140,26 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	[self _fixUpTitle];
 	
 	self.window.restorable = [(DTXRecordingDocument*)self.document documentState] >= DTXRecordingDocumentStateLiveRecordingFinished;
+}
+
+- (void)windowDidChangeOcclusionState:(NSNotification *)notification
+{
+	if((self.window.occlusionState & NSWindowOcclusionStateVisible) != 0)
+	{
+		if(_loadingModalWindow != nil)
+		{
+			[NSApp endModalSession:_loadingModalSession];
+			[_loadingModalWindow.window close];
+			_loadingModalWindow = nil;
+			
+			[self.window becomeKeyWindow];
+		}
+	}
+}
+
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+	
 }
 
 - (void)_documentStateDidChangeNotification:(NSNotification*)note

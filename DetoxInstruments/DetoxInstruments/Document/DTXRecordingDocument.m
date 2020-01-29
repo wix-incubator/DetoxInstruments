@@ -10,6 +10,9 @@
 #import "DTXRecording+UIExtensions.h"
 #import "NSURL+UIAdditions.h"
 #import "NSString+FileNames.h"
+#if ! CLI
+#import "DTXLoadingWindowController.h"
+#endif
 #if ! CLI && ! PROFILER_PREVIEW_EXTENSION
 #import "_DTXLaunchProfilingDiscovery.h"
 #import "DTXRecordingTargetPickerViewController.h"
@@ -444,7 +447,8 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 		NSURL* tempStoreURL = [self _URLByAppendingStoreCompoenentToURL:tempURL];
 		
 #if ! CLI
-		NSWindowController* modalWindowController = [[NSStoryboard storyboardWithName:@"Profiler" bundle:[NSBundle bundleForClass:self.class]] instantiateControllerWithIdentifier:@"migrationIndicator"];
+		DTXLoadingWindowController* modalWindowController = [[NSStoryboard storyboardWithName:@"Profiler" bundle:[NSBundle bundleForClass:self.class]] instantiateControllerWithIdentifier:@"migrationIndicator"];
+		[modalWindowController setLoadingTitle:[NSString stringWithFormat:@"Migrating %@…", url.lastPathComponent]];
 		__block NSModalSession modalSession = NULL;
 #endif
 		BOOL didMigrate = [self _progressivelyMigrateURL:tempStoreURL toModel:model error:outError progressHandler:^(DTXRecordingDocumentMigrationState migrationState, NSDictionary *userInfo) {
