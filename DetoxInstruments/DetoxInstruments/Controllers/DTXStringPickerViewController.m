@@ -11,6 +11,8 @@
 @implementation DTXStringPickerViewController
 {
 	IBOutlet NSStackView* _stackView;
+	IBOutlet NSVisualEffectView* _effectView;
+	IBOutlet NSProgressIndicator* _progressIndicator;
 	
 	NSOrderedSet<NSString*>* _strings;
 	NSMutableSet<NSString*>* _enabledStrings;
@@ -22,6 +24,7 @@
 	[super awakeFromNib];
 	
 	[self view];
+	_progressIndicator.usesThreadedAnimation = YES;
 }
 
 - (void)setStrings:(NSOrderedSet<NSString *> *)strings
@@ -79,6 +82,45 @@
 		[self.delegate stringPickerDidChangeEnabledStrings:self];
 	});
 	
+}
+
+- (IBAction)_none:(id)sender
+{
+	[_enabledStrings removeAllObjects];
+	
+	[_buttons enumerateObjectsUsingBlock:^(NSButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		obj.state = NSControlStateValueOff;
+	}];
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.delegate stringPickerDidChangeEnabledStrings:self];
+	});
+}
+
+- (IBAction)_all:(id)sender
+{
+	[_enabledStrings addObjectsFromArray:_strings.array];
+	
+	[_buttons enumerateObjectsUsingBlock:^(NSButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		obj.state = NSControlStateValueOn;
+	}];
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.delegate stringPickerDidChangeEnabledStrings:self];
+	});
+}
+
+- (void)setShowsLoadingIndicator:(BOOL)showsLoadingIndicator
+{
+	_effectView.hidden = !showsLoadingIndicator;
+	if(showsLoadingIndicator)
+	{
+		[_progressIndicator startAnimation:nil];
+	}
+	else
+	{
+		[_progressIndicator stopAnimation:nil];
+	}
 }
 
 @end

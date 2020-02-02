@@ -12,7 +12,7 @@
 #import "DTXDetailOutlineView.h"
 #import "DTXEventInspectorDataProvider.h"
 #import "DTXActivitySample+UIExtensions.h"
-#import "DTXSignpostDataExporter.h"
+#import "DTXActivityDataExporter.h"
 #import "DTXSignpostAdditionalInfoEndProxy.h"
 #import "DTXActivityPlotController.h"
 
@@ -25,7 +25,7 @@
 
 - (Class)dataExporterClass
 {
-	return DTXSignpostDataExporter.class;
+	return DTXActivityDataExporter.class;
 }
 
 - (NSString *)displayName

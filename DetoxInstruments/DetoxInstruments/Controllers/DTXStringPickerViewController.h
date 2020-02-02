@@ -23,4 +23,6 @@
 
 @property (nonatomic, weak) id<DTXStringPickerViewControllerDelegate> delegate;
 
+- (void)setShowsLoadingIndicator:(BOOL)showsLoadingIndicator;
+
 @end

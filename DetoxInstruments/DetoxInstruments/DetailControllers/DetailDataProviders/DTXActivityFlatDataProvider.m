@@ -12,7 +12,7 @@
 #import "DTXDetailOutlineView.h"
 #import "DTXActivitySampleContainerProxy.h"
 #import "DTXActivitySample+UIExtensions.h"
-#import "DTXSignpostDataExporter.h"
+#import "DTXActivityDataExporter.h"
 #import "DTXSignpostEntitySampleContainerProxy.h"
 #import "DTXEventInspectorDataProvider.h"
 
@@ -25,7 +25,7 @@
 
 - (Class)dataExporterClass
 {
-	return DTXSignpostDataExporter.class;
+	return DTXActivityDataExporter.class;
 }
 
 - (NSString *)identifier
@@ -74,7 +74,7 @@
 	
 	DTXColumnInformation* name = [DTXColumnInformation new];
 	name.title = NSLocalizedString(@"Object", @"");
-	name.minWidth = 200;
+	name.minWidth = 600;
 	name.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
 	
 	return @[start, duration, category, name];
@@ -82,7 +82,7 @@
 
 - (Class)sampleClass
 {
-	return DTXSignpostSample.class;
+	return DTXActivitySample.class;
 }
 
 - (NSString*)formattedStringValueForItem:(id)item column:(NSUInteger)column

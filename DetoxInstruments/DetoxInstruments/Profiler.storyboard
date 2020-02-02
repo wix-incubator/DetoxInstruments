@@ -509,31 +509,90 @@
             <objects>
                 <viewController storyboardIdentifier="DTXStringPickerViewController" id="s7H-xc-rst" customClass="DTXStringPickerViewController" sceneMemberID="viewController">
                     <view key="view" id="Lle-ex-Jov">
-                        <rect key="frame" x="0.0" y="0.0" width="66" height="66"/>
+                        <rect key="frame" x="0.0" y="0.0" width="112" height="107"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fillEqually" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gkD-KJ-E3v">
-                                <rect key="frame" x="8" y="8" width="50" height="50"/>
+                                <rect key="frame" x="8" y="49" width="96" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="7t5-ue-UHY"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="mat-iH-dQr"/>
                                 </constraints>
                             </stackView>
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bER-JG-Oiy">
+                                <rect key="frame" x="8" y="8" width="96" height="21"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5gb-O5-Xh7">
+                                        <rect key="frame" x="-5" y="-3" width="54" height="27"/>
+                                        <buttonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="T1G-ld-exn">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="message" size="11"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="_none:" target="s7H-xc-rst" id="67j-JY-5I1"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="l9V-DB-oBR">
+                                        <rect key="frame" x="47" y="-3" width="54" height="27"/>
+                                        <buttonCell key="cell" type="push" title="All" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tt2-7m-Dx0">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="message" size="11"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="_all:" target="s7H-xc-rst" id="v4S-YF-bUA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="l9V-DB-oBR" firstAttribute="width" secondItem="5gb-O5-Xh7" secondAttribute="width" id="Uxc-de-VJm"/>
+                                    <constraint firstAttribute="height" constant="21" id="gLq-XT-8VD"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                            <visualEffectView hidden="YES" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="gD5-Pg-8xG">
+                                <rect key="frame" x="0.0" y="0.0" width="112" height="107"/>
+                                <subviews>
+                                    <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="kXf-Di-OtK">
+                                        <rect key="frame" x="40" y="38" width="32" height="32"/>
+                                    </progressIndicator>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="kXf-Di-OtK" firstAttribute="centerX" secondItem="gD5-Pg-8xG" secondAttribute="centerX" id="Gf3-nd-ePf"/>
+                                    <constraint firstItem="kXf-Di-OtK" firstAttribute="centerY" secondItem="gD5-Pg-8xG" secondAttribute="centerY" id="WCd-vw-rzk"/>
+                                </constraints>
+                            </visualEffectView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="gD5-Pg-8xG" firstAttribute="top" secondItem="Lle-ex-Jov" secondAttribute="top" id="5Ee-lo-3Ke"/>
                             <constraint firstItem="gkD-KJ-E3v" firstAttribute="top" secondItem="Lle-ex-Jov" secondAttribute="top" constant="8" id="5Pk-v0-BZ3"/>
-                            <constraint firstAttribute="bottom" secondItem="gkD-KJ-E3v" secondAttribute="bottom" constant="8" id="U0t-kn-kaa"/>
+                            <constraint firstAttribute="bottom" secondItem="gD5-Pg-8xG" secondAttribute="bottom" id="Lmj-fU-OYw"/>
+                            <constraint firstAttribute="bottom" secondItem="bER-JG-Oiy" secondAttribute="bottom" constant="8" id="M3N-1u-5Lw"/>
+                            <constraint firstItem="bER-JG-Oiy" firstAttribute="centerX" secondItem="Lle-ex-Jov" secondAttribute="centerX" id="On3-Ma-kaQ"/>
+                            <constraint firstItem="gD5-Pg-8xG" firstAttribute="leading" secondItem="Lle-ex-Jov" secondAttribute="leading" id="Rhi-AK-jAX"/>
+                            <constraint firstItem="bER-JG-Oiy" firstAttribute="top" secondItem="gkD-KJ-E3v" secondAttribute="bottom" constant="20" id="TXM-5c-W94"/>
                             <constraint firstAttribute="trailing" secondItem="gkD-KJ-E3v" secondAttribute="trailing" constant="8" id="WKJ-R7-Awn"/>
                             <constraint firstItem="gkD-KJ-E3v" firstAttribute="leading" secondItem="Lle-ex-Jov" secondAttribute="leading" constant="8" id="WOx-sw-dFk"/>
+                            <constraint firstAttribute="trailing" secondItem="gD5-Pg-8xG" secondAttribute="trailing" id="dke-WM-iYE"/>
+                            <constraint firstItem="bER-JG-Oiy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lle-ex-Jov" secondAttribute="leading" constant="8" id="kx0-Rq-X2n"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bER-JG-Oiy" secondAttribute="trailing" constant="8" id="uDo-Sk-JHP"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="_effectView" destination="gD5-Pg-8xG" id="4L0-0j-tlT"/>
+                        <outlet property="_progressIndicator" destination="kXf-Di-OtK" id="248-An-ihD"/>
                         <outlet property="_stackView" destination="gkD-KJ-E3v" id="YeB-0l-YBR"/>
                     </connections>
                 </viewController>
                 <customObject id="DHo-bs-6kw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2863" y="-1051"/>
+            <point key="canvasLocation" x="3022.5" y="-945"/>
         </scene>
         <!--Detail Content Controller-->
         <scene sceneID="GNr-8R-oRe">

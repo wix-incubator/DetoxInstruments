@@ -161,8 +161,8 @@ NSString* const DTXActivityPlotEnabledCategoriesDidChange = @"DTXActivityPlotEna
 
 - (NSString*)titleForSample:(DTXActivitySample*)sample
 {
-	return sample.category;
-//	return [NSString stringWithFormat:@"%@ (%@)", sample.category, sample.name];
+//	return sample.category;
+	return [NSString stringWithFormat:@"%@: %@", sample.category, sample.name];
 }
 
 - (NSMenu *)quickSettingsMenu
@@ -213,19 +213,23 @@ NSString* const DTXActivityPlotEnabledCategoriesDidChange = @"DTXActivityPlotEna
 
 - (void)stringPickerDidChangeEnabledStrings:(DTXStringPickerViewController*)pvc
 {
-	NSSet* categories = pvc.enabledStrings.copy;
+	NSSet* categories = pvc.enabledStrings;
 	if([self.enabledCategories isEqualToSet:categories])
 	{
 		return;
 	}
 	
 	[_delayedTimer invalidate];
-	_delayedTimer = [NSTimer scheduledTimerWithTimeInterval:0.8 repeats:NO block:^(NSTimer * _Nonnull timer) {
-		[self.document setObject:categories forPreferenceKey:@"ActivityEnabledCategories"];
-		[self invalidateSections];
-		
-		_flatDataProvider.enabledCategories = categories;
-		_summaryDataProvider.enabledCategories = categories;
+	_delayedTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+		[pvc setShowsLoadingIndicator:YES];
+		dispatch_async(dispatch_get_main_queue(), ^ {
+			[self.document setObject:categories forPreferenceKey:@"ActivityEnabledCategories"];
+			[self invalidateSections];
+			
+			_flatDataProvider.enabledCategories = categories;
+			_summaryDataProvider.enabledCategories = categories;
+			[pvc setShowsLoadingIndicator:NO];
+		});
 	}];
 }
 
