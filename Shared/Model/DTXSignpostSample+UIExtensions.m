@@ -17,11 +17,22 @@
 
 @implementation DTXSignpostSample (UIExtensions)
 
-+ (BOOL)hasSignpostSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext
++ (NSUInteger)countOfSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext
+{
+	NSFetchRequest* fr = [self fetchRequest];
+	return [managedObjectContext countForFetchRequest:fr error:NULL];
+}
+
++ (NSUInteger)countOfSignpostSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext
 {
 	NSFetchRequest* fr = [self fetchRequest];
 	fr.predicate = [NSPredicate predicateWithFormat:@"sampleType == %@", @(DTXSampleTypeSignpost)];
-	return [managedObjectContext countForFetchRequest:fr error:NULL] > 0;
+	return [managedObjectContext countForFetchRequest:fr error:NULL];
+}
+
++ (BOOL)hasSignpostSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext
+{
+	return [self countOfSignpostSamplesInManagedObjectContext:managedObjectContext] > 0;
 }
 
 - (NSUInteger)count

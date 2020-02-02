@@ -1927,6 +1927,8 @@
 		399A6A9620B2CB13006E711B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				399B4DC61ED574410098D2AC /* DTXWindowController.h */,
+				399B4DC71ED574410098D2AC /* DTXWindowController.m */,
 				399B4DC91ED574AE0098D2AC /* DTXBaseSplitViewController.h */,
 				399B4DCA1ED574AE0098D2AC /* DTXBaseSplitViewController.m */,
 				399B4DD11ED575780098D2AC /* DTXPlotDetailSplitViewController.h */,
@@ -2112,8 +2114,6 @@
 				39538D72209B40F3003AF7D3 /* About.storyboard */,
 				3967739220B594B200851154 /* Main.storyboard */,
 				399B4DCC1ED574E70098D2AC /* Profiler.storyboard */,
-				399B4DC61ED574410098D2AC /* DTXWindowController.h */,
-				399B4DC71ED574410098D2AC /* DTXWindowController.m */,
 				39EBDFBB1ED36D45005D8AB1 /* DTXApplicationDelegate.h */,
 				398FD7FC23103C9700B33B71 /* DTXApplicationDelegate-Private.h */,
 				39EBDFBC1ED36D45005D8AB1 /* DTXApplicationDelegate.m */,

@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DTXSignpostSample (UIExtensions) <DTXSignpost>
 
++ (NSUInteger)countOfSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
++ (NSUInteger)countOfSignpostSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 + (BOOL)hasSignpostSamplesInManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 - (NSString*)eventTypeString;
 - (NSString*)eventStatusString;

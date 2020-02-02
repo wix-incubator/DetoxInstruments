@@ -16,6 +16,7 @@
 #import <CoreServices/CoreServices.h>
 #import "DTXRecording+UIExtensions.h"
 #import "DTXLoadingWindowController.h"
+#import "DTXSignpostSample+UIExtensions.h"
 
 @import QuartzCore;
 
@@ -101,7 +102,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 		return;
 	}
 	
-	if(document.documentState == DTXRecordingDocumentStateSavedToDisk)
+	if(document.documentState == DTXRecordingDocumentStateSavedToDisk && [DTXSignpostSample countOfSamplesInManagedObjectContext:document.viewContext] > 7000)
 	{
 		_loadingModalWindow = [[NSStoryboard storyboardWithName:@"Profiler" bundle:[NSBundle bundleForClass:self.class]] instantiateControllerWithIdentifier:@"migrationIndicator"];
 		[_loadingModalWindow setLoadingTitle:[NSString stringWithFormat:@"Loading %@…", document.fileURL.lastPathComponent]];
