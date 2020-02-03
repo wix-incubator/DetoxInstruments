@@ -53,6 +53,11 @@ static BOOL _DTXShouldIgnoreEvent(_DTXEventType eventType, NSString* category, D
 		return NO;
 	}
 	
+	if(eventType == _DTXEventTypeActivity && config.recordActivity == NO)
+	{
+		return YES;
+	}
+	
 	Class targetClass = _DTXClassForEventType(eventType);
 	
 	if(targetClass == DTXSignpostSample.class && config.recordEvents == NO)
@@ -61,11 +66,6 @@ static BOOL _DTXShouldIgnoreEvent(_DTXEventType eventType, NSString* category, D
 	}
 	
 	if(targetClass == DTXSignpostSample.class && [config.ignoredEventCategories containsObject:category])
-	{
-		return YES;
-	}
-	
-	if(targetClass == DTXActivitySample.class && config.recordActivity == NO)
 	{
 		return YES;
 	}

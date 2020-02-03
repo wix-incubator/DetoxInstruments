@@ -172,7 +172,7 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 		
 //		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
 		
-		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record Activity", @"") description:__DTXStringFromBoolean(configuration.recordActivity)]];
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Record App Activity", @"") description:__DTXStringFromBoolean(configuration.recordActivity)]];
 		
 //		[content addObject:[DTXInspectorContentRow contentRowWithNewLine]];
 		

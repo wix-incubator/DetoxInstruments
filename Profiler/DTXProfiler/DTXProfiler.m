@@ -501,11 +501,13 @@ static uint64_t main_thread_identifier;
 
 - (void)_flushPendingSamplesInternal
 {
-	[_backgroundContext save:NULL];
-	
-	for (DTXSample* obj in _pendingSamples) {
-		[self->_backgroundContext refreshObject:obj mergeChanges:NO];
-	}
+	@try {
+		[_backgroundContext save:NULL];
+		
+		for (DTXSample* obj in _pendingSamples) {
+			[self->_backgroundContext refreshObject:obj mergeChanges:NO];
+		}
+	} @catch (__unused NSException* e) {}
 	
 	[_pendingSamples removeAllObjects];
 }

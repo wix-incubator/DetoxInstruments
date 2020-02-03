@@ -202,7 +202,7 @@
 		[_plotGroup addPlotController:[[DTXEventsPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	}
 	
-	if(self.document.firstRecording.dtx_profilingConfiguration.recordActivity)
+	if(self.document.firstRecording.dtx_profilingConfiguration.recordActivity || self.document.firstRecording.dtx_profilingConfiguration.recordInternalReactNativeActivity)
 	{
 		[_plotGroup addPlotController:[[DTXActivityPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	}

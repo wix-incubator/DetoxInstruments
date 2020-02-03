@@ -955,34 +955,8 @@ Currently, only one active React Native bridge is supported.</string>
                                                                     <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeBridgeData" id="jF4-nR-RFe"/>
                                                                 </connections>
                                                             </button>
-                                                            <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Rqu-7F-RGF">
-                                                                <rect key="frame" x="-2" y="20" width="172" height="18"/>
-                                                                <string key="toolTip">Record React Native timers, created using setTimeout() in Java Script, as events.
-
-Timers will appear as interval events in the Events instrument. This option requires the detox-instruments-react-native-utils package be installed in the profiled React Native app.</string>
-                                                                <buttonCell key="cell" type="check" title="Record timers as activity" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ccd-Kd-4zv">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="oBo-VM-AFS" id="e5I-Vg-8yh">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="0"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordActivity" id="oBo-VM-AFS">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeTimersAsActivity" id="Ywd-1v-Ygx"/>
-                                                                </connections>
-                                                            </button>
                                                             <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iQv-ND-aT4">
-                                                                <rect key="frame" x="-2" y="-2" width="242" height="18"/>
+                                                                <rect key="frame" x="-2" y="20" width="242" height="18"/>
                                                                 <string key="toolTip">Record internal React Native events.
 
 Taps into the internal profiling mechanisms to collect internal React Native profiling events.</string>
@@ -991,7 +965,7 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled2" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" previousBinding="mD7-th-YY7" id="Abx-32-3tO">
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="ZBF-4j-on3">
                                                                         <dictionary key="options">
                                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -999,12 +973,28 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                                             <integer key="NSNullPlaceholder" value="0"/>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_recordActivity" id="mD7-th-YY7">
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordInternalReactNativeActivity" id="DTK-Ds-A6a"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Rqu-7F-RGF">
+                                                                <rect key="frame" x="-2" y="-2" width="172" height="18"/>
+                                                                <string key="toolTip">Record React Native timers, created using setTimeout() in Java Script, as events.
+
+Timers will appear as interval events in the Events instrument. This option requires the detox-instruments-react-native-utils package be installed in the profiled React Native app.</string>
+                                                                <buttonCell key="cell" type="check" title="Record timers as activity" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ccd-Kd-4zv">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <binding destination="rBM-gZ-tlD" name="enabled" keyPath="values.DTXSelectedProfilingConfiguration_profileReactNative" id="gZ1-cl-VrD">
                                                                         <dictionary key="options">
-                                                                            <integer key="NSNullPlaceholder" value="1"/>
+                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                            <integer key="NSNullPlaceholder" value="0"/>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordInternalReactNativeActivity" id="DTK-Ds-A6a"/>
+                                                                    <binding destination="rBM-gZ-tlD" name="value" keyPath="values.DTXSelectedProfilingConfiguration_recordReactNativeTimersAsActivity" id="Ywd-1v-Ygx"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -1307,7 +1297,7 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                             <tableColumns>
                                                 <tableColumn width="415" minWidth="40" maxWidth="1000" id="kqP-Eh-iwO">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="message" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -1446,7 +1436,7 @@ Gw
                             <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" preferredMaxLayoutWidth="244" translatesAutoresizingMaskIntoConstraints="NO" id="UbL-Hd-VO7">
                                 <rect key="frame" x="265" y="115" width="237" height="42"/>
                                 <textFieldCell key="cell" title="The Detox Instruments command-line utility allows querying recording data from the command-line." id="Veg-V0-hoo">
-                                    <font key="font" metaFont="message" size="11"/>
+                                    <font key="font" metaFont="menu" size="11"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -1461,7 +1451,7 @@ Gw
                             <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="qZP-Lb-3p1">
                                 <rect key="frame" x="337" y="168" width="176" height="14"/>
                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Installed at: /usr/local/bin/dtxinst" id="FMO-Gd-Bug">
-                                    <font key="font" metaFont="message" size="11"/>
+                                    <font key="font" metaFont="menu" size="11"/>
                                     <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
