@@ -3,7 +3,7 @@
 //  DTXProfiler
 //
 //  Created by Leo Natan (Wix) on 1/12/20.
-//  Copyright © 2020 Wix. All rights reserved.
+//  Copyright © 2017-2020 Wix. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
