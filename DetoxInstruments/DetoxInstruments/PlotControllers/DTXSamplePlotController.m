@@ -281,7 +281,7 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 		_pendingDataLimitRange = nil;
 	}
 	
-	double requiredMinHeight = self.isForTouchBar ? DTXCurrentTouchBarHeight() : 80 / plotViews.count;
+	double requiredMinHeight = plotViews.count == 0 ? 0 : self.isForTouchBar ? DTXCurrentTouchBarHeight() : 80 / plotViews.count;
 	
 	NSUInteger plotViewIdx = 0;
 	for (__kindof DTXPlotView* plotView in plotViews)
