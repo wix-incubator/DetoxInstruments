@@ -29,11 +29,38 @@
 		394A975522A919BD0063A2CC /* DTXLoggingSubsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 394A975422A919BD0063A2CC /* DTXLoggingSubsystem.h */; };
 		394A975E22A91AFA0063A2CC /* DTXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 394A975C22A91AFA0063A2CC /* DTXLogging.m */; };
 		394A975F22A91AFA0063A2CC /* DTXLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 394A975D22A91AFA0063A2CC /* DTXLogging.h */; };
+		395DE7D32417EA8B008D74D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 395DE7D22417EA8B008D74D0 /* Default-568h@2x.png */; };
+		395DE7D72417EB5D008D74D0 /* DTXProfilerShim.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3929507B2107A87300F7E3E1 /* DTXProfilerShim.framework */; };
+		395DE7D82417EB5D008D74D0 /* DTXProfilerShim.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3929507B2107A87300F7E3E1 /* DTXProfilerShim.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39A7BC79210A8F27003E9170 /* DTXEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 39A7BC78210A8F27003E9170 /* DTXEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC7A210A8F9B003E9170 /* DTXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215585210A8EF9002AF802 /* DTXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC7C210A8F9B003E9170 /* DTXProfilingConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215586210A8EF9002AF802 /* DTXProfilingConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39A7BC7D210A8F9B003E9170 /* DTXProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 39215583210A8EF8002AF802 /* DTXProfiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		395DE7D92417EB5D008D74D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 392950722107A87300F7E3E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3929507A2107A87300F7E3E1;
+			remoteInfo = DTXProfilerShim;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		395DE7DB2417EB5D008D74D0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				395DE7D82417EB5D008D74D0 /* DTXProfilerShim.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3900FBD221185F010054BA5E /* DTXProfilerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXProfilerAPI.h; sourceTree = "<group>"; };
@@ -50,6 +77,7 @@
 		394A975422A919BD0063A2CC /* DTXLoggingSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXLoggingSubsystem.h; sourceTree = "<group>"; };
 		394A975C22A91AFA0063A2CC /* DTXLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXLogging.m; path = ../../../Shared/DTXLoggingInfra/DTXLogging.m; sourceTree = "<group>"; };
 		394A975D22A91AFA0063A2CC /* DTXLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXLogging.h; path = ../../../Shared/DTXLoggingInfra/DTXLogging.h; sourceTree = "<group>"; };
+		395DE7D22417EA8B008D74D0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		39A7BC78210A8F27003E9170 /* DTXEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXEvents.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				395DE7D72417EB5D008D74D0 /* DTXProfilerShim.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,9 +103,11 @@
 		392950712107A87300F7E3E1 = {
 			isa = PBXGroup;
 			children = (
+				395DE7D22417EA8B008D74D0 /* Default-568h@2x.png */,
 				3929507D2107A87300F7E3E1 /* DTXProfilerShim */,
 				3939237621AB3B710015A15F /* DTXProfilerShimTest */,
 				3929507C2107A87300F7E3E1 /* Products */,
+				395DE7D62417EB5D008D74D0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,6 +153,13 @@
 				394A975422A919BD0063A2CC /* DTXLoggingSubsystem.h */,
 			);
 			path = Logging;
+			sourceTree = "<group>";
+		};
+		395DE7D62417EB5D008D74D0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,10 +208,12 @@
 				3939237121AB3B710015A15F /* Sources */,
 				3939237221AB3B710015A15F /* Frameworks */,
 				3939237321AB3B710015A15F /* Resources */,
+				395DE7DB2417EB5D008D74D0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				395DE7DA2417EB5D008D74D0 /* PBXTargetDependency */,
 			);
 			name = DTXProfilerShimTest;
 			productName = DTXProfilerShimTest;
@@ -232,6 +272,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				395DE7D32417EA8B008D74D0 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +318,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		395DE7DA2417EB5D008D74D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3929507A2107A87300F7E3E1 /* DTXProfilerShim */;
+			targetProxy = 395DE7D92417EB5D008D74D0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3900FB8C21185A880054BA5E /* Debug */ = {
@@ -355,7 +404,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -411,7 +460,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -435,7 +484,6 @@
 				GCC_C_LANGUAGE_STANDARD = c11;
 				INFOPLIST_FILE = DTXProfilerShim/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/DTXProfiler.framework/DTXProfiler";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -465,7 +513,6 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				INFOPLIST_FILE = DTXProfilerShim/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/DTXProfiler.framework/DTXProfiler";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -527,7 +574,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -552,7 +599,6 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				INFOPLIST_FILE = DTXProfilerShim/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/DTXProfiler.framework/DTXProfiler";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -574,7 +620,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9QFG2VH2E;
 				INFOPLIST_FILE = DTXProfilerShimTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -591,7 +637,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9QFG2VH2E;
 				INFOPLIST_FILE = DTXProfilerShimTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -608,7 +654,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9QFG2VH2E;
 				INFOPLIST_FILE = DTXProfilerShimTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
