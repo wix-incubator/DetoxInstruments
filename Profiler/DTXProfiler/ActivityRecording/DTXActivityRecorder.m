@@ -9,8 +9,8 @@
 #import "DTXActivityRecorder.h"
 #import "DTXProfilerAPI-Private.h"
 
-static NSUInteger __activeListeningProfilers;
-static pthread_mutex_t __activeListeningProfilersMutex;
+//static NSUInteger __activeListeningProfilers;
+//static pthread_mutex_t __activeListeningProfilersMutex;
 
 @interface DTXActivityRecorder () /* <DTXSyncManagerDelegate> */
 
@@ -20,29 +20,53 @@ static pthread_mutex_t __activeListeningProfilersMutex;
 
 + (void)load
 {
-	__activeListeningProfilers = 0;
-	pthread_mutex_init(&__activeListeningProfilersMutex, NULL);
+//	__activeListeningProfilers = 0;
+//	pthread_mutex_init(&__activeListeningProfilersMutex, NULL);
 	
-	Class cls = NSClassFromString(@"DTXSyncManager");
-	if(cls == nil)
+	CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidAddProfiler, CF(__DTXDidAddActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
+//	CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(), NULL, __DTXDidRemoveProfiler, CF(__DTXDidRemoveActiveProfilerNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
+
+	//Iterate existing profilers and call the notification callback for them.
+	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
+		__DTXDidAddProfiler(nil, nil, CF(__DTXDidAddActiveProfilerNotification), CF(profiler), nil);
+	});
+}
+
+static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, CFNotificationName name, const void *object, CFDictionaryRef userInfo)
+{
+	DTXProfiler* profiler = NS(object);
+	if(profiler.profilingConfiguration.recordActivity == YES)
 	{
-		NSURL* profilerURL = [NSBundle bundleForClass:DTXActivityRecorder.class].bundleURL;
-		NSURL* detoxSyncURL = [profilerURL URLByAppendingPathComponent:@"Frameworks/DetoxSync.framework"];
-		NSBundle* bundle = [[NSBundle alloc] initWithURL:detoxSyncURL];
-		if([bundle load] == NO)
-		{
-			return;
-		}
+		[DTXActivityRecorder loadDetoxSyncFrameworkBundle];
 	}
-	
-	[NSClassFromString(@"DTXSyncManager") performSelector:@selector(setDelegate:) withObject:self];
-	
-//	[NSNotificationCenter.defaultCenter addObserverForName:nil object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-//		if([note.name hasPrefix:@"UI"] || [note.name hasPrefix:@"_UI"] || [note.name hasPrefix:@"RCT"])
-//		{
-//			//Future use.
-//		}
-//	}];
+}
+
+
++ (void)loadDetoxSyncFrameworkBundle
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		Class cls = NSClassFromString(@"DTXSyncManager");
+		if(cls == nil)
+		{
+			NSURL* profilerURL = [NSBundle bundleForClass:DTXActivityRecorder.class].bundleURL;
+			NSURL* detoxSyncURL = [profilerURL URLByAppendingPathComponent:@"Frameworks/DetoxSync.framework"];
+			NSBundle* bundle = [[NSBundle alloc] initWithURL:detoxSyncURL];
+			if([bundle load] == NO)
+			{
+				return;
+			}
+		}
+		
+		[NSClassFromString(@"DTXSyncManager") performSelector:@selector(setDelegate:) withObject:self];
+		
+//		[NSNotificationCenter.defaultCenter addObserverForName:nil object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+//			if([note.name hasPrefix:@"UI"] || [note.name hasPrefix:@"_UI"] || [note.name hasPrefix:@"RCT"])
+//			{
+//				//Future use.
+//			}
+//		}];
+	});
 }
 
 + (void)syncSystemDidStartTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description objectDescription:(NSString*)objectDescription additionalDescription:(nullable NSString*)additionalDescription
