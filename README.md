@@ -67,7 +67,7 @@ In order to begin profiling your app, you need to integrate the Profiler framewo
 
 By integrating Detox Instruments in your app, many of the included instruments can automatically collect data. Some instruments require you to explicitly call the provided APIs so that specific data can be collected.
 
-For an in-depth look at the available APIs, see the [Developer API Reference](Documentation/DeveloperAPIReferenceIntro.md).
+For an in-depth look at the available APIs, see [Developer API Reference](Documentation/DeveloperAPIReferenceIntro.md).
 
 ## Profiling an App
 

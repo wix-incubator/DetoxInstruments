@@ -36,4 +36,4 @@
 	url = https://github.com/wix/DetoxSync.git
 [submodule "Shared/DTXSwizzlingHelper"]
 	path = Shared/DTXSwizzlingHelper
-	url = https://github.com/wix/DTXSwizzlingHelper.git
+	url = https://github.com/wix/DTXObjectiveCHelpers.git
