@@ -9,11 +9,8 @@
 /* Begin PBXBuildFile section */
 		39048B9023D8018F004142BB /* DTXInstruments.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39048B8C23D8018F004142BB /* DTXInstruments.xcdatamodeld */; };
 		3911767821EE6B0800C92A9F /* NSExpression+SafeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911767721EE6B0800C92A9F /* NSExpression+SafeProperties.m */; };
-		3911770821EF81FB00C92A9F /* NSObject+AttachedObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 391176F921EF81FB00C92A9F /* NSObject+AttachedObjects.m */; };
 		3911770921EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 391176FA21EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */; };
 		3911770B21EF81FB00C92A9F /* NSURL+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770321EF81FB00C92A9F /* NSURL+UIAdditions.m */; };
-		3911770C21EF81FB00C92A9F /* NSString+FileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770521EF81FB00C92A9F /* NSString+FileNames.m */; };
-		3911770D21EF81FB00C92A9F /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770621EF81FB00C92A9F /* NSMapTable+Subscripting.m */; };
 		3911770E21EF81FB00C92A9F /* NSDictionary+FakeDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */; };
 		3935104E1FCB9BE2001FB466 /* LNLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3935104B1FCB9BE2001FB466 /* LNLog.m */; };
 		3935104F1FCB9BE2001FB466 /* LNOptionsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3935104C1FCB9BE2001FB466 /* LNOptionsParser.m */; };
@@ -39,6 +36,9 @@
 		398828542137DBBB006F283B /* DTXRecordingDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3988284F2137DBBB006F283B /* DTXRecordingDocumentController.m */; };
 		398828552137DBBB006F283B /* DTXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 398828512137DBBB006F283B /* DTXDocument.m */; };
 		3990FCA423B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 3990FCA223B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */; };
+		39B71FB924641A6500CC9A88 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B71FB424641A6500CC9A88 /* NSMapTable+Subscripting.m */; };
+		39B71FBA24641A6500CC9A88 /* NSObject+AttachedObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B71FB524641A6500CC9A88 /* NSObject+AttachedObjects.m */; };
+		39B71FBB24641A6500CC9A88 /* NSString+FileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B71FB624641A6500CC9A88 /* NSString+FileNames.m */; };
 		39BC7B82239E5DCE00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */; };
 /* End PBXBuildFile section */
 
@@ -60,18 +60,11 @@
 		39048B8F23D8018F004142BB /* DTXInstruments-9954.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-9954.xcdatamodel"; sourceTree = "<group>"; };
 		3911767621EE6B0800C92A9F /* NSExpression+SafeProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSExpression+SafeProperties.h"; sourceTree = "<group>"; };
 		3911767721EE6B0800C92A9F /* NSExpression+SafeProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSExpression+SafeProperties.m"; sourceTree = "<group>"; };
-		391176F921EF81FB00C92A9F /* NSObject+AttachedObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AttachedObjects.m"; sourceTree = "<group>"; };
 		391176FA21EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
-		391176FB21EF81FB00C92A9F /* NSString+FileNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FileNames.h"; sourceTree = "<group>"; };
 		391176FD21EF81FB00C92A9F /* NSURL+UIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+UIAdditions.h"; sourceTree = "<group>"; };
-		391176FE21EF81FB00C92A9F /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
 		391176FF21EF81FB00C92A9F /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
-		3911770021EF81FB00C92A9F /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Swiftier.h; sourceTree = "<group>"; };
 		3911770121EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
-		3911770221EF81FB00C92A9F /* NSObject+AttachedObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AttachedObjects.h"; sourceTree = "<group>"; };
 		3911770321EF81FB00C92A9F /* NSURL+UIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+UIAdditions.m"; sourceTree = "<group>"; };
-		3911770521EF81FB00C92A9F /* NSString+FileNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FileNames.m"; sourceTree = "<group>"; };
-		3911770621EF81FB00C92A9F /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
 		3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
 		3935104A1FCB9BE2001FB466 /* LNOptionsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LNOptionsParser.h; path = ObjCCLIInfra/LNOptionsParser.h; sourceTree = SOURCE_ROOT; };
 		3935104B1FCB9BE2001FB466 /* LNLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNLog.m; path = ObjCCLIInfra/LNLog.m; sourceTree = SOURCE_ROOT; };
@@ -127,9 +120,16 @@
 		398828522137DBBB006F283B /* DTXDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXDocument.h; sourceTree = "<group>"; };
 		3990FCA223B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.m"; sourceTree = "<group>"; };
 		3990FCA323B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+QuickDecodingSecureCoding.h"; sourceTree = "<group>"; };
+		39B71FB224641A5400CC9A88 /* DTXQuickNSExpressions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DTXQuickNSExpressions.h; path = ../DTXSwizzlingHelper/DTXQuickNSExpressions.h; sourceTree = "<group>"; };
+		39B71FB324641A6500CC9A88 /* NSObject+AttachedObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AttachedObjects.h"; path = "../DTXSwizzlingHelper/NSObject+AttachedObjects.h"; sourceTree = "<group>"; };
+		39B71FB424641A6500CC9A88 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMapTable+Subscripting.m"; path = "../DTXSwizzlingHelper/NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
+		39B71FB524641A6500CC9A88 /* NSObject+AttachedObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AttachedObjects.m"; path = "../DTXSwizzlingHelper/NSObject+AttachedObjects.m"; sourceTree = "<group>"; };
+		39B71FB624641A6500CC9A88 /* NSString+FileNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+FileNames.m"; path = "../DTXSwizzlingHelper/NSString+FileNames.m"; sourceTree = "<group>"; };
+		39B71FB724641A6500CC9A88 /* NSString+FileNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+FileNames.h"; path = "../DTXSwizzlingHelper/NSString+FileNames.h"; sourceTree = "<group>"; };
+		39B71FB824641A6500CC9A88 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMapTable+Subscripting.h"; path = "../DTXSwizzlingHelper/NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
+		39B71FBC24641A6C00CC9A88 /* Swiftier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../DTXSwizzlingHelper/Swiftier.h; sourceTree = "<group>"; };
 		39BC7B81239E5DCD00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DTXMappingModel9954To11469.xcmappingmodel; sourceTree = "<group>"; };
 		39EEF34221EFADA80028061D /* SharedPrefixHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPrefixHeader.h; sourceTree = "<group>"; };
-		39EEF34321EFADB10028061D /* DTXQuickNSExpressions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXQuickNSExpressions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,25 +146,25 @@
 		391176F821EF81FB00C92A9F /* SharedUtilities */ = {
 			isa = PBXGroup;
 			children = (
-				39EEF34321EFADB10028061D /* DTXQuickNSExpressions.h */,
+				39B71FB224641A5400CC9A88 /* DTXQuickNSExpressions.h */,
 				391176FF21EF81FB00C92A9F /* NSDictionary+FakeDecoder.h */,
 				3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */,
 				3990FCA323B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.h */,
 				3990FCA223B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */,
 				3911770121EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.h */,
 				391176FA21EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */,
-				391176FE21EF81FB00C92A9F /* NSMapTable+Subscripting.h */,
-				3911770621EF81FB00C92A9F /* NSMapTable+Subscripting.m */,
-				3911770221EF81FB00C92A9F /* NSObject+AttachedObjects.h */,
-				391176F921EF81FB00C92A9F /* NSObject+AttachedObjects.m */,
-				391176FB21EF81FB00C92A9F /* NSString+FileNames.h */,
-				3911770521EF81FB00C92A9F /* NSString+FileNames.m */,
+				39B71FB824641A6500CC9A88 /* NSMapTable+Subscripting.h */,
+				39B71FB424641A6500CC9A88 /* NSMapTable+Subscripting.m */,
+				39B71FB724641A6500CC9A88 /* NSString+FileNames.h */,
+				39B71FB324641A6500CC9A88 /* NSObject+AttachedObjects.h */,
+				39B71FB524641A6500CC9A88 /* NSObject+AttachedObjects.m */,
+				39B71FB624641A6500CC9A88 /* NSString+FileNames.m */,
 				39356AC92201A92200FD23C4 /* NSString+Hashing.h */,
 				39356AC82201A92200FD23C4 /* NSString+Hashing.m */,
 				391176FD21EF81FB00C92A9F /* NSURL+UIAdditions.h */,
 				3911770321EF81FB00C92A9F /* NSURL+UIAdditions.m */,
 				39EEF34221EFADA80028061D /* SharedPrefixHeader.h */,
-				3911770021EF81FB00C92A9F /* Swiftier.h */,
+				39B71FBC24641A6C00CC9A88 /* Swiftier.h */,
 			);
 			name = SharedUtilities;
 			path = ../../Shared/SharedUtilities;
@@ -368,7 +368,6 @@
 				3935105B1FCB9BF9001FB466 /* GBCommandLineParser.m in Sources */,
 				3911770921EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
 				39401D0421E5098100504FD8 /* DTXRecording+Additions.m in Sources */,
-				3911770C21EF81FB00C92A9F /* NSString+FileNames.m in Sources */,
 				3990FCA423B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */,
 				3964876E1FC325C400006341 /* main.m in Sources */,
 				39356ACA2201A92200FD23C4 /* NSString+Hashing.m in Sources */,
@@ -378,7 +377,6 @@
 				3911770E21EF81FB00C92A9F /* NSDictionary+FakeDecoder.m in Sources */,
 				398828542137DBBB006F283B /* DTXRecordingDocumentController.m in Sources */,
 				3935105C1FCB9BF9001FB466 /* GBPrint.m in Sources */,
-				3911770821EF81FB00C92A9F /* NSObject+AttachedObjects.m in Sources */,
 				3935104E1FCB9BE2001FB466 /* LNLog.m in Sources */,
 				3911767821EE6B0800C92A9F /* NSExpression+SafeProperties.m in Sources */,
 				39401D0321E5098100504FD8 /* DTXSample+Additions.m in Sources */,
@@ -391,10 +389,12 @@
 				3964879F1FC32E8600006341 /* AutoCoding.m in Sources */,
 				39401D1921E5099500504FD8 /* DTXNetworkSample+UIExtensions.m in Sources */,
 				39401D1F21E5099500504FD8 /* DTXSignpostSample+UIExtensions.m in Sources */,
-				3911770D21EF81FB00C92A9F /* NSMapTable+Subscripting.m in Sources */,
+				39B71FBA24641A6500CC9A88 /* NSObject+AttachedObjects.m in Sources */,
 				3935105A1FCB9BF9001FB466 /* GBOptionsHelper.m in Sources */,
+				39B71FBB24641A6500CC9A88 /* NSString+FileNames.m in Sources */,
 				39401D1A21E5099500504FD8 /* DTXRecording+UIExtensions.m in Sources */,
 				39401CF621E5025100504FD8 /* DTXInstrumentsApplicationProxy.m in Sources */,
+				39B71FB924641A6500CC9A88 /* NSMapTable+Subscripting.m in Sources */,
 				3935104F1FCB9BE2001FB466 /* LNOptionsParser.m in Sources */,
 				39BC7B82239E5DCE00DAF671 /* DTXMappingModel9954To11469.xcmappingmodel in Sources */,
 			);

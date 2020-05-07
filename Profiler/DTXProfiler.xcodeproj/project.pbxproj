@@ -121,6 +121,14 @@
 		39B22BE2217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B22BE0217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m */; };
 		39B22BE5217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B22BE3217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h */; };
 		39B22BE6217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B22BE4217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.m */; };
+		39B71F902464185400CC9A88 /* DTXQuickNSExpressions.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B71F8F2464185400CC9A88 /* DTXQuickNSExpressions.h */; };
+		39B71F932464186000CC9A88 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B71F912464186000CC9A88 /* NSMapTable+Subscripting.h */; };
+		39B71F942464186000CC9A88 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B71F922464186000CC9A88 /* NSMapTable+Subscripting.m */; };
+		39B71F972464186A00CC9A88 /* NSObject+AttachedObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B71F952464186A00CC9A88 /* NSObject+AttachedObjects.h */; };
+		39B71F982464186A00CC9A88 /* NSObject+AttachedObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B71F962464186A00CC9A88 /* NSObject+AttachedObjects.m */; };
+		39B71F9B2464187200CC9A88 /* NSString+FileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B71F992464187200CC9A88 /* NSString+FileNames.m */; };
+		39B71F9C2464187200CC9A88 /* NSString+FileNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B71F9A2464187200CC9A88 /* NSString+FileNames.h */; };
+		39B71F9E2464188100CC9A88 /* Swiftier.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B71F9D2464188100CC9A88 /* Swiftier.h */; };
 		39BBF66D2202FD1A00077E38 /* NSString+Hashing.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BBF66B2202FD1900077E38 /* NSString+Hashing.h */; };
 		39BBF66E2202FD1A00077E38 /* NSString+Hashing.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BBF66C2202FD1900077E38 /* NSString+Hashing.m */; };
 		39BC7B4C2397B93A00DAF671 /* DTXSwizzlingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */; };
@@ -154,22 +162,14 @@
 		39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E61A091EFFA4F3005CBE00 /* DTXNetworkRecorder.m */; };
 		39E75EBC209C7B8B00C95D15 /* DTXUIPasteboardParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 39E75EBA209C7B8B00C95D15 /* DTXUIPasteboardParser.h */; };
 		39E75EBD209C7B8B00C95D15 /* DTXUIPasteboardParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E75EBB209C7B8B00C95D15 /* DTXUIPasteboardParser.m */; };
-		39EEF37221EFAE310028061D /* NSObject+AttachedObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEF36121EFAE310028061D /* NSObject+AttachedObjects.m */; };
 		39EEF37321EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEF36221EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.m */; };
-		39EEF37421EFAE310028061D /* DTXQuickNSExpressions.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36321EFAE310028061D /* DTXQuickNSExpressions.h */; };
 		39EEF37521EFAE310028061D /* SharedPrefixHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36421EFAE310028061D /* SharedPrefixHeader.h */; };
-		39EEF37621EFAE310028061D /* NSString+FileNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36521EFAE310028061D /* NSString+FileNames.h */; };
 		39EEF37721EFAE310028061D /* DTXZipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEF36621EFAE310028061D /* DTXZipper.m */; };
 		39EEF37821EFAE310028061D /* NSURL+UIAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36721EFAE310028061D /* NSURL+UIAdditions.h */; };
-		39EEF37921EFAE310028061D /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36821EFAE310028061D /* NSMapTable+Subscripting.h */; };
 		39EEF37A21EFAE310028061D /* NSDictionary+FakeDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36921EFAE310028061D /* NSDictionary+FakeDecoder.h */; };
-		39EEF37B21EFAE310028061D /* Swiftier.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36A21EFAE310028061D /* Swiftier.h */; };
 		39EEF37C21EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36B21EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.h */; };
-		39EEF37D21EFAE310028061D /* NSObject+AttachedObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36C21EFAE310028061D /* NSObject+AttachedObjects.h */; };
 		39EEF37E21EFAE310028061D /* NSURL+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEF36D21EFAE310028061D /* NSURL+UIAdditions.m */; };
 		39EEF37F21EFAE310028061D /* DTXZipper.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEF36E21EFAE310028061D /* DTXZipper.h */; };
-		39EEF38021EFAE310028061D /* NSString+FileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEF36F21EFAE310028061D /* NSString+FileNames.m */; };
-		39EEF38121EFAE310028061D /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEF37021EFAE310028061D /* NSMapTable+Subscripting.m */; };
 		39EEF38221EFAE310028061D /* NSDictionary+FakeDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEF37121EFAE310028061D /* NSDictionary+FakeDecoder.m */; };
 		39F6421B1FDD5DBF00468FED /* DTXLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 39F642191FDD5DBF00468FED /* DTXLogging.h */; };
 		39F6421C1FDD5DBF00468FED /* DTXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6421A1FDD5DBF00468FED /* DTXLogging.m */; };
@@ -334,6 +334,14 @@
 		39B22BE0217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLConnection+DTXLegacyConnectionRecording.m"; sourceTree = "<group>"; };
 		39B22BE3217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLSessionTask+DTXNetworkRecording.h"; sourceTree = "<group>"; };
 		39B22BE4217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLSessionTask+DTXNetworkRecording.m"; sourceTree = "<group>"; };
+		39B71F8F2464185400CC9A88 /* DTXQuickNSExpressions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXQuickNSExpressions.h; path = ../DTXSwizzlingHelper/DTXQuickNSExpressions.h; sourceTree = "<group>"; };
+		39B71F912464186000CC9A88 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMapTable+Subscripting.h"; path = "../DTXSwizzlingHelper/NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
+		39B71F922464186000CC9A88 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMapTable+Subscripting.m"; path = "../DTXSwizzlingHelper/NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
+		39B71F952464186A00CC9A88 /* NSObject+AttachedObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AttachedObjects.h"; path = "../DTXSwizzlingHelper/NSObject+AttachedObjects.h"; sourceTree = "<group>"; };
+		39B71F962464186A00CC9A88 /* NSObject+AttachedObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AttachedObjects.m"; path = "../DTXSwizzlingHelper/NSObject+AttachedObjects.m"; sourceTree = "<group>"; };
+		39B71F992464187200CC9A88 /* NSString+FileNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+FileNames.m"; path = "../DTXSwizzlingHelper/NSString+FileNames.m"; sourceTree = "<group>"; };
+		39B71F9A2464187200CC9A88 /* NSString+FileNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+FileNames.h"; path = "../DTXSwizzlingHelper/NSString+FileNames.h"; sourceTree = "<group>"; };
+		39B71F9D2464188100CC9A88 /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Swiftier.h; path = ../DTXSwizzlingHelper/Swiftier.h; sourceTree = "<group>"; };
 		39BBF66B2202FD1900077E38 /* NSString+Hashing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Hashing.h"; sourceTree = "<group>"; };
 		39BBF66C2202FD1900077E38 /* NSString+Hashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hashing.m"; sourceTree = "<group>"; };
 		39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXSwizzlingHelper.h; path = ../DTXSwizzlingHelper/DTXSwizzlingHelper.h; sourceTree = "<group>"; };
@@ -372,22 +380,14 @@
 		39E75EBA209C7B8B00C95D15 /* DTXUIPasteboardParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXUIPasteboardParser.h; sourceTree = "<group>"; };
 		39E75EBB209C7B8B00C95D15 /* DTXUIPasteboardParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXUIPasteboardParser.m; sourceTree = "<group>"; };
 		39ED91332290669B005EDB56 /* DTXProfilerAPI-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilerAPI-Private.h"; sourceTree = "<group>"; };
-		39EEF36121EFAE310028061D /* NSObject+AttachedObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AttachedObjects.m"; sourceTree = "<group>"; };
 		39EEF36221EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+PerformQOSBlock.m"; sourceTree = "<group>"; };
-		39EEF36321EFAE310028061D /* DTXQuickNSExpressions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXQuickNSExpressions.h; sourceTree = "<group>"; };
 		39EEF36421EFAE310028061D /* SharedPrefixHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPrefixHeader.h; sourceTree = "<group>"; };
-		39EEF36521EFAE310028061D /* NSString+FileNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FileNames.h"; sourceTree = "<group>"; };
 		39EEF36621EFAE310028061D /* DTXZipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXZipper.m; sourceTree = "<group>"; };
 		39EEF36721EFAE310028061D /* NSURL+UIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+UIAdditions.h"; sourceTree = "<group>"; };
-		39EEF36821EFAE310028061D /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
 		39EEF36921EFAE310028061D /* NSDictionary+FakeDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+FakeDecoder.h"; sourceTree = "<group>"; };
-		39EEF36A21EFAE310028061D /* Swiftier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Swiftier.h; sourceTree = "<group>"; };
 		39EEF36B21EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
-		39EEF36C21EFAE310028061D /* NSObject+AttachedObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AttachedObjects.h"; sourceTree = "<group>"; };
 		39EEF36D21EFAE310028061D /* NSURL+UIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+UIAdditions.m"; sourceTree = "<group>"; };
 		39EEF36E21EFAE310028061D /* DTXZipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTXZipper.h; sourceTree = "<group>"; };
-		39EEF36F21EFAE310028061D /* NSString+FileNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FileNames.m"; sourceTree = "<group>"; };
-		39EEF37021EFAE310028061D /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
 		39EEF37121EFAE310028061D /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
 		39F642191FDD5DBF00468FED /* DTXLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXLogging.h; path = ../../../../Shared/DTXLoggingInfra/DTXLogging.h; sourceTree = "<group>"; };
 		39F6421A1FDD5DBF00468FED /* DTXLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXLogging.m; path = ../../../../Shared/DTXLoggingInfra/DTXLogging.m; sourceTree = "<group>"; };
@@ -773,7 +773,7 @@
 		39EEF36021EFAE310028061D /* SharedUtilities */ = {
 			isa = PBXGroup;
 			children = (
-				39EEF36321EFAE310028061D /* DTXQuickNSExpressions.h */,
+				39B71F8F2464185400CC9A88 /* DTXQuickNSExpressions.h */,
 				39BC7B4B2397B93900DAF671 /* DTXSwizzlingHelper.h */,
 				39EEF36E21EFAE310028061D /* DTXZipper.h */,
 				39EEF36621EFAE310028061D /* DTXZipper.m */,
@@ -783,18 +783,18 @@
 				39D5C2A2237C20A00033138D /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m */,
 				39EEF36B21EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.h */,
 				39EEF36221EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.m */,
-				39EEF36821EFAE310028061D /* NSMapTable+Subscripting.h */,
-				39EEF37021EFAE310028061D /* NSMapTable+Subscripting.m */,
-				39EEF36C21EFAE310028061D /* NSObject+AttachedObjects.h */,
-				39EEF36121EFAE310028061D /* NSObject+AttachedObjects.m */,
-				39EEF36521EFAE310028061D /* NSString+FileNames.h */,
-				39EEF36F21EFAE310028061D /* NSString+FileNames.m */,
+				39B71F912464186000CC9A88 /* NSMapTable+Subscripting.h */,
+				39B71F922464186000CC9A88 /* NSMapTable+Subscripting.m */,
+				39B71F952464186A00CC9A88 /* NSObject+AttachedObjects.h */,
+				39B71F962464186A00CC9A88 /* NSObject+AttachedObjects.m */,
+				39B71F9A2464187200CC9A88 /* NSString+FileNames.h */,
+				39B71F992464187200CC9A88 /* NSString+FileNames.m */,
 				39BBF66B2202FD1900077E38 /* NSString+Hashing.h */,
 				39BBF66C2202FD1900077E38 /* NSString+Hashing.m */,
 				39EEF36721EFAE310028061D /* NSURL+UIAdditions.h */,
 				39EEF36D21EFAE310028061D /* NSURL+UIAdditions.m */,
 				39EEF36421EFAE310028061D /* SharedPrefixHeader.h */,
-				39EEF36A21EFAE310028061D /* Swiftier.h */,
+				39B71F9D2464188100CC9A88 /* Swiftier.h */,
 			);
 			name = SharedUtilities;
 			path = ../../../Shared/SharedUtilities;
@@ -820,6 +820,7 @@
 				394937D522232E1B003198AE /* NSURLProtocol+NetworkRecorder.h in Headers */,
 				399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */,
 				395B26A02067B12C00FD7368 /* DTXFPSCalculator.h in Headers */,
+				39B71F9E2464188100CC9A88 /* Swiftier.h in Headers */,
 				39D40C141ED5B43700157C04 /* NSManagedObject+Additions.h in Headers */,
 				39D205501F03057200830A0D /* DTXLoggingRecorder.h in Headers */,
 				39557CDA1F1F7E8D00FF3187 /* DTXRemoteProfiler.h in Headers */,
@@ -830,30 +831,28 @@
 				396500F11F2E9E9000DA9530 /* DTXDeviceInfo.h in Headers */,
 				3939241F21AD0A330015A15F /* ZZDeflateOutputStream.h in Headers */,
 				3939241021AD0A330015A15F /* ZZHeaders.h in Headers */,
-				39EEF37B21EFAE310028061D /* Swiftier.h in Headers */,
 				39B22BE1217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h in Headers */,
 				3939242F21AD0A330015A15F /* ZZFileChannelOutput.h in Headers */,
 				3939240721AD0A330015A15F /* ZZError.h in Headers */,
+				39B71F972464186A00CC9A88 /* NSObject+AttachedObjects.h in Headers */,
 				3939243221AD0A330015A15F /* ZZNewArchiveEntryWriter.h in Headers */,
 				3939242521AD0A330015A15F /* ZZAESDecryptInputStream.h in Headers */,
 				3939242121AD0A330015A15F /* ZZOldArchiveEntryWriter.h in Headers */,
+				39B71F932464186000CC9A88 /* NSMapTable+Subscripting.h in Headers */,
 				3939242021AD0A330015A15F /* ZZNewArchiveEntry.h in Headers */,
+				39B71F9C2464187200CC9A88 /* NSString+FileNames.h in Headers */,
 				39EEF37F21EFAE310028061D /* DTXZipper.h in Headers */,
 				39EEF37521EFAE310028061D /* SharedPrefixHeader.h in Headers */,
 				39D40C0F1ED5B43700157C04 /* DTXInstrumentsModel.h in Headers */,
-				39EEF37421EFAE310028061D /* DTXQuickNSExpressions.h in Headers */,
 				396677BC1F1FDB1B002D5E43 /* DTXProfiler.pch in Headers */,
 				431CACED224253610040A56D /* DTXReactNativeProfilerSupport.h in Headers */,
 				3939239121AB42220015A15F /* DTXRemoteProfilingConnectionManager.h in Headers */,
 				3939240F21AD0A330015A15F /* ZZArchiveEntryWriter.h in Headers */,
 				396F5B7A23CB635800415843 /* DTXReactNativeAsyncStorageSupport.h in Headers */,
-				39EEF37621EFAE310028061D /* NSString+FileNames.h in Headers */,
 				39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */,
-				39EEF37D21EFAE310028061D /* NSObject+AttachedObjects.h in Headers */,
 				3939243121AD0A330015A15F /* ZZDataChannelOutput.h in Headers */,
 				3939241521AD0A330015A15F /* ZZDataChannel.h in Headers */,
 				3939242D21AD0A330015A15F /* ZZInflateInputStream.h in Headers */,
-				39EEF37921EFAE310028061D /* NSMapTable+Subscripting.h in Headers */,
 				3939241721AD0A330015A15F /* ZZChannel.h in Headers */,
 				3939240E21AD0A330015A15F /* ZZConstants.h in Headers */,
 				39498C441F1FAE650030B620 /* DTXSocketConnection.h in Headers */,
@@ -869,6 +868,7 @@
 				3939240C21AD0A330015A15F /* ZZDataProvider.h in Headers */,
 				39BC7B4C2397B93A00DAF671 /* DTXSwizzlingHelper.h in Headers */,
 				3939241D21AD0A330015A15F /* ZZFileChannel.h in Headers */,
+				39B71F902464185400CC9A88 /* DTXQuickNSExpressions.h in Headers */,
 				39D5C2AE237C3D560033138D /* DTXWindowsSnapshotter.h in Headers */,
 				396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */,
 				39404E2921E66237006A583E /* DTXThreadPerformanceSample+Additions.h in Headers */,
@@ -1038,9 +1038,9 @@
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
 				39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */,
 				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
+				39B71F942464186000CC9A88 /* NSMapTable+Subscripting.m in Sources */,
 				396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */,
 				3939242B21AD0A330015A15F /* ZZFileChannel.m in Sources */,
-				39EEF38021EFAE310028061D /* NSString+FileNames.m in Sources */,
 				3939242A21AD0A330015A15F /* ZZOldArchiveEntry.mm in Sources */,
 				3939240D21AD0A330015A15F /* ZZDeflateOutputStream.m in Sources */,
 				395B26A12067B12C00FD7368 /* DTXFPSCalculator.m in Sources */,
@@ -1054,7 +1054,6 @@
 				39E61A0B1EFFA4F3005CBE00 /* DTXNetworkRecorder.m in Sources */,
 				394937D622232E1B003198AE /* NSURLProtocol+NetworkRecorder.m in Sources */,
 				3962C4A02381A37B008618EB /* DTXActivityRecorder.m in Sources */,
-				39EEF38121EFAE310028061D /* NSMapTable+Subscripting.m in Sources */,
 				396500F21F2E9E9000DA9530 /* DTXDeviceInfo.m in Sources */,
 				39D40C191ED5B43F00157C04 /* DTXProfiler.m in Sources */,
 				39BBF66E2202FD1A00077E38 /* NSString+Hashing.m in Sources */,
@@ -1063,16 +1062,17 @@
 				39D40C131ED5B43700157C04 /* DTXSample+Additions.m in Sources */,
 				3939241A21AD0A330015A15F /* ZZDataChannelOutput.m in Sources */,
 				3939242321AD0A330015A15F /* ZZError.m in Sources */,
+				39B71F9B2464187200CC9A88 /* NSString+FileNames.m in Sources */,
 				3939241421AD0A330015A15F /* ZZAESDecryptInputStream.mm in Sources */,
 				3939242621AD0A330015A15F /* ZZDataChannel.m in Sources */,
 				39EEF37321EFAE310028061D /* NSManagedObjectContext+PerformQOSBlock.m in Sources */,
+				39B71F982464186A00CC9A88 /* NSObject+AttachedObjects.m in Sources */,
 				3922AE051F2B9B9B0034B1FE /* _DTXIndexedSourceMapsConsumer.m in Sources */,
 				39048B8B23D80163004142BB /* DTXInstruments.xcdatamodeld in Sources */,
 				3939240B21AD0A330015A15F /* ZZNewArchiveEntry.mm in Sources */,
 				394A09661F012F8D0030BDB4 /* fishhook.c in Sources */,
 				39557CDB1F1F7E8D00FF3187 /* DTXRemoteProfiler.m in Sources */,
 				399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */,
-				39EEF37221EFAE310028061D /* NSObject+AttachedObjects.m in Sources */,
 				3939239221AB42220015A15F /* DTXRemoteProfilingConnectionManager.m in Sources */,
 				3939241E21AD0A330015A15F /* ZZConstants.m in Sources */,
 				3939241921AD0A330015A15F /* ZZArchive.mm in Sources */,
