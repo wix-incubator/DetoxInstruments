@@ -221,38 +221,38 @@ int main(int argc, const char* argv[])
 							   ]);
 	
 	LNUsageSetOptions(@[
-						[LNUsageOption optionWithName:@"document" shortcut:@"d" valueRequirement:GBValueRequired description:@"The document (.dtxrec format)"],
+						[LNUsageOption optionWithName:@"document" shortcut:@"d" valueRequirement:LNUsageOptionRequirementRequired description:@"The document (.dtxrec format)"],
 						[LNUsageOption emptyOption],
 						
-						[LNUsageOption optionWithName:@"printEntities" shortcut:@"pe" valueRequirement:GBValueNone description:@"Prints available object entities"],
-						[LNUsageOption optionWithName:@"entity" shortcut:@"e" valueRequirement:GBValueRequired description:@"The entity to fetch objects of"],
+						[LNUsageOption optionWithName:@"printEntities" shortcut:@"pe" valueRequirement:LNUsageOptionRequirementNone description:@"Prints available object entities"],
+						[LNUsageOption optionWithName:@"entity" shortcut:@"e" valueRequirement:LNUsageOptionRequirementRequired description:@"The entity to fetch objects of"],
 						[LNUsageOption emptyOption],
 						
-						[LNUsageOption optionWithName:@"printKeys" shortcut:@"pk" valueRequirement:GBValueNone description:@"Prints available keys for the specified entity"],
-						[LNUsageOption optionWithName:@"printKeyFunctions" shortcut:@"pkf" valueRequirement:GBValueNone description:@"Prints supported functions (usage: function(key))"],
-						[LNUsageOption optionWithName:@"keys" shortcut:@"k" valueRequirement:GBValueRequired description:@"Comma-separated collection of keys to fetch (can be entity keys or functions for the entity keys; omit to fetch all keys)"],
+						[LNUsageOption optionWithName:@"printKeys" shortcut:@"pk" valueRequirement:LNUsageOptionRequirementNone description:@"Prints available keys for the specified entity"],
+						[LNUsageOption optionWithName:@"printKeyFunctions" shortcut:@"pkf" valueRequirement:LNUsageOptionRequirementNone description:@"Prints supported functions (usage: function(key))"],
+						[LNUsageOption optionWithName:@"keys" shortcut:@"k" valueRequirement:LNUsageOptionRequirementRequired description:@"Comma-separated collection of keys to fetch (can be entity keys or functions for the entity keys; omit to fetch all keys)"],
 						[LNUsageOption emptyOption],
 						
-						[LNUsageOption optionWithName:@"predicate" shortcut:@"p" valueRequirement:GBValueRequired description:@"The predicate to use for fetching (omit to fetch all objects); timestampts should always be relative"],
+						[LNUsageOption optionWithName:@"predicate" shortcut:@"p" valueRequirement:LNUsageOptionRequirementRequired description:@"The predicate to use for fetching (omit to fetch all objects); timestampts should always be relative"],
 						[LNUsageOption emptyOption],
 						
-						[LNUsageOption optionWithName:@"fetch" shortcut:@"f" valueRequirement:GBValueNone description:@"Fetch objects of the specified entities, using a predicate if specified"],
+						[LNUsageOption optionWithName:@"fetch" shortcut:@"f" valueRequirement:LNUsageOptionRequirementNone description:@"Fetch objects of the specified entities, using a predicate if specified"],
 						[LNUsageOption emptyOption],
 						
-						[LNUsageOption optionWithName:@"dateFormat" shortcut:@"df" valueRequirement:GBValueRequired description:@"The date format to use for displaying timestamps\n - \"relative\" - display timestamps relative to the document start (default)\n - \"datetime\" - display timestamps as absolute dates"],
-						[LNUsageOption optionWithName:@"limit" valueRequirement:GBValueRequired description:@"Limit the number of returned results"],
-						[LNUsageOption optionWithName:@"json" valueRequirement:GBValueNone description:@"Export the recording information data as JSON (default)"],
-						[LNUsageOption optionWithName:@"plist" valueRequirement:GBValueNone description:@"Export the recording information data as property list"],
+						[LNUsageOption optionWithName:@"dateFormat" shortcut:@"df" valueRequirement:LNUsageOptionRequirementRequired description:@"The date format to use for displaying timestamps\n - \"relative\" - display timestamps relative to the document start (default)\n - \"datetime\" - display timestamps as absolute dates"],
+						[LNUsageOption optionWithName:@"limit" valueRequirement:LNUsageOptionRequirementRequired description:@"Limit the number of returned results"],
+						[LNUsageOption optionWithName:@"json" valueRequirement:LNUsageOptionRequirementNone description:@"Export the recording information data as JSON (default)"],
+						[LNUsageOption optionWithName:@"plist" valueRequirement:LNUsageOptionRequirementNone description:@"Export the recording information data as property list"],
 						[LNUsageOption emptyOption],
 						
-						[LNUsageOption optionWithName:@"version" shortcut:@"v" valueRequirement:GBValueNone description:@"Prints version"],
+						[LNUsageOption optionWithName:@"version" shortcut:@"v" valueRequirement:LNUsageOptionRequirementNone description:@"Prints version"],
 						]);
 	
 	LNUsageSetHiddenOptions(@[
-							  [LNUsageOption optionWithName:@"appPath" valueRequirement:GBValueRequired description:@"The “Detox Instruments.app” to use"],
-							  [LNUsageOption optionWithName:@"force" valueRequirement:GBValueNone description:@"Force opening an incompatible recording (WARNING: may cause data damage)"],
-							  [LNUsageOption optionWithName:@"printAppPath" valueRequirement:GBValueNone description:@"Prints the “Detox Instruments.app” in use"],
-//							  [LNUsageOption optionWithName:@"inMemory" valueRequirement:GBValueRequired description:@"Run the predicate in memory"],
+							  [LNUsageOption optionWithName:@"appPath" valueRequirement:LNUsageOptionRequirementRequired description:@"The “Detox Instruments.app” to use"],
+							  [LNUsageOption optionWithName:@"force" valueRequirement:LNUsageOptionRequirementNone description:@"Force opening an incompatible recording (WARNING: may cause data damage)"],
+							  [LNUsageOption optionWithName:@"printAppPath" valueRequirement:LNUsageOptionRequirementNone description:@"Prints the “Detox Instruments.app” in use"],
+//							  [LNUsageOption optionWithName:@"inMemory" valueRequirement:LNUsageOptionRequirementRequired description:@"Run the predicate in memory"],
 							  ]);
 	
 	LNUsageSetAdditionalStrings(@[
@@ -261,7 +261,7 @@ int main(int argc, const char* argv[])
 								  @"Pull-requests are always welcome!"
 								  ]);
 	
-	GBSettings* settings = LNUsageParseArguments(argc, argv);
+	id<LNUsageArgumentParser> settings = LNUsageParseArguments(argc, argv);
 	
 //	LNUsagePrintArguments(LNLogLevelStdOut);
 //	BOOL inMemory = NO;
