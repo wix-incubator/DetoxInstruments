@@ -44,7 +44,7 @@
 	DTXTwoLabelsCellView* cell = [tableView makeViewWithIdentifier:@"ContribCell" owner:nil];
 	cell.textField.stringValue = [_contribs[row] valueForKeyPath:@"name"];
 	NSInteger contribCount = [[_contribs[row] valueForKeyPath:@"total_contributions"] unsignedIntegerValue];
-	cell.detailTextField.stringValue = [NSString localizedStringWithFormat:NSLocalizedString(@"%d contributions", @""), contribCount];
+	cell.detailTextField.stringValue = [NSString localizedStringWithFormat:NSLocalizedString(@"%ld contributions", @""), (long)contribCount];
 	[cell.imageView sd_setImageWithURL:[NSURL URLWithString:[_contribs[row] valueForKeyPath:@"avatar_url"]]];
 	return cell;
 }

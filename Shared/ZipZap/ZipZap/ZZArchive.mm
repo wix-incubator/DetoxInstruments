@@ -146,7 +146,10 @@ static const size_t ENDOFCENTRALDIRECTORY_MINSEARCH = sizeof(ZZEndOfCentralDirec
 		// sanity check:
 		if (
 			// correct signature
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wtautological-compare"
 			nextCentralFileHeader->sign != ZZCentralFileHeader::sign
+#pragma clang diagnostic pop
 			// single disk zip
 			|| nextCentralFileHeader->diskNumberStart != 0
 			// local file occurs before first central file header, and has enough minimal space for at least local file

@@ -15,9 +15,9 @@
 @import JavaScriptCore;
 @import ObjectiveC;
 
-static atomic_constvoidptr __rnSourceURL;
-static atomic_constvoidptr __sourceMapsURL;
-static atomic_constvoidptr __rnSourceMapsParser;
+static atomic_id __rnSourceURL;
+static atomic_id __sourceMapsURL;
+static atomic_id __rnSourceMapsParser;
 
 static JSValueRef (*__orig_JSEvaluateScript)(JSContextRef ctx, JSStringRef script, JSObjectRef thisObject, JSStringRef sourceURL, int startingLineNumber, JSValueRef* exception);
 
@@ -31,8 +31,8 @@ static JSValueRef __dtx_JSEvaluateScript(JSContextRef ctx, JSStringRef script, J
 		
 		if(srcSplit.count > 1)
 		{
-			NSURL* rnSourceURL = NS(atomic_load(&__rnSourceURL));
-			atomic_store(&__sourceMapsURL, CFBridgingRetain([NSURL URLWithString:srcString.lastPathComponent relativeToURL:rnSourceURL]));
+			NSURL* rnSourceURL = atomic_load(&__rnSourceURL);
+			atomic_store(&__sourceMapsURL, [NSURL URLWithString:srcString.lastPathComponent relativeToURL:rnSourceURL]);
 			
 #ifdef DTX_EMBED_SOURCEMAPS
 			srcString = [srcSplit.firstObject stringByAppendingString:[NSString stringWithFormat:@"sourceMappingURL=data:application/json;base64,%@", [sourceMapsData base64EncodedStringWithOptions:0]]];
@@ -50,14 +50,14 @@ static JSValueRef __dtx_JSEvaluateScript(JSContextRef ctx, JSStringRef script, J
 static id (*__orig_RCTBridge_initWithDelegate_bundleURL_moduleProvider_launchOptions)(id self, SEL sel, id delegate, NSURL* bundleURL, id block, id launchOptions);
 static id __dtx_RCTBridge_initWithDelegate_bundleURL_moduleProvider_launchOptions(id self, SEL sel, id delegate, NSURL* bundleURL, id block, id launchOptions)
 {
-	atomic_store(&__rnSourceURL, CFBridgingRetain(bundleURL));
+	atomic_store(&__rnSourceURL, bundleURL);
 	
 	return __orig_RCTBridge_initWithDelegate_bundleURL_moduleProvider_launchOptions(self, sel, delegate, bundleURL, block, launchOptions);
 }
 
 extern void DTXRNGetCurrentWorkingSourceMapsData(void (^completion)(NSData*))
 {
-	NSURL* sourceMapsURL = NS(atomic_load(&__sourceMapsURL));
+	NSURL* sourceMapsURL = atomic_load(&__sourceMapsURL);
 	if(sourceMapsURL == nil)
 	{
 		completion(nil);
@@ -70,10 +70,10 @@ extern void DTXRNGetCurrentWorkingSourceMapsData(void (^completion)(NSData*))
 
 extern NSArray* DTXRNSymbolicateJSCBacktrace(NSArray<NSString*>* backtrace, BOOL* currentStackTraceSymbolicated)
 {
-	DTXSourceMapsParser* parser = NS(atomic_load(&__rnSourceMapsParser));
+	DTXSourceMapsParser* parser = atomic_load(&__rnSourceMapsParser);
 	if(parser == nil)
 	{
-		NSURL* sourceMapsURL = NS(atomic_load(&__sourceMapsURL));
+		NSURL* sourceMapsURL = atomic_load(&__sourceMapsURL);
 		if(sourceMapsURL != nil)
 		{
 			NSData* sourceMapsData = [NSData dataWithContentsOfURL:sourceMapsURL];
@@ -87,7 +87,7 @@ extern NSArray* DTXRNSymbolicateJSCBacktrace(NSArray<NSString*>* backtrace, BOOL
 			if(sourceMaps)
 			{
 				parser = [DTXSourceMapsParser sourceMapsParserForSourceMaps:sourceMaps];
-				atomic_store(&__rnSourceMapsParser, CFBridgingRetain(parser));
+				atomic_store(&__rnSourceMapsParser, parser);
 			}
 		}
 		else

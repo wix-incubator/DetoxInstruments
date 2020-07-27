@@ -41,31 +41,6 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 
 @end
 
-@interface NSURLSession (DTXNetworkRecording) @end
-@implementation NSURLSession (DTXNetworkRecording)
-
-+ (void)load
-{
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		Method m1 = class_getInstanceMethod(self, @selector(can_delegate_task_didFinishCollectingMetrics));
-		Method m2 = class_getInstanceMethod(self, @selector(__dtx_can_delegate_task_didFinishCollectingMetrics));
-		method_exchangeImplementations(m1, m2);
-	});
-}
-
-- (BOOL)__dtx_can_delegate_task_didFinishCollectingMetrics
-{
-//	if(_forActualDelegate)
-//	{
-		return [self __dtx_can_delegate_task_didFinishCollectingMetrics];
-//	}
-//	
-//	return YES;
-}
-
-@end
-
 @implementation NSURLSessionTask (DTXNetworkRecording)
 
 + (void)load
