@@ -152,7 +152,7 @@ static id _NSNullCleanup(id obj)
 	
 	NSAssert(plistData != nil, @"Unable to encode data to property list: %@", err.localizedDescription);
 	
-	[_socketConnection writeData:plistData completionHandler:^(NSError * _Nullable error) {
+	[_socketConnection sendMessage:plistData completionHandler:^(NSError * _Nullable error) {
 		if(error)
 		{
 			dtx_log_error(@"Remote profiler hit error: %@", error);

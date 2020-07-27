@@ -55,7 +55,7 @@
 	
 	__weak __auto_type weakSelf = self;
 	
-	[self.connection writeData:[DTXRemoteTarget _dataForNetworkCommand:cmd] completionHandler:^(NSError * _Nullable error) {
+	[self.connection sendMessage:[DTXRemoteTarget _dataForNetworkCommand:cmd] completionHandler:^(NSError * _Nullable error) {
 		if(error) {
 			[weakSelf _errorOutWithError:error];
 			return;
@@ -71,7 +71,7 @@
 	
 	__weak __auto_type weakSelf = self;
 	
-	[self.connection readDataWithCompletionHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
+	[self.connection receiveMessageWithCompletionHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
 		if(data == nil)
 		{
 			[weakSelf _errorOutWithError:error];
@@ -92,7 +92,7 @@
 	
 	_state = DTXRemoteTargetStateResolved;
 	
-	self.connection = [[DTXSocketConnection alloc] initWithHostName:hostName port:port queue:_workQueue];
+	self.connection = [[DTXSocketConnection alloc] initWithHostName:hostName port:port delegateQueue:_workQueue];
 	self.connection.delegate = self;
 	
 	[self.connection open];

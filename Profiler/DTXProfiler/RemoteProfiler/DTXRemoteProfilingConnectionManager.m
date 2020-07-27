@@ -51,7 +51,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	if(self)
 	{
 		dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-		_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream queue:dtx_dispatch_queue_create_autoreleasing("com.wix.DTXRemoteProfiler-Networking", qosAttribute)];
+		_connection = [[DTXSocketConnection alloc] initWithInputStream:inputStream outputStream:outputStream delegateQueue:dtx_dispatch_queue_create_autoreleasing("com.wix.DTXRemoteProfiler-Networking", qosAttribute)];
 		_connection.delegate = self;
 		
 		[_connection open];
@@ -66,7 +66,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 {
 	completionHandler = completionHandler ?: ^ () {};
 	
-	[_connection writeData:[DTXRemoteProfilingConnectionManager _dataForNetworkCommand:cmd] completionHandler:^(NSError * _Nullable error) {
+	[_connection sendMessage:[DTXRemoteProfilingConnectionManager _dataForNetworkCommand:cmd] completionHandler:^(NSError * _Nullable error) {
 		if(error) {
 			[self.delegate remoteProfilingConnectionManager:self didFinishWithError:error];
 			return;
@@ -80,7 +80,7 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 {
 	completionHandler = completionHandler ?: ^ (NSDictionary* d) {};
 	
-	[_connection readDataWithCompletionHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
+	[_connection receiveMessageWithCompletionHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
 		if(data == nil)
 		{
 			[self.delegate remoteProfilingConnectionManager:self didFinishWithError:error];

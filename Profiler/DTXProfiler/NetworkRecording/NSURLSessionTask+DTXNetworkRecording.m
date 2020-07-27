@@ -50,7 +50,11 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 		Class cls = NSClassFromString(@"__NSCFLocalDataTask");
 		
 		NSError* error;
-		if(NO == DTXSwizzleMethod(cls, NSSelectorFromString(@"greyswizzled_resume"), @selector(__dtx_resume), &error))
+		if([cls instancesRespondToSelector:NSSelectorFromString(@"greyswizzled_resume")])
+		{
+			DTXSwizzleMethod(cls, NSSelectorFromString(@"greyswizzled_resume"), @selector(__dtx_resume), &error);
+		}
+		else
 		{
 			DTXSwizzleMethod(cls, @selector(resume), @selector(__dtx_resume), &error);
 		}
