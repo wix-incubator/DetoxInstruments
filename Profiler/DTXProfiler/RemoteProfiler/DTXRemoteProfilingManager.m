@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <pthread.h>
+//@import MultipeerConnectivity;
 
 #import "DTXRemoteProfilingManager.h"
 #import "DTXRemoteProfilingConnectionManager.h"
@@ -19,13 +20,14 @@ DTX_CREATE_LOG(RemoteProfilingManager);
 static DTXRemoteProfilingManager* __sharedManager;
 static DTXRemoteProfilingManager* __privateLaunchProfilingManager;
 
-@interface DTXRemoteProfilingManager () <NSNetServiceDelegate, DTXRemoteProfilingConnectionManagerDelegate>
+@interface DTXRemoteProfilingManager () <NSNetServiceDelegate/*, MCNearbyServiceAdvertiserDelegate */, DTXRemoteProfilingConnectionManagerDelegate>
 
 @end
 
 @implementation DTXRemoteProfilingManager
 {
 	NSNetService* _publishingService;
+//	MCNearbyServiceAdvertiser* _advertiser;
 	BOOL _currentlyPublished;
 	
 	pthread_mutex_t _connectionsMutex;
@@ -124,6 +126,10 @@ static DTXRemoteProfilingManager* __privateLaunchProfilingManager;
 		
 		_publishingService = [[NSNetService alloc] initWithDomain:@"local" type:serviceType name:serviceName port:0];
 		_publishingService.delegate = self;
+		
+//		_advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:[[MCPeerID alloc] initWithDisplayName:UIDevice.currentDevice.name] discoveryInfo:nil serviceType:@"detoxprofiling"];
+//		_advertiser.delegate = self;
+		
 		[self _resumePublishing];
 	}
 	
@@ -138,9 +144,11 @@ static DTXRemoteProfilingManager* __privateLaunchProfilingManager;
 			return;
 		}
 		
+		self->_currentlyPublished = YES;
 		dtx_log_info(@"Attempting to publish service of type “%@”", self->_publishingService.type);
 		[self->_publishingService publishWithOptions:NSNetServiceListenForConnections];
-		self->_currentlyPublished = YES;
+		
+//		[self->_advertiser startAdvertisingPeer];
 	};
 	
 	if(NSThread.isMainThread)
@@ -155,8 +163,8 @@ static DTXRemoteProfilingManager* __privateLaunchProfilingManager;
 - (void)_stopPublishing
 {
 	void (^stopPublish)(void) = ^ {
-		self->_currentlyPublished = NO;
 		[self->_publishingService stop];
+		self->_currentlyPublished = NO;
 	};
 	
 	if(NSThread.isMainThread)
@@ -179,10 +187,10 @@ static DTXRemoteProfilingManager* __privateLaunchProfilingManager;
 - (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary<NSString *, NSNumber *> *)errorDict
 {
 	dtx_log_error(@"Error publishing service of type “%@”: %@", _publishingService.type, errorDict);
-	[sender stop];
+	[self _stopPublishing];
 	
-	//Retry in 10 seconds.
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+	//Retry in 2 seconds.
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		[self _resumePublishing];
 	});
 }

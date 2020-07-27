@@ -25,9 +25,17 @@ If your app does not appear in the app selection dialog, the following tips will
 
 - Make sure you have integrated your app with the Profiler framework. See [Profiler Framework Integration Guide](XcodeIntegrationGuide.md) for more information
 
+- iOS 14 requires local network permission before allowing the discovery and connection to the Profiler service:
+
+  ![](Resources/OS14_AllowPermission.png)
+
+  If you haven't allowed this permission, you can enable it in **Settings app > Privacy -> Local Network**:
+
+  ![](Resources/OS14_Settings_Privacy.png)
+
 - Devices should be connected on the same network (Wi-Fi, LAN for macOS & Simulators or Lightning cable for direct connection)
 
-- If your app is not running on the same Mac as Detox Instruments, make sure the **Local Apps Only** option is disabled
+- If your app is not running on a simulator on the same Mac as Detox Instruments, make sure the **Local Apps Only** option is disabled
 
 - Security software, such as Antivirus and Firewall applications, may interfere with Bonjour; please consult the software manual or contact your system administrator
 

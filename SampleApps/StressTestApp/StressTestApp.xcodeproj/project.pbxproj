@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -172,6 +172,7 @@
 				39EBDF111ED2DEA2005D8AB1 /* Frameworks */,
 				39EBDF121ED2DEA2005D8AB1 /* Resources */,
 				39EBDF3E1ED2DEE2005D8AB1 /* Embed Frameworks */,
+				39E43F5524CF26F900B844A8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -246,6 +247,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		39E43F5524CF26F900B844A8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/bin/sh -e -x";
+			shellScript = "addNSLocalNetworkUsageDescriptionIfNeeded()\n{\n\t/usr/libexec/PlistBuddy -c 'print :NSLocalNetworkUsageDescription' \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\" || /usr/libexec/PlistBuddy -c 'add :NSLocalNetworkUsageDescription string \"The service will allow discovery and connection by Detox Instruments.\"' \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n}\n\naddNSBonjourServices()\n{\n\t/usr/libexec/PlistBuddy -c 'Add :NSBonjourServices array' \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n\t\n\tappendNSBonjourServices\n}\n\nappendNSBonjourServices()\n{\n\t/usr/libexec/PlistBuddy -c 'Add NSBonjourServices:0 string \"_detoxprofiling_launchprofiling._tcp\"' \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n\t/usr/libexec/PlistBuddy -c 'Add NSBonjourServices:0 string \"_detoxprofiling._tcp\"' \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n}\n\naddOrAppendNSBonjourServicesIfNeeded()\n{\n\t/usr/libexec/PlistBuddy -c 'print :NSBonjourServices' \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\" && appendNSBonjourServices || addNSBonjourServices\n}\n\naddNSLocalNetworkUsageDescriptionIfNeeded\naddOrAppendNSBonjourServicesIfNeeded\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		39EBDF101ED2DEA2005D8AB1 /* Sources */ = {
