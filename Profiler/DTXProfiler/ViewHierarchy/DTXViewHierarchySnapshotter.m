@@ -40,7 +40,7 @@
 		[self.codableProperties enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class  _Nonnull obj, BOOL * _Nonnull stop)
 		{
 			Method m = class_getInstanceMethod(self.class, NSSelectorFromString(key));
-			char* returnType = method_copyReturnType(m);
+			__block char* returnType = method_copyReturnType(m);
 			dtx_defer {
 				free(returnType);
 			};

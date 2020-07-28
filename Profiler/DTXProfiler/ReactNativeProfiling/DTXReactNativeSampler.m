@@ -179,16 +179,27 @@ static NSString* DTXJSValueJSONStringToNSString(JSContextRef ctx, JSValueRef val
 	NSString* rv = nil;
 	
 	JSValueRef exception = NULL;
-	JSStringRef jsonStrRef = JSValueCreateJSONString(ctx, value, 0, &exception);
 	
-	if(exception == NULL && jsonStrRef != NULL)
+	__block JSStringRef strRef = NULL;
+	dtx_defer {
+		if(strRef != NULL)
+		{
+			JSStringRelease(strRef);
+		}
+	};
+	
+	if(JSValueIsString(ctx, value))
 	{
-		rv = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, jsonStrRef);
+		strRef = JSValueToStringCopy(ctx, value, &exception);
+	}
+	else
+	{
+		strRef = JSValueCreateJSONString(ctx, value, 0, &exception);
 	}
 	
-	if(jsonStrRef != NULL)
+	if(exception == NULL && strRef != NULL)
 	{
-		JSStringRelease(jsonStrRef);
+		rv = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, strRef);
 	}
 	
 	return rv;
@@ -292,7 +303,7 @@ static JSClassRef (*__orig_JSClassCreate)(const JSClassDefinition *definition);
 static JSClassRef __dtx_JSClassCreate(const JSClassDefinition *definition)
 {
 	const JSClassDefinition* definitionToUse = definition;
-	JSClassDefinition* newDef = NULL;
+	__block JSClassDefinition* newDef = NULL;
 	dtx_defer {
 		if(newDef != NULL)
 		{
@@ -322,7 +333,7 @@ static void __dtx_JSObjectSetProperty(JSContextRef ctx, JSObjectRef object, JSSt
 	NSString* pName = (__bridge_transfer NSString*)JSStringCopyCFString(kCFAllocatorDefault, propertyName);
 	if([pName isEqualToString:@"name"])
 	{
-		JSStringRef strValue = JSValueToStringCopy(ctx, value, NULL);
+		__block JSStringRef strValue = JSValueToStringCopy(ctx, value, NULL);
 		dtx_defer {
 			JSStringRelease(strValue);
 		};

@@ -14,7 +14,7 @@ thread_local BOOL _protocolLoading;
 static NSArray *__DTXClassGetSubclasses(Class parentClass, SEL sel)
 {
 	int numClasses = objc_getClassList(NULL, 0);
-	Class* classes = NULL;
+	__block Class* classes = NULL;
 	
 	classes = (__unsafe_unretained Class *)malloc(sizeof(Class) * numClasses);
 	dtx_defer {
@@ -38,7 +38,7 @@ static NSArray *__DTXClassGetSubclasses(Class parentClass, SEL sel)
 		}
 		
 		unsigned int numMethods = 0;
-		Method* methods = class_copyMethodList(classes[i], &numMethods);
+		__block Method* methods = class_copyMethodList(classes[i], &numMethods);
 		dtx_defer {
 			free(methods);
 		};
