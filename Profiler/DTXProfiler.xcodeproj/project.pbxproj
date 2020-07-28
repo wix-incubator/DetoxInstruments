@@ -115,8 +115,6 @@
 		3985049221A4435200F04573 /* DTXPasteboardItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3985049021A4435100F04573 /* DTXPasteboardItem.m */; };
 		399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */; };
 		399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */; };
-		39ADAE5B1F79FA7700F488A5 /* DTXCustomJSCSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 39ADAE591F79FA7700F488A5 /* DTXCustomJSCSupport.h */; };
-		39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 39ADAE5A1F79FA7700F488A5 /* DTXCustomJSCSupport.m */; };
 		39B22BE1217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B22BDF217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h */; };
 		39B22BE2217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B22BE0217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m */; };
 		39B22BE5217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B22BE3217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h */; };
@@ -328,8 +326,6 @@
 		399479D52393E96A00C613EC /* DTXProfilingConfiguration-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilingConfiguration-Private.h"; sourceTree = "<group>"; };
 		399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPerformanceSampler.h; sourceTree = "<group>"; };
 		399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPerformanceSampler.m; sourceTree = "<group>"; };
-		39ADAE591F79FA7700F488A5 /* DTXCustomJSCSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCustomJSCSupport.h; sourceTree = "<group>"; };
-		39ADAE5A1F79FA7700F488A5 /* DTXCustomJSCSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCustomJSCSupport.m; sourceTree = "<group>"; };
 		39B22BDF217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLConnection+DTXLegacyConnectionRecording.h"; sourceTree = "<group>"; };
 		39B22BE0217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLConnection+DTXLegacyConnectionRecording.m"; sourceTree = "<group>"; };
 		39B22BE3217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLSessionTask+DTXNetworkRecording.h"; sourceTree = "<group>"; };
@@ -652,8 +648,6 @@
 			isa = PBXGroup;
 			children = (
 				3968C3A11F2B9A970064B132 /* DTXSourceMaps */,
-				39ADAE591F79FA7700F488A5 /* DTXCustomJSCSupport.h */,
-				39ADAE5A1F79FA7700F488A5 /* DTXCustomJSCSupport.m */,
 				39352F721F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h */,
 				39352F731F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.m */,
 				431CACEB224253600040A56D /* DTXReactNativeProfilerSupport.h */,
@@ -825,7 +819,6 @@
 				39D205501F03057200830A0D /* DTXLoggingRecorder.h in Headers */,
 				39557CDA1F1F7E8D00FF3187 /* DTXRemoteProfiler.h in Headers */,
 				3939240821AD0A330015A15F /* ZZArchiveEntry.h in Headers */,
-				39ADAE5B1F79FA7700F488A5 /* DTXCustomJSCSupport.h in Headers */,
 				3901A89F1F5D5CA60021916B /* DTXMachUtilities.h in Headers */,
 				3939241221AD0A330015A15F /* ZZStoreOutputStream.h in Headers */,
 				396500F11F2E9E9000DA9530 /* DTXDeviceInfo.h in Headers */,
@@ -1037,7 +1030,6 @@
 				3985048D21A4434800F04573 /* DTXFileSystemItem.m in Sources */,
 				39D40C111ED5B43700157C04 /* DTXRecording+Additions.m in Sources */,
 				39C44C3320F3A24900279955 /* DTXProfilerAPI.m in Sources */,
-				39ADAE5C1F79FA7700F488A5 /* DTXCustomJSCSupport.m in Sources */,
 				39B71F942464186000CC9A88 /* NSMapTable+Subscripting.m in Sources */,
 				396EE2C220ADB223006C4C55 /* DTXViewHierarchySnapshotter.m in Sources */,
 				3939242B21AD0A330015A15F /* ZZFileChannel.m in Sources */,

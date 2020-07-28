@@ -565,8 +565,8 @@ static uint64_t main_thread_identifier;
 	DTX_IGNORE_NOT_RECORDING
 	
 	DTXCPUMeasurement* cpu = performanceSampler.currentCPU;
-	CGFloat memory = performanceSampler.currentMemory;
-	CGFloat fps = performanceSampler.currentFPS;
+	uint64_t memory = performanceSampler.currentMemory;
+	double fps = performanceSampler.currentFPS;
 	uint64_t diskReads = performanceSampler.currentDiskReads;
 	uint64_t diskWrites = performanceSampler.currentDiskWrites;
 	uint64_t diskReadsDelta = performanceSampler.currentDiskReadsDelta;

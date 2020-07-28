@@ -21,7 +21,7 @@ Detox Instruments supports profiling the following metrics:
 * Network activity
   * Full request & response header and data collection and inspection
 * Developer events
-* React Native profiling
+* React Native profiling (0.62.x and above)
   * JavaScript thread CPU load
   * Bridge call counters
   * Bridge data counters
