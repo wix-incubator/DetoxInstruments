@@ -56,6 +56,11 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	
 	self.window.titleVisibility = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowTitleVisibility];
 	self.window.delegate = self;
+	
+	if_unavailable(macOS 11.0, *)
+	{
+		self.window.styleMask &= ~NSWindowStyleMaskFullSizeContentView;
+	}
 }
 
 - (void)setContentViewController:(NSViewController *)contentViewController

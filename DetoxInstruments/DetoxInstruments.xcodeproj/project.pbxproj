@@ -2168,6 +2168,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 396DAAB5231C505E00FFBDDB /* Build configuration list for PBXNativeTarget "PreviewExtension" */;
 			buildPhases = (
+				39DED08824D20228000010CE /* Update Build Numbers */,
 				396DAAA3231C505E00FFBDDB /* Sources */,
 				396DAAA4231C505E00FFBDDB /* Frameworks */,
 				396DAAA5231C505E00FFBDDB /* Resources */,
@@ -2188,7 +2189,6 @@
 			buildConfigurationList = 39EBDFCF1ED36D45005D8AB1 /* Build configuration list for PBXNativeTarget "DetoxInstruments" */;
 			buildPhases = (
 				39443F442194837E00E9C0EA /* Build Third-Party Frameworks */,
-				398922FC1F3F2EA600129537 /* Update Build Numbers */,
 				39EBDFB41ED36D45005D8AB1 /* Sources */,
 				39EBDFB51ED36D45005D8AB1 /* Frameworks */,
 				39EBDFB61ED36D45005D8AB1 /* Resources */,
@@ -2243,7 +2243,7 @@
 				};
 			};
 			buildConfigurationList = 39EBDFB31ED36D45005D8AB1 /* Build configuration list for PBXProject "DetoxInstruments" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -2411,22 +2411,6 @@
 			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n# If a code signing identity is not specified, use ad hoc signing\nIDENTITY=\"-\"\nfi\necho codesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\necho codesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n# Remove pervious failed attempts at codesigning\nrm -f \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app/Contents/MacOS/fileop.cstemp\"\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\n# Remove pervious failed attempts at codesigning\nrm -f \"$LOCATION/Sparkle.framework/Versions/A/Sparkle.cstemp\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n";
 			showEnvVarsInLog = 0;
 		};
-		398922FC1F3F2EA600129537 /* Update Build Numbers */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Update Build Numbers";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nshortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/PreviewExtension/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/PreviewExtension/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/PreviewExtension/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/PreviewExtension/Info.plist\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n";
-			showEnvVarsInLog = 0;
-		};
 		39A829541F43780100A5FE3D /* Embed Profiler Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -2441,6 +2425,26 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = "/bin/bash -e";
 			shellScript = "rm -fr /tmp/DTXProfiler.dst\nrm -fr /tmp/DTXProfilerShim.dst\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphoneos\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphonesimulator\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-universal\nrm -fr \"${SRCROOT}\"/../ProfilerShim/build\n\npushd .\ncd \"${SRCROOT}\"/../Profiler\nxcodebuild -project DTXProfiler.xcodeproj -configuration Release_External -target DTXProfilerFramework ENABLE_HARDENED_RUNTIME=NO build -quiet\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\ncp -fr /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework/DTXProfiler -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/DTXProfiler.framework/DTXProfiler\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework/Frameworks/DetoxSync.framework/DetoxSync -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/DTXProfiler.framework/Frameworks/DetoxSync.framework/DetoxSync\npopd\n\npushd .\ncd \"${SRCROOT}\"/../ProfilerShim\nxcodebuild -project DTXProfilerShim.xcodeproj -configuration Release -target DTXProfilerShimFramework ENABLE_HARDENED_RUNTIME=NO build\nmkdir -p -quiet \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\ncp -fr /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework/DTXProfilerShim -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/DTXProfilerShim.framework/DTXProfilerShim\npopd\n";
+			showEnvVarsInLog = 0;
+		};
+		39DED08824D20228000010CE /* Update Build Numbers */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Build Numbers";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${SRCROOT}/DetoxInstruments/Info.plist\")\nshortVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${SRCROOT}/DetoxInstruments/Info.plist\")\nbuildNumber=$(($buildNumber + 1))\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/DetoxInstruments/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/DetoxInstruments/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/DetoxInstruments/Info.plist\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/PreviewExtension/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/PreviewExtension/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/PreviewExtension/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/PreviewExtension/Info.plist\"\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $shortVersion\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Delete :DTXBuildDate\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\" || :\n/usr/libexec/PlistBuddy -c \"Add :DTXBuildDate date $(date)\" \"${SRCROOT}/../Profiler/DTXProfiler/Info.plist\"\n";
 			showEnvVarsInLog = 0;
 		};
 		39EEF3A621F6275A0028061D /* Embed CLI Tool */ = {
@@ -2884,7 +2888,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MOMC_NO_WARNINGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -2916,7 +2920,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MOMC_NO_WARNINGS = YES;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments.PreviewExtension;
@@ -3088,7 +3092,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MOMC_NO_WARNINGS = YES;
 				OTHER_CFLAGS = "-ferror-limit=0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;
@@ -3136,7 +3140,7 @@
 					"@executable_path/../Frameworks",
 				);
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MOMC_NO_WARNINGS = YES;
 				OTHER_CFLAGS = "-ferror-limit=0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DetoxInstruments;

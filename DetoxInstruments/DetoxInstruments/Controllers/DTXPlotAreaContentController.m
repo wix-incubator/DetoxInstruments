@@ -46,7 +46,10 @@
 {
 	IBOutlet DTXPlotTableView* _tableView;
 	DTXManagedPlotControllerGroup* _plotGroup;
+	IBOutlet NSView* _headerViewContainer;
 	IBOutlet NSView* _headerView;
+	IBOutlet NSLayoutConstraint* _headerViewContainerTopConstraint;
+	IBOutlet NSLayoutConstraint* _tableScrollViewTopConstraint;
 	
 	DTXCPUUsagePlotController* _cpuPlotController;
 	NSMutableArray<DTXThreadInfo*>* _insertedCPUThreads;
@@ -65,12 +68,29 @@
 {
 	[super viewDidLoad];
 	
-	_tableView.enclosingScrollView.contentInsets = NSEdgeInsetsMake(0, 0, 20, 0);
-	_tableView.enclosingScrollView.scrollerInsets = NSEdgeInsetsMake(0, _tableView.tableColumns.firstObject.width + 0.5, -20, 0);
-	
 	_tableView.enclosingScrollView.autohidesScrollers = NO;
 	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.target = self;
 	((DTXScrollView*)_tableView.enclosingScrollView).customHorizontalScroller.action = @selector(_horizontalScrollerDidScroll:);
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 101600
+	if(@available(macOS 11.0, *))
+	{
+		self.view.additionalSafeAreaInsets = NSEdgeInsetsMake(20, 0, 0, 0);
+		
+		[NSLayoutConstraint deactivateConstraints:@[
+			_headerViewContainerTopConstraint
+		]];
+		
+		[NSLayoutConstraint activateConstraints:@[
+			[_headerViewContainer.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:-20],
+		]];
+	}
+	else
+	{
+#endif
+		_tableScrollViewTopConstraint.constant = 20;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 101600
+	}
+#endif
 	
 	//Workaround Apple bugs
 	_tableView.rowHeight = 80;

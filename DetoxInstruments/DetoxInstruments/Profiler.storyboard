@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="f3X-2z-0cS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="f3X-2z-0cS">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -205,42 +204,17 @@
             <objects>
                 <viewController id="8bb-Hj-q9Z" customClass="DTXPlotAreaContentController" sceneMemberID="viewController">
                     <view key="view" id="DF5-WI-UBi" customClass="DTXLayerView">
-                        <rect key="frame" x="0.0" y="0.0" width="1200" height="799"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1200" height="793"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <box boxType="custom" borderType="none" borderWidth="0.0" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="ltp-T1-IO8">
-                                <rect key="frame" x="0.0" y="779" width="1200" height="20"/>
-                                <view key="contentView" id="bS3-tN-xvU">
-                                    <rect key="frame" x="0.0" y="0.0" width="1200" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="hrj-Un-Alg" customClass="DTXHeaderView">
-                                            <rect key="frame" x="0.0" y="0.0" width="1200" height="20"/>
-                                            <connections>
-                                                <outlet property="_tableView" destination="TIP-gY-a5N" id="CLn-9Q-Jwa"/>
-                                            </connections>
-                                        </customView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="hrj-Un-Alg" secondAttribute="bottom" id="A6b-gl-KcU"/>
-                                        <constraint firstItem="hrj-Un-Alg" firstAttribute="leading" secondItem="bS3-tN-xvU" secondAttribute="leading" id="IxR-gO-ESu"/>
-                                        <constraint firstAttribute="trailing" secondItem="hrj-Un-Alg" secondAttribute="trailing" id="MJm-pG-Zbr"/>
-                                        <constraint firstItem="hrj-Un-Alg" firstAttribute="top" secondItem="bS3-tN-xvU" secondAttribute="top" id="ewA-Z6-A1g"/>
-                                    </constraints>
-                                </view>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="9na-zT-0CW"/>
-                                </constraints>
-                                <color key="fillColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                            </box>
                             <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="82" horizontalPageScroll="10" verticalLineScroll="82" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Dyq-gr-DLO" customClass="DTXScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="1200" height="779"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1200" height="793"/>
                                 <clipView key="contentView" wantsLayer="YES" copiesOnScroll="NO" id="3Ki-wJ-UtA">
-                                    <rect key="frame" x="0.0" y="0.0" width="1200" height="779"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1200" height="793"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="80" viewBased="YES" id="TIP-gY-a5N" customClass="DTXPlotTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="1260" height="779"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="1260" height="793"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -249,7 +223,6 @@
                                             <tableColumns>
                                                 <tableColumn identifier="DTXTitleColumnt" editable="NO" width="210" maxWidth="10000000" id="kUz-rk-XSq">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Title">
-                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -358,7 +331,6 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="DTXGraphColumn" editable="NO" width="1044" maxWidth="10000000" id="f1Y-qT-VmW">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Graph">
-                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -379,9 +351,8 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="n3R-Di-Yrv">
-                                    <rect key="frame" x="0.0" y="763" width="1200" height="16"/>
+                                    <rect key="frame" x="0.0" y="777" width="1200" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="txo-63-aGr">
@@ -389,19 +360,46 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <visualEffectView blendingMode="withinWindow" material="contentBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="9LY-5t-MbB">
+                                <rect key="frame" x="0.0" y="773" width="1200" height="20"/>
+                                <subviews>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="hrj-Un-Alg" customClass="DTXHeaderView">
+                                        <rect key="frame" x="0.0" y="0.0" width="1200" height="20"/>
+                                        <connections>
+                                            <outlet property="_tableView" destination="TIP-gY-a5N" id="CLn-9Q-Jwa"/>
+                                        </connections>
+                                    </customView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="hrj-Un-Alg" firstAttribute="leading" secondItem="9LY-5t-MbB" secondAttribute="leading" id="OI0-ga-VXT"/>
+                                    <constraint firstAttribute="height" constant="20" id="PkG-8q-DX0"/>
+                                    <constraint firstAttribute="trailing" secondItem="hrj-Un-Alg" secondAttribute="trailing" id="UpS-Q1-AeE"/>
+                                    <constraint firstItem="hrj-Un-Alg" firstAttribute="top" secondItem="9LY-5t-MbB" secondAttribute="top" id="k6s-oi-Zl2"/>
+                                    <constraint firstAttribute="bottom" secondItem="hrj-Un-Alg" secondAttribute="bottom" id="xzK-3q-O3l"/>
+                                </constraints>
+                            </visualEffectView>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="9LY-5t-MbB" secondAttribute="trailing" id="6rf-dg-SqE"/>
+                            <constraint firstItem="9LY-5t-MbB" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="BCs-zi-hsh"/>
+                            <constraint firstItem="Dyq-gr-DLO" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="CNp-55-jPl"/>
+                            <constraint firstItem="9LY-5t-MbB" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="Dov-hh-2br"/>
                             <constraint firstAttribute="trailing" secondItem="Dyq-gr-DLO" secondAttribute="trailing" id="Fw5-7t-STH"/>
-                            <constraint firstItem="ltp-T1-IO8" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="OXw-7p-zIN"/>
+                            <constraint firstItem="9LY-5t-MbB" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="KUT-7M-tW9"/>
+                            <constraint firstAttribute="trailing" secondItem="9LY-5t-MbB" secondAttribute="trailing" id="M78-JZ-gry"/>
+                            <constraint firstItem="9LY-5t-MbB" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="Nhm-UZ-Gca"/>
                             <constraint firstItem="Dyq-gr-DLO" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="T74-2Z-hjY"/>
-                            <constraint firstAttribute="trailing" secondItem="ltp-T1-IO8" secondAttribute="trailing" id="W0E-U2-KET"/>
-                            <constraint firstItem="Dyq-gr-DLO" firstAttribute="top" secondItem="ltp-T1-IO8" secondAttribute="bottom" id="cxj-Gv-K0L"/>
-                            <constraint firstItem="ltp-T1-IO8" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="gCK-Fk-LUb"/>
+                            <constraint firstItem="9LY-5t-MbB" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="YSp-0g-HZY"/>
+                            <constraint firstAttribute="trailing" secondItem="9LY-5t-MbB" secondAttribute="trailing" id="Zie-G1-yfT"/>
+                            <constraint firstItem="9LY-5t-MbB" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="ad3-hq-5xc"/>
                             <constraint firstAttribute="bottom" secondItem="Dyq-gr-DLO" secondAttribute="bottom" id="kE7-Vo-Vv8"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="_headerView" destination="hrj-Un-Alg" id="PdQ-a7-7HH"/>
+                        <outlet property="_headerViewContainer" destination="9LY-5t-MbB" id="EdP-ue-W9l"/>
+                        <outlet property="_headerViewContainerTopConstraint" destination="YSp-0g-HZY" id="NVn-dD-EKd"/>
+                        <outlet property="_tableScrollViewTopConstraint" destination="CNp-55-jPl" id="TQx-91-lJa"/>
                         <outlet property="_tableView" destination="TIP-gY-a5N" id="NOD-2f-7mE"/>
                     </connections>
                 </viewController>
@@ -429,7 +427,6 @@
                                     <tableColumns>
                                         <tableColumn width="357" minWidth="40" maxWidth="1000" id="3gH-n8-hwE">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -556,7 +553,7 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <visualEffectView hidden="YES" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="gD5-Pg-8xG">
+                            <visualEffectView hidden="YES" blendingMode="behindWindow" material="windowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="gD5-Pg-8xG">
                                 <rect key="frame" x="0.0" y="0.0" width="112" height="107"/>
                                 <subviews>
                                     <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="kXf-Di-OtK">
@@ -621,7 +618,7 @@
                                             <visualEffectView hidden="YES" wantsLayer="YES" blendingMode="withinWindow" material="menu" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="bQ6-qJ-AWR">
                                                 <rect key="frame" x="0.0" y="0.0" width="680" height="29"/>
                                             </visualEffectView>
-                                            <searchField wantsLayer="YES" canDrawConcurrently="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
+                                            <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSY-6N-TTj" customClass="DTXFilterField">
                                                 <rect key="frame" x="5" y="4" width="670" height="22"/>
                                                 <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Filter" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="59k-uH-dUn">
                                                     <font key="font" metaFont="message" size="11"/>
@@ -746,7 +743,6 @@
                                     <tableColumns>
                                         <tableColumn width="447" minWidth="40" maxWidth="10000000000" id="rlo-56-GFp">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -825,7 +821,6 @@
                                     <tableColumns>
                                         <tableColumn identifier="DTXSpacingColumn" editable="NO" width="8" minWidth="16" maxWidth="8" id="eFp-9H-DG5">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right">
-                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -843,7 +838,6 @@
                                         </tableColumn>
                                         <tableColumn identifier="DTXTimestampColumn" editable="NO" width="80" minWidth="80" maxWidth="100000" id="Ucy-DC-qWV">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -962,7 +956,6 @@
                                                         <tableColumns>
                                                             <tableColumn width="319" minWidth="40" maxWidth="1000000" id="hwJ-aq-vYX">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                    <font key="font" metaFont="message" size="11"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
@@ -1091,7 +1084,6 @@
                                                                                             <tableColumns>
                                                                                                 <tableColumn width="316" minWidth="40" maxWidth="1000000000" id="ox8-FL-xLT">
                                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                                                        <font key="font" metaFont="message" size="11"/>
                                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                                     </tableHeaderCell>
@@ -1206,7 +1198,6 @@
                                                                                             <tableColumns>
                                                                                                 <tableColumn width="311" minWidth="40" maxWidth="1000000000" id="bDR-fs-BIM">
                                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                                                        <font key="font" metaFont="message" size="11"/>
                                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                                     </tableHeaderCell>
@@ -1314,7 +1305,7 @@
                                 <rect key="frame" x="0.0" y="771" width="320" height="29"/>
                                 <subviews>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCX-wo-mYx" customClass="DTXSegmentedView">
-                                        <rect key="frame" x="126" y="3" width="69" height="23"/>
+                                        <rect key="frame" x="125.5" y="3" width="69" height="23"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>

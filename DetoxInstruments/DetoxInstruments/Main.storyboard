@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17140" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17140"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,7 +11,7 @@
             <objects>
                 <windowController storyboardIdentifier="InstrumentsWindowController" id="lYN-De-XWI" customClass="DTXWindowController" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="uNJ-Rb-xBj">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="196" y="238" width="1280" height="801"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
                         <value key="minSize" type="size" width="985" height="500"/>
@@ -39,8 +39,8 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="C88B62F3-702A-4CBD-8EAF-DF687C481F44" label="" paletteLabel="" id="N0I-Xm-YUa">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="268" height="20"/>
-                                    <size key="maxSize" width="327" height="36"/>
+                                    <size key="minSize" width="300" height="20"/>
+                                    <size key="maxSize" width="350" height="36"/>
                                     <button key="view" verticalHuggingPriority="750" id="T7S-3q-2aZ">
                                         <rect key="frame" x="0.0" y="14" width="300" height="28"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -804,7 +804,7 @@ CA
                             </constraints>
                             <popUpButtonCell key="cell" type="push" title="Property List" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="JD6-rS-EW3" id="kgh-0l-b0F">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system"/>
+                                <font key="font" metaFont="menu"/>
                                 <menu key="menu" autoenablesItems="NO" id="wO8-JY-bYp">
                                     <items>
                                         <menuItem title="Property List" state="on" id="JD6-rS-EW3">
