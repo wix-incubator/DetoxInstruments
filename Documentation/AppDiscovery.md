@@ -25,6 +25,8 @@ If your app does not appear in the app selection dialog, the following tips will
 
 - Make sure you have integrated your app with the Profiler framework. See [Profiler Framework Integration Guide](XcodeIntegrationGuide.md) for more information
 
+  - iOS 14 requires an additional script phase; if you have not performed this step, follow the integration guide
+
 - iOS 14 requires local network permission before allowing the discovery and connection to the Profiler service:
 
   ![](Resources/OS14_AllowPermission.png)

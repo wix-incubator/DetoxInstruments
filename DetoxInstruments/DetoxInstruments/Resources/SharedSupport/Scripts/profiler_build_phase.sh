@@ -15,29 +15,6 @@ CONFIGURATION=$1
 # Clean any leading or trailing whitespace from list of allowed configurations
 ALLOWED_CONFIGURATIONS=`echo "$2" | perl -e "s/\s*\,\s*/\ /g" -p`
 
-addNSLocalNetworkUsageDescriptionIfNeeded()
-{
-	/usr/libexec/PlistBuddy -c 'print :NSLocalNetworkUsageDescription' "${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}" || /usr/libexec/PlistBuddy -c 'add :NSLocalNetworkUsageDescription string "The service will allow discovery and connection by Detox Instruments."' "${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}"
-}
-
-addNSBonjourServices()
-{
-	/usr/libexec/PlistBuddy -c 'Add :NSBonjourServices array' "${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}"
-	
-	appendNSBonjourServices
-}
-
-appendNSBonjourServices()
-{
-	/usr/libexec/PlistBuddy -c 'Add NSBonjourServices:0 string "_detoxprofiling_launchprofiling._tcp"' "${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}"
-	/usr/libexec/PlistBuddy -c 'Add NSBonjourServices:0 string "_detoxprofiling._tcp"' "${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}"
-}
-
-addOrAppendNSBonjourServicesIfNeeded()
-{
-	/usr/libexec/PlistBuddy -c 'print :NSBonjourServices' "${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}" && appendNSBonjourServices || addNSBonjourServices
-}
-
 if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 	mkdir -p "${CODESIGNING_FOLDER_PATH}"/Frameworks
 
@@ -51,9 +28,6 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 		## 🤦‍♂️ rdar://45972646 "Notarization service fails for an app with an iOS framework embedded in it"
 		openssl enc -aes-256-cbc -d -K 0 -iv 0 -nosalt -in "${PROFILER_FRAMEWORK_PATH}"/DTXProfiler -out "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
 		openssl enc -aes-256-cbc -d -K 0 -iv 0 -nosalt -in "${PROFILER_FRAMEWORK_PATH}"/Frameworks/DetoxSync.framework/DetoxSync -out "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/Frameworks/DetoxSync.framework/DetoxSync
-		
-		addNSLocalNetworkUsageDescriptionIfNeeded
-		addOrAppendNSBonjourServicesIfNeeded
 		
 		echo "Profiler framework has been integrated in ${CODESIGNING_FOLDER_PATH}."
 	else
