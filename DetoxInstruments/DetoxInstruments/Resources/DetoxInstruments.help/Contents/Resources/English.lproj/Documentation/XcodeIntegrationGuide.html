@@ -47,16 +47,16 @@ ul { padding-left: 1.3em; }
 </li>
 <li>
 <p>Select the <strong>Build Settings</strong> tab and add the following to <strong>Other Linker Flags</strong> (<code>OTHER_LDFLAGS</code>) setting for <strong>all configurations</strong>:</p>
-</li>
-</ol>
 <div class="highlight highlight-source-shell"><pre>-ObjC -F<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${CODESIGNING_FOLDER_PATH}</span><span class="pl-pds">"</span></span>/Frameworks -framework DTXProfiler</pre></div>
 <blockquote>
 <p>Add this build setting to additional configurations if you wish to profile them.</p>
 </blockquote>
 <p><a href="Resources/Integration_OtherLinkerFlags.png" target="_blank"><img src="Resources/Integration_OtherLinkerFlags.png" alt="Other Linker Flags" title="Add the Other Linker Flags build setting" style="max-width:100%;" /></a></p>
-<ol start="5">
-<li>Select the <strong>Build Phases</strong> tab and add a new <strong>Run Script</strong> phase—name it “Profiler Framework Integration”. Paste in the following shell script:</li>
-</ol>
+</li>
+<li>
+<p>Select the <strong>Build Phases</strong> tab and add a <strong>New Run Script Phase</strong>—name it “Profiler Framework Integration”.</p>
+<p><a href="Resources/Integration_NewBuildPhase.png" target="_blank"><img src="Resources/Integration_NewBuildPhase.png" alt="New Run Script" title="Add new run script and paste the script" style="max-width:100%;" /></a></p>
+<p>Paste in the following shell script:</p>
 <div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> Only integrate the framework for the Debug configuration by default. Edit this section to integrate with additional configurations. For example, to add the "Debug_Another" and "Release" configurations, set the following line to:</span>
 <span class="pl-c"><span class="pl-c">#</span>       ALLOWED_CONFIGURATIONS="Debug,Debug_Another,Release"</span>
 ALLOWED_CONFIGURATIONS=<span class="pl-s"><span class="pl-pds">"</span>Debug<span class="pl-pds">"</span></span>
@@ -65,30 +65,61 @@ ALLOWED_CONFIGURATIONS=<span class="pl-s"><span class="pl-pds">"</span>Debug<spa
 EXPLICIT_INSTRUMENTS_APP_PATH=
 
 <span class="pl-k">if</span> [ <span class="pl-k">-z</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$EXPLICIT_INSTRUMENTS_APP_PATH</span><span class="pl-pds">"</span></span> ]<span class="pl-k">;</span> <span class="pl-k">then</span>
-    <span class="pl-c"><span class="pl-c">#</span> Find where the Detox Instruments app is installed</span>
-    INSTRUMENTS_APP_PATH=<span class="pl-s"><span class="pl-pds">$(</span>mdfind kMDItemCFBundleIdentifier=<span class="pl-s"><span class="pl-pds">"</span>com.wix.DetoxInstruments<span class="pl-pds">"</span></span> <span class="pl-k">|</span> head -n 1<span class="pl-pds">)</span></span>
+  <span class="pl-c"><span class="pl-c">#</span> Find where the Detox Instruments app is installed</span>
+  INSTRUMENTS_APP_PATH=<span class="pl-s"><span class="pl-pds">$(</span>mdfind kMDItemCFBundleIdentifier=<span class="pl-s"><span class="pl-pds">"</span>com.wix.DetoxInstruments<span class="pl-pds">"</span></span> <span class="pl-k">|</span> head -n 1<span class="pl-pds">)</span></span>
 <span class="pl-k">else</span>
-    INSTRUMENTS_APP_PATH=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$EXPLICIT_INSTRUMENTS_APP_PATH</span><span class="pl-pds">"</span></span>
+  INSTRUMENTS_APP_PATH=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$EXPLICIT_INSTRUMENTS_APP_PATH</span><span class="pl-pds">"</span></span>
 <span class="pl-k">fi</span>
 PROFILER_BUILD_SCRIPT_PATH=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${INSTRUMENTS_APP_PATH}</span>/Contents/SharedSupport/Scripts/profiler_build_phase.sh<span class="pl-pds">"</span></span>
 <span class="pl-k">if</span> [ <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${INSTRUMENTS_APP_PATH}</span><span class="pl-pds">"</span></span> <span class="pl-k">-a</span> <span class="pl-k">-e</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span> ]<span class="pl-k">;</span> <span class="pl-k">then</span>
-    <span class="pl-c1">echo</span> Found integration script at <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span>
-    <span class="pl-c"><span class="pl-c">#</span> Run the Profiler framework integration script</span>
-    <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${CONFIGURATION}</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${ALLOWED_CONFIGURATIONS}</span><span class="pl-pds">"</span></span>
+  <span class="pl-c1">echo</span> Found integration script at <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span>
+  <span class="pl-c"><span class="pl-c">#</span> Run the Profiler framework integration script</span>
+  <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${CONFIGURATION}</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${ALLOWED_CONFIGURATIONS}</span><span class="pl-pds">"</span></span>
 <span class="pl-k">else</span>
-    <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Profiler not included: Cannot find an installed Detox Instruments app.<span class="pl-pds">"</span></span>
+  <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Profiler not included: Cannot find an installed Detox Instruments app.<span class="pl-pds">"</span></span>
 <span class="pl-k">fi</span></pre></div>
-<p><a href="Resources/Integration_NewBuildPhase.png" target="_blank"><img src="Resources/Integration_NewBuildPhase.png" alt="New Run Script" title="Add new run script and paste the script" style="max-width:100%;" /></a></p>
-<ol start="6">
-<li>Drag the newly added script to the top of the phase list.</li>
-</ol>
+<p>This script copies the Profiler framework inside your app's bundle when building using the specified configurations.</p>
+</li>
+<li>
+<p>Drag the “Profiler Framework Integration” script phase <strong>above</strong> the “Compile Sources” phase.</p>
 <p><a href="Resources/Integration_DragToTop.png" target="_blank"><img src="Resources/Integration_DragToTop.png" alt="Drag to Top" title="Drag the new script to the top of the list" style="max-width:100%;" /></a></p>
-<ol start="7">
-<li>In Xcode, build and run your application using a scheme that is set to use the <strong>Debug</strong> configuration. If you are running your application on a device, ensure that it is on the same Wi-Fi network as the Mac running Detox Instruments or the device is connected to the Mac with a USB cable.</li>
-</ol>
+</li>
+<li>
+<p><strong>iOS 14 requires an additional step.</strong> Add a <strong>New Run Script Phase</strong>—name it “Profiler Framework Info.plist Integration”. Paste in the following shell script:</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> Only integrate the framework for the Debug configuration by default. Edit this section to integrate with additional configurations. For example, to add the "Debug_Another" and "Release" configurations, set the following line to:</span>
+<span class="pl-c"><span class="pl-c">#</span>       ALLOWED_CONFIGURATIONS="Debug,Debug_Another,Release"</span>
+ALLOWED_CONFIGURATIONS=<span class="pl-s"><span class="pl-pds">"</span>Debug<span class="pl-pds">"</span></span>
+
+<span class="pl-c"><span class="pl-c">#</span> Leave this section empty to dynamically determine the path of the Detox Instruments app. If you are seeing issues, point explicitly to the app here.</span>
+EXPLICIT_INSTRUMENTS_APP_PATH=
+
+<span class="pl-k">if</span> [ <span class="pl-k">-z</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$EXPLICIT_INSTRUMENTS_APP_PATH</span><span class="pl-pds">"</span></span> ]<span class="pl-k">;</span> <span class="pl-k">then</span>
+  <span class="pl-c"><span class="pl-c">#</span> Find where the Detox Instruments app is installed</span>
+  INSTRUMENTS_APP_PATH=<span class="pl-s"><span class="pl-pds">$(</span>mdfind kMDItemCFBundleIdentifier=<span class="pl-s"><span class="pl-pds">"</span>com.wix.DetoxInstruments<span class="pl-pds">"</span></span> <span class="pl-k">|</span> head -n 1<span class="pl-pds">)</span></span>
+<span class="pl-k">else</span>
+  INSTRUMENTS_APP_PATH=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$EXPLICIT_INSTRUMENTS_APP_PATH</span><span class="pl-pds">"</span></span>
+<span class="pl-k">fi</span>
+PROFILER_BUILD_SCRIPT_PATH=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${INSTRUMENTS_APP_PATH}</span>/Contents/SharedSupport/Scripts/profiler_info_plist_phase.sh<span class="pl-pds">"</span></span>
+<span class="pl-k">if</span> [ <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${INSTRUMENTS_APP_PATH}</span><span class="pl-pds">"</span></span> <span class="pl-k">-a</span> <span class="pl-k">-e</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span> ]<span class="pl-k">;</span> <span class="pl-k">then</span>
+  <span class="pl-c1">echo</span> Found integration script at <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span>
+  <span class="pl-c"><span class="pl-c">#</span> Run the Profiler framework integration script</span>
+  <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PROFILER_BUILD_SCRIPT_PATH}</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${CONFIGURATION}</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${ALLOWED_CONFIGURATIONS}</span><span class="pl-pds">"</span></span>
+<span class="pl-k">else</span>
+  <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Profiler not included: Cannot find an installed Detox Instruments app.<span class="pl-pds">"</span></span>
+<span class="pl-k">fi</span></pre></div>
+<p>This script adds needed keys into app's Info.plist when building using the specified configurations.</p>
+</li>
+<li>
+<p>Drag the “Profiler Framework Info.plist Integration” script phase <strong>below</strong> the “Copy Bundle Resources” phase.</p>
+<p><a href="Resources/Integration_DragToBottom.png" target="_blank"><img src="Resources/Integration_DragToBottom.png" alt="Drag under Compile Sources" title="Drag the new script under Compile Sources" style="max-width:100%;" /></a></p>
+</li>
+<li>
+<p>In Xcode, build and run your application using a scheme that is set to use the <strong>Debug</strong> configuration. If you are running your application on a device, ensure that it is on the same Wi-Fi network as the Mac running Detox Instruments or the device is connected to the Mac with a USB cable.</p>
 <p>If everything worked correctly, you should be able to see your application listed in Detox Instruments. Select your app to start profiling.</p>
 <p><a href="Resources/Integration_Discovered.png" target="_blank"><img src="Resources/Integration_Discovered.png" alt="Discovered" title="Detox Instruments lists your app" style="max-width:100%;" /></a></p>
-<ol start="8">
-<li>Run your application again, this time using a scheme set to use the <strong>Release</strong> configuration. Verify that Detox Instruments cannot connect to your application. If you can still connect, make sure the Release configuration is not present under the <strong>ALLOWED_CONFIGURATIONS</strong> in the integration script (step 5).</li>
+</li>
+<li>
+<p>Run your application again, this time using a scheme set to use the <strong>Release</strong> configuration. Verify that Detox Instruments cannot connect to your application. If you can still connect, make sure the Release configuration is not present under the <strong>ALLOWED_CONFIGURATIONS</strong> in the integration script (step 5).</p>
+</li>
 </ol>
 </body></html>
