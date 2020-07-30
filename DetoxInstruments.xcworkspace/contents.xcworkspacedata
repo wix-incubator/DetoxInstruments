@@ -8,6 +8,9 @@
       location = "group:Profiler/DTXProfiler.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:ProfilerShim/DTXProfilerShim.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SampleApps/StressTestApp/StressTestApp.xcodeproj">
    </FileRef>
    <FileRef

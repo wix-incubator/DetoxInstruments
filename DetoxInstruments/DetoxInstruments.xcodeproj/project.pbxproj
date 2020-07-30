@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -2293,7 +2293,6 @@
 /* Begin PBXShellScriptBuildPhase section */
 		39443F442194837E00E9C0EA /* Build Third-Party Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2313,7 +2312,6 @@
 		};
 		397AC318219456A6009E62BB /* Sign Sparkle with Hardened Runtime */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2333,7 +2331,6 @@
 		};
 		39A829541F43780100A5FE3D /* Embed Profiler Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 8;
 			files = (
 			);
@@ -2343,13 +2340,12 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = "/bin/bash -e";
-			shellScript = "rm -fr /tmp/DTXProfiler.dst\nrm -fr /tmp/DTXProfilerShim.dst\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphoneos\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphonesimulator\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-universal\nrm -fr \"${SRCROOT}\"/../ProfilerShim/build\n\npushd .\ncd \"${SRCROOT}\"/../Profiler\nxcodebuild -project DTXProfiler.xcodeproj -configuration Release_External -target DTXProfilerFramework ENABLE_HARDENED_RUNTIME=NO build -quiet\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\ncp -fr /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework/DTXProfiler -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/DTXProfiler.framework/DTXProfiler\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework/Frameworks/DetoxSync.framework/DetoxSync -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/DTXProfiler.framework/Frameworks/DetoxSync.framework/DetoxSync\npopd\n\npushd .\ncd \"${SRCROOT}\"/../ProfilerShim\nxcodebuild -project DTXProfilerShim.xcodeproj -configuration Release -target DTXProfilerShimFramework ENABLE_HARDENED_RUNTIME=NO build\nmkdir -p -quiet \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\ncp -fr /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework/DTXProfilerShim -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/DTXProfilerShim.framework/DTXProfilerShim\npopd\n";
+			shellPath = "/bin/bash -e -x";
+			shellScript = "rm -fr /tmp/DTXProfiler.dst\nrm -fr /tmp/DTXProfilerShim.dst\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphoneos\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-iphonesimulator\nrm -fr \"${SRCROOT}\"/../Profiler/build/Release_External-universal\nrm -fr \"${SRCROOT}\"/../ProfilerShim/build\n\npushd .\ncd \"${SRCROOT}\"/../Profiler\nxcodebuild -project DTXProfiler.xcodeproj -configuration Release_External -target DTXProfilerFramework ENABLE_HARDENED_RUNTIME=NO build -quiet\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\ncp -fr /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework/DTXProfiler -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/DTXProfiler.framework/DTXProfiler\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfiler.dst/Library/Frameworks/DTXProfiler.framework/Frameworks/DetoxSync.framework/DetoxSync -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ProfilerFramework/DTXProfiler.framework/Frameworks/DetoxSync.framework/DetoxSync\npopd\n\npushd .\ncd \"${SRCROOT}\"/../ProfilerShim\nxcodebuild -project DTXProfilerShim.xcodeproj -configuration Release -target DTXProfilerShimFramework ENABLE_HARDENED_RUNTIME=NO build -quiet\nmkdir -p \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\ncp -fr /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/\n## 🤦‍♂️ rdar://45972646 \"Notarization service fails for an app with an iOS framework embedded in it\"\nopenssl enc -aes-256-cbc -K 0 -iv 0 -nosalt -in /tmp/DTXProfilerShim.dst/DTXProfilerShim.framework/DTXProfilerShim -out \"${TARGET_BUILD_DIR}\"/\"${SHARED_SUPPORT_FOLDER_PATH}\"/ShimFramework/DTXProfilerShim.framework/DTXProfilerShim\npopd\n";
 			showEnvVarsInLog = 0;
 		};
 		39DED08824D20228000010CE /* Update Build Numbers */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2369,7 +2365,6 @@
 		};
 		39EEF3A621F6275A0028061D /* Embed CLI Tool */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 8;
 			files = (
 			);
@@ -2904,7 +2899,7 @@
 				IBC_WARNINGS = NO;
 				IBSC_NOTICES = NO;
 				IBSC_WARNINGS = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2964,7 +2959,7 @@
 				IBC_WARNINGS = NO;
 				IBSC_NOTICES = NO;
 				IBSC_WARNINGS = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
