@@ -10,8 +10,6 @@
 
 @interface NSFont (UIAdditions)
 
-+ (NSFont *)dtx_monospacedSystemFontOfSize:(CGFloat)fontSize weight:(NSFontWeight)weight;
-
 @property (nonatomic, readonly, copy) NSURL* fontURL;
 
 @end

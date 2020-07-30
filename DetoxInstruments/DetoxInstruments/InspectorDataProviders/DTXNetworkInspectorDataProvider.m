@@ -105,7 +105,7 @@
 			rv.borderType = NSBezelBorder;
 
 			NSTextView* tv = [NSTextView new];
-			tv.font = [NSFont dtx_monospacedSystemFontOfSize:NSFont.systemFontSize weight:NSFontWeightRegular];
+			tv.font = [NSFont monospacedSystemFontOfSize:NSFont.systemFontSize weight:NSFontWeightRegular];
 			tv.autoresizingMask = NSViewWidthSizable;
 			tv.verticallyResizable = YES;
 			tv.textContainer.widthTracksTextView = YES;

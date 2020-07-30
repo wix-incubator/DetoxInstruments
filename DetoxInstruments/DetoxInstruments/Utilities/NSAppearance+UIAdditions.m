@@ -17,13 +17,9 @@
 		return YES;
 	}
 	
-	if (@available(macOS 10.14, *)) {
-		NSAppearanceName appearanceName = [self bestMatchFromAppearancesWithNames:@[NSAppearanceNameAqua, NSAppearanceNameDarkAqua]];
-		
-		return [appearanceName isEqualToString:NSAppearanceNameDarkAqua];
-	} else {
-		return NO;
-	}
+	NSAppearanceName appearanceName = [self bestMatchFromAppearancesWithNames:@[NSAppearanceNameAqua, NSAppearanceNameDarkAqua]];
+	
+	return [appearanceName isEqualToString:NSAppearanceNameDarkAqua];
 }
 
 - (BOOL)isTouchBarAppearance

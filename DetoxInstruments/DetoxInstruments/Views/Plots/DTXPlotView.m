@@ -101,7 +101,7 @@ static NSAttributedString* _DTXGetAttributedStringForDrawing(NSString* text, NSC
 	}
 	
 	NSMutableDictionary* usedAttributes = _stringDrawingAttributes.mutableCopy;
-	usedAttributes[NSFontAttributeName] = [NSFont dtx_monospacedSystemFontOfSize:fontSizeToUse weight:fontSizeToUse <= 10 ? NSFontWeightMedium : NSFontWeightRegular];
+	usedAttributes[NSFontAttributeName] = [NSFont monospacedSystemFontOfSize:fontSizeToUse weight:fontSizeToUse <= 10 ? NSFontWeightMedium : NSFontWeightRegular];
 	
 	NSString* textToUse = additionalText == nil ? text : [NSString stringWithFormat:@"%@\n%@", text, additionalText];
 	

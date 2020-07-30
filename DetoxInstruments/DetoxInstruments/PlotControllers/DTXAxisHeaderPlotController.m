@@ -87,7 +87,7 @@
 		
 		CPTMutableTextStyle* labelStyle = [CPTMutableTextStyle textStyle];
 		labelStyle.color = [CPTColor colorWithCGColor:NSColor.secondaryLabelColor.CGColor];
-		labelStyle.fontName = [NSFont dtx_monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightLight].fontName;
+		labelStyle.font = [NSFont monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightLight];
 		labelStyle.fontSize = NSFont.smallSystemFontSize;
 		
 		// Axes

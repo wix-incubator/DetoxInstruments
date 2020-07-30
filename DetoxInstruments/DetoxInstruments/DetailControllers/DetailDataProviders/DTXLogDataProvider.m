@@ -42,7 +42,7 @@
 	
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		font = [NSFont dtx_monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightRegular];
+		font = [NSFont monospacedSystemFontOfSize:NSFont.smallSystemFontSize weight:NSFontWeightRegular];
 	});
 	
 	return font;

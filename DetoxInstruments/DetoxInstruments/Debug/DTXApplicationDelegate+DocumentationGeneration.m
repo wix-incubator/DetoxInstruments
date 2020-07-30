@@ -228,10 +228,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	NSUInteger menuAppearance = sender.parentItem.tag;
 	NSUInteger menuAccent = sender.tag;
 
-	if (@available(macOS 10.14, *))
-	{
-		NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed: menuAppearance == 0 ? NSAppearanceNameAqua : NSAppearanceNameDarkAqua];
-	}
+	NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed: menuAppearance == 0 ? NSAppearanceNameAqua : NSAppearanceNameDarkAqua];
 	[NSUserDefaults.standardUserDefaults setObject:__appleAccentColorMapping[@(menuAccent)] forKey:@"AppleAccentColor"];
 	[NSUserDefaults.standardUserDefaults setObject:__appleHighlightColorMapping[@(menuAccent)] forKey:@"AppleHighlightColor"];
 	[NSNotificationCenter.defaultCenter postNotificationName:@"kCUINotificationAquaColorVariantChanged" object:nil];
@@ -984,9 +981,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	if(NSApp.effectiveAppearance.isDarkAppearance == NO)
 	{
-		if (@available(macOS 10.14, *)) {
-			menu.secondImageView.contentTintColor = NSColor.whiteColor;
-		}
+		menu.secondImageView.contentTintColor = NSColor.whiteColor;
 	}
 	
 	menu.chevronImageView.hidden = YES;
@@ -1052,9 +1047,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	if(NSApp.effectiveAppearance.isDarkAppearance == NO)
 	{
-		if (@available(macOS 10.14, *)) {
-			menu.secondImageView.contentTintColor = NSColor.whiteColor;
-		}
+		menu.secondImageView.contentTintColor = NSColor.whiteColor;
 	}
 	
 	menu.chevronImageView.hidden = YES;
@@ -1120,9 +1113,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	if(NSApp.effectiveAppearance.isDarkAppearance == NO)
 	{
-		if (@available(macOS 10.14, *)) {
-			menu.secondImageView.contentTintColor = NSColor.whiteColor;
-		}
+		menu.secondImageView.contentTintColor = NSColor.whiteColor;
 	}
 	
 	menu.chevronImageView.hidden = YES;
