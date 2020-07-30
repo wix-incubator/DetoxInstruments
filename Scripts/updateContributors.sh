@@ -7,7 +7,7 @@ GH_FILE=./DetoxInstruments/DetoxInstruments/Resources/ContributionsGH.json
 
 response_success=0
 for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
-	response=$(curl -s "https://api.github.com/repos/wix/DetoxInstruments/stats/contributors?access_token=${GITHUB_RELEASES_TOKEN}")
+	response=$(curl -H "Authorization: token ${GITHUB_RELEASES_TOKEN}" -s "https://api.github.com/repos/wix/DetoxInstruments/stats/contributors")
 	response_type=$(echo "${response}" | jq -r type)
 	
 	if [ "${response_type}" = "array" ]; then
@@ -31,7 +31,7 @@ do
   contributor=$(echo $contributors | jq ".[$idx]")
   total_contributions=$(echo $contributor | jq ".total")
   login_name=$(echo $contributor | jq -r ".author.login")
-  user=$(curl -s "https://api.github.com/users/${login_name}?access_token=${GITHUB_RELEASES_TOKEN}")
+  user=$(curl -H "Authorization: token ${GITHUB_RELEASES_TOKEN}" -s "https://api.github.com/users/${login_name}")
   name=$(echo $user | jq -r ".name")
   if [ "$name" = "null" ]; then
     name=$login_name

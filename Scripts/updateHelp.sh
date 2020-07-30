@@ -67,7 +67,7 @@ function render_markdown {
 
   CONTENTS=$(printf '%s' "$(<$SOURCE_FILE)" | php -r 'echo json_encode(file_get_contents("php://stdin"));')
   API_JSON=$(printf '{"text": %s}' "$CONTENTS")
-  curl -s --data "$API_JSON" "https://api.github.com/markdown?access_token=${GITHUB_RELEASES_TOKEN}" >> "${TARGET_FILE}"
+  curl -H "Authorization: token ${GITHUB_RELEASES_TOKEN}" -s --data "$API_JSON" "https://api.github.com/markdown" >> "${TARGET_FILE}"
 
   echo '</body></html>' >> "${TARGET_FILE}"
 

@@ -35,16 +35,16 @@ ul { padding-left: 1.3em; }
 <p>For React Native apps, you need to install the <strong><code>detox-instruments-react-native-utils</code></strong> package:</p>
 <div class="highlight highlight-source-shell"><pre>npm install detox-instruments-react-native-utils --save-prod</pre></div>
 <p>Import the Event class from the package:</p>
-<div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> { <span class="pl-smi">Event</span> } <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>detox-instruments-react-native-utils<span class="pl-pds">'</span></span>;</pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> <span class="pl-kos">{</span> <span class="pl-v">Event</span> <span class="pl-kos">}</span> <span class="pl-k">from</span> <span class="pl-s">'detox-instruments-react-native-utils'</span><span class="pl-kos">;</span></pre></div>
 <h3>
 <a name="user-content-usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
 <h4>
 <a name="user-content-intervals" class="anchor" href="#intervals"><span class="octicon octicon-link"></span></a>Intervals</h4>
-<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-c1">event</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Event</span>(<span class="pl-s"><span class="pl-pds">"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>);
-<span class="pl-c1">event</span>.<span class="pl-en">beginInterval</span>(<span class="pl-s"><span class="pl-pds">"</span>Start message<span class="pl-pds">"</span></span>);
-<span class="pl-c"><span class="pl-c">//</span>Long interval</span>
-<span class="pl-c1">event</span>.<span class="pl-en">endInterval</span>(<span class="pl-c1">Event</span>.<span class="pl-smi">EventStatus</span>.<span class="pl-smi">completed</span>, <span class="pl-s"><span class="pl-pds">"</span>End message<span class="pl-pds">"</span></span>);</pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">event</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">Event</span><span class="pl-kos">(</span><span class="pl-s">"Category"</span><span class="pl-kos">,</span> <span class="pl-s">"Name"</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-s1">event</span><span class="pl-kos">.</span><span class="pl-en">beginInterval</span><span class="pl-kos">(</span><span class="pl-s">"Start message"</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-c">//Long interval</span>
+<span class="pl-s1">event</span><span class="pl-kos">.</span><span class="pl-en">endInterval</span><span class="pl-kos">(</span><span class="pl-v">Event</span><span class="pl-kos">.</span><span class="pl-c1">EventStatus</span><span class="pl-kos">.</span><span class="pl-c1">completed</span><span class="pl-kos">,</span> <span class="pl-s">"End message"</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
 <h4>
 <a name="user-content-single-points-in-time" class="anchor" href="#single-points-in-time"><span class="octicon octicon-link"></span></a>Single Points in Time</h4>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">Event</span>.<span class="pl-c1">event</span>(<span class="pl-s"><span class="pl-pds">"</span>Category<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, <span class="pl-c1">Event</span>.<span class="pl-smi">EventStatus</span>.<span class="pl-smi">completed</span>, <span class="pl-s"><span class="pl-pds">"</span>Message<span class="pl-pds">"</span></span>);</pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-v">Event</span><span class="pl-kos">.</span><span class="pl-en">event</span><span class="pl-kos">(</span><span class="pl-s">"Category"</span><span class="pl-kos">,</span> <span class="pl-s">"Name"</span><span class="pl-kos">,</span> <span class="pl-v">Event</span><span class="pl-kos">.</span><span class="pl-c1">EventStatus</span><span class="pl-kos">.</span><span class="pl-c1">completed</span><span class="pl-kos">,</span> <span class="pl-s">"Message"</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
 </body></html>

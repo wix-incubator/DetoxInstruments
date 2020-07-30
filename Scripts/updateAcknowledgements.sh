@@ -18,7 +18,7 @@ while read -r line; do
   REPO_NAME=`expr "$REPO_FULL_NAME" : '^.*\/\(.*\)'`
 
   if [[ $line = *"github.com/wix"* ]]; then
-    PARENT=$(curl -s https://api.github.com/repos/${REPO_FULL_NAME}?access_token=${GITHUB_RELEASES_TOKEN} | jq -r .parent.full_name)
+    PARENT=$(curl -H "Authorization: token ${GITHUB_RELEASES_TOKEN}" -s https://api.github.com/repos/${REPO_FULL_NAME} | jq -r .parent.full_name)
     
     if [ "$PARENT" != "null" ]; then
       REPO_FULL_NAME="$PARENT"
@@ -28,7 +28,7 @@ while read -r line; do
     fi
   fi
 
-  LICENSE=$(curl -s https://api.github.com/repos/${REPO_FULL_NAME}/license?access_token=${GITHUB_RELEASES_TOKEN})
+  LICENSE=$(curl -H "Authorization: token ${GITHUB_RELEASES_TOKEN}" -s https://api.github.com/repos/${REPO_FULL_NAME}/license)
   LICENSE_CONTENT=$(echo "$LICENSE" | jq -r .content | base64 --decode)
   
   printf "### $REPO_NAME — <https://github.com/$REPO_FULL_NAME>\n\n" >> Documentation/Acknowledgements.md
@@ -49,6 +49,6 @@ echo '<title>Acknowledgements</title></head><body>' >> "${TARGET_FILE}"
 
 CONTENTS=$(printf '%s' "$(<Documentation/Acknowledgements.md)" | php -r 'echo json_encode(file_get_contents("php://stdin"));')
 API_JSON=$(printf '{"text": %s}' "$CONTENTS")
-curl -s --data "$API_JSON" "https://api.github.com/markdown?access_token=${GITHUB_RELEASES_TOKEN}" >> "${TARGET_FILE}"
+curl -H "Authorization: token ${GITHUB_RELEASES_TOKEN}" -s --data "$API_JSON" "https://api.github.com/markdown >> "${TARGET_FILE}"
 
 echo '</body></html>' >> "${TARGET_FILE}"
