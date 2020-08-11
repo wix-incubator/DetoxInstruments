@@ -215,8 +215,8 @@ static uint64_t main_thread_identifier;
 			
 			if(needsPerformancePolling)
 			{
-				[self->_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:self->_currentProfilingConfiguration] handler:^(DTXPerformanceSampler* pollable) {
-					[weakSelf performanceSamplerDidPoll:pollable];
+				[self->_pollingManager addPollable:[[DTXPerformanceSampler alloc] initWithConfiguration:self->_currentProfilingConfiguration] handler:^(id<DTXPollable> pollable) {
+					[weakSelf performanceSamplerDidPoll:(DTXPerformanceSampler*)pollable];
 				}];
 			}
 			
@@ -225,8 +225,8 @@ static uint64_t main_thread_identifier;
 				DTXReactNativeSampler* rnSampler = [[DTXReactNativeSampler alloc] initWithConfiguration:self->_currentProfilingConfiguration];
 				if(rnSampler != nil)
 				{
-					[self->_pollingManager addPollable:rnSampler handler:^(DTXReactNativeSampler* pollable) {
-						[weakSelf reactNativeSamplerDidPoll:pollable];
+					[self->_pollingManager addPollable:rnSampler handler:^(id<DTXPollable> pollable) {
+						[weakSelf reactNativeSamplerDidPoll:(DTXReactNativeSampler*)pollable];
 					}];
 				}
 			}

@@ -393,24 +393,20 @@ static void __DTXInitializeRNSampler()
 	
 	__rn_valuePropertyMapping = [NSMutableDictionary new];
 	
-	__orig_JSObjectCallAsFunction = JSObjectCallAsFunction;
-	__orig_JSClassCreate = JSClassCreate;
-	__orig_JSObjectSetProperty = JSObjectSetProperty;
-	
 	rebind_symbols((struct rebinding[]){
 		{"JSObjectCallAsFunction",
 			__dtx_JSObjectCallAsFunction,
-			NULL
+			(void*)&__orig_JSObjectCallAsFunction
 		},
 		{
 			"JSClassCreate",
 			__dtx_JSClassCreate,
-			NULL
+			(void*)&__orig_JSClassCreate
 		},
 		{
 			"JSObjectSetProperty",
 			__dtx_JSObjectSetProperty,
-			NULL
+			(void*)&__orig_JSObjectSetProperty
 		},
 	}, 3);
 	

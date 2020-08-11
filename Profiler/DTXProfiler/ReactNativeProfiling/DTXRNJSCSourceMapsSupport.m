@@ -154,12 +154,10 @@ NSArray* DTXRNSymbolicateJSCBacktrace(DTXSourceMapsParser* parser, NSArray<NSStr
 #if DTX_PROFILER
 void DTXInitializeSourceMapsSupport(void)
 {
-	__orig_JSEvaluateScript = JSEvaluateScript;
-	
 	rebind_symbols((struct rebinding[]){
 		{"JSEvaluateScript",
 			__dtx_JSEvaluateScript,
-			NULL
+			(void**)&__orig_JSEvaluateScript
 		},
 	}, 1);
 	
