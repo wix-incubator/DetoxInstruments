@@ -56,18 +56,47 @@ static os_activity_stream_t _stream;
 			goto LEGACY;
 		}
 		
-		_stream = os_activity_stream_for_pid(NSProcessInfo.processInfo.processIdentifier, OS_ACTIVITY_STREAM_HISTORICAL | OS_ACTIVITY_STREAM_PROCESS_ONLY | OS_ACTIVITY_STREAM_INFO | OS_ACTIVITY_STREAM_DEBUG, ^ BOOL (os_activity_stream_entry_t entry, int error) {
+		_stream = os_activity_stream_for_pid(NSProcessInfo.processInfo.processIdentifier, OS_ACTIVITY_STREAM_PROCESS_ONLY | OS_ACTIVITY_STREAM_HISTORICAL | OS_ACTIVITY_STREAM_INFO | OS_ACTIVITY_STREAM_DEBUG, ^ BOOL (os_activity_stream_entry_t entry, int error) {
 			if(error != 0 || entry == NULL)
 			{
-				return NO;
+				return YES;
+			}
+			
+			if(entry->type == OS_ACTIVITY_STREAM_TYPE_LEGACY_LOG_MESSAGE)
+			{
+				return YES;
 			}
 			
 			char* msg = os_log_copy_formatted_message(&entry->log_message);
-			DTXProfilerAddTimestampedLogLine([NSDate dateWithTimeIntervalSince1970:entry->log_message.tv_gmt.tv_sec], [NSString stringWithFormat:@"[%s: %s] %s", entry->log_message.subsystem, entry->log_message.category, msg]);
-			if(msg)
+			dtx_defer {
+				if(msg)
+				{
+					free(msg);
+				}
+			};
+			NSString* message;
+			if(entry->log_message.subsystem == NULL || entry->log_message.category == NULL)
 			{
-				free(msg);
+//				NSString* imagePath = @(entry->log_message.image_path);
+//				if([imagePath containsString:@"/System/Library/PrivateFrameworks/"] || [imagePath containsString:@"/System/Library/Frameworks/"])
+//				{
+//					return YES;
+//				}
+				
+				message = @(msg);
 			}
+			else
+			{
+				NSString* subsystem = @(entry->log_message.subsystem);
+				if([subsystem hasPrefix:@"com.apple"])
+				{
+					return YES;
+				}
+				
+				message = [NSString stringWithFormat:@"[%@: %@] %@", subsystem, @(entry->log_message.category), @(msg)];
+			}
+			
+			DTXProfilerAddTimestampedLogLine([NSDate dateWithTimeIntervalSince1970:entry->log_message.tv_gmt.tv_sec], message);
 			
 			return YES;
 		});
