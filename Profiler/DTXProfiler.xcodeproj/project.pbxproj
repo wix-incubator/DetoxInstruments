@@ -323,6 +323,7 @@
 		3985048C21A4434800F04573 /* DTXFileSystemItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXFileSystemItem.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXFileSystemItem.h; sourceTree = "<group>"; };
 		3985048F21A4435100F04573 /* DTXPasteboardItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXPasteboardItem.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXPasteboardItem.h; sourceTree = "<group>"; };
 		3985049021A4435100F04573 /* DTXPasteboardItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXPasteboardItem.m; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXPasteboardItem.m; sourceTree = "<group>"; };
+		398827C124F46BCB003F8A94 /* ActivityStreamSPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityStreamSPI.h; sourceTree = "<group>"; };
 		399479D52393E96A00C613EC /* DTXProfilingConfiguration-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilingConfiguration-Private.h"; sourceTree = "<group>"; };
 		399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPerformanceSampler.h; sourceTree = "<group>"; };
 		399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPerformanceSampler.m; sourceTree = "<group>"; };
@@ -673,6 +674,7 @@
 		39D2054D1F03054000830A0D /* LogRecording */ = {
 			isa = PBXGroup;
 			children = (
+				398827C124F46BCB003F8A94 /* ActivityStreamSPI.h */,
 				39D2054E1F03057200830A0D /* DTXLoggingRecorder.h */,
 				39D2054F1F03057200830A0D /* DTXLoggingRecorder.m */,
 			);

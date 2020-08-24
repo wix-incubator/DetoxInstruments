@@ -21,9 +21,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.14</string>
 	<key>CFBundleVersion</key>
-	<string>12075</string>
+	<string>12107</string>
 	<key>DTXBuildDate</key>
-	<date>2020-08-11T18:31:13Z</date>
+	<date>2020-08-24T22:21:08Z</date>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSExtension</key>

@@ -31,33 +31,24 @@ void DTXProfilerAddTag(NSString* tag)
 	__DTXProfilerAddTag(NSDate.date, tag);
 }
 
-/**
- *  Adds a log line.
- *
- *  The line may be a multiline string.
- *
- *  Log lines are added chronologically.
- *
- *  @param line The line to add.
- */
 void DTXProfilerAddLogLine(NSString* line)
 {
-	__DTXProfilerAddLogLine(NSDate.date, line);
+	__DTXProfilerAddLogLineWithObjects(NSDate.date, line, nil);
 }
 
-/**
- *  Adds a log line and an array of object.
- *
- *  The line may be a multiline string.
- *
- *  Log lines are added chronologically.
- *
- *  @param line The line to add.
- *  @param objects The objects to add.
- */
 void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects)
 {
 	__DTXProfilerAddLogLineWithObjects(NSDate.date, line, objects);
+}
+
+void DTXProfilerAddTimestampedLogLine(NSDate* timestamp, NSString* line)
+{
+	__DTXProfilerAddLogLineWithObjects(timestamp, line, nil);
+}
+
+void DTXProfilerAddTimestampedLogLineWithObjects(NSDate* timestamp, NSString* line, NSArray* __nullable objects)
+{
+	__DTXProfilerAddLogLineWithObjects(timestamp, line, objects);
 }
 
 DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable startMessage)

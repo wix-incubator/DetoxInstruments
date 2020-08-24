@@ -66,6 +66,45 @@ extern void DTXProfilerAddLogLine(NSString* line);
 DTX_NOTHROW
 extern void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects);
 
+/*!
+ * @function DTXProfilerAddTimestampedLogLine
+ *
+ * @abstract
+ * Adds a timestamped log line.
+ *
+ * @discussion
+ * The line may be a multiline string.
+ *
+ * @param timestamp
+ * The timestamp of the log line.
+ *
+ * @param line
+ * The log line to add.
+ */
+DTX_NOTHROW
+extern void DTXProfilerAddTimestampedLogLine(NSDate* timestamp, NSString* line);
+
+/*!
+ * @function DTXProfilerAddTimestampedLogLineWithObjects
+ *
+ * @abstract
+ * Adds a timestamped log line and an array of object.
+ *
+ * @discussion
+ * The line may be a multiline string.
+ *
+ * @param timestamp
+ * The timestamp of the log line.
+ *
+ * @param line
+ * The line to add.
+ *
+ * @param objects
+ * The objects to add.
+ */
+DTX_NOTHROW
+extern void DTXProfilerAddTimestampedLogLineWithObjects(NSDate* timestamp, NSString* line, NSArray* __nullable objects);
+
 __END_DECLS
 NS_ASSUME_NONNULL_END
 
