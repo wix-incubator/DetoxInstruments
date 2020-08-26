@@ -20,33 +20,33 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {	
-//	NSArray<NSString*>* exampleLogOutputs = @[ @"[CLIoHidInterface] Refreshing service refs",
-//											   @"Fetching effective device orientation with temporary manager: faceUp (5)",
-//											   @"Updating device orientation from CoreMotion to: faceUp (5)",
-//											   @"-[BrightnessSystemInternal copyPropertyForKey:client:]: client=4304426368 key=<private>",
-//											   @"[BKEventFocusManager] Setting foreground application to: com.apple.mobilesafari (337)",
-//											   @"EventStatistics.m:48  :   11229.47800:  Info: 2 Button since   11182.09352 (Wed May 30 12:17:12 2018)",
-//											   @"CoreAnimation: updates deferred for too long",
-//											   @"Ping timer fired, resetting watchdog",
-//											   @"Apple Keyboard char: 0 symbol: 0 spacebar: 0 arrow: 0 cursor: 0 modifier: 0",
-//											   @"Cover HES open: 0 close: 0 <50ms: 0 50-100ms: 0 100-250ms: 0 250-500ms: 0 500-1000ms: 0",
-//											   @"[pid:40] HID activity: 1 -> 0 (service:0x0 event:0)",
-//											   @"Ping timer fired, resetting watchdog",
-//											   @"Got power notification 3758097008",
-//											   @"Got kIOMessageCanSystemSleep",
-//											   @"Got power notification 3758097024",
-//											   @"Got kIOMessageSystemWillSleep", ];
-//	
-//	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
-//	_consoleLogDemoTimerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_queue_create("com.wix.ConsoleOutputDemo", qosAttribute));
-//	uint64_t interval = 0.5 * NSEC_PER_SEC;
-//	dispatch_source_set_timer(_consoleLogDemoTimerSource, dispatch_walltime(NULL, 0), interval, interval / 10);
-//	
-//	dispatch_source_set_event_handler(_consoleLogDemoTimerSource, ^{
-//		NSLog(@"%@", exampleLogOutputs[arc4random_uniform((uint32_t)exampleLogOutputs.count)]);
-//	});
-//	
-//	dispatch_resume(_consoleLogDemoTimerSource);
+	NSArray<NSString*>* exampleLogOutputs = @[ @"[CLIoHidInterface] Refreshing service refs",
+											   @"Fetching effective device orientation with temporary manager: faceUp (5)",
+											   @"Updating device orientation from CoreMotion to: faceUp (5)",
+											   @"-[BrightnessSystemInternal copyPropertyForKey:client:]: client=4304426368 key=<private>",
+											   @"[BKEventFocusManager] Setting foreground application to: com.apple.mobilesafari (337)",
+											   @"EventStatistics.m:48  :   11229.47800:  Info: 2 Button since   11182.09352 (Wed May 30 12:17:12 2018)",
+											   @"CoreAnimation: updates deferred for too long",
+											   @"Ping timer fired, resetting watchdog",
+											   @"Apple Keyboard char: 0 symbol: 0 spacebar: 0 arrow: 0 cursor: 0 modifier: 0",
+											   @"Cover HES open: 0 close: 0 <50ms: 0 50-100ms: 0 100-250ms: 0 250-500ms: 0 500-1000ms: 0",
+											   @"[pid:40] HID activity: 1 -> 0 (service:0x0 event:0)",
+											   @"Ping timer fired, resetting watchdog",
+											   @"Got power notification 3758097008",
+											   @"Got kIOMessageCanSystemSleep",
+											   @"Got power notification 3758097024",
+											   @"Got kIOMessageSystemWillSleep", ];
+	
+	dispatch_queue_attr_t qosAttribute = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_main(), 0);
+	_consoleLogDemoTimerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_queue_create("com.wix.ConsoleOutputDemo", qosAttribute));
+	uint64_t interval = 0.5 * NSEC_PER_SEC;
+	dispatch_source_set_timer(_consoleLogDemoTimerSource, dispatch_walltime(NULL, 0), interval, interval / 10);
+	
+	dispatch_source_set_event_handler(_consoleLogDemoTimerSource, ^{
+		NSLog(@"%@", exampleLogOutputs[arc4random_uniform((uint32_t)exampleLogOutputs.count)]);
+	});
+	
+	dispatch_resume(_consoleLogDemoTimerSource);
 	
 	return YES;
 }

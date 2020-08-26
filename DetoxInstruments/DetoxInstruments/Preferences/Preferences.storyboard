@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17154"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -398,7 +398,7 @@
                                                                 <rect key="frame" x="-2" y="-3" width="303" height="25"/>
                                                                 <popUpButtonCell key="cell" type="push" title="Even more often (16 samples every second)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="625" imageScaling="proportionallyDown" inset="2" selectedItem="i3p-6Z-N6J" id="T9z-h8-fBH">
                                                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                                    <font key="font" metaFont="system"/>
+                                                                    <font key="font" metaFont="menu"/>
                                                                     <menu key="menu" id="NmJ-S7-Llh">
                                                                         <items>
                                                                             <menuItem title="Even more often (16 samples every second)" state="on" tag="625" id="i3p-6Z-N6J"/>
@@ -1065,7 +1065,7 @@ Timers will appear as interval events in the Events instrument. This option requ
                                                                         <rect key="frame" x="36" y="-3" width="90" height="25"/>
                                                                         <popUpButtonCell key="cell" type="push" title="minutes" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="FtC-kq-5re" id="bZl-8I-s0g">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="menu"/>
                                                                             <menu key="menu" id="NRP-oF-Vde">
                                                                                 <items>
                                                                                     <menuItem title="seconds" id="7Ky-G7-PbH" userLabel="Seconds"/>
@@ -1297,7 +1297,6 @@ Timers will appear as interval events in the Events instrument. This option requ
                                             <tableColumns>
                                                 <tableColumn width="415" minWidth="40" maxWidth="1000" id="kqP-Eh-iwO">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>

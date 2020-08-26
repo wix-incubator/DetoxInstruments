@@ -113,6 +113,9 @@
 		3985048E21A4434800F04573 /* DTXFileSystemItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048C21A4434800F04573 /* DTXFileSystemItem.h */; };
 		3985049121A4435200F04573 /* DTXPasteboardItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 3985048F21A4435100F04573 /* DTXPasteboardItem.h */; };
 		3985049221A4435200F04573 /* DTXPasteboardItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3985049021A4435100F04573 /* DTXPasteboardItem.m */; };
+		398827CC24F591A0003F8A94 /* DTXLogSample+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 398827CA24F591A0003F8A94 /* DTXLogSample+Additions.h */; };
+		398827CD24F591A0003F8A94 /* DTXLogSample+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 398827CB24F591A0003F8A94 /* DTXLogSample+Additions.m */; };
+		398827CF24F59591003F8A94 /* DTXProfilerLogLevel.h in Headers */ = {isa = PBXBuildFile; fileRef = 398827CE24F5958D003F8A94 /* DTXProfilerLogLevel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */; };
 		399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */; };
 		39B22BE1217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B22BDF217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h */; };
@@ -324,6 +327,10 @@
 		3985048F21A4435100F04573 /* DTXPasteboardItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXPasteboardItem.h; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXPasteboardItem.h; sourceTree = "<group>"; };
 		3985049021A4435100F04573 /* DTXPasteboardItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXPasteboardItem.m; path = ../../../DetoxInstruments/DetoxInstruments/RemoteProfiling/Model/DTXPasteboardItem.m; sourceTree = "<group>"; };
 		398827C124F46BCB003F8A94 /* ActivityStreamSPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityStreamSPI.h; sourceTree = "<group>"; };
+		398827C924F583AA003F8A94 /* DTXInstruments-12140.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DTXInstruments-12140.xcdatamodel"; sourceTree = "<group>"; };
+		398827CA24F591A0003F8A94 /* DTXLogSample+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXLogSample+Additions.h"; sourceTree = "<group>"; };
+		398827CB24F591A0003F8A94 /* DTXLogSample+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXLogSample+Additions.m"; sourceTree = "<group>"; };
+		398827CE24F5958D003F8A94 /* DTXProfilerLogLevel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXProfilerLogLevel.h; sourceTree = "<group>"; };
 		399479D52393E96A00C613EC /* DTXProfilingConfiguration-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilingConfiguration-Private.h"; sourceTree = "<group>"; };
 		399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPerformanceSampler.h; sourceTree = "<group>"; };
 		399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPerformanceSampler.m; sourceTree = "<group>"; };
@@ -715,6 +722,7 @@
 				396EE2BE20ADAD32006C4C55 /* ViewHierarchy */,
 				39D8B3682107997C000895F7 /* DTXBase.h */,
 				39D8B31A21077643000895F7 /* DTXEvents.h */,
+				398827CE24F5958D003F8A94 /* DTXProfilerLogLevel.h */,
 				39D8637E210EFC4E00FECB75 /* DTXProfilerAPI.h */,
 				39ED91332290669B005EDB56 /* DTXProfilerAPI-Private.h */,
 				39C44C3220F3A24900279955 /* DTXProfilerAPI.m */,
@@ -744,6 +752,8 @@
 				3985048921A4433E00F04573 /* DTXProfilingBasics.h */,
 				39404E2721E66237006A583E /* DTXThreadPerformanceSample+Additions.h */,
 				39404E2821E66237006A583E /* DTXThreadPerformanceSample+Additions.m */,
+				398827CA24F591A0003F8A94 /* DTXLogSample+Additions.h */,
+				398827CB24F591A0003F8A94 /* DTXLogSample+Additions.m */,
 			);
 			name = Model;
 			path = ../../Shared/Model;
@@ -846,6 +856,7 @@
 				396F5B7A23CB635800415843 /* DTXReactNativeAsyncStorageSupport.h in Headers */,
 				39352F741F08FD8300D033B2 /* DTXRNJSCSourceMapsSupport.h in Headers */,
 				3939243121AD0A330015A15F /* ZZDataChannelOutput.h in Headers */,
+				398827CC24F591A0003F8A94 /* DTXLogSample+Additions.h in Headers */,
 				3939241521AD0A330015A15F /* ZZDataChannel.h in Headers */,
 				3939242D21AD0A330015A15F /* ZZInflateInputStream.h in Headers */,
 				3939241721AD0A330015A15F /* ZZChannel.h in Headers */,
@@ -874,6 +885,7 @@
 				39C7133B1EFFCB4000C827EB /* AutoCoding.h in Headers */,
 				39F6421B1FDD5DBF00468FED /* DTXLogging.h in Headers */,
 				39E75EBC209C7B8B00C95D15 /* DTXUIPasteboardParser.h in Headers */,
+				398827CF24F59591003F8A94 /* DTXProfilerLogLevel.h in Headers */,
 				39C713401EFFD6FF00C827EB /* DTXReactNativeSampler.h in Headers */,
 				3939241321AD0A330015A15F /* ZipZap.h in Headers */,
 				39E61A0A1EFFA4F3005CBE00 /* DTXNetworkRecorder.h in Headers */,
@@ -1021,6 +1033,7 @@
 				39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */,
 				3939242821AD0A330015A15F /* ZZNewArchiveEntryWriter.mm in Sources */,
 				39C713461EFFDB2500C827EB /* DTXPollingManager.m in Sources */,
+				398827CD24F591A0003F8A94 /* DTXLogSample+Additions.m in Sources */,
 				396677B41F1FCE18002D5E43 /* DTXRemoteProfilingManager.m in Sources */,
 				39B22BE2217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m in Sources */,
 				3939241B21AD0A330015A15F /* ZZFileChannelOutput.m in Sources */,
@@ -1446,11 +1459,12 @@
 		39048B8723D80163004142BB /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				398827C924F583AA003F8A94 /* DTXInstruments-12140.xcdatamodel */,
 				39048B8823D80163004142BB /* DTXInstruments-11743.xcdatamodel */,
 				39048B8923D80163004142BB /* DTXInstruments-11469.xcdatamodel */,
 				39048B8A23D80163004142BB /* DTXInstruments-9954.xcdatamodel */,
 			);
-			currentVersion = 39048B8823D80163004142BB /* DTXInstruments-11743.xcdatamodel */;
+			currentVersion = 398827C924F583AA003F8A94 /* DTXInstruments-12140.xcdatamodel */;
 			path = DTXInstruments.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

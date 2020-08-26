@@ -14,6 +14,7 @@
 #import "NSView+UIAdditions.h"
 #import "DTXFilteredDataProvider.h"
 #import "NSFont+UIAdditions.h"
+#import "DTXLogSample+UIExtensions.h"
 
 @interface DTXLogDataProvider() <NSTableViewDataSource, NSTableViewDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -95,9 +96,15 @@
 	}
 }
 
+- (NSPredicate*)_defaultLogPredicate
+{
+	return [NSPredicate predicateWithFormat:@"timestamp > %@", _document.firstRecording.startTimestamp];
+}
+
 - (void)_prepareLogData
 {
 	NSFetchRequest* fr = [DTXLogSample fetchRequest];
+	fr.predicate = self._defaultLogPredicate;
 	fr.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
 	
 	_frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fr managedObjectContext:_document.viewContext sectionNameKeyPath:nil cacheName:nil];
@@ -115,7 +122,16 @@
 
 - (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
 {
-	return [DTXTableRowView new];
+	if(row >= _frc.fetchedObjects.count)
+	{
+		return nil;
+	}
+	
+	DTXTableRowView* rv = [DTXTableRowView new];
+	
+	rv.userNotifyColor = _frc.fetchedObjects[row].colorForLogLevel;
+	
+	return rv;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
@@ -125,10 +141,39 @@
 		return nil;
 	}
 	
+	if([tableColumn.identifier isEqualToString:@"DTXTypeColumn"])
+	{
+		return nil;
+	}
+	
+	DTXLogSample* logSample = _frc.fetchedObjects[row];
+	
 	DTXTextViewCellView* cell = [tableView makeViewWithIdentifier:@"DTXLogEntryCell" owner:nil];
 	cell.contentTextField.font = self.class.fontForObjectDisplay;
-	cell.contentTextField.stringValue = [_frc.fetchedObjects[row].line stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	cell.contentTextField.allowsDefaultTighteningForTruncation = NO;
+	
+	if([tableColumn.identifier isEqualToString:@"DTXTimestampColumn"])
+	{
+		NSDate* timestamp = logSample.timestamp;
+		NSTimeInterval ti = [timestamp timeIntervalSinceReferenceDate] - [_document.firstRecording.startTimestamp timeIntervalSinceReferenceDate];
+		cell.contentTextField.stringValue = [[NSFormatter dtx_secondsFormatter] stringForObjectValue:@(ti)];
+	}
+	
+	if([tableColumn.identifier isEqualToString:@"DTXSubsystemColumn"])
+	{
+		cell.contentTextField.stringValue = logSample.subsystem ?: @"";
+	}
+	
+	if([tableColumn.identifier isEqualToString:@"DTXCategoryColumn"])
+	{
+		cell.contentTextField.stringValue = logSample.category ?: @"";
+	}
+	
+	if([tableColumn.identifier isEqualToString:@"DTXMessageColumn"])
+	{
+		cell.contentTextField.stringValue = logSample.line ?: @"";
+	}
+	
 	return cell;
 }
 
@@ -268,7 +313,7 @@
 
 - (NSPredicate *)predicateForFilter:(NSString *)filter
 {
-	return filter.length == 0 ? nil : [NSPredicate predicateWithFormat:@"line CONTAINS[cd] %@", filter];
+	return filter.length == 0 ? self._defaultLogPredicate : [NSPredicate predicateWithFormat:@"line CONTAINS[cd] %@", filter];
 }
 
 - (void)filterSamplesWithFilter:(NSString*)filter;

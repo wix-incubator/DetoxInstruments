@@ -10,6 +10,7 @@
 #define DTXProfilerAPI_h
 
 #import <DTXProfiler/DTXBase.h>
+#import <DTXProfiler/DTXProfilerLogLevel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 __BEGIN_DECLS
@@ -30,80 +31,74 @@ DTX_NOTHROW
 extern void DTXProfilerAddTag(NSString* tag);
 
 /*!
- * @function DTXProfilerAddLogLine
+ * @function DTXProfilerAddLogEntry
  *
  * @abstract
- * Adds a log line.
+ * Adds a log entry.
  *
  * @discussion
- * The line may be a multiline string.
- *
- * Log lines are added chronologically.
- *
- * @param line
- * The log line to add.
- */
-DTX_NOTHROW
-extern void DTXProfilerAddLogLine(NSString* line);
-
-/*!
- * @function DTXProfilerAddLogLineWithObjects
- *
- * @abstract
- * Adds a log line and an array of object.
- *
- * @discussion
- * The line may be a multiline string.
- *
- * Log lines are added chronologically.
- *
- * @param line
- * The line to add.
- *
- * @param objects
- * The objects to add.
- */
-DTX_NOTHROW
-extern void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects);
-
-/*!
- * @function DTXProfilerAddTimestampedLogLine
- *
- * @abstract
- * Adds a timestamped log line.
- *
- * @discussion
- * The line may be a multiline string.
+ * The message may be a multiline string.
  *
  * @param timestamp
  * The timestamp of the log line.
  *
- * @param line
- * The log line to add.
+ * @param level
+ * The level of the log entry
+ *
+ * @param subsystem
+ * The log subsystem
+ *
+ * @param category
+ * The log category
+ *
+ * @param message
+ * The log message to add
  */
 DTX_NOTHROW
-extern void DTXProfilerAddTimestampedLogLine(NSDate* timestamp, NSString* line);
+extern void DTXProfilerAddLogEntry(NSDate* timestamp, DTXProfilerLogLevel level, NSString* subsystem, NSString* category, NSString* message);
 
 /*!
- * @function DTXProfilerAddTimestampedLogLineWithObjects
+ * @function DTXProfilerAddLegacyLogEntry
  *
  * @abstract
- * Adds a timestamped log line and an array of object.
+ * Adds a log entry.
  *
  * @discussion
- * The line may be a multiline string.
+ * The message may be a multiline string.
  *
- * @param timestamp
- * The timestamp of the log line.
+ * Log messages are added chronologically.
  *
- * @param line
- * The line to add.
+ * @param message
+ * The log message to add
+ */
+void DTXProfilerAddLegacyLogEntry(NSString* message) __attribute__((deprecated));
+
+/*!
+ * @function DTXProfilerAddLegacyLogEntryWithObjects
+ *
+ * @abstract
+ * Adds a log entry with an array of object.
+ *
+ * @discussion
+ * The message may be a multiline string.
+ *
+ * Log messages are added chronologically.
+ *
+ * @param message
+ * The message to add
  *
  * @param objects
- * The objects to add.
+ * The objects to add
  */
 DTX_NOTHROW
-extern void DTXProfilerAddTimestampedLogLineWithObjects(NSDate* timestamp, NSString* line, NSArray* __nullable objects);
+extern void DTXProfilerAddLegacyLogEntryWithObjects(NSString* message, NSArray* __nullable objects);
+
+
+DTX_NOTHROW
+extern void DTXProfilerAddLogLine(NSString* line) __attribute__((deprecated));
+
+DTX_NOTHROW
+extern void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects) __attribute__((deprecated));
 
 __END_DECLS
 NS_ASSUME_NONNULL_END

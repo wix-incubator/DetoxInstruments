@@ -181,19 +181,46 @@ static id _NSNullCleanup(id obj)
 {
 	[_ctx performBlock:^{
 		NSMutableDictionary* preserialized = @{
-										@"__dtx_className": @"DTXLogSample",
-										@"__dtx_entityName": @"LogSample",
-										@"line": line ?: @"",
-										@"sampleIdentifier": NSUUID.UUID.UUIDString,
-										@"sampleType": @100,
-										@"timestamp": timestamp,
-										}.mutableCopy;
-
+			@"__dtx_className": @"DTXLogSample",
+			@"__dtx_entityName": @"LogSample",
+			@"line": line ?: @"",
+			@"sampleIdentifier": NSUUID.UUID.UUIDString,
+			@"sampleType": @(DTXSampleTypeLog),
+			@"timestamp": timestamp,
+		}.mutableCopy;
+		
 		if(objects.count > 0)
 		{
 			preserialized[objects] = objects;
 		}
+		
+		[self _serializeCommandWithSelector:NSSelectorFromString(@"addLogSample:") entityName:@"LogSample" dict:preserialized additionalParams:nil];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
 
+- (void)_addLogEntry:(NSString *)line timestamp:(NSDate *)timestamp subsystem:(NSString *)subsystem category:(NSString *)category level:(DTXProfilerLogLevel)level
+{
+	[_ctx performBlock:^{
+		NSMutableDictionary* preserialized = @{
+			@"__dtx_className": @"DTXLogSample",
+			@"__dtx_entityName": @"LogSample",
+			@"line": line ?: @"",
+			@"sampleIdentifier": NSUUID.UUID.UUIDString,
+			@"sampleType": @(DTXSampleTypeLog),
+			@"level": @(level),
+			@"timestamp": timestamp,
+		}.mutableCopy;
+		
+		if(subsystem)
+		{
+			preserialized[@"subsystem"] = subsystem;
+		}
+		
+		if(category)
+		{
+			preserialized[@"category"] = category;
+		}
+		
 		[self _serializeCommandWithSelector:NSSelectorFromString(@"addLogSample:") entityName:@"LogSample" dict:preserialized additionalParams:nil];
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }

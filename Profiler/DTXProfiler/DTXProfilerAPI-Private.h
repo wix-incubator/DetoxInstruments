@@ -86,16 +86,17 @@ void __DTXProfilerAddTag(NSDate* timestamp, NSString* tag)
 
 static
 DTX_ALWAYS_INLINE
-void __DTXProfilerAddLogLine(NSDate* timestamp, NSString* line)
+void __DTXProfilerAddLogEntry(NSDate* timestamp, DTXProfilerLogLevel level, NSString* subsystem, NSString* category, NSString* message)
 {
 	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
-		[profiler _addLogLine:line timestamp:timestamp];
+		[profiler _addLogEntry:message timestamp:timestamp subsystem:subsystem category:category level:level];
 	});
 }
 
+
 static
 DTX_ALWAYS_INLINE
-void __DTXProfilerAddLogLineWithObjects(NSDate* timestamp, NSString* line, NSArray* objects)
+void __DTXProfilerAddLegacyLogEntryWithObjects(NSDate* timestamp, NSString* line, NSArray* objects)
 {
 	__DTXProfilerEnumerateActiveProfilersWithBlock(^(DTXProfiler *profiler) {
 		[profiler _addLogLine:line objects:objects timestamp:timestamp];

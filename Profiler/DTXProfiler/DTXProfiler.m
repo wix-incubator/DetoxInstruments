@@ -391,11 +391,6 @@ static uint64_t main_thread_identifier;
 	} qos:QOS_CLASS_USER_INTERACTIVE];
 }
 
-- (void)_addLogLine:(NSString *)line timestamp:(NSDate*)timestamp
-{
-	[self _addLogLine:line objects:nil timestamp:timestamp];
-}
-
 - (void)_addLogLine:(NSString *)line objects:(NSArray *)objects timestamp:(NSDate*)timestamp
 {
 	DTX_IGNORE_NOT_RECORDING
@@ -407,6 +402,24 @@ static uint64_t main_thread_identifier;
 		log.timestamp = timestamp;
 		log.line = line;
 		log.objects = objects;
+		[self->_profilerStoryListener addLogSample:log];
+		[self _addPendingSampleInternal:log];
+	} qos:QOS_CLASS_USER_INTERACTIVE];
+}
+
+- (void)_addLogEntry:(NSString *)line timestamp:(NSDate*)timestamp subsystem:(NSString*)subsystem category:(NSString*)category level:(DTXProfilerLogLevel)level
+{
+	DTX_IGNORE_NOT_RECORDING
+
+	[self->_backgroundContext performBlock:^{
+		DTX_IGNORE_NOT_RECORDING
+
+		DTXLogSample* log = [[DTXLogSample alloc] initWithContext:self->_backgroundContext];
+		log.timestamp = timestamp;
+		log.level = level;
+		log.line = line;
+		log.subsystem = subsystem;
+		log.category = category;
 		[self->_profilerStoryListener addLogSample:log];
 		[self _addPendingSampleInternal:log];
 	} qos:QOS_CLASS_USER_INTERACTIVE];

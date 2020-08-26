@@ -6,6 +6,7 @@
 //  Copyright © 2017-2020 Wix. All rights reserved.
 //
 
+#import "DTXInstruments+CoreDataModel.h"
 #import "NSManagedObject+Additions.h"
 #import "DTXSample+Additions.h"
 #import "DTXTag+CoreDataClass.h"
@@ -22,3 +23,4 @@
 #import "DTXReactNativeDataSample+CoreDataClass.h"
 #import "DTXReactNativeAsyncStorageSample+CoreDataClass.h"
 #import "DTXReactNativeAsyncStorageData+CoreDataClass.h"
+#import "DTXLogSample+Additions.h"

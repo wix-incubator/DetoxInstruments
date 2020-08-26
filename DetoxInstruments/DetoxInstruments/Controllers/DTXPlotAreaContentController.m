@@ -222,7 +222,7 @@
 		[_plotGroup addPlotController:[[DTXEventsPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	}
 	
-	if(self.document.firstRecording.dtx_profilingConfiguration.recordActivity || self.document.firstRecording.dtx_profilingConfiguration.recordInternalReactNativeActivity)
+	if(self.document.firstRecording.dtx_profilingConfiguration.recordActivity == YES || (self.document.firstRecording.hasReactNative == YES && self.document.firstRecording.dtx_profilingConfiguration.profileReactNative && self.document.firstRecording.dtx_profilingConfiguration.recordInternalReactNativeActivity == YES))
 	{
 		[_plotGroup addPlotController:[[DTXActivityPlotController alloc] initWithDocument:self.document isForTouchBar:NO]];
 	}

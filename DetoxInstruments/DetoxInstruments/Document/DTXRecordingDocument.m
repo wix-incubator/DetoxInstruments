@@ -1069,7 +1069,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 {
 	[self.windowControllers.firstObject.window.contentViewController dismissViewController:picker];
 	
-	if(configuration.recordActivity == NO && configuration.recordInternalReactNativeActivity == NO)
+	if(configuration.recordActivity == NO && (target.hasReactNative == NO || configuration.profileReactNative == NO || configuration.recordInternalReactNativeActivity == NO))
 	{
 		[self _prepareForRemoteProfilingRecordingWithTarget:target profilingConfiguration:configuration];
 	}

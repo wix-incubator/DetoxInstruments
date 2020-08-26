@@ -11,6 +11,9 @@
 #import <pthread.h>
 #import "ActivityStreamSPI.h"
 @import Darwin;
+@import OSLog;
+
+DTX_CREATE_LOG(LoggingRecorder);
 
 static dispatch_queue_t __log_queue;
 static dispatch_io_t __log_io;
@@ -22,8 +25,18 @@ static os_activity_stream_resume_t os_activity_stream_resume;
 static os_activity_stream_cancel_t os_activity_stream_cancel;
 static os_log_copy_formatted_message_t os_log_copy_formatted_message;
 static os_activity_stream_set_event_handler_t os_activity_stream_set_event_handler;
+static uint8_t (*os_log_get_type)(void *log);
 
 static os_activity_stream_t _stream;
+
+typedef NS_ENUM(uint8_t, DTXOSLogEntryLogLevel) {
+	DTXOSLogEntryLogLevelUndefined,
+	DTXOSLogEntryLogLevelDebug = 0x2,
+	DTXOSLogEntryLogLevelInfo = 0x01,
+	DTXOSLogEntryLogLevelNotice = 0x00,
+	DTXOSLogEntryLogLevelError = 0x10,
+	DTXOSLogEntryLogLevelFault = 0x11,
+};
 
 @implementation DTXLoggingRecorder
 
@@ -45,64 +58,63 @@ static os_activity_stream_t _stream;
 		os_activity_stream_cancel = dlsym(handle, "os_activity_stream_cancel");
 		os_log_copy_formatted_message = dlsym(handle, "os_log_copy_formatted_message");
 		os_activity_stream_set_event_handler = dlsym(handle, "os_activity_stream_set_event_handler");
+		os_log_get_type = dlsym(handle, "os_log_get_type");
 		
 		if(os_activity_stream_for_pid == NULL ||
 		   os_activity_stream_resume == NULL ||
 		   os_activity_stream_cancel == NULL ||
 		   os_log_copy_formatted_message == NULL ||
-		   os_activity_stream_set_event_handler == NULL)
+		   os_activity_stream_set_event_handler == NULL ||
+		   os_log_get_type == NULL)
 		{
 			shouldFallbackToLegacy = YES;
 			goto LEGACY;
 		}
 		
-		_stream = os_activity_stream_for_pid(NSProcessInfo.processInfo.processIdentifier, OS_ACTIVITY_STREAM_PROCESS_ONLY | OS_ACTIVITY_STREAM_HISTORICAL | OS_ACTIVITY_STREAM_INFO | OS_ACTIVITY_STREAM_DEBUG, ^ BOOL (os_activity_stream_entry_t entry, int error) {
+		_stream = os_activity_stream_for_pid(NSProcessInfo.processInfo.processIdentifier, OS_ACTIVITY_STREAM_PROCESS_ONLY | OS_ACTIVITY_STREAM_HISTORICAL | OS_ACTIVITY_STREAM_INFO /* | OS_ACTIVITY_STREAM_DEBUG */, ^ BOOL (os_activity_stream_entry_t entry, int error) {
 			if(error != 0 || entry == NULL)
 			{
 				return YES;
 			}
 			
-			if(entry->type == OS_ACTIVITY_STREAM_TYPE_LEGACY_LOG_MESSAGE)
+			if(entry->type != OS_ACTIVITY_STREAM_TYPE_LOG_MESSAGE)
 			{
 				return YES;
 			}
 			
-			char* msg = os_log_copy_formatted_message(&entry->log_message);
+			os_log_message_t log_message = &entry->log_message;
+			
+			uint8_t log_level = os_log_get_type(log_message);
+			
+			if(/* log_level == DTXOSLogEntryLogLevelInfo || */ log_level == DTXOSLogEntryLogLevelDebug)
+			{
+				return YES;
+			}
+			
+			char* msg = os_log_copy_formatted_message(log_message);
 			dtx_defer {
 				if(msg)
 				{
 					free(msg);
 				}
 			};
-			NSString* message;
-			if(entry->log_message.subsystem == NULL || entry->log_message.category == NULL)
-			{
-//				NSString* imagePath = @(entry->log_message.image_path);
-//				if([imagePath containsString:@"/System/Library/PrivateFrameworks/"] || [imagePath containsString:@"/System/Library/Frameworks/"])
-//				{
-//					return YES;
-//				}
-				
-				message = @(msg);
-			}
-			else
-			{
-				NSString* subsystem = @(entry->log_message.subsystem);
-				if([subsystem hasPrefix:@"com.apple"])
-				{
-					return YES;
-				}
-				
-				message = [NSString stringWithFormat:@"[%@: %@] %@", subsystem, @(entry->log_message.category), @(msg)];
-			}
 			
-			DTXProfilerAddTimestampedLogLine([NSDate dateWithTimeIntervalSince1970:entry->log_message.tv_gmt.tv_sec], message);
+			NSString* message = msg ? @(msg) : nil;
+			NSString* subsystem = log_message->subsystem ? @(log_message->subsystem) : nil;
+			NSString* category = log_message->category ? @(log_message->category) : nil;
+			
+			DTXProfilerAddLogEntry([NSDate dateWithTimeIntervalSince1970:log_message->tv_gmt.tv_sec], log_level, subsystem, category, message);
 			
 			return YES;
 		});
 		os_activity_stream_resume(_stream);
 		
-		NSLog(@"Hey there!");
+		dtx_log_info(@"Info");
+		dtx_log_debug(@"Debug");
+		dtx_log_error(@"Error");
+		dtx_log_fault(@"Fault");
+		
+//		NSLog(@"Hey there!");
 		return;
 		
 	LEGACY:
@@ -140,7 +152,7 @@ static os_activity_stream_t _stream;
 			
 			NSString *logLine = [[NSString alloc] initWithBytes:buffer length:size encoding:NSUTF8StringEncoding];
 			
-			DTXProfilerAddLogLineWithObjects(logLine, nil);
+			DTXProfilerAddLegacyLogEntryWithObjects(logLine, nil);
 			
 			return true;
 		});

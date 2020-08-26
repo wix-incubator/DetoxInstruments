@@ -177,11 +177,13 @@
 - (NSString *)stringForObjectValue:(id)obj
 {
 	NSTimeInterval ti = [obj doubleValue];
+	double sign = copysign(1.0, ti);
+	ti = fabs(ti);
 	
 	NSString* minutes = [_minuteFormatter stringFromTimeInterval:ti];
 	NSInteger actualPaddingNeeded = self.maxMinutesZeroPadding - (NSInteger)minutes.length;
 	
-	NSString* formattedString = [NSString stringWithFormat:@"%@%@", [_secondsFormatter stringFromTimeInterval:ti], [_numberFormatter stringFromNumber:@(ti - (long)ti)]];
+	NSString* formattedString = [NSString stringWithFormat:@"%@%@%@", sign < 0 ? @"-" : @"", [_secondsFormatter stringFromTimeInterval:ti], [_numberFormatter stringFromNumber:@(ti - (long)ti)]];
 	
 	if(actualPaddingNeeded <= 0)
 	{

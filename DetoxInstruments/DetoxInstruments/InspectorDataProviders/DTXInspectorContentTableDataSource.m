@@ -285,7 +285,7 @@
 				}
 				else
 				{
-					id attrDesc = [[NSAttributedString alloc] initWithString:obj.description attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:fontFromTableView.pointSize weight:NSFontWeightRegular], NSForegroundColorAttributeName: obj.color}];
+					id attrDesc = [[NSAttributedString alloc] initWithString:obj.description attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:fontFromTableView.pointSize weight:NSFontWeightRegular], NSForegroundColorAttributeName: obj.color ?: NSColor.textColor}];
 					[mas appendAttributedString:attrDesc];
 				}
 				

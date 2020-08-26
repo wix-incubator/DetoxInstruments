@@ -586,7 +586,7 @@
 {
 	_savedHighlightRange = nil;
 	
-	[self _enumerateAllPlotControllersIncludingChildrenIn:_visiblePlotControllers usingBlock:^(id<DTXPlotControllerPrivate> obj) {
+	[self _enumerateAllPlotControllersIncludingChildrenIn:_visiblePlotControllers usingBlock:(id)^(id<DTXPlotControllerPrivate> obj) {
 		if(obj == pc)
 		{
 			return;
