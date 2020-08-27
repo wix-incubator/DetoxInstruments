@@ -313,7 +313,7 @@
 
 - (NSPredicate *)predicateForFilter:(NSString *)filter
 {
-	return filter.length == 0 ? self._defaultLogPredicate : [NSPredicate predicateWithFormat:@"line CONTAINS[cd] %@", filter];
+	return filter.length == 0 ? self._defaultLogPredicate : [NSPredicate predicateWithFormat:@"category CONTAINS[cd] %@ || subsystem CONTAINS[cd] %@ || line CONTAINS[cd] %@", filter, filter, filter];
 }
 
 - (void)filterSamplesWithFilter:(NSString*)filter;
