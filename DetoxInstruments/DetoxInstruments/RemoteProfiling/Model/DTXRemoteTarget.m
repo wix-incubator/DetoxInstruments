@@ -20,6 +20,8 @@
 	NSDate* _lastPingDate;
 	
 	NSTimer* _uiUpdateTimer;
+	
+	void(^_logHandler)(BOOL isFromAppProcess, NSString* processName, BOOL isFromApple, NSDate* timestamp, DTXProfilerLogLevel level, NSString* subsystem, NSString* category, NSString* message);
 }
 
 @property (nonatomic, strong, readwrite) DTXSocketConnection* connection;
@@ -201,6 +203,17 @@
 			case DTXRemoteProfilingCommandTypeStartLaunchProfilingWithConfiguration:
 				[weakSelf _handleRemoteLaunchProfilingDidFinish:cmd];
 				break;
+			case DTXRemoteProfilingCommandTypeLogEntry:
+			{
+				if(_logHandler == nil)
+				{
+					[self stopStreamingLogs];
+					return;
+				}
+				
+				NSDictionary* logEntry = cmd[@"logEntry"];
+				_logHandler([logEntry[@"isFromProcess"] boolValue], logEntry[@"process"], [logEntry[@"isFromApple"] boolValue], logEntry[@"timestamp"], [logEntry[@"level"] unsignedIntValue], logEntry[@"subsystem"], logEntry[@"category"], logEntry[@"message"]);
+			}	break;
 			case DTXRemoteProfilingCommandTypeStartProfilingWithConfiguration:
 			case DTXRemoteProfilingCommandTypeStartLocalProfilingWithConfiguration:
 			case DTXRemoteProfilingCommandTypeAddTag:
@@ -210,6 +223,8 @@
 			case DTXRemoteProfilingCommandTypeSetCookies:
 			case DTXRemoteProfilingCommandTypeSetPasteboard:
 			case DTXRemoteProfilingCommandTypeChangeAsyncStorageItem:
+			case DTXRemoteProfilingCommandTypeStartLogging:
+			case DTXRemoteProfilingCommandTypeStopLogging:
 				break;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -490,6 +505,22 @@
 	{
 		[self.delegate profilingTarget:self didLoadAsyncStorage:self.asyncStorage];
 	}
+}
+
+#pragma mark Logging
+
+- (void)startStreamingLogsWithHandler:(void(^)(BOOL isFromAppProcess, NSString* processName, BOOL isFromApple, NSDate* timestamp, DTXProfilerLogLevel level, NSString* __nullable subsystem, NSString* __nullable category, NSString* message))handler
+{
+	_logHandler = handler;
+	
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStartLogging)} completionHandler:nil];
+}
+
+- (void)stopStreamingLogs
+{
+	[self _writeCommand:@{@"cmdType": @(DTXRemoteProfilingCommandTypeStopLogging)} completionHandler:nil];
+	
+	_logHandler = nil;
 }
 
 #pragma mark View Hierarchy

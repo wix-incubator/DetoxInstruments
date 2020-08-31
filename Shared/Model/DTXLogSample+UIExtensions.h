@@ -7,9 +7,13 @@
 //
 
 #import "DTXLogSample+CoreDataClass.h"
+#import "DTXProfilerLogLevel.h"
 @import AppKit;
 
 NS_ASSUME_NONNULL_BEGIN
+
+extern NSColor* DTXLogLevelColor(DTXProfilerLogLevel logLevel);
+extern NSString* DTXLogLevelDescription(DTXProfilerLogLevel logLevel, BOOL extended);
 
 @interface DTXLogSample (UIExtensions)
 

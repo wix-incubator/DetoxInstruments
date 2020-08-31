@@ -9,34 +9,16 @@
 #import "DTXLoggingRecorder.h"
 #import "DTXProfiler.h"
 #import <pthread.h>
-#import "ActivityStreamSPI.h"
-@import Darwin;
-@import OSLog;
+#import "DTXLiveLogStreamer.h"
 
 DTX_CREATE_LOG(LoggingRecorder);
+
+DTXLiveLogStreamer* _streamer;
 
 static dispatch_queue_t __log_queue;
 static dispatch_io_t __log_io;
 int DTXStdErr;
 static int __pipe[2];
-
-static os_activity_stream_for_pid_t os_activity_stream_for_pid;
-static os_activity_stream_resume_t os_activity_stream_resume;
-static os_activity_stream_cancel_t os_activity_stream_cancel;
-static os_log_copy_formatted_message_t os_log_copy_formatted_message;
-static os_activity_stream_set_event_handler_t os_activity_stream_set_event_handler;
-static uint8_t (*os_log_get_type)(void *log);
-
-static os_activity_stream_t _stream;
-
-typedef NS_ENUM(uint8_t, DTXOSLogEntryLogLevel) {
-	DTXOSLogEntryLogLevelUndefined,
-	DTXOSLogEntryLogLevelDebug = 0x2,
-	DTXOSLogEntryLogLevelInfo = 0x01,
-	DTXOSLogEntryLogLevelNotice = 0x00,
-	DTXOSLogEntryLogLevelError = 0x10,
-	DTXOSLogEntryLogLevelFault = 0x11,
-};
 
 @implementation DTXLoggingRecorder
 
@@ -46,68 +28,15 @@ typedef NS_ENUM(uint8_t, DTXOSLogEntryLogLevel) {
 	dispatch_once(&onceToken, ^{
 		BOOL shouldFallbackToLegacy = NO;
 		
-		void* handle = dlopen("/System/Library/PrivateFrameworks/LoggingSupport.framework/LoggingSupport", RTLD_NOW);
-		if(handle == nil)
+		_streamer = [DTXLiveLogStreamer new];
+		if(_streamer == nil)
 		{
-			shouldFallbackToLegacy = YES;
 			goto LEGACY;
 		}
 		
-		os_activity_stream_for_pid = dlsym(handle, "os_activity_stream_for_pid");
-		os_activity_stream_resume = dlsym(handle, "os_activity_stream_resume");
-		os_activity_stream_cancel = dlsym(handle, "os_activity_stream_cancel");
-		os_log_copy_formatted_message = dlsym(handle, "os_log_copy_formatted_message");
-		os_activity_stream_set_event_handler = dlsym(handle, "os_activity_stream_set_event_handler");
-		os_log_get_type = dlsym(handle, "os_log_get_type");
-		
-		if(os_activity_stream_for_pid == NULL ||
-		   os_activity_stream_resume == NULL ||
-		   os_activity_stream_cancel == NULL ||
-		   os_log_copy_formatted_message == NULL ||
-		   os_activity_stream_set_event_handler == NULL ||
-		   os_log_get_type == NULL)
-		{
-			shouldFallbackToLegacy = YES;
-			goto LEGACY;
-		}
-		
-		_stream = os_activity_stream_for_pid(NSProcessInfo.processInfo.processIdentifier, OS_ACTIVITY_STREAM_PROCESS_ONLY | OS_ACTIVITY_STREAM_HISTORICAL | OS_ACTIVITY_STREAM_INFO /* | OS_ACTIVITY_STREAM_DEBUG */, ^ BOOL (os_activity_stream_entry_t entry, int error) {
-			if(error != 0 || entry == NULL)
-			{
-				return YES;
-			}
-			
-			if(entry->type != OS_ACTIVITY_STREAM_TYPE_LOG_MESSAGE)
-			{
-				return YES;
-			}
-			
-			os_log_message_t log_message = &entry->log_message;
-			
-			uint8_t log_level = os_log_get_type(log_message);
-			
-			if(/* log_level == DTXOSLogEntryLogLevelInfo || */ log_level == DTXOSLogEntryLogLevelDebug)
-			{
-				return YES;
-			}
-			
-			char* msg = os_log_copy_formatted_message(log_message);
-			dtx_defer {
-				if(msg)
-				{
-					free(msg);
-				}
-			};
-			
-			NSString* message = msg ? @(msg) : nil;
-			NSString* subsystem = log_message->subsystem ? @(log_message->subsystem) : nil;
-			NSString* category = log_message->category ? @(log_message->category) : nil;
-			
-			DTXProfilerAddLogEntry([NSDate dateWithTimeIntervalSince1970:log_message->tv_gmt.tv_sec], log_level, subsystem, category, message);
-			
-			return YES;
-		});
-		os_activity_stream_resume(_stream);
+		[_streamer startLoggingWithHandler:^(BOOL isFromProcess, const char *proc_imagepath, BOOL isFromApple, NSDate * _Nonnull timestamp, DTXOSLogEntryLogLevel level, NSString * __nullable subsystem, NSString * __nullable category, NSString * _Nonnull message) {
+			DTXProfilerAddLogEntry(timestamp, (DTXProfilerLogLevel)level, subsystem, category, message);
+		}];
 		
 		dtx_log_info(@"Info");
 		dtx_log_debug(@"Debug");

@@ -145,7 +145,7 @@
 	NSNumberFormatter* _numberFormatter;
 }
 
-- (instancetype)init
+- (instancetype)initWithAllowedUnits:(NSCalendarUnit)units
 {
 	self = [super init];
 	
@@ -157,7 +157,7 @@
 		_minuteFormatter.allowsFractionalUnits = NO;
 		
 		_secondsFormatter = [NSDateComponentsFormatter new];
-		_secondsFormatter.allowedUnits = NSCalendarUnitMinute | NSCalendarUnitSecond;
+		_secondsFormatter.allowedUnits = units;
 		_secondsFormatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorPad;
 		_secondsFormatter.allowsFractionalUnits = YES;
 		
@@ -260,7 +260,18 @@
 	static DTXSecondsFormatter* secondsFormatter;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		secondsFormatter = [DTXSecondsFormatter new];
+		secondsFormatter = [[DTXSecondsFormatter alloc] initWithAllowedUnits:NSCalendarUnitMinute | NSCalendarUnitSecond];
+	});
+	
+	return secondsFormatter;
+}
+
++ (NSFormatter *)dtx_startOfDayDateFormatter
+{
+	static DTXSecondsFormatter* secondsFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		secondsFormatter = [[DTXSecondsFormatter alloc] initWithAllowedUnits:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond];
 	});
 	
 	return secondsFormatter;

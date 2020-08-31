@@ -365,7 +365,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	static NSManagedObjectModel* model;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		model = [NSManagedObjectModel mergedModelFromBundles:DTXInstrumentsUtils.bundlesForObjectModel];
+		model = [[NSManagedObjectModel alloc] initWithContentsOfURL:[DTXInstrumentsUtils.bundlesForObjectModel.firstObject URLForResource:@"DTXInstruments" withExtension:@"momd"]];
 	});
 	
 	if(storeURL != nil && [self _requiresMigrationForURL:storeURL toModel:model] == YES)

@@ -26,6 +26,7 @@
 {
 	IBOutlet NSStackView* _buttonsStack;
 	IBOutlet NSButton* _manageButton;
+	IBOutlet NSButton* _consoleButton;
 	IBOutlet NSButton* _viewHierarchy;
 	IBOutlet NSButton* _warningButton;
 	
@@ -70,12 +71,14 @@
 
 	if(target.state < DTXRemoteTargetStateDeviceInfoLoaded)
 	{
+		_consoleButton.hidden = YES;
 		_manageButton.hidden = YES;
 		_viewHierarchy.hidden = YES;
 		_warningButton.hidden = YES;
 	}
 	else
 	{
+		_consoleButton.hidden = target.isCompatibleWithInstruments == NO;
 		_manageButton.hidden = target.isCompatibleWithInstruments == NO;
 		_viewHierarchy.hidden = YES;
 		_warningButton.hidden = target.isCompatibleWithInstruments;

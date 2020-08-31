@@ -83,6 +83,9 @@
 		3940940D20AB130000667765 /* DTXWindowController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947158820A2899800A7068A /* DTXWindowController+DocumentationGeneration.m */; };
 		3940940E20AB130300667765 /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 3947159120A332C000A7068A /* DTXRecordingTargetPickerViewController+DocumentationGeneration.m */; };
 		3940940F20AB130600667765 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 396CC43A20AB07E300756459 /* DTXProfilingTargetManagementWindowController+DocumentationGeneration.m */; };
+		3942F65924F86B150067A806 /* DTXLiveLogWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3942F65824F86B150067A806 /* DTXLiveLogWindowController.m */; };
+		3942F65D24F86E9B0067A806 /* LiveConsoleModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3942F65B24F86E9B0067A806 /* LiveConsoleModel.xcdatamodeld */; };
+		3942F66024F875190067A806 /* DTXShortDateValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3942F65F24F875190067A806 /* DTXShortDateValueTransformer.m */; };
 		3943CA851EEEF46F0009AD88 /* NSColor+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA841EEEF46F0009AD88 /* NSColor+UIAdditions.m */; };
 		3943CA951EEEFB3F0009AD88 /* DTXDiskDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA941EEEFB3F0009AD88 /* DTXDiskDataProvider.m */; };
 		3943CA981EEF1A150009AD88 /* DTXNetworkDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3943CA971EEF1A150009AD88 /* DTXNetworkDataProvider.m */; };
@@ -333,6 +336,7 @@
 		39DABB9721BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DABB9621BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.m */; };
 		39DABB9A21BC549F002653EE /* DTXEventsPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DABB9921BC549F002653EE /* DTXEventsPlotController.m */; };
 		39DB918D215A7BCE00C27309 /* DTXClassSelectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DB918C215A7BCE00C27309 /* DTXClassSelectionButton.m */; };
+		39DC85B724FC2F9F00635FC6 /* DTXFilterAccessoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DC85B624FC2F9F00635FC6 /* DTXFilterAccessoryController.m */; };
 		39DE8E7A2091EDFD00ED16B4 /* DTXCookiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE8E792091EDFD00ED16B4 /* DTXCookiesViewController.m */; };
 		39DF54B120A71431007A30B0 /* DTXNSPasteboardParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF54B020A71431007A30B0 /* DTXNSPasteboardParser.m */; };
 		39DF8A6C22098D7300595274 /* DTXSignpostAdditionalInfoEndProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF8A6B22098D7300595274 /* DTXSignpostAdditionalInfoEndProxy.m */; };
@@ -371,6 +375,8 @@
 		39F6F6CB1F0E3D5200C7F411 /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6C91F0E3D5200C7F411 /* AutoCoding.m */; };
 		39F6F6D11F0E407900C7F411 /* DTXRecording+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */; };
 		39F7A85D22AF0886003B4AC0 /* NSFont+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F7A85C22AF0886003B4AC0 /* NSFont+UIAdditions.m */; };
+		39F9110F24F834CF0094ECBE /* DTXLiveLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F9110E24F834CF0094ECBE /* DTXLiveLogViewController.m */; };
+		39F9111724F838A20094ECBE /* LiveConsole.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39F9111624F838A20094ECBE /* LiveConsole.storyboard */; };
 		39FA0B76231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA0B75231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m */; };
 		39FA0B7A231DAA5E0058D978 /* DTXActionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA0B79231DAA5E0058D978 /* DTXActionCellView.m */; };
 		39FA40A81F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA40A71F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m */; };
@@ -648,6 +654,11 @@
 		393F41C11F0E5F8B00F4DC1F /* DTXRNCPUInspectorDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXRNCPUInspectorDataProvider.m; sourceTree = "<group>"; };
 		393FAC1821202C3000637395 /* DTXPlotControllerPickerCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPlotControllerPickerCellView.h; sourceTree = "<group>"; };
 		393FAC1921202C3000637395 /* DTXPlotControllerPickerCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPlotControllerPickerCellView.m; sourceTree = "<group>"; };
+		3942F65724F86B150067A806 /* DTXLiveLogWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLiveLogWindowController.h; sourceTree = "<group>"; };
+		3942F65824F86B150067A806 /* DTXLiveLogWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLiveLogWindowController.m; sourceTree = "<group>"; };
+		3942F65C24F86E9B0067A806 /* LiveConsoleModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LiveConsoleModel.xcdatamodel; sourceTree = "<group>"; };
+		3942F65E24F875190067A806 /* DTXShortDateValueTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXShortDateValueTransformer.h; sourceTree = "<group>"; };
+		3942F65F24F875190067A806 /* DTXShortDateValueTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXShortDateValueTransformer.m; sourceTree = "<group>"; };
 		3943CA831EEEF46F0009AD88 /* NSColor+UIAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSColor+UIAdditions.h"; sourceTree = "<group>"; };
 		3943CA841EEEF46F0009AD88 /* NSColor+UIAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSColor+UIAdditions.m"; sourceTree = "<group>"; };
 		3943CA931EEEFB3F0009AD88 /* DTXDiskDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXDiskDataProvider.h; sourceTree = "<group>"; };
@@ -993,6 +1004,8 @@
 		39DABB9921BC549F002653EE /* DTXEventsPlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXEventsPlotController.m; sourceTree = "<group>"; };
 		39DB918B215A7BCE00C27309 /* DTXClassSelectionButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXClassSelectionButton.h; sourceTree = "<group>"; };
 		39DB918C215A7BCE00C27309 /* DTXClassSelectionButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXClassSelectionButton.m; sourceTree = "<group>"; };
+		39DC85B524FC2F9F00635FC6 /* DTXFilterAccessoryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXFilterAccessoryController.h; sourceTree = "<group>"; };
+		39DC85B624FC2F9F00635FC6 /* DTXFilterAccessoryController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXFilterAccessoryController.m; sourceTree = "<group>"; };
 		39DE8E782091EDFD00ED16B4 /* DTXCookiesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCookiesViewController.h; sourceTree = "<group>"; };
 		39DE8E792091EDFD00ED16B4 /* DTXCookiesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCookiesViewController.m; sourceTree = "<group>"; };
 		39DF54AF20A71431007A30B0 /* DTXNSPasteboardParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNSPasteboardParser.h; sourceTree = "<group>"; };
@@ -1071,6 +1084,9 @@
 		39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXRecording+UIExtensions.m"; sourceTree = "<group>"; };
 		39F7A85B22AF0886003B4AC0 /* NSFont+UIAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFont+UIAdditions.h"; sourceTree = "<group>"; };
 		39F7A85C22AF0886003B4AC0 /* NSFont+UIAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFont+UIAdditions.m"; sourceTree = "<group>"; };
+		39F9110D24F834CF0094ECBE /* DTXLiveLogViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLiveLogViewController.h; sourceTree = "<group>"; };
+		39F9110E24F834CF0094ECBE /* DTXLiveLogViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLiveLogViewController.m; sourceTree = "<group>"; };
+		39F9111624F838A20094ECBE /* LiveConsole.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LiveConsole.storyboard; sourceTree = "<group>"; };
 		39FA0B74231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+CatalinaNSFlippedViewCrashFix.h"; sourceTree = "<group>"; };
 		39FA0B75231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CatalinaNSFlippedViewCrashFix.m"; sourceTree = "<group>"; };
 		39FA0B78231DAA5E0058D978 /* DTXActionCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXActionCellView.h; sourceTree = "<group>"; };
@@ -1936,6 +1952,7 @@
 				3985048321A3608D00F04573 /* Model */,
 				39C72E051F28843A00FD470E /* DTXSocketConnection */,
 				3954CAA620883EBA00934BCE /* ProfilingTargetManagement */,
+				39F9111324F8385C0094ECBE /* LiveConsole */,
 				394B42AC1F34F2CE0093986E /* InternalViewControllers */,
 				39B706A11F20AFB500B1060D /* DTXRecordingTargetPickerViewController.h */,
 				39B706A21F20AFB500B1060D /* DTXRecordingTargetPickerViewController.m */,
@@ -2114,6 +2131,23 @@
 			path = ../../../Shared/AutoCoding/AutoCoding;
 			sourceTree = "<group>";
 		};
+		39F9111324F8385C0094ECBE /* LiveConsole */ = {
+			isa = PBXGroup;
+			children = (
+				39F9111624F838A20094ECBE /* LiveConsole.storyboard */,
+				39F9110D24F834CF0094ECBE /* DTXLiveLogViewController.h */,
+				39F9110E24F834CF0094ECBE /* DTXLiveLogViewController.m */,
+				3942F65724F86B150067A806 /* DTXLiveLogWindowController.h */,
+				3942F65824F86B150067A806 /* DTXLiveLogWindowController.m */,
+				3942F65B24F86E9B0067A806 /* LiveConsoleModel.xcdatamodeld */,
+				3942F65E24F875190067A806 /* DTXShortDateValueTransformer.h */,
+				3942F65F24F875190067A806 /* DTXShortDateValueTransformer.m */,
+				39DC85B524FC2F9F00635FC6 /* DTXFilterAccessoryController.h */,
+				39DC85B624FC2F9F00635FC6 /* DTXFilterAccessoryController.m */,
+			);
+			path = LiveConsole;
+			sourceTree = "<group>";
+		};
 		39FD87D9211A62E1007FE6A5 /* CompatLayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -2288,6 +2322,7 @@
 				39725F9021A08A2A001D6BFD /* DTXDeviceSnapshotDevices.xcassets in Resources */,
 				39538D73209B40F3003AF7D3 /* About.storyboard in Resources */,
 				39538D58209B0F48003AF7D3 /* TargetManagement.storyboard in Resources */,
+				39F9111724F838A20094ECBE /* LiveConsole.storyboard in Resources */,
 				396DAB09231D356C00FFBDDB /* Assets-Shared.xcassets in Resources */,
 				3967739320B594B200851154 /* Main.storyboard in Resources */,
 				394ED700225A37DB001875C3 /* ContributionsGH.json in Resources */,
@@ -2514,6 +2549,7 @@
 				3950E883231FBA7F0014FC30 /* DTXScrollForwardingContainerView.m in Sources */,
 				39042FC220711B4E00C85368 /* DTXContainerContentsViewController.m in Sources */,
 				393B2464207A61E7002371D5 /* DTXFileListOutlineView.m in Sources */,
+				3942F66024F875190067A806 /* DTXShortDateValueTransformer.m in Sources */,
 				39B71FAD246418E000CC9A88 /* NSString+FileNames.m in Sources */,
 				399E73512091BF5E006EAD6E /* DTXLayerView.m in Sources */,
 				393055FA238EC65F00C123B9 /* DTXChevronButton.m in Sources */,
@@ -2522,6 +2558,7 @@
 				391DB570239FC634007A4A89 /* DTXRNRequireReportExporter.m in Sources */,
 				399ED3FA23B2E47E00617050 /* DTXActivitySampleContainerProxy.m in Sources */,
 				3982D88A21B42BAD005FCAEF /* DTXRNBridgeDataDataExporter.m in Sources */,
+				3942F65924F86B150067A806 /* DTXLiveLogWindowController.m in Sources */,
 				3932A06F1F054022001AC360 /* DTXRNCPUUsagePlotController.m in Sources */,
 				3978A59221D09C7600B739E2 /* DTXRangePlotView.m in Sources */,
 				3904E1551EFABE7600FF2707 /* DTXInstrumentsApplication.m in Sources */,
@@ -2563,6 +2600,7 @@
 				39E70FD821B9620900272188 /* DTXEntitySampleContainerProxy.m in Sources */,
 				39008F271EF27D9D0013B584 /* DTXScrollIgnoringScrollView.m in Sources */,
 				39C6A9121EE3A2BC000E2EE1 /* DTXPerformanceSamplePlotController.m in Sources */,
+				39F9110F24F834CF0094ECBE /* DTXLiveLogViewController.m in Sources */,
 				39DE8E7A2091EDFD00ED16B4 /* DTXCookiesViewController.m in Sources */,
 				39048B8523D7F85A004142BB /* DTXReactNativeAsyncStorageSample+UIExtensions.m in Sources */,
 				39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */,
@@ -2592,6 +2630,7 @@
 				393CD9231F4337B900FB01FE /* DTXDetailOutlineView.m in Sources */,
 				396A6B481F4ECB6200768536 /* DTXAutomaticallyDeselectingOutlineView.m in Sources */,
 				39DABB9421BAFF33002653EE /* DTXSignpostCategoryProxy.m in Sources */,
+				3942F65D24F86E9B0067A806 /* LiveConsoleModel.xcdatamodeld in Sources */,
 				39281E861ED7175C002CE905 /* DTXDetailContentController.m in Sources */,
 				393EF4A0222CD858001DCE5B /* DTXRequestHeadersEditor.m in Sources */,
 				394093F520AB12FD00667765 /* DTXApplicationDelegate+DocumentationGeneration.m in Sources */,
@@ -2620,6 +2659,7 @@
 				39FA40A81F2F4271004CA1B0 /* DTXRNBridgeCountersPlotController.m in Sources */,
 				39AFFE3523D7D9840068478F /* DTXLinePlotView.m in Sources */,
 				39DABB9721BB0349002653EE /* DTXSignpostSampleWithChildrenProxy.m in Sources */,
+				39DC85B724FC2F9F00635FC6 /* DTXFilterAccessoryController.m in Sources */,
 				3917C9F42394024100164654 /* DTXRemoteLaunchProfilingClient.m in Sources */,
 				394E30C6223F9E3E0030462C /* DTXValidatingButtonCell.m in Sources */,
 				399FE06122A7B4D800E8DA05 /* DTXPlotRange.m in Sources */,
@@ -3123,6 +3163,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		3942F65B24F86E9B0067A806 /* LiveConsoleModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3942F65C24F86E9B0067A806 /* LiveConsoleModel.xcdatamodel */,
+			);
+			currentVersion = 3942F65C24F86E9B0067A806 /* LiveConsoleModel.xcdatamodel */;
+			path = LiveConsoleModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		39B3ACE924F5B46100CA2066 /* DTXInstruments.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (

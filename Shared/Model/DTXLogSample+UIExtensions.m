@@ -7,13 +7,10 @@
 //
 
 #import "DTXLogSample+UIExtensions.h"
-#import "DTXProfilerLogLevel.h"
 
-@implementation DTXLogSample (UIExtensions)
-
-- (NSColor *)colorForLogLevel
+NSColor* DTXLogLevelColor(DTXProfilerLogLevel logLevel)
 {
-	switch(self.level) {
+	switch(logLevel) {
 		case DTXProfilerLogLevelDebug:
 			return NSColor.grayColor;
 		case DTXProfilerLogLevelInfo:
@@ -27,9 +24,19 @@
 	}
 }
 
-- (NSString*)logLevelDescription
+NSString* DTXLogLevelDescription(DTXProfilerLogLevel logLevel, BOOL extended)
 {
-	switch(self.level) {
+	if(extended)
+	{
+		switch(logLevel) {
+			case DTXProfilerLogLevelNotice:
+				return NSLocalizedString(@"Notice", @"");
+			default:
+				break;
+		}
+	}
+	
+	switch(logLevel) {
 		case DTXProfilerLogLevelDebug:
 			return NSLocalizedString(@"Debug", @"");
 		case DTXProfilerLogLevelInfo:
@@ -41,6 +48,18 @@
 		default:
 			return nil;
 	}
+}
+
+@implementation DTXLogSample (UIExtensions)
+
+- (NSColor *)colorForLogLevel
+{
+	return DTXLogLevelColor(self.level);
+}
+
+- (NSString*)logLevelDescription
+{
+	return DTXLogLevelDescription(self.level, NO);
 }
 
 @end

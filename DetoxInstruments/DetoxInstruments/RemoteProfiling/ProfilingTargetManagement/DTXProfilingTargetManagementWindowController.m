@@ -219,5 +219,4 @@
 	self.touchBarSegmentedControl.selectedSegment = itemIdx;
 }
 
-
 @end
