@@ -192,7 +192,7 @@
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="E4J-RC-U2i">
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="E4J-RC-U2i" customClass="DTXLogLevelCell">
                                                         <font key="font" size="11" name="SFMono-Regular"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -415,7 +415,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="914" height="63"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="eD3-tB-0JM">
+                                                    <textView editable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="eD3-tB-0JM">
                                                         <rect key="frame" x="0.0" y="0.0" width="914" height="63"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -497,7 +497,7 @@
                     </connections>
                 </viewController>
                 <customObject id="g0l-HP-cUV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController mode="entity" entityName="LogEntry" editable="NO" automaticallyPreparesContent="YES" selectsInsertedObjects="NO" avoidsEmptySelection="NO" clearsFilterPredicateOnInsertion="NO" id="AhK-l8-EZZ">
+                <arrayController mode="entity" entityName="LogEntry" editable="NO" automaticallyPreparesContent="YES" preservesSelection="NO" selectsInsertedObjects="NO" avoidsEmptySelection="NO" clearsFilterPredicateOnInsertion="NO" id="AhK-l8-EZZ">
                     <connections>
                         <binding destination="x7c-tg-R5x" name="managedObjectContext" keyPath="self.context" id="1p9-LE-RqP"/>
                     </connections>

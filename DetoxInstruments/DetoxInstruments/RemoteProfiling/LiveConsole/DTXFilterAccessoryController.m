@@ -22,8 +22,8 @@
 {
 	[NSUserDefaults.standardUserDefaults registerDefaults:@{
 		@"DTXLiveLog_errorsOnly": @NO,
-		@"DTXLiveLog_appOnly": @NO,
-		@"DTXLiveLog_excludeApple": @NO,
+		@"DTXLiveLog_appOnly": @YES,
+		@"DTXLiveLog_excludeApple": @YES,
 	}];
 }
 

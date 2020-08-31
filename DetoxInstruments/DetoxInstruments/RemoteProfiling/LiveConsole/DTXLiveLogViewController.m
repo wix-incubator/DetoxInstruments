@@ -39,6 +39,8 @@
 	
 	NSDateFormatter* _dateTransformer;
 	NSNumberFormatter* _numberFormatter;
+	
+	BOOL _scrollingToBottom;
 }
 
 - (void)viewDidLoad
@@ -59,8 +61,27 @@
 	_applePredicate = [NSPredicate predicateWithValue:YES];
 	
 	[_tableView.enclosingScrollView.contentView setPostsBoundsChangedNotifications:YES];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_tableViewDidScroll:) name:NSViewBoundsDidChangeNotification object:_tableView.enclosingScrollView.contentView];
 	
-	self.nowMode = YES;
+	_scrollingToBottom = YES;
+	_nowMode = YES;
+}
+
+- (void)_scrollToBottom
+{
+	_scrollingToBottom = YES;
+	[_tableView scrollToBottom];
+	_scrollingToBottom = NO;
+}
+
+- (void)_tableViewDidScroll:(NSNotification*)note
+{
+	if(_scrollingToBottom == YES)
+	{
+		return;
+	}
+	
+	self.nowMode = NO;
 }
 
 - (void)setProfilingTarget:(DTXRemoteTarget *)profilingTarget
@@ -77,6 +98,11 @@
 
 - (void)setNowMode:(BOOL)nowMode
 {
+	if(self.nowMode == nowMode)
+	{
+		return;
+	}
+	
 	[self willChangeValueForKey:@"nowMode"];
 	
 	_nowMode = nowMode;
@@ -85,8 +111,15 @@
 	
 	if(self.nowMode)
 	{
-		[_tableView scrollToBottom];
+		[self _scrollToBottom];
 	}
+}
+
+- (void)viewWillAppear
+{
+	[super viewWillAppear];
+	
+	_scrollingToBottom = YES;
 }
 
 - (void)viewDidAppear
@@ -121,11 +154,16 @@
 			entry.subsystem = subsystem;
 			entry.category = category;
 			entry.message = message;
+			
+			id selected = _arrayController.selectedObjects;
+			
 			[self.context save:NULL];
+			
+			_arrayController.selectedObjects = selected;
 			
 			if(self.nowMode)
 			{
-				[_tableView scrollToBottom];
+				[self _scrollToBottom];
 			}
 			
 			[self _reloadWindowTitle];
@@ -133,6 +171,9 @@
 	}];
 	
 	[self _reloadWindowTitle];
+	
+	self.nowMode = YES;
+	_scrollingToBottom = NO;
 }
 
 - (void)viewDidDisappear
@@ -165,10 +206,26 @@
 
 - (void)_loadEntry:(DTXLiveLogEntry*)entry
 {
-	_processTextField.stringValue = entry.process ?: @"—";
-	_subsystemTextField.stringValue = entry.subsystem ?: @"—";
-	_categoryTextField.stringValue = entry.category ?: @"—";
+	_processTextField.stringValue = entry.process.length > 0 ? entry.process : @"—";
+	_subsystemTextField.stringValue = entry.subsystem.length > 0 ? entry.subsystem : @"—";
+	_categoryTextField.stringValue = entry.category.length > 0 ? entry.category : @"—";
+	NSColor* logLevelColor = DTXLogLevelColor(entry.level);
 	_typeTextField.stringValue = entry ? DTXLogLevelDescription(entry.level, YES) : @"—";
+	_typeTextField.wantsLayer = YES;
+	_typeTextField.layer.backgroundColor = logLevelColor.CGColor;
+	_typeTextField.layer.cornerRadius = 3.0;
+	if(logLevelColor == nil)
+	{
+		_typeTextField.textColor = NSColor.labelColor;
+	}
+	else if(entry.level == DTXProfilerLogLevelError || entry.level == DTXProfilerLogLevelNotice)
+	{
+		_typeTextField.textColor = NSColor.blackColor;
+	}
+	else
+	{
+		_typeTextField.textColor = NSColor.whiteColor;
+	}
 	_dateTextField.stringValue = [_dateTransformer stringFromDate:entry.timestamp] ?: @"—";
 	_messageTextView.string = entry.message ?: @"";
 	_messageTextView.font = [NSFont monospacedSystemFontOfSize:12 weight:NSFontWeightRegular];
