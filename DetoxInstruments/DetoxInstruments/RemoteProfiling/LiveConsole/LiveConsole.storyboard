@@ -10,7 +10,7 @@
         <scene sceneID="lUL-6R-ZLu">
             <objects>
                 <windowController showSeguePresentationStyle="single" id="hwh-pJ-TZd" customClass="DTXLiveLogWindowController" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="zD3-DK-6FP">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" toolbarStyle="unified" id="zD3-DK-6FP">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="268" y="330" width="800" height="600"/>
@@ -20,25 +20,24 @@
                             <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </view>
-                        <toolbar key="toolbar" implicitIdentifier="A8565252-59E8-4564-B9E7-2E59C098813B" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="PV8-9a-dvm">
+                        <toolbar key="toolbar" implicitIdentifier="A8565252-59E8-4564-B9E7-2E59C098813B" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="PV8-9a-dvm">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="4834CB46-721A-4593-9A1B-90013F62E20B" label="Now" paletteLabel="Now" image="NowTemplateOn" sizingBehavior="auto" id="qAG-Ux-PdX">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Follow most recent messages" verticalHuggingPriority="750" id="FBZ-ym-bog">
-                                        <rect key="frame" x="0.0" y="14" width="51" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <rect key="frame" x="6" y="14" width="19" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NowTemplateOn" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sYv-8j-oIm">
                                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="hVt-K0-uFB"/>
                                 <toolbarItem implicitItemIdentifier="AF75E6D6-71E7-4744-B3B9-488E3543BD17" label="Clear" paletteLabel="Clear" image="ClearTemplate" sizingBehavior="auto" id="X3f-qv-n6L">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Clear the existing messages" verticalHuggingPriority="750" id="caI-OB-iwM">
-                                        <rect key="frame" x="0.0" y="14" width="51" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <rect key="frame" x="8" y="14" width="20" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="ClearTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZcD-Og-1ZN">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -51,7 +50,6 @@
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="qAG-Ux-PdX"/>
-                                <toolbarItem reference="hVt-K0-uFB"/>
                                 <toolbarItem reference="X3f-qv-n6L"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -173,14 +171,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="942" height="420"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
-                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="yaC-Qt-dMa">
+                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="26" horizontalPageScroll="10" verticalLineScroll="26" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="yaC-Qt-dMa">
                                 <rect key="frame" x="0.0" y="0.0" width="942" height="269"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" id="RMi-Gu-cQB">
                                     <rect key="frame" x="0.0" y="0.0" width="942" height="269"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="20" headerView="aX5-fb-TIP" id="i5n-bf-bOA">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="24" headerView="aX5-fb-TIP" id="i5n-bf-bOA">
                                             <rect key="frame" x="0.0" y="0.0" width="942" height="244"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -193,7 +191,7 @@
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="E4J-RC-U2i" customClass="DTXLogLevelCell">
-                                                        <font key="font" size="11" name="SFMono-Regular"/>
+                                                        <font key="font" size="12" name="SFMono-Regular"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <connections>
@@ -209,13 +207,13 @@
                                                         </binding>
                                                     </connections>
                                                 </tableColumn>
-                                                <tableColumn identifier="DTXTimestampColumn" width="100" minWidth="100" maxWidth="10000" id="w0z-gp-8Ng">
+                                                <tableColumn identifier="DTXTimestampColumn" width="184" minWidth="100" maxWidth="10000" id="w0z-gp-8Ng">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Time">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="hC3-HA-qA4">
-                                                        <font key="font" size="11" name="SFMono-Regular"/>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="hC3-HA-qA4" customClass="DTXCenteredTextFieldCell">
+                                                        <font key="font" size="12" name="SFMono-Regular"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <connections>
@@ -236,13 +234,13 @@
                                                         </binding>
                                                     </connections>
                                                 </tableColumn>
-                                                <tableColumn identifier="DTXProcessColumn" width="100" minWidth="100" maxWidth="10000" id="tph-M5-D1T">
+                                                <tableColumn identifier="DTXProcessColumn" width="184" minWidth="100" maxWidth="10000" id="tph-M5-D1T">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Process">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="b7q-RH-IbN">
-                                                        <font key="font" size="11" name="SFMono-Regular"/>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="b7q-RH-IbN" customClass="DTXCenteredTextFieldCell">
+                                                        <font key="font" size="12" name="SFMono-Regular"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <connections>
@@ -258,13 +256,13 @@
                                                         </binding>
                                                     </connections>
                                                 </tableColumn>
-                                                <tableColumn identifier="DTXSubsystemColumn" width="120" minWidth="100" maxWidth="10000" id="L08-sF-EzD">
+                                                <tableColumn identifier="DTXSubsystemColumn" width="184" minWidth="100" maxWidth="10000" id="L08-sF-EzD">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Subsystem">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="TNk-9M-Q1N">
-                                                        <font key="font" size="11" name="SFMono-Regular"/>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="TNk-9M-Q1N" customClass="DTXCenteredTextFieldCell">
+                                                        <font key="font" size="12" name="SFMono-Regular"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <connections>
@@ -280,13 +278,13 @@
                                                         </binding>
                                                     </connections>
                                                 </tableColumn>
-                                                <tableColumn identifier="DTXCategoryColumn" width="120" minWidth="100" maxWidth="10000" id="UaC-KV-H4h">
+                                                <tableColumn identifier="DTXCategoryColumn" width="184" minWidth="100" maxWidth="10000" id="UaC-KV-H4h">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Category">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="2sx-34-p4m">
-                                                        <font key="font" size="11" name="SFMono-Regular"/>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="2sx-34-p4m" customClass="DTXCenteredTextFieldCell">
+                                                        <font key="font" size="12" name="SFMono-Regular"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <connections>
@@ -302,13 +300,13 @@
                                                         </binding>
                                                     </connections>
                                                 </tableColumn>
-                                                <tableColumn identifier="DTXMessageColumn" width="444" minWidth="40" maxWidth="10000000000" id="oak-5v-BIP">
+                                                <tableColumn identifier="DTXMessageColumn" width="139" minWidth="40" maxWidth="10000000000" id="oak-5v-BIP">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Message">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="WZn-ne-fsX">
-                                                        <font key="font" size="11" name="SFMono-Regular"/>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Text Cell" usesSingleLineMode="YES" id="WZn-ne-fsX" customClass="DTXCenteredTextFieldCell">
+                                                        <font key="font" size="12" name="SFMono-Regular"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <connections>
@@ -339,7 +337,7 @@
                                     <rect key="frame" x="-15" y="0.0" width="16" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <tableHeaderView key="headerView" id="aX5-fb-TIP">
+                                <tableHeaderView key="headerView" wantsLayer="YES" id="aX5-fb-TIP">
                                     <rect key="frame" x="0.0" y="0.0" width="942" height="25"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
@@ -351,7 +349,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dlt-ET-BbW">
-                                            <rect key="frame" x="18" y="114" width="17" height="16"/>
+                                            <rect key="frame" x="14" y="118" width="16" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="jni-PG-cOl"/>
                                             </constraints>
@@ -362,7 +360,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rx2-Jj-TTg">
-                                            <rect key="frame" x="18" y="99" width="65" height="14"/>
+                                            <rect key="frame" x="14" y="103" width="65" height="14"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Subsystem:" id="vOw-2Y-88R">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -370,7 +368,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iNl-OO-9Bb">
-                                            <rect key="frame" x="83" y="99" width="16" height="14"/>
+                                            <rect key="frame" x="79" y="103" width="14" height="14"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" selectable="YES" title="—" id="Gir-YU-vHI">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -378,7 +376,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XKM-Gk-JdZ">
-                                            <rect key="frame" x="103" y="99" width="56" height="14"/>
+                                            <rect key="frame" x="97" y="103" width="56" height="14"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Category:" id="UCH-22-uDX">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -386,7 +384,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Lf-WR-I2R">
-                                            <rect key="frame" x="159" y="99" width="16" height="14"/>
+                                            <rect key="frame" x="153" y="103" width="14" height="14"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" selectable="YES" title="—" id="Pe9-Va-le7">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -394,7 +392,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hjE-5V-WIr">
-                                            <rect key="frame" x="214" y="99" width="16" height="14"/>
+                                            <rect key="frame" x="206" y="103" width="14" height="14"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" selectable="YES" title="—" id="KSu-0k-6VI">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -402,7 +400,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rDy-ET-8EW">
-                                            <rect key="frame" x="908" y="99" width="16" height="14"/>
+                                            <rect key="frame" x="914" y="103" width="14" height="14"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="—" id="2Ay-ol-ifN">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -410,17 +408,17 @@
                                             </textFieldCell>
                                         </textField>
                                         <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLQ-Cm-JSO">
-                                            <rect key="frame" x="14" y="20" width="914" height="63"/>
+                                            <rect key="frame" x="14" y="16" width="914" height="71"/>
                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="ZgH-UB-Z8N">
-                                                <rect key="frame" x="0.0" y="0.0" width="914" height="63"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="914" height="71"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textView editable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="eD3-tB-0JM">
-                                                        <rect key="frame" x="0.0" y="0.0" width="914" height="63"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="914" height="71"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        <size key="minSize" width="914" height="63"/>
+                                                        <size key="minSize" width="914" height="71"/>
                                                         <size key="maxSize" width="1144" height="10000000"/>
                                                         <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     </textView>
@@ -432,15 +430,15 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="dhj-Ix-Yfu">
-                                                <rect key="frame" x="898" y="0.0" width="16" height="63"/>
+                                                <rect key="frame" x="898" y="0.0" width="16" height="71"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
                                         <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ryZ-9a-Pao">
-                                            <rect key="frame" x="20" y="88" width="902" height="5"/>
+                                            <rect key="frame" x="12" y="92" width="918" height="5"/>
                                         </box>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fbj-1o-Ox7">
-                                            <rect key="frame" x="181" y="99" width="33" height="14"/>
+                                            <rect key="frame" x="173" y="103" width="33" height="14"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Type:" id="xDX-0D-V4U">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -497,7 +495,7 @@
                     </connections>
                 </viewController>
                 <customObject id="g0l-HP-cUV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController mode="entity" entityName="LogEntry" editable="NO" automaticallyPreparesContent="YES" preservesSelection="NO" selectsInsertedObjects="NO" avoidsEmptySelection="NO" clearsFilterPredicateOnInsertion="NO" id="AhK-l8-EZZ">
+                <arrayController mode="entity" entityName="LogEntry" editable="NO" automaticallyPreparesContent="YES" selectsInsertedObjects="NO" avoidsEmptySelection="NO" clearsFilterPredicateOnInsertion="NO" id="AhK-l8-EZZ">
                     <connections>
                         <binding destination="x7c-tg-R5x" name="managedObjectContext" keyPath="self.context" id="1p9-LE-RqP"/>
                     </connections>

@@ -348,6 +348,8 @@
 		39E2642621B034D900A21256 /* DTXRecordingDocumentDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2642521B034D900A21256 /* DTXRecordingDocumentDataExporter.m */; };
 		39E2642921B0410800A21256 /* DTXDataExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2642821B0410800A21256 /* DTXDataExporter.m */; };
 		39E3B7112097A7B6006F9D43 /* DTXPasteboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E3B7102097A7B6006F9D43 /* DTXPasteboardViewController.m */; };
+		39E423B624FFF5CA003799FD /* DTXCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E423B524FFF5CA003799FD /* DTXCenteredTextFieldCell.m */; };
+		39E423BA24FFFA8F003799FD /* DTXHeaderAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E423B924FFFA8F003799FD /* DTXHeaderAccessoryViewController.m */; };
 		39E578EA20DA66AD0034560C /* DTXIntervalSamplePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */; };
 		39E70FD821B9620900272188 /* DTXEntitySampleContainerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E70FD721B9620900272188 /* DTXEntitySampleContainerProxy.m */; };
 		39E88CA521D9132100339954 /* DTXScatterPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E88CA421D9132100339954 /* DTXScatterPlotView.m */; };
@@ -1029,6 +1031,10 @@
 		39E2642821B0410800A21256 /* DTXDataExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXDataExporter.m; sourceTree = "<group>"; };
 		39E3B70F2097A7B6006F9D43 /* DTXPasteboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPasteboardViewController.h; sourceTree = "<group>"; };
 		39E3B7102097A7B6006F9D43 /* DTXPasteboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPasteboardViewController.m; sourceTree = "<group>"; };
+		39E423B424FFF5CA003799FD /* DTXCenteredTextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXCenteredTextFieldCell.h; sourceTree = "<group>"; };
+		39E423B524FFF5CA003799FD /* DTXCenteredTextFieldCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXCenteredTextFieldCell.m; sourceTree = "<group>"; };
+		39E423B824FFFA8F003799FD /* DTXHeaderAccessoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXHeaderAccessoryViewController.h; sourceTree = "<group>"; };
+		39E423B924FFFA8F003799FD /* DTXHeaderAccessoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXHeaderAccessoryViewController.m; sourceTree = "<group>"; };
 		39E578E820DA66AD0034560C /* DTXIntervalSamplePlotController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXIntervalSamplePlotController.h; sourceTree = "<group>"; };
 		39E578E920DA66AD0034560C /* DTXIntervalSamplePlotController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXIntervalSamplePlotController.m; sourceTree = "<group>"; };
 		39E6916B22AE599F000DA567 /* QuickLookThumbnailing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLookThumbnailing.framework; path = System/Library/Frameworks/QuickLookThumbnailing.framework; sourceTree = SDKROOT; };
@@ -1944,6 +1950,8 @@
 				399ED3F623B2C8F800617050 /* DTXStringPickerViewController.m */,
 				3974151E23E1C59B00986042 /* DTXLoadingWindowController.h */,
 				3974151F23E1C59B00986042 /* DTXLoadingWindowController.m */,
+				39E423B824FFFA8F003799FD /* DTXHeaderAccessoryViewController.h */,
+				39E423B924FFFA8F003799FD /* DTXHeaderAccessoryViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2149,6 +2157,8 @@
 				39DC85B624FC2F9F00635FC6 /* DTXFilterAccessoryController.m */,
 				39DC85C424FD7E7100635FC6 /* DTXLogLevelCell.h */,
 				39DC85C524FD7E7100635FC6 /* DTXLogLevelCell.m */,
+				39E423B424FFF5CA003799FD /* DTXCenteredTextFieldCell.h */,
+				39E423B524FFF5CA003799FD /* DTXCenteredTextFieldCell.m */,
 			);
 			path = LiveConsole;
 			sourceTree = "<group>";
@@ -2550,6 +2560,7 @@
 				39C6A8E51EE1DA51000E2EE1 /* DTXManagedPlotControllerGroup.m in Sources */,
 				396F5B7323CB3ECC00415843 /* DTXAsyncStorageViewController.m in Sources */,
 				394E3D4E23DF057500B173EA /* DTXMappingModel11469To11743.xcmappingmodel in Sources */,
+				39E423BA24FFFA8F003799FD /* DTXHeaderAccessoryViewController.m in Sources */,
 				3988D70120EA4F4000F11F8C /* DTXSignpostNameProxy.m in Sources */,
 				3950E883231FBA7F0014FC30 /* DTXScrollForwardingContainerView.m in Sources */,
 				39042FC220711B4E00C85368 /* DTXContainerContentsViewController.m in Sources */,
@@ -2629,6 +2640,7 @@
 				39E88CA521D9132100339954 /* DTXScatterPlotView.m in Sources */,
 				3940940D20AB130000667765 /* DTXWindowController+DocumentationGeneration.m in Sources */,
 				394B42BC1F34F2FA0093986E /* _DTXTargetsOutlineViewContoller.m in Sources */,
+				39E423B624FFF5CA003799FD /* DTXCenteredTextFieldCell.m in Sources */,
 				39A6A2E21F4DA28100AF5210 /* DTXLogLineInspectorDataProvider.m in Sources */,
 				39356AC72201A71500FD23C4 /* NSString+Hashing.m in Sources */,
 				39EFF5DB20E8FE5300B5AE75 /* DTXSampleContainerProxy.m in Sources */,

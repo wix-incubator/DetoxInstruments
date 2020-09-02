@@ -93,7 +93,19 @@
 
 - (void)_reloadWindowTitle
 {
-	self.view.window.title = [NSString stringWithFormat:@"%@ (%@ messages)", self.profilingTarget.deviceName, [_numberFormatter stringFromNumber:@(_tableView.numberOfRows)]];
+	NSString* messages = [NSString stringWithFormat:@"%@ messages", [_numberFormatter stringFromNumber:@(_tableView.numberOfRows)]];
+	
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 101600
+	if (@available(macOS 11.0, *))
+	{
+		self.view.window.title = self.profilingTarget.deviceName ?: @"";
+		self.view.window.subtitle = messages;
+	}
+	else
+#endif
+	{
+		self.view.window.title = [NSString stringWithFormat:@"%@ (%@)", self.profilingTarget.deviceName, messages];
+	}
 }
 
 - (void)setNowMode:(BOOL)nowMode
@@ -155,11 +167,7 @@
 			entry.category = category;
 			entry.message = message;
 			
-			id selected = _arrayController.selectedObjects;
-			
 			[self.context save:NULL];
-			
-			_arrayController.selectedObjects = selected;
 			
 			if(self.nowMode)
 			{

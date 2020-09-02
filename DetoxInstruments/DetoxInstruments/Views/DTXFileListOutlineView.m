@@ -31,8 +31,11 @@
 {
 	[super layout];
 	
-	[self sizeLastColumnToFit];
-	[self tile];
+	if_unavailable(macOS 11.0, *)
+	{
+		[self sizeLastColumnToFit];
+		[self tile];
+	}
 }
 
 @end

@@ -20,7 +20,7 @@
                                     <rect key="frame" x="1" y="1" width="498" height="279"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="90" viewBased="YES" outlineTableColumn="c7g-oF-BMF" id="65u-RA-Spb" customClass="DTXRemoteProfilingSelectionOutlineView">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="90" viewBased="YES" outlineTableColumn="c7g-oF-BMF" id="65u-RA-Spb" customClass="DTXRemoteProfilingSelectionOutlineView">
                                             <rect key="frame" x="0.0" y="0.0" width="498" height="279"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
@@ -100,7 +100,7 @@
                                                                             </connections>
                                                                         </button>
                                                                         <button toolTip="Debug view hierarchy" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="umq-X8-qyG">
-                                                                            <rect key="frame" x="19" y="-7" width="32" height="31"/>
+                                                                            <rect key="frame" x="22" y="-3" width="26" height="26"/>
                                                                             <buttonCell key="cell" type="round" bezelStyle="circular" image="3d" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="p2D-rp-AXx">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                 <font key="font" metaFont="system"/>
@@ -110,7 +110,7 @@
                                                                             </connections>
                                                                         </button>
                                                                         <button toolTip="Manage this app" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="PKA-IK-BF6">
-                                                                            <rect key="frame" x="44" y="-7" width="32" height="31"/>
+                                                                            <rect key="frame" x="47" y="-3" width="26" height="26"/>
                                                                             <buttonCell key="cell" type="round" bezelStyle="circular" image="console_live" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="2gW-ll-lF8">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                 <font key="font" metaFont="system"/>
@@ -120,7 +120,7 @@
                                                                             </connections>
                                                                         </button>
                                                                         <button toolTip="Manage this app" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="4NV-Ub-IlL">
-                                                                            <rect key="frame" x="69" y="-7" width="32" height="31"/>
+                                                                            <rect key="frame" x="72" y="-3" width="26" height="26"/>
                                                                             <buttonCell key="cell" type="round" bezelStyle="circular" image="NSActionTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="vBr-gc-MBk">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                 <font key="font" metaFont="system"/>
@@ -192,7 +192,7 @@
                                     <constraint firstAttribute="width" constant="500" id="eTf-bY-xJ8"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="rgI-oP-LZc">
-                                    <rect key="frame" x="1" y="288" width="498" height="16"/>
+                                    <rect key="frame" x="1" y="264" width="498" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="4ia-Xh-H5g">
@@ -291,7 +291,7 @@ DQ
                                 <rect key="frame" x="20" y="20" width="90" height="21"/>
                                 <subviews>
                                     <button verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="tRv-QD-HaW">
-                                        <rect key="frame" x="-6" y="-7" width="102" height="32"/>
+                                        <rect key="frame" x="-7" y="-6" width="104" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="8Ps-JI-gAo"/>
                                         </constraints>
@@ -359,7 +359,7 @@ Gw
     </scenes>
     <resources>
         <image name="3d" width="15" height="15"/>
-        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSActionTemplate" width="15" height="15"/>
         <image name="console_live" width="9" height="9"/>
         <image name="warning" width="20" height="20"/>
     </resources>

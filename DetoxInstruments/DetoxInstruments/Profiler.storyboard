@@ -36,7 +36,7 @@
         <scene sceneID="W7e-0m-Ibl">
             <objects>
                 <windowController storyboardIdentifier="migrationIndicator" id="ufU-sO-iTI" customClass="DTXLoadingWindowController" sceneMemberID="viewController">
-                    <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" titleVisibility="hidden" id="2dI-zb-N2Y" customClass="DTXBorderlessKeyWindow">
+                    <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" toolbarStyle="compact" titleVisibility="hidden" id="2dI-zb-N2Y" customClass="DTXBorderlessKeyWindow">
                         <windowStyleMask key="styleMask" titled="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" managed="YES"/>
                         <rect key="contentRect" x="245" y="301" width="480" height="270"/>
@@ -86,6 +86,33 @@
                 <customObject id="hKT-jt-VFQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1092" y="-1801"/>
+        </scene>
+        <!--Header Accessory View Controller-->
+        <scene sceneID="dPU-WD-KhP">
+            <objects>
+                <viewController storyboardIdentifier="HeaderAccessoryViewController" id="nV4-Jk-NYH" customClass="DTXHeaderAccessoryViewController" sceneMemberID="viewController">
+                    <view key="view" id="wQw-1Q-yqf" customClass="AAView">
+                        <rect key="frame" x="0.0" y="0.0" width="1213" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="aWM-2u-dJg" customClass="DTXHeaderView">
+                                <rect key="frame" x="0.0" y="0.0" width="1213" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Cp6-DL-pHD"/>
+                                </constraints>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="aWM-2u-dJg" secondAttribute="trailing" id="725-BO-hcH"/>
+                            <constraint firstAttribute="bottom" secondItem="aWM-2u-dJg" secondAttribute="bottom" id="C6J-BK-0jh"/>
+                            <constraint firstItem="aWM-2u-dJg" firstAttribute="leading" secondItem="wQw-1Q-yqf" secondAttribute="leading" id="HW9-4q-XJO"/>
+                            <constraint firstItem="aWM-2u-dJg" firstAttribute="top" secondItem="wQw-1Q-yqf" secondAttribute="top" id="hCm-OF-RvS"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="JKN-ob-FYz" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1950" y="-1514"/>
         </scene>
         <!--Plot Detail Split View Controller-->
         <scene sceneID="C5j-rK-DpM">
@@ -143,7 +170,7 @@
                             </connections>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="3Ov-Tw-qaT">
-                            <rect key="frame" x="32" y="25" width="51" height="16"/>
+                            <rect key="frame" x="32" y="23" width="51" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="8bZ-eX-Z9S">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -291,7 +318,7 @@
                                                                     </popUpButtonCell>
                                                                 </popUpButton>
                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eIs-JQ-x2C">
-                                                                    <rect key="frame" x="89" y="22" width="50" height="32"/>
+                                                                    <rect key="frame" x="88" y="22" width="57" height="32"/>
                                                                     <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSActionTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" transparent="YES" inset="2" id="mN0-7P-JS4">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -361,46 +388,15 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="contentBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="9LY-5t-MbB">
-                                <rect key="frame" x="0.0" y="773" width="1200" height="20"/>
-                                <subviews>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="hrj-Un-Alg" customClass="DTXHeaderView">
-                                        <rect key="frame" x="0.0" y="0.0" width="1200" height="20"/>
-                                        <connections>
-                                            <outlet property="_tableView" destination="TIP-gY-a5N" id="CLn-9Q-Jwa"/>
-                                        </connections>
-                                    </customView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="hrj-Un-Alg" firstAttribute="leading" secondItem="9LY-5t-MbB" secondAttribute="leading" id="OI0-ga-VXT"/>
-                                    <constraint firstAttribute="height" constant="20" id="PkG-8q-DX0"/>
-                                    <constraint firstAttribute="trailing" secondItem="hrj-Un-Alg" secondAttribute="trailing" id="UpS-Q1-AeE"/>
-                                    <constraint firstItem="hrj-Un-Alg" firstAttribute="top" secondItem="9LY-5t-MbB" secondAttribute="top" id="k6s-oi-Zl2"/>
-                                    <constraint firstAttribute="bottom" secondItem="hrj-Un-Alg" secondAttribute="bottom" id="xzK-3q-O3l"/>
-                                </constraints>
-                            </visualEffectView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="9LY-5t-MbB" secondAttribute="trailing" id="6rf-dg-SqE"/>
-                            <constraint firstItem="9LY-5t-MbB" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="BCs-zi-hsh"/>
                             <constraint firstItem="Dyq-gr-DLO" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="CNp-55-jPl"/>
-                            <constraint firstItem="9LY-5t-MbB" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="Dov-hh-2br"/>
                             <constraint firstAttribute="trailing" secondItem="Dyq-gr-DLO" secondAttribute="trailing" id="Fw5-7t-STH"/>
-                            <constraint firstItem="9LY-5t-MbB" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="KUT-7M-tW9"/>
-                            <constraint firstAttribute="trailing" secondItem="9LY-5t-MbB" secondAttribute="trailing" id="M78-JZ-gry"/>
-                            <constraint firstItem="9LY-5t-MbB" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="Nhm-UZ-Gca"/>
                             <constraint firstItem="Dyq-gr-DLO" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="T74-2Z-hjY"/>
-                            <constraint firstItem="9LY-5t-MbB" firstAttribute="top" secondItem="DF5-WI-UBi" secondAttribute="top" id="YSp-0g-HZY"/>
-                            <constraint firstAttribute="trailing" secondItem="9LY-5t-MbB" secondAttribute="trailing" id="Zie-G1-yfT"/>
-                            <constraint firstItem="9LY-5t-MbB" firstAttribute="leading" secondItem="DF5-WI-UBi" secondAttribute="leading" id="ad3-hq-5xc"/>
                             <constraint firstAttribute="bottom" secondItem="Dyq-gr-DLO" secondAttribute="bottom" id="kE7-Vo-Vv8"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="_headerView" destination="hrj-Un-Alg" id="PdQ-a7-7HH"/>
-                        <outlet property="_headerViewContainer" destination="9LY-5t-MbB" id="EdP-ue-W9l"/>
-                        <outlet property="_headerViewContainerTopConstraint" destination="YSp-0g-HZY" id="NVn-dD-EKd"/>
-                        <outlet property="_tableScrollViewTopConstraint" destination="CNp-55-jPl" id="TQx-91-lJa"/>
                         <outlet property="_tableView" destination="TIP-gY-a5N" id="NOD-2f-7mE"/>
                     </connections>
                 </viewController>
@@ -521,7 +517,7 @@
                                 <rect key="frame" x="8" y="8" width="96" height="21"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5gb-O5-Xh7">
-                                        <rect key="frame" x="-5" y="-3" width="54" height="27"/>
+                                        <rect key="frame" x="-6" y="-2" width="56" height="27"/>
                                         <buttonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="T1G-ld-exn">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="message" size="11"/>
@@ -531,7 +527,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="l9V-DB-oBR">
-                                        <rect key="frame" x="47" y="-3" width="54" height="27"/>
+                                        <rect key="frame" x="46" y="-2" width="56" height="27"/>
                                         <buttonCell key="cell" type="push" title="All" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tt2-7m-Dx0">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="message" size="11"/>
@@ -844,7 +840,7 @@
                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <tableHeaderView key="headerView" id="2eF-SP-Tjb">
+                        <tableHeaderView key="headerView" wantsLayer="YES" id="2eF-SP-Tjb">
                             <rect key="frame" x="0.0" y="0.0" width="827" height="25"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
@@ -969,7 +965,7 @@
                             <rect key="frame" x="-16" y="23" width="16" height="0.0"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <tableHeaderView key="headerView" id="b6M-83-qhy">
+                        <tableHeaderView key="headerView" wantsLayer="YES" id="b6M-83-qhy">
                             <rect key="frame" x="0.0" y="0.0" width="450" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
@@ -1338,7 +1334,7 @@
                                             </scroller>
                                         </scrollView>
                                         <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9p8-VF-Hna">
-                                            <rect key="frame" x="115" y="374" width="90" height="23"/>
+                                            <rect key="frame" x="115" y="374" width="91" height="23"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="No Detail" id="poP-cF-7pq">
                                                 <font key="font" metaFont="systemMedium" size="20"/>
                                                 <color key="textColor" name="placeholderTextColor" catalog="System" colorSpace="catalog"/>
@@ -1361,7 +1357,7 @@
                                 <rect key="frame" x="0.0" y="771" width="320" height="29"/>
                                 <subviews>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xCX-wo-mYx" customClass="DTXSegmentedView">
-                                        <rect key="frame" x="125.5" y="3" width="69" height="23"/>
+                                        <rect key="frame" x="124" y="3" width="73" height="23"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="CDY-97-IKS" customClass="DTXSegmentedCell">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -1456,24 +1452,24 @@
                                 <rect key="frame" x="0.0" y="263" width="450" height="37"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="71b-rb-SRc">
-                                        <rect key="frame" x="272" y="8" width="170" height="21"/>
+                                        <rect key="frame" x="256" y="9" width="186" height="20"/>
                                         <subviews>
                                             <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" tag="101" translatesAutoresizingMaskIntoConstraints="NO" id="s7G-8j-VAu" customClass="DTXNoVibrancyButton">
-                                                <rect key="frame" x="-6" y="-7" width="73" height="32"/>
+                                                <rect key="frame" x="-7" y="-7" width="79" height="32"/>
                                                 <buttonCell key="cell" type="push" title="Open" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="l6F-6y-O8v">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                             </button>
                                             <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" tag="102" translatesAutoresizingMaskIntoConstraints="NO" id="5Ff-oq-b5x" customClass="DTXNoVibrancyButton">
-                                                <rect key="frame" x="63" y="-7" width="70" height="32"/>
+                                                <rect key="frame" x="66" y="-7" width="76" height="32"/>
                                                 <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fUb-GA-1ob">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                             </button>
                                             <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" tag="103" translatesAutoresizingMaskIntoConstraints="NO" id="HRb-hQ-P0q" customClass="DTXNoVibrancyButton">
-                                                <rect key="frame" x="129" y="-7" width="47" height="32"/>
+                                                <rect key="frame" x="136" y="-7" width="57" height="32"/>
                                                 <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="22B-Vh-xxr">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -1531,8 +1527,8 @@
         <image name="CPUUsage" width="64" height="64"/>
         <image name="CPUUsage_small" width="20" height="20"/>
         <image name="DBGFrameUser" width="14" height="14"/>
-        <image name="NSActionTemplate" width="14" height="14"/>
-        <image name="NSShareTemplate" width="11" height="16"/>
+        <image name="NSActionTemplate" width="15" height="15"/>
+        <image name="NSShareTemplate" width="15" height="17"/>
         <image name="SearchFilterClear" width="15" height="15"/>
         <image name="SearchFilterOff" width="15" height="15"/>
         <image name="extendedInfo_highlighted" width="15" height="15"/>

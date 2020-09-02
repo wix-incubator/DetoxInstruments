@@ -22,6 +22,7 @@
 #import "DTXLogging.h"
 #import "DTXZipper.h"
 #import "DTXProfilingConfiguration-Private.h"
+#import "DTXHeaderAccessoryViewController.h"
 DTX_CREATE_LOG(RecordingDocument)
 #else
 #define dtx_log_info(a, b)
@@ -183,7 +184,11 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 - (void)makeWindowControllers
 {
 	NSWindowController* wc = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"InstrumentsWindowController"];
-	wc.contentViewController = [[NSStoryboard storyboardWithName:@"Profiler" bundle:nil] instantiateInitialController];
+	NSStoryboard* profilerStoryboard = [NSStoryboard storyboardWithName:@"Profiler" bundle:nil];
+	DTXHeaderAccessoryViewController* header = [profilerStoryboard instantiateControllerWithIdentifier:@"HeaderAccessoryViewController"];
+	header.view.translatesAutoresizingMaskIntoConstraints = NO;
+	[wc.window addTitlebarAccessoryViewController:header];
+	wc.contentViewController = [profilerStoryboard instantiateInitialController];
 	
 	[self addWindowController:wc];
 }

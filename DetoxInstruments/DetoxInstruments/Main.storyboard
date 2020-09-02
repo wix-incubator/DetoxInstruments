@@ -10,19 +10,19 @@
         <scene sceneID="N42-CO-u9d">
             <objects>
                 <windowController storyboardIdentifier="InstrumentsWindowController" id="lYN-De-XWI" customClass="DTXWindowController" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="uNJ-Rb-xBj">
+                    <window key="window" title="Window" separatorStyle="none" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" toolbarStyle="unified" id="uNJ-Rb-xBj">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="196" y="238" width="1280" height="801"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
                         <value key="minSize" type="size" width="985" height="500"/>
-                        <toolbar key="toolbar" implicitIdentifier="1C34E879-7A07-4888-BB7B-DD6473703286" centeredItem="N0I-Xm-YUa" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="jlq-hP-7af">
+                        <toolbar key="toolbar" implicitIdentifier="1C34E879-7A07-4888-BB7B-DD6473703286" centeredItem="N0I-Xm-YUa" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconOnly" sizeMode="regular" id="jlq-hP-7af">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="kVe-S3-yGd"/>
                                 <toolbarItem implicitItemIdentifier="77BC0ABF-B188-4E73-97F6-E4C037985C0B" label="" paletteLabel="" sizingBehavior="auto" id="ei0-em-Ajm">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="exo-S1-QJq" customClass="DTXSegmentedControl">
-                                        <rect key="frame" x="0.0" y="14" width="68" height="23"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="72" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectAny" id="d9v-DY-bub">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -38,11 +38,11 @@
                                 <toolbarItem implicitItemIdentifier="C88B62F3-702A-4CBD-8EAF-DF687C481F44" label="" paletteLabel="" sizingBehavior="auto" id="N0I-Xm-YUa">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T7S-3q-2aZ">
-                                        <rect key="frame" x="0.0" y="14" width="501" height="23"/>
+                                        <rect key="frame" x="0.0" y="14" width="42" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="500" id="k4A-LW-shW"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" alignment="left" enabled="NO" borderStyle="border" inset="2" id="OUY-fg-EHh">
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="OUY-fg-EHh">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -51,8 +51,8 @@
                                 <toolbarItem implicitItemIdentifier="CF5B0119-F83C-47B4-B113-B921AB7E0FC5" label="" paletteLabel="" image="stopRecording" sizingBehavior="auto" id="PQK-tc-eSX">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Stop the current profiling session." verticalHuggingPriority="750" id="aub-nx-8CB">
-                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="18" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="stopRecording" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bV3-gM-qEc">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -65,8 +65,8 @@
                                 <toolbarItem implicitItemIdentifier="4834CB46-721A-4593-9A1B-90013F62E20B" label="" paletteLabel="" image="NowTemplateOn" sizingBehavior="auto" id="Vld-fV-nQU">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Follow most recent samples" verticalHuggingPriority="750" id="5Or-4p-97g">
-                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="19" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NowTemplateOn" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LJL-Ug-6bF">
                                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -79,8 +79,8 @@
                                 <toolbarItem implicitItemIdentifier="09D217BB-BCA9-4334-BC60-53984C6DCE82" label="" paletteLabel="" image="flag" sizingBehavior="auto" id="Mgt-46-7Hh">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="hsw-RF-kd0">
-                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="18" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="flag" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AVD-38-XMO">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -93,8 +93,8 @@
                                 <toolbarItem implicitItemIdentifier="0869D6A8-5B58-4D3A-878E-90047C09BAE8" label="" paletteLabel="" image="NSPrivateChaptersTemplate" sizingBehavior="auto" id="Onx-le-cmY">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="W0F-h5-tJo">
-                                        <rect key="frame" x="0.0" y="14" width="38" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="20" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSPrivateChaptersTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3Mk-kW-h80">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -105,15 +105,7 @@
                                     </button>
                                 </toolbarItem>
                             </allowedToolbarItems>
-                            <defaultToolbarItems>
-                                <toolbarItem reference="PQK-tc-eSX"/>
-                                <toolbarItem reference="Vld-fV-nQU"/>
-                                <toolbarItem reference="kVe-S3-yGd"/>
-                                <toolbarItem reference="N0I-Xm-YUa"/>
-                                <toolbarItem reference="kVe-S3-yGd"/>
-                                <toolbarItem reference="Onx-le-cmY"/>
-                                <toolbarItem reference="ei0-em-Ajm"/>
-                            </defaultToolbarItems>
+                            <defaultToolbarItems/>
                         </toolbar>
                         <connections>
                             <outlet property="delegate" destination="lYN-De-XWI" id="vu3-7e-NSu"/>
@@ -808,7 +800,7 @@ CA
                             </popUpButtonCell>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
-                            <rect key="frame" x="32" y="25" width="51" height="16"/>
+                            <rect key="frame" x="32" y="23" width="51" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="7Wr-AB-JVL">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

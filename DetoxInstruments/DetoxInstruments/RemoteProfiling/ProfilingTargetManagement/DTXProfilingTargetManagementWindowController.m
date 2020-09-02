@@ -53,6 +53,12 @@
 		self.allowsVibrancy = NO;
 		self.centerToolbarItems = YES;
 		self.animateContent = YES;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 101600
+		if (@available(macOS 11.0, *))
+		{
+			self.window.toolbarStyle = NSWindowToolbarStyleExpanded;
+		}
+#endif
 	}
 	
 	return self;
