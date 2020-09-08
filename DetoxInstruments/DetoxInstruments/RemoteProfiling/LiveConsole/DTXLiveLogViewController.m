@@ -200,6 +200,8 @@
 	[self.context save:NULL];
 	[self _loadEntry:nil];
 	
+	self.nowMode = YES;
+	
 	[self _reloadWindowTitle];
 }
 

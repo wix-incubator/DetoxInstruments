@@ -378,6 +378,7 @@
 		39F6F6CB1F0E3D5200C7F411 /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6C91F0E3D5200C7F411 /* AutoCoding.m */; };
 		39F6F6D11F0E407900C7F411 /* DTXRecording+UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */; };
 		39F7A85D22AF0886003B4AC0 /* NSFont+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F7A85C22AF0886003B4AC0 /* NSFont+UIAdditions.m */; };
+		39F8F3D12507FA6B00460732 /* DTXNowModeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F8F3D02507FA6B00460732 /* DTXNowModeButton.m */; };
 		39F9110F24F834CF0094ECBE /* DTXLiveLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F9110E24F834CF0094ECBE /* DTXLiveLogViewController.m */; };
 		39F9111724F838A20094ECBE /* LiveConsole.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39F9111624F838A20094ECBE /* LiveConsole.storyboard */; };
 		39FA0B76231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FA0B75231D74BB0058D978 /* NSObject+CatalinaNSFlippedViewCrashFix.m */; };
@@ -1093,6 +1094,8 @@
 		39F6F6D01F0E407900C7F411 /* DTXRecording+UIExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DTXRecording+UIExtensions.m"; sourceTree = "<group>"; };
 		39F7A85B22AF0886003B4AC0 /* NSFont+UIAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFont+UIAdditions.h"; sourceTree = "<group>"; };
 		39F7A85C22AF0886003B4AC0 /* NSFont+UIAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFont+UIAdditions.m"; sourceTree = "<group>"; };
+		39F8F3CF2507FA6B00460732 /* DTXNowModeButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXNowModeButton.h; sourceTree = "<group>"; };
+		39F8F3D02507FA6B00460732 /* DTXNowModeButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXNowModeButton.m; sourceTree = "<group>"; };
 		39F9110D24F834CF0094ECBE /* DTXLiveLogViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXLiveLogViewController.h; sourceTree = "<group>"; };
 		39F9110E24F834CF0094ECBE /* DTXLiveLogViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXLiveLogViewController.m; sourceTree = "<group>"; };
 		39F9111624F838A20094ECBE /* LiveConsole.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LiveConsole.storyboard; sourceTree = "<group>"; };
@@ -1646,6 +1649,8 @@
 				39186C1E232270B2009B2542 /* DTXNoVibrancyView.m */,
 				393055F8238EC65F00C123B9 /* DTXChevronButton.h */,
 				393055F9238EC65F00C123B9 /* DTXChevronButton.m */,
+				39F8F3CF2507FA6B00460732 /* DTXNowModeButton.h */,
+				39F8F3D02507FA6B00460732 /* DTXNowModeButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2689,6 +2694,7 @@
 				39B356D4238C040200E44721 /* DTXSignpostEntitySampleContainerProxy.m in Sources */,
 				3943CA981EEF1A150009AD88 /* DTXNetworkDataProvider.m in Sources */,
 				39DC85C624FD7E7100635FC6 /* DTXLogLevelCell.m in Sources */,
+				39F8F3D12507FA6B00460732 /* DTXNowModeButton.m in Sources */,
 				399DFD991F543E410013B804 /* DTXFilteredDataProvider.m in Sources */,
 				398183DE20B2FE87009B8FEA /* DTXViewHierarchySnapshotter.m in Sources */,
 				39EA8CD21F38958C008E78D1 /* DTXProfilingConfiguration+RemoteProfilingSupport.m in Sources */,
@@ -3080,7 +3086,7 @@
 				);
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
@@ -3128,7 +3134,7 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PREFIX_HEADER = DetoxInstruments/PrefixHeader.pch;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				INFOPLIST_FILE = DetoxInstruments/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

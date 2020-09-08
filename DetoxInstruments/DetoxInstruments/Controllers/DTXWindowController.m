@@ -57,7 +57,16 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	self.window.titleVisibility = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowTitleVisibility];
 	self.window.delegate = self;
 	
-	if_unavailable(macOS 11.0, *)
+	self.window.toolbar.centeredItemIdentifier = @"TitleToolbarItem";
+	
+	if(@available(macOS 11.0, *))
+	{
+		NSImage* stopImage = [NSImage imageWithSystemSymbolName:@"stop.fill" accessibilityDescription:nil];
+		stopImage.size = CGSizeMake(15, 15);
+		
+		_stopRecordingButton.image = stopImage;
+	}
+	else
 	{
 		self.window.styleMask &= ~NSWindowStyleMaskFullSizeContentView;
 	}
@@ -287,13 +296,6 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 {
 	[_plotContentController setNowModeEnabled:enabled];
 	_nowButton.state = enabled ? NSControlStateValueOn : NSControlStateValueOff;
-	[self _resetNowModeButtonImage];
-}
-
-- (void)_resetNowModeButtonImage
-{
-	NSString* imageName = [NSString stringWithFormat:@"NowTemplate%@", _nowButton.state == NSControlStateValueOn ? @"On" : @""];
-	_nowButton.image = [NSImage imageNamed:imageName];
 }
 
 - (void)contentControllerDidDisableNowFollowing:(DTXPlotAreaContentController*)cc

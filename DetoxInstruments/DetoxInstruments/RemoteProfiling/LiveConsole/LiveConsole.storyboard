@@ -22,12 +22,12 @@
                         </view>
                         <toolbar key="toolbar" implicitIdentifier="A8565252-59E8-4564-B9E7-2E59C098813B" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="PV8-9a-dvm">
                             <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="4834CB46-721A-4593-9A1B-90013F62E20B" label="Now" paletteLabel="Now" image="NowTemplateOn" sizingBehavior="auto" id="qAG-Ux-PdX">
+                                <toolbarItem implicitItemIdentifier="4834CB46-721A-4593-9A1B-90013F62E20B" label="Now" paletteLabel="Now" sizingBehavior="auto" id="qAG-Ux-PdX">
                                     <nil key="toolTip"/>
-                                    <button key="view" toolTip="Follow most recent messages" verticalHuggingPriority="750" id="FBZ-ym-bog">
-                                        <rect key="frame" x="6" y="14" width="19" height="23"/>
+                                    <button key="view" toolTip="Follow most recent messages" verticalHuggingPriority="750" id="FBZ-ym-bog" customClass="DTXNowModeButton">
+                                        <rect key="frame" x="10" y="14" width="12" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NowTemplateOn" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sYv-8j-oIm">
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sYv-8j-oIm">
                                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -36,7 +36,7 @@
                                 <toolbarItem implicitItemIdentifier="AF75E6D6-71E7-4744-B3B9-488E3543BD17" label="Clear" paletteLabel="Clear" image="ClearTemplate" sizingBehavior="auto" id="X3f-qv-n6L">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Clear the existing messages" verticalHuggingPriority="750" id="caI-OB-iwM">
-                                        <rect key="frame" x="8" y="14" width="20" height="23"/>
+                                        <rect key="frame" x="5" y="14" width="26" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="ClearTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZcD-Og-1ZN">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -58,7 +58,8 @@
                         </connections>
                     </window>
                     <connections>
-                        <outlet property="_nowButton" destination="FBZ-ym-bog" id="26e-Eb-e4P"/>
+                        <outlet property="clearButton" destination="caI-OB-iwM" id="26e-Eb-e4Q"/>
+                        <outlet property="nowButton" destination="FBZ-ym-bog" id="26e-Eb-e4P"/>
                         <segue destination="x7c-tg-R5x" kind="relationship" relationship="window.shadowedContentViewController" id="mqM-5z-eCg"/>
                     </connections>
                 </windowController>
@@ -506,6 +507,5 @@
     </scenes>
     <resources>
         <image name="ClearTemplate" width="14" height="13"/>
-        <image name="NowTemplateOn" width="13" height="13"/>
     </resources>
 </document>

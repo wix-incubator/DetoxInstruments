@@ -42,6 +42,13 @@
 	
 	_deviceSnapshotManager = [[DTXDeviceSnapshotManager alloc] initWithDeviceImageView:self.deviceImageView snapshotImageView:self.deviceScreenSnapshotImageView];
 	[_deviceSnapshotManager clearDevice];
+	
+	if(@available(macOS 11.0, *))
+	{
+		NSImage* image = [NSImage imageWithSystemSymbolName:@"gearshape.fill" accessibilityDescription:nil];
+		image.size = NSMakeSize(15, 15);
+		_manageButton.image = image;
+	}
 }
 
 - (void)prepareForReuse

@@ -35,10 +35,10 @@
                                         <action selector="segmentCellAction:" target="qp4-hX-WKE" id="RJN-wV-8Ob"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="C88B62F3-702A-4CBD-8EAF-DF687C481F44" label="" paletteLabel="" sizingBehavior="auto" id="N0I-Xm-YUa">
+                                <toolbarItem implicitItemIdentifier="C88B62F3-702A-4CBD-8EAF-DF687C481F44" explicitItemIdentifier="TitleToolbarItem" label="" paletteLabel="" sizingBehavior="auto" id="N0I-Xm-YUa">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T7S-3q-2aZ">
-                                        <rect key="frame" x="0.0" y="14" width="42" height="32"/>
+                                        <rect key="frame" x="0.0" y="14" width="30" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="500" id="k4A-LW-shW"/>
                                         </constraints>
@@ -51,7 +51,7 @@
                                 <toolbarItem implicitItemIdentifier="CF5B0119-F83C-47B4-B113-B921AB7E0FC5" label="" paletteLabel="" image="stopRecording" sizingBehavior="auto" id="PQK-tc-eSX">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Stop the current profiling session." verticalHuggingPriority="750" id="aub-nx-8CB">
-                                        <rect key="frame" x="0.0" y="14" width="18" height="23"/>
+                                        <rect key="frame" x="0.0" y="14" width="24" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="stopRecording" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bV3-gM-qEc">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -62,12 +62,12 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="4834CB46-721A-4593-9A1B-90013F62E20B" label="" paletteLabel="" image="NowTemplateOn" sizingBehavior="auto" id="Vld-fV-nQU">
+                                <toolbarItem implicitItemIdentifier="4834CB46-721A-4593-9A1B-90013F62E20B" label="" paletteLabel="" sizingBehavior="auto" id="Vld-fV-nQU">
                                     <nil key="toolTip"/>
-                                    <button key="view" toolTip="Follow most recent samples" verticalHuggingPriority="750" id="5Or-4p-97g">
-                                        <rect key="frame" x="0.0" y="14" width="19" height="23"/>
+                                    <button key="view" toolTip="Follow most recent samples" verticalHuggingPriority="750" id="5Or-4p-97g" customClass="DTXNowModeButton">
+                                        <rect key="frame" x="0.0" y="14" width="12" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NowTemplateOn" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LJL-Ug-6bF">
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LJL-Ug-6bF">
                                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -79,7 +79,7 @@
                                 <toolbarItem implicitItemIdentifier="09D217BB-BCA9-4334-BC60-53984C6DCE82" label="" paletteLabel="" image="flag" sizingBehavior="auto" id="Mgt-46-7Hh">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="hsw-RF-kd0">
-                                        <rect key="frame" x="0.0" y="14" width="18" height="23"/>
+                                        <rect key="frame" x="0.0" y="14" width="24" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="flag" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AVD-38-XMO">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -93,7 +93,7 @@
                                 <toolbarItem implicitItemIdentifier="0869D6A8-5B58-4D3A-878E-90047C09BAE8" label="" paletteLabel="" image="NSPrivateChaptersTemplate" sizingBehavior="auto" id="Onx-le-cmY">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Add a tagged timestamp" verticalHuggingPriority="750" id="W0F-h5-tJo">
-                                        <rect key="frame" x="0.0" y="14" width="20" height="23"/>
+                                        <rect key="frame" x="0.0" y="14" width="26" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSPrivateChaptersTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3Mk-kW-h80">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -105,7 +105,14 @@
                                     </button>
                                 </toolbarItem>
                             </allowedToolbarItems>
-                            <defaultToolbarItems/>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="Vld-fV-nQU"/>
+                                <toolbarItem reference="PQK-tc-eSX"/>
+                                <toolbarItem reference="N0I-Xm-YUa"/>
+                                <toolbarItem reference="kVe-S3-yGd"/>
+                                <toolbarItem reference="Onx-le-cmY"/>
+                                <toolbarItem reference="ei0-em-Ajm"/>
+                            </defaultToolbarItems>
                         </toolbar>
                         <connections>
                             <outlet property="delegate" destination="lYN-De-XWI" id="vu3-7e-NSu"/>
@@ -825,7 +832,6 @@ CA
     <resources>
         <image name="Bottom" width="18" height="14"/>
         <image name="NSPrivateChaptersTemplate" width="14" height="13"/>
-        <image name="NowTemplateOn" width="13" height="13"/>
         <image name="Right" width="18" height="14"/>
         <image name="flag" width="12" height="15"/>
         <image name="stopRecording" width="12" height="12"/>
