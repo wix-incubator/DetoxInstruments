@@ -15,6 +15,30 @@ CONFIGURATION=$1
 # Clean any leading or trailing whitespace from list of allowed configurations
 ALLOWED_CONFIGURATIONS=`echo "$2" | perl -e "s/\s*\,\s*/\ /g" -p`
 
+thin_framework() {
+	EXTRACTED_ARCHS=()
+	
+	FRAMEWORK_PATH="$1"
+	FRAMEWORK_BIN_NAME="$2"
+	
+	echo "Processing architectures of $FRAMEWORK_BIN_NAME"
+
+	for ARCH in $ARCHS
+	do
+		echo "Extracting $ARCH"
+		lipo -extract "${ARCH}" "${FRAMEWORK_PATH}"/"${FRAMEWORK_BIN_NAME}" -o "${FRAMEWORK_PATH}"/"${FRAMEWORK_BIN_NAME}-${ARCH}"
+		EXTRACTED_ARCHS+=("${FRAMEWORK_PATH}"/"${FRAMEWORK_BIN_NAME}-${ARCH}")
+	done
+
+	echo "Merging extracted architectures: ${ARCHS}"
+	lipo -o "${FRAMEWORK_PATH}"/"${FRAMEWORK_BIN_NAME}-merged" -create "${EXTRACTED_ARCHS[@]}"
+	rm "${EXTRACTED_ARCHS[@]}"
+
+	echo "Replacing original executable with thinned version"
+	rm "${FRAMEWORK_PATH}"/"${FRAMEWORK_BIN_NAME}"
+	mv "${FRAMEWORK_PATH}"/"${FRAMEWORK_BIN_NAME}-merged" "${FRAMEWORK_PATH}"/"${FRAMEWORK_BIN_NAME}"
+}
+
 if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 	mkdir -p "${CODESIGNING_FOLDER_PATH}"/Frameworks
 
@@ -46,22 +70,8 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 		xcrun bitcode_strip -r "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler -o "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
 	fi
 	
-	EXTRACTED_ARCHS=()
-
-	for ARCH in $ARCHS
-	do
-		echo "Extracting $ARCH"
-		lipo -extract "${ARCH}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler -o "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler"-${ARCH}"
-		EXTRACTED_ARCHS+=("${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler"-${ARCH}")
-	done
-
-	echo "Merging extracted architectures: ${ARCHS}"
-	lipo -o "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler"-merged" -create "${EXTRACTED_ARCHS[@]}"
-	rm "${EXTRACTED_ARCHS[@]}"
-
-	echo "Replacing original executable with thinned version"
-	rm "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
-	mv "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler"-merged" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"/DTXProfiler
+	thin_framework "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}" "DTXProfiler"
+	thin_framework "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}/Frameworks/DetoxSync.framework" "DetoxSync"
 
 	if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" ]; then
 		codesign -fs "${EXPANDED_CODE_SIGN_IDENTITY}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"
