@@ -71,7 +71,9 @@ if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
 	fi
 	
 	thin_framework "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}" "DTXProfiler"
-	thin_framework "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}/Frameworks/DetoxSync.framework" "DetoxSync"
+	if [ -d "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}/Frameworks/DetoxSync.framework" ]; then
+		thin_framework "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}/Frameworks/DetoxSync.framework" "DetoxSync"
+	fi
 
 	if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" ]; then
 		codesign -fs "${EXPANDED_CODE_SIGN_IDENTITY}" "${CODESIGNING_FOLDER_PATH}"/Frameworks/"${PROFILER_FRAMEWORK_NAME}"
