@@ -7,6 +7,7 @@
 //
 
 #import "DTXHeaderAccessoryViewController.h"
+#import "NSAppearance+UIAdditions.h"
 
 @interface NSTitlebarAccessoryViewController ()
 
@@ -14,21 +15,37 @@
 
 @end
 
-@interface AAView : NSView @end
-@implementation AAView
-
-- (void)setFrame:(NSRect)frame
-{
-	[super setFrame:frame];
-}
-
-@end
-
 @implementation DTXHeaderAccessoryViewController
+
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	
+	NSBox* box = (id)self.view;
+	box.boxType = NSBoxCustom;
+	box.cornerRadius = 0;
+	if(@available(macOS 11.0, *))
+	{
+		box.fillColor = NSColor.clearColor;
+	}
+	else
+	{
+		box.fillColor = [NSColor colorWithName:@"HeaderBackgroundColor" dynamicProvider:^NSColor * _Nonnull(NSAppearance * _Nonnull appearance) {
+			if(appearance.isDarkAppearance)
+			{
+				return NSColor.clearColor;
+			}
+			else
+			{
+				return NSColor.clearColor;
+			}
+		}];
+	}
+}
 
 - (NSView *)headerView
 {
-	return self.view.subviews.firstObject;
+	return self.view.subviews.lastObject;
 }
 
 - (CGFloat)fullScreenMinHeight

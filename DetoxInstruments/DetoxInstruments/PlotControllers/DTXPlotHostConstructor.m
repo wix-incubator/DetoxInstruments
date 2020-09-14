@@ -124,6 +124,7 @@ CGFloat DTXCurrentTouchBarHeight(void)
 			self.graph.plotAreaFrame.masksToBorder = NO;
 			
 			[self.graph.allPlots enumerateObjectsUsingBlock:^(__kindof CPTPlot * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				obj.masksToBorder = NO;
 				obj.backgroundColor = _isForTouchBar ? NSColor.blackColor.CGColor : NSColor.clearColor.CGColor;
 			}];
 			

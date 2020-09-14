@@ -81,7 +81,7 @@
 	
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
 		CPTMutableLineStyle* axisLineStyle = [CPTMutableLineStyle lineStyle];
-		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.tertiaryLabelColor.CGColor];
+		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.secondaryLabelColor.CGColor];
 		axisLineStyle.lineWidth = 1.0;
 		axisLineStyle.lineCap   = kCGLineCapButt;
 		
@@ -94,6 +94,7 @@
 		
 		// CPTAxisLabelingPolicyAutomatic
 		CPTXYAxis *axisAutomatic = [[CPTXYAxis alloc] init];
+		axisAutomatic.masksToBounds = NO;
 		axisAutomatic.plotSpace = weakSelf.graph.defaultPlotSpace;
 		axisAutomatic.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
 		axisAutomatic.preferredNumberOfMajorTicks = 10;
@@ -113,6 +114,7 @@
 		
 		// Add axes to the graph
 		weakSelf.graph.axisSet.axes = @[axisAutomatic];
+		weakSelf.graph.axisSet.masksToBounds = NO;
 	};
 }
 

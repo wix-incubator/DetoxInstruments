@@ -10,9 +10,6 @@
 #import "NSColor+UIAdditions.h"
 
 @implementation DTXHeaderView
-{
-	__weak IBOutlet NSTableView* _tableView;
-}
 
 - (BOOL)canDrawConcurrently
 {
@@ -41,7 +38,7 @@
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 	
-	[NSColor.gridColor set];
+	[NSColor.secondaryLabelColor set];
 	
 	NSBezierPath* line = [NSBezierPath bezierPath];
 

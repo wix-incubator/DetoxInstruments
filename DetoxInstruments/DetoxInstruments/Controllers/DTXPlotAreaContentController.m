@@ -55,8 +55,10 @@
 	Class _touchBarPlotControllerClass;
 	__weak id<DTXPlotController> _selectedPlotController;
 	id<DTXPlotController> _touchBarPlotController;
-	
-	NSView* _headerView;
+
+#if ! PROFILER_PREVIEW_EXTENSION
+	DTXHeaderView* _headerView;
+#endif
 }
 
 @end
@@ -132,10 +134,11 @@
 	{
 		DTXHeaderAccessoryViewController* header = self.view.window.titlebarAccessoryViewControllers.firstObject;
 		_headerView = header.headerView;
+		_headerView.tableView = _tableView;
 	}
-#endif
 	
 	_headerView.hidden = self.document.documentState == DTXRecordingDocumentStateNew;
+#endif
 	
 	if(self.document.documentState == DTXRecordingDocumentStateNew)
 	{
