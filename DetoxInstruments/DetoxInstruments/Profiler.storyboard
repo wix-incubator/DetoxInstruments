@@ -234,18 +234,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="1195" height="793"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="82" horizontalPageScroll="10" verticalLineScroll="82" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Dyq-gr-DLO" customClass="DTXScrollView">
+                            <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="80" horizontalPageScroll="10" verticalLineScroll="80" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Dyq-gr-DLO" customClass="DTXScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="1195" height="793"/>
                                 <clipView key="contentView" wantsLayer="YES" copiesOnScroll="NO" id="3Ki-wJ-UtA">
                                     <rect key="frame" x="0.0" y="0.0" width="1195" height="793"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="80" viewBased="YES" id="TIP-gY-a5N" customClass="DTXPlotTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="1289" height="793"/>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="80" viewBased="YES" id="TIP-gY-a5N" customClass="DTXPlotTableView">
+                                            <rect key="frame" x="0.0" y="0.0" width="1266" height="793"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
+                                            <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
                                                 <tableColumn identifier="DTXTitleColumnt" editable="NO" width="210" maxWidth="10000000" id="kUz-rk-XSq">
@@ -260,7 +259,7 @@
                                                     </textFieldCell>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="InfoTableViewCell" id="ocF-A6-Lb0" customClass="DTXPlotTypeCellView">
-                                                            <rect key="frame" x="11" y="1" width="215" height="80"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="215" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nwg-qe-WuA">
@@ -369,7 +368,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="PlotHostingTableViewCell" focusRingType="none" id="tUk-3n-8fj" customClass="DTXPlotHostingTableCellView">
-                                                            <rect key="frame" x="229" y="1" width="1048" height="80"/>
+                                                            <rect key="frame" x="216" y="0.0" width="1048" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </tableCellView>
                                                     </prototypeCellViews>

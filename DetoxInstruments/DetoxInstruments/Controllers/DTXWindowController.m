@@ -40,6 +40,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	__weak IBOutlet NSButton* _stopRecordingButton;
 	__weak IBOutlet NSButton* _flagButton;
 	__weak IBOutlet NSButton* _nowButton;
+	__weak IBOutlet NSButton* _customizeButton;
 	
 	DTXPlotDetailSplitViewController* _plotDetailsSplitViewController;
 	DTXDetailInspectorSplitViewController* _detailInspectorSplitViewController;
@@ -71,6 +72,11 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 		stopImage.size = CGSizeMake(15, 15);
 		
 		_stopRecordingButton.image = stopImage;
+		
+		NSImage* customizeImage = [NSImage imageWithSystemSymbolName:@"list.dash" accessibilityDescription:nil];
+		customizeImage.size = CGSizeMake(15, 15);
+		
+		_customizeButton.image = customizeImage;
 	}
 	else
 	{

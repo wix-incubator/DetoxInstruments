@@ -96,6 +96,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 static const CGFloat __inspectorPercentage = 0.85;
 static const CGFloat __inspectorLowkeyPercentage = 0.45;
 
+API_AVAILABLE(macos(11.0))
 @implementation DTXApplicationDelegate (DocumentationGeneration)
 
 + (void)_addColorsToMenuItem:(NSMenuItem*)menuItem
@@ -103,16 +104,18 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	NSMenu* colors = [NSMenu new];
 	menuItem.submenu = colors;
 	
-	NSArray* colorNames = @[@"Blue", @"Purple", @"Pink", @"Red", @"Orange", @"Yellow", @"Green", @"Graphite"];
-	NSArray* colorTints = @[[NSColor systemBlueColor],
-							[NSColor systemPurpleColor],
-							[NSColor systemPinkColor],
-							[NSColor systemRedColor],
-							[NSColor systemOrangeColor],
-							[NSColor systemYellowColor],
-							[NSColor systemGreenColor],
-							[NSColor systemGrayColor]
-							];
+	NSArray* colorNames = @[@"Accent Color", @"Blue", @"Purple", @"Pink", @"Red", @"Orange", @"Yellow", @"Green", @"Graphite"];
+	NSArray* colorTints = @[
+		[NSColor colorNamed:@"AccentColor"],
+		[NSColor systemBlueColor],
+		[NSColor systemPurpleColor],
+		[NSColor systemPinkColor],
+		[NSColor systemRedColor],
+		[NSColor systemOrangeColor],
+		[NSColor systemYellowColor],
+		[NSColor systemGreenColor],
+		[NSColor systemGrayColor]
+	];
 	[colorNames enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSMenuItem* colorItem = [NSMenuItem new];
 		colorItem.title = obj;
@@ -244,42 +247,42 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	NSSize buttonImageExportSize = NSMakeSize(8, 8);
 	
-	NSImage* img = [[NSImage imageNamed:@"stopRecording"] imageTintedWithColor:NSColor.blackColor];
+	NSImage* img = [[NSImage imageWithSystemSymbolName:@"stop.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Stop.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"flag"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"stopwatch" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Flag.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"NowTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"arrow.up.left.circle" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Follow.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"NSActionTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"gearshape.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Manage.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"NSActionTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"gearshape.2.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_TimelineOptions.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"NSPrivateChaptersTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"list.dash" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
@@ -300,7 +303,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_InspectorPane.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"expand_preview"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"arrow.up.left.and.arrow.down.right" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];

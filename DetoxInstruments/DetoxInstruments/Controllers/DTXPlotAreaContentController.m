@@ -170,7 +170,7 @@
 	
 #if ! PROFILER_PREVIEW_EXTENSION
 	DTXAxisHeaderPlotController* headerPlotController = [[DTXAxisHeaderPlotController alloc] initWithDocument:self.document isForTouchBar:NO];
-	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, _tableView.tableColumns.firstObject.width, 0, 0)];
+	[headerPlotController setUpWithView:_headerView insets:NSEdgeInsetsMake(0, _tableView.tableColumns.firstObject.width + 0.5, 0, 0)];
 
 	[_plotGroup setHeaderPlotController:headerPlotController];
 #endif

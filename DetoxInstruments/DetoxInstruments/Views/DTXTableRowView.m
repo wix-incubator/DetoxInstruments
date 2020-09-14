@@ -63,14 +63,7 @@
 {
 	[super updateLayer];
 	
-//	if(self.effectiveAppearance.isDarkAppearance)
-//	{
 	_statusImageView.layer.backgroundColor = [_userNotifyColor blendedColorWithFraction:0.4 ofColor:NSColor.controlBackgroundColor].CGColor;
-//	}
-//	else
-//	{
-//		_statusImageView.layer.backgroundColor = NSColor.whiteColor.CGColor;
-//	}
 }
 
 - (NSColor*)selectionColor
@@ -88,17 +81,6 @@
 	[self.selectionColor setFill];
 
 	[[NSBezierPath bezierPathWithRect:dirtyRect] fill];
-}
-
-- (void)drawBackgroundInRect:(NSRect)dirtyRect
-{
-	[super drawBackgroundInRect:dirtyRect];
-
-//	if(self._isUserNotifyColorImportant)
-//	{
-//		[[self.userNotifyColor colorWithAlphaComponent:0.5] setFill];
-//		[[NSBezierPath bezierPathWithRect:dirtyRect] fill];
-//	}
 }
 
 - (void)setUserNotifyTooltip:(NSString*)tooltip

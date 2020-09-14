@@ -16,7 +16,7 @@
 	
 	NSMenuItem* title = [NSMenuItem new];
 	title.title = @"";
-	title.image = [NSImage imageNamed:NSImageNameActionTemplate];
+	title.image = self.image;
 	
 	[menu insertItem:title atIndex:0];
 	
@@ -34,6 +34,13 @@
 	[super setMenu:menu];
 	
 	self.preferredEdge = NSMaxYEdge;
+}
+
+- (void)setImage:(NSImage *)image
+{
+	[super setImage:image];
+	
+	self.menu.itemArray.firstObject.image = image;
 }
 
 @end

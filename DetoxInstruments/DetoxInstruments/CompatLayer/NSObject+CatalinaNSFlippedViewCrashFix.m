@@ -25,6 +25,19 @@ DTX_CREATE_LOG(CatalinaNSFlippedViewCrashFix)
 {
 	@autoreleasepool
 	{
+//		{
+//			Method m = class_getInstanceMethod(NSClassFromString(@"NSTableViewStyleData"), NSSelectorFromString(@"rowContentPadding"));
+//			method_setImplementation(m, imp_implementationWithBlock(^ {
+//				return 0;
+//			}));
+//			
+//			unsigned int cnt = 0;
+//			Method* list = class_copyMethodList(NSClassFromString(@"NSTableViewStyleData"), &cnt);
+//			for (unsigned int idx = 0; idx < cnt; idx++) {
+//				NSLog(@"%@", NSStringFromSelector(method_getName(list[idx])));
+//			}
+//		}
+		
 		Method m = class_getInstanceMethod(NSClassFromString(@"NSLineFragmentRenderingContext"), @selector(drawAtPoint:inContext:));
 		void (*orig)(id, SEL, CGPoint, CGContextRef) = (void*)method_getImplementation(m);
 		method_setImplementation(m, imp_implementationWithBlock(^ (id _self, CGPoint point, CGContextRef ctx) {

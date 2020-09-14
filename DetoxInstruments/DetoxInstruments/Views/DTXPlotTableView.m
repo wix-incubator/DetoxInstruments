@@ -66,11 +66,10 @@
 	
 	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 101600
 	if (@available(macOS 11.0, *)) {
 		self.style = NSTableViewStyleFullWidth;
+		[[self valueForKey:@"styleData"] setValue:@0 forKey:@"rowContentPadding"];
 	}
-#endif
 }
 
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row

@@ -4,5 +4,18 @@
 <dict>
 	<key>SectionTag_DTXEventsPlotController</key>
 	<integer>1</integer>
+	<key>plotControllerVisibility</key>
+	<dict>
+		<key>DTXCompactNetworkRequestsPlotController</key>
+		<true/>
+		<key>DTXDiskReadWritesPlotController</key>
+		<true/>
+		<key>DTXEventsPlotController</key>
+		<true/>
+		<key>DTXFPSPlotController</key>
+		<true/>
+		<key>DTXMemoryUsagePlotController</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

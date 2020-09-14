@@ -22,12 +22,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 101600
 	if (@available(macOS 11.0, *))
 	{
 		_tableView.style = NSTableViewStyleFullWidth;
 	}
-#endif
 	
 	[_tableView reloadData];
 	[_tableView layoutSubtreeIfNeeded];
