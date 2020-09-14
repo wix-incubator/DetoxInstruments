@@ -87,7 +87,6 @@
 	{
 		image = [NSImage imageNamed:@"AsyncStorage"];
 	}
-	image.size = NSMakeSize(32, 32);
 	
 	return image;
 }

@@ -42,7 +42,6 @@
 	{
 		image = [NSImage imageNamed:@"NSColorPickerUser"];
 	}
-	image.size = NSMakeSize(32, 32);
 	
 	return image;
 }

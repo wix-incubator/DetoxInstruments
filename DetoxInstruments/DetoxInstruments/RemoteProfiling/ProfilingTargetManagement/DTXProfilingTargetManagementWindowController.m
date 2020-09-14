@@ -51,14 +51,17 @@
 		_storyboard = [NSStoryboard storyboardWithName:@"TargetManagement" bundle:NSBundle.mainBundle];
 		
 		self.allowsVibrancy = NO;
-		self.centerToolbarItems = YES;
-		self.animateContent = YES;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 101600
+		
 		if (@available(macOS 11.0, *))
 		{
-			self.window.toolbarStyle = NSWindowToolbarStyleExpanded;
+			self.centerToolbarItems = NO;
+			self.window.toolbarStyle = NSWindowToolbarStylePreference;
 		}
-#endif
+		else
+		{
+			self.centerToolbarItems = YES;
+		}
+		self.animateContent = YES;
 	}
 	
 	return self;

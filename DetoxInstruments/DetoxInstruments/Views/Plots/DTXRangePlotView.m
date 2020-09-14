@@ -70,12 +70,7 @@ const CGFloat DTXRangePlotViewDefaultLineSpacing = 4.0;
 	
 	[self setDrawTitles:NO];
 	
-	_labelOffset = 1.5;
-	NSOperatingSystemVersion atLeastVersion = (NSOperatingSystemVersion){ 10, 14, 4 };
-	if([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:atLeastVersion])
-	{
-		_labelOffset = 0.0;
-	}
+	_labelOffset = 0.0;
 }
 
 //- (BOOL)canDrawConcurrently

@@ -10,6 +10,16 @@
 
 @implementation DTXKeyDownIgnoringTableView
 
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	if (@available(macOS 11.0, *))
+	{
+		self.style = NSTableViewStyleFullWidth;
+	}
+}
+
 - (void)keyDown:(NSEvent *)event
 {
 	

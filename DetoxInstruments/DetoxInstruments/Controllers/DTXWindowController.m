@@ -24,6 +24,12 @@ extern OSStatus DTXGoToHelpPage(NSString* pagePath);
 
 static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility";
 
+@interface DTXProfilerWindow : NSWindow @end
+
+@implementation DTXProfilerWindow
+
+@end
+
 @interface DTXWindowController () <DTXPlotAreaContentControllerDelegate, DTXDetailContentControllerDelegate, NSWindowDelegate>
 {
 	__weak IBOutlet NSSegmentedControl* _layoutSegmentControl;

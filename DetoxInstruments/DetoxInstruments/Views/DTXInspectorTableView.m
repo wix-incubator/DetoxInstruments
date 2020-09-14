@@ -16,6 +16,11 @@
 	
 	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	
+	if (@available(macOS 11.0, *))
+	{
+		self.style = NSTableViewStyleFullWidth;
+	}
 }
 
 - (void)drawGridInClipRect:(NSRect)clipRect

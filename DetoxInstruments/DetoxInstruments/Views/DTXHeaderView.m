@@ -38,7 +38,14 @@
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 	
-	[NSColor.secondaryLabelColor set];
+	if(@available(macOS 11.0, *))
+	{
+		[NSColor.gridColor set];
+	}
+	else
+	{
+		[NSColor.secondaryLabelColor set];
+	}
 	
 	NSBezierPath* line = [NSBezierPath bezierPath];
 

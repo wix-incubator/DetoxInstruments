@@ -26,7 +26,17 @@
 
 - (NSImage *)preferenceIcon
 {
-	return [NSImage imageNamed:NSImageNamePreferencesGeneral];
+	NSImage* image;
+	if(@available(macOS 11.0, *))
+	{
+		image = [NSImage imageWithSystemSymbolName:@"gearshape" accessibilityDescription:nil];
+	}
+	else
+	{
+		image = [NSImage imageNamed:NSImageNamePreferencesGeneral];
+	}
+	
+	return image;
 }
 
 - (NSString *)preferenceIdentifier
@@ -91,11 +101,6 @@
 		
 		return YES;
 	}];
-	
-	if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion < 15)
-	{
-		rv.cacheMode = NSImageCacheNever;
-	}
 	
 	return rv;
 }

@@ -208,7 +208,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 
 - (NSURL*)_resourcesURL
 {
-	return [[[NSURL URLWithString:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Resources/"] URLByStandardizingPath];
+	return [[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Resources/"] URLByStandardizingPath];
 }
 
 - (IBAction)_generateDocScreenshots:(NSMenuItem*)sender

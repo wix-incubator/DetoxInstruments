@@ -32,7 +32,17 @@
 
 - (NSImage *)preferenceIcon
 {
-	return _consoleAppImage;
+	NSImage* image;
+	if(@available(macOS 11.0, *))
+	{
+		image = [NSImage imageWithSystemSymbolName:@"internaldrive" accessibilityDescription:nil];
+	}
+	else
+	{
+		image = _consoleAppImage;
+	}
+	
+	return image;
 }
 
 - (NSString *)preferenceIdentifier

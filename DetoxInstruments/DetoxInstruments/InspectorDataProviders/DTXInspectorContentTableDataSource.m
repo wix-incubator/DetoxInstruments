@@ -237,10 +237,6 @@
 		{
 			DTXTextAttachment* ta = [DTXTextAttachment new];
 			ta.image = content.image;
-			if(NSProcessInfo.processInfo.operatingSystemVersion.minorVersion < 15)
-			{
-				[ta.image setValue:@YES forKey:@"flipped"];
-			}
 
 			[mas appendAttributedString:[NSAttributedString attributedStringWithAttachment:ta]];
 		}

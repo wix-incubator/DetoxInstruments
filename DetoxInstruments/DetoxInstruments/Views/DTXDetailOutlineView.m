@@ -17,6 +17,11 @@
 	
 	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	
+	if (@available(macOS 11.0, *))
+	{
+		self.style = NSTableViewStyleFullWidth;
+	}
 }
 
 - (NSRect)frameOfCellAtColumn:(NSInteger)column row:(NSInteger)row

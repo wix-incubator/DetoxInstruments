@@ -29,7 +29,6 @@
 	{
 		image = [NSImage imageNamed:NSImageNameUserAccounts];
 	}
-	image.size = NSMakeSize(32, 32);
 	
 	return image;
 }

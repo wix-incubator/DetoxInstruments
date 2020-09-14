@@ -53,7 +53,17 @@
 
 - (NSImage *)preferenceIcon
 {
-	return [NSImage imageNamed:NSImageNameAdvanced];
+	NSImage* image;
+	if(@available(macOS 11.0, *))
+	{
+		image = [NSImage imageWithSystemSymbolName:@"waveform.path.ecg.rectangle" accessibilityDescription:nil];
+	}
+	else
+	{
+		image = [NSImage imageNamed:NSImageNameAdvanced];
+	}
+	
+	return image;
 }
 
 - (NSString *)preferenceIdentifier

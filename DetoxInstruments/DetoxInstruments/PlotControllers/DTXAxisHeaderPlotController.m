@@ -80,8 +80,18 @@
 	self.graph.backgroundColor = NSColor.clearColor.CGColor;
 	
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
+		NSColor* colorToUse;
+		if(@available(macOS 11.0, *))
+		{
+			colorToUse = NSColor.gridColor;
+		}
+		else
+		{
+			colorToUse = NSColor.secondaryLabelColor;
+		}
+		
 		CPTMutableLineStyle* axisLineStyle = [CPTMutableLineStyle lineStyle];
-		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.secondaryLabelColor.CGColor];
+		axisLineStyle.lineColor = [CPTColor colorWithCGColor:colorToUse.CGColor];
 		axisLineStyle.lineWidth = 1.0;
 		axisLineStyle.lineCap   = kCGLineCapButt;
 		

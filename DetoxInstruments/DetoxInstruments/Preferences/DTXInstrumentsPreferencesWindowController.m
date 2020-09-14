@@ -33,11 +33,17 @@
 	NSStoryboard* sb = [NSStoryboard storyboardWithName:@"Preferences" bundle:nil];
 	
 	[self setPreferencesViewControllers:@[[sb instantiateControllerWithIdentifier:@"DisplayPreferences"], [sb instantiateControllerWithIdentifier:@"RecordingPreferences"], [sb instantiateControllerWithIdentifier:@"CLIPreferences"]]];
+	
 	self.centerToolbarItems = NO;
+	
+	if (@available(macOS 11.0, *))
+	{
+		self.window.toolbarStyle = NSWindowToolbarStylePreference;
+	}
+	self.window.styleMask &= ~NSWindowStyleMaskMiniaturizable;
 	
 	[super showPreferencesWindow];
 	
-	self.window.styleMask &= ~NSWindowStyleMaskMiniaturizable;
 	[self.window center];
 }
 
