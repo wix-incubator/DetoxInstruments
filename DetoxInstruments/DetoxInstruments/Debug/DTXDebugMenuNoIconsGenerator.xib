@@ -57,7 +57,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField wantsLayer="YES" horizontalHuggingPriority="999" verticalHuggingPriority="999" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QTQ-yJ-zZP">
-                                        <rect key="frame" x="18" y="4" width="41" height="15"/>
+                                        <rect key="frame" x="13" y="4" width="41" height="15"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Profile" id="23k-SF-vvQ">
                                             <font key="font" metaFont="cellTitle"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -68,7 +68,7 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QTQ-yJ-zZP" secondAttribute="trailing" constant="20" id="3nf-Bw-3hQ"/>
                                     <constraint firstItem="QTQ-yJ-zZP" firstAttribute="centerY" secondItem="ja3-qg-y3x" secondAttribute="centerY" constant="-0.5" id="4x1-5e-vTL"/>
-                                    <constraint firstItem="QTQ-yJ-zZP" firstAttribute="leading" secondItem="ja3-qg-y3x" secondAttribute="leading" constant="20" id="6gA-Qv-ka2"/>
+                                    <constraint firstItem="QTQ-yJ-zZP" firstAttribute="leading" secondItem="ja3-qg-y3x" secondAttribute="leading" constant="15" id="6gA-Qv-ka2"/>
                                 </constraints>
                             </view>
                             <constraints>
