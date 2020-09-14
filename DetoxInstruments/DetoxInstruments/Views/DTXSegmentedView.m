@@ -31,8 +31,20 @@
 
 - (void)fixIcons
 {
-	[self.cell setImage:[NSImage imageNamed:[self.cell isSelectedForSegment:0] ? @"extendedInfo_highlighted": @"extendedInfo"] forSegment:0];
-	[self.cell setImage:[NSImage imageNamed:[self.cell isSelectedForSegment:1] ? @"fileInfo_highlighted" : @"fileInfo"] forSegment:1];
+	NSImage* extendedImage;
+	NSImage* fileImage;
+	if(@available(macOS 11.0, *))
+	{
+		extendedImage = [NSImage imageWithSystemSymbolName:[NSString stringWithFormat:@"e.square%@", [self.cell isSelectedForSegment:0] ? @".fill" : 0] accessibilityDescription:nil];
+		fileImage = [NSImage imageWithSystemSymbolName:[NSString stringWithFormat:@"doc%@", [self.cell isSelectedForSegment:1] ? @".fill" : 0] accessibilityDescription:nil];
+	}
+	else
+	{
+		extendedImage = [NSImage imageNamed:[self.cell isSelectedForSegment:0] ? @"extendedInfo_highlighted": @"extendedInfo"];
+		fileImage = [NSImage imageNamed:[self.cell isSelectedForSegment:1] ? @"fileInfo_highlighted" : @"fileInfo"];
+	}
+	[self.cell setImage:extendedImage forSegment:0];
+	[self.cell setImage:fileImage forSegment:1];
 }
 
 - (IBAction)_segmentCellAction:(NSSegmentedCell*)sender
