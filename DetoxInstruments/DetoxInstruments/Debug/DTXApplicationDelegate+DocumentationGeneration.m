@@ -895,6 +895,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{
@@ -951,6 +952,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{
@@ -1017,6 +1019,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{
@@ -1083,6 +1086,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{
@@ -1149,6 +1153,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuNoIconsGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{
