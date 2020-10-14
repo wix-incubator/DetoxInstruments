@@ -87,10 +87,10 @@
 
 - (void)drawGridInClipRect:(NSRect)clipRect
 {
-	NSRect lastRowRect = [self rectOfRow:[self numberOfRows] - 1];
-	NSRect myClipRect = NSMakeRect(0, 0, lastRowRect.size.width, NSMaxY(lastRowRect));
-	NSRect finalClipRect = NSIntersectionRect(clipRect, myClipRect);
-	[super drawGridInClipRect:finalClipRect];
+//	NSRect lastRowRect = [self rectOfRow:[self numberOfRows] - 1];
+//	NSRect myClipRect = NSMakeRect(0, 0, lastRowRect.size.width, NSMaxY(lastRowRect));
+//	NSRect finalClipRect = NSIntersectionRect(clipRect, myClipRect);
+//	[super drawGridInClipRect:finalClipRect];
 }
 
 -(void)mouseDown:(nonnull NSEvent *)event

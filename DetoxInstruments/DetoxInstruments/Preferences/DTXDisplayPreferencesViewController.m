@@ -49,14 +49,9 @@
 	return NSLocalizedString(@"General", @"");
 }
 
-- (NSImage*)_redrawingImageWithName:(NSString*)imageName overlayImageName:(NSString*)overlayImageName userDefaultsKey:(NSString*)userDefaultsKey highlightingValue:(NSInteger)value
+- (NSImage*)_redrawingImageWithName:(NSString*)imageName isMixed:(BOOL)mixed userDefaultsKey:(NSString*)userDefaultsKey highlightingValue:(NSInteger)value
 {
 	NSImage* image = [NSImage imageNamed:imageName];
-	NSImage* overlayImage = nil;
-	if(overlayImageName.length > 0)
-	{
-		overlayImage = [NSImage imageNamed:overlayImageName];
-	}
 	NSImage* rv = [NSImage imageWithSize:NSMakeSize(image.size.width + 3, image.size.height + 3) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
 		if([NSUserDefaults.standardUserDefaults integerForKey:userDefaultsKey] == value)
 		{
@@ -66,10 +61,10 @@
 			[path stroke];
 		}
 		
-		NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(1.5, 1.5, image.size.width, image.size.height)
+		NSBezierPath *clipPath = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(1.5, 1.5, image.size.width, image.size.height)
 															 xRadius:5
 															 yRadius:5];
-		[path addClip];
+		[clipPath setClip];
 		
 //		NSURL* currentWallpaperURL = [NSWorkspace.sharedWorkspace desktopImageURLForScreen:NSScreen.mainScreen];
 //		if([_cachedWallpaperURL isEqualTo:currentWallpaperURL] == NO)
@@ -80,21 +75,24 @@
 //		}
 //		[_cachedWallpaperImage drawInRect:CGRectMake(1.5, 1.5, image.size.width, image.size.height)];
 		[image drawInRect:CGRectMake(1.5, 1.5, image.size.width, image.size.height)];
-		[overlayImage drawInRect:CGRectMake(1.5, 1.5, overlayImage.size.width, overlayImage.size.height)];
 		
-		if(overlayImageName.length > 0)
+		if(mixed == NO)
 		{
-			NSBezierPath* path = [NSBezierPath bezierPathWithRect:NSMakeRect(1.5 + 12, image.size.height - 6 + 1.5, 32, 6)];
+			NSBezierPath* path = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(1.5 + 4.5, image.size.height - 13.5 + 1.5, 29, 5.5) xRadius:1.5 yRadius:1.5];
 			[NSColor.controlAccentColor setFill];
 			[path fill];
 		}
 		else
 		{
-			NSBezierPath* path = [NSBezierPath bezierPathWithRect:NSMakeRect(1.5 + 12, image.size.height - 6 + 1.5, 21, 6)];
+			[[NSBezierPath bezierPathWithRect:NSMakeRect(0, 0, 1.5 + 4 + 29, image.size.height)] setClip];
+			
+			NSBezierPath* path = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(1.5 + 4.5, image.size.height - 13.5 + 1.5, 29, 5.5) xRadius:1.5 yRadius:1.5];
 			[NSColor.controlAccentColor setFill];
 			[path fill];
 			
-			path = [NSBezierPath bezierPathWithRect:NSMakeRect(1.5 + 46, image.size.height - 6 + 1.5, 21, 6)];
+			[clipPath setClip];
+			
+			path = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(1.5 + image.size.width - 28.5, image.size.height - 13.5 + 1.5, 30, 5.5) xRadius:1.5 yRadius:1.5];
 			[NSColor.controlAccentColor setFill];
 			[path fill];
 		}
@@ -109,9 +107,9 @@
 {
 	[super viewDidLoad];
 	
-	_autoAppearanceButton.image = [self _redrawingImageWithName:@"pref_appearance_auto"  overlayImageName:nil userDefaultsKey:DTXPreferencesAppearanceKey highlightingValue:0];
-	_lightAppearanceButton.image = [self _redrawingImageWithName:@"pref_appearance_dark" overlayImageName:@"pref_window_light" userDefaultsKey:DTXPreferencesAppearanceKey highlightingValue:1];
-	_darkAppearanceButton.image = [self _redrawingImageWithName:@"pref_appearance_light" overlayImageName:@"pref_window_dark" userDefaultsKey:DTXPreferencesAppearanceKey highlightingValue:2];
+	_autoAppearanceButton.image = [self _redrawingImageWithName:@"pref_appearance_auto" isMixed:YES userDefaultsKey:DTXPreferencesAppearanceKey highlightingValue:0];
+	_lightAppearanceButton.image = [self _redrawingImageWithName:@"pref_appearance_light" isMixed:NO userDefaultsKey:DTXPreferencesAppearanceKey highlightingValue:1];
+	_darkAppearanceButton.image = [self _redrawingImageWithName:@"pref_appearance_dark" isMixed:NO userDefaultsKey:DTXPreferencesAppearanceKey highlightingValue:2];
 }
 
 - (IBAction)changeAppearance:(NSButton*)sender

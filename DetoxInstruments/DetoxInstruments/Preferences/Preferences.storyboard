@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,13 +14,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="598" height="354"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d9e-Lu-8zk">
-                                <rect key="frame" x="99" y="66" width="401" height="268"/>
+                                <rect key="frame" x="102" y="71" width="395" height="263"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfF-3P-5CW">
-                                        <rect key="frame" x="0.0" y="200" width="357" height="68"/>
+                                        <rect key="frame" x="0.0" y="191" width="357" height="72"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="CCr-V4-NpS">
-                                                <rect key="frame" x="-2" y="39" width="108" height="16"/>
+                                                <rect key="frame" x="-2" y="28" width="108" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Appearance:" id="7pd-m7-vqW">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -28,13 +28,13 @@
                                                 </textFieldCell>
                                             </textField>
                                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3X3-h1-1gZ">
-                                                <rect key="frame" x="116" y="0.0" width="241" height="68"/>
+                                                <rect key="frame" x="116" y="0.0" width="241" height="72"/>
                                                 <subviews>
                                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isb-qf-u9N">
-                                                        <rect key="frame" x="0.0" y="0.0" width="67" height="68"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="67" height="72"/>
                                                         <subviews>
                                                             <button toolTip="Always use a light appearance for the application." tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="va4-pD-T1d">
-                                                                <rect key="frame" x="0.0" y="24" width="67" height="44"/>
+                                                                <rect key="frame" x="0.0" y="24" width="67" height="48"/>
                                                                 <buttonCell key="cell" type="inline" bezelStyle="inline" image="pref_appearance_light" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="F3j-1O-K9L">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="smallSystemBold"/>
@@ -62,10 +62,10 @@
                                                         </customSpacing>
                                                     </stackView>
                                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6A-4t-D0O">
-                                                        <rect key="frame" x="87" y="0.0" width="67" height="68"/>
+                                                        <rect key="frame" x="87" y="0.0" width="67" height="72"/>
                                                         <subviews>
                                                             <button toolTip="Always use a dark appearance for the application." tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="7mA-tR-f4A">
-                                                                <rect key="frame" x="0.0" y="24" width="67" height="44"/>
+                                                                <rect key="frame" x="0.0" y="24" width="67" height="48"/>
                                                                 <buttonCell key="cell" type="inline" bezelStyle="inline" image="pref_appearance_dark" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Avu-4J-h6S">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="smallSystemBold"/>
@@ -93,10 +93,10 @@
                                                         </customSpacing>
                                                     </stackView>
                                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uXB-oa-rjK">
-                                                        <rect key="frame" x="174" y="0.0" width="67" height="68"/>
+                                                        <rect key="frame" x="174" y="0.0" width="67" height="72"/>
                                                         <subviews>
                                                             <button toolTip="Use the system appearance for the application." translatesAutoresizingMaskIntoConstraints="NO" id="sB4-v0-9K4">
-                                                                <rect key="frame" x="0.0" y="24" width="67" height="44"/>
+                                                                <rect key="frame" x="0.0" y="24" width="67" height="48"/>
                                                                 <buttonCell key="cell" type="inline" bezelStyle="inline" image="pref_appearance_auto" imagePosition="only" alignment="center" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="YT4-9l-oGR">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="smallSystemBold"/>
@@ -146,17 +146,17 @@
                                         </customSpacing>
                                     </stackView>
                                     <customView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="o3d-j6-X2F">
-                                        <rect key="frame" x="0.0" y="180" width="0.0" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="171" width="0.0" height="0.0"/>
                                         <constraints>
                                             <constraint firstAttribute="width" id="53b-QG-Sy8"/>
                                             <constraint firstAttribute="height" id="saM-VF-TaJ"/>
                                         </constraints>
                                     </customView>
                                     <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5hd-yA-BIx">
-                                        <rect key="frame" x="0.0" y="120" width="383" height="40"/>
+                                        <rect key="frame" x="0.0" y="114" width="377" height="37"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5NM-qz-Lrx">
-                                                <rect key="frame" x="-2" y="24" width="108" height="16"/>
+                                                <rect key="frame" x="-2" y="21" width="108" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="CPU usage plot:" id="MtT-UP-5Ad">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -164,10 +164,10 @@
                                                 </textFieldCell>
                                             </textField>
                                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bHL-pu-D4J">
-                                                <rect key="frame" x="112" y="0.0" width="271" height="40"/>
+                                                <rect key="frame" x="112" y="0.0" width="265" height="36"/>
                                                 <subviews>
                                                     <button toolTip="Overlay the main thread CPU usage portion on top of the general CPU usage plot." horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="R9Q-Ml-cqV">
-                                                        <rect key="frame" x="-2" y="23" width="188" height="18"/>
+                                                        <rect key="frame" x="-2" y="20" width="184" height="18"/>
                                                         <buttonCell key="cell" type="check" title="Overlay main thread usage" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8Cc-8s-qSf">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -177,7 +177,7 @@
                                                         </connections>
                                                     </button>
                                                     <button toolTip="Colorize each thread CPU usage plot with a color derived from its name." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="336-PD-vX4">
-                                                        <rect key="frame" x="-2" y="-1" width="273" height="18"/>
+                                                        <rect key="frame" x="-2" y="-2" width="269" height="18"/>
                                                         <buttonCell key="cell" type="check" title="Colorize threads according to their name" bezelStyle="regularSquare" imagePosition="left" inset="2" id="LYi-ZP-9Vy">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -207,10 +207,10 @@
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Qb-Ti-aRT">
-                                        <rect key="frame" x="0.0" y="60" width="401" height="40"/>
+                                        <rect key="frame" x="0.0" y="57" width="395" height="37"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="qO2-vi-a0t">
-                                                <rect key="frame" x="-2" y="24" width="108" height="16"/>
+                                                <rect key="frame" x="-2" y="21" width="108" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Interval plots:" id="osh-KS-NLn">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -218,10 +218,10 @@
                                                 </textFieldCell>
                                             </textField>
                                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2wL-XN-7De">
-                                                <rect key="frame" x="112" y="0.0" width="289" height="40"/>
+                                                <rect key="frame" x="112" y="0.0" width="283" height="36"/>
                                                 <subviews>
                                                     <button toolTip="Display interval value label in interval plots." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YEu-h7-DHY">
-                                                        <rect key="frame" x="-2" y="23" width="99" height="18"/>
+                                                        <rect key="frame" x="-2" y="20" width="95" height="18"/>
                                                         <buttonCell key="cell" type="check" title="Show labels" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="LO6-2e-Rcm">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -231,7 +231,7 @@
                                                         </connections>
                                                     </button>
                                                     <button toolTip="Fade out samples outside of selected interval range." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kkk-nT-MjL">
-                                                        <rect key="frame" x="-2" y="-1" width="291" height="18"/>
+                                                        <rect key="frame" x="-2" y="-2" width="287" height="18"/>
                                                         <buttonCell key="cell" type="check" title="Fade out samples outside of selected range" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="orE-FO-YTl">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -261,10 +261,10 @@
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mRQ-5m-yiq">
-                                        <rect key="frame" x="0.0" y="0.0" width="303" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="297" height="37"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="oI8-i3-Op3">
-                                                <rect key="frame" x="-2" y="24" width="108" height="16"/>
+                                                <rect key="frame" x="-2" y="21" width="108" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Text annotations:" id="Ohj-Hm-oD0">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -272,10 +272,10 @@
                                                 </textFieldCell>
                                             </textField>
                                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K1b-ML-kzS">
-                                                <rect key="frame" x="112" y="0.0" width="191" height="40"/>
+                                                <rect key="frame" x="112" y="0.0" width="185" height="36"/>
                                                 <subviews>
                                                     <button toolTip="Display text annotations on sample highlight." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HFX-Mf-1AX">
-                                                        <rect key="frame" x="-2" y="23" width="193" height="18"/>
+                                                        <rect key="frame" x="-2" y="20" width="189" height="18"/>
                                                         <buttonCell key="cell" type="check" title="Display on sample highlight" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="HTE-od-EAi">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -285,7 +285,7 @@
                                                         </connections>
                                                     </button>
                                                     <button toolTip="Display text annotations on mouse hover." horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="brx-nT-Hbk">
-                                                        <rect key="frame" x="-2" y="-1" width="171" height="18"/>
+                                                        <rect key="frame" x="-2" y="-2" width="167" height="18"/>
                                                         <buttonCell key="cell" type="check" title="Display on mouse hover" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="UJt-1I-JqX">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -375,16 +375,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="FB8-hs-zf7">
-                                <rect key="frame" x="83" y="40" width="432" height="615"/>
+                                <rect key="frame" x="83" y="60" width="432" height="595"/>
                                 <subviews>
                                     <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yI3-6e-MaY">
-                                        <rect key="frame" x="0.0" y="0.0" width="432" height="615"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="432" height="595"/>
                                         <subviews>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zvP-Hz-LmE" userLabel="Sampling Frequency Stack View">
-                                                <rect key="frame" x="0.0" y="594" width="432" height="21"/>
+                                                <rect key="frame" x="0.0" y="574" width="432" height="21"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="XzW-iA-Skh">
-                                                        <rect key="frame" x="-2" y="2" width="129" height="16"/>
+                                                        <rect key="frame" x="-2" y="3" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Sampling frequency:" id="B2H-SR-Zbz">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -395,7 +395,7 @@
                                                         <rect key="frame" x="133" y="0.0" width="299" height="21"/>
                                                         <subviews>
                                                             <popUpButton verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="gNl-oo-giS">
-                                                                <rect key="frame" x="-2" y="-3" width="304" height="25"/>
+                                                                <rect key="frame" x="-2" y="-3" width="303" height="25"/>
                                                                 <popUpButtonCell key="cell" type="push" title="Even more often (16 samples every second)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="625" imageScaling="proportionallyDown" inset="2" selectedItem="i3p-6Z-N6J" id="T9z-h8-fBH">
                                                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                     <font key="font" metaFont="menu"/>
@@ -443,7 +443,7 @@
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kKa-rT-pJr" userLabel="Performance Stack View">
-                                                <rect key="frame" x="0.0" y="558" width="432" height="16"/>
+                                                <rect key="frame" x="0.0" y="538" width="432" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="l40-Fo-Y6V">
                                                         <rect key="frame" x="-2" y="0.0" width="129" height="16"/>
@@ -454,10 +454,10 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gxG-eP-R5y">
-                                                        <rect key="frame" x="133" y="0.0" width="299" height="16"/>
+                                                        <rect key="frame" x="133" y="1" width="299" height="14"/>
                                                         <subviews>
                                                             <button toolTip="Record performance information during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="o6T-tP-cWG">
-                                                                <rect key="frame" x="-2" y="-1" width="151" height="18"/>
+                                                                <rect key="frame" x="-2" y="-2" width="147" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Record performance" bezelStyle="regularSquare" imagePosition="left" inset="2" id="4Cj-Cd-kq3">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -485,10 +485,10 @@
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i8R-ML-Kiq" userLabel="Threads Stack View">
-                                                <rect key="frame" x="0.0" y="474" width="432" height="64"/>
+                                                <rect key="frame" x="0.0" y="459" width="432" height="59"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="afx-j5-wgm">
-                                                        <rect key="frame" x="-2" y="48" width="129" height="16"/>
+                                                        <rect key="frame" x="-2" y="43" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Threads:" id="xA9-Dg-rUF">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -496,10 +496,10 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v14-k9-NLt">
-                                                        <rect key="frame" x="133" y="0.0" width="299" height="64"/>
+                                                        <rect key="frame" x="133" y="0.0" width="299" height="58"/>
                                                         <subviews>
                                                             <button toolTip="Record thread information during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="F26-30-YaI">
-                                                                <rect key="frame" x="-2" y="47" width="185" height="18"/>
+                                                                <rect key="frame" x="-2" y="42" width="181" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Record thread information" bezelStyle="regularSquare" imagePosition="left" inset="2" id="M7L-sW-G3P">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -517,7 +517,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="3TN-Po-bOV">
-                                                                <rect key="frame" x="-2" y="23" width="147" height="18"/>
+                                                                <rect key="frame" x="-2" y="20" width="143" height="18"/>
                                                                 <string key="toolTip">Collect stack trace information where appropriate.
 
 Collecting stack traces may introduce some performance hit.</string>
@@ -546,7 +546,7 @@ Collecting stack traces may introduce some performance hit.</string>
                                                                 </connections>
                                                             </button>
                                                             <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="svv-ID-yR1">
-                                                                <rect key="frame" x="-2" y="-1" width="179" height="18"/>
+                                                                <rect key="frame" x="-2" y="-2" width="175" height="18"/>
                                                                 <string key="toolTip">Symbolicate stack traces at runtime.
 
 Symbolicating stack traces may introduce some performance hit.</string>
@@ -605,7 +605,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Akq-8f-KTC" userLabel="Disk Usage Stack View">
-                                                <rect key="frame" x="0.0" y="438" width="432" height="16"/>
+                                                <rect key="frame" x="0.0" y="423" width="432" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="bKK-92-CPC">
                                                         <rect key="frame" x="-2" y="0.0" width="129" height="16"/>
@@ -616,10 +616,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sLF-vh-sP2">
-                                                        <rect key="frame" x="133" y="0.0" width="299" height="16"/>
+                                                        <rect key="frame" x="133" y="1" width="299" height="14"/>
                                                         <subviews>
                                                             <button toolTip="Collect names of files open in the app at the time of sampling." verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="xPd-U1-DAt">
-                                                                <rect key="frame" x="-2" y="-1" width="168" height="18"/>
+                                                                <rect key="frame" x="-2" y="-2" width="164" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Collect open file names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="d6c-lb-Bz3">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -655,10 +655,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7wV-gW-uwo" userLabel="Network Stack View">
-                                                <rect key="frame" x="0.0" y="354" width="432" height="64"/>
+                                                <rect key="frame" x="0.0" y="344" width="432" height="59"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8xK-CT-02C">
-                                                        <rect key="frame" x="-2" y="48" width="129" height="16"/>
+                                                        <rect key="frame" x="-2" y="43" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Network:" id="JRU-8m-g7Z">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -666,10 +666,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jwz-Nl-uP9">
-                                                        <rect key="frame" x="133" y="0.0" width="299" height="64"/>
+                                                        <rect key="frame" x="133" y="0.0" width="299" height="58"/>
                                                         <subviews>
                                                             <button toolTip="Record network requests during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="JAM-51-dQ2">
-                                                                <rect key="frame" x="-2" y="47" width="122" height="18"/>
+                                                                <rect key="frame" x="-2" y="42" width="118" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Record network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="a9T-7e-wdo">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -679,7 +679,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                 </connections>
                                                             </button>
                                                             <button toolTip="Record localhost network requests during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="jfm-sB-jhY">
-                                                                <rect key="frame" x="-2" y="23" width="180" height="18"/>
+                                                                <rect key="frame" x="-2" y="20" width="176" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Record localhost network" bezelStyle="regularSquare" imagePosition="left" inset="2" id="eyk-hA-00W">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -697,7 +697,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                 </connections>
                                                             </button>
                                                             <button toolTip="Disables cache for network requests." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="vod-jy-C5Y">
-                                                                <rect key="frame" x="-2" y="-1" width="164" height="18"/>
+                                                                <rect key="frame" x="-2" y="-2" width="160" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Disable network cache" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ifR-t0-AmG">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -737,10 +737,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqq-v5-n1K" userLabel="Events Stack View">
-                                                <rect key="frame" x="0.0" y="288" width="432" height="46"/>
+                                                <rect key="frame" x="0.0" y="279" width="432" height="45"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="z6W-cp-Vt6">
-                                                        <rect key="frame" x="-2" y="30" width="129" height="16"/>
+                                                        <rect key="frame" x="-2" y="29" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Events:" id="0ci-1t-pkd">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -748,10 +748,10 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dmq-2o-PMa">
-                                                        <rect key="frame" x="133" y="0.0" width="299" height="46"/>
+                                                        <rect key="frame" x="133" y="0.0" width="299" height="44"/>
                                                         <subviews>
                                                             <button toolTip="Record events during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Qdt-VA-kIa">
-                                                                <rect key="frame" x="-2" y="29" width="113" height="18"/>
+                                                                <rect key="frame" x="-2" y="28" width="109" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Record events" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZMe-Nb-56v">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -764,7 +764,7 @@ Symbolicating stack traces may introduce some performance hit.</string>
                                                                 <rect key="frame" x="0.0" y="0.0" width="259" height="22"/>
                                                                 <subviews>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="plB-LA-vJu">
-                                                                        <rect key="frame" x="-7" y="-6" width="150" height="32"/>
+                                                                        <rect key="frame" x="-6" y="-6" width="156" height="32"/>
                                                                         <string key="toolTip">Edit the event categories to ignore when profiling.
 
 Use this feature to prevent clutter in the Events instrument.</string>
@@ -812,7 +812,7 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rJ2-3a-my7" userLabel="Events Stack View">
-                                                <rect key="frame" x="0.0" y="252" width="432" height="16"/>
+                                                <rect key="frame" x="0.0" y="243" width="432" height="16"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Z8G-nl-aI4">
                                                         <rect key="frame" x="-2" y="0.0" width="129" height="16"/>
@@ -823,10 +823,10 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xWC-ZQ-JVB">
-                                                        <rect key="frame" x="133" y="0.0" width="299" height="16"/>
+                                                        <rect key="frame" x="133" y="1" width="299" height="14"/>
                                                         <subviews>
                                                             <button toolTip="Record app activity during profiling." verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="MKO-za-RrZ">
-                                                                <rect key="frame" x="-2" y="-1" width="143" height="18"/>
+                                                                <rect key="frame" x="-2" y="-2" width="139" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Record app activity" bezelStyle="regularSquare" imagePosition="left" inset="2" id="lhg-gL-bRv">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -854,7 +854,7 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cRB-di-s5O" userLabel="Log Stack View">
-                                                <rect key="frame" x="0.0" y="216" width="432" height="16"/>
+                                                <rect key="frame" x="0.0" y="207" width="432" height="16"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="kxx-bo-FHN">
                                                         <rect key="frame" x="-2" y="0.0" width="129" height="16"/>
@@ -865,10 +865,10 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GLI-40-lSF">
-                                                        <rect key="frame" x="133" y="0.0" width="299" height="16"/>
+                                                        <rect key="frame" x="133" y="1" width="299" height="14"/>
                                                         <subviews>
                                                             <button toolTip="Record log output during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="w6Q-EN-wGe">
-                                                                <rect key="frame" x="-2" y="-1" width="135" height="18"/>
+                                                                <rect key="frame" x="-2" y="-2" width="131" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Record log output" bezelStyle="regularSquare" imagePosition="left" inset="2" id="mp7-HY-XLP">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -896,10 +896,10 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y8h-d7-mBG" userLabel="React Native Stack View">
-                                                <rect key="frame" x="0.0" y="84" width="432" height="112"/>
+                                                <rect key="frame" x="0.0" y="84" width="432" height="103"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lEl-y6-uLC">
-                                                        <rect key="frame" x="-2" y="96" width="129" height="16"/>
+                                                        <rect key="frame" x="-2" y="87" width="129" height="16"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="React Native:" id="44V-23-JWq">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -907,10 +907,10 @@ Use this feature to prevent clutter in the Events instrument.</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHh-zC-CeP">
-                                                        <rect key="frame" x="133" y="0.0" width="299" height="112"/>
+                                                        <rect key="frame" x="133" y="0.0" width="299" height="102"/>
                                                         <subviews>
                                                             <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="34Z-pu-E1Y">
-                                                                <rect key="frame" x="-2" y="95" width="223" height="18"/>
+                                                                <rect key="frame" x="-2" y="86" width="219" height="18"/>
                                                                 <string key="toolTip">Profile React Native application.
 
 Currently, only one active React Native bridge is supported.</string>
@@ -923,7 +923,7 @@ Currently, only one active React Native bridge is supported.</string>
                                                                 </connections>
                                                             </button>
                                                             <button toolTip="Record React Native bridge data during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="XYD-UK-7Bj">
-                                                                <rect key="frame" x="-2" y="71" width="188" height="18"/>
+                                                                <rect key="frame" x="-2" y="64" width="184" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Record async storage data" bezelStyle="regularSquare" imagePosition="left" inset="2" id="JAc-QU-zUM">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -938,7 +938,7 @@ Currently, only one active React Native bridge is supported.</string>
                                                                 </connections>
                                                             </button>
                                                             <button toolTip="Record React Native bridge data during profiling." verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iYq-WM-een">
-                                                                <rect key="frame" x="-2" y="47" width="142" height="18"/>
+                                                                <rect key="frame" x="-2" y="42" width="138" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Record bridge data" bezelStyle="regularSquare" imagePosition="left" inset="2" id="kHu-3D-fRm">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -956,7 +956,7 @@ Currently, only one active React Native bridge is supported.</string>
                                                                 </connections>
                                                             </button>
                                                             <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iQv-ND-aT4">
-                                                                <rect key="frame" x="-2" y="23" width="246" height="18"/>
+                                                                <rect key="frame" x="-2" y="20" width="242" height="18"/>
                                                                 <string key="toolTip">Record internal React Native events.
 
 Taps into the internal profiling mechanisms to collect internal React Native profiling events.</string>
@@ -977,7 +977,7 @@ Taps into the internal profiling mechanisms to collect internal React Native pro
                                                                 </connections>
                                                             </button>
                                                             <button verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Rqu-7F-RGF">
-                                                                <rect key="frame" x="-2" y="-1" width="176" height="18"/>
+                                                                <rect key="frame" x="-2" y="-2" width="172" height="18"/>
                                                                 <string key="toolTip">Record React Native timers, created using setTimeout() in Java Script, as events.
 
 Timers will appear as interval events in the Events instrument. This option requires the detox-instruments-react-native-utils package be installed in the profiled React Native app.</string>
@@ -1038,7 +1038,7 @@ Timers will appear as interval events in the Events instrument. This option requ
                                                         <rect key="frame" x="133" y="0.0" width="299" height="22"/>
                                                         <subviews>
                                                             <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t8S-TB-Yky">
-                                                                <rect key="frame" x="0.0" y="0.0" width="124" height="22"/>
+                                                                <rect key="frame" x="0.0" y="1" width="123" height="21"/>
                                                                 <subviews>
                                                                     <textField toolTip="Limit the recording duration" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g86-Hv-NyJ">
                                                                         <rect key="frame" x="0.0" y="0.0" width="30" height="21"/>
@@ -1062,7 +1062,7 @@ Timers will appear as interval events in the Events instrument. This option requ
                                                                         </connections>
                                                                     </textField>
                                                                     <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="juM-MR-ByT">
-                                                                        <rect key="frame" x="36" y="-2" width="91" height="25"/>
+                                                                        <rect key="frame" x="36" y="-3" width="90" height="25"/>
                                                                         <popUpButtonCell key="cell" type="push" title="minutes" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="FtC-kq-5re" id="bZl-8I-s0g">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="menu"/>
@@ -1241,7 +1241,7 @@ Timers will appear as interval events in the Events instrument. This option requ
                                 </connections>
                             </button>
                             <button toolTip="Restore the default profiling " verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3R9-3l-Btv">
-                                <rect key="frame" x="418" y="13" width="135" height="32"/>
+                                <rect key="frame" x="410" y="13" width="141" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="63H-md-RM8"/>
                                 </constraints>
@@ -1279,11 +1279,11 @@ Timers will appear as interval events in the Events instrument. This option requ
             <objects>
                 <viewController title="Ignored Event Categories" storyboardIdentifier="IgnoredCategoriesViewController" id="urf-AH-8rX" customClass="_DTXProfilingConfigurationIgnoredEventsCategoriesViewController" sceneMemberID="viewController">
                     <view key="view" id="OIE-0h-ip8">
-                        <rect key="frame" x="0.0" y="0.0" width="460" height="299"/>
+                        <rect key="frame" x="0.0" y="0.0" width="460" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ed-55-XAQ">
-                                <rect key="frame" x="20" y="60" width="420" height="219"/>
+                                <rect key="frame" x="20" y="61" width="420" height="219"/>
                                 <clipView key="contentView" id="qcr-4K-OIi">
                                     <rect key="frame" x="1" y="1" width="418" height="217"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1333,7 +1333,7 @@ Timers will appear as interval events in the Events instrument. This option requ
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Le5-LR-tak">
-                                <rect key="frame" x="371" y="13" width="76" height="32"/>
+                                <rect key="frame" x="364" y="13" width="82" height="32"/>
                                 <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LRk-X3-Qyg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1346,7 +1346,7 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WL9-KP-4FZ">
-                                <rect key="frame" x="45" y="13" width="83" height="32"/>
+                                <rect key="frame" x="47" y="13" width="89" height="32"/>
                                 <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m8r-Et-Pq8">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1357,7 +1357,7 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XOg-4P-H58">
-                                <rect key="frame" x="126" y="13" width="83" height="32"/>
+                                <rect key="frame" x="136" y="13" width="89" height="32"/>
                                 <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hvj-jn-83L">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1368,7 +1368,7 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7EH-17-K7Z">
-                                <rect key="frame" x="297" y="13" width="76" height="32"/>
+                                <rect key="frame" x="282" y="13" width="82" height="32"/>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qvR-9M-bBb">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1381,7 +1381,7 @@ Gw
                                 </connections>
                             </button>
                             <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lpg-0b-Fba">
-                                <rect key="frame" x="17" y="16" width="25" height="25"/>
+                                <rect key="frame" x="18" y="16" width="25" height="25"/>
                                 <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SX6-Zd-Db4">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1433,7 +1433,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" preferredMaxLayoutWidth="244" translatesAutoresizingMaskIntoConstraints="NO" id="UbL-Hd-VO7">
-                                <rect key="frame" x="265" y="116" width="237" height="42"/>
+                                <rect key="frame" x="265" y="115" width="237" height="42"/>
                                 <textFieldCell key="cell" title="The Detox Instruments command-line utility allows querying recording data from the command-line." id="Veg-V0-hoo">
                                     <font key="font" metaFont="menu" size="11"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1441,14 +1441,14 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="0Ot-dF-aMZ">
-                                <rect key="frame" x="260" y="159" width="70" height="32"/>
+                                <rect key="frame" x="261" y="158" width="76" height="32"/>
                                 <buttonCell key="cell" type="push" title="Install" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Pz2-YE-G08">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                             <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="qZP-Lb-3p1">
-                                <rect key="frame" x="329" y="169" width="175" height="14"/>
+                                <rect key="frame" x="337" y="168" width="176" height="14"/>
                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Installed at: /usr/local/bin/dtxinst" id="FMO-Gd-Bug">
                                     <font key="font" metaFont="menu" size="11"/>
                                     <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -1456,7 +1456,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="1qR-6y-o0e">
-                                <rect key="frame" x="125" y="169" width="136" height="16"/>
+                                <rect key="frame" x="125" y="168" width="136" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Command-line Utility:" id="iPI-S0-exQ">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
