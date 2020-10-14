@@ -2235,7 +2235,7 @@
 		39EBDFB01ED36D45005D8AB1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
 					396DAAA6231C505E00FFBDDB = {
