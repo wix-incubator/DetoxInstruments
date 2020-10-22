@@ -47,6 +47,34 @@
 			<key>family</key>
 			<string>iphone</string>
 		</dict>
+		<key>iPhone13,1</key>
+		<dict>
+			<key>model</key>
+			<string>12_mini</string>
+			<key>family</key>
+			<string>iphone</string>
+		</dict>
+		<key>iPhone13,2</key>
+		<dict>
+			<key>model</key>
+			<string>12</string>
+			<key>family</key>
+			<string>iphone</string>
+		</dict>
+		<key>iPhone13,3</key>
+		<dict>
+			<key>model</key>
+			<string>12_pro</string>
+			<key>family</key>
+			<string>iphone</string>
+		</dict>
+		<key>iPhone13,4</key>
+		<dict>
+			<key>model</key>
+			<string>12_pro_max</string>
+			<key>family</key>
+			<string>iphone</string>
+		</dict>
 		<key>iPhone12,1</key>
 		<dict>
 			<key>model</key>
@@ -86,6 +114,13 @@
 		<dict>
 			<key>model</key>
 			<string>11_pro</string>
+			<key>family</key>
+			<string>iphone</string>
+		</dict>
+		<key>iPhone12,8</key>
+		<dict>
+			<key>model</key>
+			<string>se_2</string>
 			<key>family</key>
 			<string>iphone</string>
 		</dict>
@@ -248,6 +283,50 @@
 					<key>colorSuffixes</key>
 					<dict/>
 				</dict>
+				<key>12_mini</key>
+				<dict>
+					<key>imageNameSuffix</key>
+					<string>xs</string>
+					<key>resolution</key>
+					<string>{1080,2340}</string>
+					<key>nameSuffix</key>
+					<string>12 mini</string>
+					<key>colorSuffixes</key>
+					<dict/>
+				</dict>
+				<key>12</key>
+				<dict>
+					<key>imageNameSuffix</key>
+					<string>xr</string>
+					<key>resolution</key>
+					<string>{1170,2532}</string>
+					<key>nameSuffix</key>
+					<string>12</string>
+					<key>colorSuffixes</key>
+					<dict/>
+				</dict>
+				<key>12_pro</key>
+				<dict>
+					<key>imageNameSuffix</key>
+					<string>xs</string>
+					<key>resolution</key>
+					<string>{1170,2532}</string>
+					<key>nameSuffix</key>
+					<string>12 Pro</string>
+					<key>colorSuffixes</key>
+					<dict/>
+				</dict>
+				<key>12_pro_max</key>
+				<dict>
+					<key>imageNameSuffix</key>
+					<string>xs_max</string>
+					<key>resolution</key>
+					<string>{1284,2778}</string>
+					<key>nameSuffix</key>
+					<string>12 Pro Max</string>
+					<key>colorSuffixes</key>
+					<dict/>
+				</dict>
 				<key>11</key>
 				<dict>
 					<key>imageNameSuffix</key>
@@ -348,6 +427,17 @@
 						<key>3</key>
 						<string>_3</string>
 					</dict>
+				</dict>
+				<key>se_2</key>
+				<dict>
+					<key>resolution</key>
+					<string>{750,1334}</string>
+					<key>imageNameSuffix</key>
+					<string>8</string>
+					<key>nameSuffix</key>
+					<string>8</string>
+					<key>colorSuffixes</key>
+					<dict/>
 				</dict>
 				<key>se</key>
 				<dict>

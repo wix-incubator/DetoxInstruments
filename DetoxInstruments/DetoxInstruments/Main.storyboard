@@ -38,7 +38,7 @@
                                 <toolbarItem implicitItemIdentifier="C88B62F3-702A-4CBD-8EAF-DF687C481F44" explicitItemIdentifier="TitleToolbarItem" label="" paletteLabel="" sizingBehavior="auto" id="N0I-Xm-YUa">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T7S-3q-2aZ">
-                                        <rect key="frame" x="-7" y="-7" width="514" height="32"/>
+                                        <rect key="frame" x="-6" y="-7" width="512" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="500" id="k4A-LW-shW"/>
                                         </constraints>
@@ -720,7 +720,7 @@ CA
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="5bU-Jk-f2G"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="The Recording Document Help" id="9XZ-aa-B3C">
+                                        <menuItem title="Recording Document Help" id="9XZ-aa-B3C">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="showDocumentHelp:" target="Voe-Tx-rLC" id="aUM-wJ-E0A"/>
@@ -814,7 +814,7 @@ CA
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6TD-ro-Yv4">
-                            <rect key="frame" x="86" y="19" width="120" height="25"/>
+                            <rect key="frame" x="87" y="19" width="118" height="25"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="113" placeholder="YES" id="N0J-eG-xtC"/>
                             </constraints>
@@ -834,7 +834,7 @@ CA
                             </popUpButtonCell>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
-                            <rect key="frame" x="32" y="26" width="51" height="16"/>
+                            <rect key="frame" x="32" y="25" width="51" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="7Wr-AB-JVL">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
