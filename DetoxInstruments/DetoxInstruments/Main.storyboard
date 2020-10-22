@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -38,7 +38,7 @@
                                 <toolbarItem implicitItemIdentifier="C88B62F3-702A-4CBD-8EAF-DF687C481F44" explicitItemIdentifier="TitleToolbarItem" label="" paletteLabel="" sizingBehavior="auto" id="N0I-Xm-YUa">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T7S-3q-2aZ">
-                                        <rect key="frame" x="0.0" y="14" width="30" height="32"/>
+                                        <rect key="frame" x="-7" y="-7" width="514" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="500" id="k4A-LW-shW"/>
                                         </constraints>
@@ -119,10 +119,10 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="_customizeButton" destination="W0F-h5-tJo" id="XKr-0f-774"/>
                         <outlet property="_flagButton" destination="hsw-RF-kd0" id="1Ab-Hc-Cmv"/>
                         <outlet property="_layoutSegmentControl" destination="exo-S1-QJq" id="Qxw-Un-xuG"/>
                         <outlet property="_nowButton" destination="5Or-4p-97g" id="XKr-0f-773"/>
-                        <outlet property="_customizeButton" destination="W0F-h5-tJo" id="XKr-0f-774"/>
                         <outlet property="_stopRecordingButton" destination="aub-nx-8CB" id="pf7-9g-1Ji"/>
                         <outlet property="_titleLabelContainer" destination="T7S-3q-2aZ" id="4Xt-Wt-O9d"/>
                         <segue destination="U0P-Vs-3Mc" kind="relationship" relationship="window.shadowedContentViewController" id="otc-m8-0Xa"/>
@@ -574,6 +574,32 @@ CA
                                                 <action selector="toggleFullScreen:" target="Ady-hI-5gd" id="yjW-Ma-KlO"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Toolbar Style" identifier="DTXToolbarStyleMenu" id="vqs-YV-LA2">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Toolbar Style" id="q22-6r-Pnp">
+                                                <items>
+                                                    <menuItem title="Expanded" tag="1" id="SbD-8x-kSu">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="_expandedToolbar:" target="Ady-hI-5gd" id="dvJ-s7-mOa"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Unified" tag="3" id="zxI-2t-Izn">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="_unifiedToolbar:" target="Ady-hI-5gd" id="Vsk-3I-kQI"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                            <connections>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="ljA-YA-2DK">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Hide Window Title" id="XWS-r2-0VU">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -788,7 +814,7 @@ CA
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6TD-ro-Yv4">
-                            <rect key="frame" x="87" y="19" width="118" height="25"/>
+                            <rect key="frame" x="86" y="19" width="120" height="25"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="113" placeholder="YES" id="N0J-eG-xtC"/>
                             </constraints>
@@ -808,7 +834,7 @@ CA
                             </popUpButtonCell>
                         </popUpButton>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="A51-6N-F8J">
-                            <rect key="frame" x="32" y="23" width="51" height="16"/>
+                            <rect key="frame" x="32" y="26" width="51" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="7Wr-AB-JVL">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

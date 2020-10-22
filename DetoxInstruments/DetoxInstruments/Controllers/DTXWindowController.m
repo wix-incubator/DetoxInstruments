@@ -23,6 +23,7 @@
 extern OSStatus DTXGoToHelpPage(NSString* pagePath);
 
 static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility";
+static NSString* const __DTXWindowToolbarStyle API_AVAILABLE(macos(11.0)) = @"__DTXWindowToolbarStyle";
 
 @interface DTXProfilerWindow : NSWindow @end
 
@@ -57,17 +58,30 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 
 @implementation DTXWindowController
 
++ (void)load
+{
+	@autoreleasepool
+	{
+		if (@available(macOS 11.0, *))
+		{
+			[NSUserDefaults.standardUserDefaults registerDefaults:@{__DTXWindowToolbarStyle: @(NSWindowToolbarStyleExpanded)}];
+		}
+	}
+}
+
 - (void)windowDidLoad
 {
     [super windowDidLoad];
 	
-	self.window.titleVisibility = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowTitleVisibility];
 	self.window.delegate = self;
 	
 	self.window.toolbar.centeredItemIdentifier = @"TitleToolbarItem";
 	
 	if(@available(macOS 11.0, *))
 	{
+		self.window.titleVisibility = NSWindowTitleVisible;
+		self.window.toolbarStyle = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowToolbarStyle];
+		
 		NSImage* stopImage = [NSImage imageWithSystemSymbolName:@"stop.fill" accessibilityDescription:nil];
 		stopImage.size = CGSizeMake(15, 15);
 		
@@ -81,6 +95,7 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	else
 	{
 		self.window.styleMask &= ~NSWindowStyleMaskFullSizeContentView;
+		self.window.titleVisibility = [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowTitleVisibility];
 	}
 }
 
@@ -373,8 +388,39 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 		return YES;
 	}
 	
+	if([menuItem.identifier isEqualToString:@"DTXToolbarStyleMenu"])
+	{
+		if_unavailable(macOS 11.0, *)
+		{
+			menuItem.hidden = YES;
+			
+			return NO;
+		}
+	}
+	
+	if(menuItem.action == @selector(_unifiedToolbar:) || menuItem.action == @selector(_expandedToolbar:))
+	{
+		if(@available(macOS 11.0, *))
+		{
+			menuItem.state = menuItem.tag == [NSUserDefaults.standardUserDefaults integerForKey:__DTXWindowToolbarStyle] ? NSControlStateValueOn : NSControlStateValueOff;
+			
+			return YES;
+		}
+		
+		menuItem.hidden = YES;
+		
+		return NO;
+	}
+	
 	if(menuItem.action == @selector(_toggleTitleVisibility:))
 	{
+		if(@available(macOS 11.0, *))
+		{
+			menuItem.hidden = YES;
+			
+			return NO;
+		}
+		
 		menuItem.title = self.window.titleVisibility == NSWindowTitleHidden ? NSLocalizedString(@"Show Window Title", @"") : NSLocalizedString(@"Hide Window Title", @"");
 		
 		return YES;
@@ -408,8 +454,27 @@ static NSString* const __DTXWindowTitleVisibility = @"__DTXWindowTitleVisibility
 	}];
 }
 
+- (IBAction)_unifiedToolbar:(id)sender API_AVAILABLE(macos(11.0))
+{
+	self.window.toolbarStyle = NSWindowToolbarStyleUnified;
+	
+	[NSUserDefaults.standardUserDefaults setInteger:NSWindowToolbarStyleUnified forKey:__DTXWindowToolbarStyle];
+}
+
+- (IBAction)_expandedToolbar:(id)sender API_AVAILABLE(macos(11.0))
+{
+	self.window.toolbarStyle = NSWindowToolbarStyleExpanded;
+	
+	[NSUserDefaults.standardUserDefaults setInteger:NSWindowToolbarStyleExpanded forKey:__DTXWindowToolbarStyle];
+}
+
 - (IBAction)_toggleTitleVisibility:(id)sender
 {
+	if(@available(macOS 11.0, *))
+	{
+		return;
+	}
+	
 	self.window.titleVisibility = 1 - self.window.titleVisibility;
 	
 	[self.window.tabbedWindows enumerateObjectsUsingBlock:^(NSWindow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
