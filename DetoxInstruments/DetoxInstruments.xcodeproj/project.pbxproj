@@ -3074,7 +3074,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S3GLW74Y8N;
 				DSTROOT = /;
-				DTXBundleName = "Detox Instruments (Preview)";
+				DTXBundleName = "Detox Instruments (Beta)";
 				DTXSRCROOT = "$(SRCROOT)";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3121,7 +3121,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S3GLW74Y8N;
 				DSTROOT = /;
-				DTXBundleName = "Detox Instruments (Preview)";
+				DTXBundleName = "Detox Instruments (Beta)";
 				DTXSRCROOT = "---";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
