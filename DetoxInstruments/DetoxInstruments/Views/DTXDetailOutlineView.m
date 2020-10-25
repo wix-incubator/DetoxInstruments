@@ -20,7 +20,7 @@
 	
 	if (@available(macOS 11.0, *))
 	{
-		self.style = NSTableViewStyleFullWidth;
+		self.style = NSTableViewStyleInset;
 	}
 }
 
@@ -40,6 +40,16 @@
 	NSRect rv = objc_superAllocTyped(&mySuper, _cmd, column, row);
 	
 	return rv;
+}
+
+- (void)layout
+{
+	[super layout];
+	
+	if((self.tableColumns.lastObject.resizingMask & NSTableColumnAutoresizingMask) == NSTableColumnAutoresizingMask)
+	{
+		[self sizeLastColumnToFit];
+	}
 }
 
 @end

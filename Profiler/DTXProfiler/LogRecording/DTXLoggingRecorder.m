@@ -26,8 +26,6 @@ static int __pipe[2];
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		BOOL shouldFallbackToLegacy = NO;
-		
 		_streamer = [DTXLiveLogStreamer new];
 		if(_streamer == nil)
 		{

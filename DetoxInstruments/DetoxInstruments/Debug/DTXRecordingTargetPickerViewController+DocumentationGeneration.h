@@ -9,11 +9,13 @@
 #if DEBUG
 
 #import "DTXRecordingTargetPickerViewController.h"
+#import "DTXLiveLogWindowController.h"
 #import "DTXProfilingTargetManagementWindowController.h"
 
 @interface DTXRecordingTargetPickerViewController (DocumentationGeneration)
 
 - (void)_addFakeTarget;
+- (DTXLiveLogWindowController*)_openLiveConsoleWindowController;
 - (DTXProfilingTargetManagementWindowController*)_openManagementWindowController;
 
 @end

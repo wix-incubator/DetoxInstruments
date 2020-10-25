@@ -35,7 +35,7 @@
 	NSImage* image;
 	if(@available(macOS 11.0, *))
 	{
-		image = [NSImage imageWithSystemSymbolName:@"internaldrive" accessibilityDescription:nil];
+		image = [NSImage imageWithSystemSymbolName:@"note.text" accessibilityDescription:nil];
 	}
 	else
 	{

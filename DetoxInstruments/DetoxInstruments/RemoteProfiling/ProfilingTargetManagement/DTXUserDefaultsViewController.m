@@ -74,7 +74,7 @@
 	NSImage* image;
 	if(@available(macOS 11.0, *))
 	{
-		image = [NSImage imageWithSystemSymbolName:@"wrench.and.screwdriver" accessibilityDescription:nil];
+		image = [NSImage imageWithSystemSymbolName:@"wrench.and.screwdriver.fill" accessibilityDescription:nil];
 	}
 	else
 	{

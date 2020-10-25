@@ -37,8 +37,14 @@
 		_statusImageView.translatesAutoresizingMaskIntoConstraints = NO;
 		[self addSubview:_statusImageView];
 		
+		CGFloat leadingConstant = 10;
+		if(@available(macOS 11.0, *))
+		{
+			leadingConstant = 14;
+		}
+		
 		[NSLayoutConstraint activateConstraints:@[
-												  [_statusImageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10],
+												  [_statusImageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:leadingConstant],
 												  [_statusImageView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
 												  [_statusImageView.widthAnchor constraintEqualToConstant:9],
 												  [_statusImageView.heightAnchor constraintEqualToConstant:9],

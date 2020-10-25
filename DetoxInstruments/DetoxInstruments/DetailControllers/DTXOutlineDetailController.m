@@ -34,18 +34,6 @@
 	super.detailDataProvider.managedOutlineView = _outlineView;
 }
 
-- (void)viewDidLayout
-{
-	[super viewDidLayout];
-	
-	if(_outlineView.tableColumns.lastObject.resizingMask != NSTableColumnAutoresizingMask)
-	{
-		return;
-	}
-	
-	[_outlineView sizeLastColumnToFit];
-}
-
 - (void)updateViewWithInsets:(NSEdgeInsets)insets
 {
 	_outlineView.enclosingScrollView.contentInsets = insets;

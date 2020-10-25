@@ -152,7 +152,6 @@
 		self.context.automaticallyMergesChangesFromParent = YES;
 	}];
 	
-	NSManagedObjectContext* bg = _container.newBackgroundContext;
 	[self.profilingTarget startStreamingLogsWithHandler:^(BOOL isFromAppProcess, NSString* processName, BOOL isFromApple, NSDate *timestamp, DTXProfilerLogLevel level, NSString *subsystem, NSString *category, NSString *message) {
 		[self.context performBlock:^{
 			DTXLiveLogEntry* entry = [[DTXLiveLogEntry alloc] initWithContext:self.context];
@@ -210,6 +209,11 @@
 	DTXLiveLogEntry* entry = _arrayController.selectedObjects.firstObject;
 	
 	[self _loadEntry:entry];
+}
+
+- (void)tableViewColumnDidResize:(NSNotification *)notification
+{
+	[_tableView sizeLastColumnToFit];
 }
 
 - (void)_loadEntry:(DTXLiveLogEntry*)entry

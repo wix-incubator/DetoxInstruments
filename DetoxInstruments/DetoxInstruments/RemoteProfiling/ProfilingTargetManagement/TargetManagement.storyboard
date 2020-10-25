@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,24 +11,24 @@
         <scene sceneID="55C-U0-2ft">
             <objects>
                 <viewController storyboardIdentifier="DTXContainerContentsViewController" id="Wdv-EC-CNl" customClass="DTXContainerContentsViewController" sceneMemberID="viewController">
-                    <view key="view" id="OwF-fw-lVY" customClass="DTXLayerView">
-                        <rect key="frame" x="0.0" y="0.0" width="552" height="397"/>
+                    <view key="view" misplaced="YES" id="OwF-fw-lVY" customClass="DTXLayerView">
+                        <rect key="frame" x="0.0" y="0.0" width="587" height="393"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" hasHorizontalScroller="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="D8N-1x-Qez">
-                                <rect key="frame" x="20" y="60" width="512" height="317"/>
+                            <scrollView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" hasHorizontalScroller="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="D8N-1x-Qez">
+                                <rect key="frame" x="20" y="60" width="524" height="311"/>
                                 <clipView key="contentView" drawsBackground="NO" id="4J8-If-PYL">
-                                    <rect key="frame" x="1" y="1" width="510" height="315"/>
+                                    <rect key="frame" x="1" y="1" width="522" height="309"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" autoresizesOutlineColumn="YES" outlineTableColumn="2Ij-Ca-fzd" id="fvj-22-i8q" customClass="DTXFileListOutlineView">
-                                            <rect key="frame" x="0.0" y="0.0" width="510" height="315"/>
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="inset" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="13" outlineTableColumn="2Ij-Ca-fzd" id="fvj-22-i8q" customClass="DTXFileListOutlineView">
+                                            <rect key="frame" x="0.0" y="0.0" width="542" height="309"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <size key="intercellSpacing" width="2" height="3"/>
+                                            <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn editable="NO" width="498" minWidth="490" maxWidth="1000000000" id="2Ij-Ca-fzd">
+                                                <tableColumn editable="NO" width="510" minWidth="490" maxWidth="1000000000" id="2Ij-Ca-fzd">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -41,10 +41,10 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="DTXFileItemCellView" id="7iE-MX-ehe" customClass="DTXTwoLabelsCellView">
-                                                            <rect key="frame" x="1" y="1" width="508" height="17"/>
+                                                            <rect key="frame" x="18" y="0.0" width="505" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x2j-ID-jdA">
+                                                                <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x2j-ID-jdA">
                                                                     <rect key="frame" x="3" y="0.0" width="17" height="17"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="17" id="NxG-0r-N8C"/>
@@ -61,7 +61,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="zaF-Pp-wLb">
-                                                                    <rect key="frame" x="469" y="1" width="37" height="16"/>
+                                                                    <rect key="frame" x="466" y="1" width="37" height="16"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="ghS-5m-Xvc">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
@@ -75,7 +75,7 @@
                                                                 <constraint firstAttribute="trailing" secondItem="zaF-Pp-wLb" secondAttribute="trailing" constant="4" id="ZO3-su-FDt"/>
                                                                 <constraint firstItem="zaF-Pp-wLb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="exG-fM-DHg" secondAttribute="trailing" constant="8" id="cnO-5w-aDl"/>
                                                                 <constraint firstItem="x2j-ID-jdA" firstAttribute="leading" secondItem="7iE-MX-ehe" secondAttribute="leading" constant="3" id="mbJ-pw-ATw"/>
-                                                                <constraint firstItem="x2j-ID-jdA" firstAttribute="centerY" secondItem="7iE-MX-ehe" secondAttribute="centerY" id="tf1-tx-r6b"/>
+                                                                <constraint firstItem="x2j-ID-jdA" firstAttribute="centerY" secondItem="7iE-MX-ehe" secondAttribute="centerY" constant="0.5" id="tf1-tx-r6b"/>
                                                                 <constraint firstItem="exG-fM-DHg" firstAttribute="leading" secondItem="x2j-ID-jdA" secondAttribute="trailing" constant="7" id="uNX-kd-LpA"/>
                                                             </constraints>
                                                             <connections>
@@ -109,7 +109,7 @@
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zGc-bv-9Sc">
-                                <rect key="frame" x="509" y="16" width="25" height="25"/>
+                                <rect key="frame" x="521" y="16" width="25" height="25"/>
                                 <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FRm-nH-SY1">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -119,7 +119,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qPS-H8-jil">
-                                <rect key="frame" x="13" y="13" width="93" height="32"/>
+                                <rect key="frame" x="13" y="13" width="81" height="32"/>
                                 <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7Lc-hN-8in">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -198,10 +198,10 @@
                                 </connections>
                             </button>
                             <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IOP-K7-PU1">
-                                <rect key="frame" x="20" y="20" width="79" height="20"/>
+                                <rect key="frame" x="20" y="20" width="67" height="20"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4h3-Ds-ecQ">
-                                        <rect key="frame" x="-7" y="-7" width="93" height="32"/>
+                                        <rect key="frame" x="-7" y="-7" width="81" height="32"/>
                                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WN3-SQ-FJd">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -317,10 +317,10 @@
                                 </connections>
                             </button>
                             <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Kk-DT-gvX">
-                                <rect key="frame" x="20" y="20" width="79" height="20"/>
+                                <rect key="frame" x="20" y="20" width="67" height="20"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oF3-3o-esz">
-                                        <rect key="frame" x="-7" y="-7" width="93" height="32"/>
+                                        <rect key="frame" x="-7" y="-7" width="81" height="32"/>
                                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YzB-u3-6Bg">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -522,10 +522,10 @@
                                 </scroller>
                             </scrollView>
                             <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kL6-89-KO4">
-                                <rect key="frame" x="20" y="20" width="173" height="20"/>
+                                <rect key="frame" x="20" y="20" width="149" height="20"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v2Q-HM-tzp">
-                                        <rect key="frame" x="-7" y="-7" width="93" height="32"/>
+                                        <rect key="frame" x="-7" y="-7" width="81" height="32"/>
                                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nCa-h5-bUK">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -535,7 +535,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nxj-Ld-KzX">
-                                        <rect key="frame" x="87" y="-7" width="93" height="32"/>
+                                        <rect key="frame" x="75" y="-7" width="81" height="32"/>
                                         <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tBO-r3-sdg">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -612,10 +612,10 @@
                                 </connections>
                             </button>
                             <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DDA-6d-EIn">
-                                <rect key="frame" x="20" y="20" width="173" height="20"/>
+                                <rect key="frame" x="20" y="20" width="149" height="20"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ulx-ZE-2f7">
-                                        <rect key="frame" x="-7" y="-7" width="93" height="32"/>
+                                        <rect key="frame" x="-7" y="-7" width="81" height="32"/>
                                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" image="NSRefreshTemplate" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qZN-fC-ScY">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -625,7 +625,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kjy-3i-3bJ">
-                                        <rect key="frame" x="87" y="-7" width="93" height="32"/>
+                                        <rect key="frame" x="75" y="-7" width="81" height="32"/>
                                         <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nLi-5I-P9Q">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -670,7 +670,7 @@
     <resources>
         <image name="NSColorPickerUser" width="24" height="24"/>
         <image name="NSFolder" width="32" height="32"/>
-        <image name="NSRefreshTemplate" width="11" height="15"/>
+        <image name="NSRefreshTemplate" width="14" height="16"/>
         <namedColor name="modalProgressIndicatorColor">
             <color red="1" green="1" blue="0.63200002908706665" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
