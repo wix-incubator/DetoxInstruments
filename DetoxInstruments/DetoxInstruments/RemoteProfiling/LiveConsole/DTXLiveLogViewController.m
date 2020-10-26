@@ -11,6 +11,7 @@
 #import "DTXShortDateValueTransformer.h"
 #import "DTXLogSample+UIExtensions.h"
 #import "NSView+UIAdditions.h"
+#import "DTXNowModeButton.h"
 @import CoreData;
 
 @interface DTXLiveLogViewController () <NSTableViewDelegate>
@@ -123,6 +124,8 @@
 	{
 		[self _scrollToBottom];
 	}
+	
+	self.touchBar = [self makeTouchBar];
 }
 
 - (void)viewWillAppear
@@ -179,6 +182,8 @@
 	
 	self.nowMode = YES;
 	_scrollingToBottom = NO;
+	
+	self.touchBar = [self makeTouchBar];
 }
 
 - (void)viewDidDisappear
@@ -287,6 +292,60 @@
 - (void)includeApple:(BOOL)includeApple
 {
 	self.applePredicate = !includeApple ? [NSPredicate predicateWithFormat:@"isFromApple == NO"] : [NSPredicate predicateWithValue:YES];
+}
+
+#pragma mark NSTouchBarProvider
+
+- (NSCustomTouchBarItem*)_touchBarButtonItemWithButton:(NSToolbarItem*)obj identifier:(NSString*)identifier
+{
+	NSButton *button = [NSButton buttonWithImage:obj.image target:obj.target action:obj.action];
+	button.bezelStyle = NSBezelStyleRounded;
+	button.state = [(NSButton*)obj.view state];
+	NSCustomTouchBarItem *buttonBarItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:identifier];
+	buttonBarItem.view = button;
+	
+	return buttonBarItem;
+}
+
+- (NSTouchBar *)makeTouchBar
+{
+	NSMutableArray<NSString*>* buttonIdentifiers = [NSMutableArray new];
+	NSMutableSet<NSTouchBarItem*>* buttonsSet = [NSMutableSet new];
+	
+	NSButton *nowButton = [DTXNowModeButton new];
+	[nowButton setButtonType:NSButtonTypeToggle];
+	nowButton.bezelStyle = NSBezelStyleRounded;
+	[nowButton bind:NSValueBinding toObject:self withKeyPath:@"nowMode" options:nil];
+	
+	NSCustomTouchBarItem *nowButtonBarItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"NowButton"];
+	nowButtonBarItem.view = nowButton;
+	[buttonIdentifiers addObject:nowButtonBarItem.identifier];
+	[buttonsSet addObject:nowButtonBarItem];
+	
+	NSButton *clearButton = [NSButton new];
+	clearButton.image = self.view.window.toolbar.items.lastObject.image;
+	clearButton.bezelStyle = NSBezelStyleRounded;
+	clearButton.target = self;
+	clearButton.action = @selector(clearLog:);
+	
+	NSCustomTouchBarItem *clearButtonBarItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"ClearButton"];
+	clearButtonBarItem.view = clearButton;
+	[buttonIdentifiers addObject:clearButtonBarItem.identifier];
+	[buttonsSet addObject:clearButtonBarItem];
+	
+	[buttonIdentifiers addObject:NSTouchBarItemIdentifierFlexibleSpace];
+	
+	
+	
+	NSGroupTouchBarItem* group = [NSGroupTouchBarItem alertStyleGroupItemWithIdentifier:@"DTXLiveConsoleControllerButtons"];
+	group.groupTouchBar.defaultItemIdentifiers = buttonIdentifiers;
+	group.groupTouchBar.templateItems = buttonsSet;
+	
+	NSTouchBar* bar = [NSTouchBar new];
+	bar.defaultItemIdentifiers = @[@"DTXLiveConsoleControllerButtons"];
+	bar.templateItems = [NSSet setWithObject:group];
+	
+	return bar;
 }
 
 @end

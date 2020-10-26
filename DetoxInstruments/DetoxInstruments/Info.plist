@@ -112,9 +112,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.14</string>
 	<key>CFBundleVersion</key>
-	<string>12911</string>
+	<string>12982</string>
 	<key>DTXBuildDate</key>
-	<date>2020-10-25T11:05:56Z</date>
+	<date>2020-10-26T05:13:32Z</date>
 	<key>DTXSourceRoot</key>
 	<string>$(DTXSRCROOT)</string>
 	<key>LSApplicationCategoryType</key>

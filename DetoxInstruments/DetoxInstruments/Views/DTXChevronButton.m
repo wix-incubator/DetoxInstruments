@@ -71,7 +71,13 @@ static NSImage* _blackChevronImage;
 	CGContextSetLineWidth(ctx, 1.0);
 	CGContextSetAllowsAntialiasing(ctx, NO);
 	
-	CGPoint start = CGPointMake(cellFrame.size.width - 20, 2);
+	CGFloat startPixelOffset = 2;
+	if(@available(macOS 11.0, *))
+	{
+		startPixelOffset = 0;
+	}
+	
+	CGPoint start = CGPointMake(cellFrame.size.width - 20, startPixelOffset);
 	CGPoint end = CGPointMake(cellFrame.size.width - 20, cellFrame.size.height - 4);
 	if(controlView.window.backingScaleFactor > 1.0)
 	{
