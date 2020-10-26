@@ -115,7 +115,7 @@ For a list of available instruments and their description, see [Available Instru
 
 ![Requests Playground](Documentation/Resources/RequestsPlayground.png "Requests Playground")
 
-Detox Instruments includes a utility for replaying and modifying network requests, called Requests Playground. These requests can be saved as a document for future reference and testing. For an in-depth look at app management, see [Requests Playground](Documentation/RequestsPlayground.md).
+Detox Instruments includes a utility for replaying and modifying network requests, called Requests Playground. These requests can be saved as a document for future reference and testing. For more information, see [Requests Playground](Documentation/RequestsPlayground.md).
 
 ## Acknowledgements
 
