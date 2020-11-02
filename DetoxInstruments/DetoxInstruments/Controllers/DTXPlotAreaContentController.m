@@ -57,6 +57,7 @@
 	id<DTXPlotController> _touchBarPlotController;
 
 #if ! PROFILER_PREVIEW_EXTENSION
+	DTXHeaderAccessoryViewController* _headerAccessoryViewController;
 	DTXHeaderView* _headerView;
 #endif
 }
@@ -132,12 +133,18 @@
 #if ! PROFILER_PREVIEW_EXTENSION
 	if(_headerView == nil)
 	{
-		DTXHeaderAccessoryViewController* header = self.view.window.titlebarAccessoryViewControllers.firstObject;
-		_headerView = header.headerView;
+		_headerAccessoryViewController = [self.storyboard instantiateControllerWithIdentifier:@"HeaderAccessoryViewController"];
+		_headerAccessoryViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
+		_headerView = _headerAccessoryViewController.headerView;
 		_headerView.tableView = _tableView;
 	}
 	
-	_headerView.hidden = self.document.documentState == DTXRecordingDocumentStateNew;
+	if(self.document.documentState > DTXRecordingDocumentStateNew && self.view.window.titlebarAccessoryViewControllers.count == 0)
+	{
+		[self.view.window addTitlebarAccessoryViewController:_headerAccessoryViewController];
+	}
+	
+//	_headerView.hidden = self.document.documentState == DTXRecordingDocumentStateNew;
 #endif
 	
 	if(self.document.documentState == DTXRecordingDocumentStateNew)

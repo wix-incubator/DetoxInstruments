@@ -184,11 +184,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 - (void)makeWindowControllers
 {
 	NSWindowController* wc = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"InstrumentsWindowController"];
-	NSStoryboard* profilerStoryboard = [NSStoryboard storyboardWithName:@"Profiler" bundle:nil];
-	DTXHeaderAccessoryViewController* header = [profilerStoryboard instantiateControllerWithIdentifier:@"HeaderAccessoryViewController"];
-	header.view.translatesAutoresizingMaskIntoConstraints = NO;
-	[wc.window addTitlebarAccessoryViewController:header];
-	wc.contentViewController = [profilerStoryboard instantiateInitialController];
+	wc.contentViewController = [[NSStoryboard storyboardWithName:@"Profiler" bundle:nil] instantiateInitialController];
 	
 	[self addWindowController:wc];
 }
