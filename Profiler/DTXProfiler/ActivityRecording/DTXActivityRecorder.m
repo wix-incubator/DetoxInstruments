@@ -37,12 +37,12 @@ static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, 
 	DTXProfiler* profiler = NS(object);
 	if(profiler.profilingConfiguration.recordActivity == YES)
 	{
-		[DTXActivityRecorder loadDetoxSyncFrameworkBundle];
+		[DTXActivityRecorder loadDetoxSyncFrameworkBundleIfNeeded];
 	}
 }
 
 
-+ (void)loadDetoxSyncFrameworkBundle
++ (void)loadDetoxSyncFrameworkBundleIfNeeded
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
@@ -69,7 +69,7 @@ static void __DTXDidAddProfiler(CFNotificationCenterRef center, void *observer, 
 	});
 }
 
-+ (void)syncSystemDidStartTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description objectDescription:(NSString*)objectDescription additionalDescription:(nullable NSString*)additionalDescription
++ (void)syncSystemDidStartTrackingEventWithIdentifier:(NSString*)identifier description:(NSString*)description objectDescription:(nullable NSString*)objectDescription additionalDescription:(nullable NSString*)additionalDescription
 {
 //	NSLog(@"🤦‍♂️ %@ %@ %@ %@", identifier, description, objectDescription, additionalDescription);
 	__DTXProfilerMarkEventIntervalBeginIdentifier(identifier, NSDate.date, description, objectDescription, additionalDescription, _DTXEventTypeActivity, nil);
