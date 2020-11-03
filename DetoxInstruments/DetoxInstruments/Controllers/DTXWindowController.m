@@ -39,7 +39,6 @@ static NSString* const __DTXWindowToolbarStyle API_AVAILABLE(macos(11.0)) = @"__
 	NSTextField* _titleTextField;
 	
 	__weak IBOutlet NSButton* _stopRecordingButton;
-	__weak IBOutlet NSButton* _flagButton;
 	__weak IBOutlet NSButton* _nowButton;
 	__weak IBOutlet NSButton* _customizeButton;
 	
@@ -188,6 +187,16 @@ static NSString* const __DTXWindowToolbarStyle API_AVAILABLE(macos(11.0)) = @"__
 {
 	if((self.window.occlusionState & NSWindowOcclusionStateVisible) != 0)
 	{
+		if_unavailable(macOS 11.0, *) {
+			if(self.window.toolbar.items.count > 0)
+			{
+				//Reorder the toolbar items for Catalina.
+				NSToolbarItem* item = self.window.toolbar.items.firstObject;
+				[self.window.toolbar removeItemAtIndex:0];
+				[self.window.toolbar insertItemWithItemIdentifier:item.itemIdentifier atIndex:1];
+			}
+		}
+		
 		if(_loadingModalWindow != nil)
 		{
 			[NSApp endModalSession:_loadingModalSession];
@@ -271,9 +280,8 @@ static NSString* const __DTXWindowToolbarStyle API_AVAILABLE(macos(11.0)) = @"__
 	DTXRecordingDocument* document = self.document;
 	_stopRecordingButton.enabled = document.documentState == DTXRecordingDocumentStateLiveRecording;
 	_stopRecordingButton.hidden = !_stopRecordingButton.enabled;
-	_flagButton.enabled = _nowButton.enabled = document.documentState == DTXRecordingDocumentStateLiveRecording && document.localRecordingProfilingState == DTXRecordingLocalRecordingProfilingStateUnknown;
+	_nowButton.enabled = document.documentState == DTXRecordingDocumentStateLiveRecording && document.localRecordingProfilingState == DTXRecordingLocalRecordingProfilingStateUnknown;
 	_nowButton.hidden = !_nowButton.enabled;
-	_flagButton.hidden = !_flagButton.enabled;
 }
 
 - (IBAction)_stopRecording:(id)sender
