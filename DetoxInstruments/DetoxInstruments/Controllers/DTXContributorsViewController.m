@@ -23,7 +23,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	_contribs = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"ContributionsGH" withExtension:@"json"]] options:0 error:NULL];
+	NSError* err;
+	_contribs = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"ContributionsGH" withExtension:@"json"]] options:0 error:&err];
 	[_tableView reloadData];
 }
 
@@ -41,11 +42,29 @@
 
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row
 {
+	BOOL isAnon = [[_contribs[row] valueForKeyPath:@"type"] isEqualToString:@"Anonymous"];
+	NSString* name = [_contribs[row] valueForKeyPath:@"name"];
+	if(isAnon)
+	{
+		name = [NSString stringWithFormat:@"%@ <%@>", name, [_contribs[row] valueForKeyPath:@"email"]];
+	}
+	
 	DTXTwoLabelsCellView* cell = [tableView makeViewWithIdentifier:@"ContribCell" owner:nil];
-	cell.textField.stringValue = [_contribs[row] valueForKeyPath:@"name"];
+	cell.textField.stringValue = name;
 	NSInteger contribCount = [[_contribs[row] valueForKeyPath:@"total_contributions"] unsignedIntegerValue];
 	cell.detailTextField.stringValue = [NSString localizedStringWithFormat:NSLocalizedString(@"%ld contributions", @""), (long)contribCount];
-	[cell.imageView sd_setImageWithURL:[NSURL URLWithString:[_contribs[row] valueForKeyPath:@"avatar_url"]]];
+	NSImage* placeHolder = [NSImage imageNamed:NSImageNameUser];
+	if(isAnon == NO)
+	{
+		[cell.imageView sd_setImageWithURL:[NSURL URLWithString:[_contribs[row] valueForKeyPath:@"avatar_url"]] placeholderImage:placeHolder];
+	}
+	else
+	{
+		[cell.imageView setImage:placeHolder];
+	}
+	
+	cell.moreInfoButton.hidden = isAnon;
+	
 	return cell;
 }
 

@@ -11,5 +11,6 @@
 @interface DTXTwoLabelsCellView : NSTableCellView
 
 @property (nullable, assign) IBOutlet NSTextField *detailTextField;
+@property (nullable, weak) IBOutlet NSButton* moreInfoButton;
 
 @end
