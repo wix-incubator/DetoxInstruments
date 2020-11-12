@@ -118,6 +118,8 @@
 		398827CF24F59591003F8A94 /* DTXProfilerLogLevel.h in Headers */ = {isa = PBXBuildFile; fileRef = 398827CE24F5958D003F8A94 /* DTXProfilerLogLevel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		399E0EEF1F0ECA9B0047CF92 /* DTXPerformanceSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */; };
 		399E0EF01F0ECA9B0047CF92 /* DTXPerformanceSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */; };
+		39A03EED255D3E8D00B82666 /* DTXBrokenRNFlipper.h in Headers */ = {isa = PBXBuildFile; fileRef = 39A03EEB255D3E8D00B82666 /* DTXBrokenRNFlipper.h */; };
+		39A03EEE255D3E8D00B82666 /* DTXBrokenRNFlipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A03EEC255D3E8D00B82666 /* DTXBrokenRNFlipper.m */; };
 		39B22BE1217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B22BDF217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h */; };
 		39B22BE2217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B22BE0217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m */; };
 		39B22BE5217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B22BE3217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h */; };
@@ -336,6 +338,8 @@
 		399479D52393E96A00C613EC /* DTXProfilingConfiguration-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTXProfilingConfiguration-Private.h"; sourceTree = "<group>"; };
 		399E0EED1F0ECA9B0047CF92 /* DTXPerformanceSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXPerformanceSampler.h; sourceTree = "<group>"; };
 		399E0EEE1F0ECA9B0047CF92 /* DTXPerformanceSampler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXPerformanceSampler.m; sourceTree = "<group>"; };
+		39A03EEB255D3E8D00B82666 /* DTXBrokenRNFlipper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTXBrokenRNFlipper.h; sourceTree = "<group>"; };
+		39A03EEC255D3E8D00B82666 /* DTXBrokenRNFlipper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTXBrokenRNFlipper.m; sourceTree = "<group>"; };
 		39B22BDF217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLConnection+DTXLegacyConnectionRecording.h"; sourceTree = "<group>"; };
 		39B22BE0217C81890032F190 /* NSURLConnection+DTXLegacyConnectionRecording.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLConnection+DTXLegacyConnectionRecording.m"; sourceTree = "<group>"; };
 		39B22BE3217C81A60032F190 /* NSURLSessionTask+DTXNetworkRecording.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLSessionTask+DTXNetworkRecording.h"; sourceTree = "<group>"; };
@@ -668,6 +672,8 @@
 				39C7133F1EFFD6FF00C827EB /* DTXReactNativeSampler.m */,
 				396F5B7823CB635800415843 /* DTXReactNativeAsyncStorageSupport.h */,
 				396F5B7923CB635800415843 /* DTXReactNativeAsyncStorageSupport.m */,
+				39A03EEB255D3E8D00B82666 /* DTXBrokenRNFlipper.h */,
+				39A03EEC255D3E8D00B82666 /* DTXBrokenRNFlipper.m */,
 			);
 			path = ReactNativeProfiling;
 			sourceTree = "<group>";
@@ -882,6 +888,7 @@
 				3939241D21AD0A330015A15F /* ZZFileChannel.h in Headers */,
 				39B71F902464185400CC9A88 /* DTXQuickNSExpressions.h in Headers */,
 				39202E5325517011009A6C2A /* fishhook.h in Headers */,
+				39A03EED255D3E8D00B82666 /* DTXBrokenRNFlipper.h in Headers */,
 				39D5C2AE237C3D560033138D /* DTXWindowsSnapshotter.h in Headers */,
 				396677B31F1FCE18002D5E43 /* DTXRemoteProfilingManager.h in Headers */,
 				39404E2921E66237006A583E /* DTXThreadPerformanceSample+Additions.h in Headers */,
@@ -1036,6 +1043,7 @@
 				431CACEE224253610040A56D /* DTXReactNativeProfilerSupport.m in Sources */,
 				3939243021AD0A330015A15F /* ZZStandardDecryptInputStream.mm in Sources */,
 				39498C431F1FAE650030B620 /* DTXSocketConnection.m in Sources */,
+				39A03EEE255D3E8D00B82666 /* DTXBrokenRNFlipper.m in Sources */,
 				3922AE041F2B9B9B0034B1FE /* _DTXBasicSourceMapsConsumer.m in Sources */,
 				39C7133A1EFFCB4000C827EB /* AutoCoding.m in Sources */,
 				3939242821AD0A330015A15F /* ZZNewArchiveEntryWriter.mm in Sources */,
