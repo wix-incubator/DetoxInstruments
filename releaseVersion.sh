@@ -196,18 +196,13 @@ if [ -z "$DRY_RUN" ]; then
 fi
 
 if [ -z "$DRY_RUN" ]; then
-	#Escape user input in markdown to valid JSON string using PHP 🤦‍♂️ (https://stackoverflow.com/a/13466143/983912)
-	RELEASENOTESCONTENTS=$(printf '%s' "$(<"${RELEASE_NOTES_FILE}")" | php -r 'echo json_encode(file_get_contents("php://stdin"));')
-fi
-
-if [ -z "$DRY_RUN" ]; then
 	echo -e "\033[1;34mCreating a GitHub release\033[0m"
-	gh release create --repo wix/DetoxInstruments "$VERSION" --title "$VERSION" --notes-file "${RELEASENOTESCONTENTS}"
+	gh release create --repo wix/DetoxInstruments "$VERSION" --title "$VERSION" --notes-file "${RELEASE_NOTES_FILE}"
 fi
 
 if [ -z "$DRY_RUN" ]; then
 	echo -e "\033[1;34mUploading ZIP attachment to release\033[0m"
-	gh release upload --repo wix/DetoxInstruments "$VERSION" ${ZIP_FILE}
+	gh release upload --repo wix/DetoxInstruments "$VERSION" "${ZIP_FILE}"
 fi
 
 if [ -z "$DRY_RUN" ]; then
