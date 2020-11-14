@@ -78,10 +78,16 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	BOOL _hasAtLeastRecordingDocumentWindowOpen;
 	BOOL _hasRecordingDocumentWindowOpen;
 	BOOL _hasSavedDocumentWindowOpen;
+	BOOL _hasBigSur;
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
+	if(@available(macOS 11.0, *))
+	{
+		_hasBigSur = YES;
+	}
+	
 	NSString* actualName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 	
 	_appMenu.title = actualName;

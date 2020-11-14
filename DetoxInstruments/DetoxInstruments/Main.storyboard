@@ -38,7 +38,7 @@
                                 <toolbarItem implicitItemIdentifier="C88B62F3-702A-4CBD-8EAF-DF687C481F44" explicitItemIdentifier="TitleToolbarItem" label="" paletteLabel="" sizingBehavior="auto" id="N0I-Xm-YUa">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T7S-3q-2aZ">
-                                        <rect key="frame" x="0.0" y="14" width="512" height="32"/>
+                                        <rect key="frame" x="-6" y="-7" width="512" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="500" id="k4A-LW-shW"/>
                                         </constraints>
@@ -580,6 +580,15 @@ CA
                                             <connections>
                                                 <binding destination="Voe-Tx-rLC" name="hidden" keyPath="hasAtLeastRecordingDocumentWindowOpen" id="ljA-YA-2DK">
                                                     <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="Voe-Tx-rLC" name="hidden2" keyPath="hasBigSur" previousBinding="ljA-YA-2DK" id="Iog-KE-hx4">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
                                                         <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                     </dictionary>
                                                 </binding>
