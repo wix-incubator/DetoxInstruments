@@ -7,6 +7,7 @@ printf "# Acknowledgements\n\n" >> Documentation/Acknowledgements.md
 
 SUBMODULES=$(git submodule --quiet foreach git config --get remote.origin.url)
 # Append implicit dependency of Mozilla's source-map
+SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/facebook/fishhook.git")
 SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/mozilla/source-map.git")
 SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/phranck/CCNPreferencesWindowController.git")
 SUBMODULES=$(printf "$SUBMODULES\nhttps://github.com/nicklockwood/AutoCoding.git")
@@ -18,7 +19,7 @@ while read -r line; do
   REPO_NAME=`expr "$REPO_FULL_NAME" : '^.*\/\(.*\)'`
 
   if [[ $line = *"github.com/wix"* ]]; then
-    PARENT=$(curl -H "Authorization: token ${GITHUB_RELEASES_TOKEN}" -s https://api.github.com/repos/${REPO_FULL_NAME} | jq -r .parent.full_name)
+    PARENT=$(gh api repos/${REPO_FULL_NAME} | jq -r .parent.full_name)
     
     if [ "$PARENT" != "null" ]; then
       REPO_FULL_NAME="$PARENT"
@@ -28,7 +29,7 @@ while read -r line; do
     fi
   fi
 
-  LICENSE=$(curl -H "Authorization: token ${GITHUB_RELEASES_TOKEN}" -s https://api.github.com/repos/${REPO_FULL_NAME}/license)
+  LICENSE=$(gh api repos/${REPO_FULL_NAME}/license)
   LICENSE_CONTENT=$(echo "$LICENSE" | jq -r .content | base64 --decode)
   
   printf "### $REPO_NAME — <https://github.com/$REPO_FULL_NAME>\n\n" >> Documentation/Acknowledgements.md

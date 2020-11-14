@@ -10,12 +10,12 @@
 
 #import "DTXWindowController.h"
 #import "DTXProfilingTargetManagementWindowController.h"
+#import "DTXLiveLogWindowController.h"
 #import "DTXRequestsPlaygroundWindowController.h"
+#import "NSWindowController+DocumentationGeneration.h"
 
 @interface DTXWindowController (DocumentationGeneration)
 
-- (void)_drainLayout;
-- (void)_setWindowSize:(NSSize)size;
 - (void)_deselectAnyPlotControllers;
 - (void)_selectPlotControllerOfClass:(Class)cls;
 - (NSImage*)_snapshotForPlotControllerOfClass:(Class)cls;
@@ -46,6 +46,7 @@
 - (void)_selectExtendedDetailInspector;
 - (void)_selectProfilingInfoInspector;
 
+- (DTXLiveLogWindowController*)_openLiveConsoleWindowController;
 - (DTXProfilingTargetManagementWindowController*)_openManagementWindowController;
 
 - (NSSize)_plotDetailsSplitViewControllerSize;

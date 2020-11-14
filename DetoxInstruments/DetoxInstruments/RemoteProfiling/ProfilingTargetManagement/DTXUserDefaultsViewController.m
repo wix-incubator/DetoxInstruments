@@ -71,8 +71,15 @@
 
 - (NSImage *)preferenceIcon
 {
-	NSImage* image = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kToolbarCustomizeIcon)];;
-	image.size = NSMakeSize(32, 32);
+	NSImage* image;
+	if(@available(macOS 11.0, *))
+	{
+		image = [NSImage imageWithSystemSymbolName:@"wrench.and.screwdriver.fill" accessibilityDescription:nil];
+	}
+	else
+	{
+		image = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kToolbarCustomizeIcon)];
+	}
 	
 	return image;
 }

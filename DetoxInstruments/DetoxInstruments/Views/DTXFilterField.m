@@ -37,7 +37,15 @@
 
 - (void)setSearchIconWithHighlight:(BOOL)highlighted
 {
-	_filterImageView.image = [NSImage imageNamed:[NSString stringWithFormat:@"SearchFilter%@", highlighted ? @"On" : @"Off"]];
+	if(@available(macOS 11.0, *))
+	{
+		_filterImageView.image = [NSImage imageWithSystemSymbolName:[NSString stringWithFormat:@"line.horizontal.3.decrease.circle%@", highlighted ? @".fill" : @""] accessibilityDescription:nil];
+	}
+	else
+	{
+		_filterImageView.image = [NSImage imageNamed:[NSString stringWithFormat:@"SearchFilter%@", highlighted ? @"On" : @"Off"]];
+	}
+	
 	_filterImageView.contentTintColor = highlighted ? NSColor.controlAccentColor : nil;
 }
 

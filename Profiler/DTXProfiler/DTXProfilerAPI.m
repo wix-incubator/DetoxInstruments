@@ -31,33 +31,29 @@ void DTXProfilerAddTag(NSString* tag)
 	__DTXProfilerAddTag(NSDate.date, tag);
 }
 
-/**
- *  Adds a log line.
- *
- *  The line may be a multiline string.
- *
- *  Log lines are added chronologically.
- *
- *  @param line The line to add.
- */
-void DTXProfilerAddLogLine(NSString* line)
+void DTXProfilerAddLogEntry(NSDate* timestamp, DTXProfilerLogLevel level, NSString* subsystem, NSString* category, NSString* message)
 {
-	__DTXProfilerAddLogLine(NSDate.date, line);
+	__DTXProfilerAddLogEntry(timestamp, level, subsystem, category, message);
 }
 
-/**
- *  Adds a log line and an array of object.
- *
- *  The line may be a multiline string.
- *
- *  Log lines are added chronologically.
- *
- *  @param line The line to add.
- *  @param objects The objects to add.
- */
+void DTXProfilerAddLogLine(NSString* line)
+{
+	__DTXProfilerAddLegacyLogEntryWithObjects(NSDate.date, line, nil);
+}
+
+void DTXProfilerAddLegacyLogEntry(NSString* message)
+{
+	__DTXProfilerAddLegacyLogEntryWithObjects(NSDate.date, message, nil);
+}
+
+void DTXProfilerAddLegacyLogEntryWithObjects(NSString* message, NSArray* __nullable objects)
+{
+	__DTXProfilerAddLegacyLogEntryWithObjects(NSDate.date, message, objects);
+}
+
 void DTXProfilerAddLogLineWithObjects(NSString* line, NSArray* __nullable objects)
 {
-	__DTXProfilerAddLogLineWithObjects(NSDate.date, line, objects);
+	__DTXProfilerAddLegacyLogEntryWithObjects(NSDate.date, line, objects);
 }
 
 DTXEventIdentifier DTXProfilerMarkEventIntervalBegin(NSString* category, NSString* name, NSString* __nullable startMessage)

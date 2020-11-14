@@ -18,6 +18,7 @@
 #import "DTXViewHierarchySnapshotter.h"
 #import "DTXWindowsSnapshotter.h"
 #import "DTXReactNativeAsyncStorageSupport.h"
+#import "DTXLiveLogStreamer.h"
 
 DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 
@@ -32,6 +33,8 @@ DTX_CREATE_LOG(RemoteProfilingConnectionManager);
 	DTXSocketConnection* _connection;
 	DTXRemoteProfiler* _remoteProfiler;
 	DTXProfiler* _localProfiler;
+	
+	DTXLiveLogStreamer* _logStreamer;
 }
 
 + (NSData*)_dataForNetworkCommand:(NSDictionary*)cmd
@@ -291,8 +294,36 @@ CLANG_POP
 			case DTXRemoteProfilingCommandTypeCaptureViewHierarchy:
 			{
 				[self _sendViewHierarchy];
-			}
-				break;
+			}	break;
+			case DTXRemoteProfilingCommandTypeStartLogging:
+			{
+				_logStreamer = [DTXLiveLogStreamer new];
+				_logStreamer.allowsApple = YES;
+				_logStreamer.processOnly = NO;
+				[_logStreamer startLoggingWithHandler:^(BOOL isFromProcess, const char *proc_imagepath, BOOL isFromApple, NSDate * _Nonnull timestamp, DTXOSLogEntryLogLevel level, NSString * __nullable subsystem, NSString * __nullable category, NSString * _Nonnull message) {
+					NSMutableDictionary* cmd = [NSMutableDictionary new];
+					cmd[@"cmdType"] = @(DTXRemoteProfilingCommandTypeLogEntry);
+					
+					NSString* imagePath = @(proc_imagepath);
+					NSMutableDictionary* entry = [[NSMutableDictionary alloc] initWithObjects:@[@(isFromProcess), @(isFromApple), imagePath.lastPathComponent, timestamp, @(level), message] forKeys:@[@"isFromProcess", @"isFromApple", @"process", @"timestamp", @"level", @"message"]];
+					if(subsystem)
+					{
+						entry[@"subsystem"] = subsystem;
+					}
+					if(category)
+					{
+						entry[@"category"] = category;
+					}
+					
+					cmd[@"logEntry"] = entry;
+					
+					[self _writeCommand:cmd completionHandler:nil];
+				}];
+			}	break;
+			case DTXRemoteProfilingCommandTypeStopLogging:
+			{
+				_logStreamer = nil;
+			}	break;
 			default:
 				break;
 		}
@@ -534,6 +565,7 @@ CLANG_POP
 	dtx_log_info(@"Socket connection closed for reading");
 	
 	_connection = nil;
+	_logStreamer = nil;
 	
 	if(_aborted)
 	{
@@ -550,6 +582,7 @@ CLANG_POP
 	dtx_log_info(@"Socket connection closed for writing");
 	
 	_connection = nil;
+	_logStreamer = nil;
 	
 	if(_aborted)
 	{

@@ -37,8 +37,14 @@
 		_statusImageView.translatesAutoresizingMaskIntoConstraints = NO;
 		[self addSubview:_statusImageView];
 		
+		CGFloat leadingConstant = 10;
+		if(@available(macOS 11.0, *))
+		{
+			leadingConstant = 14;
+		}
+		
 		[NSLayoutConstraint activateConstraints:@[
-												  [_statusImageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10],
+												  [_statusImageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:leadingConstant],
 												  [_statusImageView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
 												  [_statusImageView.widthAnchor constraintEqualToConstant:9],
 												  [_statusImageView.heightAnchor constraintEqualToConstant:9],
@@ -63,14 +69,7 @@
 {
 	[super updateLayer];
 	
-//	if(self.effectiveAppearance.isDarkAppearance)
-//	{
 	_statusImageView.layer.backgroundColor = [_userNotifyColor blendedColorWithFraction:0.4 ofColor:NSColor.controlBackgroundColor].CGColor;
-//	}
-//	else
-//	{
-//		_statusImageView.layer.backgroundColor = NSColor.whiteColor.CGColor;
-//	}
 }
 
 - (NSColor*)selectionColor
@@ -88,17 +87,6 @@
 	[self.selectionColor setFill];
 
 	[[NSBezierPath bezierPathWithRect:dirtyRect] fill];
-}
-
-- (void)drawBackgroundInRect:(NSRect)dirtyRect
-{
-	[super drawBackgroundInRect:dirtyRect];
-
-//	if(self._isUserNotifyColorImportant)
-//	{
-//		[[self.userNotifyColor colorWithAlphaComponent:0.5] setFill];
-//		[[NSBezierPath bezierPathWithRect:dirtyRect] fill];
-//	}
 }
 
 - (void)setUserNotifyTooltip:(NSString*)tooltip

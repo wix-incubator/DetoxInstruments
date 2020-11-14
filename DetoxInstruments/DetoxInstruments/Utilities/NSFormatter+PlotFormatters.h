@@ -24,6 +24,7 @@
 + (NSByteCountFormatter*)dtx_memoryFormatter;
 + (NSNumberFormatter*)dtx_percentFormatter;
 + (DTXSecondsFormatter*)dtx_secondsFormatter;
++ (NSFormatter *)dtx_startOfDayDateFormatter;
 + (NSDateComponentsFormatter*)dtx_durationFormatter;
 + (DTXMainThreadUsageFormatter*)dtx_mainThreadFormatter;
 + (NSNumberFormatter*)dtx_readibleCountFormatter;

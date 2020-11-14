@@ -2,6 +2,8 @@
 
 The following steps explain how to link the Profiler framework into your iOS application, providing a quick and easy way to enable profiling of your application.
 
+> **NOTE**: After integrating Detox Instruments with your project, Detox Instruments will need to be installed on any machine that will build your project.
+
 > **WARNING:** Never submit a product which has been linked with the Profiler framework to the App Store. The instructions below outline a way to use build configurations to isolate linking the framework to Debug builds only. You can customize this to allow profiling of other configurations, but be careful.
 
 You'll need to perform the following steps for each target that you wish to integrate:

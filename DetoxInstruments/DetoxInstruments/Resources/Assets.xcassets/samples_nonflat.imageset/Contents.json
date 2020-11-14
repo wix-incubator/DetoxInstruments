@@ -1,15 +1,16 @@
 {
   "images" : [
     {
-      "idiom" : "mac",
-      "filename" : "samples_nonflat.pdf"
+      "filename" : "samples_nonflat.pdf",
+      "idiom" : "mac"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   },
   "properties" : {
+    "preserves-vector-representation" : true,
     "template-rendering-intent" : "template"
   }
 }

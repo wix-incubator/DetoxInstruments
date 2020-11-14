@@ -22,6 +22,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	if (@available(macOS 11.0, *))
+	{
+		_tableView.style = NSTableViewStyleFullWidth;
+	}
+	
 	[_tableView reloadData];
 	[_tableView layoutSubtreeIfNeeded];
 	

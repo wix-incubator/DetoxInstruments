@@ -460,8 +460,15 @@
 
 - (NSImage *)preferenceIcon
 {
-	NSImage* image = [NSImage imageNamed:NSImageNameMultipleDocuments];
-	image.size = NSMakeSize(32, 32);
+	NSImage* image;
+	if(@available(macOS 11.0, *))
+	{
+		image = [NSImage imageWithSystemSymbolName:@"doc.on.doc" accessibilityDescription:nil];
+	}
+	else
+	{
+		image = [NSImage imageNamed:NSImageNameMultipleDocuments];
+	}
 	
 	return image;
 }

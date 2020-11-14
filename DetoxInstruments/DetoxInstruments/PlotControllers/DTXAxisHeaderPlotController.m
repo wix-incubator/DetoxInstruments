@@ -80,8 +80,18 @@
 	self.graph.backgroundColor = NSColor.clearColor.CGColor;
 	
 	self.wrapperView.updateLayerHandler = ^ (NSView* view) {
+		NSColor* colorToUse;
+		if(@available(macOS 11.0, *))
+		{
+			colorToUse = NSColor.gridColor;
+		}
+		else
+		{
+			colorToUse = NSColor.secondaryLabelColor;
+		}
+		
 		CPTMutableLineStyle* axisLineStyle = [CPTMutableLineStyle lineStyle];
-		axisLineStyle.lineColor = [CPTColor colorWithCGColor:NSColor.tertiaryLabelColor.CGColor];
+		axisLineStyle.lineColor = [CPTColor colorWithCGColor:colorToUse.CGColor];
 		axisLineStyle.lineWidth = 1.0;
 		axisLineStyle.lineCap   = kCGLineCapButt;
 		
@@ -94,6 +104,7 @@
 		
 		// CPTAxisLabelingPolicyAutomatic
 		CPTXYAxis *axisAutomatic = [[CPTXYAxis alloc] init];
+		axisAutomatic.masksToBounds = NO;
 		axisAutomatic.plotSpace = weakSelf.graph.defaultPlotSpace;
 		axisAutomatic.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
 		axisAutomatic.preferredNumberOfMajorTicks = 10;
@@ -113,6 +124,7 @@
 		
 		// Add axes to the graph
 		weakSelf.graph.axisSet.axes = @[axisAutomatic];
+		weakSelf.graph.axisSet.masksToBounds = NO;
 	};
 }
 

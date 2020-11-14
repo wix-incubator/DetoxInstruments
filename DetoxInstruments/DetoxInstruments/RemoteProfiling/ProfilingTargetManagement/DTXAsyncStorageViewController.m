@@ -78,7 +78,17 @@
 
 - (NSImage *)preferenceIcon
 {
-	return [NSImage imageNamed:@"AsyncStorage"];
+	NSImage* image;
+	if(@available(macOS 11.0, *))
+	{
+		image = [NSImage imageWithSystemSymbolName:@"shippingbox" accessibilityDescription:nil];
+	}
+	else
+	{
+		image = [NSImage imageNamed:@"AsyncStorage"];
+	}
+	
+	return image;
 }
 
 - (NSString *)preferenceIdentifier

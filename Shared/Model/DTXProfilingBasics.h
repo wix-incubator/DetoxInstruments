@@ -41,6 +41,10 @@ typedef NS_ENUM(NSUInteger, DTXRemoteProfilingCommandType) {
 	DTXRemoteProfilingCommandTypeGetAsyncStorage = 22,
 	DTXRemoteProfilingCommandTypeChangeAsyncStorageItem = 23,
 	
+	DTXRemoteProfilingCommandTypeStartLogging = 24,
+	DTXRemoteProfilingCommandTypeLogEntry = 25,
+	DTXRemoteProfilingCommandTypeStopLogging = 26,
+	
 	DTXRemoteProfilingCommandTypeCaptureViewHierarchy = 18,
 	
 	DTXRemoteProfilingCommandTypeLoadScreenSnapshot = 19,

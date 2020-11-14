@@ -11,7 +11,7 @@
 #import <pthread.h>
 #import "DTXPerformanceSampler.h"
 #import "DTXNetworkRecorder.h"
-#import "DTXInstruments+CoreDataModel.h"
+#import "DTXInstrumentsModel.h"
 //#import "DTXProfilerAPI-Private.h"
 
 typedef NS_ENUM(NSUInteger, _DTXEventType)
@@ -87,8 +87,8 @@ static BOOL _DTXShouldIgnoreEvent(_DTXEventType eventType, NSString* category, D
 //Private methods called from external API per active profiler.
 
 - (void)_addTag:(NSString*)tag timestamp:(NSDate*)timestamp;
-- (void)_addLogLine:(NSString*)line timestamp:(NSDate*)timestamp;
 - (void)_addLogLine:(NSString *)line objects:(NSArray *)objects timestamp:(NSDate*)timestamp;
+- (void)_addLogEntry:(NSString *)line timestamp:(NSDate*)timestamp subsystem:(NSString*)subsystem category:(NSString*)category level:(DTXProfilerLogLevel)level;
 - (void)_markEventIntervalBeginWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name additionalInfo:(NSString*)additionalInfo eventType:(_DTXEventType)eventType stackTrace:(NSArray*)stackTrace threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;
 - (void)_markEventIntervalEndWithIdentifier:(NSString*)identifier eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;
 - (void)_markEventWithIdentifier:(NSString*)identifier category:(NSString*)category name:(NSString*)name eventStatus:(DTXEventStatus)eventStatus additionalInfo:(NSString*)additionalInfo eventType:(_DTXEventType)eventType threadIdentifier:(uint64_t)threadIdentifier timestamp:(NSDate*)timestamp;

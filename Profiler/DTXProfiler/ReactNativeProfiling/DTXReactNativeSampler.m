@@ -62,7 +62,7 @@ static void installDTXNativeLoggingHook(JSContext* ctx)
 				[objects addObject:object];
 			}
 		}
-		DTXProfilerAddLogLineWithObjects([logLine stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", "]], objects);
+		DTXProfilerAddLegacyLogEntryWithObjects([logLine stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", "]], objects);
 	};
 }
 

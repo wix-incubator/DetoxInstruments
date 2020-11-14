@@ -20,8 +20,7 @@
 
 - (void)_drainLayout
 {
-	[self.window layoutIfNeeded];
-	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
+	[self _drainLayoutWithDuration:0.3];
 }
 
 - (void)_activateControllerAtIndex:(NSUInteger)index

@@ -17,6 +17,8 @@
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>dtxicon</string>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>1</integer>
 			<key>CFBundleTypeMIMETypes</key>
 			<array/>
 			<key>CFBundleTypeName</key>
@@ -27,6 +29,8 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.wix.dtxinst.recording</string>
@@ -43,6 +47,8 @@
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>dtxicon</string>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>1</integer>
 			<key>CFBundleTypeMIMETypes</key>
 			<array/>
 			<key>CFBundleTypeName</key>
@@ -53,6 +59,8 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.wix.dtxinst.recording.legacy</string>
@@ -69,10 +77,14 @@
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>dtxreqicon</string>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>1</integer>
 			<key>CFBundleTypeName</key>
 			<string>Requests Playground Request Document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.wix.dtxinst.request</string>
@@ -100,15 +112,17 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.14</string>
 	<key>CFBundleVersion</key>
-	<string>12078</string>
+	<string>12987</string>
 	<key>DTXBuildDate</key>
-	<date>2020-09-12T17:16:47Z</date>
+	<date>2020-11-12T10:50:56Z</date>
 	<key>DTXSourceRoot</key>
 	<string>$(DTXSRCROOT)</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.developer-tools</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>NSAccentColorName</key>
+	<string>AccentColor</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -140,6 +154,11 @@
 			<string>Detox Instruments Recording Document</string>
 			<key>UTTypeIconFile</key>
 			<string>dtxicon</string>
+			<key>UTTypeIcons</key>
+			<dict>
+				<key>UTTypeIconBackgroundName</key>
+				<string>RecordingDocumentIcon</string>
+			</dict>
 			<key>UTTypeIdentifier</key>
 			<string>com.wix.dtxinst.recording</string>
 			<key>UTTypeTagSpecification</key>
@@ -160,6 +179,11 @@
 			<string>Detox Instruments Recording Document</string>
 			<key>UTTypeIconFile</key>
 			<string>dtxicon</string>
+			<key>UTTypeIcons</key>
+			<dict>
+				<key>UTTypeIconBackgroundName</key>
+				<string>RecordingDocumentIcon</string>
+			</dict>
 			<key>UTTypeIdentifier</key>
 			<string>com.wix.dtxinst.recording.legacy</string>
 			<key>UTTypeTagSpecification</key>
@@ -179,6 +203,11 @@
 			<string>Requests Playground Request Document</string>
 			<key>UTTypeIconFile</key>
 			<string>dtxreqicon</string>
+			<key>UTTypeIcons</key>
+			<dict>
+				<key>UTTypeIconBackgroundName</key>
+				<string>RequestDocumentIcon</string>
+			</dict>
 			<key>UTTypeIdentifier</key>
 			<string>com.wix.dtxinst.request</string>
 			<key>UTTypeTagSpecification</key>

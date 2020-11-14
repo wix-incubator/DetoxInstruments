@@ -145,7 +145,7 @@
 	NSNumberFormatter* _numberFormatter;
 }
 
-- (instancetype)init
+- (instancetype)initWithAllowedUnits:(NSCalendarUnit)units
 {
 	self = [super init];
 	
@@ -157,7 +157,7 @@
 		_minuteFormatter.allowsFractionalUnits = NO;
 		
 		_secondsFormatter = [NSDateComponentsFormatter new];
-		_secondsFormatter.allowedUnits = NSCalendarUnitMinute | NSCalendarUnitSecond;
+		_secondsFormatter.allowedUnits = units;
 		_secondsFormatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorPad;
 		_secondsFormatter.allowsFractionalUnits = YES;
 		
@@ -177,11 +177,13 @@
 - (NSString *)stringForObjectValue:(id)obj
 {
 	NSTimeInterval ti = [obj doubleValue];
+	double sign = copysign(1.0, ti);
+	ti = fabs(ti);
 	
 	NSString* minutes = [_minuteFormatter stringFromTimeInterval:ti];
 	NSInteger actualPaddingNeeded = self.maxMinutesZeroPadding - (NSInteger)minutes.length;
 	
-	NSString* formattedString = [NSString stringWithFormat:@"%@%@", [_secondsFormatter stringFromTimeInterval:ti], [_numberFormatter stringFromNumber:@(ti - (long)ti)]];
+	NSString* formattedString = [NSString stringWithFormat:@"%@%@%@", sign < 0 ? @"-" : @"", [_secondsFormatter stringFromTimeInterval:ti], [_numberFormatter stringFromNumber:@(ti - (long)ti)]];
 	
 	if(actualPaddingNeeded <= 0)
 	{
@@ -258,7 +260,18 @@
 	static DTXSecondsFormatter* secondsFormatter;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		secondsFormatter = [DTXSecondsFormatter new];
+		secondsFormatter = [[DTXSecondsFormatter alloc] initWithAllowedUnits:NSCalendarUnitMinute | NSCalendarUnitSecond];
+	});
+	
+	return secondsFormatter;
+}
+
++ (NSFormatter *)dtx_startOfDayDateFormatter
+{
+	static DTXSecondsFormatter* secondsFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		secondsFormatter = [[DTXSecondsFormatter alloc] initWithAllowedUnits:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond];
 	});
 	
 	return secondsFormatter;

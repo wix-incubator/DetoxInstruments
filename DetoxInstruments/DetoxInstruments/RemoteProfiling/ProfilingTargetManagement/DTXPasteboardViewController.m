@@ -33,7 +33,17 @@
 
 - (NSImage *)preferenceIcon
 {
-	return [NSImage imageNamed:@"NSColorPickerUser"];
+	NSImage* image;
+	if(@available(macOS 11.0, *))
+	{
+		image = [NSImage imageWithSystemSymbolName:@"photo" accessibilityDescription:nil];
+	}
+	else
+	{
+		image = [NSImage imageNamed:@"NSColorPickerUser"];
+	}
+	
+	return image;
 }
 
 - (NSString *)preferenceIdentifier

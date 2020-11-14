@@ -8,15 +8,14 @@
 
 #import "DTXChevronButton.h"
 @import QuartzCore;
+#import "NSImage+UIAdditions.h"
 #import "NSAppearance+UIAdditions.h"
 
 @class _DTXChevronButtonPopUpButton;
 
-@interface NSControl () @end
 @interface NSButtonCell ()
 
 - (BOOL)_shouldDrawAsDefaultButtonInView:(id)arg1;
-- (NSDictionary*)_coreUIBezelDrawOptionsWithFrame:(struct CGRect)arg1 inView:(id)arg2;
 
 @end
 
@@ -28,20 +27,72 @@
 
 @interface _DTXChevronButtonPopUpButton : NSPopUpButton
 
-@property (nonatomic) BOOL allowsEnabled;
-@property (nonatomic) BOOL userEnabled;
+@property (nonatomic, weak) NSButton* parentButton;
+@property (nonatomic) BOOL parentHasDefaultButtonAppearance;
 
 @end
+
+static NSImage* _whiteChevronImage;
+static NSImage* _blackChevronImage;
 
 @interface _DTXChevronButtonPopUpButtonCell : NSPopUpButtonCell @end
 
 @implementation _DTXChevronButtonPopUpButtonCell
 
-- (NSDictionary*)_coreUIBezelDrawOptionsWithFrame:(struct CGRect)arg1 inView:(id)arg2
++ (void)load
 {
-	NSMutableDictionary* rv = [[super _coreUIBezelDrawOptionsWithFrame:arg1 inView:arg2] mutableCopy];
+	@autoreleasepool {
+		_whiteChevronImage = [[NSImage imageNamed:@"NSDropDownIndicator"] imageTintedWithColor:NSColor.whiteColor];
+		_blackChevronImage = [[NSImage imageNamed:@"NSDropDownIndicator"] imageTintedWithColor:NSColor.blackColor];
+	}
+}
+
+- (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView
+{
+	return NSZeroRect;
+}
+
+- (void)drawBorderAndBackgroundWithFrame:(NSRect)cellFrame inView:(_DTXChevronButtonPopUpButton*)controlView
+{
+	NSImage* menuIndicator = controlView.parentHasDefaultButtonAppearance ? _whiteChevronImage : controlView.effectiveAppearance.isDarkAppearance ? _whiteChevronImage : _blackChevronImage;
 	
-	return rv;
+	CGFloat fraction = 1.0;
+	if(self.isEnabled == NO /* || controlView.parentHasDefaultButtonAppearance == NO */)
+	{
+		fraction = 0.2;
+	}
+	
+	[menuIndicator drawInRect:NSMakeRect(cellFrame.size.width - 12 - menuIndicator.size.width / 2, CGRectGetMidY(cellFrame) - menuIndicator.size.height / 2 - 1, menuIndicator.size.width + 1, menuIndicator.size.height) fromRect:NSMakeRect(0, 0, menuIndicator.size.width, menuIndicator.size.height) operation:NSCompositingOperationDestinationOver fraction:fraction respectFlipped:YES hints:nil];
+	
+	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
+	
+	[[NSColor.blackColor colorWithAlphaComponent:0.1] set];
+	
+	CGContextSetLineWidth(ctx, 1.0);
+	CGContextSetAllowsAntialiasing(ctx, NO);
+	
+	CGFloat startPixelOffset = 2;
+	if(@available(macOS 11.0, *))
+	{
+		startPixelOffset = 0;
+	}
+	
+	CGPoint start = CGPointMake(cellFrame.size.width - 20, startPixelOffset);
+	CGPoint end = CGPointMake(cellFrame.size.width - 20, cellFrame.size.height - 4);
+	if(controlView.window.backingScaleFactor > 1.0)
+	{
+		start.x += 0.5;
+		end.x += 0.5;
+	}
+	
+	CGContextMoveToPoint(ctx, start.x, start.y);
+	CGContextAddLineToPoint(ctx, end.x, end.y);
+	CGContextStrokePath(ctx);
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+	[[(_DTXChevronButtonPopUpButton*)self.controlView parentButton] setHighlighted:highlighted];
 }
 
 @end
@@ -62,7 +113,7 @@
 	
 	if(self)
 	{
-		_allowsEnabled = YES;
+		_parentHasDefaultButtonAppearance = YES;
 	}
 	
 	return self;
@@ -92,68 +143,11 @@
 	[self.nextResponder mouseUp:event];
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (void)setParentHasDefaultButtonAppearance:(BOOL)allowsEnabled
 {
-	CGContextRef ctx = NSGraphicsContext.currentContext.CGContext;
-	
-	CGContextSaveGState(ctx);
-	CGContextSetAlpha(ctx, self.userEnabled ? 1.0 : 0.35);
-	
-	CGMutablePathRef path = CGPathCreateMutable();
-	CGPathAddRect(path, NULL, CGRectMake(self.bounds.size.width - 20, 2, 15, self.bounds.size.height - 6));
-	CGPathAddRect(path, NULL, CGRectMake(self.bounds.size.width - 20, 2.5, 15.5, self.bounds.size.height - 7));
-	CGPathAddRect(path, NULL, CGRectMake(self.bounds.size.width - 20, 3, 16, self.bounds.size.height - 8));
-	CGContextAddPath(ctx, path);
-	CGContextClip(ctx);
-	
-	[super drawRect:dirtyRect];
-	
-	CGContextRestoreGState(ctx);
-	
-	[[NSColor.blackColor colorWithAlphaComponent:0.1] set];
-
-	CGContextSetLineWidth(ctx, 1.0);
-	CGContextSetAllowsAntialiasing(ctx, NO);
-	
-	CGPoint start = CGPointMake(self.bounds.size.width - 20, 2);
-	CGPoint end = CGPointMake(self.bounds.size.width - 20, self.bounds.size.height - 4);
-	if(self.window.backingScaleFactor > 1.0)
-	{
-		start.x += 0.5;
-		end.x += 0.5;
-	}
-	
-	CGContextMoveToPoint(ctx, start.x, start.y);
-	CGContextAddLineToPoint(ctx, end.x, end.y);
-	CGContextStrokePath(ctx);
-	
-	CGPathRelease(path);
-}
-
-- (void)setEnabled:(BOOL)enabled
-{
-	_userEnabled = enabled;
-	
-	[self _resetEnabled];
+	_parentHasDefaultButtonAppearance = allowsEnabled;
 	
 	[self setNeedsDisplay:YES];
-}
-
-- (void)setAllowsEnabled:(BOOL)allowsEnabled
-{
-	_allowsEnabled = allowsEnabled;
-	
-	[self _resetEnabled];
-}
-
-- (void)_resetEnabled
-{
-	[super setEnabled:_userEnabled && _allowsEnabled];
-}
-
-- (void)layout
-{
-	[super layout];
 }
 
 @end
@@ -163,8 +157,8 @@
 
 - (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView
 {
-	frame = NSMakeRect(frame.origin.x, frame.origin.y, frame.size.width - 10, frame.size.height);
-	
+	frame = NSMakeRect(frame.origin.x, frame.origin.y, frame.size.width - 7, frame.size.height);
+
 	return [super drawTitle:title withFrame:frame inView:controlView];
 }
 
@@ -172,7 +166,7 @@
 {
 	BOOL rv = [super _shouldDrawAsDefaultButtonInView:arg1];
 	//This mechanism is used to draw the pop up button differently when the enclosing button is not drawn as "default".
-	arg1.popupButton.allowsEnabled = rv;
+	arg1.popupButton.parentHasDefaultButtonAppearance = rv;
 	return rv;
 }
 
@@ -180,12 +174,18 @@
 
 @implementation DTXChevronButton
 
++ (Class)cellClass
+{
+	return DTXChevronButtonCell.class;
+}
+
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
 	self.wantsLayer = YES;
 	
 	_popupButton = [_DTXChevronButtonPopUpButton new];
+	_popupButton.parentButton = self;
 	
 	NSMenu* menu = [self.menu copy];
 	NSMenuItem* firstItem = [menu.itemArray.firstObject copy];
@@ -193,7 +193,7 @@
 	_popupButton.menu = menu;
 	_popupButton.pullsDown = YES;
 	_popupButton.translatesAutoresizingMaskIntoConstraints = NO;
-	_popupButton.keyEquivalent = self.keyEquivalent;
+//	_popupButton.keyEquivalent = self.keyEquivalent;
 	_popupButton.wantsLayer = YES;
 	[self addSubview:_popupButton];
 	

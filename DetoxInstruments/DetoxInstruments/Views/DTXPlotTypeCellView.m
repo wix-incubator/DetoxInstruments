@@ -24,11 +24,19 @@
 {
 	[super awakeFromNib];
 	
+	self.wantsLayer = YES;
+	
 	[_settingsMenuButton sendActionOn:NSEventMaskLeftMouseDown];
 #if PROFILER_PREVIEW_EXTENSION
 	self.textField.cell.lineBreakMode = NSLineBreakByWordWrapping;
 	self.textField.allowsDefaultTighteningForTruncation = YES;
 #endif
+	
+	if(@available(macOS 11.0, *))
+	{
+		_settingsMenuButton.image = [NSImage imageWithSystemSymbolName:@"gearshape.2.fill" accessibilityDescription:nil];
+		_settingsButton.image = [NSImage imageWithSystemSymbolName:@"gearshape.2.fill" accessibilityDescription:nil];
+	}
 }
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle

@@ -38,26 +38,6 @@
 
 @implementation DTXWindowController (DocumentationGeneration)
 
-- (void)_drainLayout
-{
-	[self.window layoutIfNeeded];
-	[CATransaction flush];
-	[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
-	[CATransaction flush];
-}
-
-- (void)_setWindowSize:(NSSize)size
-{
-	[self.window setFrame:(CGRect){0, 0, size} display:YES];
-	[self.window center];
-	NSOutlineView* timelineView = (NSOutlineView*)[self valueForKeyPath:@"_plotContentController._tableView"];
-	[timelineView.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[obj setNeedsDisplay:YES];
-		[obj displayIfNeeded];
-	}];
-	[self _drainLayout];
-}
-
 - (void)_deselectAnyPlotControllers
 {
 	NSOutlineView* hostingOutline = [self valueForKeyPath:@"plotContentController.tableView"];
@@ -341,6 +321,13 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 - (void)_selectProfilingInfoInspector
 {
 	[[self valueForKeyPath:@"inspectorContentController"] selectProfilingInfo];
+}
+
+- (DTXLiveLogWindowController*)_openLiveConsoleWindowController
+{
+	[self _drainLayout];
+	DTXRecordingTargetPickerViewController* targetPicker = (id)self.window.sheets.firstObject.contentViewController;
+	return [targetPicker _openLiveConsoleWindowController];
 }
 
 - (DTXProfilingTargetManagementWindowController*)_openManagementWindowController

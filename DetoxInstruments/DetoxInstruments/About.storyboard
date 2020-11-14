@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bf6-yZ-a8A">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bf6-yZ-a8A">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -120,7 +121,7 @@ Gw
                                                                         <constraint firstAttribute="width" secondItem="BRs-vz-uHV" secondAttribute="height" multiplier="1:1" id="WQ4-8E-cll"/>
                                                                         <constraint firstAttribute="height" constant="52" id="qsG-gy-ON5"/>
                                                                     </constraints>
-                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSUserAccounts" id="BPY-S7-MJD"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSUser" id="BPY-S7-MJD"/>
                                                                     <userDefinedRuntimeAttributes>
                                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="canDrawSubviewsIntoLayer" value="YES"/>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -180,6 +181,7 @@ Gw
                                                             <connections>
                                                                 <outlet property="detailTextField" destination="lfm-jg-Nd2" id="DMy-Sv-zGz"/>
                                                                 <outlet property="imageView" destination="BRs-vz-uHV" id="hSQ-Ko-UZR"/>
+                                                                <outlet property="moreInfoButton" destination="u8Y-r5-Emy" id="193-jL-db9"/>
                                                                 <outlet property="textField" destination="E4g-oH-dL0" id="W4f-ZB-0XO"/>
                                                             </connections>
                                                         </tableCellView>
@@ -411,6 +413,6 @@ Gw
     <resources>
         <image name="NSApplicationIcon" width="32" height="32"/>
         <image name="NSFollowLinkFreestandingTemplate" width="14" height="14"/>
-        <image name="NSUserAccounts" width="32" height="32"/>
+        <image name="NSUser" width="32" height="32"/>
     </resources>
 </document>

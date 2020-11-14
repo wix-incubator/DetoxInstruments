@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39202E0325507D3C009A6C2A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39202E0225507D3C009A6C2A /* WebKit.framework */; };
 		393DED9821C9B5AB006EB765 /* SwiftSlower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393DED9721C9B5AB006EB765 /* SwiftSlower.swift */; };
 		39432AE31F55B78800468DB7 /* AppURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 39432AE21F55B78800468DB7 /* AppURLProtocol.m */; };
 		3944E3431F4DB6D0001911E8 /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3944E33A1F4DB681001911E8 /* DTXProfiler.framework */; };
@@ -60,6 +61,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		39202E0225507D3C009A6C2A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.0.sdk/System/iOSSupport/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		393DED9621C9B5AA006EB765 /* StressTestApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StressTestApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		393DED9721C9B5AB006EB765 /* SwiftSlower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSlower.swift; sourceTree = "<group>"; };
 		39432AE11F55B78800468DB7 /* AppURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppURLProtocol.h; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39202E0325507D3C009A6C2A /* WebKit.framework in Frameworks */,
 				3944E3431F4DB6D0001911E8 /* DTXProfiler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39202E0025507D3C009A6C2A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				39202E0225507D3C009A6C2A /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		39432AE61F55B7AC00468DB7 /* AppURLDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +128,7 @@
 				39D7F3611F307D2C00A35D05 /* DTXProfiler.xcodeproj */,
 				39EBDF161ED2DEA2005D8AB1 /* StressTestApp */,
 				39EBDF151ED2DEA2005D8AB1 /* Products */,
+				39202E0025507D3C009A6C2A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;

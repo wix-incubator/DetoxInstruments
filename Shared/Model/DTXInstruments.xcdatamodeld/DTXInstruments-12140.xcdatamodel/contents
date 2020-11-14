@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17189" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="ActivitySample" representedClassName="DTXActivitySample" parentEntity="SignpostSample" syncable="YES" codeGenerationType="class"/>
+    <entity name="DetoxLifecycle" representedClassName="DTXDetoxLifecycleSample" parentEntity="SignpostSample" syncable="YES" codeGenerationType="class"/>
+    <entity name="LogSample" representedClassName="DTXLogSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="line" optional="YES" attributeType="String"/>
+        <attribute name="objects" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSArray"/>
+        <attribute name="subsystem" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="NetworkData" representedClassName="DTXNetworkData" syncable="YES" codeGenerationType="class">
+        <attribute name="data" optional="YES" attributeType="Binary"/>
+        <relationship name="networkSampleRequest" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetworkSample" inverseName="requestData" inverseEntity="NetworkSample"/>
+        <relationship name="networkSampleResponse" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetworkSample" inverseName="responseData" inverseEntity="NetworkSample"/>
+    </entity>
+    <entity name="NetworkSample" representedClassName="DTXNetworkSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="requestDataLength" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="requestHeaders" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSDictionary"/>
+        <attribute name="requestHeadersFlat" optional="YES" attributeType="String"/>
+        <attribute name="requestHTTPMethod" optional="YES" attributeType="String"/>
+        <attribute name="requestTimeoutInterval" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="responseDataLength" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="responseError" optional="YES" attributeType="String"/>
+        <attribute name="responseHeaders" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSDictionary"/>
+        <attribute name="responseHeadersFlat" optional="YES" attributeType="String"/>
+        <attribute name="responseMIMEType" optional="YES" attributeType="String"/>
+        <attribute name="responseStatusCode" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="responseStatusCodeString" optional="YES" attributeType="String"/>
+        <attribute name="responseSuggestedFilename" optional="YES" attributeType="String"/>
+        <attribute name="responseTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="totalDataLength" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uniqueIdentifier" optional="YES" attributeType="String"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+        <relationship name="requestData" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="NetworkData" inverseName="networkSampleRequest" inverseEntity="NetworkData">
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+            </userInfo>
+        </relationship>
+        <relationship name="responseData" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="NetworkData" inverseName="networkSampleResponse" inverseEntity="NetworkData">
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+            </userInfo>
+        </relationship>
+        <fetchIndex name="networkSampleIndex">
+            <fetchIndexElement property="requestHeadersFlat" type="Binary" order="ascending"/>
+            <fetchIndexElement property="requestHTTPMethod" type="Binary" order="ascending"/>
+            <fetchIndexElement property="responseError" type="Binary" order="ascending"/>
+            <fetchIndexElement property="responseHeadersFlat" type="Binary" order="ascending"/>
+            <fetchIndexElement property="responseMIMEType" type="Binary" order="ascending"/>
+            <fetchIndexElement property="responseStatusCodeString" type="Binary" order="ascending"/>
+            <fetchIndexElement property="uniqueIdentifier" type="Binary" order="ascending"/>
+            <fetchIndexElement property="url" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="PerformanceSample" representedClassName="DTXPerformanceSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="cpuUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="diskReads" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="diskReadsDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="diskWrites" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="diskWritesDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="fps" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="heaviestStackTrace" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSArray"/>
+        <attribute name="heaviestThread" optional="YES" attributeType="Integer 64" usesScalarValueType="NO"/>
+        <attribute name="heaviestThreadIdx" optional="YES" attributeType="Integer 64" usesScalarValueType="NO"/>
+        <attribute name="memoryUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="openFiles" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSArray"/>
+        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <relationship name="threadSamples" optional="YES" toMany="YES" minCount="1" deletionRule="Cascade" ordered="YES" destinationEntity="ThreadPerformanceSample">
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="ReactNativeAsyncStorageData" representedClassName="DTXReactNativeAsyncStorageData" syncable="YES" codeGenerationType="class">
+        <attribute name="data" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSArray"/>
+        <attribute name="error" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName=" NSDictionary"/>
+        <attribute name="isKeysOnly" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="dataSample" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReactNativeAsyncStorageSample" inverseName="data" inverseEntity="ReactNativeAsyncStorageSample"/>
+    </entity>
+    <entity name="ReactNativeAsyncStorageSample" representedClassName="DTXReactNativeAsyncStorageSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="fetchCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fetchDuration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="operation" optional="YES" attributeType="String"/>
+        <attribute name="saveCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="saveDuration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="data" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ReactNativeAsyncStorageData" inverseName="dataSample" inverseEntity="ReactNativeAsyncStorageData">
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="ReactNativeBridgeData" representedClassName="DTXReactNativeBridgeData" syncable="YES" codeGenerationType="class">
+        <attribute name="arguments" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSArray"/>
+        <attribute name="exception" optional="YES" attributeType="String"/>
+        <attribute name="returnValue" optional="YES" attributeType="String"/>
+        <relationship name="dataSample" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReactNativeDataSample" inverseName="data" inverseEntity="ReactNativeDataSample"/>
+    </entity>
+    <entity name="ReactNativeDataSample" representedClassName="DTXReactNativeDataSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="function" optional="YES" attributeType="String"/>
+        <attribute name="isFromNative" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="data" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ReactNativeBridgeData" inverseName="dataSample" inverseEntity="ReactNativeBridgeData">
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="ReactNativePerformanceSample" representedClassName="DTXReactNativePerformanceSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="bridgeJSToNCallCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bridgeJSToNCallCountDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bridgeJSToNDataSize" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bridgeJSToNDataSizeDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bridgeNToJSCallCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bridgeNToJSCallCountDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bridgeNToJSDataSize" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bridgeNToJSDataSizeDelta" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="cpuUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="stackTrace" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSArray"/>
+        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+    </entity>
+    <entity name="Recording" representedClassName="DTXRecording" syncable="YES" codeGenerationType="class">
+        <attribute name="appName" optional="YES" attributeType="String"/>
+        <attribute name="binaryName" optional="YES" attributeType="String"/>
+        <attribute name="deviceColor" optional="YES" attributeType="String"/>
+        <attribute name="deviceEnclosureColor" optional="YES" attributeType="String"/>
+        <attribute name="deviceMarketingName" optional="YES" attributeType="String"/>
+        <attribute name="deviceName" optional="YES" attributeType="String"/>
+        <attribute name="deviceOS" optional="YES" attributeType="String"/>
+        <attribute name="deviceOSType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="devicePhysicalMemory" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="deviceProcessorCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="deviceResolution" optional="YES" attributeType="String"/>
+        <attribute name="deviceType" optional="YES" attributeType="String"/>
+        <attribute name="endTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="hasReactNative" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isLaunchProfiling" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="machineName" optional="YES" attributeType="String"/>
+        <attribute name="processIdentifier" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="profilerVersion" optional="YES" attributeType="String"/>
+        <attribute name="profilingConfiguration" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSDictionary"/>
+        <attribute name="recordingOptions" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="startTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="recording" inverseEntity="ThreadInfo">
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+                <entry key="sortArrayByKeyPath" value="number"/>
+            </userInfo>
+        </relationship>
+        <fetchedProperty name="samples" optional="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Sample" predicateString="timestamp &gt;= $FETCH_SOURCE.startTimestamp &amp;&amp; timestamp &lt;= $FETCH_SOURCE.endTimestamp"/>
+            <userInfo>
+                <entry key="includeInDictionaryRepresentation" value="YES"/>
+                <entry key="sortArrayByKeyPath" value="timestamp"/>
+            </userInfo>
+        </fetchedProperty>
+    </entity>
+    <entity name="Sample" representedClassName="DTXSample" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="sampleIdentifier" optional="YES" attributeType="String"/>
+        <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <fetchIndex name="sampleIndex">
+            <fetchIndexElement property="timestamp" type="Binary" order="ascending"/>
+            <fetchIndexElement property="sampleIdentifier" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="SignpostSample" representedClassName="DTXSignpostSample" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="additionalInfoEnd" optional="YES" attributeType="String"/>
+        <attribute name="additionalInfoStart" optional="YES" attributeType="String" customClassName="NSArray"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="categoryHash" optional="YES" attributeType="Binary"/>
+        <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="endThreadNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="endTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="eventStatus" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isEvent" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="isTimer" optional="YES" attributeType="Boolean" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nameHash" optional="YES" attributeType="Binary"/>
+        <attribute name="stackTrace" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" customClassName="NSArray"/>
+        <attribute name="stackTraceIsSymbolicated" optional="YES" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="startThreadNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uniqueIdentifier" optional="YES" attributeType="String"/>
+        <fetchIndex name="signpostSampleIndex">
+            <fetchIndexElement property="uniqueIdentifier" type="Binary" order="ascending"/>
+            <fetchIndexElement property="additionalInfoStart" type="Binary" order="ascending"/>
+            <fetchIndexElement property="additionalInfoEnd" type="Binary" order="ascending"/>
+            <fetchIndexElement property="category" type="Binary" order="ascending"/>
+            <fetchIndexElement property="name" type="Binary" order="ascending"/>
+            <fetchIndexElement property="categoryHash" type="Binary" order="ascending"/>
+            <fetchIndexElement property="nameHash" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="Tag" representedClassName="DTXTag" parentEntity="Sample" syncable="YES" codeGenerationType="class">
+        <attribute name="name" attributeType="String"/>
+    </entity>
+    <entity name="ThreadInfo" representedClassName="DTXThreadInfo" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="number" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="recording" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recording" inverseName="threads" inverseEntity="Recording"/>
+        <relationship name="threadPerformanceSamples" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ThreadPerformanceSample" inverseName="threadInfo" inverseEntity="ThreadPerformanceSample"/>
+    </entity>
+    <entity name="ThreadPerformanceSample" representedClassName="DTXThreadPerformanceSample" syncable="YES" codeGenerationType="class">
+        <attribute name="cpuUsage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="suppressInDictionaryRepresentationIfZero" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="sampleType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="threadInfo" maxCount="1" deletionRule="Nullify" destinationEntity="ThreadInfo" inverseName="threadPerformanceSamples" inverseEntity="ThreadInfo">
+            <userInfo>
+                <entry key="includeKeyPathInDictionaryRepresentation" value="number"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <elements>
+        <element name="ActivitySample" positionX="-18" positionY="144" width="128" height="43"/>
+        <element name="DetoxLifecycle" positionX="-27" positionY="135" width="128" height="43"/>
+        <element name="LogSample" positionX="-27" positionY="135" width="128" height="118"/>
+        <element name="NetworkData" positionX="-18" positionY="126" width="128" height="90"/>
+        <element name="NetworkSample" positionX="9" positionY="153" width="128" height="343"/>
+        <element name="PerformanceSample" positionX="-9" positionY="144" width="128" height="238"/>
+        <element name="ReactNativeAsyncStorageData" positionX="-27" positionY="135" width="128" height="103"/>
+        <element name="ReactNativeAsyncStorageSample" positionX="-27" positionY="135" width="128" height="133"/>
+        <element name="ReactNativeBridgeData" positionX="-27" positionY="135" width="128" height="103"/>
+        <element name="ReactNativeDataSample" positionX="-18" positionY="144" width="128" height="88"/>
+        <element name="ReactNativePerformanceSample" positionX="-27" positionY="135" width="128" height="208"/>
+        <element name="Recording" positionX="-27" positionY="45" width="128" height="401"/>
+        <element name="Sample" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="SignpostSample" positionX="-27" positionY="135" width="128" height="283"/>
+        <element name="Tag" positionX="-27" positionY="117" width="128" height="60"/>
+        <element name="ThreadInfo" positionX="-27" positionY="135" width="128" height="105"/>
+        <element name="ThreadPerformanceSample" positionX="-27" positionY="108" width="128" height="120"/>
+    </elements>
+</model>

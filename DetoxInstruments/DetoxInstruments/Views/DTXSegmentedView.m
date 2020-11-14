@@ -14,7 +14,7 @@
 
 - (void)_drawBackgroundWithFrame:(NSRect)frame inView:(NSView *)controlView
 {
-	
+
 }
 
 @end
@@ -31,8 +31,21 @@
 
 - (void)fixIcons
 {
-	[self.cell setImage:[NSImage imageNamed:[self.cell isSelectedForSegment:0] ? @"extendedInfo_highlighted": @"extendedInfo"] forSegment:0];
-	[self.cell setImage:[NSImage imageNamed:[self.cell isSelectedForSegment:1] ? @"fileInfo_highlighted" : @"fileInfo"] forSegment:1];
+	NSImage* extendedImage;
+	NSImage* fileImage;
+	if(@available(macOS 11.0, *))
+	{
+		extendedImage = [[NSImage imageWithSystemSymbolName:[NSString stringWithFormat:@"e.square%@", [self isSelectedForSegment:0] ? @".fill" : @""] accessibilityDescription:nil] imageWithSymbolConfiguration:[NSImageSymbolConfiguration configurationWithPointSize:15 weight:NSFontWeightRegular]];
+		fileImage = [[NSImage imageWithSystemSymbolName:[NSString stringWithFormat:@"doc%@", [self isSelectedForSegment:1] ? @".fill" : @""] accessibilityDescription:nil] imageWithSymbolConfiguration:[NSImageSymbolConfiguration configurationWithPointSize:14 weight:NSFontWeightRegular]];
+	}
+	else
+	{
+		extendedImage = [NSImage imageNamed:[self isSelectedForSegment:0] ? @"extendedInfo_highlighted": @"extendedInfo"];
+		fileImage = [NSImage imageNamed:[self isSelectedForSegment:1] ? @"fileInfo_highlighted" : @"fileInfo"];
+	}
+	
+	[self setImage:extendedImage forSegment:0];
+	[self setImage:fileImage forSegment:1];
 }
 
 - (IBAction)_segmentCellAction:(NSSegmentedCell*)sender

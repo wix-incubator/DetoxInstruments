@@ -669,4 +669,12 @@ const CGFloat DTXAutomaticColumnWidth = -1.0;
 	//NOOP
 }
 
+- (void)outlineViewColumnDidResize:(NSNotification *)notification
+{
+	if((_managedOutlineView.tableColumns.lastObject.resizingMask & NSTableColumnAutoresizingMask) == NSTableColumnAutoresizingMask)
+	{
+		[_managedOutlineView sizeLastColumnToFit];
+	}
+}
+
 @end

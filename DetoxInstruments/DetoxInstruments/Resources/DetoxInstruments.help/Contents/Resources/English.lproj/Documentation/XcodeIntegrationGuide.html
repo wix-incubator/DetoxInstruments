@@ -54,7 +54,7 @@ ul { padding-left: 1.3em; }
 <p><a href="Resources/Integration_OtherLinkerFlags.png" target="_blank"><img src="Resources/Integration_OtherLinkerFlags.png" alt="Other Linker Flags" title="Add the Other Linker Flags build setting" style="max-width:100%;" /></a></p>
 </li>
 <li>
-<p>Select the <strong>Build Phases</strong> tab and add a <strong>New Run Script Phase</strong>—name it “Profiler Framework Integration”.</p>
+<p>Select the <strong>Build Phases</strong> tab and add a <strong>New Run Script Phase</strong>—name it “Profiler Framework Integration”. Make sure to <strong>uncheck “Based on dependency analysis”</strong> under “Run script”.</p>
 <p><a href="Resources/Integration_NewBuildPhase.png" target="_blank"><img src="Resources/Integration_NewBuildPhase.png" alt="New Run Script" title="Add new run script and paste the script" style="max-width:100%;" /></a></p>
 <p>Paste in the following shell script:</p>
 <div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> Only integrate the framework for the Debug configuration by default. Edit this section to integrate with additional configurations. For example, to add the "Debug_Another" and "Release" configurations, set the following line to:</span>
@@ -82,10 +82,14 @@ PROFILER_BUILD_SCRIPT_PATH=<span class="pl-s"><span class="pl-pds">"</span><span
 </li>
 <li>
 <p>Drag the “Profiler Framework Integration” script phase <strong>above</strong> the “Compile Sources” phase.</p>
-<p><a href="Resources/Integration_DragToTop.png" target="_blank"><img src="Resources/Integration_DragToTop.png" alt="Drag to Top" title="Drag the new script to the top of the list" style="max-width:100%;" /></a></p>
 </li>
+</ol>
+<p><a href="Resources/Integration_DragToTop.png" target="_blank"><img src="Resources/Integration_DragToTop.png" alt="Drag to Top" title="Drag the new script to the top of the list" style="max-width:100%;" /></a></p>
+<ol start="7">
 <li>
-<p><strong>iOS 14 requires an additional step.</strong> Add a <strong>New Run Script Phase</strong>—name it “Profiler Framework Info.plist Integration”. Paste in the following shell script:</p>
+<strong>iOS 14 requires an additional step.</strong> Add a <strong>New Run Script Phase</strong>—name it “Profiler Framework Info.plist Integration”. Make sure to <strong>uncheck “Based on dependency analysis”</strong> under “Run script”.</li>
+</ol>
+<p>Paste in the following shell script:</p>
 <div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> Only integrate the framework for the Debug configuration by default. Edit this section to integrate with additional configurations. For example, to add the "Debug_Another" and "Release" configurations, set the following line to:</span>
 <span class="pl-c"><span class="pl-c">#</span>       ALLOWED_CONFIGURATIONS="Debug,Debug_Another,Release"</span>
 ALLOWED_CONFIGURATIONS=<span class="pl-s"><span class="pl-pds">"</span>Debug<span class="pl-pds">"</span></span>
@@ -108,18 +112,16 @@ PROFILER_BUILD_SCRIPT_PATH=<span class="pl-s"><span class="pl-pds">"</span><span
   <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Profiler not included: Cannot find an installed Detox Instruments app.<span class="pl-pds">"</span></span>
 <span class="pl-k">fi</span></pre></div>
 <p>This script adds needed keys into app's Info.plist when building using the specified configurations.</p>
-</li>
-<li>
-<p>Drag the “Profiler Framework Info.plist Integration” script phase <strong>below</strong> the “Copy Bundle Resources” phase.</p>
+<ol start="8">
+<li>Drag the “Profiler Framework Info.plist Integration” script phase <strong>below</strong> the “Copy Bundle Resources” phase.</li>
+</ol>
 <p><a href="Resources/Integration_DragToBottom.png" target="_blank"><img src="Resources/Integration_DragToBottom.png" alt="Drag under Compile Sources" title="Drag the new script under Compile Sources" style="max-width:100%;" /></a></p>
-</li>
-<li>
-<p>In Xcode, build and run your application using a scheme that is set to use the <strong>Debug</strong> configuration. If you are running your application on a device, ensure that it is on the same Wi-Fi network as the Mac running Detox Instruments or the device is connected to the Mac with a USB cable.</p>
+<ol start="9">
+<li>In Xcode, build and run your application using a scheme that is set to use the <strong>Debug</strong> configuration. If you are running your application on a device, ensure that it is on the same Wi-Fi network as the Mac running Detox Instruments or the device is connected to the Mac with a USB cable.</li>
+</ol>
 <p>If everything worked correctly, you should be able to see your application listed in Detox Instruments. Select your app to start profiling.</p>
 <p><a href="Resources/Integration_Discovered.png" target="_blank"><img src="Resources/Integration_Discovered.png" alt="Discovered" title="Detox Instruments lists your app" style="max-width:100%;" /></a></p>
-</li>
-<li>
-<p>Run your application again, this time using a scheme set to use the <strong>Release</strong> configuration. Verify that Detox Instruments cannot connect to your application. If you can still connect, make sure the Release configuration is not present under the <strong>ALLOWED_CONFIGURATIONS</strong> in the integration script (step 5).</p>
-</li>
+<ol start="10">
+<li>Run your application again, this time using a scheme set to use the <strong>Release</strong> configuration. Verify that Detox Instruments cannot connect to your application. If you can still connect, make sure the Release configuration is not present under the <strong>ALLOWED_CONFIGURATIONS</strong> in the integration script (step 5).</li>
 </ol>
 </body></html>

@@ -10,4 +10,6 @@
 
 @interface DTXHeaderView : NSView
 
+@property (nonatomic, weak) NSTableView* tableView;
+
 @end

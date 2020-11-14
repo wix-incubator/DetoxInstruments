@@ -22,6 +22,7 @@
 #import "DTXLogging.h"
 #import "DTXZipper.h"
 #import "DTXProfilingConfiguration-Private.h"
+#import "DTXHeaderAccessoryViewController.h"
 DTX_CREATE_LOG(RecordingDocument)
 #else
 #define dtx_log_info(a, b)
@@ -365,7 +366,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 	static NSManagedObjectModel* model;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		model = [NSManagedObjectModel mergedModelFromBundles:DTXInstrumentsUtils.bundlesForObjectModel];
+		model = [[NSManagedObjectModel alloc] initWithContentsOfURL:[DTXInstrumentsUtils.bundlesForObjectModel.firstObject URLForResource:@"DTXInstruments" withExtension:@"momd"]];
 	});
 	
 	if(storeURL != nil && [self _requiresMigrationForURL:storeURL toModel:model] == YES)
@@ -1069,7 +1070,7 @@ static NSTimeInterval _DTXCurrentRecordingTimeLimit(void)
 {
 	[self.windowControllers.firstObject.window.contentViewController dismissViewController:picker];
 	
-	if(configuration.recordActivity == NO && configuration.recordInternalReactNativeActivity == NO)
+	if(configuration.recordActivity == NO && (target.hasReactNative == NO || configuration.profileReactNative == NO || configuration.recordInternalReactNativeActivity == NO))
 	{
 		[self _prepareForRemoteProfilingRecordingWithTarget:target profilingConfiguration:configuration];
 	}

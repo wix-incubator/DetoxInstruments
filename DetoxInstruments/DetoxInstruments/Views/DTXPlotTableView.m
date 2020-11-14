@@ -66,6 +66,10 @@
 	
 	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	if (@available(macOS 11.0, *)) {
+		self.style = NSTableViewStyleFullWidth;
+		[[self valueForKey:@"styleData"] setValue:@0 forKey:@"rowContentPadding"];
+	}
 }
 
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row
@@ -83,10 +87,10 @@
 
 - (void)drawGridInClipRect:(NSRect)clipRect
 {
-	NSRect lastRowRect = [self rectOfRow:[self numberOfRows] - 1];
-	NSRect myClipRect = NSMakeRect(0, 0, lastRowRect.size.width, NSMaxY(lastRowRect));
-	NSRect finalClipRect = NSIntersectionRect(clipRect, myClipRect);
-	[super drawGridInClipRect:finalClipRect];
+//	NSRect lastRowRect = [self rectOfRow:[self numberOfRows] - 1];
+//	NSRect myClipRect = NSMakeRect(0, 0, lastRowRect.size.width, NSMaxY(lastRowRect));
+//	NSRect finalClipRect = NSIntersectionRect(clipRect, myClipRect);
+//	[super drawGridInClipRect:finalClipRect];
 }
 
 -(void)mouseDown:(nonnull NSEvent *)event

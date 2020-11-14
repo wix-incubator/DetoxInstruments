@@ -51,7 +51,16 @@
 		_storyboard = [NSStoryboard storyboardWithName:@"TargetManagement" bundle:NSBundle.mainBundle];
 		
 		self.allowsVibrancy = NO;
-		self.centerToolbarItems = YES;
+		
+		if (@available(macOS 11.0, *))
+		{
+			self.centerToolbarItems = NO;
+			self.window.toolbarStyle = NSWindowToolbarStylePreference;
+		}
+		else
+		{
+			self.centerToolbarItems = YES;
+		}
 		self.animateContent = YES;
 	}
 	
@@ -163,7 +172,13 @@
 
 - (IBAction)_touchBarSegmentedControlAction:(NSSegmentedControl*)sender
 {
-	NSToolbarItem* selectedItem = self.toolbar.items[sender.selectedSegment + 1];
+	NSUInteger idxOffset = 1;
+	if(@available(macOS 11.0, *))
+	{
+		idxOffset = 0;
+	}
+	
+	NSToolbarItem* selectedItem = self.toolbar.items[sender.selectedSegment + idxOffset];
 	
 	self.toolbar.selectedItemIdentifier = selectedItem.itemIdentifier;
 	
@@ -173,24 +188,17 @@
 - (NSTouchBar *)makeTouchBar
 {
 	self.touchBarSegmentedControl = [NSSegmentedControl segmentedControlWithLabels:[self.viewControllers valueForKey:@"preferenceTitle"] trackingMode:NSSegmentSwitchTrackingSelectOne target:self action:@selector(_touchBarSegmentedControlAction:)];
-	
-	[self.viewControllers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		[self.touchBarSegmentedControl setWidth:150 forSegment:idx];
-	}];
+	[self.touchBarSegmentedControl setContentHuggingPriority:1.0 forOrientation:NSLayoutConstraintOrientationHorizontal];
 	
 	[self _synchronizeToolbarToTouchBarSegmentedControl];
 	
 	NSMutableArray<NSString*>* buttonIdentifiers = [NSMutableArray new];
 	NSMutableSet<NSTouchBarItem*>* buttonsSet = [NSMutableSet new];
 	
-	[buttonIdentifiers addObject:NSTouchBarItemIdentifierFlexibleSpace];
-	
 	NSCustomTouchBarItem *buttonBarItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"Segment"];
 	buttonBarItem.view = self.touchBarSegmentedControl;
 	[buttonIdentifiers addObject:buttonBarItem.identifier];
 	[buttonsSet addObject:buttonBarItem];
-	
-	[buttonIdentifiers addObject:NSTouchBarItemIdentifierFlexibleSpace];
 	
 	NSTouchBar* bar = [NSTouchBar new];
 	bar.defaultItemIdentifiers = buttonIdentifiers;
@@ -209,15 +217,21 @@
 - (void)_synchronizeToolbarToTouchBarSegmentedControl
 {
 	__block NSUInteger itemIdx = 0;
+	
+	NSUInteger idxOffset = 1;
+	if(@available(macOS 11.0, *))
+	{
+		idxOffset = 0;
+	}
+	
 	[self.toolbar.items enumerateObjectsUsingBlock:^(__kindof NSToolbarItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		if([obj.itemIdentifier isEqualToString:self.toolbar.selectedItemIdentifier])
 		{
-			itemIdx = idx - 1;
+			itemIdx = idx - idxOffset;
 		}
 	}];
 	
 	self.touchBarSegmentedControl.selectedSegment = itemIdx;
 }
-
 
 @end

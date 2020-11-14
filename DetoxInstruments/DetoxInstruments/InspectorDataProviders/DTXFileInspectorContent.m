@@ -62,7 +62,14 @@ static NSImageView* _DTXPreviewImageView(void)
 - (void)_setupButtonForExpansion
 {
 	_expandCloseButton.bezelStyle = NSBezelStyleRounded;
-	_expandCloseButton.image = [NSImage imageNamed:@"expand_preview"];
+	if(@available(macOS 11.0, *))
+	{
+		_expandCloseButton.image = [NSImage imageWithSystemSymbolName:@"arrow.up.left.and.arrow.down.right" accessibilityDescription:nil];
+	}
+	else
+	{
+		_expandCloseButton.image = [NSImage imageNamed:@"expand_preview"];
+	}
 	_expandCloseButton.imagePosition = NSImageOnly;
 	_expandCloseButton.imageScaling = NSImageScaleNone;
 	_expandCloseButton.target = self;
@@ -73,7 +80,14 @@ static NSImageView* _DTXPreviewImageView(void)
 - (void)_setupButtonForClose
 {
 	_expandCloseButton.bezelStyle = NSBezelStyleRounded;
-	_expandCloseButton.image = [NSImage imageNamed:@"close_preview"];
+	if(@available(macOS 11.0, *))
+	{
+		_expandCloseButton.image = [NSImage imageWithSystemSymbolName:@"arrow.down.right.and.arrow.up.left" accessibilityDescription:nil];
+	}
+	else
+	{
+		_expandCloseButton.image = [NSImage imageNamed:@"close_preview"];
+	}
 	_expandCloseButton.imagePosition = NSImageOnly;
 	_expandCloseButton.imageScaling = NSImageScaleNone;
 	_expandCloseButton.target = self;

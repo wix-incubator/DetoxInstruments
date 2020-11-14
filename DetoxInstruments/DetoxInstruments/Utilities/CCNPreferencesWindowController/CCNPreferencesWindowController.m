@@ -344,6 +344,14 @@ static unsigned short const CCNEscapeKey = 53;
         NSString *identifier = [vc preferenceIdentifier];
         NSString *label      = [vc preferenceTitle];
         NSImage *icon        = [vc preferenceIcon];
+		if(@available(macOS 11.0, *))
+		{
+			icon.size = NSMakeSize(28, 28);
+		}
+		else
+		{
+			icon.size = NSMakeSize(32, 32);
+		}
         NSString *toolTip    = nil;
         if ([vc respondsToSelector:@selector(preferenceToolTip)]) {
             toolTip = [vc preferenceToolTip];

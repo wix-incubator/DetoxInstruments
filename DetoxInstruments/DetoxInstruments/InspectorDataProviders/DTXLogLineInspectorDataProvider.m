@@ -9,6 +9,7 @@
 #import "DTXLogLineInspectorDataProvider.h"
 #import "DTXStackTraceCopyDataProvider.h"
 #import "DTXInstrumentsModelUIExtensions.h"
+#import "DTXLogSample+UIExtensions.h"
 
 @implementation DTXLogLineInspectorDataProvider
 
@@ -19,7 +20,7 @@
 	DTXLogSample* logSample = self.sample;
 	
 	DTXInspectorContent* request = [DTXInspectorContent new];
-	request.title = NSLocalizedString(@"Info", @"");
+	request.title = NSLocalizedString(@"Log Entry", @"");
 	
 	NSMutableArray<DTXInspectorContentRow*>* content = [NSMutableArray new];
 	
@@ -27,10 +28,20 @@
 	
 	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Time", @"") description:[NSFormatter.dtx_secondsFormatter stringForObjectValue:@(ti)]]];
 	
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Subsystem", @"") description:logSample.subsystem ?: @"—"]];
+	[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Category", @"") description:logSample.category ?: @"—"]];
+	
+	NSString* logLevelDesc = logSample.logLevelDescription;
+	
+	if(logLevelDesc != nil)
+	{
+		[content addObject:[DTXInspectorContentRow contentRowWithTitle:NSLocalizedString(@"Level", @"") description:logLevelDesc color:logSample.colorForLogLevel]];
+	}
+	
 	request.content = content;
 	
 	DTXInspectorContent* logLineInfo = [DTXInspectorContent new];
-	logLineInfo.title = NSLocalizedString(@"Log Line", @"");
+	logLineInfo.title = NSLocalizedString(@"Message", @"");
 	
 	content = [NSMutableArray new];
 	
@@ -45,7 +56,7 @@
 	if(logSample.objects.count > 0)
 	{
 		DTXInspectorContent* objectsContent = [DTXInspectorContent new];
-		objectsContent.title = NSLocalizedString(@"Logged Objects", @"");
+		objectsContent.title = NSLocalizedString(@"Objects", @"");
 		objectsContent.objects = logSample.objects;
 		
 		rv.contentArray = @[request, objectsContent, logLineInfo];

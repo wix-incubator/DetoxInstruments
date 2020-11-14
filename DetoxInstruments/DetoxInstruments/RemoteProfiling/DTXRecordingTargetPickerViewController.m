@@ -14,6 +14,7 @@
 #import "_DTXTargetsOutlineViewContoller.h"
 #import "_DTXProfilingConfigurationViewController.h"
 #import "DTXProfilingTargetManagementWindowController.h"
+#import "DTXLiveLogWindowController.h"
 #import <arpa/inet.h>
 
 static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTargetPickerLocalOnlyKey";
@@ -47,6 +48,7 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	dispatch_queue_t _workQueue;
 	
 	NSMapTable<DTXRemoteTarget*, DTXProfilingTargetManagementWindowController*>* _targetManagementControllers;
+	NSMapTable<DTXRemoteTarget*, DTXLiveLogWindowController*>* _targetLogControllers;
 	
 	NSPopover* _warningPopover;
 }
@@ -107,6 +109,7 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	_browser.delegate = self;
 	
 	_targetManagementControllers = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
+	_targetLogControllers = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
 	
 	self.hideRemoteTargets = [NSUserDefaults.standardUserDefaults boolForKey:DTXRecordingTargetPickerLocalOnlyKey];
 	[_outlineController.localOnlyButton bind:NSValueBinding toObject:self withKeyPath:@"hideRemoteTargets" options:nil];
@@ -377,6 +380,8 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	
 	[[_targetManagementControllers objectForKey:target] dismissPreferencesWindow];
 	[_targetManagementControllers removeObjectForKey:target];
+	[[_targetLogControllers objectForKey:target] close];
+	[_targetLogControllers removeObjectForKey:target];
 	
 	[_localTargets removeObject:target];
 	[_remoteTargets removeObject:target];
@@ -427,6 +432,27 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 	}
 
 	[targetManagement showPreferencesWindow];
+}
+
+- (IBAction)_streamLogOfProfilingTarget:(NSButton*)sender
+{
+	NSInteger row = [_outlineView rowForView:sender];
+	if(row == -1)
+	{
+		return;
+	}
+	
+	id target = [_outlineView itemAtRow:row];
+	
+	DTXLiveLogWindowController* targetLog = [_targetLogControllers objectForKey:target];
+	if(targetLog == nil)
+	{
+		targetLog = [[NSStoryboard storyboardWithName:@"LiveConsole" bundle:nil] instantiateInitialController];
+		[targetLog setProfilingTarget:target];
+		[_targetLogControllers setObject:targetLog forKey:target];
+	}
+	
+	[targetLog showWindow:nil];
 }
 
 - (IBAction)_captureViewHierarchy:(id)sender
@@ -545,7 +571,13 @@ static NSString* const DTXRecordingTargetPickerLocalOnlyKey = @"DTXRecordingTarg
 		[targetManager dismissPreferencesWindow];
 	}
 	
+	for(DTXLiveLogWindowController* targetLog in _targetLogControllers.objectEnumerator)
+	{
+		[targetLog close];
+	}
+	
 	[_targetManagementControllers removeAllObjects];
+	[_targetLogControllers removeAllObjects];
 }
 
 #pragma mark NSOutlineViewDataSource

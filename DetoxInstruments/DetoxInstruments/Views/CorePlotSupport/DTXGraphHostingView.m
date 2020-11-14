@@ -18,6 +18,7 @@
 	if(self)
 	{
 		self.wantsLayer = YES;
+		self.layer.masksToBounds = NO;
 		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawNever;
 		self.openHandCursor = [NSCursor arrowCursor];
 //		self.closedHandCursor = [NSCursor arrowCursor];

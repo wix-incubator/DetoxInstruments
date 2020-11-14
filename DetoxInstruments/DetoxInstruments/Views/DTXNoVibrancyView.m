@@ -67,20 +67,23 @@
 {
 	[super awakeFromNib];
 	
-	_backdrop = [CABackdropLayer new];
-	_backdrop.frame = self.bounds;
-//	_backdrop.windowServerAware = YES;
-	_backdrop.groupName = @"group_name_here";
-	auto saturate = [CAFilter filterWithName:@"colorInvert"];
-	_backdrop.filters = @[saturate];
-	_backdrop.name = @"backdrop";
-//	_backdrop.scale = 0.25;
-//	_backdrop.bleedAmount = 0.2;
-	
-	self.wantsLayer = YES;
-	[self.layer addSublayer:_backdrop];
-	
-	self.layerUsesCoreImageFilters = NO;
+	if_unavailable(macOS 11, *)
+	{
+		_backdrop = [CABackdropLayer new];
+		_backdrop.frame = self.bounds;
+//		_backdrop.windowServerAware = YES;
+		_backdrop.groupName = @"group_name_here";
+		auto saturate = [CAFilter filterWithName:@"colorInvert"];
+		_backdrop.filters = @[saturate];
+		_backdrop.name = @"backdrop";
+//		_backdrop.scale = 0.25;
+//		_backdrop.bleedAmount = 0.2;
+		
+		self.wantsLayer = YES;
+		[self.layer addSublayer:_backdrop];
+		
+		self.layerUsesCoreImageFilters = NO;
+	}
 }
 
 - (void)layout

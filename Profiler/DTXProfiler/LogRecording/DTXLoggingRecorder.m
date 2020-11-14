@@ -9,14 +9,16 @@
 #import "DTXLoggingRecorder.h"
 #import "DTXProfiler.h"
 #import <pthread.h>
+#import "DTXLiveLogStreamer.h"
+
+DTX_CREATE_LOG(LoggingRecorder);
+
+DTXLiveLogStreamer* _streamer;
 
 static dispatch_queue_t __log_queue;
 static dispatch_io_t __log_io;
 int DTXStdErr;
 static int __pipe[2];
-
-static NSMutableArray<__kindof DTXProfiler*>* __recordingProfilers;
-static pthread_mutex_t __recordingProfilersMutex;
 
 @implementation DTXLoggingRecorder
 
@@ -24,13 +26,30 @@ static pthread_mutex_t __recordingProfilersMutex;
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		__recordingProfilers = [NSMutableArray new];
-		pthread_mutex_init(&__recordingProfilersMutex, NULL);
-		[self _redirectLogOutput];
+		_streamer = [DTXLiveLogStreamer new];
+		if(_streamer == nil)
+		{
+			goto LEGACY;
+		}
+		
+		[_streamer startLoggingWithHandler:^(BOOL isFromProcess, const char *proc_imagepath, BOOL isFromApple, NSDate * _Nonnull timestamp, DTXOSLogEntryLogLevel level, NSString * __nullable subsystem, NSString * __nullable category, NSString * _Nonnull message) {
+			DTXProfilerAddLogEntry(timestamp, (DTXProfilerLogLevel)level, subsystem, category, message);
+		}];
+		
+		dtx_log_info(@"Info");
+		dtx_log_debug(@"Debug");
+		dtx_log_error(@"Error");
+		dtx_log_fault(@"Fault");
+		
+//		NSLog(@"Hey there!");
+		return;
+		
+	LEGACY:
+		[self _legacy_redirectLogOutput];
 	});
 }
 
-+ (void)_redirectLogOutput
++ (void)_legacy_redirectLogOutput
 {
 	DTXStdErr = dup(STDERR_FILENO);
 	
@@ -60,7 +79,7 @@ static pthread_mutex_t __recordingProfilersMutex;
 			
 			NSString *logLine = [[NSString alloc] initWithBytes:buffer length:size encoding:NSUTF8StringEncoding];
 			
-			DTXProfilerAddLogLineWithObjects(logLine, nil);
+			DTXProfilerAddLegacyLogEntryWithObjects(logLine, nil);
 			
 			return true;
 		});

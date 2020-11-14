@@ -10,6 +10,7 @@
 #import "DTXProfilingBasics.h"
 #import "DTXFileSystemItem.h"
 #import "DTXPasteboardItem.h"
+#import "DTXProfilerLogLevel.h"
 @import CoreData;
 
 @class DTXRemoteTarget, DTXProfilingConfiguration;
@@ -93,6 +94,9 @@ typedef NS_ENUM(NSUInteger, DTXRemoteTargetState) {
 
 @property (nonatomic, copy) NSArray<DTXPasteboardItem*>* pasteboardContents;
 - (void)loadPasteboardContents;
+
+- (void)startStreamingLogsWithHandler:(void(^)(BOOL isFromAppProcess, NSString* processName, BOOL isFromApple, NSDate* timestamp, DTXProfilerLogLevel level, NSString* subsystem, NSString* category, NSString* message))handler;
+- (void)stopStreamingLogs;
 
 - (void)captureViewHierarchy;
 

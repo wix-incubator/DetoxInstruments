@@ -1,12 +1,15 @@
 {
   "images" : [
     {
-      "idiom" : "mac",
-      "filename" : "AsyncStorage.pdf"
+      "filename" : "AsyncStorage.pdf",
+      "idiom" : "mac"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

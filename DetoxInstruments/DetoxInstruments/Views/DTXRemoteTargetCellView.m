@@ -26,6 +26,7 @@
 {
 	IBOutlet NSStackView* _buttonsStack;
 	IBOutlet NSButton* _manageButton;
+	IBOutlet NSButton* _consoleButton;
 	IBOutlet NSButton* _viewHierarchy;
 	IBOutlet NSButton* _warningButton;
 	
@@ -41,6 +42,13 @@
 	
 	_deviceSnapshotManager = [[DTXDeviceSnapshotManager alloc] initWithDeviceImageView:self.deviceImageView snapshotImageView:self.deviceScreenSnapshotImageView];
 	[_deviceSnapshotManager clearDevice];
+	
+	if(@available(macOS 11.0, *))
+	{
+		NSImage* image = [NSImage imageWithSystemSymbolName:@"gearshape.fill" accessibilityDescription:nil];
+		image.size = NSMakeSize(15, 15);
+		_manageButton.image = image;
+	}
 }
 
 - (void)prepareForReuse
@@ -70,12 +78,14 @@
 
 	if(target.state < DTXRemoteTargetStateDeviceInfoLoaded)
 	{
+		_consoleButton.hidden = YES;
 		_manageButton.hidden = YES;
 		_viewHierarchy.hidden = YES;
 		_warningButton.hidden = YES;
 	}
 	else
 	{
+		_consoleButton.hidden = target.isCompatibleWithInstruments == NO;
 		_manageButton.hidden = target.isCompatibleWithInstruments == NO;
 		_viewHierarchy.hidden = YES;
 		_warningButton.hidden = target.isCompatibleWithInstruments;

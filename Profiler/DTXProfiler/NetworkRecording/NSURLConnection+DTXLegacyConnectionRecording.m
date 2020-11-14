@@ -34,11 +34,12 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	
 	NSURLRequest* rv = request;
 	Class superclass = DTXDynamicSubclassSuper(self, __DTX_DelegateProxy.class);
-	if([superclass instancesRespondToSelector:_cmd])
+	SEL cmd = @selector(connection:willSendRequest:redirectResponse:);
+	if([superclass instancesRespondToSelector:cmd])
 	{
 		struct objc_super super = {.receiver = self, .super_class = superclass};
 		NSURLRequest* (*super_class)(struct objc_super*, SEL, id, id, id) = (void*)objc_msgSendSuper;
-		rv = super_class(&super, _cmd, connection, request, response);
+		rv = super_class(&super, cmd, connection, request, response);
 	}
 	return rv;
 }
@@ -53,11 +54,12 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	}
 	
 	Class superclass = DTXDynamicSubclassSuper(self, __DTX_DelegateProxy.class);
-	if([superclass instancesRespondToSelector:_cmd])
+	SEL cmd = @selector(connection:didFailWithError:);
+	if([superclass instancesRespondToSelector:cmd])
 	{
 		struct objc_super super = {.receiver = self, .super_class = superclass};
 		void (*super_class)(struct objc_super*, SEL, id, id) = (void*)objc_msgSendSuper;
-		super_class(&super, _cmd, connection, error);
+		super_class(&super, cmd, connection, error);
 	}
 }
 
@@ -66,11 +68,12 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	[self dtx_attachObject:[response copy] forKey:__DTXConnectionResponse];
 	
 	Class superclass = DTXDynamicSubclassSuper(self, __DTX_DelegateProxy.class);
-	if([superclass instancesRespondToSelector:_cmd])
+	SEL cmd = @selector(connection:didReceiveResponse:);
+	if([superclass instancesRespondToSelector:cmd])
 	{
 		struct objc_super super = {.receiver = self, .super_class = superclass};
 		void (*super_class)(struct objc_super*, SEL, id, id) = (void*)objc_msgSendSuper;
-		super_class(&super, _cmd, connection, response);
+		super_class(&super, cmd, connection, response);
 	}
 }
 
@@ -92,11 +95,12 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	[self __dtx_appendAttachedData:data];
 	
 	Class superclass = DTXDynamicSubclassSuper(self, __DTX_DelegateProxy.class);
-	if([superclass instancesRespondToSelector:_cmd])
+	SEL cmd = @selector(connection:didReceiveData:lengthReceived:);
+	if([superclass instancesRespondToSelector:cmd])
 	{
 		struct objc_super super = {.receiver = self, .super_class = superclass};
 		void (*super_class)(struct objc_super*, SEL, id, id, long long) = (void*)objc_msgSendSuper;
-		super_class(&super, _cmd, connection, data, lengthReceived);
+		super_class(&super, cmd, connection, data, lengthReceived);
 	}
 	else if([superclass instancesRespondToSelector:@selector(connection:didReceiveData:)])
 	{
@@ -111,11 +115,12 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	[self __dtx_appendAttachedData:data];
 	
 	Class superclass = DTXDynamicSubclassSuper(self, __DTX_DelegateProxy.class);
-	if([superclass instancesRespondToSelector:_cmd])
+	SEL cmd = @selector(connection:didReceiveData:);
+	if([superclass instancesRespondToSelector:cmd])
 	{
 		struct objc_super super = {.receiver = self, .super_class = superclass};
 		void (*super_class)(struct objc_super*, SEL, id, id) = (void*)objc_msgSendSuper;
-		super_class(&super, _cmd, connection, data);
+		super_class(&super, cmd, connection, data);
 	}
 }
 
@@ -127,11 +132,12 @@ static void* __DTXConnectionData = &__DTXConnectionData;
 	}
 	
 	Class superclass = DTXDynamicSubclassSuper(self, __DTX_DelegateProxy.class);
-	if([superclass instancesRespondToSelector:_cmd])
+	SEL cmd = @selector(connectionDidFinishLoading:);
+	if([superclass instancesRespondToSelector:cmd])
 	{
 		struct objc_super super = {.receiver = self, .super_class = superclass};
 		void (*super_class)(struct objc_super*, SEL, id) = (void*)objc_msgSendSuper;
-		super_class(&super, _cmd, connection);
+		super_class(&super, cmd, connection);
 	}
 }
 

@@ -9,10 +9,10 @@
 #if DEBUG
 
 #import "CCNPreferencesWindowController.h"
+#import "NSWindowController+DocumentationGeneration.h"
 
 @interface CCNPreferencesWindowController (DocumentationGeneration)
 
-- (void)_drainLayout;
 - (void)_activateControllerAtIndex:(NSUInteger)index;
 
 @end

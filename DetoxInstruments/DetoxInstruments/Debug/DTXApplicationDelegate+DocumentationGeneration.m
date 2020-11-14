@@ -13,6 +13,7 @@
 #import "CCNPreferencesWindowController+DocumentationGeneration.h"
 #import "DTXProfilingTargetManagementWindowController+DocumentationGeneration.h"
 #import "DTXInstrumentsPreferencesWindowController+DocumentationGeneration.h"
+#import "DTXLiveLogWindowController+DocumentationGeneration.h"
 #import "NSWindow+Snapshotting.h"
 
 #import "DTXAxisHeaderPlotController.h"
@@ -96,6 +97,7 @@ static const CGFloat __inspectorPaneOverviewImagePadding = 35;
 static const CGFloat __inspectorPercentage = 0.85;
 static const CGFloat __inspectorLowkeyPercentage = 0.45;
 
+API_AVAILABLE(macos(11.0))
 @implementation DTXApplicationDelegate (DocumentationGeneration)
 
 + (void)_addColorsToMenuItem:(NSMenuItem*)menuItem
@@ -103,16 +105,18 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	NSMenu* colors = [NSMenu new];
 	menuItem.submenu = colors;
 	
-	NSArray* colorNames = @[@"Blue", @"Purple", @"Pink", @"Red", @"Orange", @"Yellow", @"Green", @"Graphite"];
-	NSArray* colorTints = @[[NSColor systemBlueColor],
-							[NSColor systemPurpleColor],
-							[NSColor systemPinkColor],
-							[NSColor systemRedColor],
-							[NSColor systemOrangeColor],
-							[NSColor systemYellowColor],
-							[NSColor systemGreenColor],
-							[NSColor systemGrayColor]
-							];
+	NSArray* colorNames = @[@"Accent Color", @"Blue", @"Purple", @"Pink", @"Red", @"Orange", @"Yellow", @"Green", @"Graphite"];
+	NSArray* colorTints = @[
+		[NSColor colorNamed:@"AccentColor"],
+		[NSColor systemBlueColor],
+		[NSColor systemPurpleColor],
+		[NSColor systemPinkColor],
+		[NSColor systemRedColor],
+		[NSColor systemOrangeColor],
+		[NSColor systemYellowColor],
+		[NSColor systemGreenColor],
+		[NSColor systemGrayColor]
+	];
 	[colorNames enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSMenuItem* colorItem = [NSMenuItem new];
 		colorItem.title = obj;
@@ -122,6 +126,17 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		[colors addItem:colorItem];
 	}];
 }
+
+__attribute__((destructor))
+static void _bestEffortDebugCleanup()
+{
+	[NSUserDefaults.standardUserDefaults removeObjectForKey:@"AppleAccentColor"];
+	[NSUserDefaults.standardUserDefaults removeObjectForKey:@"AppleHighlightColor"];
+	[NSUserDefaults.standardUserDefaults removeObjectForKey:@"DetoxInstrumentsDocGeneration"];
+	
+	[NSUserDefaults.standardUserDefaults synchronize];
+}
+
 
 + (void)load
 {
@@ -163,52 +178,54 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		[NSApp.mainMenu addItem:debugMenuItem];
 		
 		__classToNameMapping = @{
-								 NSStringFromClass(DTXCPUUsagePlotController.class): @{@"name": @"CPUUsage", @"inspectorSample": @166, @"includeInRecordingDocumentInspectorPane": @0},
-								 NSStringFromClass(DTXDiskReadWritesPlotController.class): @{@"name": @"DiskActivity", @"displaySample": @218, @"lowkeyInspector": @YES},
-								 NSStringFromClass(DTXFPSPlotController.class): @{@"name": @"FPS", @"displaySample": @62, @"lowkeyInspector": @YES},
-								 NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @113, @"lowkeyInspector": @YES},
-								 NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"inspectorSample": @111, @"displaySample": @359, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1}, @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
-								 NSStringFromClass(DTXEventsPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@1, @0, @3], @"lowkeyInspector": @YES}, @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
-								 NSStringFromClass(DTXActivityPlotController.class): @{@"name": @"Activity", @"displaySample": NSNull.null, @"outlineBreadcrumbs": @[@2, @0], @"lowkeyInspector": @YES}, @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2, @"zoom": @4},
-								 };
+			NSStringFromClass(DTXCPUUsagePlotController.class): @{@"name": @"CPUUsage", @"inspectorSample": @166, @"includeInRecordingDocumentInspectorPane": @0},
+			NSStringFromClass(DTXDiskReadWritesPlotController.class): @{@"name": @"DiskActivity", @"displaySample": @218, @"lowkeyInspector": @YES},
+			NSStringFromClass(DTXFPSPlotController.class): @{@"name": @"FPS", @"displaySample": @62, @"lowkeyInspector": @YES},
+			NSStringFromClass(DTXMemoryUsagePlotController.class): @{@"name": @"MemoryUsage", @"displaySample": @113, @"lowkeyInspector": @YES},
+			NSStringFromClass(DTXCompactNetworkRequestsPlotController.class): @{@"name": @"NetworkActivity", @"inspectorSample": @111, @"displaySample": @359, @"scrollPercentage": @0.8, @"includeInRecordingDocumentInspectorPane": @1}, @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
+			NSStringFromClass(DTXEventsPlotController.class): @{@"name": @"Events", @"displaySample": @3, @"outlineBreadcrumbs": @[@1, @0, @3], @"lowkeyInspector": @YES}, @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2},
+			NSStringFromClass(DTXActivityPlotController.class): @{@"name": @"Activity", @"displaySample": NSNull.null, @"outlineBreadcrumbs": @[@2, @0], @"lowkeyInspector": @YES}, @"NULL":@{@"includeInRecordingDocumentInspectorPane": @2, @"zoom": @4},
+		};
 		
 		__classToNameRNMapping = @{
-								   NSStringFromClass(DTXRNCPUUsagePlotController.class): @{@"name": @"RNJSThread", @"lowkeyInspector": @YES},
-								   NSStringFromClass(DTXRNBridgeCountersPlotController.class): @{@"name": @"RNBridgeCounters", @"lowkeyInspector": @YES},
-								   NSStringFromClass(DTXRNBridgeDataTransferPlotController.class): @{@"name": @"RNBridgeData", @"lowkeyInspector": @YES},
-								   NSStringFromClass(DTXRNAsyncStoragePlotController.class): @{@"name": @"RNAsyncStorage", @"lowkeyInspector": @YES},
-								   };
+			NSStringFromClass(DTXRNCPUUsagePlotController.class): @{@"name": @"RNJSThread", @"lowkeyInspector": @YES},
+			NSStringFromClass(DTXRNBridgeCountersPlotController.class): @{@"name": @"RNBridgeCounters", @"lowkeyInspector": @YES},
+			NSStringFromClass(DTXRNBridgeDataTransferPlotController.class): @{@"name": @"RNBridgeData", @"lowkeyInspector": @YES},
+			NSStringFromClass(DTXRNAsyncStoragePlotController.class): @{@"name": @"RNAsyncStorage", @"lowkeyInspector": @YES},
+		};
 		
 		__defaultSample = @22;
 		__defaultSampleRN = @22;
 		
 		__appleAccentColorMapping = @{
-									  @0: @100,
-									  @1: @5,
-									  @2: @6,
-									  @3: @0,
-									  @4: @1,
-									  @5: @2,
-									  @6: @3,
-									  @7: @-1
-									  };
+			@0: @5,
+			@1: @4,
+			@2: @5,
+			@3: @6,
+			@4: @0,
+			@5: @1,
+			@6: @2,
+			@7: @3,
+			@8: @-1
+		};
 		
 		__appleHighlightColorMapping = @{
-										 @0: @"",
-										 @1: @"0.968627 0.831373 1.000000 Purple",
-										 @2: @"1.000000 0.749020 0.823529 Pink",
-										 @3: @"1.000000 0.733333 0.721569 Red",
-										 @4: @"1.000000 0.874510 0.701961 Orange",
-										 @5: @"1.000000 0.937255 0.690196 Yellow",
-										 @6: @"0.752941 0.964706 0.678431 Green",
-										 @7: @"0.847059 0.847059 0.862745 Graphite"
-										 };
+			@0: @"0.968627 0.831373 1.000000 Purple",
+			@1: @"0.698039 0.843137 1.000000 Blue",
+			@2: @"0.968627 0.831373 1.000000 Purple",
+			@3: @"1.000000 0.749020 0.823529 Pink",
+			@4: @"1.000000 0.733333 0.721569 Red",
+			@5: @"1.000000 0.874510 0.701961 Orange",
+			@6: @"1.000000 0.937255 0.690196 Yellow",
+			@7: @"0.752941 0.964706 0.678431 Green",
+			@8: @"0.847059 0.847059 0.862745 Graphite"
+		};
 	});
 }
 
 - (NSURL*)_resourcesURL
 {
-	return [[[NSURL URLWithString:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Resources/"] URLByStandardizingPath];
+	return [[[NSURL fileURLWithPath:[NSBundle.mainBundle objectForInfoDictionaryKey:@"DTXSourceRoot"]] URLByAppendingPathComponent:@"../Documentation/Resources/"] URLByStandardizingPath];
 }
 
 - (IBAction)_generateDocScreenshots:(NSMenuItem*)sender
@@ -229,6 +246,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	NSUInteger menuAccent = sender.tag;
 
 	NSAppearance.currentAppearance = NSApp.appearance = [NSAppearance appearanceNamed: menuAppearance == 0 ? NSAppearanceNameAqua : NSAppearanceNameDarkAqua];
+	NSNumber* accentColor = __appleAccentColorMapping[@(menuAccent)];
 	[NSUserDefaults.standardUserDefaults setObject:__appleAccentColorMapping[@(menuAccent)] forKey:@"AppleAccentColor"];
 	[NSUserDefaults.standardUserDefaults setObject:__appleHighlightColorMapping[@(menuAccent)] forKey:@"AppleHighlightColor"];
 	[NSNotificationCenter.defaultCenter postNotificationName:@"kCUINotificationAquaColorVariantChanged" object:nil];
@@ -244,42 +262,49 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	NSSize buttonImageExportSize = NSMakeSize(8, 8);
 	
-	NSImage* img = [[NSImage imageNamed:@"stopRecording"] imageTintedWithColor:NSColor.blackColor];
+	NSImage* img = [[NSImage imageWithSystemSymbolName:@"stop.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Stop.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"flag"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"stopwatch" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Flag.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"NowTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"arrow.up.left.circle" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Follow.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"NSActionTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"xmark.circle" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
+	img.size = buttonImageExportSize;
+	[img lockFocus];
+	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
+	[img unlockFocus];
+	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Clear.png"].path atomically:YES];
+	
+	img = [[NSImage imageWithSystemSymbolName:@"gearshape.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Manage.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"NSActionTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"gearshape.2.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_TimelineOptions.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"NSPrivateChaptersTemplate"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"list.dash" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
@@ -300,7 +325,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_InspectorPane.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"expand_preview"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"arrow.up.left.and.arrow.down.right" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
@@ -326,6 +351,22 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	
 	rep = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Integration_Discovered.png"].path atomically:YES];
+	
+	DTXLiveLogWindowController* liveConsole = [windowController _openLiveConsoleWindowController];
+	[liveConsole _selectAny];
+	
+	[liveConsole _drainLayout];
+	[liveConsole _drainLayout];
+	
+	NSBitmapImageRep* liveConsoleRep = (NSBitmapImageRep*)[liveConsole.window snapshotForCachingDisplay].representations.firstObject;
+	[[liveConsoleRep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"LiveConsole.png"].path atomically:YES];
+	
+	[liveConsole.window close];
+	
+	[liveConsole _drainLayout];
+	[windowController _drainLayout];
+	
+	[windowController.window makeKeyWindow];
 	
 	DTXProfilingTargetManagementWindowController* managementWindowController = [windowController _openManagementWindowController];
 	
@@ -459,7 +500,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 		NSBitmapImageRep* repIntro = (NSBitmapImageRep*)[windowController.window snapshotForCachingDisplay].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Document.png"].path atomically:YES];
 		
-		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:pasteboardRep requestsPlaygroundRep:rplaygroundRep].representations.firstObject;
+		repIntro = (NSBitmapImageRep*)[self _introImageWithRecordingWindowRep:repIntro managementWindowRep:pasteboardRep requestsPlaygroundRep:rplaygroundRep liveConsoleRep:liveConsoleRep].representations.firstObject;
 		[[repIntro representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Readme_Intro.png"].path atomically:YES];
 		
 		[windowController _setWindowSize:NSMakeSize(1344, 945)];
@@ -570,12 +611,10 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 			[windowController _drainLayout];
 			[windowController close];
 			[document close];
-			[NSUserDefaults.standardUserDefaults synchronize];
 			
 			[NSUserDefaults.standardUserDefaults setBool:oldVal forKey:@"DTXPlotSettingsDisplayLabels"];
 			
 			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				[NSUserDefaults.standardUserDefaults synchronize];
 				exit(0);
 			});
 		}];
@@ -847,13 +886,14 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	return toolbarImage;
 }
 
-- (NSImage*)_introImageWithRecordingWindowRep:(NSBitmapImageRep*)recWinRep managementWindowRep:(NSBitmapImageRep*)manageRep requestsPlaygroundRep:(NSBitmapImageRep*)requestsPlaygroundRep
+- (NSImage*)_introImageWithRecordingWindowRep:(NSBitmapImageRep*)recWinRep managementWindowRep:(NSBitmapImageRep*)manageRep requestsPlaygroundRep:(NSBitmapImageRep*)requestsPlaygroundRep liveConsoleRep:(NSBitmapImageRep*)liveConsoleRep
 {
 	NSImage* introImage = [[NSImage alloc] initWithSize:NSMakeSize(recWinRep.size.width + manageRep.size.width / 4, recWinRep.size.height + manageRep.size.height / 5)];
 	[introImage lockFocus];
 	
 	[recWinRep drawAtPoint:NSMakePoint(0, introImage.size.height - recWinRep.size.height)];
-	[requestsPlaygroundRep drawInRect:(NSRect){NSMakePoint(introImage.size.width * 0.5 - requestsPlaygroundRep.size.width * 0.5, manageRep.size.height / 10), requestsPlaygroundRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[liveConsoleRep drawInRect:(NSRect){NSMakePoint(introImage.size.width * 0.5 - liveConsoleRep.size.width * 0.5, manageRep.size.height / 10 + 20), liveConsoleRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[requestsPlaygroundRep drawInRect:(NSRect){NSMakePoint(introImage.size.width * 0.65 - requestsPlaygroundRep.size.width * 0.5, manageRep.size.height / 10 - 80), requestsPlaygroundRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	[manageRep drawInRect:(NSRect){NSMakePoint(introImage.size.width - manageRep.size.width, 0), manageRep.size} fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	recWinRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, introImage.size}];
@@ -895,6 +935,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{
@@ -951,6 +992,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{
@@ -1017,6 +1059,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{
@@ -1083,6 +1126,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{
@@ -1149,6 +1193,7 @@ static const CGFloat __inspectorLowkeyPercentage = 0.45;
 	DTXDebugMenuGenerator* menu = [DTXDebugMenuGenerator new];
 	[[[NSNib alloc] initWithNibNamed:@"DTXDebugMenuNoIconsGenerator" bundle:nil] instantiateWithOwner:menu topLevelObjects:nil];
 	menu.visualEffectView.wantsLayer = YES;
+	menu.visualEffectView.layer.cornerCurve = kCACornerCurveContinuous;
 	menu.visualEffectView.layer.cornerRadius = 5.0;
 	if(NSApp.effectiveAppearance.isDarkAppearance)
 	{

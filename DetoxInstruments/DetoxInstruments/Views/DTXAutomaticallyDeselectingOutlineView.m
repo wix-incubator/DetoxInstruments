@@ -10,6 +10,16 @@
 
 @implementation DTXAutomaticallyDeselectingOutlineView
 
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	if (@available(macOS 11.0, *))
+	{
+		self.style = NSTableViewStyleFullWidth;
+	}
+}
+
 - (BOOL)resignFirstResponder
 {
 	[self deselectAll:nil];
