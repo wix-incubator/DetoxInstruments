@@ -129,7 +129,6 @@ Detox Instruments includes a utility for replaying and modifying network request
 
 See [Acknowledgements](Documentation/Acknowledgements.md)
 
-## Installation Troubleshooting
+## Troubleshooting
 
-- If Homebrew complains about a conflict in the `wix/brew` tap, **run `brew untap wix/brew && brew tap wix/brew` and install again**
-- If installation still fails, **run `brew doctor` and fix all issues & warnings**
+See [Troubleshooting](Documentation/Troubleshooting.md)
