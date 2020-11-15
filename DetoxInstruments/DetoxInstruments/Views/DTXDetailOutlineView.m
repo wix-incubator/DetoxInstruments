@@ -36,7 +36,16 @@
 		.super_class = NSTableView.class
 	};
 	
-	NSRect (*objc_superAllocTyped)(struct objc_super *, SEL, NSInteger, NSInteger) = (void *)&objc_msgSendSuper_stret;
+	NSRect (*objc_superAllocTyped)(struct objc_super *, SEL, NSInteger, NSInteger) = (void *)&
+#if defined(__x86_64__)
+	objc_msgSendSuper_stret
+#elif defined(__aarch64__)
+	objc_msgSendSuper
+#else
+#error Unsupported arch
+#endif
+	;
+	
 	NSRect rv = objc_superAllocTyped(&mySuper, _cmd, column, row);
 	
 	return rv;

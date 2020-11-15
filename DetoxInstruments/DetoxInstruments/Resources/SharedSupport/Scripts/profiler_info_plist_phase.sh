@@ -5,7 +5,7 @@ INSTRUMENTS_SCRIPTS_DIR="${0%/*}"
 
 PROFILER_LIB_DIR="ProfilerFramework"
 PROFILER_FRAMEWORK_NAME="DTXProfiler.framework"
-PROFILER_FRAMEWORK_PATH="${INSTRUMENTS_SCRIPTS_DIR}/../${PROFILER_LIB_DIR}/${PROFILER_FRAMEWORK_NAME}"
+PROFILER_FRAMEWORK_CONTAINER="${INSTRUMENTS_SCRIPTS_DIR}/../${PROFILER_LIB_DIR}"
 
 CONFIGURATION=$1
 # Clean any leading or trailing whitespace from list of allowed configurations
@@ -34,7 +34,7 @@ addOrAppendNSBonjourServicesIfNeeded()
 	/usr/libexec/PlistBuddy -c 'print :NSBonjourServices' "${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}" && appendNSBonjourServices || addNSBonjourServices
 }
 
-if [ -e "${PROFILER_FRAMEWORK_PATH}" ]; then
+if [ -e "${PROFILER_FRAMEWORK_CONTAINER}" ]; then
 	if [[ " ${ALLOWED_CONFIGURATIONS[@]} " =~ " ${CONFIGURATION} " ]]; then
 		addNSLocalNetworkUsageDescriptionIfNeeded
 		addOrAppendNSBonjourServicesIfNeeded

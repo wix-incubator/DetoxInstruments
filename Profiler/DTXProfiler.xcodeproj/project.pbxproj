@@ -934,7 +934,7 @@
 		39D40BF01ED5ABD200157C04 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = Wix;
 				TargetAttributes = {
 					3922F8231F4484DA00F10055 = {
@@ -1002,8 +1002,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = "/bin/bash -ex";
-			shellScript = "UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos OBJROOT=\"${BUILD_ROOT}/iphoneos\" build -quiet\n# xcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO OBJROOT=\"${BUILD_ROOT}/iphonesimulator\" build  -quiet\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\nif [ -d \"${INSTALL_DIR}\" ]; then\nrm -fr \"${INSTALL_DIR}\"\nfi\n\nmkdir -p \"${INSTALL_DIR}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-universal/${PROJECT_NAME}.framework\" ${INSTALL_DIR}\n";
+			shellPath = "/bin/bash -e";
+			shellScript = "echo ${BUILD_ROOT}\n\nif [ -d \"${INSTALL_DIR}\" ]; then\nrm -fr \"${INSTALL_DIR}\"\nfi\n\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/iphoneos\"\nmkdir -p \"${INSTALL_DIR}/iphonesimulator\"\nmkdir -p \"${INSTALL_DIR}/macosx\"\nmkdir -p \"${INSTALL_DIR}/maccatalyst\"\n\nxcodebuild -target \"${PROJECT_NAME}\" -scheme \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst' -archivePath \"${BUILD_ROOT}/macosx/${PROJECT_NAME}.xcarchive\" archive SKIP_INSTALL=NO\ncp -R \"${BUILD_ROOT}/macosx/${PROJECT_NAME}.xcarchive/Products/Library/Frameworks/${PROJECT_NAME}.framework\" \"${INSTALL_DIR}/macosx\"\ncp -R \"${BUILD_ROOT}/macosx/${PROJECT_NAME}.xcarchive/Products/Library/Frameworks/${PROJECT_NAME}.framework\" \"${INSTALL_DIR}/maccatalyst\"\n\nxcodebuild -target \"${PROJECT_NAME}\" -scheme \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos -destination 'generic/platform=iOS' -archivePath \"${BUILD_ROOT}/iphoneos/${PROJECT_NAME}.xcarchive\" archive SKIP_INSTALL=NO\ncp -R \"${BUILD_ROOT}/iphoneos/${PROJECT_NAME}.xcarchive/Products/Library/Frameworks/${PROJECT_NAME}.framework\" \"${INSTALL_DIR}/iphoneos\"\n\nxcodebuild -target \"${PROJECT_NAME}\" -scheme \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos -destination 'generic/platform=iOS Simulator' -archivePath \"${BUILD_ROOT}/iphonesimulator/${PROJECT_NAME}.xcarchive\" archive SKIP_INSTALL=NO\ncp -R \"${BUILD_ROOT}/iphonesimulator/${PROJECT_NAME}.xcarchive/Products/Library/Frameworks/${PROJECT_NAME}.framework\" \"${INSTALL_DIR}/iphonesimulator\"\n";
 		};
 		395B5E9320568DCF0013CB75 /* Update Build Numbers */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1112,7 +1112,6 @@
 		3922F8241F4484DA00F10055 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1120,7 +1119,6 @@
 		3922F8251F4484DA00F10055 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1172,6 +1170,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1202,8 +1201,6 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1217,6 +1214,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release_External;
@@ -1224,7 +1222,6 @@
 		395B5E9220568C470013CB75 /* Release_External */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release_External;
@@ -1282,6 +1279,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1338,6 +1336,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1369,8 +1368,6 @@
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1383,6 +1380,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -1409,8 +1407,6 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				INFOPLIST_FILE = DTXProfiler/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1424,6 +1420,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.DTXProfiler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;

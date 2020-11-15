@@ -16,11 +16,9 @@ You'll need to perform the following steps for each target that you wish to inte
 
 4. Select the **Build Settings** tab and add the following to **Other Linker Flags** (`OTHER_LDFLAGS`) setting for **all configurations**:
 
-	```bash
-	-ObjC -F"${CODESIGNING_FOLDER_PATH}"/Frameworks -framework DTXProfiler
 	```
-
-	> Add this build setting to additional configurations if you wish to profile them.
+	-ObjC -F"${CODESIGNING_FOLDER_PATH}/${BUNDLE_FRAMEWORKS_FOLDER_PATH}" -framework DTXProfiler
+	```
 
 	![Other Linker Flags](Resources/Integration_OtherLinkerFlags.png "Add the Other Linker Flags build setting")
 

@@ -176,7 +176,7 @@ struct os_activity_stream_entry_s {
 
 // Blocks
 
-typedef bool (^os_activity_stream_block_t)(os_activity_stream_entry_t entry,
+typedef BOOL (^os_activity_stream_block_t)(os_activity_stream_entry_t entry,
 										   int error);
 
 typedef void (^os_activity_stream_event_block_t)(
