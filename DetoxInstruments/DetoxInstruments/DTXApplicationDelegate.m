@@ -283,6 +283,7 @@ OSStatus DTXGoToHelpPage(NSString* pagePath)
 	DTXGoToHelpPage(@"AppDiscovery");
 }
 
+//This does not work!
 - (IBAction)revealProfilerFramework:(id)sender
 {
 	NSURL* actualFrameworkURL = [[NSBundle mainBundle].bundleURL URLByAppendingPathComponent:@"Contents/SharedSupport/ProfilerFramework/DTXProfiler.framework" isDirectory:NO];
