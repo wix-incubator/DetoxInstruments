@@ -21,9 +21,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.15</string>
 	<key>CFBundleVersion</key>
-	<string>13027</string>
+	<string>13028</string>
 	<key>DTXBuildDate</key>
-	<date>2020-11-15T22:56:47Z</date>
+	<date>2021-01-07T08:07:31Z</date>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSAccentColorName</key>

@@ -3,7 +3,7 @@
 //  DetoxInstruments
 //
 //  Created by Leo Natan (Wix) on 12/06/2017.
-//  Copyright © 2017-2020 Wix. All rights reserved.
+//  Copyright © 2017-2021 Wix. All rights reserved.
 //
 
 #import "DTXNetworkDataProvider.h"

@@ -3,7 +3,7 @@
 //  DTXProfiler
 //
 //  Created by Leo Natan (Wix) on 5/6/18.
-//  Copyright © 2017-2020 Wix. All rights reserved.
+//  Copyright © 2017-2021 Wix. All rights reserved.
 //
 
 // iphoneOS SDK does not include libproc.h and internal includes, but the symbols exist.
