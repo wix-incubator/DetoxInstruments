@@ -20,7 +20,7 @@ fi
 
 if [ -z "$DRY_RUN" ]; then
 	XCODEVERSION=$(xcodebuild -version | grep -oEi "([0-9]*(\.[0-9]*)+)")
-	XCODENEWESTSUPPORTED="12.3"
+	XCODENEWESTSUPPORTED="12.4"
 	if [ ${XCODEVERSION} != ${XCODENEWESTSUPPORTED} ] && [ "${XCODEVERSION}" = "`echo -e "${XCODEVERSION}\n${XCODENEWESTSUPPORTED}" | sort --version-sort -r | head -n1`" ]; then
 		printf >&2 "\033[1;31mUnsupported Xcode, aborting\033[0m\n"
 		exit 1;
