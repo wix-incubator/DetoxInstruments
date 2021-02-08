@@ -11,6 +11,7 @@
 		3911770921EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 391176FA21EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.m */; };
 		3911770B21EF81FB00C92A9F /* NSURL+UIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770321EF81FB00C92A9F /* NSURL+UIAdditions.m */; };
 		3911770E21EF81FB00C92A9F /* NSDictionary+FakeDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */; };
+		3921F6A325D1B5EE006EC90F /* DTXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 3921F6A125D1B5EE006EC90F /* DTXLogging.m */; };
 		3935104E1FCB9BE2001FB466 /* LNLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3935104B1FCB9BE2001FB466 /* LNLog.m */; };
 		3935104F1FCB9BE2001FB466 /* LNOptionsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3935104C1FCB9BE2001FB466 /* LNOptionsParser.m */; };
 		3935105A1FCB9BF9001FB466 /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 393510521FCB9BF8001FB466 /* GBOptionsHelper.m */; };
@@ -63,6 +64,8 @@
 		3911770121EF81FB00C92A9F /* NSManagedObjectContext+PerformQOSBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+PerformQOSBlock.h"; sourceTree = "<group>"; };
 		3911770321EF81FB00C92A9F /* NSURL+UIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+UIAdditions.m"; sourceTree = "<group>"; };
 		3911770721EF81FB00C92A9F /* NSDictionary+FakeDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+FakeDecoder.m"; sourceTree = "<group>"; };
+		3921F6A125D1B5EE006EC90F /* DTXLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXLogging.m; path = ObjCCLIInfra/DTXLoggingInfra/DTXLogging.m; sourceTree = SOURCE_ROOT; };
+		3921F6A225D1B5EE006EC90F /* DTXLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXLogging.h; path = ObjCCLIInfra/DTXLoggingInfra/DTXLogging.h; sourceTree = SOURCE_ROOT; };
 		3935104A1FCB9BE2001FB466 /* LNOptionsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LNOptionsParser.h; path = ObjCCLIInfra/LNOptionsParser.h; sourceTree = SOURCE_ROOT; };
 		3935104B1FCB9BE2001FB466 /* LNLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNLog.m; path = ObjCCLIInfra/LNLog.m; sourceTree = SOURCE_ROOT; };
 		3935104C1FCB9BE2001FB466 /* LNOptionsParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNOptionsParser.m; path = ObjCCLIInfra/LNOptionsParser.m; sourceTree = SOURCE_ROOT; };
@@ -177,6 +180,8 @@
 				393510501FCB9BEF001FB466 /* GBCli */,
 				3935104D1FCB9BE2001FB466 /* LNLog.h */,
 				3935104B1FCB9BE2001FB466 /* LNLog.m */,
+				3921F6A225D1B5EE006EC90F /* DTXLogging.h */,
+				3921F6A125D1B5EE006EC90F /* DTXLogging.m */,
 				3935104A1FCB9BE2001FB466 /* LNOptionsParser.h */,
 				3935104C1FCB9BE2001FB466 /* LNOptionsParser.m */,
 			);
@@ -371,6 +376,7 @@
 				39401D0421E5098100504FD8 /* DTXRecording+Additions.m in Sources */,
 				3990FCA423B5A10A00339F14 /* NSKeyedUnarchiver+QuickDecodingSecureCoding.m in Sources */,
 				3964876E1FC325C400006341 /* main.m in Sources */,
+				3921F6A325D1B5EE006EC90F /* DTXLogging.m in Sources */,
 				39356ACA2201A92200FD23C4 /* NSString+Hashing.m in Sources */,
 				39401D1C21E5099500504FD8 /* DTXSample+UIExtensions.m in Sources */,
 				396487991FC32E2800006341 /* DTXProfilingConfiguration.m in Sources */,
