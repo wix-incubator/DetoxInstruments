@@ -32,6 +32,9 @@ ul { padding-left: 1.3em; }
 <a name="user-content-profiler-framework-integration-guide-with-xcode" class="anchor" href="#profiler-framework-integration-guide-with-xcode"><span class="octicon octicon-link"></span></a>Profiler Framework Integration Guide with Xcode</h1>
 <p>The following steps explain how to link the Profiler framework into your iOS application, providing a quick and easy way to enable profiling of your application.</p>
 <blockquote>
+<p><strong>NOTE</strong>: After integrating Detox Instruments with your project, Detox Instruments will need to be installed on any machine that will build your project.</p>
+</blockquote>
+<blockquote>
 <p><strong>WARNING:</strong> Never submit a product which has been linked with the Profiler framework to the App Store. The instructions below outline a way to use build configurations to isolate linking the framework to Debug builds only. You can customize this to allow profiling of other configurations, but be careful.</p>
 </blockquote>
 <p>You'll need to perform the following steps for each target that you wish to integrate:</p>
@@ -47,10 +50,8 @@ ul { padding-left: 1.3em; }
 </li>
 <li>
 <p>Select the <strong>Build Settings</strong> tab and add the following to <strong>Other Linker Flags</strong> (<code>OTHER_LDFLAGS</code>) setting for <strong>all configurations</strong>:</p>
-<div class="highlight highlight-source-shell"><pre>-ObjC -F<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${CODESIGNING_FOLDER_PATH}</span><span class="pl-pds">"</span></span>/Frameworks -framework DTXProfiler</pre></div>
-<blockquote>
-<p>Add this build setting to additional configurations if you wish to profile them.</p>
-</blockquote>
+<pre><code>-ObjC -F"${CODESIGNING_FOLDER_PATH}/${BUNDLE_FRAMEWORKS_FOLDER_PATH}" -framework DTXProfiler
+</code></pre>
 <p><a href="Resources/Integration_OtherLinkerFlags.png" target="_blank"><img src="Resources/Integration_OtherLinkerFlags.png" alt="Other Linker Flags" title="Add the Other Linker Flags build setting" style="max-width:100%;" /></a></p>
 </li>
 <li>

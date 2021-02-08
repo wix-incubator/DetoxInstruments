@@ -22,8 +22,8 @@ do
   # convert "$PNG" -flatten -format jp2 -quality 50 "$PNG"
 	# pngcrush -reduce -m 123 -ow "$PNG"
 	echo -e "\033[1;34mConverting $PNG\033[0m"
-  convert "$PNG" -flatten -alpha off -format jp2 -resize 50% -quality 85 "$PNG".jp2
-  mv -f "$PNG".jp2 "$PNG"
+  convert "$PNG" -flatten -alpha off -format png -resize 50% -quality 85 "$PNG".small
+  mv -f "$PNG".small "$PNG"
 done ;
 popd > /dev/null
 
