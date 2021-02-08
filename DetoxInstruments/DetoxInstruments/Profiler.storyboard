@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="f3X-2z-0cS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18121" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="f3X-2z-0cS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18121"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -300,7 +300,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="X7U-Aq-IEC" customClass="DTXSettingsPopUpButton">
-                                                                    <rect key="frame" x="91" y="33" width="45" height="15"/>
+                                                                    <rect key="frame" x="99" y="33" width="45" height="15"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="40" placeholder="YES" id="2m7-8i-B3m"/>
                                                                     </constraints>
@@ -317,7 +317,7 @@
                                                                     </popUpButtonCell>
                                                                 </popUpButton>
                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eIs-JQ-x2C">
-                                                                    <rect key="frame" x="88" y="22" width="45" height="32"/>
+                                                                    <rect key="frame" x="96" y="22" width="45" height="32"/>
                                                                     <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSActionTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" transparent="YES" inset="2" id="mN0-7P-JS4">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -326,10 +326,10 @@
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="jlv-58-SlH" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="9qF-V8-eJh"/>
-                                                                <constraint firstItem="X7U-Aq-IEC" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="-4" id="B8E-mk-4cM"/>
+                                                                <constraint firstItem="X7U-Aq-IEC" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="4" id="B8E-mk-4cM"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="leading" secondItem="jlv-58-SlH" secondAttribute="trailing" constant="8" id="DOG-LZ-mEz"/>
                                                                 <constraint firstItem="ZTR-yl-9L0" firstAttribute="width" secondItem="jlv-58-SlH" secondAttribute="width" multiplier="0.45" id="EE5-uS-VKi"/>
-                                                                <constraint firstItem="eIs-JQ-x2C" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="-5" id="EHw-gj-4RH"/>
+                                                                <constraint firstItem="eIs-JQ-x2C" firstAttribute="leading" secondItem="nwg-qe-WuA" secondAttribute="trailing" constant="3" id="EHw-gj-4RH"/>
                                                                 <constraint firstItem="eIs-JQ-x2C" firstAttribute="centerY" secondItem="nwg-qe-WuA" secondAttribute="centerY" constant="1" id="HLu-JC-Xou"/>
                                                                 <constraint firstAttribute="trailing" secondItem="Vw4-Oy-RIZ" secondAttribute="trailing" constant="5" id="Pa5-39-bxS"/>
                                                                 <constraint firstItem="nwg-qe-WuA" firstAttribute="centerY" secondItem="ocF-A6-Lb0" secondAttribute="centerY" id="RAI-V4-dkq"/>
@@ -414,7 +414,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="65" viewBased="YES" id="n1W-cG-2SO" customClass="DTXKeyDownIgnoringTableView">
-                                    <rect key="frame" x="0.0" y="0.0" width="360" height="67"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="360" height="65"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -725,11 +725,11 @@
                 <viewController storyboardIdentifier="DTXLogDetailController" id="a9F-qw-Y3o" customClass="DTXLogDetailController" sceneMemberID="viewController">
                     <scrollView key="view" wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="15" horizontalPageScroll="10" verticalLineScroll="15" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-hh-Z2i">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="267"/>
-                        <clipView key="contentView" drawsBackground="NO" id="7qk-vh-lmX">
+                        <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="7qk-vh-lmX">
                             <rect key="frame" x="0.0" y="0.0" width="450" height="267"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="inset" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowHeight="13" rowSizeStyle="automatic" headerView="2eF-SP-Tjb" viewBased="YES" id="ulY-Jk-M9E">
+                                <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="inset" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowHeight="13" rowSizeStyle="automatic" headerView="2eF-SP-Tjb" viewBased="YES" id="ulY-Jk-M9E">
                                     <rect key="frame" x="0.0" y="0.0" width="856" height="242"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <size key="intercellSpacing" width="3" height="2"/>

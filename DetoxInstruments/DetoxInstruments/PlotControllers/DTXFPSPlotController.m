@@ -7,6 +7,7 @@
 //
 
 #import "DTXFPSPlotController.h"
+#import "NSFormatter+PlotFormatters.h"
 #if ! PROFILER_PREVIEW_EXTENSION
 #import "DTXFPSDataProvider.h"
 #endif
@@ -65,6 +66,11 @@
 	}
 	
 	return @(fps);
+}
+
++ (NSFormatter*)formatterForDataPresentation
+{
+	return [NSFormatter dtx_noFractionDigitsFormatter];
 }
 
 @end

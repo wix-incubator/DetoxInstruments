@@ -507,45 +507,15 @@ NSString* const DTXPlotControllerRequiredHeightDidChangeNotification = @"DTXPlot
 				DTXScatterPlotView* scatterPlotView = (id)obj;
 				if(isShadow == NO || self.isForTouchBar == YES)
 				{
-					double textValue;
-					if(sampleIdx != NSNotFound)
-					{
-						textValue = [scatterPlotView valueOfPointIndex:sampleIdx];
-					}
-					else
-					{
-						if(idx == plotIndex)
-						{
-							textValue = value;
-						}
-						else
-						{
-							textValue = [scatterPlotView valueAtPlotPosition:range.position exact:YES];
-						}
-					}
-					
+					double textValue = [scatterPlotView valueAtPlotPosition:range.position exact:NO];
+									
 					DTXPlotViewTextAnnotation* text = [DTXPlotViewTextAnnotation new];
 					text.text = [self annotationStringValueForTransformedValue:[self transformedValueForFormatter:@(textValue)]];
 					text.showsText = _showsHighlightAnnotationsText && text.text.length > 0;
 					
 					if(scatterPlotView.hasAdditionalPoints)
 					{
-						double additionalTextValue;
-						if(sampleIdx != NSNotFound)
-						{
-							additionalTextValue = [scatterPlotView additionalValueOfPointIndex:sampleIdx];
-						}
-						else
-						{
-							if(idx == plotIndex)
-							{
-								additionalTextValue = value;
-							}
-							else
-							{
-								additionalTextValue = [scatterPlotView additionalValueAtPlotPosition:range.position exact:YES];
-							}
-						}
+						double additionalTextValue = [scatterPlotView additionalValueAtPlotPosition:range.position exact:NO];
 						
 						text.additionalText = [self.class.additionalFormatterForDataPresentation stringForObjectValue:[self transformedValueForFormatter:@(additionalTextValue)]];
 					}

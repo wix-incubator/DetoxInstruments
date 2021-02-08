@@ -28,5 +28,6 @@
 + (NSDateComponentsFormatter*)dtx_durationFormatter;
 + (DTXMainThreadUsageFormatter*)dtx_mainThreadFormatter;
 + (NSNumberFormatter*)dtx_readibleCountFormatter;
++ (NSNumberFormatter*)dtx_noFractionDigitsFormatter;
 
 @end

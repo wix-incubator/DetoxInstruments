@@ -201,7 +201,7 @@
 
 - (nullable NSString *)stringForObjectValue:(nullable id)obj
 {
-	if([obj isKindOfClass:[NSString class]])
+	if([obj isKindOfClass:NSString.class])
 	{
 		return obj;
 	}
@@ -307,6 +307,19 @@
 		numberFormatter = [NSNumberFormatter new];
 		numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
 	});
+	return numberFormatter;
+}
+
++ (NSNumberFormatter *)dtx_noFractionDigitsFormatter
+{
+	static NSNumberFormatter* numberFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		numberFormatter = [NSNumberFormatter new];
+		numberFormatter.numberStyle = NSNumberFormatterNoStyle;
+		numberFormatter.maximumFractionDigits = 0;
+	});
+	
 	return numberFormatter;
 }
 

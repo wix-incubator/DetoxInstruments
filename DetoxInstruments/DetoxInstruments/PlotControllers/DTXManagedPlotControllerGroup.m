@@ -119,20 +119,23 @@
 	
 	_touchBarPlotController.delegate = self;
 	
-	if(_savedGlobalPlotRange)
-	{
-		[_touchBarPlotController setGlobalPlotRange:_savedGlobalPlotRange];
-	}
-	
-	if(_savedPlotRange)
-	{
-		[_touchBarPlotController setPlotRange:_savedPlotRange];
-	}
-	
-	if(_savedHighlightRange)
-	{
-		[_touchBarPlotController shadowHighlightRange:_savedHighlightRange];
-	}
+	dispatch_async(dispatch_get_main_queue(), ^{
+		//Delay cached updates to next runloop to let data load.
+		if(_savedGlobalPlotRange)
+		{
+			[_touchBarPlotController setGlobalPlotRange:_savedGlobalPlotRange];
+		}
+		
+		if(_savedPlotRange)
+		{
+			[_touchBarPlotController setPlotRange:_savedPlotRange];
+		}
+		
+		if(_savedHighlightRange)
+		{
+			[_touchBarPlotController shadowHighlightRange:_savedHighlightRange];
+		}
+	});
 }
 
 - (void)_plotControllerRequiredHeightDidChange:(NSNotification*)note
