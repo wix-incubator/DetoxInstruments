@@ -263,70 +263,70 @@ static void _bestEffortDebugCleanup()
 	
 	NSSize buttonImageExportSize = NSMakeSize(8, 8);
 	
-	NSImage* img = [[NSImage imageWithSystemSymbolName:@"stop.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
+	NSImage* img = [[NSImage imageWithSystemSymbolName:@"stop.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Stop.png"].path atomically:YES];
 	
-	img = [[NSImage imageWithSystemSymbolName:@"stopwatch" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"stopwatch" accessibilityDescription:nil] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Flag.png"].path atomically:YES];
 	
-	img = [[NSImage imageWithSystemSymbolName:@"arrow.up.left.circle" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"arrow.up.left.circle" accessibilityDescription:nil] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Follow.png"].path atomically:YES];
 	
-	img = [[NSImage imageWithSystemSymbolName:@"xmark.circle" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"xmark.circle" accessibilityDescription:nil] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Clear.png"].path atomically:YES];
 	
-	img = [[NSImage imageWithSystemSymbolName:@"gearshape.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"gearshape.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Manage.png"].path atomically:YES];
 	
-	img = [[NSImage imageWithSystemSymbolName:@"gearshape.2.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"gearshape.2.fill" accessibilityDescription:nil] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_TimelineOptions.png"].path atomically:YES];
 	
-	img = [[NSImage imageWithSystemSymbolName:@"list.dash" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"list.dash" accessibilityDescription:nil] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_Customize.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"Bottom"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageNamed:@"Bottom"] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_DetailsPane.png"].path atomically:YES];
 	
-	img = [[NSImage imageNamed:@"Right"] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageNamed:@"Right"] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
 	[img unlockFocus];
 	[[rep representationUsingType:NSPNGFileType properties:@{}] writeToFile:[self._resourcesURL URLByAppendingPathComponent:@"Button_InspectorPane.png"].path atomically:YES];
 	
-	img = [[NSImage imageWithSystemSymbolName:@"arrow.up.left.and.arrow.down.right" accessibilityDescription:nil] imageTintedWithColor:NSColor.blackColor];
+	img = [[NSImage imageWithSystemSymbolName:@"arrow.up.left.and.arrow.down.right" accessibilityDescription:nil] imageTintedWithColor:NSColor.controlAccentColor];
 	img.size = buttonImageExportSize;
 	[img lockFocus];
 	rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){0, 0, img.size}];
@@ -828,7 +828,7 @@ static void _bestEffortDebugCleanup()
 	
 	[rep drawAtPoint:NSMakePoint(exampleImage.size.width / 2 - rep.size.width / 2, exampleImage.size.height / 2 - rep.size.height / 2 - exampleImageHeightPadding)];
 	
-	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:@"Toolbar" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
+	NSAttributedString* attr = [[NSAttributedString alloc] initWithString:@"Toolbar" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle, NSForegroundColorAttributeName: NSColor.controlAccentColor}];
 	[attr drawAtPoint:NSMakePoint(toolbarTitleXOffset, exampleImage.size.height - 10 - attr.size.height)];
 	
 	NSBezierPath* path = [NSBezierPath bezierPath];
@@ -840,7 +840,7 @@ static void _bestEffortDebugCleanup()
 	
 	const CGFloat timelineTitleYOffset = exampleImage.size.height - 700;
 	
-	attr = [[NSAttributedString alloc] initWithString:@"Timeline" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
+	attr = [[NSAttributedString alloc] initWithString:@"Timeline" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle, NSForegroundColorAttributeName: NSColor.controlAccentColor}];
 	[attr drawInRect:(NSRect){570 - lineLength - 20 - attr.size.width, timelineTitleYOffset - attr.size.height / 2 + 20, attr.size}];
 	
 	[path moveToPoint:NSMakePoint(570, timelineTitleYOffset)];
@@ -848,7 +848,7 @@ static void _bestEffortDebugCleanup()
 	
 	const CGFloat detailTitleYOffset = exampleImage.size.height - 1600;
 	
-	attr = [[NSAttributedString alloc] initWithString:@"Detail\nPane" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
+	attr = [[NSAttributedString alloc] initWithString:@"Detail\nPane" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle, NSForegroundColorAttributeName: NSColor.controlAccentColor}];
 	[attr drawInRect:(NSRect){570 - lineLength - 20 - attr.size.width, detailTitleYOffset - attr.size.height / 2 + 20, attr.size}];
 	
 	[path moveToPoint:NSMakePoint(570, detailTitleYOffset)];
@@ -856,7 +856,7 @@ static void _bestEffortDebugCleanup()
 	
 	const CGFloat inspectorTitleYOffset = exampleImage.size.height - 1890;
 	
-	attr = [[NSAttributedString alloc] initWithString:@"Inspector\nPane" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle}];
+	attr = [[NSAttributedString alloc] initWithString:@"Inspector\nPane" attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:exampleFontSize weight:(NSFontWeightRegular + NSFontWeightThin) / 2.2], NSParagraphStyleAttributeName: pStyle, NSForegroundColorAttributeName: NSColor.controlAccentColor}];
 	[attr drawInRect:(NSRect){exampleImage.size.width - 572 + lineLength + 20, inspectorTitleYOffset - attr.size.height / 2 + 20, attr.size}];
 	
 	[path moveToPoint:NSMakePoint(exampleImage.size.width - 572, inspectorTitleYOffset)];
