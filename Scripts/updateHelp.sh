@@ -5,7 +5,9 @@ cd Documentation/Resources
 for PNG in *.png ;
 do
   echo -e "\033[1;34mCrushing $PNG\033[0m"
-  pngcrush -reduce -m 123 -ow "$PNG"
+  convert "$PNG" png32:"$PNG".small
+  pngcrush -reduce -m 123 -ow "$PNG".small
+  mv -f "$PNG".small "$PNG"
 done ;
 popd
 
@@ -19,11 +21,10 @@ pushd . > /dev/null
 cd "${HTMLDIR}"/Documentation/Resources/
 for PNG in *.png ;
 do
-  # convert "$PNG" -flatten -format jp2 -quality 50 "$PNG"
-	# pngcrush -reduce -m 123 -ow "$PNG"
 	echo -e "\033[1;34mConverting $PNG\033[0m"
-  convert "$PNG" -flatten -alpha off -format jp2 -resize 50% -quality 85 "$PNG".jp2
-  mv -f "$PNG".jp2 "$PNG"
+  convert "$PNG" -flatten -alpha off -resize 50% png24:"$PNG".small
+  pngcrush -reduce -m 123 -ow "$PNG".small
+  mv -f "$PNG".small "$PNG"
 done ;
 popd > /dev/null
 

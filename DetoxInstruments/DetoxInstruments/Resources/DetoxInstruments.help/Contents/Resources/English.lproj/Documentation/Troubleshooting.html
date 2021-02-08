@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="AppleTitle" content="Troubleshooting" />
+<title>Troubleshooting</title>
+<meta name="description" content="Troubleshooting" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="supported-color-schemes" content="light">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="Copyright © 2018" /><style type="text/css">
+html {
+overflow: auto;
+}
+body {
+position: absolute;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+overflow-y: scroll;
+overflow-x: hidden;
+margin: 0px;
+}
+</style>
+<style type="text/css">body { font-family: -apple-system-font, -webkit-system-font, "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif; font-size: 13px; padding: 0px 10px 20px 10px; }
+h1 { text-align: center; margin-left: -16px; margin-right: -16px; padding-bottom: 20px; background: linear-gradient(to bottom, #ffffff 0%,#f3f2f3 100%); }
+img { max-width: 100%; height: auto; }
+pre { background-color: rgb(246, 248, 250); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; box-sizing: border-box; color: rgb(36, 41, 46); display: block; font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13.600000381469727px; line-height: 19px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; overflow-x: auto; overflow-y: auto; padding-bottom: 16px; padding-left: 16px; padding-right: 16px; padding-top: 16px; white-space: pre; word-break: normal; word-wrap: normal; }
+blockquote { border-left-color: rgb(245, 242, 240); border-left-style: solid; border-left-width: 4px; box-sizing: border-box; color: rgb(106, 115, 125); display: block; margin-bottom: 16px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 0px; padding-left: 16px; padding-right: 16px; padding-top: 0px; word-wrap: break-word; }
+ul { padding-left: 1.3em; }
+</style>
+<title>Detox Instruments Help</title></head><body>
+<h1>
+<a name="user-content-troubleshooting" class="anchor" href="#troubleshooting"><span class="octicon octicon-link"></span></a>Troubleshooting</h1>
+<h3>
+<a name="user-content-installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h3>
+<ul>
+<li>If Homebrew complains about a conflict in the <code>wix/brew</code> tap, <strong>run <code>brew untap wix/brew &amp;&amp; brew tap wix/brew</code> and install again</strong>
+</li>
+<li>If installation still fails, <strong>run <code>brew doctor</code> and fix all issues &amp; warnings</strong>
+</li>
+</ul>
+<h3>
+<a name="user-content-building" class="anchor" href="#building"><span class="octicon octicon-link"></span></a>Building</h3>
+<ul>
+<li>
+<p>If, when building your project, you see the following error:</p>
+<pre><code>ld: framework not found DTXProfiler
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+</code></pre>
+<p>You need to install Detox Instruments on your machine. See <a href="../Readme.html#installation">Installation</a> for more information.</p>
+</li>
+<li>
+<p>If you have trouble building your project for Mac Catalyst, make sure your <code>Other Linker Flags</code> are correctly set to:</p>
+<pre><code>-ObjC -F"${CODESIGNING_FOLDER_PATH}/${BUNDLE_FRAMEWORKS_FOLDER_PATH}" -framework DTXProfiler
+</code></pre>
+<p>See <a href="XcodeIntegrationGuide.html">Profiler Framework Integration Guide</a> for more information.</p>
+</li>
+</ul>
+<h3>
+<a name="user-content-mac-catalyst" class="anchor" href="#mac-catalyst"><span class="octicon octicon-link"></span></a>Mac Catalyst</h3>
+<ul>
+<li>If you build your project with the Sandbox enabled, and your app is not discoverable in Detox Instruments, you will need to enable <strong>Incoming Connections (Server)</strong> under <strong>Signing &amp; Capabilities</strong>.</li>
+</ul>
+</body></html>

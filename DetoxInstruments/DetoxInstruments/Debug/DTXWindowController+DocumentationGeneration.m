@@ -297,9 +297,6 @@ static NSImage* __DTXThemeBorderedImage(NSImage* image)
 	[[self valueForKey:@"stopRecordingButton"] setEnabled:recordingButtonsVisible];
 	[[self valueForKey:@"stopRecordingButton"] setHidden:!recordingButtonsVisible];
 	
-	[[self valueForKey:@"flagButton"] setEnabled:recordingButtonsVisible];
-	[[self valueForKey:@"flagButton"] setHidden:!recordingButtonsVisible];
-	
 	[[self valueForKey:@"nowButton"] setEnabled:recordingButtonsVisible];
 	[[self valueForKey:@"nowButton"] setHidden:!recordingButtonsVisible];
 	

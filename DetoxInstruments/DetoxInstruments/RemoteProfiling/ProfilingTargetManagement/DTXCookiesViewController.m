@@ -23,7 +23,7 @@
 	NSImage* image;
 	if(@available(macOS 11.0, *))
 	{
-		image = [NSImage imageWithSystemSymbolName:@"globe" accessibilityDescription:nil];
+		image = [NSImage imageWithSystemSymbolName:@"network" accessibilityDescription:nil];
 	}
 	else
 	{
