@@ -245,12 +245,16 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 {
 	if(menuItem.action == @selector(copy:) || menuItem.action == @selector(copyFromContext:))
 	{
-		return [_inspectorDataProvider canCopyInView:(id)self.view.window.firstResponder];
+		BOOL enabled = [_inspectorDataProvider canCopyInView:(id)self.view.window.firstResponder];
+		menuItem.hidden = enabled == NO;
+		return enabled;
 	}
 	
 	if(menuItem.action == @selector(saveAsFromContext:))
 	{
-		return _inspectorDataProvider.canSaveAs;
+		BOOL enabled = _inspectorDataProvider.canSaveAs;
+		menuItem.hidden = enabled == NO;
+		return enabled;
 	}
 	
 	return [super validateMenuItem:menuItem];
@@ -263,12 +267,12 @@ static DTX_ALWAYS_INLINE NSString* __DTXStringFromBoolean(BOOL b)
 
 - (IBAction)copyFromContext:(id)sender
 {
-	[_inspectorDataProvider copyInView:sender sender:sender];
+	[_inspectorDataProvider copyInView:(id)self.view.window.firstResponder sender:sender];
 }
 
 - (IBAction)saveAsFromContext:(id)sender
 {
-	[_inspectorDataProvider saveAs:sender inWindow:self.view.window];
+	[_inspectorDataProvider saveAs:(id)self.view.window.firstResponder inWindow:self.view.window];
 }
 
 - (BOOL)expandPreview
