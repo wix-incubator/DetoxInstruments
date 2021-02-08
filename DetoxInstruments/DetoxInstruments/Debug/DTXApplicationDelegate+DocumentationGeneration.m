@@ -39,6 +39,7 @@
 #import "DTXRequestDocument.h"
 
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wobjc-dictionary-duplicate-keys"
 
 @import ObjectiveC;
 
