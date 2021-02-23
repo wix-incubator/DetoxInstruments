@@ -105,13 +105,13 @@ ditto -c -k --sequesterRsrc --keepParent "${EXPORT_DIR}"/*.app "${ZIP_FILE}" &> 
 
 echo -e "\033[1;34mSubmitting to notarization service\033[0m"
 
-NOTARIZATION_UUID=$(xcrun altool --notarize-app --primary-bundle-id "com.wix.DetoxInstruments" --username "lnatan@wix.com" --password "@keychain:notary_password" --file "$ZIP_FILE" 2>&1 | grep RequestUUID | awk '{print $3}')
+NOTARIZATION_UUID=$(xcrun altool --notarize-app --primary-bundle-id "com.wix.DetoxInstruments" --username "notary.user@outlook.com" --password "@keychain:notary_password" --file "$ZIP_FILE" 2>&1 | grep RequestUUID | awk '{print $3}')
 
 echo -e "\033[1;34mAwaiting notarization success for ${NOTARIZATION_UUID}\033[0m"
 
 NOTARIZATION_SUCCESS=0
 for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
-    PROGRESS=$(xcrun altool --notarization-info "${NOTARIZATION_UUID}" --username "lnatan@wix.com" --password "@keychain:notary_password" 2>&1 )
+    PROGRESS=$(xcrun altool --notarization-info "${NOTARIZATION_UUID}" --username "notary.user@outlook.com" --password "@keychain:notary_password" 2>&1 )
     Echo "${PROGRESS}"
  
     if [ $? -ne 0 ] || [[ "${PROGRESS}" =~ "Invalid" ]] ; then
