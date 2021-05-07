@@ -54,7 +54,7 @@ Detox Instruments is installed using Homebrew Cask, by running the following com
 
 ```bash
 brew tap wix/brew
-brew cask install detox-instruments
+brew install --cask detox-instruments
 ```
 
 This will install Detox Instruments under `/Applications`.
